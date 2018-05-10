@@ -1,5 +1,5 @@
 # Small C Processor (scp)
-*This project is active, and is not close to completion or a working stage, and this README describes the likely structure*
+**This project is active, and is not close to completion or a working stage. This README describes the likely structure of the project**
 A FPGA Implemented processor designed to work well with a Small C compiler. While the Small C compiler is rather inefficient, this project is an attempt to build a microprocessor that runs Small C generated code well, and is more of a learning project for myself than anything else.
 
 ## The Processor
