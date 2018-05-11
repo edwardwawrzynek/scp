@@ -1,5 +1,5 @@
 Analysis & Synthesis report for scp
-Wed May  9 20:01:11 2018
+Thu May 10 21:07:29 2018
 Quartus Prime Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
 
 
@@ -10,8 +10,15 @@ Quartus Prime Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
   2. Analysis & Synthesis Summary
   3. Analysis & Synthesis Settings
   4. Parallel Compilation
-  5. Elapsed Time Per Partition
-  6. Analysis & Synthesis Messages
+  5. Analysis & Synthesis Source Files Read
+  6. Analysis & Synthesis Resource Usage Summary
+  7. Analysis & Synthesis Resource Utilization by Entity
+  8. Registers Removed During Synthesis
+  9. Removed Registers Triggering Further Register Optimizations
+ 10. General Register Statistics
+ 11. Post-Synthesis Netlist Statistics for Top Partition
+ 12. Elapsed Time Per Partition
+ 13. Analysis & Synthesis Messages
 
 
 
@@ -34,22 +41,27 @@ refer to the applicable agreement for further details.
 
 
 
-+---------------------------------------------------------------------------+
-; Analysis & Synthesis Summary                                              ;
-+-----------------------------+---------------------------------------------+
-; Analysis & Synthesis Status ; Failed - Wed May  9 20:01:11 2018           ;
-; Quartus Prime Version       ; 17.1.0 Build 590 10/25/2017 SJ Lite Edition ;
-; Revision Name               ; scp                                         ;
-; Top-level Entity Name       ; scp                                         ;
-; Family                      ; Cyclone V                                   ;
-; Logic utilization (in ALMs) ; N/A until Partition Merge                   ;
-; Total registers             ; N/A until Partition Merge                   ;
-; Total pins                  ; N/A until Partition Merge                   ;
-; Total virtual pins          ; N/A until Partition Merge                   ;
-; Total block memory bits     ; N/A until Partition Merge                   ;
-; Total PLLs                  ; N/A until Partition Merge                   ;
-; Total DLLs                  ; N/A until Partition Merge                   ;
-+-----------------------------+---------------------------------------------+
++-------------------------------------------------------------------------------+
+; Analysis & Synthesis Summary                                                  ;
++---------------------------------+---------------------------------------------+
+; Analysis & Synthesis Status     ; Successful - Thu May 10 21:07:29 2018       ;
+; Quartus Prime Version           ; 17.1.0 Build 590 10/25/2017 SJ Lite Edition ;
+; Revision Name                   ; scp                                         ;
+; Top-level Entity Name           ; scp                                         ;
+; Family                          ; Cyclone V                                   ;
+; Logic utilization (in ALMs)     ; N/A                                         ;
+; Total registers                 ; 8                                           ;
+; Total pins                      ; 15                                          ;
+; Total virtual pins              ; 0                                           ;
+; Total block memory bits         ; 0                                           ;
+; Total DSP Blocks                ; 0                                           ;
+; Total HSSI RX PCSs              ; 0                                           ;
+; Total HSSI PMA RX Deserializers ; 0                                           ;
+; Total HSSI TX PCSs              ; 0                                           ;
+; Total HSSI PMA TX Serializers   ; 0                                           ;
+; Total PLLs                      ; 0                                           ;
+; Total DLLs                      ; 0                                           ;
++---------------------------------+---------------------------------------------+
 
 
 +---------------------------------------------------------------------------------------------------------------------------+
@@ -155,6 +167,108 @@ refer to the applicable agreement for further details.
 +----------------------------+-------------+
 
 
++-------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Source Files Read                                                                                                          ;
++----------------------------------+-----------------+------------------------------------+---------------------------------------------+---------+
+; File Name with User-Entered Path ; Used in Netlist ; File Type                          ; File Name with Absolute Path                ; Library ;
++----------------------------------+-----------------+------------------------------------+---------------------------------------------+---------+
+; regs/general_reg.v               ; yes             ; User Verilog HDL File              ; /home/edward/scp/quartus/regs/general_reg.v ;         ;
+; scp.bdf                          ; yes             ; User Block Diagram/Schematic File  ; /home/edward/scp/quartus/scp.bdf            ;         ;
+; alu/alu.v                        ; yes             ; User Verilog HDL File              ; /home/edward/scp/quartus/alu/alu.v          ;         ;
++----------------------------------+-----------------+------------------------------------+---------------------------------------------+---------+
+
+
++--------------------------------------------------------------+
+; Analysis & Synthesis Resource Usage Summary                  ;
++---------------------------------------------+----------------+
+; Resource                                    ; Usage          ;
++---------------------------------------------+----------------+
+; Estimate of Logic utilization (ALMs needed) ; 4              ;
+;                                             ;                ;
+; Combinational ALUT usage for logic          ; 0              ;
+;     -- 7 input functions                    ; 0              ;
+;     -- 6 input functions                    ; 0              ;
+;     -- 5 input functions                    ; 0              ;
+;     -- 4 input functions                    ; 0              ;
+;     -- <=3 input functions                  ; 0              ;
+;                                             ;                ;
+; Dedicated logic registers                   ; 8              ;
+;                                             ;                ;
+; I/O pins                                    ; 15             ;
+;                                             ;                ;
+; Total DSP Blocks                            ; 0              ;
+;                                             ;                ;
+; Maximum fan-out node                        ; CLOCK_50~input ;
+; Maximum fan-out                             ; 8              ;
+; Total fan-out                               ; 47             ;
+; Average fan-out                             ; 1.24           ;
++---------------------------------------------+----------------+
+
+
++-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Resource Utilization by Entity                                                                                                                                       ;
++----------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+------------------------+-------------+--------------+
+; Compilation Hierarchy Node ; Combinational ALUTs ; Dedicated Logic Registers ; Block Memory Bits ; DSP Blocks ; Pins ; Virtual Pins ; Full Hierarchy Name    ; Entity Name ; Library Name ;
++----------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+------------------------+-------------+--------------+
+; |scp                       ; 0 (0)               ; 8 (0)                     ; 0                 ; 0          ; 15   ; 0            ; |scp                   ; scp         ; work         ;
+;    |general_reg:A_REG|     ; 0 (0)               ; 4 (4)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|general_reg:A_REG ; general_reg ; work         ;
+;    |general_reg:B_REG|     ; 0 (0)               ; 4 (4)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|general_reg:B_REG ; general_reg ; work         ;
++----------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+------------------------+-------------+--------------+
+Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
+
+
++-------------------------------------------------------------+
+; Registers Removed During Synthesis                          ;
++----------------------------------------+--------------------+
+; Register name                          ; Reason for Removal ;
++----------------------------------------+--------------------+
+; alu:ALU|res[0..15]                     ; Lost fanout        ;
+; general_reg:B_REG|val[4..15]           ; Lost fanout        ;
+; general_reg:A_REG|val[4..15]           ; Lost fanout        ;
+; Total Number of Removed Registers = 40 ;                    ;
++----------------------------------------+--------------------+
+
+
++-------------------------------------------------------------------------------------------------------------------------+
+; Removed Registers Triggering Further Register Optimizations                                                             ;
++-----------------+--------------------+----------------------------------------------------------------------------------+
+; Register name   ; Reason for Removal ; Registers Removed due to This Register                                           ;
++-----------------+--------------------+----------------------------------------------------------------------------------+
+; alu:ALU|res[15] ; Lost Fanouts       ; general_reg:A_REG|val[8], general_reg:A_REG|val[9], general_reg:A_REG|val[10],   ;
+;                 ;                    ; general_reg:A_REG|val[11], general_reg:A_REG|val[12], general_reg:A_REG|val[13], ;
+;                 ;                    ; general_reg:A_REG|val[14], general_reg:A_REG|val[15]                             ;
++-----------------+--------------------+----------------------------------------------------------------------------------+
+
+
++------------------------------------------------------+
+; General Register Statistics                          ;
++----------------------------------------------+-------+
+; Statistic                                    ; Value ;
++----------------------------------------------+-------+
+; Total registers                              ; 8     ;
+; Number of registers using Synchronous Clear  ; 0     ;
+; Number of registers using Synchronous Load   ; 0     ;
+; Number of registers using Asynchronous Clear ; 0     ;
+; Number of registers using Asynchronous Load  ; 0     ;
+; Number of registers using Clock Enable       ; 8     ;
+; Number of registers using Preset             ; 0     ;
++----------------------------------------------+-------+
+
+
++-----------------------------------------------------+
+; Post-Synthesis Netlist Statistics for Top Partition ;
++-------------------+---------------------------------+
+; Type              ; Count                           ;
++-------------------+---------------------------------+
+; arriav_ff         ; 8                               ;
+;     ENA           ; 8                               ;
+; boundary_port     ; 15                              ;
+;                   ;                                 ;
+; Max LUT depth     ; 0.00                            ;
+; Average LUT depth ; 0.00                            ;
++-------------------+---------------------------------+
+
+
 +-------------------------------+
 ; Elapsed Time Per Partition    ;
 +----------------+--------------+
@@ -170,22 +284,49 @@ refer to the applicable agreement for further details.
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
-    Info: Processing started: Wed May  9 20:00:54 2018
+    Info: Processing started: Thu May 10 21:07:06 2018
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off scp -c scp
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 2 of the 2 processors detected
 Info (12021): Found 1 design units, including 1 entities, in source file regs/general_reg.v
-    Info (12023): Found entity 1: general_reg File: /home/edward/scp/quartus/regs/general_reg.v Line: 2
+    Info (12023): Found entity 1: general_reg File: /home/edward/scp/quartus/regs/general_reg.v Line: 3
 Info (12021): Found 1 design units, including 1 entities, in source file scp.bdf
     Info (12023): Found entity 1: scp
+Info (12021): Found 1 design units, including 1 entities, in source file regs/pc_reg.v
+    Info (12023): Found entity 1: pc_reg File: /home/edward/scp/quartus/regs/pc_reg.v Line: 2
+Info (12021): Found 1 design units, including 1 entities, in source file regs/single_write_reg.v
+    Info (12023): Found entity 1: single_write_reg File: /home/edward/scp/quartus/regs/single_write_reg.v Line: 2
+Info (12021): Found 1 design units, including 1 entities, in source file regs/sp_reg.v
+    Info (12023): Found entity 1: sp_reg File: /home/edward/scp/quartus/regs/sp_reg.v Line: 2
+Info (12021): Found 1 design units, including 1 entities, in source file ram/mdr_in_byte_select.v
+    Info (12023): Found entity 1: mdr_in_byte_select File: /home/edward/scp/quartus/ram/mdr_in_byte_select.v Line: 2
+Info (12021): Found 1 design units, including 1 entities, in source file ram/mdr_out_byte_shift_reg.v
+    Info (12023): Found entity 1: mdr_out_byte_shift_reg File: /home/edward/scp/quartus/ram/mdr_out_byte_shift_reg.v Line: 2
+Info (12021): Found 1 design units, including 1 entities, in source file alu/alu.v
+    Info (12023): Found entity 1: alu File: /home/edward/scp/quartus/alu/alu.v Line: 2
+Info (12021): Found 1 design units, including 1 entities, in source file mux/ab_bus_out_mux.v
+    Info (12023): Found entity 1: ab_bus_out_mux File: /home/edward/scp/quartus/mux/ab_bus_out_mux.v Line: 2
+Info (12021): Found 1 design units, including 1 entities, in source file mux/ab_bus_in_mux.v
+    Info (12023): Found entity 1: ab_bus_in_mux File: /home/edward/scp/quartus/mux/ab_bus_in_mux.v Line: 2
+Info (12021): Found 1 design units, including 1 entities, in source file mux/mux_3_inputs.v
+    Info (12023): Found entity 1: mux_3_inputs File: /home/edward/scp/quartus/mux/mux_3_inputs.v Line: 2
 Info (12127): Elaborating entity "scp" for the top level hierarchy
-Warning (275013): Port "clk" of type general_reg and instance "inst" is missing source signal
-Info (12128): Elaborating entity "general_reg" for hierarchy "general_reg:inst"
-Error (12061): Can't synthesize current design -- Top partition does not contain any logic
-Error: Quartus Prime Analysis & Synthesis was unsuccessful. 1 error, 2 warnings
-    Error: Peak virtual memory: 951 megabytes
-    Error: Processing ended: Wed May  9 20:01:11 2018
-    Error: Elapsed time: 00:00:17
-    Error: Total CPU time (on all processors): 00:00:41
+Info (12128): Elaborating entity "general_reg" for hierarchy "general_reg:A_REG"
+Info (12128): Elaborating entity "alu" for hierarchy "alu:ALU"
+Warning (10764): Verilog HDL warning at alu.v(21): converting signed shift amount to unsigned File: /home/edward/scp/quartus/alu/alu.v Line: 21
+Warning (10230): Verilog HDL assignment warning at alu.v(39): truncated value with size 24 to match size of target (16) File: /home/edward/scp/quartus/alu/alu.v Line: 39
+Info (286030): Timing-Driven Synthesis is running
+Info (17049): 40 registers lost all their fanouts during netlist optimizations.
+Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
+    Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
+Info (21057): Implemented 23 device resources after synthesis - the final resource count might be different
+    Info (21058): Implemented 7 input pins
+    Info (21059): Implemented 8 output pins
+    Info (21061): Implemented 8 logic cells
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 3 warnings
+    Info: Peak virtual memory: 1007 megabytes
+    Info: Processing ended: Thu May 10 21:07:29 2018
+    Info: Elapsed time: 00:00:23
+    Info: Total CPU time (on all processors): 00:00:45
 
 
