@@ -1,5 +1,5 @@
 Flow report for scp
-Fri May 11 21:30:31 2018
+Fri May 11 22:00:58 2018
 Quartus Prime Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
 
 
@@ -40,16 +40,16 @@ refer to the applicable agreement for further details.
 +-------------------------------------------------------------------------------+
 ; Flow Summary                                                                  ;
 +---------------------------------+---------------------------------------------+
-; Flow Status                     ; Successful - Fri May 11 21:30:31 2018       ;
+; Flow Status                     ; Successful - Fri May 11 22:00:58 2018       ;
 ; Quartus Prime Version           ; 17.1.0 Build 590 10/25/2017 SJ Lite Edition ;
 ; Revision Name                   ; scp                                         ;
 ; Top-level Entity Name           ; scp                                         ;
 ; Family                          ; Cyclone V                                   ;
 ; Device                          ; 5CSEMA4U23C6                                ;
 ; Timing Models                   ; Final                                       ;
-; Logic utilization (in ALMs)     ; 323 / 15,880 ( 2 % )                        ;
-; Total registers                 ; 215                                         ;
-; Total pins                      ; 9 / 314 ( 3 % )                             ;
+; Logic utilization (in ALMs)     ; 328 / 15,880 ( 2 % )                        ;
+; Total registers                 ; 213                                         ;
+; Total pins                      ; 10 / 314 ( 3 % )                            ;
 ; Total virtual pins              ; 0                                           ;
 ; Total block memory bits         ; 566,272 / 2,764,800 ( 20 % )                ;
 ; Total DSP Blocks                ; 1 / 84 ( 1 % )                              ;
@@ -57,7 +57,7 @@ refer to the applicable agreement for further details.
 ; Total HSSI PMA RX Deserializers ; 0                                           ;
 ; Total HSSI TX PCSs              ; 0                                           ;
 ; Total HSSI PMA TX Serializers   ; 0                                           ;
-; Total PLLs                      ; 0 / 5 ( 0 % )                               ;
+; Total PLLs                      ; 1 / 5 ( 20 % )                              ;
 ; Total DLLs                      ; 0 / 4 ( 0 % )                               ;
 +---------------------------------+---------------------------------------------+
 
@@ -67,7 +67,7 @@ refer to the applicable agreement for further details.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 05/11/2018 21:28:29 ;
+; Start date & time ; 05/11/2018 21:56:38 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; scp                 ;
 +-------------------+---------------------+
@@ -78,7 +78,7 @@ refer to the applicable agreement for further details.
 +-------------------------------------+----------------------------------------+---------------+-------------+----------------+
 ; Assignment Name                     ; Value                                  ; Default Value ; Entity Name ; Section Id     ;
 +-------------------------------------+----------------------------------------+---------------+-------------+----------------+
-; COMPILER_SIGNATURE_ID               ; 247356951922156.152609570920126        ; --            ; --          ; --             ;
+; COMPILER_SIGNATURE_ID               ; 247356951922156.152609739823387        ; --            ; --          ; --             ;
 ; EDA_OUTPUT_DATA_FORMAT              ; Verilog Hdl                            ; --            ; --          ; eda_simulation ;
 ; EDA_SIMULATION_TOOL                 ; ModelSim-Altera (Verilog)              ; <None>        ; --          ; --             ;
 ; EDA_TIME_SCALE                      ; 1 ps                                   ; --            ; --          ; eda_simulation ;
@@ -102,12 +102,12 @@ refer to the applicable agreement for further details.
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name               ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis      ; 00:00:22     ; 1.0                     ; 1105 MB             ; 00:00:48                           ;
-; Fitter                    ; 00:01:13     ; 1.1                     ; 1944 MB             ; 00:02:32                           ;
-; Assembler                 ; 00:00:07     ; 1.0                     ; 968 MB              ; 00:00:07                           ;
-; TimeQuest Timing Analyzer ; 00:00:12     ; 1.4                     ; 1153 MB             ; 00:00:15                           ;
-; EDA Netlist Writer        ; 00:00:03     ; 1.0                     ; 1155 MB             ; 00:00:02                           ;
-; Total                     ; 00:01:57     ; --                      ; --                  ; 00:03:44                           ;
+; Analysis & Synthesis      ; 00:00:45     ; 1.0                     ; 1073 MB             ; 00:01:12                           ;
+; Fitter                    ; 00:02:38     ; 1.1                     ; 1998 MB             ; 00:04:33                           ;
+; Assembler                 ; 00:00:14     ; 1.0                     ; 989 MB              ; 00:00:13                           ;
+; TimeQuest Timing Analyzer ; 00:00:27     ; 1.4                     ; 1180 MB             ; 00:00:31                           ;
+; EDA Netlist Writer        ; 00:00:06     ; 1.0                     ; 1217 MB             ; 00:00:05                           ;
+; Total                     ; 00:04:10     ; --                      ; --                  ; 00:06:34                           ;
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 

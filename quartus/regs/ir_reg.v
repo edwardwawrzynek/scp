@@ -1,4 +1,4 @@
-//IR - setable by bus_in (bus_we), and clocked on negative edge of clock
+//IR - setable by bus_in (bus_we), and clocked on delayed clock
 module ir_reg(
 	input clk,
 	input rst,
@@ -7,7 +7,7 @@ module ir_reg(
 	input bus_we
 );
 
-always @ (negedge clk)
+always @ (posedge clk)
 	begin
 		if (rst) begin
 			val <= 0;

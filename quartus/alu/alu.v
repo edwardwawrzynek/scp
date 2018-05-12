@@ -1,4 +1,4 @@
-//The ALU - Note: The alu is clocked on the FALLING EDGE of the clock, to perform operations between each micro-instruction
+//The ALU - Note: The alu is clocked on the delayed clock, to perform operations between each micro-instruction
 module alu(
 	input clk,
 	input rst,
@@ -8,7 +8,7 @@ module alu(
 	output reg [15:0] res
 );
 
-always @ (negedge clk)
+always @ (posedge clk)
 	begin
 	//Nothing to do on reset
 			case(op)

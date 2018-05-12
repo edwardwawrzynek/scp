@@ -5,7 +5,7 @@ module rom_wait_for_falling_edge(
 	output reg [43:0] out
 );
 
-always @ (negedge clk) begin
+always @ (posedge clk) begin
 	out <= in;
 end
 
