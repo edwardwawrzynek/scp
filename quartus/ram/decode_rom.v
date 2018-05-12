@@ -1,4 +1,4 @@
-//Decode rom - select right microinstruction, and set cntrl signals - clk'd on negative edge
+//Decode rom - select right microinstruction, and set cntrl signals - clk'd on positive edge, later delayed to negative
 module decode_rom(
 	input clk,
 	input rst,
@@ -11,7 +11,7 @@ reg [9:0] real_addr;
 //If all 256 instructions are used, each can use on average 4 microinstructions
 reg [43:0] rom[0:1023];
 
-always @ (negedge clk)
+always @ (posedge clk)
 	begin
 		real_addr <= addr;
 	end

@@ -1106,6 +1106,35 @@ refer to the applicable agreement for further details.
 		(rectangle (rect 16 16 248 480))
 	)
 )
+(symbol
+	(rect 1744 272 1912 352)
+	(text "rom_wait_for_falling_edge" (rect 5 0 135 11)(font "Arial" ))
+	(text "inst1" (rect 8 64 32 77)(font "Intel Clear" ))
+	(port
+		(pt 0 32)
+		(input)
+		(text "clk" (rect 0 0 15 11)(font "Arial" ))
+		(text "clk" (rect 21 27 36 38)(font "Arial" ))
+		(line (pt 0 32)(pt 16 32))
+	)
+	(port
+		(pt 0 48)
+		(input)
+		(text "in[43..0]" (rect 0 0 40 11)(font "Arial" ))
+		(text "in[43..0]" (rect 21 43 61 54)(font "Arial" ))
+		(line (pt 0 48)(pt 16 48)(line_width 3))
+	)
+	(port
+		(pt 168 32)
+		(output)
+		(text "out[43..0]" (rect 0 0 46 11)(font "Arial" ))
+		(text "out[43..0]" (rect 109 27 155 38)(font "Arial" ))
+		(line (pt 168 32)(pt 152 32)(line_width 3))
+	)
+	(drawing
+		(rectangle (rect 16 16 152 64))
+	)
+)
 (connector
 	(pt 248 224)
 	(pt 432 224)
@@ -2113,14 +2142,44 @@ refer to the applicable agreement for further details.
 	(bus)
 )
 (connector
-	(pt 1920 288)
+	(pt 1912 400)
 	(pt 1920 400)
 	(bus)
 )
 (connector
-	(pt 1912 400)
 	(pt 1920 400)
+	(pt 1920 360)
 	(bus)
+)
+(connector
+	(pt 1920 360)
+	(pt 1736 360)
+	(bus)
+)
+(connector
+	(pt 1736 360)
+	(pt 1736 320)
+	(bus)
+)
+(connector
+	(pt 1736 320)
+	(pt 1744 320)
+	(bus)
+)
+(connector
+	(pt 1920 288)
+	(pt 1920 304)
+	(bus)
+)
+(connector
+	(pt 1920 304)
+	(pt 1912 304)
+	(bus)
+)
+(connector
+	(text "CLK" (rect 1712 288 1733 301)(font "Intel Clear" ))
+	(pt 1744 304)
+	(pt 1704 304)
 )
 (junction (pt 448 208))
 (junction (pt 464 208))
