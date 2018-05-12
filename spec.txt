@@ -34,8 +34,10 @@ FORMAT: [indexes]: SIGNAL_NAME - Description
 [26:25]: MAR_MUX_SEL - selects which value from the MAR_MUX goes into the MMU's addrs_in, 0=A_REG, 1=PC, 2=SP, 3=0
 	-DECODE-
 27: IR_WE - writes value from MDR into IR
-[29:28]: DECODE_MUX_SEL - selects the value to go into decode rom's addr, 0=MDR, 1=IR, 2=DECODE_NEXT, 3=0
-
+[29:28]: DECODE_NEXT_SEL - selects the value to go into decode rom's addr, 0=MDR, 1=IR, 2=DECODE_NEXT, 3=0
+[39:30]: DECODE_NEXT - next instruction to decode if DECODE_MUX_SEL = 2
 	-SYS-
-some num: PRIVILAGE_WE - set the privilage level
-some num: PRIVILAGE_SET_LEVEL - level to set privilage to
+40: PRIVILAGE_WE - set the privilage level
+41: PRIVILAGE_SET_LEVEL - level to set privilage to
+42: RST - resets the value of all registers
+43: IO_WE - set io_we
