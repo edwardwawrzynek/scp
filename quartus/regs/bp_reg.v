@@ -1,5 +1,5 @@
-//IR and BP reg - setable by bus_in (bus_we)
-module single_write_reg(
+//BP reg - setable by bus_in (bus_we)
+module bp_reg(
 	input clk,
 	input rst,
 	output reg [15:0] val,

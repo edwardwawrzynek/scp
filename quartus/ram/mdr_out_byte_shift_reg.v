@@ -1,4 +1,4 @@
-//This reg takes bytes from mdr and, with control signals, shifts them into words
+//This reg takes bytes from mdr and, with control signals, shifts them into words - clocked on negative edge
 module mdr_out_byte_shift_reg(
 	input clk,
 	input rst,
@@ -8,7 +8,7 @@ module mdr_out_byte_shift_reg(
 	input byte_low_we
 );
 
-always @ (posedge clk)
+always @ (negedge clk)
 	begin
 		if (rst) begin
 			val <= 0;

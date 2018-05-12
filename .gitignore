@@ -1,6 +1,9 @@
 #Hide Quartus Files
 *.bak
 *.qwf
+*.qws
+/quartus/simulation
+/quartus/c5_pin_model_dump.txt
 /quartus/db/
 /quartus/incremental_db/
 #Hide pyc if they get generated
