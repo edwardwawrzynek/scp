@@ -1,0 +1,91 @@
+/*
+WARNING: Do NOT edit the input and output ports in this file in a text
+editor if you plan to continue editing the block that represents it in
+the Block Editor! File corruption is VERY likely to occur.
+*/
+/*
+Copyright (C) 2017  Intel Corporation. All rights reserved.
+Your use of Intel Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Intel Program License 
+Subscription Agreement, the Intel Quartus Prime License Agreement,
+the Intel FPGA IP License Agreement, or other applicable license
+agreement, including, without limitation, that your use is for
+the sole purpose of programming logic devices manufactured by
+Intel and sold by Intel or its authorized distributors.  Please
+refer to the applicable agreement for further details.
+*/
+(header "symbol" (version "1.2"))
+(symbol
+	(rect 64 64 216 144)
+	(text "io_port" (rect 5 0 40 11)(font "Arial" ))
+	(text "inst" (rect 8 64 26 75)(font "Arial" ))
+	(port
+		(pt 0 24)
+		(input)
+		(text "io_clk" (rect 0 0 29 11)(font "Arial" ))
+		(text "io_clk" (rect 21 19 50 30)(font "Arial" ))
+		(line (pt 0 24)(pt 16 24))
+	)
+	(port
+		(pt 0 32)
+		(input)
+		(text "io_we" (rect 0 0 30 11)(font "Arial" ))
+		(text "io_we" (rect 21 27 51 38)(font "Arial" ))
+		(line (pt 0 32)(pt 16 32))
+	)
+	(port
+		(pt 0 40)
+		(input)
+		(text "io_addr[7..0]" (rect 0 0 61 11)(font "Arial" ))
+		(text "io_addr[7..0]" (rect 21 35 82 46)(font "Arial" ))
+		(line (pt 0 40)(pt 16 40)(line_width 3))
+	)
+	(port
+		(pt 0 48)
+		(input)
+		(text "io_data[15..0]" (rect 0 0 67 11)(font "Arial" ))
+		(text "io_data[15..0]" (rect 21 43 88 54)(font "Arial" ))
+		(line (pt 0 48)(pt 16 48)(line_width 3))
+	)
+	(port
+		(pt 0 56)
+		(input)
+		(text "data[15..0]" (rect 0 0 53 11)(font "Arial" ))
+		(text "data[15..0]" (rect 21 51 74 62)(font "Arial" ))
+		(line (pt 0 56)(pt 16 56)(line_width 3))
+	)
+	(port
+		(pt 152 24)
+		(output)
+		(text "out[15..0]" (rect -48 0 -2 11)(font "Arial" ))
+		(text "out[15..0]" (rect 93 19 139 30)(font "Arial" ))
+		(line (pt 152 24)(pt 136 24)(line_width 3))
+	)
+	(port
+		(pt 152 32)
+		(output)
+		(text "io_out[15..0]" (rect -48 0 13 11)(font "Arial" ))
+		(text "io_out[15..0]" (rect 80 27 141 38)(font "Arial" ))
+		(line (pt 152 32)(pt 136 32)(line_width 3))
+	)
+	(port
+		(pt 152 40)
+		(output)
+		(text "we" (rect -48 0 -33 11)(font "Arial" ))
+		(text "we" (rect 119 35 134 46)(font "Arial" ))
+		(line (pt 152 40)(pt 136 40))
+	)
+	(parameter
+		"io_port"
+		"0"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(drawing
+		(rectangle (rect 16 16 136 64))
+	)
+	(annotation_block (parameter)(rect 216 32 392 64))
+)
