@@ -1,0 +1,5 @@
+//Comment-This is a basic format fro the microcde file
+0:hlt:DECODE_NEXT=0//Hang by not loading next instruction
+1:ldia: PC_INC, MAR_MUX_SEL=1, DECODE_NEXT_SEL=2, DECODE_NEXT=2 //Increment PC and set MAR equal to it
+2:ldia_2:MDR_OUT_BYTE_LOW_WE, DECODE_NEXT_SEL=2, DECODE_NEXT=3 //Load mem into MDR
+3:ldia_3:AB_BUS_IN_SEL=1,A_BUS_WE //move MDR to A reg
