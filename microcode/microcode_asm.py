@@ -72,13 +72,13 @@ def proc_microcode(f, outf, sigs):
             c = split[0]
             start,end = getStartAndEnd(c, sigs)
             #amount to shift right to get each bit
-            shift = 0
+            shift = end-start
             pos = end
             #iterate through each bit from start to end
             while pos >= start:
                 out[pos] = (val>>shift)&1
                 pos-=1
-                shift += 1
+                shift -= 1
         result[addr] = out
     mifFile = open(outf, 'w')
     mifFile.write("WIDTH="+str(SIG_BITS)+";\nDEPTH="+str(NUM_ENTRIES)+";\nADDRESS_RADIX=UNS;\nDATA_RADIX=BIN;\nCONTENT BEGIN\n")
@@ -86,7 +86,8 @@ def proc_microcode(f, outf, sigs):
         mifFile.write("\t")
         mifFile.write(str(r))
         mifFile.write(" : ")
-        for b in result[r]:
+        #Write backwards, due to [0] neening to be written furthest right
+        for b in reversed(result[r]):
             mifFile.write(str(b))
         mifFile.write(";\n")
     mifFile.write("END;")
