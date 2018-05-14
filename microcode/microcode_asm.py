@@ -33,6 +33,8 @@ def getStartAndEnd(name, sigs):
     for s in sigs:
         if s[0] == name:
             return s[1],s[2]
+    print "ERROR: cmd " + name + " is not defined"
+    exit()
 
 def proc_microcode(f, outf, sigs):
     f = open(f)
