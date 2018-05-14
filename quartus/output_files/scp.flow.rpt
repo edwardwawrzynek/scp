@@ -1,5 +1,5 @@
 Flow report for scp
-Fri May 11 22:00:58 2018
+Sun May 13 21:21:35 2018
 Quartus Prime Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
 
 
@@ -40,18 +40,18 @@ refer to the applicable agreement for further details.
 +-------------------------------------------------------------------------------+
 ; Flow Summary                                                                  ;
 +---------------------------------+---------------------------------------------+
-; Flow Status                     ; Successful - Fri May 11 22:00:58 2018       ;
+; Flow Status                     ; Successful - Sun May 13 21:21:35 2018       ;
 ; Quartus Prime Version           ; 17.1.0 Build 590 10/25/2017 SJ Lite Edition ;
 ; Revision Name                   ; scp                                         ;
 ; Top-level Entity Name           ; scp                                         ;
 ; Family                          ; Cyclone V                                   ;
 ; Device                          ; 5CSEMA4U23C6                                ;
 ; Timing Models                   ; Final                                       ;
-; Logic utilization (in ALMs)     ; 328 / 15,880 ( 2 % )                        ;
-; Total registers                 ; 213                                         ;
+; Logic utilization (in ALMs)     ; 320 / 15,880 ( 2 % )                        ;
+; Total registers                 ; 147                                         ;
 ; Total pins                      ; 10 / 314 ( 3 % )                            ;
 ; Total virtual pins              ; 0                                           ;
-; Total block memory bits         ; 566,272 / 2,764,800 ( 20 % )                ;
+; Total block memory bits         ; 565,248 / 2,764,800 ( 20 % )                ;
 ; Total DSP Blocks                ; 1 / 84 ( 1 % )                              ;
 ; Total HSSI RX PCSs              ; 0                                           ;
 ; Total HSSI PMA RX Deserializers ; 0                                           ;
@@ -67,7 +67,7 @@ refer to the applicable agreement for further details.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 05/11/2018 21:56:38 ;
+; Start date & time ; 05/13/2018 21:18:33 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; scp                 ;
 +-------------------+---------------------+
@@ -78,7 +78,7 @@ refer to the applicable agreement for further details.
 +-------------------------------------+----------------------------------------+---------------+-------------+----------------+
 ; Assignment Name                     ; Value                                  ; Default Value ; Entity Name ; Section Id     ;
 +-------------------------------------+----------------------------------------+---------------+-------------+----------------+
-; COMPILER_SIGNATURE_ID               ; 247356951922156.152609739823387        ; --            ; --          ; --             ;
+; COMPILER_SIGNATURE_ID               ; 247356951922156.152626791314447        ; --            ; --          ; --             ;
 ; EDA_OUTPUT_DATA_FORMAT              ; Verilog Hdl                            ; --            ; --          ; eda_simulation ;
 ; EDA_SIMULATION_TOOL                 ; ModelSim-Altera (Verilog)              ; <None>        ; --          ; --             ;
 ; EDA_TIME_SCALE                      ; 1 ps                                   ; --            ; --          ; eda_simulation ;
@@ -86,12 +86,16 @@ refer to the applicable agreement for further details.
 ; MIN_CORE_JUNCTION_TEMP              ; 0                                      ; --            ; --          ; --             ;
 ; MISC_FILE                           ; pll.cmp                                ; --            ; --          ; --             ;
 ; MISC_FILE                           ; pll_sim/pll.vo                         ; --            ; --          ; --             ;
+; MISC_FILE                           ; decode_rom_mega.bsf                    ; --            ; --          ; --             ;
+; MISC_FILE                           ; decode_rom_mega_bb.v                   ; --            ; --          ; --             ;
+; NUM_PARALLEL_PROCESSORS             ; 4                                      ; --            ; --          ; --             ;
 ; PARTITION_COLOR                     ; -- (Not supported for targeted family) ; --            ; --          ; Top            ;
 ; PARTITION_FITTER_PRESERVATION_LEVEL ; -- (Not supported for targeted family) ; --            ; --          ; Top            ;
 ; PARTITION_NETLIST_TYPE              ; -- (Not supported for targeted family) ; --            ; --          ; Top            ;
 ; POWER_BOARD_THERMAL_MODEL           ; None (CONSERVATIVE)                    ; --            ; --          ; --             ;
 ; POWER_PRESET_COOLING_SOLUTION       ; 23 MM HEAT SINK WITH 200 LFPM AIRFLOW  ; --            ; --          ; --             ;
 ; PROJECT_OUTPUT_DIRECTORY            ; output_files                           ; --            ; --          ; --             ;
+; SMART_RECOMPILE                     ; On                                     ; Off           ; --          ; --             ;
 ; SPD_FILE                            ; pll.spd                                ; --            ; --          ; --             ;
 ; SYNTHESIS_ONLY_QIP                  ; On                                     ; --            ; --          ; --             ;
 +-------------------------------------+----------------------------------------+---------------+-------------+----------------+
@@ -102,12 +106,12 @@ refer to the applicable agreement for further details.
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name               ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis      ; 00:00:45     ; 1.0                     ; 1073 MB             ; 00:01:12                           ;
-; Fitter                    ; 00:02:38     ; 1.1                     ; 1998 MB             ; 00:04:33                           ;
-; Assembler                 ; 00:00:14     ; 1.0                     ; 989 MB              ; 00:00:13                           ;
-; TimeQuest Timing Analyzer ; 00:00:27     ; 1.4                     ; 1180 MB             ; 00:00:31                           ;
-; EDA Netlist Writer        ; 00:00:06     ; 1.0                     ; 1217 MB             ; 00:00:05                           ;
-; Total                     ; 00:04:10     ; --                      ; --                  ; 00:06:34                           ;
+; Analysis & Synthesis      ; 00:00:35     ; 1.0                     ; 1094 MB             ; 00:00:57                           ;
+; Fitter                    ; 00:01:49     ; 1.2                     ; 2260 MB             ; 00:03:17                           ;
+; Assembler                 ; 00:00:11     ; 1.0                     ; 972 MB              ; 00:00:11                           ;
+; TimeQuest Timing Analyzer ; 00:00:16     ; 1.8                     ; 1210 MB             ; 00:00:22                           ;
+; EDA Netlist Writer        ; 00:00:04     ; 1.0                     ; 1212 MB             ; 00:00:04                           ;
+; Total                     ; 00:02:55     ; --                      ; --                  ; 00:04:51                           ;
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 
@@ -116,11 +120,11 @@ refer to the applicable agreement for further details.
 +---------------------------+-------------------+--------------+------------+----------------+
 ; Module Name               ; Machine Hostname  ; OS Name      ; OS Version ; Processor type ;
 +---------------------------+-------------------+--------------+------------+----------------+
-; Analysis & Synthesis      ; ubuntu-MacBookPro ; Ubuntu 17.10 ; 17         ; x86_64         ;
-; Fitter                    ; ubuntu-MacBookPro ; Ubuntu 17.10 ; 17         ; x86_64         ;
-; Assembler                 ; ubuntu-MacBookPro ; Ubuntu 17.10 ; 17         ; x86_64         ;
-; TimeQuest Timing Analyzer ; ubuntu-MacBookPro ; Ubuntu 17.10 ; 17         ; x86_64         ;
-; EDA Netlist Writer        ; ubuntu-MacBookPro ; Ubuntu 17.10 ; 17         ; x86_64         ;
+; Analysis & Synthesis      ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; Fitter                    ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; Assembler                 ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; TimeQuest Timing Analyzer ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; EDA Netlist Writer        ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
 +---------------------------+-------------------+--------------+------------+----------------+
 
 

@@ -1,31 +1,35 @@
-//64k Ram - clocked on positive edge of clock - addrs_we latches the addrs to read into mar
-module ram(
+module ram
+(
 	input clk,
-	input rst,
-	input [15:0] addrs,
-	input [7:0] data_in,
-	input addrs_we,
-	input mem_we,
-	output [7:0] data_out
+	input [15:0] addr,
+	input [7:0] data,
+	input we,
+	output [7:0] q
 );
 
-reg [15:0] real_addrs;
-
-reg [7:0] mem[0:65535];
-
-assign data_out = mem[real_addrs];
-
-always @ (posedge clk)
+	// Declare the RAM variable
+	reg [7:0] ram[65535:0];
+	
+	// Variable to hold the registered read address
+	reg [15:0] addr_reg;
+	
+	always @ (posedge clk)
 	begin
-		if(rst) begin
-			real_addrs <= 0;
-		end
-		if(mem_we) begin
-				mem[real_addrs] <= data_in;
-		end
-		if(addrs_we) begin
-			real_addrs <= addrs;
-		end
+	// Write
+		if (we)
+			ram[addr] <= data;
+		
+		addr_reg <= addr;
+		
 	end
+		
+	// Continuous assignment implies read returns NEW data.
+	// This is the natural behavior of the TriMatrix memory
+	// blocks in Single Port mode.  
+	assign q = ram[addr_reg];
 
+initial begin
+ $readmemh("ram_data.txt", ram);
+end
+	
 endmodule

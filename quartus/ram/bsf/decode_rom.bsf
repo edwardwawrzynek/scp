@@ -20,8 +20,8 @@ refer to the applicable agreement for further details.
 */
 (header "symbol" (version "1.1"))
 (symbol
-	(rect 16 16 184 128)
-	(text "ram" (rect 5 0 21 12)(font "Arial" ))
+	(rect 16 16 192 128)
+	(text "decode_rom" (rect 5 0 55 12)(font "Arial" ))
 	(text "inst" (rect 8 96 20 108)(font "Arial" ))
 	(port
 		(pt 0 32)
@@ -33,15 +33,15 @@ refer to the applicable agreement for further details.
 	(port
 		(pt 0 48)
 		(input)
-		(text "addr[15..0]" (rect 0 0 41 12)(font "Arial" ))
-		(text "addr[15..0]" (rect 21 43 62 55)(font "Arial" ))
+		(text "addr[9..0]" (rect 0 0 37 12)(font "Arial" ))
+		(text "addr[9..0]" (rect 21 43 58 55)(font "Arial" ))
 		(line (pt 0 48)(pt 16 48)(line_width 3))
 	)
 	(port
 		(pt 0 64)
 		(input)
-		(text "data[7..0]" (rect 0 0 36 12)(font "Arial" ))
-		(text "data[7..0]" (rect 21 59 57 71)(font "Arial" ))
+		(text "data[43..0]" (rect 0 0 42 12)(font "Arial" ))
+		(text "data[43..0]" (rect 21 59 63 71)(font "Arial" ))
 		(line (pt 0 64)(pt 16 64)(line_width 3))
 	)
 	(port
@@ -52,13 +52,13 @@ refer to the applicable agreement for further details.
 		(line (pt 0 80)(pt 16 80)(line_width 1))
 	)
 	(port
-		(pt 168 32)
+		(pt 176 32)
 		(output)
-		(text "q[7..0]" (rect 0 0 24 12)(font "Arial" ))
-		(text "q[7..0]" (rect 123 27 147 39)(font "Arial" ))
-		(line (pt 168 32)(pt 152 32)(line_width 3))
+		(text "q[43..0]" (rect 0 0 30 12)(font "Arial" ))
+		(text "q[43..0]" (rect 125 27 155 39)(font "Arial" ))
+		(line (pt 176 32)(pt 160 32)(line_width 3))
 	)
 	(drawing
-		(rectangle (rect 16 16 152 96)(line_width 1))
+		(rectangle (rect 16 16 160 96)(line_width 1))
 	)
 )

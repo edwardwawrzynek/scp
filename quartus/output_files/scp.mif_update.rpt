@@ -1,0 +1,73 @@
+MIF/HEX Update report for scp
+Sun May 13 21:12:36 2018
+Quartus Prime Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. MIF/HEX Update Summary
+  3. MIF/HEX Update Processed Files
+  4. MIF/HEX Update Messages
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 2017  Intel Corporation. All rights reserved.
+Your use of Intel Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Intel Program License 
+Subscription Agreement, the Intel Quartus Prime License Agreement,
+the Intel FPGA IP License Agreement, or other applicable license
+agreement, including, without limitation, that your use is for
+the sole purpose of programming logic devices manufactured by
+Intel and sold by Intel or its authorized distributors.  Please
+refer to the applicable agreement for further details.
+
+
+
++---------------------------------------------------------------+
+; MIF/HEX Update Summary                                        ;
++-----------------------+---------------------------------------+
+; MIF/HEX Update Status ; Successful - Sun May 13 21:12:35 2018 ;
+; Revision Name         ; scp                                   ;
+; Top-level Entity Name ; scp                                   ;
+; Family                ; Cyclone V                             ;
+; Device                ; 5CSEMA4U23C6                          ;
++-----------------------+---------------------------------------+
+
+
++--------------------------------------------------------+
+; MIF/HEX Update Processed Files                         ;
++--------------------------------------------------------+
+; File Name                                              ;
++--------------------------------------------------------+
+; /home/edward/scp/quartus/db/scp.ram0_ram_1d0cf.hdl.mif ;
+; /home/edward/scp/quartus/decode_rom_mega_cnts.mif      ;
++--------------------------------------------------------+
+
+
++-------------------------+
+; MIF/HEX Update Messages ;
++-------------------------+
+Info: *******************************************************************
+Info: Running Quartus Prime MIF/HEX Update
+    Info: Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
+    Info: Processing started: Sun May 13 21:12:29 2018
+Info: Command: quartus_cdb scp -c scp --update_mif
+Info (39024): Processed the following Memory Initialization File(s)
+    Info (39025): Processed Memory Initialization File /home/edward/scp/quartus/db/scp.ram0_ram_1d0cf.hdl.mif File: /home/edward/scp/quartus/db/scp.ram0_ram_1d0cf.hdl.mif Line: 0
+    Info (39025): Processed Memory Initialization File /home/edward/scp/quartus/decode_rom_mega_cnts.mif File: /home/edward/scp/quartus/decode_rom_mega_cnts.mif Line: 0
+Info: Quartus Prime MIF/HEX Update was successful. 0 errors, 0 warnings
+    Info: Peak virtual memory: 1300 megabytes
+    Info: Processing ended: Sun May 13 21:12:36 2018
+    Info: Elapsed time: 00:00:07
+    Info: Total CPU time (on all processors): 00:00:07
+
+
