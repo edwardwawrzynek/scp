@@ -25,13 +25,13 @@
  * print all assembler info before any code is generated
  */
 void header () {
-    output_string ("; Small C 8080\n;\tCoder (2.4,84/11/27)\n;");
+    output_string (";\tSmall C 8080\n;\tCoder (2.4,84/11/27)\n;");
     frontend_version();
     newline ();
-    output_line ("\t;program area SMALLC_GENERATED is RELOCATABLE");
-    output_line ("\t.module SMALLC_GENERATED");
-    output_line ("\t.list   (err, loc, bin, eqt, cyc, lin, src, lst, md)");
-    output_line ("\t.nlist  (pag)");
+    output_string (";\tprogram area SMALLC_GENERATED is RELOCATABLE\n");
+    output_line (".module SMALLC_GENERATED");
+    output_line (".list   (err, loc, bin, eqt, cyc, lin, src, lst, md)");
+    output_line (".nlist  (pag)");
 }
 
 /**
@@ -77,21 +77,21 @@ void gen_comment() {
  * print any assembler stuff needed after all code
  */
 void trailer() {
-    output_line (";\t.end");
+    output_string (";\t.end\n");
 }
 
 /**
  * text (code) segment
  */
 void code_segment_gtext() {
-    output_line ("\t.area  SMALLC_GENERATED  (REL,CON,CSEG)");
+    output_line (".area  SMALLC_GENERATED  (REL,CON,CSEG)");
 }
 
 /**
  * data segment
  */
 void data_segment_gdata() {
-    output_line ("\t.area  SMALLC_GENERATED_DATA  (REL,CON,DSEG)");
+    output_line (".area  SMALLC_GENERATED_DATA  (REL,CON,DSEG)");
 }
 
 /**

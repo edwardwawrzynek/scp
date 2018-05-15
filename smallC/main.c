@@ -410,6 +410,7 @@ errorsummary() {
         error("missing closing bracket");
     newline();
     gen_comment();
+    output_byte('\t');
     output_decimal(errcnt);
     if (errcnt) errfile = YES;
     output_string(" error(s) in compilation");
