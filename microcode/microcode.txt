@@ -1,8 +1,9 @@
-//Comment-This is a basic format fro the microcde file
-0:start:MAR_MUX_SEL=1,DECODE_NEXT_SEL=2,DECODE_NEXT=256//This loads the memory, next decodes it to start off the processor
-1:ldia:PC_INC, MAR_MUX_SEL=1, DECODE_NEXT_SEL=2,DECODE_NEXT=257 //Increment PC and set MAR equal to it
+0:start: NEW_INSTR //set new instr so next instruction is loaded from mem
 
-256:start2:DECODE_NEXT_SEL=0 //Decode Next
+2:wait2: DECODE_NEXT=5, PC_INC
 
-257:ldia_2:MDR_OUT_BYTE_LOW_WE, DECODE_NEXT_SEL=2,DECODE_NEXT=258 //Load mem into MDR
-258:ldia_3:AB_BUS_IN_SEL=1,A_BUS_WE, PC_INC, DECODE_NEXT_SEL=2, DECODE_NEXT=0 //move MDR to A reg, and fetch next, and set to decode
+1:wait3: DECODE_NEXT=3, PC_INC
+3:wait3_2: DECODE_NEXT=4
+4:wait3_3: NEW_INSTR
+
+5:wait2_2: NEW_INSTR

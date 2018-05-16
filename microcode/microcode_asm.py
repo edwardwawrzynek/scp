@@ -2,7 +2,7 @@
 import sys
 
 #Number of signals, in bits
-SIG_BITS = 44
+SIG_BITS = 12
 #Number of entries in the microcode rom
 NUM_ENTRIES = 1024
 
