@@ -5,4 +5,4 @@
 256:start2:DECODE_NEXT_SEL=0 //Decode Next
 
 257:ldia_2:MDR_OUT_BYTE_LOW_WE, DECODE_NEXT_SEL=2,DECODE_NEXT=258 //Load mem into MDR
-258:ldia_3:AB_BUS_IN_SEL=1,A_BUS_WE//move MDR to A reg, and fetch next, and set to decode
+258:ldia_3:AB_BUS_IN_SEL=1,A_BUS_WE, PC_INC, DECODE_NEXT_SEL=2, DECODE_NEXT=0 //move MDR to A reg, and fetch next, and set to decode

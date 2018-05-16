@@ -69,6 +69,9 @@ set_location_assignment PIN_AE26 -to LED[5]
 set_location_assignment PIN_Y16 -to LED[6]
 set_location_assignment PIN_AA23 -to LED[7]
 set_location_assignment PIN_V11 -to CLOCK_50
+set_global_assignment -name TIMEQUEST_MULTICORNER_ANALYSIS ON
+set_global_assignment -name NUM_PARALLEL_PROCESSORS 4
+set_global_assignment -name SMART_RECOMPILE ON
 set_global_assignment -name BDF_FILE IO/prgm_rom/prgm_rom_io.bdf
 set_global_assignment -name VERILOG_FILE IO/prgm_rom/prgm_rom.v
 set_global_assignment -name VERILOG_FILE IO/ps2/ps2_to_ascii.v
@@ -113,8 +116,7 @@ set_global_assignment -name VERILOG_FILE decode/decode_split.v
 set_global_assignment -name QIP_FILE pll.qip
 set_global_assignment -name SIP_FILE pll.sip
 set_global_assignment -name VERILOG_FILE decode/rom_wait_for_falling_edge.v
-set_global_assignment -name TIMEQUEST_MULTICORNER_ANALYSIS ON
-set_global_assignment -name NUM_PARALLEL_PROCESSORS 4
-set_global_assignment -name QIP_FILE decode_rom_mega.qip
-set_global_assignment -name SMART_RECOMPILE ON
+set_global_assignment -name VERILOG_FILE ../../comp16/manual_clk.v
+set_global_assignment -name QIP_FILE ram/ram_mega.qip
+set_global_assignment -name MIF_FILE ram/ram_mega_cnts.mif
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

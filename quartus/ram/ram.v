@@ -8,7 +8,7 @@ module ram
 );
 
 	// Declare the RAM variable
-	reg [7:0] ram[65535:0];
+	(* ram_init_file = "ram_init.mif" *) reg [7:0] ram[65535:0];
 	
 	// Variable to hold the registered read address
 	reg [15:0] addr_reg;
@@ -27,9 +27,5 @@ module ram
 	// This is the natural behavior of the TriMatrix memory
 	// blocks in Single Port mode.  
 	assign q = ram[addr_reg];
-
-initial begin
- $readmemh("ram_data.txt", ram);
-end
 	
 endmodule
