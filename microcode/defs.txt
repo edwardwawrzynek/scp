@@ -1,3 +1,3 @@
-[9:0]: DECODE_NEXT -
-10: NEW_INSTR -
-11: PC_INC -
+[9:0]: DECODE_NEXT - Addrs of next microinstruction
+10: NEW_INSTR - Decode IR instead of DECODE_NEXT
+11: PC_INC - Increment the PC - microcode instructions should increment the PC in the same cycle as NEW_INSTR, so that each instr is entered with PC set to the bit after it

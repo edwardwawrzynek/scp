@@ -1,5 +1,5 @@
 Analysis & Synthesis report for scp
-Tue May 15 20:55:47 2018
+Wed May 16 20:34:44 2018
 Quartus Prime Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
 
 
@@ -17,7 +17,7 @@ Quartus Prime Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
   9. Analysis & Synthesis IP Cores Summary
  10. General Register Statistics
  11. Multiplexer Restructuring Statistics (Restructuring Performed)
- 12. Source assignments for rom_mega:DECODE_ROM|altsyncram:altsyncram_component|altsyncram_10h1:auto_generated
+ 12. Source assignments for rom_mega:DECODE_ROM|altsyncram:altsyncram_component|altsyncram_kkh1:auto_generated
  13. Source assignments for ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_63r2:auto_generated
  14. Parameter Settings for User Entity Instance: rom_mega:DECODE_ROM|altsyncram:altsyncram_component
  15. Parameter Settings for User Entity Instance: ram_mega:RAM|altsyncram:altsyncram_component
@@ -51,7 +51,7 @@ refer to the applicable agreement for further details.
 +-------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                  ;
 +---------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status     ; Successful - Tue May 15 20:55:47 2018       ;
+; Analysis & Synthesis Status     ; Successful - Wed May 16 20:34:44 2018       ;
 ; Quartus Prime Version           ; 17.1.0 Build 590 10/25/2017 SJ Lite Edition ;
 ; Revision Name                   ; scp                                         ;
 ; Top-level Entity Name           ; scp                                         ;
@@ -79,8 +79,8 @@ refer to the applicable agreement for further details.
 ; Device                                                                          ; 5CSEMA4U23C6       ;                    ;
 ; Top-level entity name                                                           ; scp                ; scp                ;
 ; Family name                                                                     ; Cyclone V          ; Cyclone V          ;
-; Use smart compilation                                                           ; On                 ; Off                ;
-; Maximum processors allowed for parallel compilation                             ; 4                  ;                    ;
+; Maximum processors allowed for parallel compilation                             ; 2                  ;                    ;
+; Use smart compilation                                                           ; Off                ; Off                ;
 ; Enable parallel Assembler and TimeQuest Timing Analyzer during compilation      ; On                 ; On                 ;
 ; Enable compact report table                                                     ; Off                ; Off                ;
 ; Restructure Multiplexers                                                        ; Auto               ; Auto               ;
@@ -165,45 +165,45 @@ refer to the applicable agreement for further details.
 ; Processors                 ; Number      ;
 +----------------------------+-------------+
 ; Number detected on machine ; 4           ;
-; Maximum allowed            ; 4           ;
+; Maximum allowed            ; 2           ;
 ;                            ;             ;
 ; Average used               ; 1.00        ;
-; Maximum used               ; 4           ;
+; Maximum used               ; 2           ;
 ;                            ;             ;
 ; Usage by Processor         ; % Time Used ;
 ;     Processor 1            ; 100.0%      ;
 ;     Processor 2            ;   0.0%      ;
-;     Processors 3-4         ;   0.0%      ;
 +----------------------------+-------------+
 
 
-+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis Source Files Read                                                                                                                                                     ;
-+----------------------------------+-----------------+------------------------------------+----------------------------------------------------------------------------------------+---------+
-; File Name with User-Entered Path ; Used in Netlist ; File Type                          ; File Name with Absolute Path                                                           ; Library ;
-+----------------------------------+-----------------+------------------------------------+----------------------------------------------------------------------------------------+---------+
-; scp.bdf                          ; yes             ; User Block Diagram/Schematic File  ; /home/edward/scp/quartus/scp.bdf                                                       ;         ;
-; regs/pc_reg.v                    ; yes             ; User Verilog HDL File              ; /home/edward/scp/quartus/regs/pc_reg.v                                                 ;         ;
-; mux/decode_addr_mux.v            ; yes             ; User Verilog HDL File              ; /home/edward/scp/quartus/mux/decode_addr_mux.v                                         ;         ;
-; ../../comp16/manual_clk.v        ; yes             ; User Verilog HDL File              ; /home/edward/comp16/manual_clk.v                                                       ;         ;
-; ram/ram_mega.v                   ; yes             ; User Wizard-Generated File         ; /home/edward/scp/quartus/ram/ram_mega.v                                                ;         ;
-; ram/ram_mega_cnts.mif            ; yes             ; User Memory Initialization File    ; /home/edward/scp/quartus/ram/ram_mega_cnts.mif                                         ;         ;
-; decode/rom_mega.v                ; yes             ; User Wizard-Generated File         ; /home/edward/scp/quartus/decode/rom_mega.v                                             ;         ;
-; altsyncram.tdf                   ; yes             ; Megafunction                       ; /home/edward/intelFPGA_lite/17.1/quartus/libraries/megafunctions/altsyncram.tdf        ;         ;
-; stratix_ram_block.inc            ; yes             ; Megafunction                       ; /home/edward/intelFPGA_lite/17.1/quartus/libraries/megafunctions/stratix_ram_block.inc ;         ;
-; lpm_mux.inc                      ; yes             ; Megafunction                       ; /home/edward/intelFPGA_lite/17.1/quartus/libraries/megafunctions/lpm_mux.inc           ;         ;
-; lpm_decode.inc                   ; yes             ; Megafunction                       ; /home/edward/intelFPGA_lite/17.1/quartus/libraries/megafunctions/lpm_decode.inc        ;         ;
-; aglobal171.inc                   ; yes             ; Megafunction                       ; /home/edward/intelFPGA_lite/17.1/quartus/libraries/megafunctions/aglobal171.inc        ;         ;
-; a_rdenreg.inc                    ; yes             ; Megafunction                       ; /home/edward/intelFPGA_lite/17.1/quartus/libraries/megafunctions/a_rdenreg.inc         ;         ;
-; altrom.inc                       ; yes             ; Megafunction                       ; /home/edward/intelFPGA_lite/17.1/quartus/libraries/megafunctions/altrom.inc            ;         ;
-; altram.inc                       ; yes             ; Megafunction                       ; /home/edward/intelFPGA_lite/17.1/quartus/libraries/megafunctions/altram.inc            ;         ;
-; altdpram.inc                     ; yes             ; Megafunction                       ; /home/edward/intelFPGA_lite/17.1/quartus/libraries/megafunctions/altdpram.inc          ;         ;
-; db/altsyncram_10h1.tdf           ; yes             ; Auto-Generated Megafunction        ; /home/edward/scp/quartus/db/altsyncram_10h1.tdf                                        ;         ;
-; db/altsyncram_63r2.tdf           ; yes             ; Auto-Generated Megafunction        ; /home/edward/scp/quartus/db/altsyncram_63r2.tdf                                        ;         ;
-; db/decode_dla.tdf                ; yes             ; Auto-Generated Megafunction        ; /home/edward/scp/quartus/db/decode_dla.tdf                                             ;         ;
-; db/decode_61a.tdf                ; yes             ; Auto-Generated Megafunction        ; /home/edward/scp/quartus/db/decode_61a.tdf                                             ;         ;
-; db/mux_tfb.tdf                   ; yes             ; Auto-Generated Megafunction        ; /home/edward/scp/quartus/db/mux_tfb.tdf                                                ;         ;
-+----------------------------------+-----------------+------------------------------------+----------------------------------------------------------------------------------------+---------+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Source Files Read                                                                                                                                                         ;
++----------------------------------+-----------------+----------------------------------------+----------------------------------------------------------------------------------------+---------+
+; File Name with User-Entered Path ; Used in Netlist ; File Type                              ; File Name with Absolute Path                                                           ; Library ;
++----------------------------------+-----------------+----------------------------------------+----------------------------------------------------------------------------------------+---------+
+; scp.bdf                          ; yes             ; User Block Diagram/Schematic File      ; /home/edward/scp/quartus/scp.bdf                                                       ;         ;
+; regs/pc_reg.v                    ; yes             ; User Verilog HDL File                  ; /home/edward/scp/quartus/regs/pc_reg.v                                                 ;         ;
+; mux/decode_addr_mux.v            ; yes             ; User Verilog HDL File                  ; /home/edward/scp/quartus/mux/decode_addr_mux.v                                         ;         ;
+; ../../comp16/manual_clk.v        ; yes             ; User Verilog HDL File                  ; /home/edward/comp16/manual_clk.v                                                       ;         ;
+; ram/ram_mega.v                   ; yes             ; User Wizard-Generated File             ; /home/edward/scp/quartus/ram/ram_mega.v                                                ;         ;
+; ram/ram_mega_cnts.mif            ; yes             ; User Memory Initialization File        ; /home/edward/scp/quartus/ram/ram_mega_cnts.mif                                         ;         ;
+; decode/rom_mega.v                ; yes             ; User Wizard-Generated File             ; /home/edward/scp/quartus/decode/rom_mega.v                                             ;         ;
+; altsyncram.tdf                   ; yes             ; Megafunction                           ; /home/edward/intelFPGA_lite/17.1/quartus/libraries/megafunctions/altsyncram.tdf        ;         ;
+; stratix_ram_block.inc            ; yes             ; Megafunction                           ; /home/edward/intelFPGA_lite/17.1/quartus/libraries/megafunctions/stratix_ram_block.inc ;         ;
+; lpm_mux.inc                      ; yes             ; Megafunction                           ; /home/edward/intelFPGA_lite/17.1/quartus/libraries/megafunctions/lpm_mux.inc           ;         ;
+; lpm_decode.inc                   ; yes             ; Megafunction                           ; /home/edward/intelFPGA_lite/17.1/quartus/libraries/megafunctions/lpm_decode.inc        ;         ;
+; aglobal171.inc                   ; yes             ; Megafunction                           ; /home/edward/intelFPGA_lite/17.1/quartus/libraries/megafunctions/aglobal171.inc        ;         ;
+; a_rdenreg.inc                    ; yes             ; Megafunction                           ; /home/edward/intelFPGA_lite/17.1/quartus/libraries/megafunctions/a_rdenreg.inc         ;         ;
+; altrom.inc                       ; yes             ; Megafunction                           ; /home/edward/intelFPGA_lite/17.1/quartus/libraries/megafunctions/altrom.inc            ;         ;
+; altram.inc                       ; yes             ; Megafunction                           ; /home/edward/intelFPGA_lite/17.1/quartus/libraries/megafunctions/altram.inc            ;         ;
+; altdpram.inc                     ; yes             ; Megafunction                           ; /home/edward/intelFPGA_lite/17.1/quartus/libraries/megafunctions/altdpram.inc          ;         ;
+; db/altsyncram_kkh1.tdf           ; yes             ; Auto-Generated Megafunction            ; /home/edward/scp/quartus/db/altsyncram_kkh1.tdf                                        ;         ;
+; decode/rom_mega_cnts.mif         ; yes             ; Auto-Found Memory Initialization File  ; /home/edward/scp/quartus/decode/rom_mega_cnts.mif                                      ;         ;
+; db/altsyncram_63r2.tdf           ; yes             ; Auto-Generated Megafunction            ; /home/edward/scp/quartus/db/altsyncram_63r2.tdf                                        ;         ;
+; db/decode_dla.tdf                ; yes             ; Auto-Generated Megafunction            ; /home/edward/scp/quartus/db/decode_dla.tdf                                             ;         ;
+; db/decode_61a.tdf                ; yes             ; Auto-Generated Megafunction            ; /home/edward/scp/quartus/db/decode_61a.tdf                                             ;         ;
+; db/mux_tfb.tdf                   ; yes             ; Auto-Generated Megafunction            ; /home/edward/scp/quartus/db/mux_tfb.tdf                                                ;         ;
++----------------------------------+-----------------+----------------------------------------+----------------------------------------------------------------------------------------+---------+
 
 
 +------------------------------------------------------------+
@@ -250,19 +250,19 @@ refer to the applicable agreement for further details.
 ;             |decode_61a:rden_decode_b|    ; 8 (8)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_63r2:auto_generated|decode_61a:rden_decode_b ; decode_61a      ; work         ;
 ;    |rom_mega:DECODE_ROM|                  ; 0 (0)               ; 0 (0)                     ; 12288             ; 0          ; 0    ; 0            ; |scp|rom_mega:DECODE_ROM                                                                                  ; rom_mega        ; work         ;
 ;       |altsyncram:altsyncram_component|   ; 0 (0)               ; 0 (0)                     ; 12288             ; 0          ; 0    ; 0            ; |scp|rom_mega:DECODE_ROM|altsyncram:altsyncram_component                                                  ; altsyncram      ; work         ;
-;          |altsyncram_10h1:auto_generated| ; 0 (0)               ; 0 (0)                     ; 12288             ; 0          ; 0    ; 0            ; |scp|rom_mega:DECODE_ROM|altsyncram:altsyncram_component|altsyncram_10h1:auto_generated                   ; altsyncram_10h1 ; work         ;
+;          |altsyncram_kkh1:auto_generated| ; 0 (0)               ; 0 (0)                     ; 12288             ; 0          ; 0    ; 0            ; |scp|rom_mega:DECODE_ROM|altsyncram:altsyncram_component|altsyncram_kkh1:auto_generated                   ; altsyncram_kkh1 ; work         ;
 +-------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+-----------------------------------------------------------------------------------------------------------+-----------------+--------------+
 Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
 
 
-+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis RAM Summary                                                                                                                                                                                     ;
-+-----------------------------------------------------------------------------------------------+------+----------------+--------------+--------------+--------------+--------------+--------+-------------------------+
-; Name                                                                                          ; Type ; Mode           ; Port A Depth ; Port A Width ; Port B Depth ; Port B Width ; Size   ; MIF                     ;
-+-----------------------------------------------------------------------------------------------+------+----------------+--------------+--------------+--------------+--------------+--------+-------------------------+
-; ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_63r2:auto_generated|ALTSYNCRAM        ; AUTO ; True Dual Port ; 65536        ; 8            ; 65536        ; 8            ; 524288 ; ./ram/ram_mega_cnts.mif ;
-; rom_mega:DECODE_ROM|altsyncram:altsyncram_component|altsyncram_10h1:auto_generated|ALTSYNCRAM ; AUTO ; ROM            ; 1024         ; 12           ; --           ; --           ; 12288  ; rom_mega_cnts.mif       ;
-+-----------------------------------------------------------------------------------------------+------+----------------+--------------+--------------+--------------+--------------+--------+-------------------------+
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis RAM Summary                                                                                                                                                                                      ;
++-----------------------------------------------------------------------------------------------+------+----------------+--------------+--------------+--------------+--------------+--------+--------------------------+
+; Name                                                                                          ; Type ; Mode           ; Port A Depth ; Port A Width ; Port B Depth ; Port B Width ; Size   ; MIF                      ;
++-----------------------------------------------------------------------------------------------+------+----------------+--------------+--------------+--------------+--------------+--------+--------------------------+
+; ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_63r2:auto_generated|ALTSYNCRAM        ; AUTO ; True Dual Port ; 65536        ; 8            ; 65536        ; 8            ; 524288 ; ./ram/ram_mega_cnts.mif  ;
+; rom_mega:DECODE_ROM|altsyncram:altsyncram_component|altsyncram_kkh1:auto_generated|ALTSYNCRAM ; AUTO ; ROM            ; 1024         ; 12           ; --           ; --           ; 12288  ; decode/rom_mega_cnts.mif ;
++-----------------------------------------------------------------------------------------------+------+----------------+--------------+--------------+--------------+--------------+--------+--------------------------+
 
 
 +--------------------------------------------------------------------------------------------------------------+
@@ -295,12 +295,12 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 +--------------------+-----------+---------------+----------------------+------------------------+------------+------------------------------------+
 ; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output         ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+------------------------------------+
-; 9:1                ; 8 bits    ; 48 LEs        ; 48 LEs               ; 0 LEs                  ; No         ; |scp|decode_addr_mux:inst8|addr[7] ;
+; 9:1                ; 8 bits    ; 48 LEs        ; 48 LEs               ; 0 LEs                  ; No         ; |scp|decode_addr_mux:inst8|addr[0] ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+------------------------------------+
 
 
 +-----------------------------------------------------------------------------------------------------------+
-; Source assignments for rom_mega:DECODE_ROM|altsyncram:altsyncram_component|altsyncram_10h1:auto_generated ;
+; Source assignments for rom_mega:DECODE_ROM|altsyncram:altsyncram_component|altsyncram_kkh1:auto_generated ;
 +---------------------------------+--------------------+------+---------------------------------------------+
 ; Assignment                      ; Value              ; From ; To                                          ;
 +---------------------------------+--------------------+------+---------------------------------------------+
@@ -319,62 +319,62 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 
 +--------------------------------------------------------------------------------------------------+
 ; Parameter Settings for User Entity Instance: rom_mega:DECODE_ROM|altsyncram:altsyncram_component ;
-+------------------------------------+----------------------+--------------------------------------+
-; Parameter Name                     ; Value                ; Type                                 ;
-+------------------------------------+----------------------+--------------------------------------+
-; BYTE_SIZE_BLOCK                    ; 8                    ; Untyped                              ;
-; AUTO_CARRY_CHAINS                  ; ON                   ; AUTO_CARRY                           ;
-; IGNORE_CARRY_BUFFERS               ; OFF                  ; IGNORE_CARRY                         ;
-; AUTO_CASCADE_CHAINS                ; ON                   ; AUTO_CASCADE                         ;
-; IGNORE_CASCADE_BUFFERS             ; OFF                  ; IGNORE_CASCADE                       ;
-; WIDTH_BYTEENA                      ; 1                    ; Untyped                              ;
-; OPERATION_MODE                     ; ROM                  ; Untyped                              ;
-; WIDTH_A                            ; 12                   ; Signed Integer                       ;
-; WIDTHAD_A                          ; 10                   ; Signed Integer                       ;
-; NUMWORDS_A                         ; 1024                 ; Signed Integer                       ;
-; OUTDATA_REG_A                      ; UNREGISTERED         ; Untyped                              ;
-; ADDRESS_ACLR_A                     ; NONE                 ; Untyped                              ;
-; OUTDATA_ACLR_A                     ; NONE                 ; Untyped                              ;
-; WRCONTROL_ACLR_A                   ; NONE                 ; Untyped                              ;
-; INDATA_ACLR_A                      ; NONE                 ; Untyped                              ;
-; BYTEENA_ACLR_A                     ; NONE                 ; Untyped                              ;
-; WIDTH_B                            ; 1                    ; Untyped                              ;
-; WIDTHAD_B                          ; 1                    ; Untyped                              ;
-; NUMWORDS_B                         ; 1                    ; Untyped                              ;
-; INDATA_REG_B                       ; CLOCK1               ; Untyped                              ;
-; WRCONTROL_WRADDRESS_REG_B          ; CLOCK1               ; Untyped                              ;
-; RDCONTROL_REG_B                    ; CLOCK1               ; Untyped                              ;
-; ADDRESS_REG_B                      ; CLOCK1               ; Untyped                              ;
-; OUTDATA_REG_B                      ; UNREGISTERED         ; Untyped                              ;
-; BYTEENA_REG_B                      ; CLOCK1               ; Untyped                              ;
-; INDATA_ACLR_B                      ; NONE                 ; Untyped                              ;
-; WRCONTROL_ACLR_B                   ; NONE                 ; Untyped                              ;
-; ADDRESS_ACLR_B                     ; NONE                 ; Untyped                              ;
-; OUTDATA_ACLR_B                     ; NONE                 ; Untyped                              ;
-; RDCONTROL_ACLR_B                   ; NONE                 ; Untyped                              ;
-; BYTEENA_ACLR_B                     ; NONE                 ; Untyped                              ;
-; WIDTH_BYTEENA_A                    ; 1                    ; Signed Integer                       ;
-; WIDTH_BYTEENA_B                    ; 1                    ; Untyped                              ;
-; RAM_BLOCK_TYPE                     ; AUTO                 ; Untyped                              ;
-; BYTE_SIZE                          ; 8                    ; Untyped                              ;
-; READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE            ; Untyped                              ;
-; READ_DURING_WRITE_MODE_PORT_A      ; NEW_DATA_NO_NBE_READ ; Untyped                              ;
-; READ_DURING_WRITE_MODE_PORT_B      ; NEW_DATA_NO_NBE_READ ; Untyped                              ;
-; INIT_FILE                          ; rom_mega_cnts.mif    ; Untyped                              ;
-; INIT_FILE_LAYOUT                   ; PORT_A               ; Untyped                              ;
-; MAXIMUM_DEPTH                      ; 0                    ; Untyped                              ;
-; CLOCK_ENABLE_INPUT_A               ; BYPASS               ; Untyped                              ;
-; CLOCK_ENABLE_INPUT_B               ; NORMAL               ; Untyped                              ;
-; CLOCK_ENABLE_OUTPUT_A              ; BYPASS               ; Untyped                              ;
-; CLOCK_ENABLE_OUTPUT_B              ; NORMAL               ; Untyped                              ;
-; CLOCK_ENABLE_CORE_A                ; USE_INPUT_CLKEN      ; Untyped                              ;
-; CLOCK_ENABLE_CORE_B                ; USE_INPUT_CLKEN      ; Untyped                              ;
-; ENABLE_ECC                         ; FALSE                ; Untyped                              ;
-; ECC_PIPELINE_STAGE_ENABLED         ; FALSE                ; Untyped                              ;
-; WIDTH_ECCSTATUS                    ; 3                    ; Untyped                              ;
-; DEVICE_FAMILY                      ; Cyclone V            ; Untyped                              ;
-; CBXI_PARAMETER                     ; altsyncram_10h1      ; Untyped                              ;
-+------------------------------------+----------------------+--------------------------------------+
++------------------------------------+--------------------------+----------------------------------+
+; Parameter Name                     ; Value                    ; Type                             ;
++------------------------------------+--------------------------+----------------------------------+
+; BYTE_SIZE_BLOCK                    ; 8                        ; Untyped                          ;
+; AUTO_CARRY_CHAINS                  ; ON                       ; AUTO_CARRY                       ;
+; IGNORE_CARRY_BUFFERS               ; OFF                      ; IGNORE_CARRY                     ;
+; AUTO_CASCADE_CHAINS                ; ON                       ; AUTO_CASCADE                     ;
+; IGNORE_CASCADE_BUFFERS             ; OFF                      ; IGNORE_CASCADE                   ;
+; WIDTH_BYTEENA                      ; 1                        ; Untyped                          ;
+; OPERATION_MODE                     ; ROM                      ; Untyped                          ;
+; WIDTH_A                            ; 12                       ; Signed Integer                   ;
+; WIDTHAD_A                          ; 10                       ; Signed Integer                   ;
+; NUMWORDS_A                         ; 1024                     ; Signed Integer                   ;
+; OUTDATA_REG_A                      ; UNREGISTERED             ; Untyped                          ;
+; ADDRESS_ACLR_A                     ; NONE                     ; Untyped                          ;
+; OUTDATA_ACLR_A                     ; NONE                     ; Untyped                          ;
+; WRCONTROL_ACLR_A                   ; NONE                     ; Untyped                          ;
+; INDATA_ACLR_A                      ; NONE                     ; Untyped                          ;
+; BYTEENA_ACLR_A                     ; NONE                     ; Untyped                          ;
+; WIDTH_B                            ; 1                        ; Untyped                          ;
+; WIDTHAD_B                          ; 1                        ; Untyped                          ;
+; NUMWORDS_B                         ; 1                        ; Untyped                          ;
+; INDATA_REG_B                       ; CLOCK1                   ; Untyped                          ;
+; WRCONTROL_WRADDRESS_REG_B          ; CLOCK1                   ; Untyped                          ;
+; RDCONTROL_REG_B                    ; CLOCK1                   ; Untyped                          ;
+; ADDRESS_REG_B                      ; CLOCK1                   ; Untyped                          ;
+; OUTDATA_REG_B                      ; UNREGISTERED             ; Untyped                          ;
+; BYTEENA_REG_B                      ; CLOCK1                   ; Untyped                          ;
+; INDATA_ACLR_B                      ; NONE                     ; Untyped                          ;
+; WRCONTROL_ACLR_B                   ; NONE                     ; Untyped                          ;
+; ADDRESS_ACLR_B                     ; NONE                     ; Untyped                          ;
+; OUTDATA_ACLR_B                     ; NONE                     ; Untyped                          ;
+; RDCONTROL_ACLR_B                   ; NONE                     ; Untyped                          ;
+; BYTEENA_ACLR_B                     ; NONE                     ; Untyped                          ;
+; WIDTH_BYTEENA_A                    ; 1                        ; Signed Integer                   ;
+; WIDTH_BYTEENA_B                    ; 1                        ; Untyped                          ;
+; RAM_BLOCK_TYPE                     ; AUTO                     ; Untyped                          ;
+; BYTE_SIZE                          ; 8                        ; Untyped                          ;
+; READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE                ; Untyped                          ;
+; READ_DURING_WRITE_MODE_PORT_A      ; NEW_DATA_NO_NBE_READ     ; Untyped                          ;
+; READ_DURING_WRITE_MODE_PORT_B      ; NEW_DATA_NO_NBE_READ     ; Untyped                          ;
+; INIT_FILE                          ; decode/rom_mega_cnts.mif ; Untyped                          ;
+; INIT_FILE_LAYOUT                   ; PORT_A                   ; Untyped                          ;
+; MAXIMUM_DEPTH                      ; 0                        ; Untyped                          ;
+; CLOCK_ENABLE_INPUT_A               ; BYPASS                   ; Untyped                          ;
+; CLOCK_ENABLE_INPUT_B               ; NORMAL                   ; Untyped                          ;
+; CLOCK_ENABLE_OUTPUT_A              ; BYPASS                   ; Untyped                          ;
+; CLOCK_ENABLE_OUTPUT_B              ; NORMAL                   ; Untyped                          ;
+; CLOCK_ENABLE_CORE_A                ; USE_INPUT_CLKEN          ; Untyped                          ;
+; CLOCK_ENABLE_CORE_B                ; USE_INPUT_CLKEN          ; Untyped                          ;
+; ENABLE_ECC                         ; FALSE                    ; Untyped                          ;
+; ECC_PIPELINE_STAGE_ENABLED         ; FALSE                    ; Untyped                          ;
+; WIDTH_ECCSTATUS                    ; 3                        ; Untyped                          ;
+; DEVICE_FAMILY                      ; Cyclone V                ; Untyped                          ;
+; CBXI_PARAMETER                     ; altsyncram_kkh1          ; Untyped                          ;
++------------------------------------+--------------------------+----------------------------------+
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
@@ -504,7 +504,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------+--------------+
 ; Partition Name ; Elapsed Time ;
 +----------------+--------------+
-; Top            ; 00:00:01     ;
+; Top            ; 00:00:00     ;
 +----------------+--------------+
 
 
@@ -514,10 +514,9 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
-    Info: Processing started: Tue May 15 20:55:24 2018
+    Info: Processing started: Wed May 16 20:34:24 2018
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off scp -c scp
-Info (20032): Parallel compilation is enabled and will use up to 4 processors
-Warning (20031): Parallel compilation is enabled for 4 processors, but there are only 2 processors in the system. Runtime may increase due to over usage of the processor space.
+Info (20032): Parallel compilation is enabled and will use up to 2 processors
 Info (12021): Found 1 design units, including 1 entities, in source file IO/prgm_rom/prgm_rom_io.bdf
     Info (12023): Found entity 1: prgm_rom_io
 Info (12021): Found 1 design units, including 1 entities, in source file IO/prgm_rom/prgm_rom.v
@@ -611,7 +610,8 @@ Info (12021): Found 1 design units, including 1 entities, in source file ram/ram
 Info (12021): Found 1 design units, including 1 entities, in source file decode/rom_mega.v
     Info (12023): Found entity 1: rom_mega File: /home/edward/scp/quartus/decode/rom_mega.v Line: 39
 Info (12127): Elaborating entity "scp" for the top level hierarchy
-Info (12128): Elaborating entity "decode_addr_mux" for hierarchy "decode_addr_mux:inst8"
+Info (12128): Elaborating entity "pc_reg" for hierarchy "pc_reg:inst3"
+Warning (10230): Verilog HDL assignment warning at pc_reg.v(17): truncated value with size 32 to match size of target (16) File: /home/edward/scp/quartus/regs/pc_reg.v Line: 17
 Info (12128): Elaborating entity "rom_mega" for hierarchy "rom_mega:DECODE_ROM"
 Info (12128): Elaborating entity "altsyncram" for hierarchy "rom_mega:DECODE_ROM|altsyncram:altsyncram_component" File: /home/edward/scp/quartus/decode/rom_mega.v Line: 81
 Info (12130): Elaborated megafunction instantiation "rom_mega:DECODE_ROM|altsyncram:altsyncram_component" File: /home/edward/scp/quartus/decode/rom_mega.v Line: 81
@@ -619,7 +619,7 @@ Info (12133): Instantiated megafunction "rom_mega:DECODE_ROM|altsyncram:altsyncr
     Info (12134): Parameter "address_aclr_a" = "NONE"
     Info (12134): Parameter "clock_enable_input_a" = "BYPASS"
     Info (12134): Parameter "clock_enable_output_a" = "BYPASS"
-    Info (12134): Parameter "init_file" = "rom_mega_cnts.mif"
+    Info (12134): Parameter "init_file" = "decode/rom_mega_cnts.mif"
     Info (12134): Parameter "intended_device_family" = "Cyclone V"
     Info (12134): Parameter "lpm_hint" = "ENABLE_RUNTIME_MOD=NO"
     Info (12134): Parameter "lpm_type" = "altsyncram"
@@ -630,11 +630,12 @@ Info (12133): Instantiated megafunction "rom_mega:DECODE_ROM|altsyncram:altsyncr
     Info (12134): Parameter "widthad_a" = "10"
     Info (12134): Parameter "width_a" = "12"
     Info (12134): Parameter "width_byteena_a" = "1"
-Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_10h1.tdf
-    Info (12023): Found entity 1: altsyncram_10h1 File: /home/edward/scp/quartus/db/altsyncram_10h1.tdf Line: 27
-Info (12128): Elaborating entity "altsyncram_10h1" for hierarchy "rom_mega:DECODE_ROM|altsyncram:altsyncram_component|altsyncram_10h1:auto_generated" File: /home/edward/intelFPGA_lite/17.1/quartus/libraries/megafunctions/altsyncram.tdf Line: 791
+Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_kkh1.tdf
+    Info (12023): Found entity 1: altsyncram_kkh1 File: /home/edward/scp/quartus/db/altsyncram_kkh1.tdf Line: 27
+Info (12128): Elaborating entity "altsyncram_kkh1" for hierarchy "rom_mega:DECODE_ROM|altsyncram:altsyncram_component|altsyncram_kkh1:auto_generated" File: /home/edward/intelFPGA_lite/17.1/quartus/libraries/megafunctions/altsyncram.tdf Line: 791
 Info (12128): Elaborating entity "manual_clk" for hierarchy "manual_clk:inst"
 Warning (10230): Verilog HDL assignment warning at manual_clk.v(11): truncated value with size 32 to match size of target (8) File: /home/edward/comp16/manual_clk.v Line: 11
+Info (12128): Elaborating entity "decode_addr_mux" for hierarchy "decode_addr_mux:inst8"
 Info (12128): Elaborating entity "ram_mega" for hierarchy "ram_mega:RAM"
 Info (12128): Elaborating entity "altsyncram" for hierarchy "ram_mega:RAM|altsyncram:altsyncram_component" File: /home/edward/scp/quartus/ram/ram_mega.v Line: 97
 Info (12130): Elaborated megafunction instantiation "ram_mega:RAM|altsyncram:altsyncram_component" File: /home/edward/scp/quartus/ram/ram_mega.v Line: 97
@@ -678,8 +679,6 @@ Info (12128): Elaborating entity "decode_61a" for hierarchy "ram_mega:RAM|altsyn
 Info (12021): Found 1 design units, including 1 entities, in source file db/mux_tfb.tdf
     Info (12023): Found entity 1: mux_tfb File: /home/edward/scp/quartus/db/mux_tfb.tdf Line: 22
 Info (12128): Elaborating entity "mux_tfb" for hierarchy "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_63r2:auto_generated|mux_tfb:mux4" File: /home/edward/scp/quartus/db/altsyncram_63r2.tdf Line: 52
-Info (12128): Elaborating entity "pc_reg" for hierarchy "pc_reg:inst3"
-Warning (10230): Verilog HDL assignment warning at pc_reg.v(17): truncated value with size 32 to match size of target (16) File: /home/edward/scp/quartus/regs/pc_reg.v Line: 17
 Info (286030): Timing-Driven Synthesis is running
 Warning (20013): Ignored 16 assignments for entity "pll" -- entity does not exist in design
     Warning (20014): Assignment for entity set_global_assignment -name IP_TOOL_NAME altera_pll -entity pll -sip pll.sip -library lib_pll was ignored
@@ -694,11 +693,11 @@ Info (21057): Implemented 150 device resources after synthesis - the final resou
     Info (21059): Implemented 8 output pins
     Info (21061): Implemented 64 logic cells
     Info (21064): Implemented 76 RAM segments
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 10 warnings
-    Info: Peak virtual memory: 1100 megabytes
-    Info: Processing ended: Tue May 15 20:55:47 2018
-    Info: Elapsed time: 00:00:23
-    Info: Total CPU time (on all processors): 00:00:49
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 9 warnings
+    Info: Peak virtual memory: 1073 megabytes
+    Info: Processing ended: Wed May 16 20:34:44 2018
+    Info: Elapsed time: 00:00:20
+    Info: Total CPU time (on all processors): 00:00:43
 
 
 +------------------------------------------+

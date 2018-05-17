@@ -456,11 +456,6 @@ refer to the applicable agreement for further details.
 	(pt 176 112)
 )
 (connector
-	(pt 344 280)
-	(pt 456 280)
-	(bus)
-)
-(connector
 	(pt 456 296)
 	(pt 384 296)
 )
@@ -583,26 +578,31 @@ refer to the applicable agreement for further details.
 	(bus)
 )
 (connector
-	(pt 432 456)
-	(pt 448 456)
-	(bus)
-)
-(connector
-	(pt 448 456)
-	(pt 456 456)
-	(bus)
-)
-(connector
-	(text "ADDR[9..0]" (rect 432 432 445 488)(font "Intel Clear" )(vertical))
-	(pt 448 456)
-	(pt 448 496)
-	(bus)
-)
-(connector
 	(text "ADDR[7..0]" (rect 705 488 761 501)(font "Intel Clear" ))
 	(pt 728 504)
 	(pt 688 504)
 	(bus)
 )
+(connector
+	(pt 432 456)
+	(pt 456 456)
+	(bus)
+)
+(connector
+	(pt 344 280)
+	(pt 376 280)
+	(bus)
+)
+(connector
+	(pt 376 280)
+	(pt 456 280)
+	(bus)
+)
+(connector
+	(text "ADDR[15..0]" (rect 360 211 373 273)(font "Intel Clear" )(vertical))
+	(pt 376 280)
+	(pt 376 232)
+	(bus)
+)
 (junction (pt 160 128))
-(junction (pt 448 456))
+(junction (pt 376 280))
