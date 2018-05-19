@@ -111,5 +111,13 @@ def proc_microcode(f, outf, sigs):
     mifFile.write("END;")
     mifFile.close()
 
-sigs, SIG_BITS, NUM_ENTRIES = getSigsFromFile("defs.txt")
-proc_microcode("microcode.txt", "microcode.mif", sigs)
+if len(sys.argv) != 4:
+    print "Usage: microcode_asm.py [definition_file.txt] [microcode_in.txt] [decode_rom.mif]"
+    exit()
+
+defP = sys.argv[1]
+microP = sys.argv[2]
+romP = sys.argv[3]
+
+sigs, SIG_BITS, NUM_ENTRIES = getSigsFromFile(defP)
+proc_microcode(microP, romP, sigs)
