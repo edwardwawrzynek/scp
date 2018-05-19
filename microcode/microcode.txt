@@ -3,8 +3,9 @@
 
 // Load instructions format - lxxx - l(s)(m)(r)
 // l      s                   m                                            r
-// (load)(size:b-byte,w-word)(mode:i-immediate,m-memory,p-pointer indirect)(reg: a or b)
+// (load)(size:b-byte,w-word)(mode:i-immediate,m-memory,p-pointer indirect)(reg to load into: a or b)
 
+//Load Immediate - Status: COMPLETE (for now)
 
 //Load Byte Immediate A
 1:lbia:MDR_OUT_LOW_WE,MAR_SEL=2,PC_INC,DECODE_NEXT=lbia_2
@@ -23,3 +24,9 @@ $lwia_3:lwia_3:PC_INC,NEW_INSTR, A_BUS_WE
 4:lwib:MDR_OUT_HIGH_WE,MAR_SEL=2,PC_INC,DECODE_NEXT=lwib_2
 $lwib_2:lwib_2:MDR_OUT_LOW_WE,MAR_SEL=2,PC_INC,DECODE_NEXT=lwib_3
 $lwib_3:lwib_3:PC_INC,NEW_INSTR, B_BUS_WE
+
+//Load Pointer (Indirect from addr in primary) - Status: INCOMPLETE
+
+//Load Byte Pointer A
+5:lbpa:MAR_SEL=0,MDR_OUT_LOW_WE,DECODE_NEXT=lbpa_2
+$lbpa_2:lbpa_2:A_BUS_WE,PC_INC,NEW_INSTR
