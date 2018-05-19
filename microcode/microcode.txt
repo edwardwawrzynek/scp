@@ -1,6 +1,21 @@
-//Microcode Starts Here
+//Nop instruction, also first instruction ran when cpu starts
 0:start: NEW_INSTR, PC_INC //set new instr so next instruction is loaded from mem
+
 //Load Byte Immediate A
 1:lbia:MDR_OUT_LOW_WE,MAR_SEL=2,PC_INC,DECODE_NEXT=256
+//Load Byte Immediate B
+2:lbib:MDR_OUT_LOW_WE,MAR_SEL=2,PC_INC,DECODE_NEXT=257
+
+//Load Word Immediate A
+3:lwia:MDR_OUT_HIGH_WE,MAR_SEL=2,PC_INC,DECODE_NEXT=258
+//Load Word Immediate B
+4:lwib:MDR_OUT_HIGH_WE,MAR_SEL=2,PC_INC,DECODE_NEXT=260
 
 256:lbia_2:PC_INC,NEW_INSTR, A_BUS_WE
+257:lbib_2:PC_INC,NEW_INSTR, B_BUS_WE
+
+258:lwia_2:MDR_OUT_LOW_WE,MAR_SEL=2,PC_INC,DECODE_NEXT=259
+259:lwia_3:PC_INC,NEW_INSTR, A_BUS_WE
+
+260:lwib_2:MDR_OUT_LOW_WE,MAR_SEL=2,PC_INC,DECODE_NEXT=261
+261:lwib_3:PC_INC,NEW_INSTR, B_BUS_WE

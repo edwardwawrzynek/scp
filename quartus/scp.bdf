@@ -668,12 +668,6 @@ refer to the applicable agreement for further details.
 	(pt -144 136)
 )
 (connector
-	(text "LED_OUT[7..0]" (rect 705 488 780 501)(font "Intel Clear" ))
-	(pt 728 504)
-	(pt 688 504)
-	(bus)
-)
-(connector
 	(pt -120 240)
 	(pt 112 240)
 	(bus)
@@ -922,6 +916,12 @@ refer to the applicable agreement for further details.
 	(text "DECODE[16]" (rect -160 -200 -96 -187)(font "Intel Clear" ))
 	(pt -168 -184)
 	(pt -96 -184)
+)
+(connector
+	(text "LED_OUT[7..0]" (rect 705 488 780 501)(font "Intel Clear" ))
+	(pt 728 504)
+	(pt 688 504)
+	(bus)
 )
 (junction (pt 416 280))
 (junction (pt 688 -144))
