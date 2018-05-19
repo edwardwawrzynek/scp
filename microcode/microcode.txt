@@ -1,21 +1,25 @@
-//Nop instruction, also first instruction ran when cpu starts
-0:start: NEW_INSTR, PC_INC //set new instr so next instruction is loaded from mem
+//Nop instruction, also first instruction ran when cpu starts, so to give time for memory to load first instr
+0:nop: NEW_INSTR, PC_INC
+
+// Load instructions format - lxxx - l(s)(m)(r)
+// l      s                   m                                            r
+// (load)(size:b-byte,w-word)(mode:i-immediate,m-memory,p-pointer indirect)(reg: a or b)
+
 
 //Load Byte Immediate A
-1:lbia:MDR_OUT_LOW_WE,MAR_SEL=2,PC_INC,DECODE_NEXT=256
+1:lbia:MDR_OUT_LOW_WE,MAR_SEL=2,PC_INC,DECODE_NEXT=lbia_2
+$lbia_2:lbia_2:PC_INC,NEW_INSTR, A_BUS_WE
+
 //Load Byte Immediate B
-2:lbib:MDR_OUT_LOW_WE,MAR_SEL=2,PC_INC,DECODE_NEXT=257
+2:lbib:MDR_OUT_LOW_WE,MAR_SEL=2,PC_INC,DECODE_NEXT=lbib_2
+$lbib_2:lbib_2:PC_INC,NEW_INSTR, B_BUS_WE
 
 //Load Word Immediate A
-3:lwia:MDR_OUT_HIGH_WE,MAR_SEL=2,PC_INC,DECODE_NEXT=258
+3:lwia:MDR_OUT_HIGH_WE,MAR_SEL=2,PC_INC,DECODE_NEXT=lwia_2
+$lwia_2:lwia_2:MDR_OUT_LOW_WE,MAR_SEL=2,PC_INC,DECODE_NEXT=lwia_3
+$lwia_3:lwia_3:PC_INC,NEW_INSTR, A_BUS_WE
+
 //Load Word Immediate B
-4:lwib:MDR_OUT_HIGH_WE,MAR_SEL=2,PC_INC,DECODE_NEXT=260
-
-256:lbia_2:PC_INC,NEW_INSTR, A_BUS_WE
-257:lbib_2:PC_INC,NEW_INSTR, B_BUS_WE
-
-258:lwia_2:MDR_OUT_LOW_WE,MAR_SEL=2,PC_INC,DECODE_NEXT=259
-259:lwia_3:PC_INC,NEW_INSTR, A_BUS_WE
-
-260:lwib_2:MDR_OUT_LOW_WE,MAR_SEL=2,PC_INC,DECODE_NEXT=261
-261:lwib_3:PC_INC,NEW_INSTR, B_BUS_WE
+4:lwib:MDR_OUT_HIGH_WE,MAR_SEL=2,PC_INC,DECODE_NEXT=lwib_2
+$lwib_2:lwib_2:MDR_OUT_LOW_WE,MAR_SEL=2,PC_INC,DECODE_NEXT=lwib_3
+$lwib_3:lwib_3:PC_INC,NEW_INSTR, B_BUS_WE

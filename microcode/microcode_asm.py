@@ -43,6 +43,15 @@ def getStartAndEnd(name, sigs):
 
 def proc_microcode(f, outf, sigs):
     f = open(f)
+    #Get implied addrs starting at 256
+    replaces = []
+    imp_addr = 256
+    for l in f:
+        if l[0] == '$':
+            name = l[1:l.index(':',1)]
+            replaces.append([name, imp_addr])
+            imp_addr += 1
+    f.seek(0)
     #Result array
     result = [[0]*SIG_BITS]*NUM_ENTRIES
     for l in f:
@@ -56,6 +65,10 @@ def proc_microcode(f, outf, sigs):
         l = l.replace(" ", "")
         l = l.replace("\n", "")
         l = l.replace("\t", "")
+        l = l.replace("$", "")
+        #Replace defined implied addresses
+        for r in replaces:
+            l = l.replace(r[0], str(r[1]))
         #If line is empty, skip it
         if l == "":
             continue
