@@ -1,5 +1,5 @@
 Assembler report for scp
-Fri May 18 22:57:35 2018
+Sat May 19 14:40:40 2018
 Quartus Prime Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
 
 
@@ -37,7 +37,7 @@ refer to the applicable agreement for further details.
 +---------------------------------------------------------------+
 ; Assembler Summary                                             ;
 +-----------------------+---------------------------------------+
-; Assembler Status      ; Successful - Fri May 18 22:57:35 2018 ;
+; Assembler Status      ; Successful - Sat May 19 14:40:40 2018 ;
 ; Revision Name         ; scp                                   ;
 ; Top-level Entity Name ; scp                                   ;
 ; Family                ; Cyclone V                             ;
@@ -94,8 +94,8 @@ refer to the applicable agreement for further details.
 +----------------+------------------+
 ; Option         ; Setting          ;
 +----------------+------------------+
-; JTAG usercode  ; 0x01950375       ;
-; Checksum       ; 0x01950375       ;
+; JTAG usercode  ; 0x01981A41       ;
+; Checksum       ; 0x01981A41       ;
 +----------------+------------------+
 
 
@@ -105,7 +105,7 @@ refer to the applicable agreement for further details.
 Info: *******************************************************************
 Info: Running Quartus Prime Assembler
     Info: Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
-    Info: Processing started: Fri May 18 22:57:28 2018
+    Info: Processing started: Sat May 19 14:40:33 2018
 Info: Command: quartus_asm --read_settings_files=on --write_settings_files=off scp -c scp
 Warning (20013): Ignored 16 assignments for entity "pll" -- entity does not exist in design
     Warning (20014): Assignment for entity set_global_assignment -name IP_TOOL_NAME altera_pll -entity pll -sip pll.sip -library lib_pll was ignored
@@ -114,8 +114,8 @@ Warning (20013): Ignored 16 assignments for entity "pll" -- entity does not exis
 Warning (20013): Ignored 317 assignments for entity "pll_0002" -- entity does not exist in design
 Info (115030): Assembler is generating device programming files
 Info: Quartus Prime Assembler was successful. 0 errors, 5 warnings
-    Info: Peak virtual memory: 977 megabytes
-    Info: Processing ended: Fri May 18 22:57:35 2018
+    Info: Peak virtual memory: 979 megabytes
+    Info: Processing ended: Sat May 19 14:40:40 2018
     Info: Elapsed time: 00:00:07
     Info: Total CPU time (on all processors): 00:00:07
 
