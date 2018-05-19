@@ -1,3 +1,9 @@
+18 1024
 [9:0]: DECODE_NEXT - Addrs of next microinstruction
 10: NEW_INSTR - Decode IR instead of DECODE_NEXT
 11: PC_INC - Increment the PC - microcode instructions should increment the PC in the same cycle as NEW_INSTR, so that each instr is entered with PC set to the bit after it
+12: MDR_OUT_HIGH_WE - latch mdr into high byte
+13: MDR_OUT_LOW_WE - latch mdr into low byte
+[15:14]: MAR_SEL - 0=A, 1=SP, 2=PC
+16: A_BUS_WE - set a to value on bus
+17: B_BUS_WE - set b to value on bus

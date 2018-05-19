@@ -2,9 +2,9 @@
 import sys
 
 #Number of signals, in bits
-SIG_BITS = 12
+SIG_BITS = 0
 #Number of entries in the microcode rom
-NUM_ENTRIES = 1024
+NUM_ENTRIES = 0
 
 def getSigsFromFile(f):
     #signal name definitions
@@ -12,6 +12,11 @@ def getSigsFromFile(f):
 
     #Open definitions file
     defF = open(f)
+    #Ger number of sigs and entries
+    l = defF.readline()
+    sp = l.split(" ")
+    SIG_BITS = int(sp[0])
+    NUM_ENTRIES = int(sp[1])
     #Parse name definitions from file format: num(s): name (anything else is discarded)
     for l in defF:
         words = l.split(' ')
@@ -27,7 +32,7 @@ def getSigsFromFile(f):
             start = int(addr)
             end = int(addr)
         sigs.append([name,start,end])
-    return sigs
+    return sigs, SIG_BITS, NUM_ENTRIES
 
 def getStartAndEnd(name, sigs):
     for s in sigs:
@@ -93,5 +98,5 @@ def proc_microcode(f, outf, sigs):
     mifFile.write("END;")
     mifFile.close()
 
-sigs = getSigsFromFile("defs.txt")
+sigs, SIG_BITS, NUM_ENTRIES = getSigsFromFile("defs.txt")
 proc_microcode("microcode.txt", "microcode.mif", sigs)

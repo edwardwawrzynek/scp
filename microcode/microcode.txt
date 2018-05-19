@@ -1,12 +1,6 @@
+//Microcode Starts Here
 0:start: NEW_INSTR, PC_INC //set new instr so next instruction is loaded from mem
+//Load Byte Immediate A
+1:lbia:MDR_OUT_LOW_WE,MAR_SEL=2,PC_INC,DECODE_NEXT=256
 
-1:wait3: DECODE_NEXT=256
-2:wait2: DECODE_NEXT=258
-3:test:PC_INC, DECODE_NEXT=4
-4:test2:PC_INC, DECODE_NEXT=5
-4:test3:PC_INC, DECODE_NEXT=6
-
-256:wait3_2: DECODE_NEXT=257
-257:wait3_3: NEW_INSTR, PC_INC
-
-258:wait2_2: NEW_INSTR, PC_INC
+256:lbia_2:PC_INC,NEW_INSTR, A_BUS_WE
