@@ -73,22 +73,22 @@ $lwqb_3:lwqb_3:B_BUS_WE,PC_INC,NEW_INSTR
 
 13:lbma:MAR_SEL=2,MDR_OUT_HIGH_WE,PC_INC,DECODE_NEXT=lbma_2
 $lbma_2:lbma_2:MAR_SEL=2,MDR_OUT_LOW_WE,PC_INC,DECODE_NEXT=lbma_3
-$lbma_3:lbma_3:A_BUS_WE,DECODE_NEXT=5
+$lbma_3:lbma_3:A_BUS_WE,DECODE_NEXT=#lbpa
 
 //Load Byte Memory B - call lbqb to finish
 
 14:lbmb:MAR_SEL=2,MDR_OUT_HIGH_WE,PC_INC,DECODE_NEXT=lbmb_2
 $lbmb_2:lbmb_2:MAR_SEL=2,MDR_OUT_LOW_WE,PC_INC,DECODE_NEXT=lbmb_3
-$lbmb_3:lbmb_3:B_BUS_WE,DECODE_NEXT=10
+$lbmb_3:lbmb_3:B_BUS_WE,DECODE_NEXT=#lbqb
 
 //Load Word Memory A - call lwpa to finish
 
 15:lwma:MAR_SEL=2,MDR_OUT_HIGH_WE,PC_INC,DECODE_NEXT=lwma_2
 $lwma_2:lwma_2:MAR_SEL=2,MDR_OUT_LOW_WE,PC_INC,DECODE_NEXT=lwma_3
-$lwma_3:lwma_3:A_BUS_WE,DECODE_NEXT=7
+$lwma_3:lwma_3:A_BUS_WE,DECODE_NEXT=#lwpa
 
 //Load Word Memory B - call lwqb to finish
 
 16:lwmb:MAR_SEL=2,MDR_OUT_HIGH_WE,PC_INC,DECODE_NEXT=lwmb_2
 $lwmb_2:lwmb_2:MAR_SEL=2,MDR_OUT_LOW_WE,PC_INC,DECODE_NEXT=lwmb_3
-$lwmb_3:lwmb_3:B_BUS_WE,DECODE_NEXT=12
+$lwmb_3:lwmb_3:B_BUS_WE,DECODE_NEXT=#lwqb
