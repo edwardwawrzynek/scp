@@ -2,8 +2,8 @@
 0:nop: NEW_INSTR, PC_INC
 
 // Load instructions format - lxxx - l(s)(m)(r)
-// l      s                   m                                            r
-// (load)(size:b-byte,w-word)(mode:i-immediate,m-memory,p-pointer indirect)(reg to load into: a or b)
+// l      s                   m                                                                                   r
+// (load)(size:b-byte,w-word)(mode:i-immediate,m-memory,p-pointer indirect through a,q=pointer indirect through b)(reg to load into: a or b)
 
 //Load Immediate - Status: COMPLETE (for now)
 
@@ -25,8 +25,22 @@ $lwia_3:lwia_3:PC_INC,NEW_INSTR, A_BUS_WE
 $lwib_2:lwib_2:MDR_OUT_LOW_WE,MAR_SEL=2,PC_INC,DECODE_NEXT=lwib_3
 $lwib_3:lwib_3:PC_INC,NEW_INSTR, B_BUS_WE
 
-//Load Pointer (Indirect from addr in primary) - Status: INCOMPLETE
+//Load Pointer(p) (INDIRECT FROM ADDR'S IN A) - Status: INCOMPLETE
 
-//Load Byte Pointer A
+//Load Byte Pointer(p) A
 5:lbpa:MAR_SEL=0,MDR_OUT_LOW_WE,DECODE_NEXT=lbpa_2
 $lbpa_2:lbpa_2:A_BUS_WE,PC_INC,NEW_INSTR
+
+//Load Byte Pointer(p) B
+6:lbpb:MAR_SEL=0,MDR_OUT_LOW_WE,DECODE_NEXT=lbpb_2
+$lbpb_2:lbpb_2:B_BUS_WE,PC_INC,NEW_INSTR
+
+//Load Word Pointer(p) A
+7:lwpa:MAR_SEL=0,MDR_OUT_HIGH_WE,DECODE_NEXT=lwpa_2,A_INC
+$lwpa_2:lwpa_2:MAR_SEL=0,MDR_OUT_LOW_WE,DECODE_NEXT=lwpa_3
+$lwpa_3:lwpa_3:A_BUS_WE,PC_INC,NEW_INSTR
+
+//Load Word Pointer(p) B
+8:lwpb:MAR_SEL=0,MDR_OUT_HIGH_WE,A_INC,DECODE_NEXT=lwpb_2
+$lwpb_2:lwpb_2:MAR_SEL=0,MDR_OUT_LOW_WE,DECODE_NEXT=lwpb_3,A_DEC
+$lwpb_3:lwpb_3:B_BUS_WE,PC_INC,NEW_INSTR
