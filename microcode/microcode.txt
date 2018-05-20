@@ -29,41 +29,41 @@ $lwib_3:lwib_3:PC_INC,NEW_INSTR, B_BUS_WE
 //Load Pointer(p) (INDIRECT FROM ADDR'S IN A) - Status: COMPLETE + CONFIRMED (for now)
 
 //Load Byte Pointer(p) A
-5:lbpa:MAR_SEL=0,MDR_OUT_LOW_WE,DECODE_NEXT=lbpa_2,MDR_HIGH_RST
+5:lbpa:MAR_SEL=0,AB_OUT_SEL=0,MDR_OUT_LOW_WE,DECODE_NEXT=lbpa_2,MDR_HIGH_RST
 $lbpa_2:lbpa_2:A_BUS_WE,PC_INC,NEW_INSTR
 
 //Load Byte Pointer(p) B
-6:lbpb:MAR_SEL=0,MDR_OUT_LOW_WE,DECODE_NEXT=lbpb_2,MDR_HIGH_RST
+6:lbpb:MAR_SEL=0,AB_OUT_SEL=0,MDR_OUT_LOW_WE,DECODE_NEXT=lbpb_2,MDR_HIGH_RST
 $lbpb_2:lbpb_2:B_BUS_WE,PC_INC,NEW_INSTR
 
 //Load Word Pointer(p) A
-7:lwpa:MAR_SEL=0,MDR_OUT_HIGH_WE,DECODE_NEXT=lwpa_2,A_INC
-$lwpa_2:lwpa_2:MAR_SEL=0,MDR_OUT_LOW_WE,DECODE_NEXT=lwpa_3
+7:lwpa:MAR_SEL=0,AB_OUT_SEL=0,MDR_OUT_HIGH_WE,DECODE_NEXT=lwpa_2,A_INC
+$lwpa_2:lwpa_2:MAR_SEL=0,AB_OUT_SEL=0,MDR_OUT_LOW_WE,DECODE_NEXT=lwpa_3
 $lwpa_3:lwpa_3:A_BUS_WE,PC_INC,NEW_INSTR
 
 //Load Word Pointer(p) B
-8:lwpb:MAR_SEL=0,MDR_OUT_HIGH_WE,A_INC,DECODE_NEXT=lwpb_2
-$lwpb_2:lwpb_2:MAR_SEL=0,MDR_OUT_LOW_WE,DECODE_NEXT=lwpb_3,A_DEC
+8:lwpb:MAR_SEL=0,AB_OUT_SEL=0,MDR_OUT_HIGH_WE,A_INC,DECODE_NEXT=lwpb_2
+$lwpb_2:lwpb_2:MAR_SEL=0,AB_OUT_SEL=0,MDR_OUT_LOW_WE,DECODE_NEXT=lwpb_3,A_DEC
 $lwpb_3:lwpb_3:B_BUS_WE,PC_INC,NEW_INSTR
 
 //Load Pointer(q) (INDIRECT FROM ADDR'S IN B) - Status: COMPLETE + CONFIRMED (for now)
 
 //Load Byte Pointer(q) A
-9:lbqa:MAR_SEL=1,MDR_OUT_LOW_WE,DECODE_NEXT=lbqa_2,MDR_HIGH_RST
+9:lbqa:MAR_SEL=0,AB_OUT_SEL=1,MDR_OUT_LOW_WE,DECODE_NEXT=lbqa_2,MDR_HIGH_RST
 $lbqa_2:lbpa_2:A_BUS_WE,PC_INC,NEW_INSTR
 
 //Load Byte Pointer(q) B
-10:lbqb:MAR_SEL=1,MDR_OUT_LOW_WE,DECODE_NEXT=lbqb_2,MDR_HIGH_RST
+10:lbqb:MAR_SEL=0,AB_OUT_SEL=1,MDR_OUT_LOW_WE,DECODE_NEXT=lbqb_2,MDR_HIGH_RST
 $lbqb_2:lbpb_2:B_BUS_WE,PC_INC,NEW_INSTR
 
 //Load Word Pointer(q) A
-11:lwqa:MAR_SEL=1,MDR_OUT_HIGH_WE,DECODE_NEXT=lwqa_2,B_INC
-$lwqa_2:lwpa_2:MAR_SEL=1,MDR_OUT_LOW_WE,DECODE_NEXT=lwqa_3,B_DEC
+11:lwqa:MAR_SEL=0,AB_OUT_SEL=1,MDR_OUT_HIGH_WE,DECODE_NEXT=lwqa_2,B_INC
+$lwqa_2:lwpa_2:MAR_SEL=0,AB_OUT_SEL=1,MDR_OUT_LOW_WE,DECODE_NEXT=lwqa_3,B_DEC
 $lwqa_3:lwpa_3:A_BUS_WE,PC_INC,NEW_INSTR
 
 //Load Word Pointer(q) B
-12:lwqb:MAR_SEL=1,MDR_OUT_HIGH_WE,B_INC,DECODE_NEXT=lwqb_2
-$lwqb_2:lwqb_2:MAR_SEL=1,MDR_OUT_LOW_WE,DECODE_NEXT=lwqb_3
+12:lwqb:MAR_SEL=0,AB_OUT_SEL=1,MDR_OUT_HIGH_WE,B_INC,DECODE_NEXT=lwqb_2
+$lwqb_2:lwqb_2:MAR_SEL=0,AB_OUT_SEL=1,MDR_OUT_LOW_WE,DECODE_NEXT=lwqb_3
 $lwqb_3:lwqb_3:B_BUS_WE,PC_INC,NEW_INSTR
 
 
@@ -92,3 +92,10 @@ $lwma_3:lwma_3:A_BUS_WE,DECODE_NEXT=#lwpa
 16:lwmb:MAR_SEL=2,MDR_OUT_HIGH_WE,PC_INC,DECODE_NEXT=lwmb_2
 $lwmb_2:lwmb_2:MAR_SEL=2,MDR_OUT_LOW_WE,PC_INC,DECODE_NEXT=lwmb_3
 $lwmb_3:lwmb_3:B_BUS_WE,DECODE_NEXT=#lwqb
+
+// STORE OPCODES STATUS: UNCOMPLETE
+// Store instructions format - sxxx - s(s)(m)(r)
+// s      s                   m                                                                        r
+// (store)(size:b-byte,w-word)(mode:p-pointer indirect through a,q=pointer indirect through b,m=memory)(reg to store: a or b)
+// Some possibilities may not make sense, such as storing a in the addrs in a. Therefore, the following are the only implemented instructions:
+// sbpb, bwpb, sbqa, swqa, sbma, sbmb, swma, swmb

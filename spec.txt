@@ -1,44 +1,14 @@
-NOTE: THIS FILE IS OUT OF DATE - CHECK microcode/defs.txt for an up-to-date spec.
-This file describes the scp architecture
-Right now, it only includes microcode signals
-
-MICROCODE SIGNALS
------------------
-Unless specified, all signals are active-high
-FORMAT: [indexes]: SIGNAL_NAME - Description
------------------
-	-ALU_AND_GENERAL_REG_UNIT-	
-0: A_BUS_WE - write value from AB_BUS_IN into A
-1: A_ALU_WE - write alu result into A
-2: B_BUS_WE - write value from AB_BUS_IN to B
-3: B_A_WE - write value from A into B
-[8:4]: ALU_OP - operation for alu to perform - see quartus/alu/alu.v for specific ops
-	-BUS MUXES-
-[10:9]: AB_BUS_IN_SEL - selects the value to be put on the AB_BUS_IN, 0=PC, 1=MDR(_OUT_BYTE_SHIFT_REG), 2=SP, 3=io_data_out
-11: AB_BUS_OUT_SEL - selects which register the AB_BUS_OUT should be equal to, 0=A, 1=B
-	-AB_BUS_OUT WE'S-
-12: PC_BUS_WE - writes value from AB_BUS_OUT into PC
-13: SP_BUS_WE - writes value from AB_BUS_OUT into SP
-14: BP_BUS_WE - writes value from AB_BUS_OUT into BP
-15: IO_DATA_BUS_WE - writes value from AB_BUS_OUT into io_data
-16: IO_ADDR_BUS_WE - writes value from AB_BUS_OUT into io_addr
-	-RAM_AND_MDR-
-17: MDR_IN_BYTE_SEL - chooses which byte from AB_BUS_OUT goes into MDR, 0=low byte, 1=high byte
-18: MDR_OUT_BYTE_LOW_WE - writes the value from MDR into MDR_OUT_BYTE_SHIFT_REG's low byte
-19: MDR_OUT_BYTE_HIGH_WE - writes the value from MDR into MDR_OUT_BYTE_SHIFT_REGS's high byte
-20: RAM_ADDR_WE - writes the value from the MMU into the RAM's MAR
-21: RAM_DATA_WE - writes the MDR into memory
-	-MAR_CTRL-
-22: PC_INC - increment the PC
-23: SP_INC - increment the SP
-24: SP_DEC - deincrement the SP
-[26:25]: MAR_MUX_SEL - selects which value from the MAR_MUX goes into the MMU's addrs_in, 0=A_REG, 1=PC, 2=SP, 3=0
-	-DECODE-
-27: IR_WE - writes value from MDR into IR
-[29:28]: DECODE_NEXT_SEL - selects the value to go into decode rom's addr, 0=MDR, 1=IR, 2=DECODE_NEXT, 3=0
-[39:30]: DECODE_NEXT - next instruction to decode if DECODE_MUX_SEL = 2
-	-SYS-
-40: PRIVILAGE_WE - set the privilage level
-41: PRIVILAGE_SET_LEVEL - level to set privilage to
-42: RST - resets the value of all registers
-43: IO_WE - set io_we
+23 1024
+[9:0]: DECODE_NEXT - Addrs of next microinstruction
+10: NEW_INSTR - Decode IR instead of DECODE_NEXT
+11: PC_INC - Increment the PC - microcode instructions should increment the PC in the same cycle as NEW_INSTR, so that each instr is entered with PC set to the bit after it
+12: MDR_OUT_HIGH_WE - latch mdr into high byte
+13: MDR_OUT_LOW_WE - latch mdr into low byte
+[15:14]: MAR_SEL - 0=A, 1=B, 2=PC, 3=SP
+16: A_BUS_WE - set a to value on bus
+17: B_BUS_WE - set b to value on bus
+18: A_INC - increment a
+19: A_DEC - deincrement a
+20: B_INC - increment b
+21: B_DEC - deincrement b
+22: MDR_HIGH_RST - set high byte of mdr to zero

@@ -43,7 +43,7 @@ module rom_mega (
 
 	input	[9:0]  address;
 	input	  clock;
-	output	[22:0]  q;
+	output	[23:0]  q;
 `ifndef ALTERA_RESERVED_QIS
 // synopsys translate_off
 `endif
@@ -52,8 +52,8 @@ module rom_mega (
 // synopsys translate_on
 `endif
 
-	wire [22:0] sub_wire0;
-	wire [22:0] q = sub_wire0[22:0];
+	wire [23:0] sub_wire0;
+	wire [23:0] q = sub_wire0[23:0];
 
 	altsyncram	altsyncram_component (
 				.address_a (address),
@@ -71,7 +71,7 @@ module rom_mega (
 				.clocken1 (1'b1),
 				.clocken2 (1'b1),
 				.clocken3 (1'b1),
-				.data_a ({23{1'b1}}),
+				.data_a ({24{1'b1}}),
 				.data_b (1'b1),
 				.eccstatus (),
 				.q_b (),
@@ -92,7 +92,7 @@ module rom_mega (
 		altsyncram_component.outdata_aclr_a = "NONE",
 		altsyncram_component.outdata_reg_a = "UNREGISTERED",
 		altsyncram_component.widthad_a = 10,
-		altsyncram_component.width_a = 23,
+		altsyncram_component.width_a = 24,
 		altsyncram_component.width_byteena_a = 1;
 
 
@@ -127,7 +127,7 @@ endmodule
 // Retrieval info: PRIVATE: SingleClock NUMERIC "1"
 // Retrieval info: PRIVATE: UseDQRAM NUMERIC "0"
 // Retrieval info: PRIVATE: WidthAddr NUMERIC "10"
-// Retrieval info: PRIVATE: WidthData NUMERIC "23"
+// Retrieval info: PRIVATE: WidthData NUMERIC "24"
 // Retrieval info: PRIVATE: rden NUMERIC "0"
 // Retrieval info: LIBRARY: altera_mf altera_mf.altera_mf_components.all
 // Retrieval info: CONSTANT: ADDRESS_ACLR_A STRING "NONE"
@@ -142,14 +142,14 @@ endmodule
 // Retrieval info: CONSTANT: OUTDATA_ACLR_A STRING "NONE"
 // Retrieval info: CONSTANT: OUTDATA_REG_A STRING "UNREGISTERED"
 // Retrieval info: CONSTANT: WIDTHAD_A NUMERIC "10"
-// Retrieval info: CONSTANT: WIDTH_A NUMERIC "23"
+// Retrieval info: CONSTANT: WIDTH_A NUMERIC "24"
 // Retrieval info: CONSTANT: WIDTH_BYTEENA_A NUMERIC "1"
 // Retrieval info: USED_PORT: address 0 0 10 0 INPUT NODEFVAL "address[9..0]"
 // Retrieval info: USED_PORT: clock 0 0 0 0 INPUT VCC "clock"
-// Retrieval info: USED_PORT: q 0 0 23 0 OUTPUT NODEFVAL "q[22..0]"
+// Retrieval info: USED_PORT: q 0 0 24 0 OUTPUT NODEFVAL "q[23..0]"
 // Retrieval info: CONNECT: @address_a 0 0 10 0 address 0 0 10 0
 // Retrieval info: CONNECT: @clock0 0 0 0 0 clock 0 0 0 0
-// Retrieval info: CONNECT: q 0 0 23 0 @q_a 0 0 23 0
+// Retrieval info: CONNECT: q 0 0 24 0 @q_a 0 0 24 0
 // Retrieval info: GEN_FILE: TYPE_NORMAL rom_mega.v TRUE
 // Retrieval info: GEN_FILE: TYPE_NORMAL rom_mega.inc FALSE
 // Retrieval info: GEN_FILE: TYPE_NORMAL rom_mega.cmp FALSE
