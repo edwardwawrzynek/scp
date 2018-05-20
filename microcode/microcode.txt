@@ -7,12 +7,12 @@
 
 //Load Immediate - Status: COMPLETE + CONFIRMED(for now)
 
-//Load Byte Immediate A
-1:lbia:MDR_OUT_LOW_WE,MAR_SEL=2,PC_INC,DECODE_NEXT=lbia_2
+//Load Byte Immediate A, set high mdr to zero
+1:lbia:MDR_OUT_LOW_WE,MAR_SEL=2,PC_INC,DECODE_NEXT=lbia_2,MDR_HIGH_RST
 $lbia_2:lbia_2:PC_INC,NEW_INSTR, A_BUS_WE
 
 //Load Byte Immediate B
-2:lbib:MDR_OUT_LOW_WE,MAR_SEL=2,PC_INC,DECODE_NEXT=lbib_2
+2:lbib:MDR_OUT_LOW_WE,MAR_SEL=2,PC_INC,DECODE_NEXT=lbib_2,MDR_HIGH_RST
 $lbib_2:lbib_2:PC_INC,NEW_INSTR, B_BUS_WE
 
 //Load Word Immediate A
@@ -28,11 +28,11 @@ $lwib_3:lwib_3:PC_INC,NEW_INSTR, B_BUS_WE
 //Load Pointer(p) (INDIRECT FROM ADDR'S IN A) - Status: COMPLETE + CONFIRMED (for now)
 
 //Load Byte Pointer(p) A
-5:lbpa:MAR_SEL=0,MDR_OUT_LOW_WE,DECODE_NEXT=lbpa_2
+5:lbpa:MAR_SEL=0,MDR_OUT_LOW_WE,DECODE_NEXT=lbpa_2,MDR_HIGH_RST
 $lbpa_2:lbpa_2:A_BUS_WE,PC_INC,NEW_INSTR
 
 //Load Byte Pointer(p) B
-6:lbpb:MAR_SEL=0,MDR_OUT_LOW_WE,DECODE_NEXT=lbpb_2
+6:lbpb:MAR_SEL=0,MDR_OUT_LOW_WE,DECODE_NEXT=lbpb_2,MDR_HIGH_RST
 $lbpb_2:lbpb_2:B_BUS_WE,PC_INC,NEW_INSTR
 
 //Load Word Pointer(p) A
@@ -48,23 +48,34 @@ $lwpb_3:lwpb_3:B_BUS_WE,PC_INC,NEW_INSTR
 //Load Pointer(q) (INDIRECT FROM ADDR'S IN B) - Status: INCOMPLETE
 
 //Load Byte Pointer(q) A
-9:lbqa:PC_INC
+9:lbqa:MAR_SEL=1,MDR_OUT_LOW_WE,DECODE_NEXT=lbqa_2,MDR_HIGH_RST
+$lbqa_2:lbpa_2:A_BUS_WE,PC_INC,NEW_INSTR
 
 //Load Byte Pointer(q) B
-10:lbqb:PC_INC
+10:lbqb:MAR_SEL=1,MDR_OUT_LOW_WE,DECODE_NEXT=lbqb_2,MDR_HIGH_RST
+$lbqb_2:lbpb_2:B_BUS_WE,PC_INC,NEW_INSTR
 
 //Load Word Pointer(q) A
-11:lwqa:PC_INC
+11:lwqa:MAR_SEL=1,MDR_OUT_HIGH_WE,DECODE_NEXT=lwqa_2,B_INC
+$lwqa_2:lwpa_2:MAR_SEL=1,MDR_OUT_LOW_WE,DECODE_NEXT=lwqa_3,B_DEC
+$lwqa_3:lwpa_3:A_BUS_WE,PC_INC,NEW_INSTR
 
 //Load Word Pointer(q) B
-12:lwqb:PC_INC
+12:lwqb:MAR_SEL=1,MDR_OUT_HIGH_WE,B_INC,DECODE_NEXT=lwqb_2
+$lwqb_2:lwqb_2:MAR_SEL=1,MDR_OUT_LOW_WE,DECODE_NEXT=lwqb_3
+$lwqb_3:lwqb_3:B_BUS_WE,PC_INC,NEW_INSTR
 
 
 //Load Memory - Status: INCOMPLETE
 
 //Load Byte Memory A - call lbpa to finish
+
 13:lbma:MAR_SEL=2,MDR_OUT_HIGH_WE,PC_INC,DECODE_NEXT=lbma_2
 $lbma_2:lbma_2:MAR_SEL=2,MDR_OUT_LOW_WE,PC_INC,DECODE_NEXT=lbma_3
 $lbma_3:lbma_3:A_BUS_WE,DECODE_NEXT=5
 
 //Load Byte Memory B - call lbqb to finish
+
+14:lbmb:MAR_SEL=2,MDR_OUT_HIGH_WE,PC_INC,DECODE_NEXT=lbmb_2
+$lbmb_2:lbmb_2:MAR_SEL=2,MDR_OUT_LOW_WE,PC_INC,DECODE_NEXT=lbmb_3
+$lbmb_3:lbmb_3:B_BUS_WE,DECODE_NEXT=10
