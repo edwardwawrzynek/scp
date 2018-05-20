@@ -1,6 +1,7 @@
 //Nop instruction, also first instruction ran when cpu starts, so to give time for memory to load first instr
 0:nop: NEW_INSTR, PC_INC
 
+// LOAD OPCODES 1-16 STATUS: COMPLETE + CONFIRMED
 // Load instructions format - lxxx - l(s)(m)(r)
 // l      s                   m                                                                                   r
 // (load)(size:b-byte,w-word)(mode:i-immediate,m-memory,p-pointer indirect through a,q=pointer indirect through b)(reg to load into: a or b)
@@ -45,7 +46,7 @@ $lwpa_3:lwpa_3:A_BUS_WE,PC_INC,NEW_INSTR
 $lwpb_2:lwpb_2:MAR_SEL=0,MDR_OUT_LOW_WE,DECODE_NEXT=lwpb_3,A_DEC
 $lwpb_3:lwpb_3:B_BUS_WE,PC_INC,NEW_INSTR
 
-//Load Pointer(q) (INDIRECT FROM ADDR'S IN B) - Status: INCOMPLETE
+//Load Pointer(q) (INDIRECT FROM ADDR'S IN B) - Status: COMPLETE + CONFIRMED (for now)
 
 //Load Byte Pointer(q) A
 9:lbqa:MAR_SEL=1,MDR_OUT_LOW_WE,DECODE_NEXT=lbqa_2,MDR_HIGH_RST
@@ -66,7 +67,7 @@ $lwqb_2:lwqb_2:MAR_SEL=1,MDR_OUT_LOW_WE,DECODE_NEXT=lwqb_3
 $lwqb_3:lwqb_3:B_BUS_WE,PC_INC,NEW_INSTR
 
 
-//Load Memory - Status: INCOMPLETE
+//Load Memory - Status: COMPLETE + CONFIRMED (for now)
 
 //Load Byte Memory A - call lbpa to finish
 
@@ -79,3 +80,15 @@ $lbma_3:lbma_3:A_BUS_WE,DECODE_NEXT=5
 14:lbmb:MAR_SEL=2,MDR_OUT_HIGH_WE,PC_INC,DECODE_NEXT=lbmb_2
 $lbmb_2:lbmb_2:MAR_SEL=2,MDR_OUT_LOW_WE,PC_INC,DECODE_NEXT=lbmb_3
 $lbmb_3:lbmb_3:B_BUS_WE,DECODE_NEXT=10
+
+//Load Word Memory A - call lwpa to finish
+
+15:lwma:MAR_SEL=2,MDR_OUT_HIGH_WE,PC_INC,DECODE_NEXT=lwma_2
+$lwma_2:lwma_2:MAR_SEL=2,MDR_OUT_LOW_WE,PC_INC,DECODE_NEXT=lwma_3
+$lwma_3:lwma_3:A_BUS_WE,DECODE_NEXT=7
+
+//Load Word Memory B - call lwqb to finish
+
+16:lwmb:MAR_SEL=2,MDR_OUT_HIGH_WE,PC_INC,DECODE_NEXT=lwmb_2
+$lwmb_2:lwmb_2:MAR_SEL=2,MDR_OUT_LOW_WE,PC_INC,DECODE_NEXT=lwmb_3
+$lwmb_3:lwmb_3:B_BUS_WE,DECODE_NEXT=12
