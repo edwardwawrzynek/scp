@@ -5,7 +5,7 @@
 // l      s                   m                                                                                   r
 // (load)(size:b-byte,w-word)(mode:i-immediate,m-memory,p-pointer indirect through a,q=pointer indirect through b)(reg to load into: a or b)
 
-//Load Immediate - Status: COMPLETE (for now)
+//Load Immediate - Status: COMPLETE + CONFIRMED(for now)
 
 //Load Byte Immediate A
 1:lbia:MDR_OUT_LOW_WE,MAR_SEL=2,PC_INC,DECODE_NEXT=lbia_2
@@ -25,7 +25,7 @@ $lwia_3:lwia_3:PC_INC,NEW_INSTR, A_BUS_WE
 $lwib_2:lwib_2:MDR_OUT_LOW_WE,MAR_SEL=2,PC_INC,DECODE_NEXT=lwib_3
 $lwib_3:lwib_3:PC_INC,NEW_INSTR, B_BUS_WE
 
-//Load Pointer(p) (INDIRECT FROM ADDR'S IN A) - Status: INCOMPLETE
+//Load Pointer(p) (INDIRECT FROM ADDR'S IN A) - Status: COMPLETE + CONFIRMED (for now)
 
 //Load Byte Pointer(p) A
 5:lbpa:MAR_SEL=0,MDR_OUT_LOW_WE,DECODE_NEXT=lbpa_2
@@ -44,3 +44,27 @@ $lwpa_3:lwpa_3:A_BUS_WE,PC_INC,NEW_INSTR
 8:lwpb:MAR_SEL=0,MDR_OUT_HIGH_WE,A_INC,DECODE_NEXT=lwpb_2
 $lwpb_2:lwpb_2:MAR_SEL=0,MDR_OUT_LOW_WE,DECODE_NEXT=lwpb_3,A_DEC
 $lwpb_3:lwpb_3:B_BUS_WE,PC_INC,NEW_INSTR
+
+//Load Pointer(q) (INDIRECT FROM ADDR'S IN B) - Status: INCOMPLETE
+
+//Load Byte Pointer(q) A
+9:lbqa:PC_INC
+
+//Load Byte Pointer(q) B
+10:lbqb:PC_INC
+
+//Load Word Pointer(q) A
+11:lwqa:PC_INC
+
+//Load Word Pointer(q) B
+12:lwqb:PC_INC
+
+
+//Load Memory - Status: INCOMPLETE
+
+//Load Byte Memory A - call lbpa to finish
+13:lbma:MAR_SEL=2,MDR_OUT_HIGH_WE,PC_INC,DECODE_NEXT=lbma_2
+$lbma_2:lbma_2:MAR_SEL=2,MDR_OUT_LOW_WE,PC_INC,DECODE_NEXT=lbma_3
+$lbma_3:lbma_3:A_BUS_WE,DECODE_NEXT=5
+
+//Load Byte Memory B - call lbqb to finish

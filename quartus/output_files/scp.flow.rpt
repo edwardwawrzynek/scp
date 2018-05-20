@@ -1,5 +1,5 @@
 Flow report for scp
-Sat May 19 21:40:39 2018
+Sat May 19 21:50:59 2018
 Quartus Prime Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
 
 
@@ -40,7 +40,7 @@ refer to the applicable agreement for further details.
 +-------------------------------------------------------------------------------+
 ; Flow Summary                                                                  ;
 +---------------------------------+---------------------------------------------+
-; Flow Status                     ; Successful - Sat May 19 21:40:39 2018       ;
+; Flow Status                     ; Successful - Sat May 19 21:50:59 2018       ;
 ; Quartus Prime Version           ; 17.1.0 Build 590 10/25/2017 SJ Lite Edition ;
 ; Revision Name                   ; scp                                         ;
 ; Top-level Entity Name           ; scp                                         ;
@@ -122,7 +122,13 @@ refer to the applicable agreement for further details.
 ; MIF/HEX Update            ; 00:00:03     ; 1.0                     ; 1288 MB             ; 00:00:03                           ;
 ; Assembler                 ; 00:00:07     ; 1.0                     ; 984 MB              ; 00:00:07                           ;
 ; EDA Netlist Writer        ; 00:00:02     ; 1.0                     ; 1216 MB             ; 00:00:02                           ;
-; Total                     ; 00:02:44     ; --                      ; --                  ; 00:04:44                           ;
+; MIF/HEX Update            ; 00:00:03     ; 1.0                     ; 1291 MB             ; 00:00:03                           ;
+; Assembler                 ; 00:00:07     ; 1.0                     ; 983 MB              ; 00:00:07                           ;
+; EDA Netlist Writer        ; 00:00:02     ; 1.0                     ; 1220 MB             ; 00:00:02                           ;
+; MIF/HEX Update            ; 00:00:03     ; 1.0                     ; 1297 MB             ; 00:00:03                           ;
+; Assembler                 ; 00:00:07     ; 1.0                     ; 992 MB              ; 00:00:07                           ;
+; EDA Netlist Writer        ; 00:00:02     ; 1.0                     ; 1222 MB             ; 00:00:02                           ;
+; Total                     ; 00:03:08     ; --                      ; --                  ; 00:05:08                           ;
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 
@@ -145,6 +151,12 @@ refer to the applicable agreement for further details.
 ; MIF/HEX Update            ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
 ; Assembler                 ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
 ; EDA Netlist Writer        ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; MIF/HEX Update            ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; Assembler                 ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; EDA Netlist Writer        ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; MIF/HEX Update            ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; Assembler                 ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; EDA Netlist Writer        ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
 +---------------------------+-------------------+--------------+------------+----------------+
 
 
@@ -155,6 +167,12 @@ quartus_map --read_settings_files=on --write_settings_files=off scp -c scp
 quartus_fit --read_settings_files=off --write_settings_files=off scp -c scp
 quartus_asm --read_settings_files=off --write_settings_files=off scp -c scp
 quartus_sta scp -c scp
+quartus_eda --read_settings_files=off --write_settings_files=off scp -c scp
+quartus_cdb scp -c scp --update_mif
+quartus_asm --read_settings_files=on --write_settings_files=off scp -c scp
+quartus_eda --read_settings_files=off --write_settings_files=off scp -c scp
+quartus_cdb scp -c scp --update_mif
+quartus_asm --read_settings_files=on --write_settings_files=off scp -c scp
 quartus_eda --read_settings_files=off --write_settings_files=off scp -c scp
 quartus_cdb scp -c scp --update_mif
 quartus_asm --read_settings_files=on --write_settings_files=off scp -c scp
