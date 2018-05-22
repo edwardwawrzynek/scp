@@ -98,4 +98,11 @@ $lwmb_3:lwmb_3:B_BUS_WE,DECODE_NEXT=#lwqb
 // s      s                   m                                                                        r
 // (store)(size:b-byte,w-word)(mode:p-pointer indirect through a,q=pointer indirect through b,m=memory)(reg to store: a or b)
 // Some possibilities may not make sense, such as storing a in the addrs in a. Therefore, the following are the only implemented instructions:
-// sbpb, bwpb, sbqa, swqa, sbma, sbmb, swma, swmb
+// sbpb, swpb, sbqa, swqa, sbma, sbmb, swma, swmb
+
+//Store Pointer(p) Instructions
+
+//Store byte pointer(p) b - *a=(byte)b
+17:sbpa:AB_OUT_SEL=0,MDR_AB_SEL=1,MDR_OUT_BYTE_SEL=0,MEM_WE,PC_INC,NEW_INSTR
+
+//Store word pointer(p) b - *a=b
