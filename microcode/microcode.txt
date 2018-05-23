@@ -106,3 +106,11 @@ $lwmb_3:lwmb_3:B_BUS_WE,DECODE_NEXT=#lwqb
 17:sbpa:AB_OUT_SEL=0,MDR_AB_SEL=1,MDR_OUT_BYTE_SEL=0,MEM_WE,PC_INC,NEW_INSTR
 
 //Store word pointer(p) b - *a=b
+18:swpb:AB_OUT_SEL=0,MDR_AB_SEL=1,MDR_OUT_BYTE_SEL=1,MEM_WE,DECODE_NEXT=swpb_2,A_INC
+$swpb_2:swpb_2:AB_OUT_SEL=0,MDR_AB_SEL=1,MDR_OUT_BYTE_SEL=0,MEM_WE,PC_INC,NEW_INSTR,A_DEC
+
+//Store Pointer(q) Instructions
+
+//Store Byte pointer(q) a - *b=(byte)a
+19:sbqa:AB_OUT_SEL=1,MDR_AB_SEL=0,MDR_OUT_BYTE_SEL=0,MEM_WE,PC_INC,NEW_INSTR
+
