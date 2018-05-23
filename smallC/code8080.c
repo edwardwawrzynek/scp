@@ -7,7 +7,7 @@
 #include "defs.h"
 #include "data.h"
 
-/*      Define ASNM and LDNM to the names of the assembler and linker
+/*     Define ASNM and LDNM to the names of the assembler and linker
         respectively */
 
 /*

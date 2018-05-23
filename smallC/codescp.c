@@ -382,7 +382,7 @@ gen_modify_stack(int newstkp) {
     int k;
 
     k = newstkp - stkp;
-    if (k == 0)
+    /*if (k == 0)
         return (newstkp);
     if (k > 0) {
         if (k < 7) {
@@ -416,6 +416,10 @@ gen_modify_stack(int newstkp) {
     output_line ("dad \tsp");
     output_line ("sphl");
     gen_swap ();
+    return (newstkp);*/
+    output_string("\tmdsp\t");
+    output_decimal(k);
+    newline();
     return (newstkp);
 }
 
