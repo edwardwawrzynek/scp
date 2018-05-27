@@ -93,7 +93,7 @@ $lwma_3:lwma_3:A_BUS_WE,DECODE_NEXT=#lwpa
 $lwmb_2:lwmb_2:MAR_SEL=2,MDR_OUT_LOW_WE,PC_INC,DECODE_NEXT=lwmb_3
 $lwmb_3:lwmb_3:B_BUS_WE,DECODE_NEXT=#lwqb
 
-// STORE OPCODES STATUS: COMPLETE + COMFIRMED
+// STORE OPCODES 17-24 STATUS: COMPLETE + COMFIRMED
 // Store instructions format - sxxx - s(s)(m)(r)
 // s      s                   m                                                                        r
 // (store)(size:b-byte,w-word)(mode:p-pointer indirect through a,q=pointer indirect through b,m=memory)(reg to store: a or b)
