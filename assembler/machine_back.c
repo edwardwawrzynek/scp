@@ -6,8 +6,6 @@
 
 FILE *asm_file;
 
-//Lines limited to 80 chars
-char buf[80];
 
 //Open assembly file
 int open_asm(char *name){
@@ -26,10 +24,9 @@ int file_restart(){
   return 0;
 }
 
-//Get a line from the file, and return a pointer to buf
-char *get_line(){
-
-  return buf;
+//Read a char from the file
+unsigned char read(){
+  return fgetc(asm_file);
 }
 
 

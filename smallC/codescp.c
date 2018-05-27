@@ -29,9 +29,9 @@ void header () {
     frontend_version();
     newline ();
     output_string (";\tprogram area SMALLC_GENERATED is RELOCATABLE\n");
-    output_line (".module SMALLC_GENERATED");
-    output_line (".list   (err, loc, bin, eqt, cyc, lin, src, lst, md)");
-    output_line (".nlist  (pag)");
+    output_line(".module\tSMALLC_GENERATED");
+    //output_line (".list   (err, loc, bin, eqt, cyc, lin, src, lst, md)");
+    //output_line (".nlist  (pag)");
 }
 
 /**
@@ -84,14 +84,16 @@ void trailer() {
  * text (code) segment
  */
 void code_segment_gtext() {
-    output_line (".area  SMALLC_GENERATED  (REL,CON,CSEG)");
+    //output_line (".area  SMALLC_GENERATED  (REL,CON,CSEG)");
+    output_string (";\tCode Segment\n");
 }
 
 /**
  * data segment
  */
 void data_segment_gdata() {
-    output_line (".area  SMALLC_GENERATED_DATA  (REL,CON,DSEG)");
+    //output_line (".area  SMALLC_GENERATED_DATA  (REL,CON,DSEG)");
+    output_string (";\tData Segment\n");
 }
 
 /**
@@ -100,7 +102,7 @@ void data_segment_gdata() {
  */
 void ppubext(SYMBOL *scptr)  {
     if (symbol_table[current_symbol_table_idx].storage == STATIC) return;
-    output_with_tab (scptr->storage == EXTERN ? ";extrn\t" : ".globl\t");
+    output_string (scptr->storage == EXTERN ? ";\textrn\t" : ";\tglobl\t");
     output_string (scptr->name);
     newline();
 }
@@ -111,7 +113,7 @@ void ppubext(SYMBOL *scptr)  {
  */
 void fpubext(SYMBOL *scptr) {
     if (scptr->storage == STATIC) return;
-    output_with_tab (scptr->offset == FUNCTION ? ".globl\t" : ";extrn\t");
+    output_string (scptr->offset == FUNCTION ? ";\tglobl\t" : ";\textrn\t");
     output_string (scptr->name);
     newline ();
 }
