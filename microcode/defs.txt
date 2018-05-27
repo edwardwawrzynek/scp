@@ -15,4 +15,7 @@
 23: AB_OUT_SEL - select reg on ab bus out, 0=A, 1=B
 24: MDR_OUT_BYTE_SEL - selects from MDR_AB_SEL byte to be put on mdr out 0=low, 1=high
 25: MEM_WE - write byte from mdr sel into memory
-26: MDR_AB_SEL - selects which reg to be put into MDR_OUT_BYTE_SEL 
+26: MDR_AB_SEL - selects which reg to be put into MDR_OUT_BYTE_SEL
+27: MDR_INC - increments the mdr reg
+28: A_ALU_WE - write alu to a
+29: B_A_WE - write b to a

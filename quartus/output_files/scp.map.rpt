@@ -1,5 +1,5 @@
 Analysis & Synthesis report for scp
-Thu May 24 17:50:38 2018
+Sat May 26 18:43:51 2018
 Quartus Prime Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
 
 
@@ -15,19 +15,18 @@ Quartus Prime Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
   7. Analysis & Synthesis Resource Utilization by Entity
   8. Analysis & Synthesis RAM Summary
   9. Analysis & Synthesis IP Cores Summary
- 10. Registers Removed During Synthesis
- 11. General Register Statistics
- 12. Multiplexer Restructuring Statistics (Restructuring Performed)
- 13. Source assignments for rom_mega:DECODE_ROM|altsyncram:altsyncram_component|altsyncram_skh1:auto_generated
- 14. Source assignments for ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_63r2:auto_generated
- 15. Parameter Settings for User Entity Instance: rom_mega:DECODE_ROM|altsyncram:altsyncram_component
- 16. Parameter Settings for User Entity Instance: pll:inst9|pll_0002:pll_inst|altera_pll:altera_pll_i
- 17. Parameter Settings for User Entity Instance: ram_mega:RAM|altsyncram:altsyncram_component
- 18. altsyncram Parameter Settings by Entity Instance
- 19. Post-Synthesis Netlist Statistics for Top Partition
- 20. Elapsed Time Per Partition
- 21. Analysis & Synthesis Messages
- 22. Analysis & Synthesis Suppressed Messages
+ 10. General Register Statistics
+ 11. Multiplexer Restructuring Statistics (Restructuring Performed)
+ 12. Source assignments for rom_mega:DECODE_ROM|altsyncram:altsyncram_component|altsyncram_skh1:auto_generated
+ 13. Source assignments for ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_63r2:auto_generated
+ 14. Parameter Settings for User Entity Instance: rom_mega:DECODE_ROM|altsyncram:altsyncram_component
+ 15. Parameter Settings for User Entity Instance: pll:inst9|pll_0002:pll_inst|altera_pll:altera_pll_i
+ 16. Parameter Settings for User Entity Instance: ram_mega:RAM|altsyncram:altsyncram_component
+ 17. altsyncram Parameter Settings by Entity Instance
+ 18. Post-Synthesis Netlist Statistics for Top Partition
+ 19. Elapsed Time Per Partition
+ 20. Analysis & Synthesis Messages
+ 21. Analysis & Synthesis Suppressed Messages
 
 
 
@@ -53,16 +52,16 @@ refer to the applicable agreement for further details.
 +-------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                  ;
 +---------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status     ; Successful - Thu May 24 17:50:38 2018       ;
+; Analysis & Synthesis Status     ; Successful - Sat May 26 18:43:51 2018       ;
 ; Quartus Prime Version           ; 17.1.0 Build 590 10/25/2017 SJ Lite Edition ;
 ; Revision Name                   ; scp                                         ;
 ; Top-level Entity Name           ; scp                                         ;
 ; Family                          ; Cyclone V                                   ;
 ; Logic utilization (in ALMs)     ; N/A                                         ;
-; Total registers                 ; 79                                          ;
+; Total registers                 ; 95                                          ;
 ; Total pins                      ; 14                                          ;
 ; Total virtual pins              ; 0                                           ;
-; Total block memory bits         ; 551,936                                     ;
+; Total block memory bits         ; 555,008                                     ;
 ; Total DSP Blocks                ; 0                                           ;
 ; Total HSSI RX PCSs              ; 0                                           ;
 ; Total HSSI PMA RX Deserializers ; 0                                           ;
@@ -226,20 +225,20 @@ refer to the applicable agreement for further details.
 +---------------------------------------------+-------------------+
 ; Resource                                    ; Usage             ;
 +---------------------------------------------+-------------------+
-; Estimate of Logic utilization (ALMs needed) ; 135               ;
+; Estimate of Logic utilization (ALMs needed) ; 167               ;
 ;                                             ;                   ;
-; Combinational ALUT usage for logic          ; 186               ;
+; Combinational ALUT usage for logic          ; 252               ;
 ;     -- 7 input functions                    ; 24                ;
 ;     -- 6 input functions                    ; 57                ;
 ;     -- 5 input functions                    ; 15                ;
-;     -- 4 input functions                    ; 8                 ;
-;     -- <=3 input functions                  ; 82                ;
+;     -- 4 input functions                    ; 10                ;
+;     -- <=3 input functions                  ; 146               ;
 ;                                             ;                   ;
-; Dedicated logic registers                   ; 79                ;
+; Dedicated logic registers                   ; 95                ;
 ;                                             ;                   ;
 ; I/O pins                                    ; 14                ;
 ; Total MLAB memory bits                      ; 0                 ;
-; Total block memory bits                     ; 551936            ;
+; Total block memory bits                     ; 555008            ;
 ;                                             ;                   ;
 ; Total DSP Blocks                            ; 0                 ;
 ;                                             ;                   ;
@@ -248,8 +247,8 @@ refer to the applicable agreement for further details.
 ;                                             ;                   ;
 ; Maximum fan-out node                        ; clk_se:inst11|clk ;
 ; Maximum fan-out                             ; 118               ;
-; Total fan-out                               ; 3498              ;
-; Average fan-out                             ; 9.06              ;
+; Total fan-out                               ; 3776              ;
+; Average fan-out                             ; 8.02              ;
 +---------------------------------------------+-------------------+
 
 
@@ -258,16 +257,17 @@ refer to the applicable agreement for further details.
 +-------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+-----------------------------------------------------------------------------------------------------------+------------------------+--------------+
 ; Compilation Hierarchy Node                ; Combinational ALUTs ; Dedicated Logic Registers ; Block Memory Bits ; DSP Blocks ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                       ; Entity Name            ; Library Name ;
 +-------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+-----------------------------------------------------------------------------------------------------------+------------------------+--------------+
-; |scp                                      ; 186 (1)             ; 79 (0)                    ; 551936            ; 0          ; 14   ; 0            ; |scp                                                                                                      ; scp                    ; work         ;
+; |scp                                      ; 252 (1)             ; 95 (0)                    ; 555008            ; 0          ; 14   ; 0            ; |scp                                                                                                      ; scp                    ; work         ;
+;    |alu:inst1|                            ; 16 (16)             ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|alu:inst1                                                                                            ; alu                    ; work         ;
 ;    |clk_se:inst11|                        ; 2 (2)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|clk_se:inst11                                                                                        ; clk_se                 ; work         ;
 ;    |decode_addr_mux:inst8|                ; 26 (26)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|decode_addr_mux:inst8                                                                                ; decode_addr_mux        ; work         ;
-;    |general_reg:A_REG|                    ; 18 (18)             ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|general_reg:A_REG                                                                                    ; general_reg            ; work         ;
-;    |general_reg:B_REG|                    ; 18 (18)             ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|general_reg:B_REG                                                                                    ; general_reg            ; work         ;
+;    |general_reg:A_REG|                    ; 34 (34)             ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|general_reg:A_REG                                                                                    ; general_reg            ; work         ;
+;    |general_reg:B_REG|                    ; 34 (34)             ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|general_reg:B_REG                                                                                    ; general_reg            ; work         ;
 ;    |manual_clk:inst|                      ; 10 (10)             ; 9 (9)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|manual_clk:inst                                                                                      ; manual_clk             ; work         ;
 ;    |mar_mux:inst6|                        ; 22 (22)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|mar_mux:inst6                                                                                        ; mar_mux                ; work         ;
 ;    |mdr_in_byte_select:inst10|            ; 16 (16)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|mdr_in_byte_select:inst10                                                                            ; mdr_in_byte_select     ; work         ;
 ;    |mdr_in_byte_select:inst14|            ; 8 (8)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|mdr_in_byte_select:inst14                                                                            ; mdr_in_byte_select     ; work         ;
-;    |mdr_out_byte_shift_reg:inst2|         ; 1 (1)               ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|mdr_out_byte_shift_reg:inst2                                                                         ; mdr_out_byte_shift_reg ; work         ;
+;    |mdr_out_byte_shift_reg:inst2|         ; 19 (19)             ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|mdr_out_byte_shift_reg:inst2                                                                         ; mdr_out_byte_shift_reg ; work         ;
 ;    |pc_reg:inst3|                         ; 16 (16)             ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|pc_reg:inst3                                                                                         ; pc_reg                 ; work         ;
 ;    |pll:inst9|                            ; 0 (0)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|pll:inst9                                                                                            ; pll                    ; pll          ;
 ;       |pll_0002:pll_inst|                 ; 0 (0)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|pll:inst9|pll_0002:pll_inst                                                                          ; pll_0002               ; pll          ;
@@ -275,13 +275,13 @@ refer to the applicable agreement for further details.
 ;    |ram_mega:RAM|                         ; 48 (0)              ; 6 (0)                     ; 524288            ; 0          ; 0    ; 0            ; |scp|ram_mega:RAM                                                                                         ; ram_mega               ; work         ;
 ;       |altsyncram:altsyncram_component|   ; 48 (0)              ; 6 (0)                     ; 524288            ; 0          ; 0    ; 0            ; |scp|ram_mega:RAM|altsyncram:altsyncram_component                                                         ; altsyncram             ; work         ;
 ;          |altsyncram_63r2:auto_generated| ; 48 (0)              ; 6 (6)                     ; 524288            ; 0          ; 0    ; 0            ; |scp|ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_63r2:auto_generated                          ; altsyncram_63r2        ; work         ;
-;             |decode_61a:rden_decode_a|    ; 7 (7)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_63r2:auto_generated|decode_61a:rden_decode_a ; decode_61a             ; work         ;
+;             |decode_61a:rden_decode_a|    ; 8 (8)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_63r2:auto_generated|decode_61a:rden_decode_a ; decode_61a             ; work         ;
 ;             |decode_61a:rden_decode_b|    ; 8 (8)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_63r2:auto_generated|decode_61a:rden_decode_b ; decode_61a             ; work         ;
-;             |decode_dla:decode2|          ; 9 (9)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_63r2:auto_generated|decode_dla:decode2       ; decode_dla             ; work         ;
+;             |decode_dla:decode2|          ; 8 (8)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_63r2:auto_generated|decode_dla:decode2       ; decode_dla             ; work         ;
 ;             |mux_tfb:mux4|                ; 24 (24)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_63r2:auto_generated|mux_tfb:mux4             ; mux_tfb                ; work         ;
-;    |rom_mega:DECODE_ROM|                  ; 0 (0)               ; 0 (0)                     ; 27648             ; 0          ; 0    ; 0            ; |scp|rom_mega:DECODE_ROM                                                                                  ; rom_mega               ; work         ;
-;       |altsyncram:altsyncram_component|   ; 0 (0)               ; 0 (0)                     ; 27648             ; 0          ; 0    ; 0            ; |scp|rom_mega:DECODE_ROM|altsyncram:altsyncram_component                                                  ; altsyncram             ; work         ;
-;          |altsyncram_skh1:auto_generated| ; 0 (0)               ; 0 (0)                     ; 27648             ; 0          ; 0    ; 0            ; |scp|rom_mega:DECODE_ROM|altsyncram:altsyncram_component|altsyncram_skh1:auto_generated                   ; altsyncram_skh1        ; work         ;
+;    |rom_mega:DECODE_ROM|                  ; 0 (0)               ; 0 (0)                     ; 30720             ; 0          ; 0    ; 0            ; |scp|rom_mega:DECODE_ROM                                                                                  ; rom_mega               ; work         ;
+;       |altsyncram:altsyncram_component|   ; 0 (0)               ; 0 (0)                     ; 30720             ; 0          ; 0    ; 0            ; |scp|rom_mega:DECODE_ROM|altsyncram:altsyncram_component                                                  ; altsyncram             ; work         ;
+;          |altsyncram_skh1:auto_generated| ; 0 (0)               ; 0 (0)                     ; 30720             ; 0          ; 0    ; 0            ; |scp|rom_mega:DECODE_ROM|altsyncram:altsyncram_component|altsyncram_skh1:auto_generated                   ; altsyncram_skh1        ; work         ;
 +-------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+-----------------------------------------------------------------------------------------------------------+------------------------+--------------+
 Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
 
@@ -307,24 +307,14 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 +--------+--------------+---------+--------------+--------------+--------------------------+-------------------+
 
 
-+-------------------------------------------------------------+
-; Registers Removed During Synthesis                          ;
-+----------------------------------------+--------------------+
-; Register name                          ; Reason for Removal ;
-+----------------------------------------+--------------------+
-; alu:inst1|res[0..15]                   ; Lost fanout        ;
-; Total Number of Removed Registers = 16 ;                    ;
-+----------------------------------------+--------------------+
-
-
 +------------------------------------------------------+
 ; General Register Statistics                          ;
 +----------------------------------------------+-------+
 ; Statistic                                    ; Value ;
 +----------------------------------------------+-------+
-; Total registers                              ; 79    ;
+; Total registers                              ; 95    ;
 ; Number of registers using Synchronous Clear  ; 16    ;
-; Number of registers using Synchronous Load   ; 32    ;
+; Number of registers using Synchronous Load   ; 48    ;
 ; Number of registers using Asynchronous Clear ; 0     ;
 ; Number of registers using Asynchronous Load  ; 0     ;
 ; Number of registers using Clock Enable       ; 64    ;
@@ -337,11 +327,12 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 +--------------------+-----------+---------------+----------------------+------------------------+------------+--------------------------------------------------------------------------------------------------------------------+
 ; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                                                                                         ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+--------------------------------------------------------------------------------------------------------------------+
-; 3:1                ; 16 bits   ; 32 LEs        ; 0 LEs                ; 32 LEs                 ; Yes        ; |scp|general_reg:A_REG|val[11]                                                                                     ;
-; 3:1                ; 16 bits   ; 32 LEs        ; 0 LEs                ; 32 LEs                 ; Yes        ; |scp|general_reg:B_REG|val[3]                                                                                      ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |scp|mdr_out_byte_shift_reg:inst2|val[14]                                                                          ;
-; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; No         ; |scp|mdr_in_byte_select:inst14|out[0]                                                                              ;
-; 5:1                ; 16 bits   ; 48 LEs        ; 48 LEs               ; 0 LEs                  ; No         ; |scp|mar_mux:inst6|mar[13]                                                                                         ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |scp|mdr_out_byte_shift_reg:inst2|val[6]                                                                           ;
+; 4:1                ; 16 bits   ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; Yes        ; |scp|general_reg:A_REG|val[4]                                                                                      ;
+; 4:1                ; 16 bits   ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; Yes        ; |scp|general_reg:B_REG|val[0]                                                                                      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |scp|mdr_out_byte_shift_reg:inst2|val[10]                                                                          ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; No         ; |scp|mdr_in_byte_select:inst14|out[3]                                                                              ;
+; 5:1                ; 16 bits   ; 48 LEs        ; 48 LEs               ; 0 LEs                  ; No         ; |scp|mar_mux:inst6|mar[3]                                                                                          ;
 ; 8:1                ; 8 bits    ; 40 LEs        ; 40 LEs               ; 0 LEs                  ; No         ; |scp|mdr_in_byte_select:inst10|out[6]                                                                              ;
 ; 8:1                ; 8 bits    ; 40 LEs        ; 40 LEs               ; 0 LEs                  ; No         ; |scp|ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_63r2:auto_generated|mux_tfb:mux4|l3_w1_n0_mux_dataout ;
 ; 9:1                ; 8 bits    ; 48 LEs        ; 48 LEs               ; 0 LEs                  ; No         ; |scp|decode_addr_mux:inst8|addr[0]                                                                                 ;
@@ -771,32 +762,32 @@ Note: In order to hide this table in the UI and the text report file, please set
 +-----------------------+-----------------------------+
 ; Type                  ; Count                       ;
 +-----------------------+-----------------------------+
-; arriav_ff             ; 79                          ;
-;     ENA               ; 24                          ;
-;     ENA SCLR          ; 8                           ;
-;     ENA SLD           ; 32                          ;
+; arriav_ff             ; 95                          ;
+;     ENA               ; 16                          ;
+;     ENA SCLR SLD      ; 8                           ;
+;     ENA SLD           ; 40                          ;
 ;     SCLR              ; 8                           ;
-;     plain             ; 7                           ;
-; arriav_lcell_comb     ; 186                         ;
-;     arith             ; 55                          ;
-;         1 data inputs ; 24                          ;
-;         2 data inputs ; 31                          ;
+;     plain             ; 23                          ;
+; arriav_lcell_comb     ; 252                         ;
+;     arith             ; 87                          ;
+;         1 data inputs ; 40                          ;
+;         2 data inputs ; 47                          ;
 ;     extend            ; 24                          ;
 ;         7 data inputs ; 24                          ;
-;     normal            ; 107                         ;
+;     normal            ; 141                         ;
 ;         0 data inputs ; 1                           ;
 ;         1 data inputs ; 1                           ;
-;         2 data inputs ; 5                           ;
-;         3 data inputs ; 20                          ;
-;         4 data inputs ; 8                           ;
+;         2 data inputs ; 6                           ;
+;         3 data inputs ; 51                          ;
+;         4 data inputs ; 10                          ;
 ;         5 data inputs ; 15                          ;
 ;         6 data inputs ; 57                          ;
 ; boundary_port         ; 14                          ;
 ; generic_pll           ; 2                           ;
-; stratixv_ram_block    ; 91                          ;
+; stratixv_ram_block    ; 94                          ;
 ;                       ;                             ;
 ; Max LUT depth         ; 3.00                        ;
-; Average LUT depth     ; 1.95                        ;
+; Average LUT depth     ; 1.91                        ;
 +-----------------------+-----------------------------+
 
 
@@ -815,7 +806,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
-    Info: Processing started: Thu May 24 17:50:18 2018
+    Info: Processing started: Sat May 26 18:43:27 2018
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off scp -c scp
 Info (20032): Parallel compilation is enabled and will use up to 4 processors
 Warning (20031): Parallel compilation is enabled for 4 processors, but there are only 2 processors in the system. Runtime may increase due to over usage of the processor space.
@@ -1058,6 +1049,7 @@ Info (12128): Elaborating entity "general_reg" for hierarchy "general_reg:A_REG"
 Warning (10230): Verilog HDL assignment warning at general_reg.v(28): truncated value with size 32 to match size of target (16) File: /home/edward/scp/quartus/regs/general_reg.v Line: 28
 Warning (10230): Verilog HDL assignment warning at general_reg.v(31): truncated value with size 32 to match size of target (16) File: /home/edward/scp/quartus/regs/general_reg.v Line: 31
 Info (12128): Elaborating entity "mdr_out_byte_shift_reg" for hierarchy "mdr_out_byte_shift_reg:inst2"
+Warning (10230): Verilog HDL assignment warning at mdr_out_byte_shift_reg.v(19): truncated value with size 32 to match size of target (16) File: /home/edward/scp/quartus/ram/mdr_out_byte_shift_reg.v Line: 19
 Info (12128): Elaborating entity "alu" for hierarchy "alu:inst1"
 Warning (10764): Verilog HDL warning at alu.v(21): converting signed shift amount to unsigned File: /home/edward/scp/quartus/alu/alu.v Line: 21
 Warning (10230): Verilog HDL assignment warning at alu.v(39): truncated value with size 24 to match size of target (16) File: /home/edward/scp/quartus/alu/alu.v Line: 39
@@ -1065,9 +1057,6 @@ Info (12128): Elaborating entity "pc_reg" for hierarchy "pc_reg:inst3"
 Warning (10230): Verilog HDL assignment warning at pc_reg.v(17): truncated value with size 32 to match size of target (16) File: /home/edward/scp/quartus/regs/pc_reg.v Line: 17
 Warning (14284): Synthesized away the following node(s):
     Warning (14285): Synthesized away the following RAM node(s):
-        Warning (14320): Synthesized away node "rom_mega:DECODE_ROM|altsyncram:altsyncram_component|altsyncram_skh1:auto_generated|q_a[27]" File: /home/edward/scp/quartus/db/altsyncram_skh1.tdf Line: 601
-        Warning (14320): Synthesized away node "rom_mega:DECODE_ROM|altsyncram:altsyncram_component|altsyncram_skh1:auto_generated|q_a[28]" File: /home/edward/scp/quartus/db/altsyncram_skh1.tdf Line: 622
-        Warning (14320): Synthesized away node "rom_mega:DECODE_ROM|altsyncram:altsyncram_component|altsyncram_skh1:auto_generated|q_a[29]" File: /home/edward/scp/quartus/db/altsyncram_skh1.tdf Line: 643
         Warning (14320): Synthesized away node "rom_mega:DECODE_ROM|altsyncram:altsyncram_component|altsyncram_skh1:auto_generated|q_a[30]" File: /home/edward/scp/quartus/db/altsyncram_skh1.tdf Line: 664
         Warning (14320): Synthesized away node "rom_mega:DECODE_ROM|altsyncram:altsyncram_component|altsyncram_skh1:auto_generated|q_a[31]" File: /home/edward/scp/quartus/db/altsyncram_skh1.tdf Line: 685
         Warning (14320): Synthesized away node "rom_mega:DECODE_ROM|altsyncram:altsyncram_component|altsyncram_skh1:auto_generated|q_a[32]" File: /home/edward/scp/quartus/db/altsyncram_skh1.tdf Line: 706
@@ -1082,7 +1071,6 @@ Warning (19016): Clock multiplexers are found and protected
     Warning (19017): Found clock multiplexer clk_se:inst11|clk File: /home/edward/scp/quartus/mux/clk_se.v Line: 8
     Warning (19017): Found clock multiplexer clk_se:inst11|clk_delayed File: /home/edward/scp/quartus/mux/clk_se.v Line: 10
 Info (286030): Timing-Driven Synthesis is running
-Info (17049): 16 registers lost all their fanouts during netlist optimizations.
 Info (144001): Generated suppressed messages file /home/edward/scp/quartus/output_files/scp.map.smsg
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 4 node(s), including 0 DDIO, 2 PLL, 0 transceiver and 0 LCELL
@@ -1090,17 +1078,17 @@ Warning: RST port on the PLL is not properly connected on instance pll:inst9|pll
     Info: Must be connected
 Warning: RST port on the PLL is not properly connected on instance pll:inst9|pll_0002:pll_inst|altera_pll:altera_pll_i|general[1].gpll. The reset port on the PLL should be connected. If the PLL loses lock for any reason, you might need to manually reset the PLL in order to re-establish lock to the reference clock. File: /home/edward/intelFPGA_lite/17.1/quartus/libraries/megafunctions/altera_pll.v Line: 748
     Info: Must be connected
-Info (21057): Implemented 315 device resources after synthesis - the final resource count might be different
+Info (21057): Implemented 368 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 6 input pins
     Info (21059): Implemented 8 output pins
-    Info (21061): Implemented 208 logic cells
-    Info (21064): Implemented 91 RAM segments
+    Info (21061): Implemented 258 logic cells
+    Info (21064): Implemented 94 RAM segments
     Info (21065): Implemented 2 PLLs
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 29 warnings
-    Info: Peak virtual memory: 1116 megabytes
-    Info: Processing ended: Thu May 24 17:50:38 2018
-    Info: Elapsed time: 00:00:20
-    Info: Total CPU time (on all processors): 00:00:42
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 27 warnings
+    Info: Peak virtual memory: 1129 megabytes
+    Info: Processing ended: Sat May 26 18:43:51 2018
+    Info: Elapsed time: 00:00:24
+    Info: Total CPU time (on all processors): 00:00:48
 
 
 +------------------------------------------+

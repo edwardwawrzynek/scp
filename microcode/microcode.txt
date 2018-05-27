@@ -100,7 +100,7 @@ $lwmb_3:lwmb_3:B_BUS_WE,DECODE_NEXT=#lwqb
 // Some possibilities may not make sense, such as storing a in the addrs in a. Therefore, the following are the only implemented instructions:
 // sbpb, swpb, sbqa, swqa, sbma, sbmb, swma, swmb
 
-//Store Pointer(p) Instructions
+//Store Pointer(p) Instructions - Status: COMPLETE + CONFIRMED
 
 //Store byte pointer(p) b - *a=(byte)b
 17:sbpa:AB_OUT_SEL=0,MDR_AB_SEL=1,MDR_OUT_BYTE_SEL=0,MEM_WE,PC_INC,NEW_INSTR
@@ -109,12 +109,12 @@ $lwmb_3:lwmb_3:B_BUS_WE,DECODE_NEXT=#lwqb
 18:swpb:AB_OUT_SEL=0,MDR_AB_SEL=1,MDR_OUT_BYTE_SEL=1,MEM_WE,DECODE_NEXT=swpb_2,A_INC
 $swpb_2:swpb_2:AB_OUT_SEL=0,MDR_AB_SEL=1,MDR_OUT_BYTE_SEL=0,MEM_WE,PC_INC,NEW_INSTR,A_DEC
 
-//Store Pointer(q) Instructions
+//Store Pointer(q) Instructions - Status: COMPLETE + CONFIRMED
 
 //Store Byte pointer(q) a - *b=(byte)a
 19:sbqa:AB_OUT_SEL=1,MDR_AB_SEL=0,MDR_OUT_BYTE_SEL=0,MEM_WE,PC_INC,NEW_INSTR
 
 //Store word pointer(q) a - *b=a
-20:swqa:AB_OUT_SEL=1,MDR_AB_SEL=0,MDR_OUT_BYTE_SEL=1,MEM_WE,DECODE_NEXT=swqa_2,A_INC
-$swqa_2:swqa_2:AB_OUT_SEL=1,MDR_AB_SEL=0,MDR_OUT_BYTE_SEL=0,MEM_WE,PC_INC,NEW_INSTR,A_DEC
+20:swqa:AB_OUT_SEL=1,MDR_AB_SEL=0,MDR_OUT_BYTE_SEL=1,MEM_WE,DECODE_NEXT=swqa_2,B_INC
+$swqa_2:swqa_2:AB_OUT_SEL=1,MDR_AB_SEL=0,MDR_OUT_BYTE_SEL=0,MEM_WE,PC_INC,NEW_INSTR,B_DEC
 

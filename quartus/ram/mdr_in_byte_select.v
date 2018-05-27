@@ -5,6 +5,6 @@ module mdr_in_byte_select(
 	output [7:0] out
 );
 
-assign out = byte_sel ? in[15:8] : in[7:0];
+assign out = byte_sel ? (in[15:8]) : (in[7:0]);
 
 endmodule

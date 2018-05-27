@@ -1,5 +1,5 @@
 Flow report for scp
-Thu May 24 17:52:15 2018
+Sat May 26 19:01:46 2018
 Quartus Prime Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
 
 
@@ -40,18 +40,18 @@ refer to the applicable agreement for further details.
 +-------------------------------------------------------------------------------+
 ; Flow Summary                                                                  ;
 +---------------------------------+---------------------------------------------+
-; Flow Status                     ; Successful - Thu May 24 17:52:15 2018       ;
+; Flow Status                     ; Successful - Sat May 26 19:01:46 2018       ;
 ; Quartus Prime Version           ; 17.1.0 Build 590 10/25/2017 SJ Lite Edition ;
 ; Revision Name                   ; scp                                         ;
 ; Top-level Entity Name           ; scp                                         ;
 ; Family                          ; Cyclone V                                   ;
 ; Device                          ; 5CSEMA4U23C6                                ;
 ; Timing Models                   ; Final                                       ;
-; Logic utilization (in ALMs)     ; 137 / 15,880 ( < 1 % )                      ;
-; Total registers                 ; 87                                          ;
+; Logic utilization (in ALMs)     ; 173 / 15,880 ( 1 % )                        ;
+; Total registers                 ; 109                                         ;
 ; Total pins                      ; 14 / 314 ( 4 % )                            ;
 ; Total virtual pins              ; 0                                           ;
-; Total block memory bits         ; 551,936 / 2,764,800 ( 20 % )                ;
+; Total block memory bits         ; 555,008 / 2,764,800 ( 20 % )                ;
 ; Total DSP Blocks                ; 0 / 84 ( 0 % )                              ;
 ; Total HSSI RX PCSs              ; 0                                           ;
 ; Total HSSI PMA RX Deserializers ; 0                                           ;
@@ -67,7 +67,7 @@ refer to the applicable agreement for further details.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 05/24/2018 17:50:19 ;
+; Start date & time ; 05/26/2018 18:43:28 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; scp                 ;
 +-------------------+---------------------+
@@ -78,7 +78,7 @@ refer to the applicable agreement for further details.
 +-------------------------------------+----------------------------------------+---------------+-------------+----------------+
 ; Assignment Name                     ; Value                                  ; Default Value ; Entity Name ; Section Id     ;
 +-------------------------------------+----------------------------------------+---------------+-------------+----------------+
-; COMPILER_SIGNATURE_ID               ; 220083050252176.152720581926849        ; --            ; --          ; --             ;
+; COMPILER_SIGNATURE_ID               ; 220083050252176.152738180804076        ; --            ; --          ; --             ;
 ; EDA_OUTPUT_DATA_FORMAT              ; Verilog Hdl                            ; --            ; --          ; eda_simulation ;
 ; EDA_SIMULATION_TOOL                 ; ModelSim-Altera (Verilog)              ; <None>        ; --          ; --             ;
 ; EDA_TIME_SCALE                      ; 1 ps                                   ; --            ; --          ; eda_simulation ;
@@ -108,12 +108,39 @@ refer to the applicable agreement for further details.
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name               ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis      ; 00:00:20     ; 1.0                     ; 1081 MB             ; 00:00:41                           ;
-; Fitter                    ; 00:01:10     ; 1.2                     ; 2279 MB             ; 00:02:26                           ;
-; Assembler                 ; 00:00:07     ; 1.0                     ; 976 MB              ; 00:00:07                           ;
-; TimeQuest Timing Analyzer ; 00:00:12     ; 1.9                     ; 1211 MB             ; 00:00:19                           ;
-; EDA Netlist Writer        ; 00:00:02     ; 1.0                     ; 1214 MB             ; 00:00:02                           ;
-; Total                     ; 00:01:51     ; --                      ; --                  ; 00:03:35                           ;
+; Analysis & Synthesis      ; 00:00:23     ; 1.0                     ; 1096 MB             ; 00:00:47                           ;
+; Fitter                    ; 00:01:38     ; 1.2                     ; 2268 MB             ; 00:03:20                           ;
+; Assembler                 ; 00:00:12     ; 1.0                     ; 974 MB              ; 00:00:12                           ;
+; TimeQuest Timing Analyzer ; 00:00:17     ; 1.9                     ; 1227 MB             ; 00:00:24                           ;
+; EDA Netlist Writer        ; 00:00:04     ; 1.0                     ; 1215 MB             ; 00:00:04                           ;
+; MIF/HEX Update            ; 00:00:04     ; 1.0                     ; 1285 MB             ; 00:00:04                           ;
+; Assembler                 ; 00:00:08     ; 1.0                     ; 977 MB              ; 00:00:07                           ;
+; EDA Netlist Writer        ; 00:00:02     ; 1.0                     ; 1218 MB             ; 00:00:02                           ;
+; MIF/HEX Update            ; 00:00:04     ; 1.0                     ; 1291 MB             ; 00:00:04                           ;
+; Assembler                 ; 00:00:08     ; 1.0                     ; 980 MB              ; 00:00:08                           ;
+; EDA Netlist Writer        ; 00:00:03     ; 1.0                     ; 1219 MB             ; 00:00:03                           ;
+; MIF/HEX Update            ; 00:00:03     ; 1.0                     ; 1291 MB             ; 00:00:03                           ;
+; Assembler                 ; 00:00:08     ; 1.0                     ; 994 MB              ; 00:00:08                           ;
+; EDA Netlist Writer        ; 00:00:02     ; 1.0                     ; 1220 MB             ; 00:00:02                           ;
+; MIF/HEX Update            ; 00:00:03     ; 1.0                     ; 1293 MB             ; 00:00:03                           ;
+; Assembler                 ; 00:00:08     ; 1.0                     ; 995 MB              ; 00:00:07                           ;
+; EDA Netlist Writer        ; 00:00:02     ; 1.0                     ; 1223 MB             ; 00:00:02                           ;
+; MIF/HEX Update            ; 00:00:04     ; 1.0                     ; 1296 MB             ; 00:00:03                           ;
+; Assembler                 ; 00:00:07     ; 1.0                     ; 982 MB              ; 00:00:07                           ;
+; EDA Netlist Writer        ; 00:00:02     ; 1.0                     ; 1225 MB             ; 00:00:02                           ;
+; MIF/HEX Update            ; 00:00:03     ; 1.0                     ; 1297 MB             ; 00:00:03                           ;
+; Assembler                 ; 00:00:07     ; 1.0                     ; 982 MB              ; 00:00:07                           ;
+; EDA Netlist Writer        ; 00:00:02     ; 1.0                     ; 1227 MB             ; 00:00:02                           ;
+; MIF/HEX Update            ; 00:00:04     ; 1.0                     ; 1303 MB             ; 00:00:03                           ;
+; Assembler                 ; 00:00:09     ; 1.0                     ; 990 MB              ; 00:00:09                           ;
+; EDA Netlist Writer        ; 00:00:03     ; 1.0                     ; 1230 MB             ; 00:00:02                           ;
+; MIF/HEX Update            ; 00:00:03     ; 1.0                     ; 1303 MB             ; 00:00:04                           ;
+; Assembler                 ; 00:00:08     ; 1.0                     ; 990 MB              ; 00:00:08                           ;
+; EDA Netlist Writer        ; 00:00:02     ; 1.0                     ; 1231 MB             ; 00:00:02                           ;
+; MIF/HEX Update            ; 00:00:04     ; 1.0                     ; 1303 MB             ; 00:00:04                           ;
+; Assembler                 ; 00:00:08     ; 1.0                     ; 994 MB              ; 00:00:08                           ;
+; EDA Netlist Writer        ; 00:00:02     ; 1.0                     ; 1232 MB             ; 00:00:02                           ;
+; Total                     ; 00:04:37     ; --                      ; --                  ; 00:06:46                           ;
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 
@@ -127,6 +154,33 @@ refer to the applicable agreement for further details.
 ; Assembler                 ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
 ; TimeQuest Timing Analyzer ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
 ; EDA Netlist Writer        ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; MIF/HEX Update            ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; Assembler                 ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; EDA Netlist Writer        ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; MIF/HEX Update            ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; Assembler                 ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; EDA Netlist Writer        ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; MIF/HEX Update            ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; Assembler                 ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; EDA Netlist Writer        ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; MIF/HEX Update            ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; Assembler                 ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; EDA Netlist Writer        ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; MIF/HEX Update            ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; Assembler                 ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; EDA Netlist Writer        ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; MIF/HEX Update            ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; Assembler                 ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; EDA Netlist Writer        ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; MIF/HEX Update            ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; Assembler                 ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; EDA Netlist Writer        ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; MIF/HEX Update            ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; Assembler                 ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; EDA Netlist Writer        ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; MIF/HEX Update            ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; Assembler                 ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; EDA Netlist Writer        ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
 +---------------------------+-------------------+--------------+------------+----------------+
 
 
@@ -137,6 +191,33 @@ quartus_map --read_settings_files=on --write_settings_files=off scp -c scp
 quartus_fit --read_settings_files=off --write_settings_files=off scp -c scp
 quartus_asm --read_settings_files=off --write_settings_files=off scp -c scp
 quartus_sta scp -c scp
+quartus_eda --read_settings_files=off --write_settings_files=off scp -c scp
+quartus_cdb scp -c scp --update_mif
+quartus_asm --read_settings_files=on --write_settings_files=off scp -c scp
+quartus_eda --read_settings_files=off --write_settings_files=off scp -c scp
+quartus_cdb scp -c scp --update_mif
+quartus_asm --read_settings_files=on --write_settings_files=off scp -c scp
+quartus_eda --read_settings_files=off --write_settings_files=off scp -c scp
+quartus_cdb scp -c scp --update_mif
+quartus_asm --read_settings_files=on --write_settings_files=off scp -c scp
+quartus_eda --read_settings_files=off --write_settings_files=off scp -c scp
+quartus_cdb scp -c scp --update_mif
+quartus_asm --read_settings_files=on --write_settings_files=off scp -c scp
+quartus_eda --read_settings_files=off --write_settings_files=off scp -c scp
+quartus_cdb scp -c scp --update_mif
+quartus_asm --read_settings_files=on --write_settings_files=off scp -c scp
+quartus_eda --read_settings_files=off --write_settings_files=off scp -c scp
+quartus_cdb scp -c scp --update_mif
+quartus_asm --read_settings_files=on --write_settings_files=off scp -c scp
+quartus_eda --read_settings_files=off --write_settings_files=off scp -c scp
+quartus_cdb scp -c scp --update_mif
+quartus_asm --read_settings_files=on --write_settings_files=off scp -c scp
+quartus_eda --read_settings_files=off --write_settings_files=off scp -c scp
+quartus_cdb scp -c scp --update_mif
+quartus_asm --read_settings_files=on --write_settings_files=off scp -c scp
+quartus_eda --read_settings_files=off --write_settings_files=off scp -c scp
+quartus_cdb scp -c scp --update_mif
+quartus_asm --read_settings_files=on --write_settings_files=off scp -c scp
 quartus_eda --read_settings_files=off --write_settings_files=off scp -c scp
 
 

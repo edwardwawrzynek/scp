@@ -6,13 +6,17 @@ module mdr_out_byte_shift_reg(
 	input [7:0] in,
 	input byte_high_we,
 	input byte_low_we,
-	input byte_high_rst
+	input byte_high_rst,
+	input inc
 );
 
 always @ (posedge clk)
 	begin
 		if (rst) begin
 			val <= 0;
+		end
+		if (inc) begin
+			val <= val + 1;
 		end
 		if (byte_high_rst) begin
 			val[15:8] <= 0;
