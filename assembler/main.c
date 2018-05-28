@@ -23,8 +23,27 @@ char buf[80];
 //Command Name
 char name[80];
 
-//Current module being compiled
+//Current module being compiled - starts at 0 if no module is specified, 1 if specified
 unsigned int MODULE_NUM = 0;
+
+//Address functions based on backend functions
+//Append a label and position to labels and labels_addr, realloc'ing if needed
+label_append(char *name, unsigned int addr){
+  return base_label_append(name, addr, labels, labels_addr, &labels_append_pos, &labels_allocd);
+}
+
+//get addr for label
+label_addr(char * name){
+  return base_get_addr_for_label(name, labels_allocd, labels, labels_addr);
+}
+//Append a label and position to a module's namespace
+mod_label_append(char *name, unsigned int addr, unsigned int module){
+  return base_label_append(name, addr, mod_labels[module], mod_addr[module], &mod_labels_append_pos[module], &mod_labels_allocd[module]);
+}
+//get addr for label in module's namespace
+mod_label_addr(char *name, unsigned int module){
+  return base_get_addr_for_label(name, mod_labels_allocd[module], mod_labels[module], mod_addr[module]);
+}
 
 //Check if character is valid first letter of label
 isalpha(char c){
@@ -172,9 +191,10 @@ first_pass(){
     //The file is at the first position of a good line - handle the line
     //Module-level label
     if(c == '$'){
-      c = read();
+      //Keep the $ prefix on the addr
       read_line_buf(c);
       buf_label_clear();
+      mod_label_append(buf, addr, MODULE_NUM);
     }
     //Asm command or directive
     else if(c == '\t'){
@@ -199,8 +219,11 @@ main(int argc, char **argv){
   }
   back_init();
   open_asm(argv[1]);
+  //First Pass
   file_restart();
-  //First pass
   first_pass();
+  //Second Pass
+  MODULE_NUM = 0;
+  file_restart();
   back_end();
 }

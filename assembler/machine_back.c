@@ -8,21 +8,40 @@ FILE *asm_file;
 //64 global labels to start, realloced if more needed - labels points to an array of pointers to char arrays
 char **labels;
 //label values
-unsigned int *label_addr;
+unsigned int *labels_addr;
 //label position for appending
 unsigned int labels_append_pos = 0;
 //number of allocated label spots
 unsigned int labels_allocd = 0;
 
+//Hard limit of 32 modules
+#define NUM_MODULES 32
+char **mod_labels[NUM_MODULES];
+unsigned int *mod_addr[NUM_MODULES];
+unsigned int mod_labels_append_pos[NUM_MODULES];
+unsigned int mod_labels_allocd[NUM_MODULES];
+
 //init backend
 int back_init(){
+  unsigned int i;
+  //Init global labels
   labels = (char **) calloc(64, sizeof(char *));
-  label_addr = (unsigned int *) calloc(64, sizeof(unsigned int));
+  labels_addr = (unsigned int *) calloc(64, sizeof(unsigned int));
   if(labels == NULL){
     print("malloc error\n");
     err_exit();
   }
   labels_allocd = 64;
+  //Init modules labels
+  for(i = 0; i < NUM_MODULES; i++){
+    mod_labels[i] = (char **) calloc(64, sizeof(char *));
+    mod_addr[i] = (unsigned int *) calloc(64, sizeof(unsigned int));
+    if(mod_labels[i] == NULL){
+      print("malloc error\n");
+      err_exit();
+    }
+    mod_labels_allocd[i] = 64;
+  }
   return 0;
 }
 
@@ -31,7 +50,7 @@ int back_end(){
   char *l;
   unsigned int pos;
   pos = 0;
-  free(label_addr);
+  free(labels_addr);
   l = labels[0];
   while(l != NULL){
     free(l);
@@ -98,15 +117,6 @@ int base_get_addr_for_label(char *name, unsigned int labels_allocd, char **label
   err_exit();
 }
 
-//Append a label and position to labels and label_addr, realloc'ing if needed
-int label_append(char *name, unsigned int addr){
-  return base_label_append(name, addr, labels, label_addr, &labels_append_pos, &labels_allocd);
-}
-
-//get addr for label
-unsigned int get_addr_for_label(char * name){
-  return base_get_addr_for_label(name, labels_allocd, labels, label_addr);
-}
 
 //Open assembly file
 int open_asm(char *name){
@@ -115,6 +125,7 @@ int open_asm(char *name){
     print("No such file: ");
     print(name);
     print("\n");
+    err_exit();
   }
   return 0;
 }

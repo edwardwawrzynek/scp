@@ -13,3 +13,7 @@ $2:
 	.db	#5
 END:
 ;	.end
+	.module	TEST2
+	lwma	$1
+$1:
+	.db	#255
