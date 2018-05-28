@@ -314,6 +314,40 @@ gen_args(){
   }
 }
 
+//Write out the arg starting at args[pos] in bytes bytes
+second_write_arg(unsigned int pos, unsigned int bytes){
+  unsigned int addr;
+  unsigned int add;
+  unsigned int i;
+  char c;
+  i = 0;
+  add = 0;
+  //Seperate literal to add if present
+  do{
+    c = args[pos+i];
+    i++;
+    //Add if present, and remove from string
+    if(c == '+'){
+      add = atoi(args+pos+i+1);
+      args[pos+i-1] = '\0';
+    }
+  }while(c != '\0');
+  //handle the type of arg
+  //Literal
+  if(args[pos] == '#'){
+    write_num(atoi(args+pos+1)+add, bytes);
+  }
+  //Module Label
+  else if(args[pos] == '$'){
+    addr = mod_label_addr(args+pos, MODULE_NUM);
+    write_num(addr+add, bytes);
+  }
+  //Global Label
+  else if(isalpha(args[pos])){
+    addr = label_addr(args+pos);
+    write_num(addr+add, bytes);
+  }
+}
 //Pass over file, writing opcodes with resolved addr's, and handle directives
 second_pass(){
   char c;
@@ -343,8 +377,11 @@ second_pass(){
       }
       else{
         //Handle Asm command
+        //Get and write opcode
         opcode = get_opcode(name);
-        //Write out args with appropriate byte len
+        write_num(opcode, 1);
+        //Write out arg with appropriate byte len - (note-this will have to change if commands use mutliple args)
+        second_write_arg(0, cmd_lens[opcode]);
       }
     }
   }

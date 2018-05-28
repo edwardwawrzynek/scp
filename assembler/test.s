@@ -2,13 +2,10 @@
 	.module	SCP_TEST
 start:
 	nop 	
-	lwia	#-345
-	lbmb	$2
-	swmb	$1
-	lwma	$1
+	lwia	DATA_SEG+#5
 DATA_SEG:
 $1:
-	.dw	#-1243,#23
+	.dw	#-1243,#23,#12
 $2:
 	.db	#5,#6,#7
 END:
