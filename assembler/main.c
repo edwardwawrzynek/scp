@@ -47,6 +47,16 @@ mod_label_addr(char *name, unsigned int module){
   return base_get_addr_for_label(name, mod_labels_allocd[module], mod_labels[module], mod_addr[module]);
 }
 
+//Write out a number in bytes bytes in little-endian format
+write_num(unsigned int num, unsigned int bytes){
+  unsigned int i;
+  for(i = 0; i < bytes; i++){
+    write(num&0xff);
+    num = num >> 8;
+  }
+  return 0;
+}
+
 //Check if character is valid first letter of label
 isalpha(char c){
         if ((c >= 'a' & c <= 'z') | (c >= 'A' & c <= 'Z')){
@@ -171,6 +181,7 @@ buf_label_clear(){
     c = buf[pos];
   }
   buf[pos] = '\0';
+  return 0;
 }
 
 //Pass over file, getting label addr's
@@ -230,7 +241,8 @@ second_handle_dir(){
         print("\n");
         err_exit();
       }
-      //Write out bytes
+      //Write out byte - +1 to skip #
+      write_num(atoi(args+pos+1), 1);
       pos += strlen(args+pos)+1;
       if(args[pos] == '\0'){
         break;
@@ -245,7 +257,8 @@ second_handle_dir(){
         print("\n");
         err_exit();
       }
-      //Write out words
+      //Write out word - +1 to skip #
+      write_num(atoi(args+pos+1), 2);
       pos += strlen(args+pos)+1;
       if(args[pos] == '\0'){
         break;
@@ -322,11 +335,7 @@ second_pass(){
       read_line_buf(c);
       //put name from buf into name
       gen_name();
-      print(name);
-      print("-");
       gen_args();
-      print(args);
-      print("\n");
       //the buffer contains the line
       if(buf[0] == '.'){
         //Handle the directive

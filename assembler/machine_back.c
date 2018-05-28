@@ -154,8 +154,8 @@ unsigned char read(){
 }
 
 //Write a char to file
-int write(char c){
-  return fputc(c, asm_file);
+int write(unsigned char c){
+  return fputc(c, out_file);
 }
 
 //Print out
