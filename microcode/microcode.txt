@@ -141,3 +141,53 @@ $swma_4:swma_4:MAR_SEL=1,MDR_AB_SEL=0,MDR_OUT_BYTE_SEL=0,MEM_WE,PC_INC,NEW_INSTR
 $swmb_2:swmb_2:MDR_OUT_HIGH_WE,MAR_SEL=2,PC_INC,DECODE_NEXT=swmb_3
 $swmb_3:swmb_3:MAR_SEL=1,MDR_AB_SEL=1,MDR_OUT_BYTE_SEL=1,MEM_WE,MDR_INC,DECODE_NEXT=swmb_4
 $swmb_4:swmb_4:MAR_SEL=1,MDR_AB_SEL=1,MDR_OUT_BYTE_SEL=0,MEM_WE,PC_INC,NEW_INSTR
+
+//ALU OP OPCODES STATUS: COMPLETE + CONFIRMED
+//ALU op format - a(ooo) - ooo is alu operation code (add, sub, shr, etc.)
+//These opcodes perform the indicated operation, and store the result in a reg
+
+//ALU op support micro instruction - called after each op, stores the result into a and loads new instr
+$a_end:a_end:A_ALU_WE,NEW_INSTR,PC_INC
+
+//add
+25:aadd:ALU_OP=0,DECODE_NEXT=a_end
+//sub
+26:asub:ALU_OP=1,DECODE_NEXT=a_end
+//mul
+27:amul:ALU_OP=2,DECODE_NEXT=a_end
+//bor
+28:abor:ALU_OP=3,DECODE_NEXT=a_end
+//bxor
+29:abxr:ALU_OP=4,DECODE_NEXT=a_end
+//band
+30:abnd:ALU_OP=5,DECODE_NEXT=a_end
+//signed >>>
+31:assr:ALU_OP=6,DECODE_NEXT=a_end
+//unsigned >>
+32:ashr:ALU_OP=7,DECODE_NEXT=a_end
+//unsigned <<
+33:ashl:ALU_OP=8,DECODE_NEXT=a_end
+//negative
+34:aneg:ALU_OP=9,DECODE_NEXT=a_end
+//logical neg
+35:alng:ALU_OP=10,DECODE_NEXT=a_end
+//binary neg
+36:abng:ALU_OP=11,DECODE_NEXT=a_end
+//conv to logical value
+37:aclv:ALU_OP=12,DECODE_NEXT=a_end
+//test equal
+38:aequ:ALU_OP=13,DECODE_NEXT=a_end
+//test not equal
+39:aneq:ALU_OP=14,DECODE_NEXT=a_end
+//signed <
+40:aslt:ALU_OP=15,DECODE_NEXT=a_end
+//unsigned <
+41:ault:ALU_OP=16,DECODE_NEXT=a_end
+//signed <=
+42:asle:ALU_OP=17,DECODE_NEXT=a_end
+//unsigned <=
+43:aule:ALU_OP=18,DECODE_NEXT=a_end
+//sign extend byte
+44:asex:ALU_OP=19,DECODE_NEXT=a_end
+//set res(and a) to b
+45:aaeb:ALU_OP=20,DECODE_NEXT=a_end

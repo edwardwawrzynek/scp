@@ -35,7 +35,7 @@ int main(int argc, char **argv){
   c = fgetc(bin_file);
   //Read from file
   while(c != EOF){
-    fprintf(mif_file, "\t%u : %s%s\n", addr, bit_rep[c >> 4], bit_rep[c & 0x0F]);
+    fprintf(mif_file, "\t%u : %s%s;\n", addr, bit_rep[c >> 4], bit_rep[c & 0x0F]);
     c = fgetc(bin_file);
     addr++;
   }

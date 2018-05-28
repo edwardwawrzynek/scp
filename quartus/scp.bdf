@@ -1073,7 +1073,7 @@ refer to the applicable agreement for further details.
 		(pt 192 32)
 		(output)
 		(text "val[15..0]" (rect 0 0 44 11)(font "Arial" ))
-		(text "val[15..0]" (rect 134 27 171 38)(font "Arial" ))
+		(text "val[15..0]" (rect 134 27 178 38)(font "Arial" ))
 		(line (pt 192 32)(pt 176 32)(line_width 3))
 	)
 	(drawing
@@ -1817,6 +1817,12 @@ refer to the applicable agreement for further details.
 	(text "DECODE[29]" (rect -152 -56 -88 -43)(font "Intel Clear" ))
 	(pt -96 -40)
 	(pt -160 -40)
+)
+(connector
+	(text "DECODE[34..30]" (rect 296 -72 379 -59)(font "Intel Clear" ))
+	(pt 360 -56)
+	(pt 288 -56)
+	(bus)
 )
 (junction (pt 136 280))
 (junction (pt 96 -232))
