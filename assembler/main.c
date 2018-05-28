@@ -67,16 +67,6 @@ usage(){
   return 0;
 }
 
-//Compare strings - included for scp
-strcmp(char * s1, char * s2){
-        while (*s1 == *s2++){
-                if (*s1++=='\0'){
-                        return 0;
-                }
-        }
-        return(*s1 - *--s2);
-}
-
 //Get the opcode for an asm cmd
 get_opcode(char *cmd){
   int pos;
@@ -212,12 +202,5 @@ main(int argc, char **argv){
   file_restart();
   //First pass
   first_pass();
-  print("\n");
-  for(int i = 0; i < 64; i++){
-    print(labels[i]);
-    print("-");
-    printn(label_addr[i]);
-    print("\n");
-  }
   back_end();
 }

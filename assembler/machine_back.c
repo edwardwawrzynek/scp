@@ -43,8 +43,6 @@ int back_end(){
 }
 
 //get string length - used if scp doesn't have stdlib
-#include <stdio.h>
-/* return length of string, reference CPL p 36 */
 int strlen(char *s){
         int i;
         i = 0;
@@ -53,7 +51,7 @@ int strlen(char *s){
         }
         return (i);
 }
-
+//same with strcpy
 char *strcpy(char *s1, char *s2)
 {
         char *os1;
@@ -63,19 +61,51 @@ char *strcpy(char *s1, char *s2)
         return(os1);
 
 }
+//Compare strings - included for scp
+strcmp(char * s1, char * s2){
+        while (*s1 == *s2++){
+                if (*s1++=='\0'){
+                        return 0;
+                }
+        }
+        return(*s1 - *--s2);
+}
 
-
-//Append a label and position to labels and label_addr, realloc'ing if needed
-int label_append(char *name, unsigned int addr){
-  if(labels_append_pos >= labels_allocd){
+int base_label_append(char *name, unsigned int addr, char **labels, unsigned int *label_addr, unsigned int *labels_append_pos, unsigned int *labels_allocd){
+  if(*labels_append_pos >= *labels_allocd){
     print("Need to realloc label buffer, not yet implemented\n");
     err_exit();
   }
-  label_addr[labels_append_pos] = addr;
-  labels[labels_append_pos] = calloc(strlen(name), sizeof(char));
-  strcpy(labels[labels_append_pos], name);
-  labels_append_pos++;
+  label_addr[*labels_append_pos] = addr;
+  labels[*labels_append_pos] = calloc(strlen(name), sizeof(char));
+  strcpy(labels[*labels_append_pos], name);
+  (*labels_append_pos)++;
   return 0;
+}
+
+int base_get_addr_for_label(char *name, unsigned int labels_allocd, char **labels, unsigned int *label_addr){
+  unsigned int pos;
+  for(pos = 0; pos < labels_allocd; pos++){
+    if(labels[pos] != NULL){
+      if(!strcmp(name, labels[pos])){
+        return label_addr[pos];
+      }
+    }
+  }
+  print("Error: Address ");
+  print(name);
+  print(" is not defined.\n");
+  err_exit();
+}
+
+//Append a label and position to labels and label_addr, realloc'ing if needed
+int label_append(char *name, unsigned int addr){
+  return base_label_append(name, addr, labels, label_addr, &labels_append_pos, &labels_allocd);
+}
+
+//get addr for label
+unsigned int get_addr_for_label(char * name){
+  return base_get_addr_for_label(name, labels_allocd, labels, label_addr);
 }
 
 //Open assembly file
