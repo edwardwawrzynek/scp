@@ -5,6 +5,7 @@
 
 
 FILE *asm_file;
+FILE *out_file;
 //64 global labels to start, realloced if more needed - labels points to an array of pointers to char arrays
 char **labels;
 //label values
@@ -130,6 +131,17 @@ int open_asm(char *name){
   return 0;
 }
 
+int open_out(char *name){
+  out_file = fopen(name, "w");
+  return 0;
+}
+
+//close both files
+int close(){
+  fclose(asm_file);
+  fclose(out_file);
+}
+
 //Seek to begining of file
 int file_restart(){
   fseek(asm_file, 0, SEEK_SET);
@@ -141,6 +153,10 @@ unsigned char read(){
   return fgetc(asm_file);
 }
 
+//Write a char to file
+int write(char c){
+  return fputc(c, asm_file);
+}
 
 //Print out
 int print(char * msg){

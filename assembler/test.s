@@ -10,7 +10,7 @@ DATA_SEG:
 $1:
 	.dw	#-1243,#23
 $2:
-	.db	#5
+	.db	#5,#6,#7
 END:
 ;	.end
 	.module	TEST2

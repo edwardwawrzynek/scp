@@ -22,6 +22,8 @@ char cmd_lens[NUM_CMDS] = {0, 1, 1, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 0,
 char buf[80];
 //Command Name
 char name[80];
+//Arguments seperated by nulls (? may change)
+char args[80];
 
 //Current module being compiled - starts at 0 if no module is specified, 1 if specified
 unsigned int MODULE_NUM = 0;
@@ -81,7 +83,7 @@ read_to_nl(){
 }
 
 usage(){
-  print("Usage: scpasm [one or more asm files]\n");
+  print("Usage: scpasm [output file] [one or more asm files]\n");
   err_exit();
   return 0;
 }
@@ -212,18 +214,149 @@ first_pass(){
   }
 }
 
+//Handle the directive command in name with arguments in buf
+second_handle_dir(){
+  int pos;
+  char c;
+  pos = 0;
+  if(!strcmp(name, ".module")){
+    MODULE_NUM++;
+  }
+  else if(!strcmp(name, ".db")){
+    while(1){
+      if(args[pos] != '#'){
+        print("Error: .db requires a byte literal.\nAt: ");
+        print(buf);
+        print("\n");
+        err_exit();
+      }
+      //Write out bytes
+      pos += strlen(args+pos)+1;
+      if(args[pos] == '\0'){
+        break;
+      }
+    }
+  }
+  else if(!strcmp(name, ".dw")){
+    while(1){
+      if(args[pos] != '#'){
+        print("Error: .dw requires a byte literal.\nAt: ");
+        print(buf);
+        print("\n");
+        err_exit();
+      }
+      //Write out words
+      pos += strlen(args+pos)+1;
+      if(args[pos] == '\0'){
+        break;
+      }
+    }
+  }
+}
+
+gen_name(){
+  char c;
+  int pos;
+  pos = 0;
+  c = buf[pos];
+  while(c != '\t'){
+    name[pos] = c;
+    pos++;
+    c = buf[pos];
+  }
+  name[pos] = '\0';
+}
+
+//Get args from buf into args, null seperated
+gen_args(){
+  char c;
+  unsigned int pos;
+  unsigned int args_pos;
+  //Clear args
+  for(pos = 0; pos < 80; pos++){
+    args[pos] = '\0';
+  }
+  pos = 0;
+  args_pos = 0;
+  //Read till tab seperating cmd from args
+  do{
+    c=buf[pos];
+    pos++;
+  }while(c!='\t');
+  //Get args
+  while(1){
+    c=buf[pos];
+    if(c=='\0' || c=='\n'){
+      break;
+    }
+    if(c!=','){
+      args[args_pos] = c;
+      args_pos++;
+    }
+    else{
+      args[args_pos] = '\0';
+      args_pos++;
+    }
+    pos++;
+  }
+}
+
+//Pass over file, writing opcodes with resolved addr's, and handle directives
+second_pass(){
+  char c;
+  int pos;
+  unsigned int opcode;
+  //Loop through each line
+  while(1){
+    c = read();
+    if(c == EOF){break;}
+    //Skip comments, and label prefixes
+    if(c == ';' || c == '$' || isalpha(c)){
+      read_to_nl();
+      continue;
+    }
+    if(c == '\n'){continue;}
+    //The file is at the first position of a good line - handle the line
+    if(c == '\t'){
+      c = read();
+      read_line_buf(c);
+      //put name from buf into name
+      gen_name();
+      print(name);
+      print("-");
+      gen_args();
+      print(args);
+      print("\n");
+      //the buffer contains the line
+      if(buf[0] == '.'){
+        //Handle the directive
+        second_handle_dir();
+      }
+      else{
+        //Handle Asm command
+        opcode = get_opcode(name);
+        //Write out args with appropriate byte len
+      }
+    }
+  }
+}
+
 main(int argc, char **argv){
   //For scp, set argc and argv
-  if(argc < 2){
+  if(argc < 3){
     usage();
   }
   back_init();
-  open_asm(argv[1]);
+  open_asm(argv[2]);
+  open_out(argv[1]);
   //First Pass
   file_restart();
   first_pass();
   //Second Pass
   MODULE_NUM = 0;
   file_restart();
+  second_pass();
+  //clean up
+  close();
   back_end();
 }
