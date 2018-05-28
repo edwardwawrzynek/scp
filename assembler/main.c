@@ -23,6 +23,9 @@ char buf[80];
 //Command Name
 char name[80];
 
+//Current module being compiled
+unsigned int MODULE_NUM = 0;
+
 //Check if character is valid first letter of label
 isalpha(char c){
         if ((c >= 'a' & c <= 'z') | (c >= 'A' & c <= 'Z')){
@@ -112,8 +115,6 @@ first_pass_cmd(){
         e = buf[pos];
       }
       name[pos] = '\0';
-      print(name);
-      print("-");
       //if not a directive, no need to count args, just return length
       if(dir == 0){
         return cmd_lens[get_opcode(name)]+1;
@@ -130,6 +131,7 @@ first_pass_cmd(){
         e = buf[pos];
       }
       if(!strcmp(name,".module")){
+        MODULE_NUM++;
         return 0;
       }
       if(!strcmp(name,".db")){
@@ -141,10 +143,32 @@ first_pass_cmd(){
       return 0;
 }
 
+//Clear the colon from the end of the label in buf, and error if not present
+buf_label_clear(){
+  int pos;
+  char c;
+  pos = 0;
+  c = buf[pos];
+  while(c != ':'){
+    if(c == '\0'){
+      print("Error: label must end in :\nAt: ");
+      print(buf);
+      print("\n");
+      err_exit();
+    }
+    pos++;
+    c = buf[pos];
+  }
+  buf[pos] = '\0';
+}
+
 //Pass over file, getting label addr's
 first_pass(){
   char c;
   int pos;
+  //Address
+  unsigned int addr;
+  addr = 0;
   //Loop through each line
   while(1){
     c = read();
@@ -160,22 +184,21 @@ first_pass(){
     if(c == '$'){
       c = read();
       read_line_buf(c);
-      print("$LABEL:|");
-      print(buf);
+      buf_label_clear();
     }
     //Asm command or directive
     else if(c == '\t'){
       c = read();
       read_line_buf(c);
-      print("ASMCMD:|");
-      printn(first_pass_cmd ());
+      //first_pass_cmd will handle the module level
+      addr += first_pass_cmd();
     }
+    //Global label
     else if(isalpha(c)){
       read_line_buf(c);
-      print("LABEL: |");
-      print(buf);
+      buf_label_clear();
+      label_append(buf, addr);
     }
-    print("\n");
   }
 }
 
@@ -184,9 +207,17 @@ main(int argc, char **argv){
   if(argc < 2){
     usage();
   }
+  back_init();
   open_asm(argv[1]);
   file_restart();
   //First pass
   first_pass();
   print("\n");
+  for(int i = 0; i < 64; i++){
+    print(labels[i]);
+    print("-");
+    printn(label_addr[i]);
+    print("\n");
+  }
+  back_end();
 }
