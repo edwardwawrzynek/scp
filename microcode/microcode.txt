@@ -1,6 +1,10 @@
 //Nop instruction, also first instruction ran when cpu starts, so to give time for memory to load first instr
 0:nop: NEW_INSTR, PC_INC
 
+//Halt instrucion
+255:halt:DECODE_NEXT=halt_2
+$halt_2:halt_2:DECODE_NEXT=#halt
+
 // LOAD OPCODES 1-16 STATUS: COMPLETE + CONFIRMED
 // Load instructions format - lxxx - l(s)(m)(r)
 // l      s                   m                                                                                   r
@@ -142,7 +146,7 @@ $swmb_2:swmb_2:MDR_OUT_HIGH_WE,MAR_SEL=2,PC_INC,DECODE_NEXT=swmb_3
 $swmb_3:swmb_3:MAR_SEL=1,MDR_AB_SEL=1,MDR_OUT_BYTE_SEL=1,MEM_WE,MDR_INC,DECODE_NEXT=swmb_4
 $swmb_4:swmb_4:MAR_SEL=1,MDR_AB_SEL=1,MDR_OUT_BYTE_SEL=0,MEM_WE,PC_INC,NEW_INSTR
 
-//ALU OP OPCODES STATUS: COMPLETE + CONFIRMED
+//ALU OP OPCODES 25-45 STATUS: COMPLETE + CONFIRMED
 //ALU op format - a(ooo) - ooo is alu operation code (add, sub, shr, etc.)
 //These opcodes perform the indicated operation, and store the result in a reg
 
