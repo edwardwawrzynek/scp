@@ -1,5 +1,5 @@
 Analysis & Synthesis report for scp
-Mon May 28 22:08:12 2018
+Mon May 28 22:20:32 2018
 Quartus Prime Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
 
 
@@ -26,10 +26,12 @@ Quartus Prime Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
  18. Parameter Settings for User Entity Instance: ram_mega:RAM|altsyncram:altsyncram_component
  19. Parameter Settings for User Entity Instance: mmu:inst17|page_table_mega:minst|altsyncram:altsyncram_component
  20. altsyncram Parameter Settings by Entity Instance
- 21. Post-Synthesis Netlist Statistics for Top Partition
- 22. Elapsed Time Per Partition
- 23. Analysis & Synthesis Messages
- 24. Analysis & Synthesis Suppressed Messages
+ 21. Port Connectivity Checks: "pll:inst9|pll_0002:pll_inst|altera_pll:altera_pll_i"
+ 22. Port Connectivity Checks: "pll:inst9|pll_0002:pll_inst"
+ 23. Post-Synthesis Netlist Statistics for Top Partition
+ 24. Elapsed Time Per Partition
+ 25. Analysis & Synthesis Messages
+ 26. Analysis & Synthesis Suppressed Messages
 
 
 
@@ -55,7 +57,7 @@ refer to the applicable agreement for further details.
 +-------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                  ;
 +---------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status     ; Successful - Mon May 28 22:08:12 2018       ;
+; Analysis & Synthesis Status     ; Successful - Mon May 28 22:20:32 2018       ;
 ; Quartus Prime Version           ; 17.1.0 Build 590 10/25/2017 SJ Lite Edition ;
 ; Revision Name                   ; scp                                         ;
 ; Top-level Entity Name           ; scp                                         ;
@@ -197,7 +199,7 @@ refer to the applicable agreement for further details.
 ; mux/ab_bus_in_mux.v              ; yes             ; User Verilog HDL File                  ; /home/edward/scp/quartus/mux/ab_bus_in_mux.v                                           ;         ;
 ; mux/decode_addr_mux.v            ; yes             ; User Verilog HDL File                  ; /home/edward/scp/quartus/mux/decode_addr_mux.v                                         ;         ;
 ; decode/decode_split.v            ; yes             ; User Verilog HDL File                  ; /home/edward/scp/quartus/decode/decode_split.v                                         ;         ;
-; pll.v                            ; yes             ; User Wizard-Generated File             ; /home/edward/scp/quartus/pll.v                                                         ; pll     ;
+; pll.v                            ; yes             ; User Verilog HDL File                  ; /home/edward/scp/quartus/pll.v                                                         ; pll     ;
 ; pll/pll_0002.v                   ; yes             ; User Verilog HDL File                  ; /home/edward/scp/quartus/pll/pll_0002.v                                                ; pll     ;
 ; ../../comp16/manual_clk.v        ; yes             ; User Verilog HDL File                  ; /home/edward/comp16/manual_clk.v                                                       ;         ;
 ; ram/ram_mega.v                   ; yes             ; User Wizard-Generated File             ; /home/edward/scp/quartus/ram/ram_mega.v                                                ;         ;
@@ -331,7 +333,7 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; Vendor ; IP Core Name ; Version ; Release Date ; License Type ; Entity Instance                       ; IP Include File       ;
 +--------+--------------+---------+--------------+--------------+---------------------------------------+-----------------------+
 ; Altera ; ROM: 1-PORT  ; 17.1    ; N/A          ; N/A          ; |scp|rom_mega:DECODE_ROM              ; decode/rom_mega.v     ;
-; Altera ; altera_pll   ; 17.1    ; N/A          ; N/A          ; |scp|pll:inst9                        ; pll.v                 ;
+; N/A    ; altera_pll   ; 17.1    ; N/A          ; N/A          ; |scp|pll:inst9                        ;                       ;
 ; Altera ; RAM: 2-PORT  ; 17.1    ; N/A          ; N/A          ; |scp|mmu:inst17|page_table_mega:minst ; mmu/page_table_mega.v ;
 ; Altera ; RAM: 2-PORT  ; 17.1    ; N/A          ; N/A          ; |scp|ram_mega:RAM                     ; ram/ram_mega.v        ;
 +--------+--------------+---------+--------------+--------------+---------------------------------------+-----------------------+
@@ -875,6 +877,45 @@ Note: In order to hide this table in the UI and the text report file, please set
 +-------------------------------------------+------------------------------------------------------------------+
 
 
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "pll:inst9|pll_0002:pll_inst|altera_pll:altera_pll_i"                                                                                                      ;
++-------------------+--------+----------+----------------------------------------------------------------------------------------------------------------------------------------------+
+; Port              ; Type   ; Severity ; Details                                                                                                                                      ;
++-------------------+--------+----------+----------------------------------------------------------------------------------------------------------------------------------------------+
+; fboutclk          ; Output ; Info     ; Explicitly unconnected                                                                                                                       ;
+; fbclk             ; Input  ; Info     ; Stuck at GND                                                                                                                                 ;
+; refclk1           ; Input  ; Warning  ; Declared by entity but not connected by instance. If a default value exists, it will be used.  Otherwise, the port will be connected to GND. ;
+; phase_en          ; Input  ; Warning  ; Declared by entity but not connected by instance. If a default value exists, it will be used.  Otherwise, the port will be connected to GND. ;
+; updn              ; Input  ; Warning  ; Declared by entity but not connected by instance. If a default value exists, it will be used.  Otherwise, the port will be connected to GND. ;
+; num_phase_shifts  ; Input  ; Warning  ; Declared by entity but not connected by instance. If a default value exists, it will be used.  Otherwise, the port will be connected to GND. ;
+; scanclk           ; Input  ; Warning  ; Declared by entity but not connected by instance. If a default value exists, it will be used.  Otherwise, the port will be connected to GND. ;
+; cntsel            ; Input  ; Warning  ; Declared by entity but not connected by instance. If a default value exists, it will be used.  Otherwise, the port will be connected to GND. ;
+; reconfig_to_pll   ; Input  ; Warning  ; Declared by entity but not connected by instance. If a default value exists, it will be used.  Otherwise, the port will be connected to GND. ;
+; extswitch         ; Input  ; Warning  ; Declared by entity but not connected by instance. If a default value exists, it will be used.  Otherwise, the port will be connected to GND. ;
+; adjpllin          ; Input  ; Warning  ; Declared by entity but not connected by instance. If a default value exists, it will be used.  Otherwise, the port will be connected to GND. ;
+; cclk              ; Input  ; Warning  ; Declared by entity but not connected by instance. If a default value exists, it will be used.  Otherwise, the port will be connected to GND. ;
+; phase_done        ; Output ; Warning  ; Declared by entity but not connected by instance. Logic that only feeds a dangling port will be removed.                                     ;
+; reconfig_from_pll ; Output ; Warning  ; Declared by entity but not connected by instance. Logic that only feeds a dangling port will be removed.                                     ;
+; activeclk         ; Output ; Warning  ; Declared by entity but not connected by instance. Logic that only feeds a dangling port will be removed.                                     ;
+; clkbad            ; Output ; Warning  ; Declared by entity but not connected by instance. Logic that only feeds a dangling port will be removed.                                     ;
+; phout             ; Output ; Warning  ; Declared by entity but not connected by instance. Logic that only feeds a dangling port will be removed.                                     ;
+; lvds_clk          ; Output ; Warning  ; Declared by entity but not connected by instance. Logic that only feeds a dangling port will be removed.                                     ;
+; loaden            ; Output ; Warning  ; Declared by entity but not connected by instance. Logic that only feeds a dangling port will be removed.                                     ;
+; extclk_out        ; Output ; Warning  ; Declared by entity but not connected by instance. Logic that only feeds a dangling port will be removed.                                     ;
+; cascade_out       ; Output ; Warning  ; Declared by entity but not connected by instance. Logic that only feeds a dangling port will be removed.                                     ;
+; zdbfbclk          ; Bidir  ; Warning  ; Declared by entity but not connected by instance. Logic that only feeds a dangling port will be removed.                                     ;
++-------------------+--------+----------+----------------------------------------------------------------------------------------------------------------------------------------------+
+
+
++---------------------------------------------------------+
+; Port Connectivity Checks: "pll:inst9|pll_0002:pll_inst" ;
++--------+--------+----------+----------------------------+
+; Port   ; Type   ; Severity ; Details                    ;
++--------+--------+----------+----------------------------+
+; locked ; Output ; Info     ; Explicitly unconnected     ;
++--------+--------+----------+----------------------------+
+
+
 +-----------------------------------------------------+
 ; Post-Synthesis Netlist Statistics for Top Partition ;
 +-----------------------+-----------------------------+
@@ -916,7 +957,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------+--------------+
 ; Partition Name ; Elapsed Time ;
 +----------------+--------------+
-; Top            ; 00:00:01     ;
+; Top            ; 00:00:02     ;
 +----------------+--------------+
 
 
@@ -926,7 +967,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
-    Info: Processing started: Mon May 28 22:07:51 2018
+    Info: Processing started: Mon May 28 22:20:10 2018
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off scp -c scp
 Info (16303): Aggressive Performance optimization mode selected -- timing performance will be prioritized at the potential cost of increased logic area and compilation time
 Info (20032): Parallel compilation is enabled and will use up to 4 processors
@@ -1011,7 +1052,7 @@ Warning (12019): Can't analyze file -- file ram/decode_rom.v is missing
 Info (12021): Found 1 design units, including 1 entities, in source file decode/decode_split.v
     Info (12023): Found entity 1: decode_split File: /home/edward/scp/quartus/decode/decode_split.v Line: 2
 Info (12021): Found 1 design units, including 1 entities, in source file pll.v
-    Info (12023): Found entity 1: pll File: /home/edward/scp/quartus/pll.v Line: 8
+    Info (12023): Found entity 1: pll File: /home/edward/scp/quartus/pll.v Line: 6
 Info (12021): Found 1 design units, including 1 entities, in source file pll/pll_0002.v
     Info (12023): Found entity 1: pll_0002 File: /home/edward/scp/quartus/pll/pll_0002.v Line: 2
 Info (12021): Found 1 design units, including 1 entities, in source file decode/rom_wait_for_falling_edge.v
@@ -1062,7 +1103,7 @@ Info (12021): Found 1 design units, including 1 entities, in source file db/alts
 Info (12128): Elaborating entity "altsyncram_skh1" for hierarchy "rom_mega:DECODE_ROM|altsyncram:altsyncram_component|altsyncram_skh1:auto_generated" File: /home/edward/intelFPGA_lite/17.1/quartus/libraries/megafunctions/altsyncram.tdf Line: 791
 Info (12128): Elaborating entity "clk_se" for hierarchy "clk_se:inst11"
 Info (12128): Elaborating entity "pll" for hierarchy "pll:inst9"
-Info (12128): Elaborating entity "pll_0002" for hierarchy "pll:inst9|pll_0002:pll_inst" File: /home/edward/scp/quartus/pll.v Line: 23
+Info (12128): Elaborating entity "pll_0002" for hierarchy "pll:inst9|pll_0002:pll_inst" File: /home/edward/scp/quartus/pll.v Line: 21
 Info (12128): Elaborating entity "altera_pll" for hierarchy "pll:inst9|pll_0002:pll_inst|altera_pll:altera_pll_i" File: /home/edward/scp/quartus/pll/pll_0002.v Line: 91
 Info (10008): Verilog HDL or VHDL information: EDA Netlist Writer cannot regroup multidimensional array "wire_to_nowhere_64" into its bus
 Info (12130): Elaborated megafunction instantiation "pll:inst9|pll_0002:pll_inst|altera_pll:altera_pll_i" File: /home/edward/scp/quartus/pll/pll_0002.v Line: 91
@@ -1236,6 +1277,7 @@ Warning (14284): Synthesized away the following node(s):
 Warning (19016): Clock multiplexers are found and protected
     Warning (19017): Found clock multiplexer clk_se:inst11|clk File: /home/edward/scp/quartus/mux/clk_se.v Line: 8
     Warning (19017): Found clock multiplexer clk_se:inst11|clk_delayed File: /home/edward/scp/quartus/mux/clk_se.v Line: 10
+Warning (12241): 1 hierarchies have connectivity warnings - see the Connectivity Checks report folder
 Info (286030): Timing-Driven Synthesis is running
 Info (17036): Removed 7 MSB VCC or GND address nodes from RAM block "mmu:inst17|page_table_mega:minst|altsyncram:altsyncram_component|altsyncram_5mr2:auto_generated|ALTSYNCRAM" File: /home/edward/scp/quartus/db/altsyncram_5mr2.tdf Line: 34
 Info (144001): Generated suppressed messages file /home/edward/scp/quartus/output_files/scp.map.smsg
@@ -1254,11 +1296,11 @@ Info (21057): Implemented 674 device resources after synthesis - the final resou
     Info (21064): Implemented 104 RAM segments
     Info (21065): Implemented 3 PLLs
     Info (21062): Implemented 1 DSP elements
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 27 warnings
-    Info: Peak virtual memory: 1127 megabytes
-    Info: Processing ended: Mon May 28 22:08:12 2018
-    Info: Elapsed time: 00:00:21
-    Info: Total CPU time (on all processors): 00:00:45
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 28 warnings
+    Info: Peak virtual memory: 1119 megabytes
+    Info: Processing ended: Mon May 28 22:20:32 2018
+    Info: Elapsed time: 00:00:22
+    Info: Total CPU time (on all processors): 00:00:43
 
 
 +------------------------------------------+
