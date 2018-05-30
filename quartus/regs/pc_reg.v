@@ -5,6 +5,8 @@ module pc_reg(
 	output reg [15:0] val,
 	input [15:0] bus_in,
 	input bus_we,
+	input [15:0] mdr_in,
+	input mdr_we,
 	input inc
 );
 
@@ -18,6 +20,9 @@ always @ (posedge clk)
 		end
 		if (bus_we) begin
 			val <= bus_in;
+		end
+		if(mdr_we) begin
+			val <= mdr_in;
 		end
 	end
 	

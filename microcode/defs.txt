@@ -20,3 +20,5 @@
 28: A_ALU_WE - write alu to a
 29: B_A_WE - write b to a
 [34:30]: ALU_OP - see alu.v in quartus/alu for all alu ops
+35: PC_BUS_WE - write a or b (selected by AB_OUT_SEL) into pc
+36: PC_MDR_WE - write mdr into pc

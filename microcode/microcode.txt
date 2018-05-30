@@ -195,3 +195,13 @@ $a_end:a_end:A_ALU_WE,NEW_INSTR,PC_INC
 44:asex:ALU_OP=19,DECODE_NEXT=a_end
 //set res(and a) to b
 45:aaeb:ALU_OP=20,DECODE_NEXT=a_end
+
+//JMP OPCODES STATUS - UNCOMPLETE
+
+//Jump utility microinstruction - because pc latches take a cycle, this is called to decode the right instruction after a jump
+$jmp_end:jmp_end:NEW_INSTR,PC_INC
+
+//Unconditional Jump
+46:jmp:MDR_OUT_LOW_WE,MAR_SEL=2,PC_INC,DECODE_NEXT=jmp_2
+$jmp_2:jmp_2:MDR_OUT_HIGH_WE,MAR_SEL=2,PC_INC,DECODE_NEXT=jmp_3
+$jmp_3:jmp_3:PC_MDR_WE,DECODE_NEXT=jmp_end
