@@ -232,7 +232,7 @@ gen_swap() {
  * the primary register
  */
 gen_immediate() {
-    output_with_tab ("lwia \t");
+    output_with_tab ("lwia\t");
 }
 
 /**
@@ -410,6 +410,7 @@ gen_multiply_by_two() {
 /**
  * divide the primary register by INTSIZE, never used
  */
+
 gen_divide_by_two() {
     gen_push(HL_REG);        /* push primary in prep for gasr */
     gen_immediate ();
@@ -439,7 +440,7 @@ gen_add(lval,lval2) int *lval,*lval2; {
         gen_multiply_by_two ();
         gen_swap ();
     }
-    output_line ("dad \td");
+    output_line ("aadd\t");
 }
 
 /**
@@ -584,13 +585,13 @@ gen_increment_primary_reg(LVALUE *lval) {
             gen_immediate2();
             output_number(lval->tagsym->size);
             newline();
-            output_line("dad \td");
+            output_line("aadd\t");
             break ;
         case CINT:
         case UINT:
-            output_line("inx \th");
+            output_line("inca\t");
         default:
-            output_line("inx \th");
+            output_line("inca\t");
             break;
     }
 }
@@ -599,26 +600,17 @@ gen_increment_primary_reg(LVALUE *lval) {
  * decrement the primary register by one if char, INTSIZE if int
  */
 gen_decrement_primary_reg(LVALUE *lval) {
-    output_line("dcx \th");
+    output_line("deca\t");
     switch (lval->ptr_type) {
         case CINT:
         case UINT:
-            output_line("dcx \th");
+            output_line("deca\t");
             break;
         case STRUCT:
             gen_immediate2();
-            output_number(lval->tagsym->size - 1);
+            output_number(-(lval->tagsym->size - 1));
             newline();
-            /* two's complement */
-            output_line("mov  \ta,d");
-            output_line("cma");
-            output_line("mov  \td,a");
-            output_line("mov  \ta,e");
-            output_line("cma");
-            output_line("mov \te,a");
-            output_line("inx \td");
-            /* subtract */
-            output_line("dad \td");
+            output_line("aadd\t");
             break ;
         default:
             break;
@@ -764,7 +756,7 @@ int link() {
  * the secondary register
  */
 gen_immediate2() {
-    output_with_tab ("lwib \t");
+    output_with_tab ("lwib\t");
 }
 
 /**
@@ -775,7 +767,7 @@ add_offset(int val) {
     gen_immediate2();
     output_number(val);
     newline();
-    output_line ("dad \td");
+    output_line ("aadd\t");
 }
 
 /**
