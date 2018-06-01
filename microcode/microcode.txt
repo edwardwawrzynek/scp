@@ -241,3 +241,6 @@ $xswp_2:xswp_2:B_A_WE,A_ALU_WE,PC_INC,NEW_INSTR
 54:mdsp:MDR_OUT_LOW_WE,MAR_SEL=2,PC_INC,DECODE_NEXT=mdsp_2
 $mdsp_2:mdsp_2:MDR_OUT_HIGH_WE,MAR_SEL=2,PC_INC,DECODE_NEXT=mdsp_3
 $mdsp_3:mdsp_3:SP_ADD_WE,PC_INC,NEW_INSTR
+
+//Set stack pointer equal to value in A
+55:masp:SP_BUS_WE,PC_INC,NEW_INSTR
