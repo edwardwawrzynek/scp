@@ -447,7 +447,7 @@ gen_add(lval,lval2) int *lval,*lval2; {
  */
 gen_sub() {
     gen_pop ();
-    gen_call ("ccsub");
+    output_line ("asub\t");
 }
 
 /**
@@ -455,7 +455,7 @@ gen_sub() {
  */
 gen_mult() {
     gen_pop();
-    gen_call ("ccmul");
+    output_line ("amul\t");
 }
 
 /**
@@ -501,7 +501,7 @@ gen_umod() {
  */
 gen_or() {
     gen_pop();
-    gen_call ("ccor");
+    output_line ("abor\t");
 }
 
 /**
@@ -509,7 +509,7 @@ gen_or() {
  */
 gen_xor() {
     gen_pop();
-    gen_call ("ccxor");
+    output_line ("abxr\t");
 }
 
 /**
@@ -517,7 +517,7 @@ gen_xor() {
  */
 gen_and() {
     gen_pop();
-    gen_call ("ccand");
+    output_line ("abnd\t");
 }
 
 /**
@@ -526,7 +526,7 @@ gen_and() {
  */
 gen_arithm_shift_right() {
     gen_pop();
-    gen_call ("ccasr");
+    output_line ("assr\t");
 }
 
 /**
@@ -535,7 +535,7 @@ gen_arithm_shift_right() {
  */
 gen_logical_shift_right() {
     gen_pop();
-    gen_call ("cclsr");
+    output_line ("ashr\t");
 }
 
 /**
@@ -544,35 +544,35 @@ gen_logical_shift_right() {
  */
 gen_arithm_shift_left() {
     gen_pop ();
-    gen_call ("ccasl");
+    output_line ("ashl\t");
 }
 
 /**
  * two's complement of primary register
  */
 gen_twos_complement() {
-    gen_call ("ccneg");
+    output_line ("aneg\t");
 }
 
 /**
  * logical complement of primary register
  */
 gen_logical_negation() {
-    gen_call ("cclneg");
+    output_line ("alng\t");
 }
 
 /**
  * one's complement of primary register
  */
 gen_complement() {
-    gen_call ("cccom");
+    output_line ("abng\t");
 }
 
 /**
  * Convert primary value into logical value (0 if 0, 1 otherwise)
  */
 gen_convert_primary_reg_value_to_bool() {
-    gen_call ("ccbool");
+    output_line ("aclv\t");
 }
 
 /**
