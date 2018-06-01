@@ -196,12 +196,11 @@ $a_end:a_end:A_ALU_WE,NEW_INSTR,PC_INC
 //set res(and a) to b
 45:aaeb:ALU_OP=20,DECODE_NEXT=a_end
 
-//JMP OPCODES STATUS - UNCOMPLETE
+//JMP OPCODES 46 - 48 STATUS - COMPLETE + CONFIRMED
 
+//All jumps are to static locations as it is all small c requires
 //Jump utility microinstruction - because pc latches take a cycle, this is called to decode the right instruction after a jump
 $jmp_end:jmp_end:NEW_INSTR,PC_INC
-
-//Jumps to static locations
 
 //Unconditional Jump - Status: COMPLETE + CONFIRMED
 46:jmp:MDR_OUT_LOW_WE,MAR_SEL=2,PC_INC,DECODE_NEXT=jmp_2
@@ -217,3 +216,15 @@ $jpnz_3:jpnz_3:PC_COND_EN,PC_COND_MODE=0,PC_MDR_WE,DECODE_NEXT=jmp_end
 48:jpz:MDR_OUT_LOW_WE,MAR_SEL=2,PC_INC,DECODE_NEXT=jpz_2
 $jpz_2:jpz_2:MDR_OUT_HIGH_WE,MAR_SEL=2,DECODE_NEXT=jpz_3
 $jpz_3:jpz_3:PC_COND_EN,PC_COND_MODE=1,PC_MDR_WE,DECODE_NEXT=jmp_end
+
+//INC and DEC OPCODES STATUS - COMPLETE + CONFIRMED
+
+//these increment and deincrement regs a and b
+
+49:inca:A_INC,PC_INC,NEW_INSTR
+
+50:incb:B_INC,PC_INC,NEW_INSTR
+
+51:deca:A_DEC,PC_INC,NEW_INSTR
+
+52:decb:B_DEC,PC_INC,NEW_INSTR
