@@ -25,6 +25,6 @@
 38: PC_COND_MODE - 0=latch if not zero, 1=latch if zero
 [40:39]: MDR_AB_SEL - selects which reg to be put into MDR_OUT_BYTE_SEL 0=a, 1=b, 2=pc
 26: SP_BUS_WE - write a or b into sp
-41: SP_MDR_WE - write sp+mdr (output from sp_adder) into sp
+41: SP_ADD_WE - write sp+mdr (output from sp_adder) into sp
 42: SP_INC - increment sp
-43: DP_DEC - deincrement sp
+43: SP_DEC - deincrement sp

@@ -234,3 +234,10 @@ $jpz_3:jpz_3:PC_COND_EN,PC_COND_MODE=1,PC_MDR_WE,DECODE_NEXT=jmp_end
 //Latch a into b, and put b into a through alu
 53:xswp:ALU_OP=20,DECODE_NEXT=$xswp_2
 $xswp_2:xswp_2:B_A_WE,A_ALU_WE,PC_INC,NEW_INSTR
+
+//Stack Operations OPCODES STATUS - UNCOMPLETE
+
+//Increment or deincrement the stack pointer by a value
+54:mdsp:MDR_OUT_LOW_WE,MAR_SEL=2,PC_INC,DECODE_NEXT=mdsp_2
+$mdsp_2:mdsp_2:MDR_OUT_HIGH_WE,MAR_SEL=2,PC_INC,DECODE_NEXT=mdsp_3
+$mdsp_3:mdsp_3:SP_ADD_WE,PC_INC,NEW_INSTR

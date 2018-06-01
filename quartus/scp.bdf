@@ -2217,11 +2217,6 @@ refer to the applicable agreement for further details.
 	(pt -152 672)
 )
 (connector
-	(pt 96 656)
-	(pt 152 656)
-	(bus)
-)
-(connector
 	(pt 336 656)
 	(pt 344 656)
 	(bus)
@@ -2259,11 +2254,6 @@ refer to the applicable agreement for further details.
 (connector
 	(pt -200 616)
 	(pt -200 352)
-	(bus)
-)
-(connector
-	(pt 136 616)
-	(pt -200 616)
 	(bus)
 )
 (connector
@@ -2338,6 +2328,28 @@ refer to the applicable agreement for further details.
 	(pt -88 768)
 	(pt -152 768)
 )
+(connector
+	(text "SP[15..0]" (rect 1328 472 1378 484)(font "Intel Clear" ))
+	(pt 1392 488)
+	(pt 1320 488)
+	(bus)
+)
+(connector
+	(pt 96 656)
+	(pt 152 656)
+	(bus)
+)
+(connector
+	(pt -200 616)
+	(pt 136 616)
+	(bus)
+)
+(connector
+	(text "SP[15..0]" (rect 151 600 201 612)(font "Intel Clear" ))
+	(pt 136 616)
+	(pt 200 616)
+	(bus)
+)
 (junction (pt 96 -232))
 (junction (pt -168 -88))
 (junction (pt 1008 -184))
@@ -2354,3 +2366,4 @@ refer to the applicable agreement for further details.
 (junction (pt -216 320))
 (junction (pt -184 352))
 (junction (pt 408 288))
+(junction (pt 136 616))
