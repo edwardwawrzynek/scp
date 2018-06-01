@@ -5,6 +5,8 @@ module sp_reg(
 	output reg [15:0] val,
 	input [15:0] bus_in,
 	input bus_we,
+	input [15:0] sec_in,
+	input sec_we,
 	input inc,
 	input dec
 );
@@ -22,6 +24,9 @@ always @ (posedge clk)
 		end
 		if (bus_we) begin
 			val <= bus_in;
+		end
+		if (sec_we) begin
+			val <= sec_in;
 		end
 	end
 	

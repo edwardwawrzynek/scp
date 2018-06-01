@@ -1,4 +1,4 @@
-40 1024
+60 1024
 [9:0]: DECODE_NEXT - Addrs of next microinstruction
 10: NEW_INSTR - Decode IR instead of DECODE_NEXT
 11: PC_INC - Increment the PC - microcode instructions should increment the PC in the same cycle as NEW_INSTR, so that each instr is entered with PC set to the bit after it
@@ -15,7 +15,6 @@
 23: AB_OUT_SEL - select reg on ab bus out, 0=A, 1=B
 24: MDR_OUT_BYTE_SEL - selects from MDR_AB_SEL byte to be put on mdr out 0=low, 1=high
 25: MEM_WE - write byte from mdr sel into memory
-26: MDR_AB_SEL - selects which reg to be put into MDR_OUT_BYTE_SEL
 27: MDR_INC - increments the mdr reg
 28: A_ALU_WE - write alu to a
 29: B_A_WE - write b to a
@@ -24,3 +23,8 @@
 36: PC_MDR_WE - write mdr into pc
 37: PC_COND_EN - Enable pc conditional latch
 38: PC_COND_MODE - 0=latch if not zero, 1=latch if zero
+[40:39]: MDR_AB_SEL - selects which reg to be put into MDR_OUT_BYTE_SEL 0=a, 1=b, 2=pc
+26: SP_BUS_WE - write a or b into sp
+41: SP_MDR_WE - write sp+mdr (output from sp_adder) into sp
+42: SP_INC - increment sp
+43: DP_DEC - deincrement sp

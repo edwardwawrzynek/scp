@@ -224,7 +224,7 @@ void gen_get_indirect(char typeobj, int reg) {
  * swap the primary and secondary registers
  */
 gen_swap() {
-    output_line("xchg");
+    output_line("xswp\t");
 }
 
 /**
