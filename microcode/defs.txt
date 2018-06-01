@@ -22,3 +22,5 @@
 [34:30]: ALU_OP - see alu.v in quartus/alu for all alu ops
 35: PC_BUS_WE - write a or b (selected by AB_OUT_SEL) into pc
 36: PC_MDR_WE - write mdr into pc
+37: PC_COND_EN - Enable pc conditional latch
+38: PC_COND_MODE - 0=latch if not zero, 1=latch if zero

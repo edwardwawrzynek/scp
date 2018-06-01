@@ -30,7 +30,7 @@ int main(int argc, char **argv){
   }
   mif_file = fopen(argv[2], "w");
   //Write header
-  fputs("WIDTH=8;\nDEPTH=131072;\nADDRESS_RADIX=UNS;\nDATA_RADIX=BIN;\nCONTENT BEGIN\n", mif_file);
+  fputs("WIDTH=8;\nDEPTH=65536;\nADDRESS_RADIX=UNS;\nDATA_RADIX=BIN;\nCONTENT BEGIN\n", mif_file);
 
   c = fgetc(bin_file);
   //Read from file
@@ -40,6 +40,6 @@ int main(int argc, char **argv){
     addr++;
   }
   //Write Footer
-  fprintf(mif_file, "\t[%u..131071] : 00000000;\n", addr);
+  fprintf(mif_file, "\t[%u..65535] : 00000000;\n", addr);
   fputs("END;", mif_file);
 }
