@@ -133,18 +133,17 @@ void output_number(num) int num; {
  */
 void gen_get_memory(SYMBOL *sym) {
     if ((sym->identity != POINTER) && (sym->type == CCHAR)) {
-        output_with_tab ("lda\t");
+        output_with_tab ("lbma\t");
         output_string (sym->name);
         newline ();
-        gen_call ("ccsxt");
+        output_with_tab ("asex\t");
+        newline ();
     } else if ((sym->identity != POINTER) && (sym->type == UCHAR)) {
-        output_with_tab("lda\t");
+        output_with_tab("lbma\t");
         output_string(sym->name);
         newline();
-        output_line("mov \tl,a");
-        output_line("mvi \th,#0");
     } else {
-        output_with_tab ("lhld\t");
+        output_with_tab ("lwma\t");
         output_string (sym->name);
         newline ();
     }
@@ -162,19 +161,11 @@ int gen_get_locale(SYMBOL *sym) {
         newline();
         return HL_REG;
     } else {
-        if (uflag && !(sym->identity == ARRAY)) {/* ||
-                (sym->identity == VARIABLE && sym->type == STRUCT))) {*/
-            output_with_tab("ldsi\t");
-            output_number(sym->offset - stkp);
-            newline ();
-            return DE_REG;
-        } else {
-            gen_immediate();
-            output_number(sym->offset - stkp);
-            newline ();
-            output_line ("dad \tsp");
-            return HL_REG;
-        }
+        gen_immediate();
+        output_number(sym->offset - stkp);
+        newline ();
+        output_line ("dad \tsp");
+        return HL_REG;
     }
 }
 
@@ -184,10 +175,9 @@ int gen_get_locale(SYMBOL *sym) {
  */
 void gen_put_memory(SYMBOL *sym) {
     if ((sym->identity != POINTER) && (sym->type & CCHAR)) {
-        output_line ("mov \ta,l");
-        output_with_tab ("sta \t");
+        output_with_tab ("sbma\t");
     } else {
-        output_with_tab ("shld\t");
+        output_with_tab ("swma\t");
     }
     output_string (sym->name);
     newline ();
@@ -201,15 +191,9 @@ void gen_put_memory(SYMBOL *sym) {
 void gen_put_indirect(char typeobj) {
     gen_pop ();
     if (typeobj & CCHAR) {
-        /*gen_call("ccpchar");*/
-        output_line("mov \ta,l");
-        output_line("stax\td");
+        output_line ("sbqa\t");
     } else {
-        if (uflag) {
-            output_line("shlx");
-        } else {
-            gen_call("ccpint");
-        }
+        output_line ("swqa\t");
     }
 }
 
@@ -223,23 +207,16 @@ void gen_get_indirect(char typeobj, int reg) {
         if (reg & DE_REG) {
             gen_swap();
         }
-        gen_call("ccgchar");
+        //Remember to sign extend
+        output_line ("lbpa\t");
+        output_line ("asex\t");
     } else if (typeobj == UCHAR) {
         if (reg & DE_REG) {
             gen_swap();
         }
-        /*gen_call("cguchar");*/
-        output_line("mov \tl,m");
-        output_line("mvi \th,0");
+        output_line ("lbpa\t");
     } else { /*int*/
-        if (uflag) {
-            if (reg & HL_REG) {
-                gen_swap();
-            }
-            output_line("lhlx");
-        } else {
-            gen_call("ccgint");
-        }
+        output_line ("lwpa\t");
     }
 }
 
@@ -255,7 +232,7 @@ gen_swap() {
  * the primary register
  */
 gen_immediate() {
-    output_with_tab ("lxi \th,");
+    output_with_tab ("lwia \t");
 }
 
 /**
@@ -345,12 +322,10 @@ gen_test_jump(label, ft)
 int     label,
         ft;
 {
-    output_line ("mov \ta,h");
-    output_line ("ora \tl");
     if (ft)
-        output_with_tab ("jnz \t");
+        output_with_tab ("jpnz\t");
     else
-        output_with_tab ("jz  \t");
+        output_with_tab ("jpz \t");
     print_label (label);
     newline ();
 }
@@ -756,7 +731,7 @@ char *inclib() {
  */
 gnargs(d)
 int     d; {
-    output_with_tab ("mvi \ta,");
+    output_string (";\tArguments Passed: ");
     output_number(d);
     newline ();
 }
@@ -789,7 +764,7 @@ int link() {
  * the secondary register
  */
 gen_immediate2() {
-    output_with_tab ("lxi \td,");
+    output_with_tab ("lwib \t");
 }
 
 /**
