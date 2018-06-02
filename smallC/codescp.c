@@ -25,7 +25,7 @@
  * print all assembler info before any code is generated
  */
 void header () {
-    output_string (";\tSmall C\n;\tSmall C Processor Backend Coder (Doesn't work right now)\n;");
+    output_string (";\tSmall C\n;\tSmall C Processor Backend Coder (Minimally works for some stuff)\n;");
     frontend_version();
     newline ();
     output_string (";\tprogram area SMALLC_GENERATED is RELOCATABLE\n");
@@ -422,6 +422,7 @@ gen_divide_by_two() {
  * Case jump instruction
  */
 gen_jump_case() {
+    printf("Case not implemented\n");
     output_with_tab ("jmp \tcccase");
     newline ();
 }
@@ -463,6 +464,7 @@ gen_mult() {
  * (quotient in primary, remainder in secondary)
  */
 gen_div() {
+    printf("Division not implemented\n");
     gen_pop();
     gen_call ("ccdiv");
 }
@@ -472,6 +474,7 @@ gen_div() {
  * (quotient in primary, remainder in secondary)
  */
 gen_udiv() {
+    printf("Division not implemented\n");
     gen_pop();
     gen_call ("ccudiv");
 }
@@ -628,7 +631,7 @@ gen_decrement_primary_reg(LVALUE *lval) {
  */
 gen_equal() {
     gen_pop();
-    gen_call ("cceq");
+    output_line ("aequ\t");
 }
 
 /**
@@ -636,7 +639,7 @@ gen_equal() {
  */
 gen_not_equal() {
     gen_pop();
-    gen_call ("ccne");
+    output_line ("aneq\t");
 }
 
 /**
@@ -644,7 +647,7 @@ gen_not_equal() {
  */
 gen_less_than() {
     gen_pop();
-    gen_call ("cclt");
+    output_line ("aslt");
 }
 
 /**
@@ -652,7 +655,7 @@ gen_less_than() {
  */
 gen_less_or_equal() {
     gen_pop();
-    gen_call ("ccle");
+    output_line ("asle");
 }
 
 /**
@@ -660,7 +663,8 @@ gen_less_or_equal() {
  */
 gen_greater_than() {
     gen_pop();
-    gen_call ("ccgt");
+    gen_swap();
+    output_line ("asle\t");
 }
 
 /**
@@ -668,7 +672,8 @@ gen_greater_than() {
  */
 gen_greater_or_equal() {
     gen_pop();
-    gen_call ("ccge");
+    gen_swap();
+    output_line ("aslt\t");
 }
 
 /**
@@ -676,7 +681,7 @@ gen_greater_or_equal() {
  */
 gen_unsigned_less_than() {
     gen_pop();
-    gen_call ("ccult");
+    output_line ("ault\t");
 }
 
 /**
@@ -684,7 +689,7 @@ gen_unsigned_less_than() {
  */
 gen_unsigned_less_or_equal() {
     gen_pop();
-    gen_call ("ccule");
+    output_line ("aule\t");
 }
 
 /**
@@ -692,7 +697,8 @@ gen_unsigned_less_or_equal() {
  */
 gen_usigned_greater_than() {
     gen_pop();
-    gen_call ("ccugt");
+    gen_swap();
+    output_line ("aule\t");
 }
 
 /**
@@ -700,7 +706,8 @@ gen_usigned_greater_than() {
  */
 gen_unsigned_greater_or_equal() {
     gen_pop();
-    gen_call ("ccuge");
+    gen_swap();
+    output_line ("ault\t");
 }
 
 char *inclib() {
@@ -784,7 +791,7 @@ gen_multiply(int type, int size) {
             gen_immediate2();
             output_number(size);
             newline();
-            gen_call("ccmul");
+            output_line ("amul\t");
             break ;
         default:
             break;
