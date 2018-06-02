@@ -393,8 +393,8 @@ gen_modify_stack(int newstkp) {
     output_line ("sphl");
     gen_swap ();
     return (newstkp);*/
-    output_string("\tmdsp\t");
-    output_decimal(k);
+    output_with_tab ("mdsp\t");
+    output_number (k);
     newline();
     return (newstkp);
 }
