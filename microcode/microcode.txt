@@ -269,10 +269,10 @@ $popa_3:popa_3:A_BUS_WE,PC_INC,NEW_INSTR
 $popb_2:popb_2:MAR_SEL=3,MDR_OUT_HIGH_WE,SP_INC,DECODE_NEXT=$popb_3
 $popb_3:popb_3:B_BUS_WE,PC_INC,NEW_INSTR
 
-//Subroutine call and return OPCODES STATUS: COMPLETE
+//Subroutine call and return OPCODES STATUS: COMPLETE + CONFIRMED
 
 //Call does the following (in order) - loads the addrs into the mdr, setting the pc to the next instruction, pushes the pc, and sets the pc equal to the mdr, and finishes with jmp_end
-//Call Status: COMPLETE
+//Call Status: COMPLETE + CONFIRMED
 60:call:MDR_OUT_LOW_WE,MAR_SEL=2,PC_INC,DECODE_NEXT=call_2
 $call_2:call_2:MDR_OUT_HIGH_WE,MAR_SEL=2,PC_INC,DECODE_NEXT=call_3,SP_DEC
 $call_3:call_3:MAR_SEL=3,MDR_AB_SEL=2,MDR_OUT_BYTE_SEL=1,MEM_WE,DECODE_NEXT=$call_4,SP_DEC
@@ -280,7 +280,7 @@ $call_4:call_4:MAR_SEL=3,MDR_AB_SEL=2,MDR_OUT_BYTE_SEL=0,MEM_WE,DECODE_NEXT=$cal
 $call_5:call_5:PC_MDR_WE,DECODE_NEXT=jmp_end
 
 //Ret does the following (in order) - pops the return address into the PC, and finishes with jmp_end
-//Ret Status: COMPLETE
+//Ret Status: COMPLETE + CONFIRMED
 61:ret:MAR_SEL=3,MDR_OUT_LOW_WE,SP_INC,DECODE_NEXT=$ret_2
 $ret_2:ret_2:MAR_SEL=3,MDR_OUT_HIGH_WE,SP_INC,DECODE_NEXT=$ret_3
 $ret_3:ret_3:PC_MDR_WE,DECODE_NEXT=jmp_end
