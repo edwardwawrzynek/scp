@@ -240,10 +240,10 @@ gen_immediate() {
  */
 gen_push(int reg) {
     if (reg & DE_REG) {
-        output_line ("push\td");
+        output_line ("pshb\t");
         stkp = stkp - INTSIZE;
     } else {
-        output_line ("push\th");
+        output_line ("psha\t");
         stkp = stkp - INTSIZE;
     }
 }
@@ -252,7 +252,7 @@ gen_push(int reg) {
  * pop the top of the stack into the secondary register
  */
 gen_pop() {
-    output_line ("pop \td");
+    output_line ("popb\t");
     stkp = stkp + INTSIZE;
 }
 
@@ -286,7 +286,7 @@ declare_entry_point(char *symbol_name) {
  * return from subroutine
  */
 gen_ret() {
-    output_line ("ret");
+    output_line ("ret \t");
 }
 
 /**
