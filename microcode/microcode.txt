@@ -14,61 +14,61 @@ $halt_2:halt_2:DECODE_NEXT=#halt
 
 //Load Byte Immediate A, set high mdr to zero
 1:lbia:MDR_OUT_LOW_WE,MAR_SEL=2,PC_INC,DECODE_NEXT=lbia_2,MDR_HIGH_RST
-$lbia_2:lbia_2:PC_INC,NEW_INSTR, A_BUS_WE
+$lbia_2:lbia_2:PC_INC,NEW_INSTR,A_BUS_WE,BUS_IN_SEL=0
 
 //Load Byte Immediate B
 2:lbib:MDR_OUT_LOW_WE,MAR_SEL=2,PC_INC,DECODE_NEXT=lbib_2,MDR_HIGH_RST
-$lbib_2:lbib_2:PC_INC,NEW_INSTR, B_BUS_WE
+$lbib_2:lbib_2:PC_INC,NEW_INSTR,B_BUS_WE,BUS_IN_SEL=0
 
 //Load Word Immediate A
 3:lwia:MDR_OUT_LOW_WE,MAR_SEL=2,PC_INC,DECODE_NEXT=lwia_2
 $lwia_2:lwia_2:MDR_OUT_HIGH_WE,MAR_SEL=2,PC_INC,DECODE_NEXT=lwia_3
-$lwia_3:lwia_3:PC_INC,NEW_INSTR, A_BUS_WE
+$lwia_3:lwia_3:PC_INC,NEW_INSTR,A_BUS_WE,BUS_IN_SEL=0
 
 //Load Word Immediate B
 4:lwib:MDR_OUT_LOW_WE,MAR_SEL=2,PC_INC,DECODE_NEXT=lwib_2
 $lwib_2:lwib_2:MDR_OUT_HIGH_WE,MAR_SEL=2,PC_INC,DECODE_NEXT=lwib_3
-$lwib_3:lwib_3:PC_INC,NEW_INSTR, B_BUS_WE
+$lwib_3:lwib_3:PC_INC,NEW_INSTR,B_BUS_WE,BUS_IN_SEL=0
 
 //Load Pointer(p) (INDIRECT FROM ADDR'S IN A) - Status: COMPLETE + CONFIRMED
 
 //Load Byte Pointer(p) A
 5:lbpa:MAR_SEL=0,AB_OUT_SEL=0,MDR_OUT_LOW_WE,DECODE_NEXT=lbpa_2,MDR_HIGH_RST
-$lbpa_2:lbpa_2:A_BUS_WE,PC_INC,NEW_INSTR
+$lbpa_2:lbpa_2:A_BUS_WE,BUS_IN_SEL=0,PC_INC,NEW_INSTR
 
 //Load Byte Pointer(p) B
 6:lbpb:MAR_SEL=0,AB_OUT_SEL=0,MDR_OUT_LOW_WE,DECODE_NEXT=lbpb_2,MDR_HIGH_RST
-$lbpb_2:lbpb_2:B_BUS_WE,PC_INC,NEW_INSTR
+$lbpb_2:lbpb_2:B_BUS_WE,BUS_IN_SEL=0,PC_INC,NEW_INSTR
 
 //Load Word Pointer(p) A
 7:lwpa:MAR_SEL=0,AB_OUT_SEL=0,MDR_OUT_LOW_WE,DECODE_NEXT=lwpa_2,A_INC
 $lwpa_2:lwpa_2:MAR_SEL=0,AB_OUT_SEL=0,MDR_OUT_HIGH_WE,DECODE_NEXT=lwpa_3
-$lwpa_3:lwpa_3:A_BUS_WE,PC_INC,NEW_INSTR
+$lwpa_3:lwpa_3:A_BUS_WE,BUS_IN_SEL=0,PC_INC,NEW_INSTR
 
 //Load Word Pointer(p) B
 8:lwpb:MAR_SEL=0,AB_OUT_SEL=0,MDR_OUT_LOW_WE,A_INC,DECODE_NEXT=lwpb_2
 $lwpb_2:lwpb_2:MAR_SEL=0,AB_OUT_SEL=0,MDR_OUT_HIGH_WE,DECODE_NEXT=lwpb_3,A_DEC
-$lwpb_3:lwpb_3:B_BUS_WE,PC_INC,NEW_INSTR
+$lwpb_3:lwpb_3:B_BUS_WE,BUS_IN_SEL=0,PC_INC,NEW_INSTR
 
 //Load Pointer(q) (INDIRECT FROM ADDR'S IN B) - Status: COMPLETE + CONFIRMED
 
 //Load Byte Pointer(q) A
 9:lbqa:MAR_SEL=0,AB_OUT_SEL=1,MDR_OUT_LOW_WE,DECODE_NEXT=lbqa_2,MDR_HIGH_RST
-$lbqa_2:lbpa_2:A_BUS_WE,PC_INC,NEW_INSTR
+$lbqa_2:lbpa_2:A_BUS_WE,BUS_IN_SEL=0,PC_INC,NEW_INSTR
 
 //Load Byte Pointer(q) B
 10:lbqb:MAR_SEL=0,AB_OUT_SEL=1,MDR_OUT_LOW_WE,DECODE_NEXT=lbqb_2,MDR_HIGH_RST
-$lbqb_2:lbpb_2:B_BUS_WE,PC_INC,NEW_INSTR
+$lbqb_2:lbpb_2:B_BUS_WE,BUS_IN_SEL=0,PC_INC,NEW_INSTR
 
 //Load Word Pointer(q) A
 11:lwqa:MAR_SEL=0,AB_OUT_SEL=1,MDR_OUT_LOW_WE,DECODE_NEXT=lwqa_2,B_INC
 $lwqa_2:lwpa_2:MAR_SEL=0,AB_OUT_SEL=1,MDR_OUT_HIGH_WE,DECODE_NEXT=lwqa_3,B_DEC
-$lwqa_3:lwpa_3:A_BUS_WE,PC_INC,NEW_INSTR
+$lwqa_3:lwpa_3:A_BUS_WE,BUS_IN_SEL=0,PC_INC,NEW_INSTR
 
 //Load Word Pointer(q) B
 12:lwqb:MAR_SEL=0,AB_OUT_SEL=1,MDR_OUT_LOW_WE,B_INC,DECODE_NEXT=lwqb_2
 $lwqb_2:lwqb_2:MAR_SEL=0,AB_OUT_SEL=1,MDR_OUT_HIGH_WE,DECODE_NEXT=lwqb_3
-$lwqb_3:lwqb_3:B_BUS_WE,PC_INC,NEW_INSTR
+$lwqb_3:lwqb_3:B_BUS_WE,BUS_IN_SEL=0,PC_INC,NEW_INSTR
 
 
 //Load Memory - Status: COMPLETE + CONFIRMED
@@ -77,25 +77,25 @@ $lwqb_3:lwqb_3:B_BUS_WE,PC_INC,NEW_INSTR
 
 13:lbma:MAR_SEL=2,MDR_OUT_LOW_WE,PC_INC,DECODE_NEXT=lbma_2
 $lbma_2:lbma_2:MAR_SEL=2,MDR_OUT_HIGH_WE,PC_INC,DECODE_NEXT=lbma_3
-$lbma_3:lbma_3:A_BUS_WE,DECODE_NEXT=#lbpa
+$lbma_3:lbma_3:A_BUS_WE,BUS_IN_SEL=0,DECODE_NEXT=#lbpa
 
 //Load Byte Memory B - call lbqb to finish
 
 14:lbmb:MAR_SEL=2,MDR_OUT_LOW_WE,PC_INC,DECODE_NEXT=lbmb_2
 $lbmb_2:lbmb_2:MAR_SEL=2,MDR_OUT_HIGH_WE,PC_INC,DECODE_NEXT=lbmb_3
-$lbmb_3:lbmb_3:B_BUS_WE,DECODE_NEXT=#lbqb
+$lbmb_3:lbmb_3:B_BUS_WE,BUS_IN_SEL=0,DECODE_NEXT=#lbqb
 
 //Load Word Memory A - call lwpa to finish
 
 15:lwma:MAR_SEL=2,MDR_OUT_LOW_WE,PC_INC,DECODE_NEXT=lwma_2
 $lwma_2:lwma_2:MAR_SEL=2,MDR_OUT_HIGH_WE,PC_INC,DECODE_NEXT=lwma_3
-$lwma_3:lwma_3:A_BUS_WE,DECODE_NEXT=#lwpa
+$lwma_3:lwma_3:A_BUS_WE,BUS_IN_SEL=0,DECODE_NEXT=#lwpa
 
 //Load Word Memory B - call lwqb to finish
 
 16:lwmb:MAR_SEL=2,MDR_OUT_LOW_WE,PC_INC,DECODE_NEXT=lwmb_2
 $lwmb_2:lwmb_2:MAR_SEL=2,MDR_OUT_HIGH_WE,PC_INC,DECODE_NEXT=lwmb_3
-$lwmb_3:lwmb_3:B_BUS_WE,DECODE_NEXT=#lwqb
+$lwmb_3:lwmb_3:B_BUS_WE,BUS_IN_SEL=0,DECODE_NEXT=#lwqb
 
 // STORE OPCODES 17-24 STATUS: COMPLETE + COMFIRMED
 // Store instructions format - sxxx - s(s)(m)(r)
@@ -235,7 +235,7 @@ $jpz_3:jpz_3:PC_COND_EN,PC_COND_MODE=1,PC_MDR_WE,DECODE_NEXT=jmp_end
 53:xswp:ALU_OP=20,DECODE_NEXT=$xswp_2
 $xswp_2:xswp_2:B_A_WE,A_ALU_WE,PC_INC,NEW_INSTR
 
-//Stack Operations OPCODES 54-55 STATUS - COMPLETE + CONFIRMED
+//Stack Operations OPCODES 54-56 STATUS - COMPLETE + CONFIRMED
 
 //The stack pointer points to the value at the top of the stack
 
@@ -247,33 +247,38 @@ $mdsp_3:mdsp_3:SP_ADD_WE,PC_INC,NEW_INSTR
 //Set stack pointer equal to value in A - Status: COMPLETE + CONFIRMED
 55:masp:SP_BUS_WE,PC_INC,NEW_INSTR
 
-//Push and Pop operations OPCODES 56-59 - Status: COMPLETE + CONFIRMED
+//Set A equal to value in sp + (offset in word following instruction)
+56:mspa:MAR_SEL=2,MDR_OUT_LOW_WE,PC_INC,DECODE_NEXT=$mspa_2
+$mspa_2:mspa_2:MAR_SEL=2,MDR_OUT_HIGH_WE,PC_INC,DECODE_NEXT=$mspa_3
+$mspa_3:mspa_3:BUS_IN_SEL=2,A_BUS_WE,PC_INC,NEW_INSTR
+
+//Push and Pop operations OPCODES 57-60 - Status: COMPLETE + CONFIRMED
 
 //Push A - Status: COMPLETE + CONFIRMED
-56:psha:SP_DEC,DECODE_NEXT=$psha_2
+57:psha:SP_DEC,DECODE_NEXT=$psha_2
 $psha_2:psha_2:MAR_SEL=3,MDR_AB_SEL=0,MDR_OUT_BYTE_SEL=1,MEM_WE,SP_DEC,DECODE_NEXT=$psha_3
 $psha_3:psha_3:MAR_SEL=3,MDR_AB_SEL=0,MDR_OUT_BYTE_SEL=0,MEM_WE,NEW_INSTR,PC_INC
 
 //Push B - Status: COMPLETE + CONFIRMED
-57:pshb:SP_DEC,DECODE_NEXT=$pshb_2
+58:pshb:SP_DEC,DECODE_NEXT=$pshb_2
 $pshb_2:pshb_2:MAR_SEL=3,MDR_AB_SEL=1,MDR_OUT_BYTE_SEL=1,MEM_WE,SP_DEC,DECODE_NEXT=$pshb_3
 $pshb_3:pshb_3:MAR_SEL=3,MDR_AB_SEL=1,MDR_OUT_BYTE_SEL=0,MEM_WE,NEW_INSTR,PC_INC
 
 //Pop A - Status: COMPLETE + CONFIRMED
-58:popa:MAR_SEL=3,MDR_OUT_LOW_WE,SP_INC,DECODE_NEXT=$popa_2
+59:popa:MAR_SEL=3,MDR_OUT_LOW_WE,SP_INC,DECODE_NEXT=$popa_2
 $popa_2:popa_2:MAR_SEL=3,MDR_OUT_HIGH_WE,SP_INC,DECODE_NEXT=$popa_3
-$popa_3:popa_3:A_BUS_WE,PC_INC,NEW_INSTR
+$popa_3:popa_3:A_BUS_WE,BUS_IN_SEL=0,PC_INC,NEW_INSTR
 
 //Pop B - Status: COMPLETE + CONFIRMED
-59:popb:MAR_SEL=3,MDR_OUT_LOW_WE,SP_INC,DECODE_NEXT=$popb_2
+60:popb:MAR_SEL=3,MDR_OUT_LOW_WE,SP_INC,DECODE_NEXT=$popb_2
 $popb_2:popb_2:MAR_SEL=3,MDR_OUT_HIGH_WE,SP_INC,DECODE_NEXT=$popb_3
-$popb_3:popb_3:B_BUS_WE,PC_INC,NEW_INSTR
+$popb_3:popb_3:B_BUS_WE,BUS_IN_SEL=0,PC_INC,NEW_INSTR
 
-//Subroutine call and return OPCODES STATUS: COMPLETE + CONFIRMED
+//Subroutine call and return OPCODES 61-62 STATUS: COMPLETE + CONFIRMED
 
 //Call does the following (in order) - loads the addrs into the mdr, setting the pc to the next instruction, pushes the pc, and sets the pc equal to the mdr, and finishes with jmp_end
 //Call Status: COMPLETE + CONFIRMED
-60:call:MDR_OUT_LOW_WE,MAR_SEL=2,PC_INC,DECODE_NEXT=call_2
+61:call:MDR_OUT_LOW_WE,MAR_SEL=2,PC_INC,DECODE_NEXT=call_2
 $call_2:call_2:MDR_OUT_HIGH_WE,MAR_SEL=2,PC_INC,DECODE_NEXT=call_3,SP_DEC
 $call_3:call_3:MAR_SEL=3,MDR_AB_SEL=2,MDR_OUT_BYTE_SEL=1,MEM_WE,DECODE_NEXT=$call_4,SP_DEC
 $call_4:call_4:MAR_SEL=3,MDR_AB_SEL=2,MDR_OUT_BYTE_SEL=0,MEM_WE,DECODE_NEXT=$call_5
@@ -281,6 +286,6 @@ $call_5:call_5:PC_MDR_WE,DECODE_NEXT=jmp_end
 
 //Ret does the following (in order) - pops the return address into the PC, and finishes with jmp_end
 //Ret Status: COMPLETE + CONFIRMED
-61:ret:MAR_SEL=3,MDR_OUT_LOW_WE,SP_INC,DECODE_NEXT=$ret_2
+62:ret:MAR_SEL=3,MDR_OUT_LOW_WE,SP_INC,DECODE_NEXT=$ret_2
 $ret_2:ret_2:MAR_SEL=3,MDR_OUT_HIGH_WE,SP_INC,DECODE_NEXT=$ret_3
 $ret_3:ret_3:PC_MDR_WE,DECODE_NEXT=jmp_end

@@ -26,15 +26,15 @@ refer to the applicable agreement for further details.
 	(port
 		(pt 0 32)
 		(input)
-		(text "pc[15..0]" (rect 0 0 33 12)(font "Arial" ))
-		(text "pc[15..0]" (rect 21 27 54 39)(font "Arial" ))
+		(text "mdr[15..0]" (rect 0 0 40 12)(font "Arial" ))
+		(text "mdr[15..0]" (rect 21 27 61 39)(font "Arial" ))
 		(line (pt 0 32)(pt 16 32)(line_width 3))
 	)
 	(port
 		(pt 0 48)
 		(input)
-		(text "mdr[15..0]" (rect 0 0 40 12)(font "Arial" ))
-		(text "mdr[15..0]" (rect 21 43 61 55)(font "Arial" ))
+		(text "pc[15..0]" (rect 0 0 33 12)(font "Arial" ))
+		(text "pc[15..0]" (rect 21 43 54 55)(font "Arial" ))
 		(line (pt 0 48)(pt 16 48)(line_width 3))
 	)
 	(port

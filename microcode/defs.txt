@@ -28,3 +28,4 @@
 41: SP_ADD_WE - write sp+mdr (output from sp_adder) into sp
 42: SP_INC - increment sp
 43: SP_DEC - deincrement sp
+[45:44]: BUS_IN_SEL - selects signal to be written into a and b 0=mdr, 1=pc, 2=sp+mdr, 3=io_data

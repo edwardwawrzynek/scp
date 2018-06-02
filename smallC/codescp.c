@@ -161,10 +161,9 @@ int gen_get_locale(SYMBOL *sym) {
         newline();
         return HL_REG;
     } else {
-        gen_immediate();
+        output_with_tab ("mspa\t");
         output_number(sym->offset - stkp);
         newline ();
-        output_line ("dad \tsp");
         return HL_REG;
     }
 }
