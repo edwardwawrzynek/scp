@@ -41,10 +41,18 @@ label_addr(char * name){
 }
 //Append a label and position to a module's namespace
 mod_label_append(char *name, unsigned int addr, unsigned int module){
+	if(module >= NUM_MODULES-1){
+		print("Module number limit passed\n");
+		err_exit();
+	}
   return base_label_append(name, addr, mod_labels[module], mod_addr[module], &mod_labels_append_pos[module], &mod_labels_allocd[module]);
 }
 //get addr for label in module's namespace
 mod_label_addr(char *name, unsigned int module){
+	if(module >= NUM_MODULES-1){
+		print("Module number limit passed\n");
+		err_exit();
+	}
   return base_get_addr_for_label(name, mod_labels_allocd[module], mod_labels[module], mod_addr[module]);
 }
 

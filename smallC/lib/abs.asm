@@ -1,39 +1,35 @@
 ;	Small C
-;	8080 Backend Coder (2.4,84/11/27)
+;	Small C Processor Backend Coder (Minimally works for some stuff)
 ;	Front End (2.8,13/01/20)
 
 ;	program area SMALLC_GENERATED is RELOCATABLE
-	.module SMALLC_GENERATED
-	.list   (err, loc, bin, eqt, cyc, lin, src, lst, md)
-	.nlist  (pag)
-	.area  SMALLC_GENERATED  (REL,CON,CSEG)
+	.module	SMALLC_GENERATED
+;	Code Segment
 abs:
-	lxi 	h,#2
-	dad 	sp
-	call	ccgint
-	push	h
-	lxi 	h,#0
-	pop 	d
-	call	cclt
-	mov 	a,h
-	ora 	l
-	jz  	$2
-	lxi 	h,#2
-	dad 	sp
-	call	ccgint
-	call	ccneg
+	mspa	#2
+	lwpa	
+	psha	
+	lwia	#0
+	popb	
+	aslt
+	jpz 	$2
+	mspa	#2
+	lwpa	
+	aneg	
 	jmp 	$1
+	mdsp	#0
 	jmp 	$3
 $2:
-	lxi 	h,#2
-	dad 	sp
-	call	ccgint
+	mspa	#2
+	lwpa	
 	jmp 	$1
+	mdsp	#0
 $3:
 $1:
-	ret
-	.area  SMALLC_GENERATED_DATA  (REL,CON,DSEG)
-	.globl	abs
+	mdsp	#0
+	ret 	
+;	Data Segment
+;	globl	abs
 
 ;	0 error(s) in compilation
 ;	literal pool:0

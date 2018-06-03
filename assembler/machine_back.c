@@ -15,8 +15,8 @@ unsigned int labels_append_pos = 0;
 //number of allocated label spots
 unsigned int labels_allocd = 0;
 
-//Hard limit of 32 modules
-#define NUM_MODULES 32
+//Hard limit of 64 modules
+#define NUM_MODULES 64
 char **mod_labels[NUM_MODULES];
 unsigned int *mod_addr[NUM_MODULES];
 unsigned int mod_labels_append_pos[NUM_MODULES];
