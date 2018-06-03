@@ -29,3 +29,6 @@
 42: SP_INC - increment sp
 43: SP_DEC - deincrement sp
 [45:44]: BUS_IN_SEL - selects signal to be written into a and b 0=mdr, 1=pc, 2=sp+mdr, 3=io_data
+46: IO_DATA_WE - write a or b into io_data
+47: IO_ADDR_WE - write a or b into io_addr
+48: IO_WE - sets io_we high

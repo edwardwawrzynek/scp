@@ -289,3 +289,13 @@ $call_5:call_5:PC_MDR_WE,DECODE_NEXT=jmp_end
 62:ret:MAR_SEL=3,MDR_OUT_LOW_WE,SP_INC,DECODE_NEXT=$ret_2
 $ret_2:ret_2:MAR_SEL=3,MDR_OUT_HIGH_WE,SP_INC,DECODE_NEXT=$ret_3
 $ret_3:ret_3:PC_MDR_WE,DECODE_NEXT=jmp_end
+
+//IO OPCODES STATUS: COMPLETE + CONFIRMED
+
+//Write the value in a to the port in b
+63:outa:AB_OUT_SEL=1,IO_ADDR_WE,DECODE_NEXT=$outa_2
+$outa_2:outa_2:AB_OUT_SEL=0,IO_DATA_WE,IO_WE,PC_INC,NEW_INSTR
+
+//Load value from port in b into a
+64:ina:AB_OUT_SEL=1,IO_ADDR_WE,DECODE_NEXT=$ina_2
+$ina_2:ina_2:BUS_IN_SEL=3,A_BUS_WE,PC_INC,NEW_INSTR

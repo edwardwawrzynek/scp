@@ -261,7 +261,6 @@ gen_pop() {
 gen_swap_stack() {
     output_line ("xthl");
 }
-
 /**
  * call the specified subroutine name
  * @param sname subroutine name
