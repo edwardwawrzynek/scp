@@ -2558,12 +2558,6 @@ refer to the applicable agreement for further details.
 	(bus)
 )
 (connector
-	(text "LED_OUT[15..0]" (rect 384 976 465 989)(font "Intel Clear" ))
-	(pt 376 992)
-	(pt 432 992)
-	(bus)
-)
-(connector
 	(pt 128 880)
 	(pt 128 992)
 )
@@ -2619,6 +2613,37 @@ refer to the applicable agreement for further details.
 	(pt 160 1112)
 	(bus)
 )
+(connector
+	(pt 224 1024)
+	(pt 216 1024)
+	(bus)
+)
+(connector
+	(pt 216 1024)
+	(pt 216 1064)
+	(bus)
+)
+(connector
+	(pt 216 1064)
+	(pt 392 1064)
+	(bus)
+)
+(connector
+	(pt 392 1064)
+	(pt 392 992)
+	(bus)
+)
+(connector
+	(pt 376 992)
+	(pt 392 992)
+	(bus)
+)
+(connector
+	(text "LED_OUT[15..0]" (rect 384 976 465 989)(font "Intel Clear" ))
+	(pt 392 992)
+	(pt 432 992)
+	(bus)
+)
 (junction (pt 96 -232))
 (junction (pt 1008 -184))
 (junction (pt 968 -200))
@@ -2645,3 +2670,4 @@ refer to the applicable agreement for further details.
 (junction (pt 144 1008))
 (junction (pt 152 1016))
 (junction (pt 160 1056))
+(junction (pt 392 992))

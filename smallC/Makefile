@@ -5,9 +5,9 @@
 #       You'll probably want to change these.  These are used by the compilers
 #       to figure out where the include files should go.
 #	INCDIR will be the look up location for #include <stdio.h> ..
-TARGDIR = /home/notebook/Public/work/smallCextended/lib
+#TARGDIR = /home/notebook/Public/work/smallCextended/lib
 #INCDIR = "/usr/shared/smallC/src/scc/include/"
-INCDIR = "./include/"
+INCDIR = "/home/edward/scp/smallC/includes/"
 
 INSTFLAGS = -DINCDIR=$(INCDIR)
    CFLAGS = '$(INSTFLAGS)' -ggdb -g

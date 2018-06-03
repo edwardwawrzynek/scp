@@ -6,11 +6,10 @@ atoi(s) char s[];{
                 (s[i] == ' ') | (s[i] == EOL) | (s[i] == '\t');
                 ++i) ;
         sign = 1;
-        switch(s[i]){
-        case '-': sign = -1; /* and fall through */
-        case '+': ++i;
-                break;
-        }
+        if(s[i]=='-'){
+        	sign = -1;
+	}
+	++i;
         for(n = 0;
                 isdigit(s[i]);
                 ++i)
