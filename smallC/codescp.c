@@ -646,7 +646,7 @@ gen_not_equal() {
  */
 gen_less_than() {
     gen_pop();
-    output_line ("aslt");
+    output_line ("aslt\t");
 }
 
 /**
@@ -654,7 +654,7 @@ gen_less_than() {
  */
 gen_less_or_equal() {
     gen_pop();
-    output_line ("asle");
+    output_line ("asle\t");
 }
 
 /**

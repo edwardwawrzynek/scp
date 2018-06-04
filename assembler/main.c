@@ -101,6 +101,15 @@ read_to_nl(){
   return 0;
 }
 
+read_to_nl_or_tab(){
+	char c;
+	c = read();
+	while(c != '\n' && c != EOF && c != '\t'){
+		c = read();
+	}
+	return c;
+}
+
 usage(){
   print("Usage: scpasm [output file] [one or more asm files]\n");
   err_exit();
@@ -371,12 +380,16 @@ second_pass(){
   //Loop through each line
   while(1){
     c = read();
-    if(c == EOF){break;}
     //Skip comments, and label prefixes
-    if(c == ';' || c == '$' || isalpha(c)){
+    if(c == ';'){
       read_to_nl();
       continue;
     }
+		//Commands can be on the same line as labels
+		if(c == '$' || isalpha(c)){
+			c = read_to_nl_or_tab();
+		}
+		if(c == EOF){break;}
     if(c == '\n'){continue;}
     //The file is at the first position of a good line - handle the line
     if(c == '\t'){
