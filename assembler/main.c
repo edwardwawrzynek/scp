@@ -91,6 +91,22 @@ read_line_buf(char first){
   return 0;
 }
 
+//read line into buffer, and put the passed char in first position - this stops at tabs
+read_line_buf_label(char first){
+  int index;
+  char cur;
+  buf[0] = first;
+  index = 1;
+  cur = read();
+  while(cur != '\n' && cur != EOF && cur != '\t'){
+    buf[index] = cur;
+    index++;
+    cur = read();
+  }
+  buf[index] = '\0';
+  return cur;
+}
+
 //read till newline - used to skip comments
 read_to_nl(){
   char c;
@@ -229,22 +245,22 @@ first_pass(){
     //Module-level label
     if(c == '$'){
       //Keep the $ prefix on the addr
-      read_line_buf(c);
+      c = read_line_buf_label(c);
       buf_label_clear();
       mod_label_append(buf, addr, MODULE_NUM);
     }
-    //Asm command or directive
-    else if(c == '\t'){
+    //Global label
+    else if(isalpha(c)){
+      c = read_line_buf_label(c);
+      buf_label_clear();
+      label_append(buf, addr);
+    }
+		 //Asm command or directive
+    if(c == '\t'){
       c = read();
       read_line_buf(c);
       //first_pass_cmd will handle the module level
       addr += first_pass_cmd();
-    }
-    //Global label
-    else if(isalpha(c)){
-      read_line_buf(c);
-      buf_label_clear();
-      label_append(buf, addr);
     }
   }
 }
@@ -289,6 +305,12 @@ second_handle_dir(){
       }
     }
   }
+	else{
+		print("Error: no such directive: ");
+		print(name);
+		print("\n");
+		err_exit();
+	}
 }
 
 gen_name(){
@@ -346,6 +368,7 @@ second_write_arg(unsigned int pos, unsigned int bytes){
   char c;
   i = 0;
   add = 0;
+	addr = 0;
   //Seperate literal to add if present
   do{
     c = args[pos+i];
@@ -432,5 +455,6 @@ main(int argc, char **argv){
   second_pass();
   //clean up
   close();
+	printn(label_addr("Xscreenpos"));
   back_end();
 }
