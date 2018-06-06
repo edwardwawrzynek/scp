@@ -455,6 +455,5 @@ main(int argc, char **argv){
   second_pass();
   //clean up
   close();
-	printn(label_addr("Xscreenpos"));
   back_end();
 }
