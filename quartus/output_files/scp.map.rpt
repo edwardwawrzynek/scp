@@ -1,5 +1,5 @@
 Analysis & Synthesis report for scp
-Sun Jun  3 17:09:19 2018
+Fri Jun  8 16:57:38 2018
 Quartus Prime Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
 
 
@@ -16,32 +16,30 @@ Quartus Prime Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
   8. Analysis & Synthesis RAM Summary
   9. Analysis & Synthesis DSP Block Usage Summary
  10. Analysis & Synthesis IP Cores Summary
- 11. General Register Statistics
- 12. Registers Added for RAM Pass-Through Logic
- 13. Registers Packed Into Inferred Megafunctions
- 14. Multiplexer Restructuring Statistics (Restructuring Performed)
- 15. Source assignments for rom_mega:DECODE_ROM|altsyncram:altsyncram_component|altsyncram_tkh1:auto_generated
- 16. Source assignments for ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_63r2:auto_generated
- 17. Source assignments for mmu:inst17|page_table_mega:minst|altsyncram:altsyncram_component|altsyncram_5mr2:auto_generated
- 18. Source assignments for vga_io:inst23|vgaTextGen:instv2|altsyncram:text_mem_rtl_0|altsyncram_oej1:auto_generated
- 19. Source assignments for vga_io:inst23|vgaTextGen:instv2|altsyncram:text_mem_rtl_1|altsyncram_qri1:auto_generated
- 20. Parameter Settings for User Entity Instance: vga_io:inst23|VGA_controller:instv1
- 21. Parameter Settings for User Entity Instance: vga_io:inst23|io_port:instv3
- 22. Parameter Settings for User Entity Instance: vga_io:inst23|io_port:instv4
- 23. Parameter Settings for User Entity Instance: vga_io:inst23|vgaTextGen:instv2
+ 11. Registers Removed During Synthesis
+ 12. General Register Statistics
+ 13. Multiplexer Restructuring Statistics (Restructuring Performed)
+ 14. Source assignments for vga_io:inst23|char_mem:instv2|altsyncram:altsyncram_component|altsyncram_dnj2:auto_generated
+ 15. Source assignments for vga_io:inst23|charset_rom:instv5|altsyncram:altsyncram_component|altsyncram_1ag1:auto_generated
+ 16. Source assignments for rom_mega:DECODE_ROM|altsyncram:altsyncram_component|altsyncram_tkh1:auto_generated
+ 17. Source assignments for ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_63r2:auto_generated
+ 18. Source assignments for mmu:inst17|page_table_mega:minst|altsyncram:altsyncram_component|altsyncram_5mr2:auto_generated
+ 19. Parameter Settings for User Entity Instance: vga_io:inst23|VGA_controller:instv6
+ 20. Parameter Settings for User Entity Instance: vga_io:inst23|io_port:instv3
+ 21. Parameter Settings for User Entity Instance: vga_io:inst23|io_port:instv4
+ 22. Parameter Settings for User Entity Instance: vga_io:inst23|char_mem:instv2|altsyncram:altsyncram_component
+ 23. Parameter Settings for User Entity Instance: vga_io:inst23|charset_rom:instv5|altsyncram:altsyncram_component
  24. Parameter Settings for User Entity Instance: vga_pll:inst|vga_pll_0002:vga_pll_inst|altera_pll:altera_pll_i
  25. Parameter Settings for User Entity Instance: pll:inst9|pll_0002:pll_inst|altera_pll:altera_pll_i
  26. Parameter Settings for User Entity Instance: rom_mega:DECODE_ROM|altsyncram:altsyncram_component
  27. Parameter Settings for User Entity Instance: ram_mega:RAM|altsyncram:altsyncram_component
  28. Parameter Settings for User Entity Instance: mmu:inst17|page_table_mega:minst|altsyncram:altsyncram_component
  29. Parameter Settings for User Entity Instance: io_port:inst22
- 30. Parameter Settings for Inferred Entity Instance: vga_io:inst23|vgaTextGen:instv2|altsyncram:text_mem_rtl_0
- 31. Parameter Settings for Inferred Entity Instance: vga_io:inst23|vgaTextGen:instv2|altsyncram:text_mem_rtl_1
- 32. altsyncram Parameter Settings by Entity Instance
- 33. Post-Synthesis Netlist Statistics for Top Partition
- 34. Elapsed Time Per Partition
- 35. Analysis & Synthesis Messages
- 36. Analysis & Synthesis Suppressed Messages
+ 30. altsyncram Parameter Settings by Entity Instance
+ 31. Post-Synthesis Netlist Statistics for Top Partition
+ 32. Elapsed Time Per Partition
+ 33. Analysis & Synthesis Messages
+ 34. Analysis & Synthesis Suppressed Messages
 
 
 
@@ -67,16 +65,16 @@ refer to the applicable agreement for further details.
 +-------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                  ;
 +---------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status     ; Successful - Sun Jun  3 17:09:19 2018       ;
+; Analysis & Synthesis Status     ; Successful - Fri Jun  8 16:57:38 2018       ;
 ; Quartus Prime Version           ; 17.1.0 Build 590 10/25/2017 SJ Lite Edition ;
 ; Revision Name                   ; scp                                         ;
 ; Top-level Entity Name           ; scp                                         ;
 ; Family                          ; Cyclone V                                   ;
 ; Logic utilization (in ALMs)     ; N/A                                         ;
-; Total registers                 ; 315                                         ;
+; Total registers                 ; 270                                         ;
 ; Total pins                      ; 21                                          ;
 ; Total virtual pins              ; 0                                           ;
-; Total block memory bits         ; 606,624                                     ;
+; Total block memory bits         ; 599,200                                     ;
 ; Total DSP Blocks                ; 1                                           ;
 ; Total HSSI RX PCSs              ; 0                                           ;
 ; Total HSSI PMA RX Deserializers ; 0                                           ;
@@ -189,8 +187,7 @@ refer to the applicable agreement for further details.
 ; Usage by Processor         ; % Time Used ;
 ;     Processor 1            ; 100.0%      ;
 ;     Processor 2            ;   0.0%      ;
-;     Processor 3            ;   0.0%      ;
-;     Processor 4            ;   0.0%      ;
+;     Processors 3-4         ;   0.0%      ;
 +----------------------------+-------------+
 
 
@@ -199,7 +196,7 @@ refer to the applicable agreement for further details.
 +----------------------------------+-----------------+----------------------------------------+----------------------------------------------------------------------------------------+---------+
 ; File Name with User-Entered Path ; Used in Netlist ; File Type                              ; File Name with Absolute Path                                                           ; Library ;
 +----------------------------------+-----------------+----------------------------------------+----------------------------------------------------------------------------------------+---------+
-; IO/vga/vgaText.v                 ; yes             ; User Verilog HDL File                  ; /home/edward/scp/quartus/IO/vga/vgaText.v                                              ;         ;
+; IO/vga/text_gen.v                ; yes             ; User Verilog HDL File                  ; /home/edward/scp/quartus/IO/vga/text_gen.v                                             ;         ;
 ; IO/vga/vga_io.bdf                ; yes             ; User Block Diagram/Schematic File      ; /home/edward/scp/quartus/IO/vga/vga_io.bdf                                             ;         ;
 ; IO/vga/vga_controller.v          ; yes             ; User Verilog HDL File                  ; /home/edward/scp/quartus/IO/vga/vga_controller.v                                       ;         ;
 ; IO/io_port.v                     ; yes             ; User Verilog HDL File                  ; /home/edward/scp/quartus/IO/io_port.v                                                  ;         ;
@@ -232,7 +229,8 @@ refer to the applicable agreement for further details.
 ; mux/mdr_out_mux.v                ; yes             ; User Verilog HDL File                  ; /home/edward/scp/quartus/mux/mdr_out_mux.v                                             ;         ;
 ; vga_pll.v                        ; yes             ; User Wizard-Generated File             ; /home/edward/scp/quartus/vga_pll.v                                                     ; vga_pll ;
 ; vga_pll/vga_pll_0002.v           ; yes             ; User Verilog HDL File                  ; /home/edward/scp/quartus/vga_pll/vga_pll_0002.v                                        ; vga_pll ;
-; altera_pll.v                     ; yes             ; Megafunction                           ; /home/edward/intelFPGA_lite/17.1/quartus/libraries/megafunctions/altera_pll.v          ;         ;
+; IO/vga/char_mem.v                ; yes             ; User Wizard-Generated File             ; /home/edward/scp/quartus/IO/vga/char_mem.v                                             ;         ;
+; IO/vga/charset_rom.v             ; yes             ; User Wizard-Generated File             ; /home/edward/scp/quartus/IO/vga/charset_rom.v                                          ;         ;
 ; altsyncram.tdf                   ; yes             ; Megafunction                           ; /home/edward/intelFPGA_lite/17.1/quartus/libraries/megafunctions/altsyncram.tdf        ;         ;
 ; stratix_ram_block.inc            ; yes             ; Megafunction                           ; /home/edward/intelFPGA_lite/17.1/quartus/libraries/megafunctions/stratix_ram_block.inc ;         ;
 ; lpm_mux.inc                      ; yes             ; Megafunction                           ; /home/edward/intelFPGA_lite/17.1/quartus/libraries/megafunctions/lpm_mux.inc           ;         ;
@@ -242,6 +240,9 @@ refer to the applicable agreement for further details.
 ; altrom.inc                       ; yes             ; Megafunction                           ; /home/edward/intelFPGA_lite/17.1/quartus/libraries/megafunctions/altrom.inc            ;         ;
 ; altram.inc                       ; yes             ; Megafunction                           ; /home/edward/intelFPGA_lite/17.1/quartus/libraries/megafunctions/altram.inc            ;         ;
 ; altdpram.inc                     ; yes             ; Megafunction                           ; /home/edward/intelFPGA_lite/17.1/quartus/libraries/megafunctions/altdpram.inc          ;         ;
+; db/altsyncram_dnj2.tdf           ; yes             ; Auto-Generated Megafunction            ; /home/edward/scp/quartus/db/altsyncram_dnj2.tdf                                        ;         ;
+; db/altsyncram_1ag1.tdf           ; yes             ; Auto-Generated Megafunction            ; /home/edward/scp/quartus/db/altsyncram_1ag1.tdf                                        ;         ;
+; altera_pll.v                     ; yes             ; Megafunction                           ; /home/edward/intelFPGA_lite/17.1/quartus/libraries/megafunctions/altera_pll.v          ;         ;
 ; db/altsyncram_tkh1.tdf           ; yes             ; Auto-Generated Megafunction            ; /home/edward/scp/quartus/db/altsyncram_tkh1.tdf                                        ;         ;
 ; decode/rom_mega_cnts.mif         ; yes             ; Auto-Found Memory Initialization File  ; /home/edward/scp/quartus/decode/rom_mega_cnts.mif                                      ;         ;
 ; db/altsyncram_63r2.tdf           ; yes             ; Auto-Generated Megafunction            ; /home/edward/scp/quartus/db/altsyncram_63r2.tdf                                        ;         ;
@@ -249,8 +250,6 @@ refer to the applicable agreement for further details.
 ; db/decode_61a.tdf                ; yes             ; Auto-Generated Megafunction            ; /home/edward/scp/quartus/db/decode_61a.tdf                                             ;         ;
 ; db/mux_tfb.tdf                   ; yes             ; Auto-Generated Megafunction            ; /home/edward/scp/quartus/db/mux_tfb.tdf                                                ;         ;
 ; db/altsyncram_5mr2.tdf           ; yes             ; Auto-Generated Megafunction            ; /home/edward/scp/quartus/db/altsyncram_5mr2.tdf                                        ;         ;
-; db/altsyncram_oej1.tdf           ; yes             ; Auto-Generated Megafunction            ; /home/edward/scp/quartus/db/altsyncram_oej1.tdf                                        ;         ;
-; db/altsyncram_qri1.tdf           ; yes             ; Auto-Generated Megafunction            ; /home/edward/scp/quartus/db/altsyncram_qri1.tdf                                        ;         ;
 +----------------------------------+-----------------+----------------------------------------+----------------------------------------------------------------------------------------+---------+
 
 
@@ -259,30 +258,30 @@ refer to the applicable agreement for further details.
 +---------------------------------------------+--------------------------------------------------------------------+
 ; Resource                                    ; Usage                                                              ;
 +---------------------------------------------+--------------------------------------------------------------------+
-; Estimate of Logic utilization (ALMs needed) ; 760                                                                ;
+; Estimate of Logic utilization (ALMs needed) ; 511                                                                ;
 ;                                             ;                                                                    ;
-; Combinational ALUT usage for logic          ; 999                                                                ;
-;     -- 7 input functions                    ; 61                                                                 ;
-;     -- 6 input functions                    ; 444                                                                ;
+; Combinational ALUT usage for logic          ; 741                                                                ;
+;     -- 7 input functions                    ; 10                                                                 ;
+;     -- 6 input functions                    ; 261                                                                ;
 ;     -- 5 input functions                    ; 94                                                                 ;
-;     -- 4 input functions                    ; 84                                                                 ;
-;     -- <=3 input functions                  ; 316                                                                ;
+;     -- 4 input functions                    ; 66                                                                 ;
+;     -- <=3 input functions                  ; 310                                                                ;
 ;                                             ;                                                                    ;
-; Dedicated logic registers                   ; 315                                                                ;
+; Dedicated logic registers                   ; 270                                                                ;
 ;                                             ;                                                                    ;
 ; I/O pins                                    ; 21                                                                 ;
 ; Total MLAB memory bits                      ; 0                                                                  ;
-; Total block memory bits                     ; 606624                                                             ;
+; Total block memory bits                     ; 599200                                                             ;
 ;                                             ;                                                                    ;
 ; Total DSP Blocks                            ; 1                                                                  ;
 ;                                             ;                                                                    ;
-; Total PLLs                                  ; 5                                                                  ;
-;     -- PLLs                                 ; 5                                                                  ;
+; Total PLLs                                  ; 6                                                                  ;
+;     -- PLLs                                 ; 6                                                                  ;
 ;                                             ;                                                                    ;
 ; Maximum fan-out node                        ; pll:inst9|pll_0002:pll_inst|altera_pll:altera_pll_i|outclk_wire[0] ;
-; Maximum fan-out                             ; 240                                                                ;
-; Total fan-out                               ; 9113                                                               ;
-; Average fan-out                             ; 6.03                                                               ;
+; Maximum fan-out                             ; 169                                                                ;
+; Total fan-out                               ; 7501                                                               ;
+; Average fan-out                             ; 6.00                                                               ;
 +---------------------------------------------+--------------------------------------------------------------------+
 
 
@@ -291,15 +290,15 @@ refer to the applicable agreement for further details.
 +----------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+-----------------------------------------------------------------------------------------------------------+------------------------+--------------+
 ; Compilation Hierarchy Node                   ; Combinational ALUTs ; Dedicated Logic Registers ; Block Memory Bits ; DSP Blocks ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                       ; Entity Name            ; Library Name ;
 +----------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+-----------------------------------------------------------------------------------------------------------+------------------------+--------------+
-; |scp                                         ; 999 (1)             ; 315 (0)                   ; 606624            ; 1          ; 21   ; 0            ; |scp                                                                                                      ; scp                    ; work         ;
-;    |ab_bus_in_mux:inst15|                    ; 39 (39)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ab_bus_in_mux:inst15                                                                                 ; ab_bus_in_mux          ; work         ;
+; |scp                                         ; 741 (9)             ; 270 (0)                   ; 599200            ; 1          ; 21   ; 0            ; |scp                                                                                                      ; scp                    ; work         ;
+;    |ab_bus_in_mux:inst15|                    ; 26 (26)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ab_bus_in_mux:inst15                                                                                 ; ab_bus_in_mux          ; work         ;
 ;    |ab_bus_out_mux:inst13|                   ; 16 (16)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ab_bus_out_mux:inst13                                                                                ; ab_bus_out_mux         ; work         ;
-;    |alu:inst1|                               ; 257 (257)           ; 16 (16)                   ; 0                 ; 1          ; 0    ; 0            ; |scp|alu:inst1                                                                                            ; alu                    ; work         ;
-;    |cond:inst16|                             ; 6 (6)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|cond:inst16                                                                                          ; cond                   ; work         ;
+;    |alu:inst1|                               ; 266 (266)           ; 16 (16)                   ; 0                 ; 1          ; 0    ; 0            ; |scp|alu:inst1                                                                                            ; alu                    ; work         ;
+;    |cond:inst16|                             ; 8 (8)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|cond:inst16                                                                                          ; cond                   ; work         ;
 ;    |decode_addr_mux:inst8|                   ; 26 (26)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|decode_addr_mux:inst8                                                                                ; decode_addr_mux        ; work         ;
 ;    |general_reg:A_REG|                       ; 34 (34)             ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|general_reg:A_REG                                                                                    ; general_reg            ; work         ;
 ;    |general_reg:B_REG|                       ; 34 (34)             ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|general_reg:B_REG                                                                                    ; general_reg            ; work         ;
-;    |io_port:inst22|                          ; 2 (2)               ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|io_port:inst22                                                                                       ; io_port                ; work         ;
+;    |io_port:inst22|                          ; 1 (1)               ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|io_port:inst22                                                                                       ; io_port                ; work         ;
 ;    |io_regs:inst21|                          ; 0 (0)               ; 24 (24)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|io_regs:inst21                                                                                       ; io_regs                ; work         ;
 ;    |mar_mux:inst6|                           ; 16 (16)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|mar_mux:inst6                                                                                        ; mar_mux                ; work         ;
 ;    |mdr_in_byte_select:inst14|               ; 18 (18)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|mdr_in_byte_select:inst14                                                                            ; mdr_in_byte_select     ; work         ;
@@ -324,15 +323,17 @@ refer to the applicable agreement for further details.
 ;          |altsyncram_tkh1:auto_generated|    ; 0 (0)               ; 0 (0)                     ; 50176             ; 0          ; 0    ; 0            ; |scp|rom_mega:DECODE_ROM|altsyncram:altsyncram_component|altsyncram_tkh1:auto_generated                   ; altsyncram_tkh1        ; work         ;
 ;    |sp_adder:inst19|                         ; 16 (16)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|sp_adder:inst19                                                                                      ; sp_adder               ; work         ;
 ;    |sp_reg:inst18|                           ; 33 (33)             ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|sp_reg:inst18                                                                                        ; sp_reg                 ; work         ;
-;    |vga_io:inst23|                           ; 401 (0)             ; 173 (0)                   ; 32000             ; 0          ; 0    ; 0            ; |scp|vga_io:inst23                                                                                        ; vga_io                 ; work         ;
-;       |VGA_controller:instv1|                ; 89 (89)             ; 85 (85)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|VGA_controller:instv1                                                                  ; VGA_controller         ; work         ;
-;       |io_port:instv3|                       ; 1 (1)               ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|io_port:instv3                                                                         ; io_port                ; work         ;
-;       |io_port:instv4|                       ; 1 (1)               ; 17 (17)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|io_port:instv4                                                                         ; io_port                ; work         ;
-;       |vgaTextGen:instv2|                    ; 310 (310)           ; 55 (55)                   ; 32000             ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|vgaTextGen:instv2                                                                      ; vgaTextGen             ; work         ;
-;          |altsyncram:text_mem_rtl_0|         ; 0 (0)               ; 0 (0)                     ; 16000             ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|vgaTextGen:instv2|altsyncram:text_mem_rtl_0                                            ; altsyncram             ; work         ;
-;             |altsyncram_oej1:auto_generated| ; 0 (0)               ; 0 (0)                     ; 16000             ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|vgaTextGen:instv2|altsyncram:text_mem_rtl_0|altsyncram_oej1:auto_generated             ; altsyncram_oej1        ; work         ;
-;          |altsyncram:text_mem_rtl_1|         ; 0 (0)               ; 0 (0)                     ; 16000             ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|vgaTextGen:instv2|altsyncram:text_mem_rtl_1                                            ; altsyncram             ; work         ;
-;             |altsyncram_qri1:auto_generated| ; 0 (0)               ; 0 (0)                     ; 16000             ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|vgaTextGen:instv2|altsyncram:text_mem_rtl_1|altsyncram_qri1:auto_generated             ; altsyncram_qri1        ; work         ;
+;    |vga_io:inst23|                           ; 138 (0)             ; 128 (0)                   ; 24576             ; 0          ; 0    ; 0            ; |scp|vga_io:inst23                                                                                        ; vga_io                 ; work         ;
+;       |VGA_controller:instv6|                ; 89 (89)             ; 103 (103)                 ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|VGA_controller:instv6                                                                  ; VGA_controller         ; work         ;
+;       |char_mem:instv2|                      ; 0 (0)               ; 0 (0)                     ; 8192              ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|char_mem:instv2                                                                        ; char_mem               ; work         ;
+;          |altsyncram:altsyncram_component|   ; 0 (0)               ; 0 (0)                     ; 8192              ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|char_mem:instv2|altsyncram:altsyncram_component                                        ; altsyncram             ; work         ;
+;             |altsyncram_dnj2:auto_generated| ; 0 (0)               ; 0 (0)                     ; 8192              ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|char_mem:instv2|altsyncram:altsyncram_component|altsyncram_dnj2:auto_generated         ; altsyncram_dnj2        ; work         ;
+;       |charset_rom:instv5|                   ; 0 (0)               ; 0 (0)                     ; 16384             ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|charset_rom:instv5                                                                     ; charset_rom            ; work         ;
+;          |altsyncram:altsyncram_component|   ; 0 (0)               ; 0 (0)                     ; 16384             ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|charset_rom:instv5|altsyncram:altsyncram_component                                     ; altsyncram             ; work         ;
+;             |altsyncram_1ag1:auto_generated| ; 0 (0)               ; 0 (0)                     ; 16384             ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|charset_rom:instv5|altsyncram:altsyncram_component|altsyncram_1ag1:auto_generated      ; altsyncram_1ag1        ; work         ;
+;       |io_port:instv3|                       ; 2 (2)               ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|io_port:instv3                                                                         ; io_port                ; work         ;
+;       |io_port:instv4|                       ; 1 (1)               ; 9 (9)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|io_port:instv4                                                                         ; io_port                ; work         ;
+;       |text_gen:instv1|                      ; 46 (46)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|text_gen:instv1                                                                        ; text_gen               ; work         ;
 ;    |vga_pll:inst|                            ; 0 (0)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_pll:inst                                                                                         ; vga_pll                ; vga_pll      ;
 ;       |vga_pll_0002:vga_pll_inst|            ; 0 (0)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_pll:inst|vga_pll_0002:vga_pll_inst                                                               ; vga_pll_0002           ; vga_pll      ;
 ;          |altera_pll:altera_pll_i|           ; 0 (0)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_pll:inst|vga_pll_0002:vga_pll_inst|altera_pll:altera_pll_i                                       ; altera_pll             ; work         ;
@@ -340,17 +341,17 @@ refer to the applicable agreement for further details.
 Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
 
 
-+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis RAM Summary                                                                                                                                                                                                           ;
-+------------------------------------------------------------------------------------------------------------+------+------------------+--------------+--------------+--------------+--------------+--------+--------------------------------+
-; Name                                                                                                       ; Type ; Mode             ; Port A Depth ; Port A Width ; Port B Depth ; Port B Width ; Size   ; MIF                            ;
-+------------------------------------------------------------------------------------------------------------+------+------------------+--------------+--------------+--------------+--------------+--------+--------------------------------+
-; mmu:inst17|page_table_mega:minst|altsyncram:altsyncram_component|altsyncram_5mr2:auto_generated|ALTSYNCRAM ; AUTO ; True Dual Port   ; 4096         ; 8            ; 4096         ; 8            ; 32768  ; ./mmu/page_table_mega_cnts.mif ;
-; ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_63r2:auto_generated|ALTSYNCRAM                     ; AUTO ; True Dual Port   ; 65536        ; 8            ; 65536        ; 8            ; 524288 ; ./ram/ram_mega_cnts.mif        ;
-; rom_mega:DECODE_ROM|altsyncram:altsyncram_component|altsyncram_tkh1:auto_generated|ALTSYNCRAM              ; AUTO ; ROM              ; 1024         ; 60           ; --           ; --           ; 61440  ; decode/rom_mega_cnts.mif       ;
-; vga_io:inst23|vgaTextGen:instv2|altsyncram:text_mem_rtl_0|altsyncram_oej1:auto_generated|ALTSYNCRAM        ; AUTO ; Simple Dual Port ; 1000         ; 16           ; 1000         ; 16           ; 16000  ; None                           ;
-; vga_io:inst23|vgaTextGen:instv2|altsyncram:text_mem_rtl_1|altsyncram_qri1:auto_generated|ALTSYNCRAM        ; AUTO ; Simple Dual Port ; 1000         ; 16           ; 1000         ; 16           ; 16000  ; None                           ;
-+------------------------------------------------------------------------------------------------------------+------+------------------+--------------+--------------+--------------+--------------+--------+--------------------------------+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis RAM Summary                                                                                                                                                                                                         ;
++------------------------------------------------------------------------------------------------------------+------+----------------+--------------+--------------+--------------+--------------+--------+--------------------------------+
+; Name                                                                                                       ; Type ; Mode           ; Port A Depth ; Port A Width ; Port B Depth ; Port B Width ; Size   ; MIF                            ;
++------------------------------------------------------------------------------------------------------------+------+----------------+--------------+--------------+--------------+--------------+--------+--------------------------------+
+; mmu:inst17|page_table_mega:minst|altsyncram:altsyncram_component|altsyncram_5mr2:auto_generated|ALTSYNCRAM ; AUTO ; True Dual Port ; 4096         ; 8            ; 4096         ; 8            ; 32768  ; ./mmu/page_table_mega_cnts.mif ;
+; ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_63r2:auto_generated|ALTSYNCRAM                     ; AUTO ; True Dual Port ; 65536        ; 8            ; 65536        ; 8            ; 524288 ; ./ram/ram_mega_cnts.mif        ;
+; rom_mega:DECODE_ROM|altsyncram:altsyncram_component|altsyncram_tkh1:auto_generated|ALTSYNCRAM              ; AUTO ; ROM            ; 1024         ; 60           ; --           ; --           ; 61440  ; decode/rom_mega_cnts.mif       ;
+; vga_io:inst23|char_mem:instv2|altsyncram:altsyncram_component|altsyncram_dnj2:auto_generated|ALTSYNCRAM    ; AUTO ; True Dual Port ; 1024         ; 8            ; 1024         ; 8            ; 8192   ; None                           ;
+; vga_io:inst23|charset_rom:instv5|altsyncram:altsyncram_component|altsyncram_1ag1:auto_generated|ALTSYNCRAM ; AUTO ; ROM            ; 256          ; 64           ; --           ; --           ; 16384  ; charset.mif                    ;
++------------------------------------------------------------------------------------------------------------+------+----------------+--------------+--------------+--------------+--------------+--------+--------------------------------+
 
 
 +-----------------------------------------------+
@@ -374,8 +375,21 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; Altera ; altera_pll   ; 17.1    ; N/A          ; N/A          ; |scp|vga_pll:inst                     ; vga_pll.v             ;
 ; Altera ; altera_pll   ; 17.1    ; N/A          ; N/A          ; |scp|pll:inst9                        ; pll.v                 ;
 ; Altera ; RAM: 2-PORT  ; 17.1    ; N/A          ; N/A          ; |scp|mmu:inst17|page_table_mega:minst ; mmu/page_table_mega.v ;
+; Altera ; RAM: 2-PORT  ; 17.1    ; N/A          ; N/A          ; |scp|vga_io:inst23|char_mem:instv2    ; IO/vga/char_mem.v     ;
+; Altera ; ROM: 1-PORT  ; 17.1    ; N/A          ; N/A          ; |scp|vga_io:inst23|charset_rom:instv5 ; IO/vga/charset_rom.v  ;
 ; Altera ; RAM: 2-PORT  ; 17.1    ; N/A          ; N/A          ; |scp|ram_mega:RAM                     ; ram/ram_mega.v        ;
 +--------+--------------+---------+--------------+--------------+---------------------------------------+-----------------------+
+
+
++----------------------------------------------------------------------------------------+
+; Registers Removed During Synthesis                                                     ;
++-----------------------------------------------+----------------------------------------+
+; Register name                                 ; Reason for Removal                     ;
++-----------------------------------------------+----------------------------------------+
+; vga_io:inst23|VGA_controller:instv6|x[10..31] ; Lost fanout                            ;
+; vga_io:inst23|VGA_controller:instv6|y[28..31] ; Stuck at GND due to stuck port data_in ;
+; Total Number of Removed Registers = 26        ;                                        ;
++-----------------------------------------------+----------------------------------------+
 
 
 +------------------------------------------------------+
@@ -383,68 +397,14 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 +----------------------------------------------+-------+
 ; Statistic                                    ; Value ;
 +----------------------------------------------+-------+
-; Total registers                              ; 315   ;
-; Number of registers using Synchronous Clear  ; 80    ;
+; Total registers                              ; 270   ;
+; Number of registers using Synchronous Clear  ; 72    ;
 ; Number of registers using Synchronous Load   ; 64    ;
 ; Number of registers using Asynchronous Clear ; 0     ;
 ; Number of registers using Asynchronous Load  ; 0     ;
-; Number of registers using Clock Enable       ; 202   ;
+; Number of registers using Clock Enable       ; 212   ;
 ; Number of registers using Preset             ; 0     ;
 +----------------------------------------------+-------+
-
-
-+------------------------------------------------------------------------------------------------------------+
-; Registers Added for RAM Pass-Through Logic                                                                 ;
-+-----------------------------------------------------------+------------------------------------------------+
-; Register Name                                             ; RAM Name                                       ;
-+-----------------------------------------------------------+------------------------------------------------+
-; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1_bypass[0]  ; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1 ;
-; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1_bypass[1]  ; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1 ;
-; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1_bypass[2]  ; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1 ;
-; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1_bypass[3]  ; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1 ;
-; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1_bypass[4]  ; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1 ;
-; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1_bypass[5]  ; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1 ;
-; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1_bypass[6]  ; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1 ;
-; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1_bypass[7]  ; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1 ;
-; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1_bypass[8]  ; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1 ;
-; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1_bypass[9]  ; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1 ;
-; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1_bypass[10] ; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1 ;
-; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1_bypass[11] ; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1 ;
-; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1_bypass[12] ; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1 ;
-; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1_bypass[13] ; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1 ;
-; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1_bypass[14] ; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1 ;
-; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1_bypass[15] ; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1 ;
-; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1_bypass[16] ; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1 ;
-; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1_bypass[17] ; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1 ;
-; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1_bypass[18] ; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1 ;
-; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1_bypass[19] ; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1 ;
-; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1_bypass[20] ; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1 ;
-; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1_bypass[21] ; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1 ;
-; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1_bypass[22] ; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1 ;
-; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1_bypass[23] ; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1 ;
-; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1_bypass[24] ; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1 ;
-; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1_bypass[25] ; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1 ;
-; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1_bypass[26] ; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1 ;
-; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1_bypass[27] ; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1 ;
-; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1_bypass[28] ; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1 ;
-; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1_bypass[29] ; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1 ;
-; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1_bypass[30] ; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1 ;
-; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1_bypass[31] ; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1 ;
-; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1_bypass[32] ; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1 ;
-; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1_bypass[33] ; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1 ;
-; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1_bypass[34] ; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1 ;
-; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1_bypass[35] ; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1 ;
-; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1_bypass[36] ; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1 ;
-+-----------------------------------------------------------+------------------------------------------------+
-
-
-+---------------------------------------------------------------------------------------------------------------+
-; Registers Packed Into Inferred Megafunctions                                                                  ;
-+-------------------------------------------------------+------------------------------------------------+------+
-; Register Name                                         ; Megafunction                                   ; Type ;
-+-------------------------------------------------------+------------------------------------------------+------+
-; vga_io:inst23|vgaTextGen:instv2|real_text_index[0..9] ; vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1 ; RAM  ;
-+-------------------------------------------------------+------------------------------------------------+------+
 
 
 +----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -452,27 +412,45 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 +--------------------+-----------+---------------+----------------------+------------------------+------------+--------------------------------------------------------------------------------------------------------------------+
 ; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                                                                                         ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+--------------------------------------------------------------------------------------------------------------------+
-; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |scp|vga_io:inst23|vgaTextGen:instv2|col_out[0]                                                                    ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |scp|mdr_out_byte_shift_reg:inst2|val[4]                                                                           ;
-; 4:1                ; 16 bits   ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; Yes        ; |scp|general_reg:A_REG|val[11]                                                                                     ;
-; 4:1                ; 16 bits   ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; Yes        ; |scp|general_reg:B_REG|val[14]                                                                                     ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |scp|mdr_out_byte_shift_reg:inst2|val[0]                                                                           ;
+; 4:1                ; 16 bits   ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; Yes        ; |scp|general_reg:A_REG|val[13]                                                                                     ;
+; 4:1                ; 16 bits   ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; Yes        ; |scp|general_reg:B_REG|val[0]                                                                                      ;
 ; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |scp|mdr_out_byte_shift_reg:inst2|val[8]                                                                           ;
 ; 4:1                ; 16 bits   ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; Yes        ; |scp|pc_reg:inst3|val[7]                                                                                           ;
-; 4:1                ; 16 bits   ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; Yes        ; |scp|sp_reg:inst18|val[15]                                                                                         ;
-; 34:1               ; 2 bits    ; 44 LEs        ; 30 LEs               ; 14 LEs                 ; Yes        ; |scp|alu:inst1|res[10]                                                                                             ;
-; 36:1               ; 2 bits    ; 48 LEs        ; 30 LEs               ; 18 LEs                 ; Yes        ; |scp|alu:inst1|res[6]                                                                                              ;
-; 35:1               ; 2 bits    ; 46 LEs        ; 32 LEs               ; 14 LEs                 ; Yes        ; |scp|alu:inst1|res[13]                                                                                             ;
-; 36:1               ; 2 bits    ; 48 LEs        ; 32 LEs               ; 16 LEs                 ; Yes        ; |scp|alu:inst1|res[1]                                                                                              ;
-; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |scp|alu:inst1|ShiftRight1                                                                                         ;
-; 4:1                ; 17 bits   ; 34 LEs        ; 34 LEs               ; 0 LEs                  ; No         ; |scp|alu:inst1|ShiftLeft0                                                                                          ;
-; 4:1                ; 16 bits   ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |scp|mar_mux:inst6|mar[7]                                                                                          ;
-; 6:1                ; 8 bits    ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |scp|mdr_in_byte_select:inst14|out[1]                                                                              ;
-; 8:1                ; 8 bits    ; 40 LEs        ; 40 LEs               ; 0 LEs                  ; No         ; |scp|ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_63r2:auto_generated|mux_tfb:mux4|l3_w1_n0_mux_dataout ;
-; 9:1                ; 8 bits    ; 48 LEs        ; 48 LEs               ; 0 LEs                  ; No         ; |scp|decode_addr_mux:inst8|addr[0]                                                                                 ;
-; 7:1                ; 16 bits   ; 64 LEs        ; 64 LEs               ; 0 LEs                  ; No         ; |scp|ab_bus_in_mux:inst15|out[8]                                                                                   ;
+; 4:1                ; 16 bits   ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; Yes        ; |scp|sp_reg:inst18|val[14]                                                                                         ;
+; 34:1               ; 2 bits    ; 44 LEs        ; 30 LEs               ; 14 LEs                 ; Yes        ; |scp|alu:inst1|res[9]                                                                                              ;
+; 36:1               ; 2 bits    ; 48 LEs        ; 30 LEs               ; 18 LEs                 ; Yes        ; |scp|alu:inst1|res[5]                                                                                              ;
+; 35:1               ; 2 bits    ; 46 LEs        ; 32 LEs               ; 14 LEs                 ; Yes        ; |scp|alu:inst1|res[14]                                                                                             ;
+; 36:1               ; 2 bits    ; 48 LEs        ; 32 LEs               ; 16 LEs                 ; Yes        ; |scp|alu:inst1|res[2]                                                                                              ;
+; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |scp|alu:inst1|ShiftLeft0                                                                                          ;
+; 4:1                ; 17 bits   ; 34 LEs        ; 34 LEs               ; 0 LEs                  ; No         ; |scp|alu:inst1|ShiftRight1                                                                                         ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; No         ; |scp|ab_bus_in_mux:inst15|out[10]                                                                                  ;
+; 4:1                ; 16 bits   ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |scp|mar_mux:inst6|mar[15]                                                                                         ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |scp|mdr_in_byte_select:inst14|out[2]                                                                              ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |scp|ab_bus_in_mux:inst15|out[5]                                                                                   ;
+; 8:1                ; 8 bits    ; 40 LEs        ; 40 LEs               ; 0 LEs                  ; No         ; |scp|ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_63r2:auto_generated|mux_tfb:mux4|l3_w7_n0_mux_dataout ;
+; 9:1                ; 8 bits    ; 48 LEs        ; 48 LEs               ; 0 LEs                  ; No         ; |scp|decode_addr_mux:inst8|addr[4]                                                                                 ;
 ; 3:1                ; 14 bits   ; 28 LEs        ; 14 LEs               ; 14 LEs                 ; No         ; |scp|alu:inst1|Add0                                                                                                ;
 ; 3:1                ; 14 bits   ; 28 LEs        ; 14 LEs               ; 14 LEs                 ; No         ; |scp|alu:inst1|Add0                                                                                                ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+--------------------------------------------------------------------------------------------------------------------+
+
+
++---------------------------------------------------------------------------------------------------------------------+
+; Source assignments for vga_io:inst23|char_mem:instv2|altsyncram:altsyncram_component|altsyncram_dnj2:auto_generated ;
++---------------------------------+--------------------+------+-------------------------------------------------------+
+; Assignment                      ; Value              ; From ; To                                                    ;
++---------------------------------+--------------------+------+-------------------------------------------------------+
+; OPTIMIZE_POWER_DURING_SYNTHESIS ; NORMAL_COMPILATION ; -    ; -                                                     ;
++---------------------------------+--------------------+------+-------------------------------------------------------+
+
+
++------------------------------------------------------------------------------------------------------------------------+
+; Source assignments for vga_io:inst23|charset_rom:instv5|altsyncram:altsyncram_component|altsyncram_1ag1:auto_generated ;
++---------------------------------+--------------------+------+----------------------------------------------------------+
+; Assignment                      ; Value              ; From ; To                                                       ;
++---------------------------------+--------------------+------+----------------------------------------------------------+
+; OPTIMIZE_POWER_DURING_SYNTHESIS ; NORMAL_COMPILATION ; -    ; -                                                        ;
++---------------------------------+--------------------+------+----------------------------------------------------------+
 
 
 +-----------------------------------------------------------------------------------------------------------+
@@ -502,26 +480,8 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 +---------------------------------+--------------------+------+----------------------------------------------------------+
 
 
-+-----------------------------------------------------------------------------------------------------------------+
-; Source assignments for vga_io:inst23|vgaTextGen:instv2|altsyncram:text_mem_rtl_0|altsyncram_oej1:auto_generated ;
-+---------------------------------+--------------------+------+---------------------------------------------------+
-; Assignment                      ; Value              ; From ; To                                                ;
-+---------------------------------+--------------------+------+---------------------------------------------------+
-; OPTIMIZE_POWER_DURING_SYNTHESIS ; NORMAL_COMPILATION ; -    ; -                                                 ;
-+---------------------------------+--------------------+------+---------------------------------------------------+
-
-
-+-----------------------------------------------------------------------------------------------------------------+
-; Source assignments for vga_io:inst23|vgaTextGen:instv2|altsyncram:text_mem_rtl_1|altsyncram_qri1:auto_generated ;
-+---------------------------------+--------------------+------+---------------------------------------------------+
-; Assignment                      ; Value              ; From ; To                                                ;
-+---------------------------------+--------------------+------+---------------------------------------------------+
-; OPTIMIZE_POWER_DURING_SYNTHESIS ; NORMAL_COMPILATION ; -    ; -                                                 ;
-+---------------------------------+--------------------+------+---------------------------------------------------+
-
-
 +----------------------------------------------------------------------------------+
-; Parameter Settings for User Entity Instance: vga_io:inst23|VGA_controller:instv1 ;
+; Parameter Settings for User Entity Instance: vga_io:inst23|VGA_controller:instv6 ;
 +----------------+----------------------------------+------------------------------+
 ; Parameter Name ; Value                            ; Type                         ;
 +----------------+----------------------------------+------------------------------+
@@ -531,12 +491,12 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; h_pxls         ; 00000000000000000000001010000000 ; Unsigned Binary              ;
 ; h_pol          ; 0                                ; Unsigned Binary              ;
 ; v_pls          ; 00000000000000000000000000000010 ; Unsigned Binary              ;
-; v_fp           ; 00000000000000000000000000001100 ; Unsigned Binary              ;
-; v_bp           ; 00000000000000000000000000100011 ; Unsigned Binary              ;
-; v_pxls         ; 00000000000000000000000110010000 ; Unsigned Binary              ;
-; v_pol          ; 1                                ; Unsigned Binary              ;
+; v_fp           ; 00000000000000000000000000001010 ; Unsigned Binary              ;
+; v_bp           ; 00000000000000000000000000100001 ; Unsigned Binary              ;
+; v_pxls         ; 00000000000000000000000111100000 ; Unsigned Binary              ;
+; v_pol          ; 0                                ; Unsigned Binary              ;
 ; h_per          ; 00000000000000000000001100100000 ; Unsigned Binary              ;
-; v_per          ; 00000000000000000000000111000001 ; Unsigned Binary              ;
+; v_per          ; 00000000000000000000001000001101 ; Unsigned Binary              ;
 +----------------+----------------------------------+------------------------------+
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
@@ -561,13 +521,125 @@ Note: In order to hide this table in the UI and the text report file, please set
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
-+------------------------------------------------------------------------------+
-; Parameter Settings for User Entity Instance: vga_io:inst23|vgaTextGen:instv2 ;
-+------------------+-----------------+-----------------------------------------+
-; Parameter Name   ; Value           ; Type                                    ;
-+------------------+-----------------+-----------------------------------------+
-; CHARSET_MEM_FILE ; charset_new.txt ; String                                  ;
-+------------------+-----------------+-----------------------------------------+
++------------------------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: vga_io:inst23|char_mem:instv2|altsyncram:altsyncram_component ;
++------------------------------------+----------------------+------------------------------------------------+
+; Parameter Name                     ; Value                ; Type                                           ;
++------------------------------------+----------------------+------------------------------------------------+
+; BYTE_SIZE_BLOCK                    ; 8                    ; Untyped                                        ;
+; AUTO_CARRY_CHAINS                  ; ON                   ; AUTO_CARRY                                     ;
+; IGNORE_CARRY_BUFFERS               ; OFF                  ; IGNORE_CARRY                                   ;
+; AUTO_CASCADE_CHAINS                ; ON                   ; AUTO_CASCADE                                   ;
+; IGNORE_CASCADE_BUFFERS             ; OFF                  ; IGNORE_CASCADE                                 ;
+; WIDTH_BYTEENA                      ; 1                    ; Untyped                                        ;
+; OPERATION_MODE                     ; BIDIR_DUAL_PORT      ; Untyped                                        ;
+; WIDTH_A                            ; 8                    ; Signed Integer                                 ;
+; WIDTHAD_A                          ; 10                   ; Signed Integer                                 ;
+; NUMWORDS_A                         ; 1024                 ; Signed Integer                                 ;
+; OUTDATA_REG_A                      ; UNREGISTERED         ; Untyped                                        ;
+; ADDRESS_ACLR_A                     ; NONE                 ; Untyped                                        ;
+; OUTDATA_ACLR_A                     ; NONE                 ; Untyped                                        ;
+; WRCONTROL_ACLR_A                   ; NONE                 ; Untyped                                        ;
+; INDATA_ACLR_A                      ; NONE                 ; Untyped                                        ;
+; BYTEENA_ACLR_A                     ; NONE                 ; Untyped                                        ;
+; WIDTH_B                            ; 8                    ; Signed Integer                                 ;
+; WIDTHAD_B                          ; 10                   ; Signed Integer                                 ;
+; NUMWORDS_B                         ; 1024                 ; Signed Integer                                 ;
+; INDATA_REG_B                       ; CLOCK1               ; Untyped                                        ;
+; WRCONTROL_WRADDRESS_REG_B          ; CLOCK1               ; Untyped                                        ;
+; RDCONTROL_REG_B                    ; CLOCK1               ; Untyped                                        ;
+; ADDRESS_REG_B                      ; CLOCK1               ; Untyped                                        ;
+; OUTDATA_REG_B                      ; UNREGISTERED         ; Untyped                                        ;
+; BYTEENA_REG_B                      ; CLOCK1               ; Untyped                                        ;
+; INDATA_ACLR_B                      ; NONE                 ; Untyped                                        ;
+; WRCONTROL_ACLR_B                   ; NONE                 ; Untyped                                        ;
+; ADDRESS_ACLR_B                     ; NONE                 ; Untyped                                        ;
+; OUTDATA_ACLR_B                     ; NONE                 ; Untyped                                        ;
+; RDCONTROL_ACLR_B                   ; NONE                 ; Untyped                                        ;
+; BYTEENA_ACLR_B                     ; NONE                 ; Untyped                                        ;
+; WIDTH_BYTEENA_A                    ; 1                    ; Signed Integer                                 ;
+; WIDTH_BYTEENA_B                    ; 1                    ; Signed Integer                                 ;
+; RAM_BLOCK_TYPE                     ; AUTO                 ; Untyped                                        ;
+; BYTE_SIZE                          ; 8                    ; Untyped                                        ;
+; READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE            ; Untyped                                        ;
+; READ_DURING_WRITE_MODE_PORT_A      ; NEW_DATA_NO_NBE_READ ; Untyped                                        ;
+; READ_DURING_WRITE_MODE_PORT_B      ; NEW_DATA_NO_NBE_READ ; Untyped                                        ;
+; INIT_FILE                          ; UNUSED               ; Untyped                                        ;
+; INIT_FILE_LAYOUT                   ; PORT_A               ; Untyped                                        ;
+; MAXIMUM_DEPTH                      ; 0                    ; Untyped                                        ;
+; CLOCK_ENABLE_INPUT_A               ; BYPASS               ; Untyped                                        ;
+; CLOCK_ENABLE_INPUT_B               ; BYPASS               ; Untyped                                        ;
+; CLOCK_ENABLE_OUTPUT_A              ; BYPASS               ; Untyped                                        ;
+; CLOCK_ENABLE_OUTPUT_B              ; BYPASS               ; Untyped                                        ;
+; CLOCK_ENABLE_CORE_A                ; USE_INPUT_CLKEN      ; Untyped                                        ;
+; CLOCK_ENABLE_CORE_B                ; USE_INPUT_CLKEN      ; Untyped                                        ;
+; ENABLE_ECC                         ; FALSE                ; Untyped                                        ;
+; ECC_PIPELINE_STAGE_ENABLED         ; FALSE                ; Untyped                                        ;
+; WIDTH_ECCSTATUS                    ; 3                    ; Untyped                                        ;
+; DEVICE_FAMILY                      ; Cyclone V            ; Untyped                                        ;
+; CBXI_PARAMETER                     ; altsyncram_dnj2      ; Untyped                                        ;
++------------------------------------+----------------------+------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++---------------------------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: vga_io:inst23|charset_rom:instv5|altsyncram:altsyncram_component ;
++------------------------------------+----------------------+---------------------------------------------------+
+; Parameter Name                     ; Value                ; Type                                              ;
++------------------------------------+----------------------+---------------------------------------------------+
+; BYTE_SIZE_BLOCK                    ; 8                    ; Untyped                                           ;
+; AUTO_CARRY_CHAINS                  ; ON                   ; AUTO_CARRY                                        ;
+; IGNORE_CARRY_BUFFERS               ; OFF                  ; IGNORE_CARRY                                      ;
+; AUTO_CASCADE_CHAINS                ; ON                   ; AUTO_CASCADE                                      ;
+; IGNORE_CASCADE_BUFFERS             ; OFF                  ; IGNORE_CASCADE                                    ;
+; WIDTH_BYTEENA                      ; 1                    ; Untyped                                           ;
+; OPERATION_MODE                     ; ROM                  ; Untyped                                           ;
+; WIDTH_A                            ; 64                   ; Signed Integer                                    ;
+; WIDTHAD_A                          ; 8                    ; Signed Integer                                    ;
+; NUMWORDS_A                         ; 256                  ; Signed Integer                                    ;
+; OUTDATA_REG_A                      ; UNREGISTERED         ; Untyped                                           ;
+; ADDRESS_ACLR_A                     ; NONE                 ; Untyped                                           ;
+; OUTDATA_ACLR_A                     ; NONE                 ; Untyped                                           ;
+; WRCONTROL_ACLR_A                   ; NONE                 ; Untyped                                           ;
+; INDATA_ACLR_A                      ; NONE                 ; Untyped                                           ;
+; BYTEENA_ACLR_A                     ; NONE                 ; Untyped                                           ;
+; WIDTH_B                            ; 1                    ; Untyped                                           ;
+; WIDTHAD_B                          ; 1                    ; Untyped                                           ;
+; NUMWORDS_B                         ; 1                    ; Untyped                                           ;
+; INDATA_REG_B                       ; CLOCK1               ; Untyped                                           ;
+; WRCONTROL_WRADDRESS_REG_B          ; CLOCK1               ; Untyped                                           ;
+; RDCONTROL_REG_B                    ; CLOCK1               ; Untyped                                           ;
+; ADDRESS_REG_B                      ; CLOCK1               ; Untyped                                           ;
+; OUTDATA_REG_B                      ; UNREGISTERED         ; Untyped                                           ;
+; BYTEENA_REG_B                      ; CLOCK1               ; Untyped                                           ;
+; INDATA_ACLR_B                      ; NONE                 ; Untyped                                           ;
+; WRCONTROL_ACLR_B                   ; NONE                 ; Untyped                                           ;
+; ADDRESS_ACLR_B                     ; NONE                 ; Untyped                                           ;
+; OUTDATA_ACLR_B                     ; NONE                 ; Untyped                                           ;
+; RDCONTROL_ACLR_B                   ; NONE                 ; Untyped                                           ;
+; BYTEENA_ACLR_B                     ; NONE                 ; Untyped                                           ;
+; WIDTH_BYTEENA_A                    ; 1                    ; Signed Integer                                    ;
+; WIDTH_BYTEENA_B                    ; 1                    ; Untyped                                           ;
+; RAM_BLOCK_TYPE                     ; AUTO                 ; Untyped                                           ;
+; BYTE_SIZE                          ; 8                    ; Untyped                                           ;
+; READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE            ; Untyped                                           ;
+; READ_DURING_WRITE_MODE_PORT_A      ; NEW_DATA_NO_NBE_READ ; Untyped                                           ;
+; READ_DURING_WRITE_MODE_PORT_B      ; NEW_DATA_NO_NBE_READ ; Untyped                                           ;
+; INIT_FILE                          ; charset.mif          ; Untyped                                           ;
+; INIT_FILE_LAYOUT                   ; PORT_A               ; Untyped                                           ;
+; MAXIMUM_DEPTH                      ; 0                    ; Untyped                                           ;
+; CLOCK_ENABLE_INPUT_A               ; BYPASS               ; Untyped                                           ;
+; CLOCK_ENABLE_INPUT_B               ; NORMAL               ; Untyped                                           ;
+; CLOCK_ENABLE_OUTPUT_A              ; BYPASS               ; Untyped                                           ;
+; CLOCK_ENABLE_OUTPUT_B              ; NORMAL               ; Untyped                                           ;
+; CLOCK_ENABLE_CORE_A                ; USE_INPUT_CLKEN      ; Untyped                                           ;
+; CLOCK_ENABLE_CORE_B                ; USE_INPUT_CLKEN      ; Untyped                                           ;
+; ENABLE_ECC                         ; FALSE                ; Untyped                                           ;
+; ECC_PIPELINE_STAGE_ENABLED         ; FALSE                ; Untyped                                           ;
+; WIDTH_ECCSTATUS                    ; 3                    ; Untyped                                           ;
+; DEVICE_FAMILY                      ; Cyclone V            ; Untyped                                           ;
+; CBXI_PARAMETER                     ; altsyncram_1ag1      ; Untyped                                           ;
++------------------------------------+----------------------+---------------------------------------------------+
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
@@ -580,7 +652,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 ; fractional_vco_multiplier            ; false                  ; String                                      ;
 ; pll_type                             ; General                ; String                                      ;
 ; pll_subtype                          ; General                ; String                                      ;
-; number_of_clocks                     ; 2                      ; Signed Integer                              ;
+; number_of_clocks                     ; 3                      ; Signed Integer                              ;
 ; operation_mode                       ; direct                 ; String                                      ;
 ; deserialization_factor               ; 4                      ; Signed Integer                              ;
 ; data_rate                            ; 0                      ; Signed Integer                              ;
@@ -589,10 +661,10 @@ Note: In order to hide this table in the UI and the text report file, please set
 ; phase_shift0                         ; 0 ps                   ; String                                      ;
 ; duty_cycle0                          ; 50                     ; Signed Integer                              ;
 ; output_clock_frequency1              ; 25.175644 MHz          ; String                                      ;
-; phase_shift1                         ; 19860 ps               ; String                                      ;
+; phase_shift1                         ; 13185 ps               ; String                                      ;
 ; duty_cycle1                          ; 50                     ; Signed Integer                              ;
-; output_clock_frequency2              ; 0 MHz                  ; String                                      ;
-; phase_shift2                         ; 0 ps                   ; String                                      ;
+; output_clock_frequency2              ; 25.175644 MHz          ; String                                      ;
+; phase_shift2                         ; 26370 ps               ; String                                      ;
 ; duty_cycle2                          ; 50                     ; Signed Integer                              ;
 ; output_clock_frequency3              ; 0 MHz                  ; String                                      ;
 ; phase_shift3                         ; 0 ps                   ; String                                      ;
@@ -1258,134 +1330,34 @@ Note: In order to hide this table in the UI and the text report file, please set
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
-+------------------------------------------------------------------------------------------------------------+
-; Parameter Settings for Inferred Entity Instance: vga_io:inst23|vgaTextGen:instv2|altsyncram:text_mem_rtl_0 ;
-+------------------------------------+----------------------+------------------------------------------------+
-; Parameter Name                     ; Value                ; Type                                           ;
-+------------------------------------+----------------------+------------------------------------------------+
-; BYTE_SIZE_BLOCK                    ; 8                    ; Untyped                                        ;
-; AUTO_CARRY_CHAINS                  ; ON                   ; AUTO_CARRY                                     ;
-; IGNORE_CARRY_BUFFERS               ; OFF                  ; IGNORE_CARRY                                   ;
-; AUTO_CASCADE_CHAINS                ; ON                   ; AUTO_CASCADE                                   ;
-; IGNORE_CASCADE_BUFFERS             ; OFF                  ; IGNORE_CASCADE                                 ;
-; WIDTH_BYTEENA                      ; 1                    ; Untyped                                        ;
-; OPERATION_MODE                     ; DUAL_PORT            ; Untyped                                        ;
-; WIDTH_A                            ; 16                   ; Untyped                                        ;
-; WIDTHAD_A                          ; 10                   ; Untyped                                        ;
-; NUMWORDS_A                         ; 1000                 ; Untyped                                        ;
-; OUTDATA_REG_A                      ; UNREGISTERED         ; Untyped                                        ;
-; ADDRESS_ACLR_A                     ; NONE                 ; Untyped                                        ;
-; OUTDATA_ACLR_A                     ; NONE                 ; Untyped                                        ;
-; WRCONTROL_ACLR_A                   ; NONE                 ; Untyped                                        ;
-; INDATA_ACLR_A                      ; NONE                 ; Untyped                                        ;
-; BYTEENA_ACLR_A                     ; NONE                 ; Untyped                                        ;
-; WIDTH_B                            ; 16                   ; Untyped                                        ;
-; WIDTHAD_B                          ; 10                   ; Untyped                                        ;
-; NUMWORDS_B                         ; 1000                 ; Untyped                                        ;
-; INDATA_REG_B                       ; CLOCK1               ; Untyped                                        ;
-; WRCONTROL_WRADDRESS_REG_B          ; CLOCK1               ; Untyped                                        ;
-; RDCONTROL_REG_B                    ; CLOCK1               ; Untyped                                        ;
-; ADDRESS_REG_B                      ; CLOCK1               ; Untyped                                        ;
-; OUTDATA_REG_B                      ; UNREGISTERED         ; Untyped                                        ;
-; BYTEENA_REG_B                      ; CLOCK1               ; Untyped                                        ;
-; INDATA_ACLR_B                      ; NONE                 ; Untyped                                        ;
-; WRCONTROL_ACLR_B                   ; NONE                 ; Untyped                                        ;
-; ADDRESS_ACLR_B                     ; NONE                 ; Untyped                                        ;
-; OUTDATA_ACLR_B                     ; NONE                 ; Untyped                                        ;
-; RDCONTROL_ACLR_B                   ; NONE                 ; Untyped                                        ;
-; BYTEENA_ACLR_B                     ; NONE                 ; Untyped                                        ;
-; WIDTH_BYTEENA_A                    ; 1                    ; Untyped                                        ;
-; WIDTH_BYTEENA_B                    ; 1                    ; Untyped                                        ;
-; RAM_BLOCK_TYPE                     ; AUTO                 ; Untyped                                        ;
-; BYTE_SIZE                          ; 8                    ; Untyped                                        ;
-; READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE            ; Untyped                                        ;
-; READ_DURING_WRITE_MODE_PORT_A      ; NEW_DATA_NO_NBE_READ ; Untyped                                        ;
-; READ_DURING_WRITE_MODE_PORT_B      ; NEW_DATA_NO_NBE_READ ; Untyped                                        ;
-; INIT_FILE                          ; UNUSED               ; Untyped                                        ;
-; INIT_FILE_LAYOUT                   ; PORT_A               ; Untyped                                        ;
-; MAXIMUM_DEPTH                      ; 0                    ; Untyped                                        ;
-; CLOCK_ENABLE_INPUT_A               ; NORMAL               ; Untyped                                        ;
-; CLOCK_ENABLE_INPUT_B               ; NORMAL               ; Untyped                                        ;
-; CLOCK_ENABLE_OUTPUT_A              ; NORMAL               ; Untyped                                        ;
-; CLOCK_ENABLE_OUTPUT_B              ; NORMAL               ; Untyped                                        ;
-; CLOCK_ENABLE_CORE_A                ; USE_INPUT_CLKEN      ; Untyped                                        ;
-; CLOCK_ENABLE_CORE_B                ; USE_INPUT_CLKEN      ; Untyped                                        ;
-; ENABLE_ECC                         ; FALSE                ; Untyped                                        ;
-; ECC_PIPELINE_STAGE_ENABLED         ; FALSE                ; Untyped                                        ;
-; WIDTH_ECCSTATUS                    ; 3                    ; Untyped                                        ;
-; DEVICE_FAMILY                      ; Cyclone V            ; Untyped                                        ;
-; CBXI_PARAMETER                     ; altsyncram_oej1      ; Untyped                                        ;
-+------------------------------------+----------------------+------------------------------------------------+
-Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
-
-
-+------------------------------------------------------------------------------------------------------------+
-; Parameter Settings for Inferred Entity Instance: vga_io:inst23|vgaTextGen:instv2|altsyncram:text_mem_rtl_1 ;
-+------------------------------------+----------------------+------------------------------------------------+
-; Parameter Name                     ; Value                ; Type                                           ;
-+------------------------------------+----------------------+------------------------------------------------+
-; BYTE_SIZE_BLOCK                    ; 8                    ; Untyped                                        ;
-; AUTO_CARRY_CHAINS                  ; ON                   ; AUTO_CARRY                                     ;
-; IGNORE_CARRY_BUFFERS               ; OFF                  ; IGNORE_CARRY                                   ;
-; AUTO_CASCADE_CHAINS                ; ON                   ; AUTO_CASCADE                                   ;
-; IGNORE_CASCADE_BUFFERS             ; OFF                  ; IGNORE_CASCADE                                 ;
-; WIDTH_BYTEENA                      ; 1                    ; Untyped                                        ;
-; OPERATION_MODE                     ; DUAL_PORT            ; Untyped                                        ;
-; WIDTH_A                            ; 16                   ; Untyped                                        ;
-; WIDTHAD_A                          ; 10                   ; Untyped                                        ;
-; NUMWORDS_A                         ; 1000                 ; Untyped                                        ;
-; OUTDATA_REG_A                      ; UNREGISTERED         ; Untyped                                        ;
-; ADDRESS_ACLR_A                     ; NONE                 ; Untyped                                        ;
-; OUTDATA_ACLR_A                     ; NONE                 ; Untyped                                        ;
-; WRCONTROL_ACLR_A                   ; NONE                 ; Untyped                                        ;
-; INDATA_ACLR_A                      ; NONE                 ; Untyped                                        ;
-; BYTEENA_ACLR_A                     ; NONE                 ; Untyped                                        ;
-; WIDTH_B                            ; 16                   ; Untyped                                        ;
-; WIDTHAD_B                          ; 10                   ; Untyped                                        ;
-; NUMWORDS_B                         ; 1000                 ; Untyped                                        ;
-; INDATA_REG_B                       ; CLOCK1               ; Untyped                                        ;
-; WRCONTROL_WRADDRESS_REG_B          ; CLOCK1               ; Untyped                                        ;
-; RDCONTROL_REG_B                    ; CLOCK1               ; Untyped                                        ;
-; ADDRESS_REG_B                      ; CLOCK0               ; Untyped                                        ;
-; OUTDATA_REG_B                      ; UNREGISTERED         ; Untyped                                        ;
-; BYTEENA_REG_B                      ; CLOCK1               ; Untyped                                        ;
-; INDATA_ACLR_B                      ; NONE                 ; Untyped                                        ;
-; WRCONTROL_ACLR_B                   ; NONE                 ; Untyped                                        ;
-; ADDRESS_ACLR_B                     ; NONE                 ; Untyped                                        ;
-; OUTDATA_ACLR_B                     ; NONE                 ; Untyped                                        ;
-; RDCONTROL_ACLR_B                   ; NONE                 ; Untyped                                        ;
-; BYTEENA_ACLR_B                     ; NONE                 ; Untyped                                        ;
-; WIDTH_BYTEENA_A                    ; 1                    ; Untyped                                        ;
-; WIDTH_BYTEENA_B                    ; 1                    ; Untyped                                        ;
-; RAM_BLOCK_TYPE                     ; AUTO                 ; Untyped                                        ;
-; BYTE_SIZE                          ; 8                    ; Untyped                                        ;
-; READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE            ; Untyped                                        ;
-; READ_DURING_WRITE_MODE_PORT_A      ; NEW_DATA_NO_NBE_READ ; Untyped                                        ;
-; READ_DURING_WRITE_MODE_PORT_B      ; NEW_DATA_NO_NBE_READ ; Untyped                                        ;
-; INIT_FILE                          ; UNUSED               ; Untyped                                        ;
-; INIT_FILE_LAYOUT                   ; PORT_A               ; Untyped                                        ;
-; MAXIMUM_DEPTH                      ; 0                    ; Untyped                                        ;
-; CLOCK_ENABLE_INPUT_A               ; NORMAL               ; Untyped                                        ;
-; CLOCK_ENABLE_INPUT_B               ; NORMAL               ; Untyped                                        ;
-; CLOCK_ENABLE_OUTPUT_A              ; NORMAL               ; Untyped                                        ;
-; CLOCK_ENABLE_OUTPUT_B              ; NORMAL               ; Untyped                                        ;
-; CLOCK_ENABLE_CORE_A                ; USE_INPUT_CLKEN      ; Untyped                                        ;
-; CLOCK_ENABLE_CORE_B                ; USE_INPUT_CLKEN      ; Untyped                                        ;
-; ENABLE_ECC                         ; FALSE                ; Untyped                                        ;
-; ECC_PIPELINE_STAGE_ENABLED         ; FALSE                ; Untyped                                        ;
-; WIDTH_ECCSTATUS                    ; 3                    ; Untyped                                        ;
-; DEVICE_FAMILY                      ; Cyclone V            ; Untyped                                        ;
-; CBXI_PARAMETER                     ; altsyncram_qri1      ; Untyped                                        ;
-+------------------------------------+----------------------+------------------------------------------------+
-Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
-
-
 +--------------------------------------------------------------------------------------------------------------+
 ; altsyncram Parameter Settings by Entity Instance                                                             ;
 +-------------------------------------------+------------------------------------------------------------------+
 ; Name                                      ; Value                                                            ;
 +-------------------------------------------+------------------------------------------------------------------+
 ; Number of entity instances                ; 5                                                                ;
+; Entity Instance                           ; vga_io:inst23|char_mem:instv2|altsyncram:altsyncram_component    ;
+;     -- OPERATION_MODE                     ; BIDIR_DUAL_PORT                                                  ;
+;     -- WIDTH_A                            ; 8                                                                ;
+;     -- NUMWORDS_A                         ; 1024                                                             ;
+;     -- OUTDATA_REG_A                      ; UNREGISTERED                                                     ;
+;     -- WIDTH_B                            ; 8                                                                ;
+;     -- NUMWORDS_B                         ; 1024                                                             ;
+;     -- ADDRESS_REG_B                      ; CLOCK1                                                           ;
+;     -- OUTDATA_REG_B                      ; UNREGISTERED                                                     ;
+;     -- RAM_BLOCK_TYPE                     ; AUTO                                                             ;
+;     -- READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE                                                        ;
+; Entity Instance                           ; vga_io:inst23|charset_rom:instv5|altsyncram:altsyncram_component ;
+;     -- OPERATION_MODE                     ; ROM                                                              ;
+;     -- WIDTH_A                            ; 64                                                               ;
+;     -- NUMWORDS_A                         ; 256                                                              ;
+;     -- OUTDATA_REG_A                      ; UNREGISTERED                                                     ;
+;     -- WIDTH_B                            ; 1                                                                ;
+;     -- NUMWORDS_B                         ; 1                                                                ;
+;     -- ADDRESS_REG_B                      ; CLOCK1                                                           ;
+;     -- OUTDATA_REG_B                      ; UNREGISTERED                                                     ;
+;     -- RAM_BLOCK_TYPE                     ; AUTO                                                             ;
+;     -- READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE                                                        ;
 ; Entity Instance                           ; rom_mega:DECODE_ROM|altsyncram:altsyncram_component              ;
 ;     -- OPERATION_MODE                     ; ROM                                                              ;
 ;     -- WIDTH_A                            ; 60                                                               ;
@@ -1419,28 +1391,6 @@ Note: In order to hide this table in the UI and the text report file, please set
 ;     -- OUTDATA_REG_B                      ; UNREGISTERED                                                     ;
 ;     -- RAM_BLOCK_TYPE                     ; AUTO                                                             ;
 ;     -- READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE                                                        ;
-; Entity Instance                           ; vga_io:inst23|vgaTextGen:instv2|altsyncram:text_mem_rtl_0        ;
-;     -- OPERATION_MODE                     ; DUAL_PORT                                                        ;
-;     -- WIDTH_A                            ; 16                                                               ;
-;     -- NUMWORDS_A                         ; 1000                                                             ;
-;     -- OUTDATA_REG_A                      ; UNREGISTERED                                                     ;
-;     -- WIDTH_B                            ; 16                                                               ;
-;     -- NUMWORDS_B                         ; 1000                                                             ;
-;     -- ADDRESS_REG_B                      ; CLOCK1                                                           ;
-;     -- OUTDATA_REG_B                      ; UNREGISTERED                                                     ;
-;     -- RAM_BLOCK_TYPE                     ; AUTO                                                             ;
-;     -- READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE                                                        ;
-; Entity Instance                           ; vga_io:inst23|vgaTextGen:instv2|altsyncram:text_mem_rtl_1        ;
-;     -- OPERATION_MODE                     ; DUAL_PORT                                                        ;
-;     -- WIDTH_A                            ; 16                                                               ;
-;     -- NUMWORDS_A                         ; 1000                                                             ;
-;     -- OUTDATA_REG_A                      ; UNREGISTERED                                                     ;
-;     -- WIDTH_B                            ; 16                                                               ;
-;     -- NUMWORDS_B                         ; 1000                                                             ;
-;     -- ADDRESS_REG_B                      ; CLOCK0                                                           ;
-;     -- OUTDATA_REG_B                      ; UNREGISTERED                                                     ;
-;     -- RAM_BLOCK_TYPE                     ; AUTO                                                             ;
-;     -- READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE                                                        ;
 +-------------------------------------------+------------------------------------------------------------------+
 
 
@@ -1449,36 +1399,36 @@ Note: In order to hide this table in the UI and the text report file, please set
 +-----------------------+-----------------------------+
 ; Type                  ; Count                       ;
 +-----------------------+-----------------------------+
-; arriav_ff             ; 315                         ;
-;     ENA               ; 106                         ;
+; arriav_ff             ; 270                         ;
+;     ENA               ; 116                         ;
 ;     ENA SCLR          ; 32                          ;
 ;     ENA SCLR SLD      ; 8                           ;
 ;     ENA SLD           ; 56                          ;
-;     SCLR              ; 40                          ;
-;     plain             ; 73                          ;
-; arriav_lcell_comb     ; 999                         ;
-;     arith             ; 184                         ;
-;         1 data inputs ; 100                         ;
-;         2 data inputs ; 63                          ;
-;         3 data inputs ; 1                           ;
-;         4 data inputs ; 16                          ;
-;         5 data inputs ; 4                           ;
-;     extend            ; 61                          ;
-;         7 data inputs ; 61                          ;
-;     normal            ; 754                         ;
+;     SCLR              ; 32                          ;
+;     plain             ; 26                          ;
+; arriav_lcell_comb     ; 741                         ;
+;     arith             ; 193                         ;
+;         1 data inputs ; 111                         ;
+;         2 data inputs ; 64                          ;
+;         3 data inputs ; 2                           ;
+;         4 data inputs ; 14                          ;
+;         5 data inputs ; 2                           ;
+;     extend            ; 10                          ;
+;         7 data inputs ; 10                          ;
+;     normal            ; 538                         ;
 ;         0 data inputs ; 1                           ;
-;         2 data inputs ; 37                          ;
-;         3 data inputs ; 114                         ;
-;         4 data inputs ; 68                          ;
-;         5 data inputs ; 90                          ;
-;         6 data inputs ; 444                         ;
+;         2 data inputs ; 28                          ;
+;         3 data inputs ; 104                         ;
+;         4 data inputs ; 52                          ;
+;         5 data inputs ; 92                          ;
+;         6 data inputs ; 261                         ;
 ; arriav_mac            ; 1                           ;
 ; boundary_port         ; 21                          ;
-; generic_pll           ; 5                           ;
-; stratixv_ram_block    ; 150                         ;
+; generic_pll           ; 6                           ;
+; stratixv_ram_block    ; 190                         ;
 ;                       ;                             ;
-; Max LUT depth         ; 7.00                        ;
-; Average LUT depth     ; 3.59                        ;
+; Max LUT depth         ; 6.00                        ;
+; Average LUT depth     ; 3.15                        ;
 +-----------------------+-----------------------------+
 
 
@@ -1487,7 +1437,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------+--------------+
 ; Partition Name ; Elapsed Time ;
 +----------------+--------------+
-; Top            ; 00:00:29     ;
+; Top            ; 00:00:06     ;
 +----------------+--------------+
 
 
@@ -1497,10 +1447,12 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
-    Info: Processing started: Sun Jun  3 17:08:30 2018
+    Info: Processing started: Fri Jun  8 16:57:12 2018
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off scp -c scp
 Info (20032): Parallel compilation is enabled and will use up to 4 processors
 Warning (20031): Parallel compilation is enabled for 4 processors, but there are only 2 processors in the system. Runtime may increase due to over usage of the processor space.
+Info (12021): Found 1 design units, including 1 entities, in source file IO/vga/text_gen.v
+    Info (12023): Found entity 1: text_gen File: /home/edward/scp/quartus/IO/vga/text_gen.v Line: 2
 Info (12021): Found 1 design units, including 1 entities, in source file IO/prgm_rom/prgm_rom_io.bdf
     Info (12023): Found entity 1: prgm_rom_io
 Info (12021): Found 1 design units, including 1 entities, in source file IO/prgm_rom/prgm_rom.v
@@ -1534,14 +1486,12 @@ Info (12021): Found 1 design units, including 1 entities, in source file IO/uart
     Info (12023): Found entity 1: receiver File: /home/edward/scp/quartus/IO/uart/receiver.v Line: 3
 Info (12021): Found 1 design units, including 1 entities, in source file IO/uart/baud_rate_gen.v
     Info (12023): Found entity 1: baud_rate_gen File: /home/edward/scp/quartus/IO/uart/baud_rate_gen.v Line: 8
-Info (12021): Found 1 design units, including 1 entities, in source file IO/vga/vgaText.v
-    Info (12023): Found entity 1: vgaTextGen File: /home/edward/scp/quartus/IO/vga/vgaText.v Line: 1
+Warning (12019): Can't analyze file -- file IO/vga/vgaText.v is missing
 Info (12021): Found 1 design units, including 1 entities, in source file IO/vga/vga_io.bdf
     Info (12023): Found entity 1: vga_io
 Info (12021): Found 1 design units, including 1 entities, in source file IO/vga/vga_controller.v
     Info (12023): Found entity 1: VGA_controller File: /home/edward/scp/quartus/IO/vga/vga_controller.v Line: 1
-Info (12021): Found 1 design units, including 1 entities, in source file IO/vga/txt_col.v
-    Info (12023): Found entity 1: txt_col File: /home/edward/scp/quartus/IO/vga/txt_col.v Line: 1
+Warning (12019): Can't analyze file -- file IO/vga/txt_col.v is missing
 Info (12021): Found 1 design units, including 1 entities, in source file IO/io_port.v
     Info (12023): Found entity 1: io_port File: /home/edward/scp/quartus/IO/io_port.v Line: 1
 Info (12021): Found 1 design units, including 1 entities, in source file regs/general_reg.v
@@ -1616,35 +1566,91 @@ Info (12021): Found 1 design units, including 1 entities, in source file vga_pll
     Info (12023): Found entity 1: vga_pll File: /home/edward/scp/quartus/vga_pll.v Line: 8
 Info (12021): Found 1 design units, including 1 entities, in source file vga_pll/vga_pll_0002.v
     Info (12023): Found entity 1: vga_pll_0002 File: /home/edward/scp/quartus/vga_pll/vga_pll_0002.v Line: 2
+Info (12021): Found 1 design units, including 1 entities, in source file IO/vga/char_mem.v
+    Info (12023): Found entity 1: char_mem File: /home/edward/scp/quartus/IO/vga/char_mem.v Line: 39
+Info (12021): Found 1 design units, including 1 entities, in source file IO/vga/charset_rom.v
+    Info (12023): Found entity 1: charset_rom File: /home/edward/scp/quartus/IO/vga/charset_rom.v Line: 39
 Info (12127): Elaborating entity "scp" for the top level hierarchy
 Info (12128): Elaborating entity "vga_io" for hierarchy "vga_io:inst23"
-Info (12128): Elaborating entity "VGA_controller" for hierarchy "vga_io:inst23|VGA_controller:instv1"
+Info (12128): Elaborating entity "VGA_controller" for hierarchy "vga_io:inst23|VGA_controller:instv6"
 Info (12128): Elaborating entity "io_port" for hierarchy "vga_io:inst23|io_port:instv3"
 Info (12128): Elaborating entity "io_port" for hierarchy "vga_io:inst23|io_port:instv4"
-Info (12128): Elaborating entity "vgaTextGen" for hierarchy "vga_io:inst23|vgaTextGen:instv2"
-Warning (10036): Verilog HDL or VHDL warning at vgaText.v(30): object "charX" assigned a value but never read File: /home/edward/scp/quartus/IO/vga/vgaText.v Line: 30
-Warning (10036): Verilog HDL or VHDL warning at vgaText.v(32): object "charY" assigned a value but never read File: /home/edward/scp/quartus/IO/vga/vgaText.v Line: 32
-Warning (10030): Net "charset_ram.data_a" at vgaText.v(21) has no driver or initial value, using a default initial value '0' File: /home/edward/scp/quartus/IO/vga/vgaText.v Line: 21
-Warning (10030): Net "charset_ram.waddr_a" at vgaText.v(21) has no driver or initial value, using a default initial value '0' File: /home/edward/scp/quartus/IO/vga/vgaText.v Line: 21
-Warning (10030): Net "charset_ram.we_a" at vgaText.v(21) has no driver or initial value, using a default initial value '0' File: /home/edward/scp/quartus/IO/vga/vgaText.v Line: 21
+Info (12128): Elaborating entity "char_mem" for hierarchy "vga_io:inst23|char_mem:instv2"
+Info (12128): Elaborating entity "altsyncram" for hierarchy "vga_io:inst23|char_mem:instv2|altsyncram:altsyncram_component" File: /home/edward/scp/quartus/IO/vga/char_mem.v Line: 99
+Info (12130): Elaborated megafunction instantiation "vga_io:inst23|char_mem:instv2|altsyncram:altsyncram_component" File: /home/edward/scp/quartus/IO/vga/char_mem.v Line: 99
+Info (12133): Instantiated megafunction "vga_io:inst23|char_mem:instv2|altsyncram:altsyncram_component" with the following parameter: File: /home/edward/scp/quartus/IO/vga/char_mem.v Line: 99
+    Info (12134): Parameter "address_reg_b" = "CLOCK1"
+    Info (12134): Parameter "clock_enable_input_a" = "BYPASS"
+    Info (12134): Parameter "clock_enable_input_b" = "BYPASS"
+    Info (12134): Parameter "clock_enable_output_a" = "BYPASS"
+    Info (12134): Parameter "clock_enable_output_b" = "BYPASS"
+    Info (12134): Parameter "indata_reg_b" = "CLOCK1"
+    Info (12134): Parameter "intended_device_family" = "Cyclone V"
+    Info (12134): Parameter "lpm_type" = "altsyncram"
+    Info (12134): Parameter "numwords_a" = "1024"
+    Info (12134): Parameter "numwords_b" = "1024"
+    Info (12134): Parameter "operation_mode" = "BIDIR_DUAL_PORT"
+    Info (12134): Parameter "outdata_aclr_a" = "NONE"
+    Info (12134): Parameter "outdata_aclr_b" = "NONE"
+    Info (12134): Parameter "outdata_reg_a" = "UNREGISTERED"
+    Info (12134): Parameter "outdata_reg_b" = "UNREGISTERED"
+    Info (12134): Parameter "power_up_uninitialized" = "FALSE"
+    Info (12134): Parameter "read_during_write_mode_port_a" = "NEW_DATA_NO_NBE_READ"
+    Info (12134): Parameter "read_during_write_mode_port_b" = "NEW_DATA_NO_NBE_READ"
+    Info (12134): Parameter "widthad_a" = "10"
+    Info (12134): Parameter "widthad_b" = "10"
+    Info (12134): Parameter "width_a" = "8"
+    Info (12134): Parameter "width_b" = "8"
+    Info (12134): Parameter "width_byteena_a" = "1"
+    Info (12134): Parameter "width_byteena_b" = "1"
+    Info (12134): Parameter "wrcontrol_wraddress_reg_b" = "CLOCK1"
+Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_dnj2.tdf
+    Info (12023): Found entity 1: altsyncram_dnj2 File: /home/edward/scp/quartus/db/altsyncram_dnj2.tdf Line: 27
+Info (12128): Elaborating entity "altsyncram_dnj2" for hierarchy "vga_io:inst23|char_mem:instv2|altsyncram:altsyncram_component|altsyncram_dnj2:auto_generated" File: /home/edward/intelFPGA_lite/17.1/quartus/libraries/megafunctions/altsyncram.tdf Line: 791
+Info (12128): Elaborating entity "text_gen" for hierarchy "vga_io:inst23|text_gen:instv1"
+Warning (10230): Verilog HDL assignment warning at text_gen.v(16): truncated value with size 32 to match size of target (31) File: /home/edward/scp/quartus/IO/vga/text_gen.v Line: 16
+Warning (10230): Verilog HDL assignment warning at text_gen.v(24): truncated value with size 32 to match size of target (10) File: /home/edward/scp/quartus/IO/vga/text_gen.v Line: 24
+Warning (10230): Verilog HDL assignment warning at text_gen.v(42): truncated value with size 32 to match size of target (1) File: /home/edward/scp/quartus/IO/vga/text_gen.v Line: 42
+Warning (10230): Verilog HDL assignment warning at text_gen.v(44): truncated value with size 32 to match size of target (8) File: /home/edward/scp/quartus/IO/vga/text_gen.v Line: 44
+Info (12128): Elaborating entity "charset_rom" for hierarchy "vga_io:inst23|charset_rom:instv5"
+Info (12128): Elaborating entity "altsyncram" for hierarchy "vga_io:inst23|charset_rom:instv5|altsyncram:altsyncram_component" File: /home/edward/scp/quartus/IO/vga/charset_rom.v Line: 81
+Info (12130): Elaborated megafunction instantiation "vga_io:inst23|charset_rom:instv5|altsyncram:altsyncram_component" File: /home/edward/scp/quartus/IO/vga/charset_rom.v Line: 81
+Info (12133): Instantiated megafunction "vga_io:inst23|charset_rom:instv5|altsyncram:altsyncram_component" with the following parameter: File: /home/edward/scp/quartus/IO/vga/charset_rom.v Line: 81
+    Info (12134): Parameter "address_aclr_a" = "NONE"
+    Info (12134): Parameter "clock_enable_input_a" = "BYPASS"
+    Info (12134): Parameter "clock_enable_output_a" = "BYPASS"
+    Info (12134): Parameter "init_file" = "charset.mif"
+    Info (12134): Parameter "intended_device_family" = "Cyclone V"
+    Info (12134): Parameter "lpm_hint" = "ENABLE_RUNTIME_MOD=NO"
+    Info (12134): Parameter "lpm_type" = "altsyncram"
+    Info (12134): Parameter "numwords_a" = "256"
+    Info (12134): Parameter "operation_mode" = "ROM"
+    Info (12134): Parameter "outdata_aclr_a" = "NONE"
+    Info (12134): Parameter "outdata_reg_a" = "UNREGISTERED"
+    Info (12134): Parameter "widthad_a" = "8"
+    Info (12134): Parameter "width_a" = "64"
+    Info (12134): Parameter "width_byteena_a" = "1"
+Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_1ag1.tdf
+    Info (12023): Found entity 1: altsyncram_1ag1 File: /home/edward/scp/quartus/db/altsyncram_1ag1.tdf Line: 27
+Info (12128): Elaborating entity "altsyncram_1ag1" for hierarchy "vga_io:inst23|charset_rom:instv5|altsyncram:altsyncram_component|altsyncram_1ag1:auto_generated" File: /home/edward/intelFPGA_lite/17.1/quartus/libraries/megafunctions/altsyncram.tdf Line: 791
 Info (12128): Elaborating entity "vga_pll" for hierarchy "vga_pll:inst"
-Info (12128): Elaborating entity "vga_pll_0002" for hierarchy "vga_pll:inst|vga_pll_0002:vga_pll_inst" File: /home/edward/scp/quartus/vga_pll.v Line: 21
-Info (12128): Elaborating entity "altera_pll" for hierarchy "vga_pll:inst|vga_pll_0002:vga_pll_inst|altera_pll:altera_pll_i" File: /home/edward/scp/quartus/vga_pll/vga_pll_0002.v Line: 88
+Info (12128): Elaborating entity "vga_pll_0002" for hierarchy "vga_pll:inst|vga_pll_0002:vga_pll_inst" File: /home/edward/scp/quartus/vga_pll.v Line: 23
+Info (12128): Elaborating entity "altera_pll" for hierarchy "vga_pll:inst|vga_pll_0002:vga_pll_inst|altera_pll:altera_pll_i" File: /home/edward/scp/quartus/vga_pll/vga_pll_0002.v Line: 91
 Info (10008): Verilog HDL or VHDL information: EDA Netlist Writer cannot regroup multidimensional array "wire_to_nowhere_64" into its bus
-Info (12130): Elaborated megafunction instantiation "vga_pll:inst|vga_pll_0002:vga_pll_inst|altera_pll:altera_pll_i" File: /home/edward/scp/quartus/vga_pll/vga_pll_0002.v Line: 88
-Info (12133): Instantiated megafunction "vga_pll:inst|vga_pll_0002:vga_pll_inst|altera_pll:altera_pll_i" with the following parameter: File: /home/edward/scp/quartus/vga_pll/vga_pll_0002.v Line: 88
+Info (12130): Elaborated megafunction instantiation "vga_pll:inst|vga_pll_0002:vga_pll_inst|altera_pll:altera_pll_i" File: /home/edward/scp/quartus/vga_pll/vga_pll_0002.v Line: 91
+Info (12133): Instantiated megafunction "vga_pll:inst|vga_pll_0002:vga_pll_inst|altera_pll:altera_pll_i" with the following parameter: File: /home/edward/scp/quartus/vga_pll/vga_pll_0002.v Line: 91
     Info (12134): Parameter "fractional_vco_multiplier" = "false"
     Info (12134): Parameter "reference_clock_frequency" = "50.0 MHz"
     Info (12134): Parameter "operation_mode" = "direct"
-    Info (12134): Parameter "number_of_clocks" = "2"
+    Info (12134): Parameter "number_of_clocks" = "3"
     Info (12134): Parameter "output_clock_frequency0" = "25.175644 MHz"
     Info (12134): Parameter "phase_shift0" = "0 ps"
     Info (12134): Parameter "duty_cycle0" = "50"
     Info (12134): Parameter "output_clock_frequency1" = "25.175644 MHz"
-    Info (12134): Parameter "phase_shift1" = "19860 ps"
+    Info (12134): Parameter "phase_shift1" = "13185 ps"
     Info (12134): Parameter "duty_cycle1" = "50"
-    Info (12134): Parameter "output_clock_frequency2" = "0 MHz"
-    Info (12134): Parameter "phase_shift2" = "0 ps"
+    Info (12134): Parameter "output_clock_frequency2" = "25.175644 MHz"
+    Info (12134): Parameter "phase_shift2" = "26370 ps"
     Info (12134): Parameter "duty_cycle2" = "50"
     Info (12134): Parameter "output_clock_frequency3" = "0 MHz"
     Info (12134): Parameter "phase_shift3" = "0 ps"
@@ -1903,10 +1909,6 @@ Warning (14284): Synthesized away the following node(s):
         Warning (14320): Synthesized away node "rom_mega:DECODE_ROM|altsyncram:altsyncram_component|altsyncram_tkh1:auto_generated|q_a[57]" File: /home/edward/scp/quartus/db/altsyncram_tkh1.tdf Line: 1231
         Warning (14320): Synthesized away node "rom_mega:DECODE_ROM|altsyncram:altsyncram_component|altsyncram_tkh1:auto_generated|q_a[58]" File: /home/edward/scp/quartus/db/altsyncram_tkh1.tdf Line: 1252
         Warning (14320): Synthesized away node "rom_mega:DECODE_ROM|altsyncram:altsyncram_component|altsyncram_tkh1:auto_generated|q_a[59]" File: /home/edward/scp/quartus/db/altsyncram_tkh1.tdf Line: 1273
-Warning (276027): Inferred dual-clock RAM node "vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_0" from synchronous design logic.  The read-during-write behavior of a dual-clock RAM is undefined and may not match the behavior of the original design.
-Warning (276020): Inferred RAM node "vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1" from synchronous design logic.  Pass-through logic has been added to match the read-during-write behavior of the original design.
-Info (276014): Found 1 instances of uninferred RAM logic
-    Info (276007): RAM logic "vga_io:inst23|vgaTextGen:instv2|charset_ram" is uninferred due to asynchronous read logic File: /home/edward/scp/quartus/IO/vga/vgaText.v Line: 21
 Warning (13046): Tri-state node(s) do not directly drive top-level pin(s)
     Warning (13048): Converted tri-state node feeding "ab_bus_in_mux:inst15|out" into a selector File: /home/edward/scp/quartus/mux/ab_bus_in_mux.v Line: 9
     Warning (13048): Converted tri-state node feeding "ab_bus_in_mux:inst15|out" into a selector File: /home/edward/scp/quartus/mux/ab_bus_in_mux.v Line: 9
@@ -1924,90 +1926,24 @@ Warning (13046): Tri-state node(s) do not directly drive top-level pin(s)
     Warning (13048): Converted tri-state node feeding "ab_bus_in_mux:inst15|out" into a selector File: /home/edward/scp/quartus/mux/ab_bus_in_mux.v Line: 9
     Warning (13048): Converted tri-state node feeding "ab_bus_in_mux:inst15|out" into a selector File: /home/edward/scp/quartus/mux/ab_bus_in_mux.v Line: 9
     Warning (13048): Converted tri-state node feeding "ab_bus_in_mux:inst15|out" into a selector File: /home/edward/scp/quartus/mux/ab_bus_in_mux.v Line: 9
-Info (19000): Inferred 2 megafunctions from design logic
-    Info (276029): Inferred altsyncram megafunction from the following design logic: "vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_0" 
-        Info (286033): Parameter OPERATION_MODE set to DUAL_PORT
-        Info (286033): Parameter WIDTH_A set to 16
-        Info (286033): Parameter WIDTHAD_A set to 10
-        Info (286033): Parameter NUMWORDS_A set to 1000
-        Info (286033): Parameter WIDTH_B set to 16
-        Info (286033): Parameter WIDTHAD_B set to 10
-        Info (286033): Parameter NUMWORDS_B set to 1000
-        Info (286033): Parameter ADDRESS_ACLR_A set to NONE
-        Info (286033): Parameter OUTDATA_REG_B set to UNREGISTERED
-        Info (286033): Parameter ADDRESS_ACLR_B set to NONE
-        Info (286033): Parameter OUTDATA_ACLR_B set to NONE
-        Info (286033): Parameter ADDRESS_REG_B set to CLOCK1
-        Info (286033): Parameter INDATA_ACLR_A set to NONE
-        Info (286033): Parameter WRCONTROL_ACLR_A set to NONE
-    Info (276029): Inferred altsyncram megafunction from the following design logic: "vga_io:inst23|vgaTextGen:instv2|text_mem_rtl_1" 
-        Info (286033): Parameter OPERATION_MODE set to DUAL_PORT
-        Info (286033): Parameter WIDTH_A set to 16
-        Info (286033): Parameter WIDTHAD_A set to 10
-        Info (286033): Parameter NUMWORDS_A set to 1000
-        Info (286033): Parameter WIDTH_B set to 16
-        Info (286033): Parameter WIDTHAD_B set to 10
-        Info (286033): Parameter NUMWORDS_B set to 1000
-        Info (286033): Parameter ADDRESS_ACLR_A set to NONE
-        Info (286033): Parameter OUTDATA_REG_B set to UNREGISTERED
-        Info (286033): Parameter ADDRESS_ACLR_B set to NONE
-        Info (286033): Parameter OUTDATA_ACLR_B set to NONE
-        Info (286033): Parameter ADDRESS_REG_B set to CLOCK0
-        Info (286033): Parameter INDATA_ACLR_A set to NONE
-        Info (286033): Parameter WRCONTROL_ACLR_A set to NONE
-Info (12130): Elaborated megafunction instantiation "vga_io:inst23|vgaTextGen:instv2|altsyncram:text_mem_rtl_0"
-Info (12133): Instantiated megafunction "vga_io:inst23|vgaTextGen:instv2|altsyncram:text_mem_rtl_0" with the following parameter:
-    Info (12134): Parameter "OPERATION_MODE" = "DUAL_PORT"
-    Info (12134): Parameter "WIDTH_A" = "16"
-    Info (12134): Parameter "WIDTHAD_A" = "10"
-    Info (12134): Parameter "NUMWORDS_A" = "1000"
-    Info (12134): Parameter "WIDTH_B" = "16"
-    Info (12134): Parameter "WIDTHAD_B" = "10"
-    Info (12134): Parameter "NUMWORDS_B" = "1000"
-    Info (12134): Parameter "ADDRESS_ACLR_A" = "NONE"
-    Info (12134): Parameter "OUTDATA_REG_B" = "UNREGISTERED"
-    Info (12134): Parameter "ADDRESS_ACLR_B" = "NONE"
-    Info (12134): Parameter "OUTDATA_ACLR_B" = "NONE"
-    Info (12134): Parameter "ADDRESS_REG_B" = "CLOCK1"
-    Info (12134): Parameter "INDATA_ACLR_A" = "NONE"
-    Info (12134): Parameter "WRCONTROL_ACLR_A" = "NONE"
-Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_oej1.tdf
-    Info (12023): Found entity 1: altsyncram_oej1 File: /home/edward/scp/quartus/db/altsyncram_oej1.tdf Line: 27
-Info (12130): Elaborated megafunction instantiation "vga_io:inst23|vgaTextGen:instv2|altsyncram:text_mem_rtl_1"
-Info (12133): Instantiated megafunction "vga_io:inst23|vgaTextGen:instv2|altsyncram:text_mem_rtl_1" with the following parameter:
-    Info (12134): Parameter "OPERATION_MODE" = "DUAL_PORT"
-    Info (12134): Parameter "WIDTH_A" = "16"
-    Info (12134): Parameter "WIDTHAD_A" = "10"
-    Info (12134): Parameter "NUMWORDS_A" = "1000"
-    Info (12134): Parameter "WIDTH_B" = "16"
-    Info (12134): Parameter "WIDTHAD_B" = "10"
-    Info (12134): Parameter "NUMWORDS_B" = "1000"
-    Info (12134): Parameter "ADDRESS_ACLR_A" = "NONE"
-    Info (12134): Parameter "OUTDATA_REG_B" = "UNREGISTERED"
-    Info (12134): Parameter "ADDRESS_ACLR_B" = "NONE"
-    Info (12134): Parameter "OUTDATA_ACLR_B" = "NONE"
-    Info (12134): Parameter "ADDRESS_REG_B" = "CLOCK0"
-    Info (12134): Parameter "INDATA_ACLR_A" = "NONE"
-    Info (12134): Parameter "WRCONTROL_ACLR_A" = "NONE"
-Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_qri1.tdf
-    Info (12023): Found entity 1: altsyncram_qri1 File: /home/edward/scp/quartus/db/altsyncram_qri1.tdf Line: 27
 Info (286030): Timing-Driven Synthesis is running
+Info (17049): 22 registers lost all their fanouts during netlist optimizations.
 Info (17036): Removed 7 MSB VCC or GND address nodes from RAM block "mmu:inst17|page_table_mega:minst|altsyncram:altsyncram_component|altsyncram_5mr2:auto_generated|ALTSYNCRAM" File: /home/edward/scp/quartus/db/altsyncram_5mr2.tdf Line: 34
 Info (144001): Generated suppressed messages file /home/edward/scp/quartus/output_files/scp.map.smsg
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
-    Info (16011): Adding 11 node(s), including 0 DDIO, 5 PLL, 0 transceiver and 0 LCELL
-Info (21057): Implemented 1320 device resources after synthesis - the final resource count might be different
+    Info (16011): Adding 12 node(s), including 0 DDIO, 6 PLL, 0 transceiver and 0 LCELL
+Info (21057): Implemented 1066 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 3 input pins
     Info (21059): Implemented 18 output pins
-    Info (21061): Implemented 1143 logic cells
-    Info (21064): Implemented 150 RAM segments
-    Info (21065): Implemented 5 PLLs
+    Info (21061): Implemented 848 logic cells
+    Info (21064): Implemented 190 RAM segments
+    Info (21065): Implemented 6 PLLs
     Info (21062): Implemented 1 DSP elements
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 55 warnings
-    Info: Peak virtual memory: 1132 megabytes
-    Info: Processing ended: Sun Jun  3 17:09:19 2018
-    Info: Elapsed time: 00:00:49
-    Info: Total CPU time (on all processors): 00:01:14
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 54 warnings
+    Info: Peak virtual memory: 1130 megabytes
+    Info: Processing ended: Fri Jun  8 16:57:38 2018
+    Info: Elapsed time: 00:00:26
+    Info: Total CPU time (on all processors): 00:00:49
 
 
 +------------------------------------------+
