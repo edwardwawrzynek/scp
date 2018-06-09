@@ -14,10 +14,31 @@
 //Length of array for cmds - NUM_CMDS * 5
 #define CMD_ARRAY_LEN 325
 
+//Enables debuging messages
+/*
+#define DEBUG
+*/
+
 //Command names
 char cmds[CMD_ARRAY_LEN] = "nop \0lbia\0lbib\0lwia\0lwib\0lbpa\0lbpb\0lwpa\0lwpb\0lbqa\0lbqb\0lwqa\0lwqb\0lbma\0lbmb\0lwma\0lwmb\0sbpb\0swpb\0sbqa\0swqa\0sbma\0sbmb\0swma\0swmb\0aadd\0asub\0amul\0abor\0abxr\0abnd\0assr\0ashr\0ashl\0aneg\0alng\0abng\0aclv\0aequ\0aneq\0aslt\0ault\0asle\0aule\0asex\0aaeb\0jmp \0jpnz\0jpz \0inca\0incb\0deca\0decb\0xswp\0mdsp\0masp\0mspa\0psha\0pshb\0popa\0popb\0call\0ret \0outa\0ina \0";
 //length not including opcode byte
 char cmd_lens[NUM_CMDS] = {0, 1, 1, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 0, 0, 0, 0, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 2, 0, 2, 0, 0, 0, 0, 2, 0, 0, 0};
+
+//Debug 
+print_cmd_names(){
+	int i;
+	unsigned int pos;
+	pos = 0;
+	for(int i = 0; i < NUM_CMDS;++i){
+		printn(i);
+		print(" : ");
+		print(cmds+pos);
+		print(" : ");
+		printn(cmd_lens[i]);
+		print("\n");
+		pos += 5;
+	}
+}
 
 //Buffer for operands being operated on - nothing should be more than 80 chars
 char buf[80];
@@ -415,6 +436,9 @@ second_pass(){
 		if(c == '$'){
 			c = read_line_buf_label(c);
 			buf_label_clear ();
+#ifdef DEBUG
+			printf("\n%s:\t|Location:\t|%x", buf, bytes_written());
+#endif
 			if(mod_label_addr(buf, MODULE_NUM) != bytes_written ()){
 				print("Warning: Label ");
 				print(buf);
@@ -428,13 +452,16 @@ second_pass(){
 		if(isalpha(c)){
 			c = read_line_buf_label(c);
 			buf_label_clear ();
+#ifdef DEBUG
+			printf("\n%s:\t|Location:\t|%x", buf, bytes_written());
+#endif
 			if(label_addr(buf) != bytes_written ()){
 				print("Warning: Label ");
 				print(buf);
 				print(" is being written at addr ");
-				printn(label_addr(buf));
-				print(", but was resolved to be at addr ");
 				printn(bytes_written ());
+				print(", but was resolved to be at addr ");
+				printn(label_addr(buf));
 				print(".\n");
 			}
 		}
@@ -444,18 +471,30 @@ second_pass(){
     if(c == '\t'){
       c = read();
       read_line_buf(c);
+#ifdef DEBUG
+			printf("\n%s\t|", buf);
+#endif
       //put name from buf into name
       gen_name();
       gen_args();
+#ifdef DEBUG
+			printf("%s:%s:", name, args);
+#endif
       //the buffer contains the line
       if(buf[0] == '.'){
         //Handle the directive
+#ifdef DEBUG
+				printf("directive\t|");
+#endif
         second_handle_dir();
       }
       else{
         //Handle Asm command
         //Get and write opcode
         opcode = get_opcode(name);
+#ifdef DEBUG
+				printf("cmd %x\t|", opcode);
+#endif
         write_num(opcode, 1);
         //Write out arg with appropriate byte len - (note-this will have to change if commands use mutliple args)
         second_write_arg(0, cmd_lens[opcode]);

@@ -158,6 +158,9 @@ unsigned char read(){
 
 //Write a char to file
 int write(unsigned char c){
+#ifdef DEBUG
+	printf("%x ", c);
+#endif
 	bytes_out++;
   return fputc(c, out_file);
 }
