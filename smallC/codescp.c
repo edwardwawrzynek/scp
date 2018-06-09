@@ -662,8 +662,8 @@ gen_less_or_equal() {
  */
 gen_greater_than() {
     gen_pop();
-    gen_swap();
     output_line ("asle\t");
+		gen_logical_negation();
 }
 
 /**
@@ -671,8 +671,8 @@ gen_greater_than() {
  */
 gen_greater_or_equal() {
     gen_pop();
-    gen_swap();
     output_line ("aslt\t");
+		gen_logical_negation();
 }
 
 /**
@@ -696,8 +696,8 @@ gen_unsigned_less_or_equal() {
  */
 gen_usigned_greater_than() {
     gen_pop();
-    gen_swap();
     output_line ("aule\t");
+		gen_logical_negation();
 }
 
 /**
@@ -705,8 +705,8 @@ gen_usigned_greater_than() {
  */
 gen_unsigned_greater_or_equal() {
     gen_pop();
-    gen_swap();
     output_line ("ault\t");
+		gen_logical_negation();
 }
 
 char *inclib() {
