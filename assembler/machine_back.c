@@ -22,6 +22,9 @@ unsigned int *mod_addr[NUM_MODULES];
 unsigned int mod_labels_append_pos[NUM_MODULES];
 unsigned int mod_labels_allocd[NUM_MODULES];
 
+//Number of bytes written
+unsigned int bytes_out = 0;
+
 //init backend
 int back_init(){
   unsigned int i;
@@ -155,7 +158,13 @@ unsigned char read(){
 
 //Write a char to file
 int write(unsigned char c){
+	bytes_out++;
   return fputc(c, out_file);
+}
+
+//Get number of bytes written
+unsigned int bytes_written(){
+	return bytes_out;
 }
 
 //Print out

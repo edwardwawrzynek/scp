@@ -88,7 +88,7 @@ read_line_buf(char first){
     cur = read();
   }
   buf[index] = '\0';
-  return 0;
+  return cur;
 }
 
 //read line into buffer, and put the passed char in first position - this stops at tabs
@@ -244,13 +244,13 @@ first_pass(){
     //The file is at the first position of a good line - handle the line
     //Module-level label
     if(c == '$'){
-      //Keep the $ prefix on the addr
+      //Keep the $ prefix on the module level label declarations
       c = read_line_buf_label(c);
       buf_label_clear();
       mod_label_append(buf, addr, MODULE_NUM);
     }
     //Global label
-    else if(isalpha(c)){
+  	if(isalpha(c)){
       c = read_line_buf_label(c);
       buf_label_clear();
       label_append(buf, addr);
@@ -403,14 +403,40 @@ second_pass(){
   //Loop through each line
   while(1){
     c = read();
-    //Skip comments, and label prefixes
+    //Skip comments
     if(c == ';'){
       read_to_nl();
       continue;
     }
 		//Commands can be on the same line as labels
-		if(c == '$' || isalpha(c)){
+		/*if(c == '$' || isalpha(c)){
 			c = read_to_nl_or_tab();
+		}*/
+		if(c == '$'){
+			c = read_line_buf_label(c);
+			buf_label_clear ();
+			if(mod_label_addr(buf, MODULE_NUM) != bytes_written ()){
+				print("Warning: Label ");
+				print(buf);
+				print(" is being written at addr ");
+				printn(bytes_written ());
+				print(", but was resolved to be at addr ");
+				printn(mod_label_addr(buf, MODULE_NUM));
+				print(".\n");
+			}
+		}
+		if(isalpha(c)){
+			c = read_line_buf_label(c);
+			buf_label_clear ();
+			if(label_addr(buf) != bytes_written ()){
+				print("Warning: Label ");
+				print(buf);
+				print(" is being written at addr ");
+				printn(label_addr(buf));
+				print(", but was resolved to be at addr ");
+				printn(bytes_written ());
+				print(".\n");
+			}
 		}
 		if(c == EOF){break;}
     if(c == '\n'){continue;}
