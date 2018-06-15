@@ -117,11 +117,9 @@ ccudiv_4:
 	abor	
 	popb	
 	swqa	
-	mdsp	#0
 ccudiv_6:
 	jmp 	ccudiv_3
 ccudiv_5:
-	mdsp	#0
 	mspa	#6
 	lwpa	
 	xswp	
@@ -129,4 +127,123 @@ ccudiv_5:
 	lwpa	
 ccudiv_1:
 	mdsp	#10
+	ret 	
+;	Signed divide
+ccdiv:
+	mdsp	#-6
+;
+	pshb	
+	xswp	
+	mspa	#2
+	swpb	
+	popb	
+	mspa	#2
+	swpb	
+;	
+	nop 	
+	mspa	#5
+	psha	
+	lwia	#0
+	popb	
+	sbqa	
+	mspa	#4
+	psha	
+	lwia	#0
+	popb	
+	sbqa	
+	mspa	#2
+	lwpa	
+	psha	
+	lwia	#32768
+	popb	
+	abnd	
+	jpz 	ccdiv_2
+	mspa	#2
+	psha	
+	mspa	#4
+	lwpa	
+	aneg	
+	popb	
+	swqa	
+	mspa	#5
+	psha	
+	lbpa	
+	psha	
+	lwia	#1
+	popb	
+	abxr	
+	popb	
+	sbqa	
+	mspa	#4
+	psha	
+	lwia	#1
+	popb	
+	sbqa	
+ccdiv_2:
+	mspa	#0
+	lwpa	
+	psha	
+	lwia	#32768
+	popb	
+	abnd	
+	jpz 	ccdiv_3
+	mspa	#0
+	psha	
+	mspa	#2
+	lwpa	
+	aneg	
+	popb	
+	swqa	
+	mspa	#5
+	psha	
+	lbpa	
+	psha	
+	lwia	#1
+	popb	
+	abxr	
+	popb	
+	sbqa	
+ccdiv_3:
+	mspa	#2
+	lwpa	
+	xswp	
+	mspa	#0
+	lwpa	
+	call	ccudiv
+;	Store b
+	psha	
+	mspa	#2
+	swpb	
+	popb	
+	mspa	#2
+	swpb	
+	mspa	#5
+	lbpa	
+	jpz 	ccdiv_4
+	mspa	#2
+	psha	
+	mspa	#4
+	lwpa	
+	aneg	
+	popb	
+	swqa	
+ccdiv_4:
+	mspa	#4
+	lbpa	
+	jpz 	ccdiv_5
+	mspa	#0
+	psha	
+	mspa	#2
+	lwpa	
+	aneg	
+	popb	
+	swqa	
+ccdiv_5:
+	mspa	#0
+	lwpa	
+	xswp	
+	mspa	#2
+	lwpa	
+ccdiv_1:
+	mdsp	#6
 	ret 	

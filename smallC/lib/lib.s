@@ -274,6 +274,7 @@ $2:
 	psha	
 	lwia	#2
 	popb	
+	call	ccdiv
 	popb	
 	swqa	
 	mspa	#0
@@ -1023,6 +1024,7 @@ $3:
 	psha	
 	lwia	#10
 	popb	
+	call	ccdiv
 	xswp	
 	psha	
 	lwia	#48
@@ -1038,6 +1040,7 @@ $4:
 	psha	
 	lwia	#10
 	popb	
+	call	ccdiv
 	popb	
 	swqa	
 	psha	
@@ -1151,6 +1154,7 @@ $2:
 	mspa	#10
 	lwpa	
 	popb	
+	call	ccdiv
 	popb	
 	swqa	
 	psha	
@@ -1183,6 +1187,7 @@ $3:
 	mspa	#10
 	lwpa	
 	popb	
+	call	ccdiv
 	xswp	
 	popb	
 	aadd	
@@ -1392,6 +1397,7 @@ shellsort:
 	psha	
 	lwia	#2
 	popb	
+	call	ccdiv
 	popb	
 	swqa	
 $2:
@@ -1412,6 +1418,7 @@ $3:
 	psha	
 	lwia	#2
 	popb	
+	call	ccdiv
 	popb	
 	swqa	
 	jmp 	$2

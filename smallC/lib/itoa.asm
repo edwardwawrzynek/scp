@@ -52,6 +52,7 @@ $3:
 	psha	
 	lwia	#10
 	popb	
+	call	ccdiv
 	xswp	
 	psha	
 	lwia	#48
@@ -67,6 +68,7 @@ $4:
 	psha	
 	lwia	#10
 	popb	
+	call	ccdiv
 	popb	
 	swqa	
 	psha	

@@ -17,6 +17,7 @@ shellsort:
 	psha	
 	lwia	#2
 	popb	
+	call	ccdiv
 	popb	
 	swqa	
 $2:
@@ -37,6 +38,7 @@ $3:
 	psha	
 	lwia	#2
 	popb	
+	call	ccdiv
 	popb	
 	swqa	
 	jmp 	$2

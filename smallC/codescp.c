@@ -465,7 +465,6 @@ gen_mult() {
  * (quotient in primary, remainder in secondary)
  */
 gen_div() {
-    printf("Signed Division not implemented\n");
     gen_pop();
     gen_call ("ccdiv");
 }

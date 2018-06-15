@@ -46,6 +46,7 @@ $2:
 	psha	
 	lwia	#2
 	popb	
+	call	ccdiv
 	popb	
 	swqa	
 	mspa	#0

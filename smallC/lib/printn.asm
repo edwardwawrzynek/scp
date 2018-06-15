@@ -46,6 +46,7 @@ $2:
 	mspa	#10
 	lwpa	
 	popb	
+	call	ccdiv
 	popb	
 	swqa	
 	psha	
@@ -78,6 +79,7 @@ $3:
 	mspa	#10
 	lwpa	
 	popb	
+	call	ccdiv
 	xswp	
 	popb	
 	aadd	
