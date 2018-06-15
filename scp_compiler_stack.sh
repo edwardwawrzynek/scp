@@ -53,6 +53,11 @@ while getopts "ho:m:a:l:L:" opt; do
   esac
 done
 
+if [ $# == 0 ]; then
+	usage
+	exit 1
+fi
+
 shift $((OPTIND-1))
 
 #Compile the file
