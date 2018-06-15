@@ -3,7 +3,7 @@
 #automates c compiling, linking, assembling, and binary and mif file output for scp
 
 usage() {
-echo "Usage: scpc [-o bin_out] [-m mif_out] [-a asm_out] [-l file_to_link.s] [-L directory_to_link] [-h] file.c"
+echo "Usage: scpc [-o bin_out] [-m mif_out] [-a asm_out] [-s asm_out_without_links] [-l file_to_link.s] [-L directory_to_link] [-h] file.c"
 }
 
 #Binary out - will always be generated
@@ -17,10 +17,14 @@ DO_MIF=false
 ASM_OUTPUT=""
 DO_ASM=false
 
+#Non linked assembley output
+CLEAN_ASM_OUTPUT=""
+DP_CLEAN_ASM=false
+
 #Files to link with
 LINKS="/home/edward/scp/smallC/scp/cret.asm /home/edward/scp/smallC/scp/crun.asm /home/edward/scp/smallC/scp/lib.s /home/edward/scp/smallC/lib/lib.s"
 
-while getopts "ho:m:a:l:L:" opt; do
+while getopts "ho:m:a:s:l:L:" opt; do
   case $opt in
     o)
       OUTPUT=$OPTARG
@@ -35,6 +39,10 @@ while getopts "ho:m:a:l:L:" opt; do
     a)
     	ASM_OUTPUT=$OPTARG
     	DO_ASM=true
+    	;;
+    s)
+    	CLEAN_ASM_OUTPUT=$OPTARG
+    	DO_CLEAN_ASM=true
     	;;
     l)
     	LINKS="$LINKS $OPTARG"
@@ -65,6 +73,9 @@ sccscp $1
 #figure out what file it was assembled to (.s instead of .c)
 name=$(echo "$1" | cut -f 1 -d '.')
 name="$name.s"
+if [ "$DO_CLEAN_ASM" == "true" ]; then
+	cp $name $CLEAN_ASM_OUTPUT
+fi
 #Link
 #Add output to linking
 LINKS="$LINKS $name"
