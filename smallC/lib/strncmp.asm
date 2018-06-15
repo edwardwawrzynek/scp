@@ -16,8 +16,8 @@ $2:
 	psha	
 	lwia	#0
 	popb	
-	xswp	
 	aslt	
+	alng	
 	jpz 	$4
 	mspa	#6
 	lwpa	
@@ -64,7 +64,7 @@ $3:
 	psha	
 	lwia	#0
 	popb	
-	aslt
+	aslt	
 	jpz 	$6
 	lwia	#0
 	jmp 	$7

@@ -27,7 +27,7 @@ rand:
 	psha	
 	lwia	#0
 	popb	
-	aslt
+	aslt	
 	jpz 	$3
 	lwma	xxseed
 	aneg	

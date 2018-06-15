@@ -5,34 +5,30 @@
 ;	program area SMALLC_GENERATED is RELOCATABLE
 	.module	SMALLC_GENERATED
 ;	Code Segment
-abs:
+outp:
+	mspa	#4
+	lbpa	
+	xswp	
 	mspa	#2
 	lwpa	
-	psha	
-	lwia	#0
-	popb	
-	aslt	
-	jpz 	$2
-	mspa	#2
-	lwpa	
-	aneg	
-	jmp 	$1
-	mdsp	#0
-	jmp 	$3
-$2:
-	mspa	#2
-	lwpa	
-	jmp 	$1
-	mdsp	#0
-$3:
+	outa	
 $1:
 	mdsp	#0
 	ret 	
+inp:
+	mspa	#2
+	lbpa	
+	xswp	
+	ina 	
+$2:
+	mdsp	#0
+	ret 	
 ;	Data Segment
-;	globl	abs
+;	globl	outp
+;	globl	inp
 
 ;	0 error(s) in compilation
 ;	literal pool:0
-;	global pool:1
+;	global pool:2
 ;	Macro pool:51
 ;	.end

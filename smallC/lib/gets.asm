@@ -52,8 +52,8 @@ $4:
 	mspa	#7
 	lwpa	
 	popb	
-	xswp	
 	aule	
+	alng	
 	jpz 	$6
 	mspa	#0
 	psha	

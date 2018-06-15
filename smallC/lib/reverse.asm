@@ -35,7 +35,7 @@ $2:
 	mspa	#3
 	lwpa	
 	popb	
-	aslt
+	aslt	
 	jpz 	$3
 	mspa	#0
 	psha	

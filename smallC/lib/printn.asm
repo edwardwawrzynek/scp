@@ -13,7 +13,7 @@ printn:
 	psha	
 	lwia	#0
 	popb	
-	aslt
+	aslt	
 	psha	
 	mspa	#10
 	lwpa	

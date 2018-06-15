@@ -17,7 +17,7 @@ itoa:
 	psha	
 	lwia	#0
 	popb	
-	aslt
+	aslt	
 	jpz 	$2
 	mspa	#8
 	psha	
@@ -74,8 +74,8 @@ $4:
 	psha	
 	lwia	#0
 	popb	
-	xswp	
 	asle	
+	alng	
 	jpnz	$3
 $5:
 	mdsp	#0
@@ -84,7 +84,7 @@ $5:
 	psha	
 	lwia	#0
 	popb	
-	aslt
+	aslt	
 	jpz 	$6
 	mspa	#6
 	lwpa	

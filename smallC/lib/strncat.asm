@@ -63,7 +63,7 @@ $4:
 	psha	
 	lwia	#0
 	popb	
-	aslt
+	aslt	
 	jpz 	$6
 	mspa	#8
 	psha	

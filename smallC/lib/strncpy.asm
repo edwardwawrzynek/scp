@@ -26,7 +26,7 @@ $2:
 	mspa	#8
 	lwpa	
 	popb	
-	aslt
+	aslt	
 	jpnz	$4
 	jmp 	$5
 $3:
@@ -74,7 +74,7 @@ $7:
 	mspa	#8
 	lwpa	
 	popb	
-	aslt
+	aslt	
 	jpz 	$8
 	mspa	#10
 	psha	

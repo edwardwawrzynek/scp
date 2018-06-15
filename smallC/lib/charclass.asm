@@ -12,8 +12,8 @@ isalpha:
 	psha	
 	lwia	#97
 	popb	
-	xswp	
 	aslt	
+	alng	
 	psha	
 	mspa	#4
 	lbpa	
@@ -21,7 +21,7 @@ isalpha:
 	psha	
 	lwia	#122
 	popb	
-	asle
+	asle	
 	popb	
 	abnd	
 	psha	
@@ -31,8 +31,8 @@ isalpha:
 	psha	
 	lwia	#65
 	popb	
-	xswp	
 	aslt	
+	alng	
 	psha	
 	mspa	#6
 	lbpa	
@@ -40,7 +40,7 @@ isalpha:
 	psha	
 	lwia	#90
 	popb	
-	asle
+	asle	
 	popb	
 	abnd	
 	popb	
@@ -65,8 +65,8 @@ isupper:
 	psha	
 	lwia	#65
 	popb	
-	xswp	
 	aslt	
+	alng	
 	psha	
 	mspa	#4
 	lbpa	
@@ -74,7 +74,7 @@ isupper:
 	psha	
 	lwia	#90
 	popb	
-	asle
+	asle	
 	popb	
 	abnd	
 	jpz 	$5
@@ -97,8 +97,8 @@ islower:
 	psha	
 	lwia	#97
 	popb	
-	xswp	
 	aslt	
+	alng	
 	psha	
 	mspa	#4
 	lbpa	
@@ -106,7 +106,7 @@ islower:
 	psha	
 	lwia	#122
 	popb	
-	asle
+	asle	
 	popb	
 	abnd	
 	jpz 	$8
@@ -129,8 +129,8 @@ isdigit:
 	psha	
 	lwia	#48
 	popb	
-	xswp	
 	aslt	
+	alng	
 	psha	
 	mspa	#4
 	lbpa	
@@ -138,7 +138,7 @@ isdigit:
 	psha	
 	lwia	#57
 	popb	
-	asle
+	asle	
 	popb	
 	abnd	
 	jpz 	$11
@@ -202,8 +202,8 @@ toupper:
 	psha	
 	lwia	#97
 	popb	
-	xswp	
 	aslt	
+	alng	
 	jpz 	$17
 	mspa	#2
 	lbpa	
@@ -211,7 +211,7 @@ toupper:
 	psha	
 	lwia	#122
 	popb	
-	asle
+	asle	
 $17:
 	aclv	
 	jpz 	$18
@@ -239,8 +239,8 @@ tolower:
 	psha	
 	lwia	#65
 	popb	
-	xswp	
 	aslt	
+	alng	
 	jpz 	$21
 	mspa	#2
 	lbpa	
@@ -248,7 +248,7 @@ tolower:
 	psha	
 	lwia	#90
 	popb	
-	asle
+	asle	
 $21:
 	aclv	
 	jpz 	$22

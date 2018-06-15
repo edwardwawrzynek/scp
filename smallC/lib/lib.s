@@ -11,7 +11,7 @@ abs:
 	psha	
 	lwia	#0
 	popb	
-	aslt
+	aslt	
 	jpz 	$2
 	mspa	#2
 	lwpa	
@@ -260,7 +260,7 @@ $2:
 	mspa	#6
 	lwpa	
 	popb	
-	asle
+	asle	
 	jpz 	$3
 	mspa	#2
 	psha	
@@ -300,7 +300,7 @@ $2:
 	psha	
 	lwia	#0
 	popb	
-	aslt
+	aslt	
 	jpz 	$4
 	mspa	#4
 	psha	
@@ -320,8 +320,8 @@ $4:
 	psha	
 	lwia	#0
 	popb	
-	xswp	
 	asle	
+	alng	
 	jpz 	$6
 	mspa	#6
 	psha	
@@ -376,8 +376,8 @@ isalpha:
 	psha	
 	lwia	#97
 	popb	
-	xswp	
 	aslt	
+	alng	
 	psha	
 	mspa	#4
 	lbpa	
@@ -385,7 +385,7 @@ isalpha:
 	psha	
 	lwia	#122
 	popb	
-	asle
+	asle	
 	popb	
 	abnd	
 	psha	
@@ -395,8 +395,8 @@ isalpha:
 	psha	
 	lwia	#65
 	popb	
-	xswp	
 	aslt	
+	alng	
 	psha	
 	mspa	#6
 	lbpa	
@@ -404,7 +404,7 @@ isalpha:
 	psha	
 	lwia	#90
 	popb	
-	asle
+	asle	
 	popb	
 	abnd	
 	popb	
@@ -429,8 +429,8 @@ isupper:
 	psha	
 	lwia	#65
 	popb	
-	xswp	
 	aslt	
+	alng	
 	psha	
 	mspa	#4
 	lbpa	
@@ -438,7 +438,7 @@ isupper:
 	psha	
 	lwia	#90
 	popb	
-	asle
+	asle	
 	popb	
 	abnd	
 	jpz 	$5
@@ -461,8 +461,8 @@ islower:
 	psha	
 	lwia	#97
 	popb	
-	xswp	
 	aslt	
+	alng	
 	psha	
 	mspa	#4
 	lbpa	
@@ -470,7 +470,7 @@ islower:
 	psha	
 	lwia	#122
 	popb	
-	asle
+	asle	
 	popb	
 	abnd	
 	jpz 	$8
@@ -493,8 +493,8 @@ isdigit:
 	psha	
 	lwia	#48
 	popb	
-	xswp	
 	aslt	
+	alng	
 	psha	
 	mspa	#4
 	lbpa	
@@ -502,7 +502,7 @@ isdigit:
 	psha	
 	lwia	#57
 	popb	
-	asle
+	asle	
 	popb	
 	abnd	
 	jpz 	$11
@@ -566,8 +566,8 @@ toupper:
 	psha	
 	lwia	#97
 	popb	
-	xswp	
 	aslt	
+	alng	
 	jpz 	$17
 	mspa	#2
 	lbpa	
@@ -575,7 +575,7 @@ toupper:
 	psha	
 	lwia	#122
 	popb	
-	asle
+	asle	
 $17:
 	aclv	
 	jpz 	$18
@@ -603,8 +603,8 @@ tolower:
 	psha	
 	lwia	#65
 	popb	
-	xswp	
 	aslt	
+	alng	
 	jpz 	$21
 	mspa	#2
 	lbpa	
@@ -612,7 +612,7 @@ tolower:
 	psha	
 	lwia	#90
 	popb	
-	asle
+	asle	
 $21:
 	aclv	
 	jpz 	$22
@@ -674,8 +674,8 @@ $2:
 	psha	
 	lwia	#0
 	popb	
-	xswp	
 	asle	
+	alng	
 	jpz 	$4
 	mspa	#2
 	psha	
@@ -690,8 +690,8 @@ $2:
 	psha	
 	lwia	#0
 	popb	
-	xswp	
 	aslt	
+	alng	
 $4:
 	aclv	
 	jpz 	$3
@@ -726,7 +726,7 @@ $3:
 	psha	
 	lwia	#0
 	popb	
-	aslt
+	aslt	
 	jpz 	$7
 	mspa	#0
 	lwpa	
@@ -869,8 +869,8 @@ $4:
 	mspa	#7
 	lwpa	
 	popb	
-	xswp	
 	aule	
+	alng	
 	jpz 	$6
 	mspa	#0
 	psha	
@@ -1155,7 +1155,7 @@ itoa:
 	psha	
 	lwia	#0
 	popb	
-	aslt
+	aslt	
 	jpz 	$2
 	mspa	#8
 	psha	
@@ -1212,8 +1212,8 @@ $4:
 	psha	
 	lwia	#0
 	popb	
-	xswp	
 	asle	
+	alng	
 	jpnz	$3
 $5:
 	mdsp	#0
@@ -1222,7 +1222,7 @@ $5:
 	psha	
 	lwia	#0
 	popb	
-	aslt
+	aslt	
 	jpz 	$6
 	mspa	#6
 	lwpa	
@@ -1287,7 +1287,7 @@ printn:
 	psha	
 	lwia	#0
 	popb	
-	aslt
+	aslt	
 	psha	
 	mspa	#10
 	lwpa	
@@ -1473,7 +1473,7 @@ $2:
 	mspa	#3
 	lwpa	
 	popb	
-	aslt
+	aslt	
 	jpz 	$3
 	mspa	#0
 	psha	
@@ -1581,8 +1581,8 @@ $2:
 	psha	
 	lwia	#0
 	popb	
-	xswp	
 	asle	
+	alng	
 	jpnz	$4
 	jmp 	$5
 $3:
@@ -1611,7 +1611,7 @@ $6:
 	mspa	#12
 	lwpa	
 	popb	
-	aslt
+	aslt	
 	jpnz	$8
 	jmp 	$9
 $7:
@@ -1641,8 +1641,8 @@ $10:
 	psha	
 	lwia	#0
 	popb	
-	xswp	
 	aslt	
+	alng	
 	jpnz	$12
 	jmp 	$13
 $11:
@@ -1690,7 +1690,7 @@ $12:
 	psha	
 	lwia	#0
 	popb	
-	asle
+	asle	
 	jpz 	$14
 	mdsp	#0
 	jmp 	$13
@@ -2058,7 +2058,7 @@ rand:
 	psha	
 	lwia	#0
 	popb	
-	aslt
+	aslt	
 	jpz 	$3
 	lwma	xxseed
 	aneg	
@@ -2171,7 +2171,7 @@ $4:
 	psha	
 	lwia	#0
 	popb	
-	aslt
+	aslt	
 	jpz 	$6
 	mspa	#8
 	psha	
@@ -2223,8 +2223,8 @@ $2:
 	psha	
 	lwia	#0
 	popb	
-	xswp	
 	aslt	
+	alng	
 	jpz 	$4
 	mspa	#6
 	lwpa	
@@ -2271,7 +2271,7 @@ $3:
 	psha	
 	lwia	#0
 	popb	
-	aslt
+	aslt	
 	jpz 	$6
 	lwia	#0
 	jmp 	$7
@@ -2333,7 +2333,7 @@ $2:
 	mspa	#8
 	lwpa	
 	popb	
-	aslt
+	aslt	
 	jpnz	$4
 	jmp 	$5
 $3:
@@ -2381,7 +2381,7 @@ $7:
 	mspa	#8
 	lwpa	
 	popb	
-	aslt
+	aslt	
 	jpz 	$8
 	mspa	#10
 	psha	
