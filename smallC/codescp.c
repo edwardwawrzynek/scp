@@ -402,9 +402,8 @@ gen_modify_stack(int newstkp) {
  * multiply the primary register by INTSIZE
  */
 gen_multiply_by_two() {
-    //output_line ("dad \th");
-		output_line ("lwia	#2");
-		output_line ("amul	");
+		output_line ("lwia\t#2");
+		output_line ("amul\t");
 }
 
 /**

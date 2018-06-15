@@ -42,10 +42,10 @@ $2:
 getrand:
 	lwia	$0+#0
 	psha	
-;	Arguments Passed: #1
+	lwib	#1
 	call	puts
 	mdsp	#2
-;	Arguments Passed: #0
+	lwib	#0
 	call	getchar
 	mdsp	#0
 	psha	

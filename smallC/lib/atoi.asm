@@ -123,7 +123,7 @@ $7:
 	lbpa	
 	asex	
 	psha	
-;	Arguments Passed: #1
+	lwib	#1
 	call	isdigit
 	mdsp	#2
 	jpnz	$9

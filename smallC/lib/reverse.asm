@@ -19,7 +19,7 @@ reverse:
 	mspa	#9
 	lwpa	
 	psha	
-;	Arguments Passed: #1
+	lwib	#1
 	call	strlen
 	mdsp	#2
 	psha	

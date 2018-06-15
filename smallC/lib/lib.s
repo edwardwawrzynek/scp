@@ -162,7 +162,7 @@ $7:
 	lbpa	
 	asex	
 	psha	
-;	Arguments Passed: #1
+	lwib	#1
 	call	isdigit
 	mdsp	#2
 	jpnz	$9
@@ -293,7 +293,7 @@ $2:
 	aadd	
 	lwpa	
 	psha	
-;	Arguments Passed: #2
+	lwib	#2
 	call	strcmp
 	mdsp	#4
 	popb	
@@ -668,7 +668,7 @@ gets:
 $2:
 	mspa	#2
 	psha	
-;	Arguments Passed: #0
+	lwib	#0
 	call	getchar
 	mdsp	#0
 	popb	
@@ -714,12 +714,12 @@ $4:
 	swqa	
 	lwia	#32
 	psha	
-;	Arguments Passed: #1
+	lwib	#1
 	call	putchar
 	mdsp	#2
 	lwia	#8
 	psha	
-;	Arguments Passed: #1
+	lwib	#1
 	call	putchar
 	mdsp	#2
 	mdsp	#0
@@ -743,12 +743,12 @@ $5:
 	swqa	
 	lwia	#10
 	psha	
-;	Arguments Passed: #1
+	lwib	#1
 	call	putchar
 	mdsp	#2
 	lwia	#35
 	psha	
-;	Arguments Passed: #1
+	lwib	#1
 	call	putchar
 	mdsp	#2
 	mdsp	#0
@@ -1090,7 +1090,7 @@ $6:
 	mspa	#6
 	lwpa	
 	psha	
-;	Arguments Passed: #1
+	lwib	#1
 	call	reverse
 	mdsp	#2
 $1:
@@ -1113,13 +1113,174 @@ $1:
 ;	program area SMALLC_GENERATED is RELOCATABLE
 	.module	SMALLC_GENERATED
 ;	Code Segment
+Xprint:
+$2:
+	mspa	#2
+	lwpa	
+	lbpa	
+	asex	
+	jpz 	$3
+	mspa	#2
+	psha	
+	lwpa	
+	inca	
+	popb	
+	swqa	
+	deca	
+	lbpa	
+	asex	
+	psha	
+	lwib	#1
+	call	putchar
+	mdsp	#2
+	jmp 	$2
+$3:
+	mdsp	#0
+$1:
+	mdsp	#0
+	ret 	
 printf:
+	mdsp	#-2
+	mdsp	#-1
 	mdsp	#-2
 	mdsp	#-2
 	mdsp	#-2
 	mspa	#0
 	swpb	
 	mspa	#0
+	psha	
+	mspa	#2
+	lwpa	
+	psha	
+	lwia	#2
+	popb	
+	amul	
+	popb	
+	swqa	
+	mspa	#2
+	xswp	
+	mspa	#0
+	swqa	
+	mspa	#4
+	psha	
+	mspa	#4
+	lwpa	
+	psha	
+	lwia	#9
+	popb	
+	aadd	
+	psha	
+	mspa	#4
+	lwpa	
+	popb	
+	aadd	
+	lwpa	
+	popb	
+	swqa	
+	mspa	#2
+	psha	
+	mspa	#4
+	lwpa	
+	psha	
+	lwia	#7
+	popb	
+	aadd	
+	psha	
+	mspa	#4
+	lwpa	
+	popb	
+	aadd	
+	popb	
+	swqa	
+$5:
+	mspa	#4
+	lwpa	
+	lwpa	
+	jpz 	$6
+	mspa	#6
+	psha	
+	mspa	#6
+	psha	
+	lwpa	
+	inca	
+	popb	
+	swqa	
+	deca	
+	lwpa	
+	popb	
+	sbqa	
+	mspa	#6
+	lbpa	
+	alng	
+	jpz 	$7
+	mdsp	#0
+	jmp 	$6
+	mdsp	#0
+$7:
+	mspa	#6
+	lbpa	
+	psha	
+	lwia	#37
+	popb	
+	aequ	
+	jpz 	$8
+	mspa	#6
+	psha	
+	mspa	#6
+	psha	
+	lwpa	
+	inca	
+	popb	
+	swqa	
+	deca	
+	lwpa	
+	popb	
+	sbqa	
+	mspa	#6
+	lbpa	
+	psha	
+	lwia	#99
+	popb	
+	aequ	
+	jpz 	$9
+	mspa	#2
+	lwpa	
+	psha	
+	mspa	#9
+	lwpa	
+	popb	
+	asub	
+	lwpa	
+	psha	
+	lwib	#1
+	call	putchar
+	mdsp	#2
+	mdsp	#0
+	jmp 	$10
+$9:
+	mspa	#6
+	lbpa	
+	psha	
+	lwia	#105
+	popb	
+	aequ	
+	jpnz	$12
+	mspa	#6
+	lbpa	
+	psha	
+	lwia	#100
+	popb	
+	aequ	
+$12:
+	aclv	
+	jpz 	$11
+	mspa	#2
+	lwpa	
+	psha	
+	mspa	#9
+	lwpa	
+	popb	
+	asub	
 	lwpa	
 	psha	
 	lwia	#10
@@ -1127,16 +1288,122 @@ printf:
 	lwib	#2
 	call	printn
 	mdsp	#4
-$1:
-	mdsp	#6
+	mdsp	#0
+	jmp 	$13
+$11:
+	mspa	#6
+	lbpa	
+	psha	
+	lwia	#117
+	popb	
+	aequ	
+	jpz 	$14
+	mspa	#2
+	lwpa	
+	psha	
+	mspa	#9
+	lwpa	
+	popb	
+	asub	
+	lwpa	
+	psha	
+	lwia	#10
+	psha	
+	lwib	#2
+	call	uprintn
+	mdsp	#4
+	mdsp	#0
+	jmp 	$15
+$14:
+	mspa	#6
+	lbpa	
+	psha	
+	lwia	#115
+	popb	
+	aequ	
+	jpz 	$16
+	mspa	#2
+	lwpa	
+	psha	
+	mspa	#9
+	lwpa	
+	popb	
+	asub	
+	lwpa	
+	psha	
+	lwib	#1
+	call	Xprint
+	mdsp	#2
+	mdsp	#0
+	jmp 	$17
+$16:
+	mspa	#6
+	lbpa	
+	psha	
+	lwia	#120
+	popb	
+	aequ	
+	jpz 	$18
+	mspa	#2
+	lwpa	
+	psha	
+	mspa	#9
+	lwpa	
+	popb	
+	asub	
+	lwpa	
+	psha	
+	lwia	#16
+	psha	
+	lwib	#2
+	call	uprintn
+	mdsp	#4
+	mdsp	#0
+$18:
+	mdsp	#0
+$17:
+	mdsp	#0
+$15:
+	mdsp	#0
+$13:
+	mdsp	#0
+$10:
+	mspa	#7
+	psha	
+	lwpa	
+	psha	
+	lwia	#2
+	popb	
+	aadd	
+	popb	
+	swqa	
+	mdsp	#0
+	jmp 	$19
+$8:
+	mspa	#6
+	lbpa	
+	psha	
+	lwib	#1
+	call	putchar
+	mdsp	#2
+	mdsp	#0
+$19:
+	jmp 	$5
+$6:
+	mdsp	#0
+$4:
+	mdsp	#9
 	ret 	
 ;	Data Segment
+;	globl	Xprint
+;	extrn	putchar
 ;	globl	printf
 ;	extrn	printn
+;	extrn	uprintn
 
 ;	0 error(s) in compilation
 ;	literal pool:0
-;	global pool:2
+;	global pool:5
 ;	Macro pool:103
 ;	.end
 
@@ -1148,66 +1415,35 @@ $1:
 	.module	SMALLC_GENERATED
 ;	Code Segment
 printn:
-	mspa	#4
-	lwpa	
-	psha	
-	mspa	#4
-	lwpa	
-	psha	
-	lwia	#0
-	psha	
+	mdsp	#-2
+	mdsp	#-2
 	mspa	#8
-	lwpa	
-	psha	
-	lwia	#10
-	popb	
-	aequ	
-	psha	
-	lwib	#4
-	call	Xprintn
-	mdsp	#8
-$1:
-	mdsp	#0
-	ret 	
-Xprintn:
-	mdsp	#-2
-	mdsp	#-2
-	mspa	#12
 	lwpa	
 	psha	
 	lwia	#0
 	popb	
 	aslt	
-	psha	
-	mspa	#12
-	lwpa	
-	psha	
-	lwia	#10
-	popb	
-	aequ	
-	popb	
-	abnd	
-	jpz 	$3
+	jpz 	$2
 	lwia	#45
 	psha	
 	lwib	#1
 	call	putchar
 	mdsp	#2
-	mspa	#12
+	mspa	#8
 	psha	
-	mspa	#14
+	mspa	#10
 	lwpa	
 	aneg	
 	popb	
 	swqa	
 	mdsp	#0
-$3:
+$2:
 	mspa	#2
 	psha	
-	mspa	#14
+	mspa	#10
 	lwpa	
 	psha	
-	mspa	#14
+	mspa	#10
 	lwpa	
 	popb	
 	call	ccdiv
@@ -1217,49 +1453,30 @@ $3:
 	lwia	#0
 	popb	
 	aneq	
-	jpz 	$4
+	jpz 	$3
 	mspa	#2
 	lwpa	
 	psha	
-	mspa	#12
-	lwpa	
-	psha	
-	mspa	#12
-	lwpa	
-	psha	
-	mspa	#12
-	lwpa	
-	psha	
-	lwib	#4
-	call	printn
-	mdsp	#8
-	mdsp	#0
-$4:
 	mspa	#8
 	lwpa	
-	jpz 	$5
+	psha	
+	lwib	#2
+	call	printn
+	mdsp	#4
+	mdsp	#0
+$3:
 	mspa	#0
 	psha	
 	lwia	$0+#0
 	popb	
 	swqa	
-	mdsp	#0
-	jmp 	$6
-$5:
-	mspa	#0
-	psha	
-	lwia	$0+#17
-	popb	
-	swqa	
-	mdsp	#0
-$6:
 	mspa	#0
 	lwpa	
 	psha	
-	mspa	#14
+	mspa	#10
 	lwpa	
 	psha	
-	mspa	#14
+	mspa	#10
 	lwpa	
 	popb	
 	call	ccdiv
@@ -1272,23 +1489,80 @@ $6:
 	lwib	#1
 	call	putchar
 	mdsp	#2
-$2:
+$1:
+	mdsp	#4
+	ret 	
+uprintn:
+	mdsp	#-2
+	mdsp	#-2
+	mspa	#2
+	psha	
+	mspa	#10
+	lwpa	
+	psha	
+	mspa	#10
+	lwpa	
+	popb	
+	call	ccudiv
+	popb	
+	swqa	
+	psha	
+	lwia	#0
+	popb	
+	aneq	
+	jpz 	$5
+	mspa	#2
+	lwpa	
+	psha	
+	mspa	#8
+	lwpa	
+	psha	
+	lwib	#2
+	call	printn
+	mdsp	#4
+	mdsp	#0
+$5:
+	mspa	#0
+	psha	
+	lwia	$0+#17
+	popb	
+	swqa	
+	mspa	#0
+	lwpa	
+	psha	
+	mspa	#10
+	lwpa	
+	psha	
+	mspa	#10
+	lwpa	
+	popb	
+	call	ccudiv
+	xswp	
+	popb	
+	aadd	
+	lbpa	
+	asex	
+	psha	
+	lwib	#1
+	call	putchar
+	mdsp	#2
+$4:
 	mdsp	#4
 	ret 	
 ;	Data Segment
 $0:	.db	#48,#49,#50,#51,#52,#53,#54,#55
-	.db	#56,#57,#65,#66,#67,#68,#69,#70
+	.db	#56,#57,#97,#98,#99,#100,#101,#102
 	.db	#0,#48,#49,#50,#51,#52,#53,#54
 	.db	#55,#56,#57,#97,#98,#99,#100,#101
 	.db	#102,#0
 ;	globl	printn
-;	globl	Xprintn
 ;	extrn	putchar
+;	globl	uprintn
 
 ;	0 error(s) in compilation
 ;	literal pool:34
 ;	global pool:3
-;	Macro pool:157
+;	Macro pool:129
 ;	.end
 
 ;	Small C
@@ -1315,7 +1589,7 @@ $2:
 	lbpa	
 	asex	
 	psha	
-;	Arguments Passed: #1
+	lwib	#1
 	call	putchar
 	mdsp	#2
 	jmp 	$2
@@ -1323,7 +1597,7 @@ $3:
 	mdsp	#0
 	lwia	#10
 	psha	
-;	Arguments Passed: #1
+	lwib	#1
 	call	putchar
 	mdsp	#2
 $1:
@@ -1360,7 +1634,7 @@ reverse:
 	mspa	#9
 	lwpa	
 	psha	
-;	Arguments Passed: #1
+	lwib	#1
 	call	strlen
 	mdsp	#2
 	psha	
@@ -1589,7 +1863,7 @@ $12:
 	aadd	
 	lwpa	
 	psha	
-;	Arguments Passed: #2
+	lwib	#2
 	call	strcmp
 	mdsp	#4
 	psha	
@@ -1982,10 +2256,10 @@ $2:
 getrand:
 	lwia	$0+#0
 	psha	
-;	Arguments Passed: #1
+	lwib	#1
 	call	puts
 	mdsp	#2
-;	Arguments Passed: #0
+	lwib	#0
 	call	getchar
 	mdsp	#0
 	psha	

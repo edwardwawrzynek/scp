@@ -118,7 +118,7 @@ $6:
 	mspa	#6
 	lwpa	
 	psha	
-;	Arguments Passed: #1
+	lwib	#1
 	call	reverse
 	mdsp	#2
 $1:

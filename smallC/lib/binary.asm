@@ -65,7 +65,7 @@ $2:
 	aadd	
 	lwpa	
 	psha	
-;	Arguments Passed: #2
+	lwib	#2
 	call	strcmp
 	mdsp	#4
 	popb	

@@ -17,7 +17,7 @@ gets:
 $2:
 	mspa	#2
 	psha	
-;	Arguments Passed: #0
+	lwib	#0
 	call	getchar
 	mdsp	#0
 	popb	
@@ -63,12 +63,12 @@ $4:
 	swqa	
 	lwia	#32
 	psha	
-;	Arguments Passed: #1
+	lwib	#1
 	call	putchar
 	mdsp	#2
 	lwia	#8
 	psha	
-;	Arguments Passed: #1
+	lwib	#1
 	call	putchar
 	mdsp	#2
 	mdsp	#0
@@ -92,12 +92,12 @@ $5:
 	swqa	
 	lwia	#10
 	psha	
-;	Arguments Passed: #1
+	lwib	#1
 	call	putchar
 	mdsp	#2
 	lwia	#35
 	psha	
-;	Arguments Passed: #1
+	lwib	#1
 	call	putchar
 	mdsp	#2
 	mdsp	#0

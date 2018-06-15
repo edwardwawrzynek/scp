@@ -22,7 +22,7 @@ $2:
 	lbpa	
 	asex	
 	psha	
-;	Arguments Passed: #1
+	lwib	#1
 	call	putchar
 	mdsp	#2
 	jmp 	$2
@@ -30,7 +30,7 @@ $3:
 	mdsp	#0
 	lwia	#10
 	psha	
-;	Arguments Passed: #1
+	lwib	#1
 	call	putchar
 	mdsp	#2
 $1:
