@@ -467,7 +467,7 @@ gen_mult() {
 gen_div() {
     printf("Division not implemented\n");
     gen_pop();
-    //gen_call ("ccdiv");
+    gen_call ("ccdiv");
 }
 
 /**
