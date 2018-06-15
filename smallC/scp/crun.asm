@@ -4,10 +4,10 @@ ccudiv:
 ;
 	pshb	
 	xswp	
-	mspa	#4
+	mspa	#2
 	swpb	
 	popb	
-	mspa	#0
+	mspa	#2
 	swpb	
 ;	
 	mspa	#8
