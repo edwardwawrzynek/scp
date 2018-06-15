@@ -4,7 +4,7 @@ ASSEMS =\
 	abs.asm        atoi.asm       binary.asm\
 	charclass.asm\
 	gets.asm       index.asm\
-	itoa.asm       printn.asm\
+	itoa.asm       printf.asm     printn.asm\
 	puts.asm       reverse.asm    shell.asm\
 	strcat.asm     strcmp.asm     strcpy.asm\
 	strlen.asm     rand.asm \

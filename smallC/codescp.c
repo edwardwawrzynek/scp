@@ -723,12 +723,12 @@ char *inclib() {
 }
 
 /**
- * Squirrel away argument count in a register that modstk doesn't touch.
+ * Squirrel away argument count in a register that modstk doesn't touch - b
  * @param d
  */
 gnargs(d)
 int     d; {
-    output_string (";\tArguments Passed: ");
+    output_string ("\tlwib\t");
     output_number(d);
     newline ();
 }
