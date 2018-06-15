@@ -274,7 +274,6 @@ $2:
 	psha	
 	lwia	#2
 	popb	
-	call	ccdiv
 	popb	
 	swqa	
 	mspa	#0
@@ -287,7 +286,8 @@ $2:
 	psha	
 	mspa	#8
 	lwpa	
-	dad 	h
+	lwia	#2
+	amul	
 	popb	
 	aadd	
 	lwpa	
@@ -646,173 +646,6 @@ $20:
 ;	literal pool:0
 ;	global pool:7
 ;	Macro pool:51
-;	.end
-
-;	Small C
-;	Small C Processor Backend Coder (Minimally works for some stuff)
-;	Front End (2.8,13/01/20)
-
-;	program area SMALLC_GENERATED is RELOCATABLE
-	.module	SMALLC_GENERATED
-;	Code Segment
-fgets:
-	mdsp	#-2
-	mdsp	#-2
-	mspa	#0
-	psha	
-	mspa	#12
-	lwpa	
-	popb	
-	swqa	
-$2:
-	mspa	#8
-	psha	
-	lwpa	
-	deca	
-	popb	
-	swqa	
-	psha	
-	lwia	#0
-	popb	
-	asle	
-	alng	
-	jpz 	$4
-	mspa	#2
-	psha	
-	mspa	#8
-	lwpa	
-	psha	
-;	Arguments Passed: #1
-	call	fgetc
-	mdsp	#2
-	popb	
-	swqa	
-	psha	
-	lwia	#0
-	popb	
-	aslt	
-	alng	
-$4:
-	aclv	
-	jpz 	$3
-	mspa	#0
-	psha	
-	lwpa	
-	inca	
-	popb	
-	swqa	
-	deca	
-	psha	
-	mspa	#4
-	lwpa	
-	popb	
-	sbqa	
-	mspa	#2
-	lwpa	
-	psha	
-	lwia	#10
-	popb	
-	aequ	
-	jpz 	$5
-	mdsp	#0
-	jmp 	$3
-	mdsp	#0
-$5:
-	jmp 	$2
-$3:
-	mdsp	#0
-	mspa	#2
-	lwpa	
-	psha	
-	lwia	#0
-	popb	
-	aslt	
-	jpz 	$7
-	mspa	#0
-	lwpa	
-	psha	
-	mspa	#12
-	lwpa	
-	popb	
-	aequ	
-$7:
-	aclv	
-	jpz 	$6
-	lwia	#0
-	jmp 	$1
-	mdsp	#0
-$6:
-	mspa	#0
-	psha	
-	lwpa	
-	inca	
-	popb	
-	swqa	
-	deca	
-	psha	
-	lwia	#0
-	popb	
-	sbqa	
-	mspa	#10
-	lwpa	
-	jmp 	$1
-$1:
-	mdsp	#4
-	ret 	
-;	Data Segment
-;	globl	fgets
-;	extrn	fgetc
-
-;	0 error(s) in compilation
-;	literal pool:0
-;	global pool:2
-;	Macro pool:68
-;	.end
-
-;	Small C
-;	Small C Processor Backend Coder (Minimally works for some stuff)
-;	Front End (2.8,13/01/20)
-
-;	program area SMALLC_GENERATED is RELOCATABLE
-	.module	SMALLC_GENERATED
-;	Code Segment
-fputs:
-$2:
-	mspa	#4
-	lwpa	
-	lbpa	
-	asex	
-	jpz 	$3
-	mspa	#4
-	psha	
-	lwpa	
-	inca	
-	popb	
-	swqa	
-	deca	
-	lbpa	
-	asex	
-	psha	
-	mspa	#4
-	lwpa	
-	psha	
-;	Arguments Passed: #2
-	call	fputc
-	mdsp	#4
-	jmp 	$2
-$3:
-	mdsp	#0
-$1:
-	mdsp	#0
-	ret 	
-;	Data Segment
-;	globl	fputs
-;	extrn	fputc
-
-;	0 error(s) in compilation
-;	literal pool:0
-;	global pool:2
-;	Macro pool:103
 ;	.end
 
 ;	Small C
@@ -1190,7 +1023,6 @@ $3:
 	psha	
 	lwia	#10
 	popb	
-	call	ccdiv
 	xswp	
 	psha	
 	lwia	#48
@@ -1206,7 +1038,6 @@ $4:
 	psha	
 	lwia	#10
 	popb	
-	call	ccdiv
 	popb	
 	swqa	
 	psha	
@@ -1282,14 +1113,14 @@ $1:
 printn:
 	mdsp	#-2
 	mdsp	#-2
-	mspa	#10
+	mspa	#8
 	lwpa	
 	psha	
 	lwia	#0
 	popb	
 	aslt	
 	psha	
-	mspa	#10
+	mspa	#8
 	lwpa	
 	psha	
 	lwia	#10
@@ -1300,15 +1131,12 @@ printn:
 	jpz 	$2
 	lwia	#45
 	psha	
+;	Arguments Passed: #1
+	call	putchar
+	mdsp	#2
 	mspa	#8
-	lwpa	
 	psha	
-;	Arguments Passed: #2
-	call	fputc
-	mdsp	#4
 	mspa	#10
-	psha	
-	mspa	#12
 	lwpa	
 	aneg	
 	popb	
@@ -1317,13 +1145,12 @@ printn:
 $2:
 	mspa	#2
 	psha	
-	mspa	#12
+	mspa	#10
 	lwpa	
 	psha	
-	mspa	#12
+	mspa	#10
 	lwpa	
 	popb	
-	call	ccdiv
 	popb	
 	swqa	
 	psha	
@@ -1334,15 +1161,12 @@ $2:
 	mspa	#2
 	lwpa	
 	psha	
-	mspa	#10
+	mspa	#8
 	lwpa	
 	psha	
-	mspa	#10
-	lwpa	
-	psha	
-;	Arguments Passed: #3
+;	Arguments Passed: #2
 	call	printn
-	mdsp	#6
+	mdsp	#4
 	mdsp	#0
 $3:
 	mspa	#0
@@ -1353,25 +1177,21 @@ $3:
 	mspa	#0
 	lwpa	
 	psha	
-	mspa	#12
+	mspa	#10
 	lwpa	
 	psha	
-	mspa	#12
+	mspa	#10
 	lwpa	
 	popb	
-	call	ccdiv
 	xswp	
 	popb	
 	aadd	
 	lbpa	
 	asex	
 	psha	
-	mspa	#8
-	lwpa	
-	psha	
-;	Arguments Passed: #2
-	call	fputc
-	mdsp	#4
+;	Arguments Passed: #1
+	call	putchar
+	mdsp	#2
 $1:
 	mdsp	#4
 	ret 	
@@ -1380,7 +1200,7 @@ $0:	.db	#48,#49,#50,#51,#52,#53,#54,#55
 	.db	#56,#57,#65,#66,#67,#68,#69,#70
 	.db	#0
 ;	globl	printn
-;	extrn	fputc
+;	extrn	putchar
 
 ;	0 error(s) in compilation
 ;	literal pool:17
@@ -1572,7 +1392,6 @@ shellsort:
 	psha	
 	lwia	#2
 	popb	
-	call	ccdiv
 	popb	
 	swqa	
 $2:
@@ -1593,7 +1412,6 @@ $3:
 	psha	
 	lwia	#2
 	popb	
-	call	ccdiv
 	popb	
 	swqa	
 	jmp 	$2
@@ -1664,7 +1482,8 @@ $12:
 	psha	
 	mspa	#4
 	lwpa	
-	dad 	h
+	lwia	#2
+	amul	
 	popb	
 	aadd	
 	lwpa	
@@ -1679,7 +1498,8 @@ $12:
 	lwpa	
 	popb	
 	aadd	
-	dad 	h
+	lwia	#2
+	amul	
 	popb	
 	aadd	
 	lwpa	
@@ -1703,7 +1523,8 @@ $14:
 	psha	
 	mspa	#6
 	lwpa	
-	dad 	h
+	lwia	#2
+	amul	
 	popb	
 	aadd	
 	lwpa	
@@ -1714,7 +1535,8 @@ $14:
 	psha	
 	mspa	#4
 	lwpa	
-	dad 	h
+	lwia	#2
+	amul	
 	popb	
 	aadd	
 	psha	
@@ -1728,7 +1550,8 @@ $14:
 	lwpa	
 	popb	
 	aadd	
-	dad 	h
+	lwia	#2
+	amul	
 	popb	
 	aadd	
 	lwpa	
@@ -1744,7 +1567,8 @@ $14:
 	lwpa	
 	popb	
 	aadd	
-	dad 	h
+	lwia	#2
+	amul	
 	popb	
 	aadd	
 	psha	

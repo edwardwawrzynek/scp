@@ -1,7 +1,7 @@
 .SUFFIXES:      .c .asm
 
 ASSEMS =\
-	putchar.asm	inout.asm
+	putchar.asm	inout.asm    getchar.asm
 
 .c.asm:
 	../sccscp $*.c

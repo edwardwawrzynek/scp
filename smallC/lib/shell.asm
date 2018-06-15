@@ -17,7 +17,6 @@ shellsort:
 	psha	
 	lwia	#2
 	popb	
-	call	ccdiv
 	popb	
 	swqa	
 $2:
@@ -38,7 +37,6 @@ $3:
 	psha	
 	lwia	#2
 	popb	
-	call	ccdiv
 	popb	
 	swqa	
 	jmp 	$2
@@ -109,7 +107,8 @@ $12:
 	psha	
 	mspa	#4
 	lwpa	
-	dad 	h
+	lwia	#2
+	amul	
 	popb	
 	aadd	
 	lwpa	
@@ -124,7 +123,8 @@ $12:
 	lwpa	
 	popb	
 	aadd	
-	dad 	h
+	lwia	#2
+	amul	
 	popb	
 	aadd	
 	lwpa	
@@ -148,7 +148,8 @@ $14:
 	psha	
 	mspa	#6
 	lwpa	
-	dad 	h
+	lwia	#2
+	amul	
 	popb	
 	aadd	
 	lwpa	
@@ -159,7 +160,8 @@ $14:
 	psha	
 	mspa	#4
 	lwpa	
-	dad 	h
+	lwia	#2
+	amul	
 	popb	
 	aadd	
 	psha	
@@ -173,7 +175,8 @@ $14:
 	lwpa	
 	popb	
 	aadd	
-	dad 	h
+	lwia	#2
+	amul	
 	popb	
 	aadd	
 	lwpa	
@@ -189,7 +192,8 @@ $14:
 	lwpa	
 	popb	
 	aadd	
-	dad 	h
+	lwia	#2
+	amul	
 	popb	
 	aadd	
 	psha	

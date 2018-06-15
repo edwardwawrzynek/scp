@@ -46,7 +46,6 @@ $2:
 	psha	
 	lwia	#2
 	popb	
-	call	ccdiv
 	popb	
 	swqa	
 	mspa	#0
@@ -59,7 +58,8 @@ $2:
 	psha	
 	mspa	#8
 	lwpa	
-	dad 	h
+	lwia	#2
+	amul	
 	popb	
 	aadd	
 	lwpa	

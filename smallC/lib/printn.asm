@@ -8,14 +8,14 @@
 printn:
 	mdsp	#-2
 	mdsp	#-2
-	mspa	#10
+	mspa	#8
 	lwpa	
 	psha	
 	lwia	#0
 	popb	
 	aslt	
 	psha	
-	mspa	#10
+	mspa	#8
 	lwpa	
 	psha	
 	lwia	#10
@@ -26,15 +26,12 @@ printn:
 	jpz 	$2
 	lwia	#45
 	psha	
+;	Arguments Passed: #1
+	call	putchar
+	mdsp	#2
 	mspa	#8
-	lwpa	
 	psha	
-;	Arguments Passed: #2
-	call	fputc
-	mdsp	#4
 	mspa	#10
-	psha	
-	mspa	#12
 	lwpa	
 	aneg	
 	popb	
@@ -43,13 +40,12 @@ printn:
 $2:
 	mspa	#2
 	psha	
-	mspa	#12
+	mspa	#10
 	lwpa	
 	psha	
-	mspa	#12
+	mspa	#10
 	lwpa	
 	popb	
-	call	ccdiv
 	popb	
 	swqa	
 	psha	
@@ -60,15 +56,12 @@ $2:
 	mspa	#2
 	lwpa	
 	psha	
-	mspa	#10
+	mspa	#8
 	lwpa	
 	psha	
-	mspa	#10
-	lwpa	
-	psha	
-;	Arguments Passed: #3
+;	Arguments Passed: #2
 	call	printn
-	mdsp	#6
+	mdsp	#4
 	mdsp	#0
 $3:
 	mspa	#0
@@ -79,25 +72,21 @@ $3:
 	mspa	#0
 	lwpa	
 	psha	
-	mspa	#12
+	mspa	#10
 	lwpa	
 	psha	
-	mspa	#12
+	mspa	#10
 	lwpa	
 	popb	
-	call	ccdiv
 	xswp	
 	popb	
 	aadd	
 	lbpa	
 	asex	
 	psha	
-	mspa	#8
-	lwpa	
-	psha	
-;	Arguments Passed: #2
-	call	fputc
-	mdsp	#4
+;	Arguments Passed: #1
+	call	putchar
+	mdsp	#2
 $1:
 	mdsp	#4
 	ret 	
@@ -106,7 +95,7 @@ $0:	.db	#48,#49,#50,#51,#52,#53,#54,#55
 	.db	#56,#57,#65,#66,#67,#68,#69,#70
 	.db	#0
 ;	globl	printn
-;	extrn	fputc
+;	extrn	putchar
 
 ;	0 error(s) in compilation
 ;	literal pool:17

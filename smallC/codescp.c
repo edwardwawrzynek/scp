@@ -402,7 +402,9 @@ gen_modify_stack(int newstkp) {
  * multiply the primary register by INTSIZE
  */
 gen_multiply_by_two() {
-    output_line ("dad \th");
+    //output_line ("dad \th");
+		output_line ("lwia	#2");
+		output_line ("amul	");
 }
 
 /**
@@ -422,7 +424,7 @@ gen_divide_by_two() {
  */
 gen_jump_case() {
     printf("Case not implemented\n");
-    output_with_tab ("jmp \tcccase");
+		//output_with_tab ("jmp \tcccase");
     newline ();
 }
 
@@ -465,7 +467,7 @@ gen_mult() {
 gen_div() {
     printf("Division not implemented\n");
     gen_pop();
-    gen_call ("ccdiv");
+    //gen_call ("ccdiv");
 }
 
 /**

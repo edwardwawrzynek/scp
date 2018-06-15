@@ -2,7 +2,7 @@
 
 ASSEMS =\
 	abs.asm        atoi.asm       binary.asm\
-	charclass.asm  fgets.asm      fputs.asm\
+	charclass.asm\
 	gets.asm       index.asm\
 	itoa.asm       printn.asm\
 	puts.asm       reverse.asm    shell.asm\

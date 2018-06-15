@@ -3,6 +3,6 @@
 ;	This expects an adequete number of pages have been mapped in to memory on start
 
 ;	Call main
-call	main
+	call	main
 ;	Halt
-.db	#255
+	.db	#255
