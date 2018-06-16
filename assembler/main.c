@@ -87,9 +87,9 @@ write_num(unsigned int num, unsigned int bytes){
   return 0;
 }
 
-//Check if character is valid first letter of label
+//Check if character is valid first letter of label - includes alpha numerical, and _
 isalpha(char c){
-        if ((c >= 'a' & c <= 'z') | (c >= 'A' & c <= 'Z')){
+        if ((c >= 'a' & c <= 'z') | (c >= 'A' & c <= 'Z') | (c == '_')){
           return 1;
         }
         else{

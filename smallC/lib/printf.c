@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 //puts, but without newline
-Xprint(char *str){
+_print(char *str){
 	while (*str) putchar(*str++);
 }
 
@@ -41,16 +41,16 @@ printf(char *string/*more passed*/){
 				putchar(*(arg_start-index));
 			}
 			else if(c == 'i' || c == 'd'){
-				printn(*(arg_start-index),10);
+				_sprintn(*(arg_start-index),10);
 			}
 			else if(c == 'u'){
-				uprintn(*(arg_start-index),10);
+				_uprintn(*(arg_start-index),10);
 			}
 			else if(c == 's'){
-				Xprint(*(arg_start-index));
+				_print(*(arg_start-index));
 			}
 			else if(c == 'x'){
-				uprintn(*(arg_start-index),16);
+				_uprintn(*(arg_start-index),16);
 			}
 			index += 2;
 		}

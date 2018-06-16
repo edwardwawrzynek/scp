@@ -5,7 +5,7 @@
 ;	program area SMALLC_GENERATED is RELOCATABLE
 	.module	SMALLC_GENERATED
 ;	Code Segment
-Xprint:
+_print:
 $2:
 	mspa	#2
 	lwpa	
@@ -174,7 +174,7 @@ $11:
 	lwia	#10
 	psha	
 	lwib	#2
-	call	printn
+	call	_sprintn
 	mdsp	#4
 	mdsp	#0
 	jmp 	$12
@@ -198,7 +198,7 @@ $10:
 	lwia	#10
 	psha	
 	lwib	#2
-	call	uprintn
+	call	_uprintn
 	mdsp	#4
 	mdsp	#0
 	jmp 	$14
@@ -220,7 +220,7 @@ $13:
 	lwpa	
 	psha	
 	lwib	#1
-	call	Xprint
+	call	_print
 	mdsp	#2
 	mdsp	#0
 	jmp 	$16
@@ -244,7 +244,7 @@ $15:
 	lwia	#16
 	psha	
 	lwib	#2
-	call	uprintn
+	call	_uprintn
 	mdsp	#4
 	mdsp	#0
 $17:
@@ -283,11 +283,11 @@ $4:
 	mdsp	#9
 	ret 	
 ;	Data Segment
-;	globl	Xprint
+;	globl	_print
 ;	extrn	putchar
 ;	globl	printf
-;	extrn	printn
-;	extrn	uprintn
+;	extrn	_sprintn
+;	extrn	_uprintn
 
 ;	0 error(s) in compilation
 ;	literal pool:0

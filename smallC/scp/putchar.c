@@ -1,9 +1,9 @@
 //putchar routines for SCP
 //Location in text memory
-unsigned int Xscreenpos = 960;
+unsigned int _screenpos = 960;
 
 //Scroll the screen up a line
-Xscreenscroll(){
+_screenscroll(){
 	unsigned int i;
 	unsigned int val;
 	for(i = 0; i < 1000; ++i){
@@ -14,21 +14,21 @@ Xscreenscroll(){
 		outp(5,i);
 		outp(6,val);
 	}
-	Xscreenpos = 960;
+	_screenpos = 960;
 }
 
 putchar(unsigned char c){
 	if(c == '\n'){
-		Xscreenscroll();
+		_screenscroll();
 	}
 	else if(c == '\t'){
-		Xscreenpos += 8;
+		_screenpos += 8;
 	}
 	else{
-		outp(5,Xscreenpos++);
+		outp(5,_screenpos++);
 		outp(6,c);
 	}
-	if(Xscreenpos >= 1000){
-		Xscreenscroll();
+	if(_screenpos >= 1000){
+		_screenscroll();
 	}
 }

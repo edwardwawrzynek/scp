@@ -1,7 +1,7 @@
 #include <stdio.h>
 /* print a number in any radish */
 #define DIGARR "0123456789abcdef"
-printn(number, radix)
+_sprintn(number, radix)
 int number, radix;{
         int i;
         char *digitreps;
@@ -10,17 +10,17 @@ int number, radix;{
                 number = -number;
                 }
         if ((i = number / radix) != 0)
-                printn(i, radix);
+                _sprintn(i, radix);
         digitreps=DIGARR;
         putchar(digitreps[number % radix]);
 }
 
-uprintn(number, radix)
+_uprintn(number, radix)
 unsigned int number, radix;{
         unsigned int i;
         char *digitreps;
         if ((i = number / radix) != 0)
-                printn(i, radix);
+                _uprintn(i, radix);
         digitreps=DIGARR;
         putchar(digitreps[number % radix]);
 }

@@ -5,7 +5,7 @@
 ;	program area SMALLC_GENERATED is RELOCATABLE
 	.module	SMALLC_GENERATED
 ;	Code Segment
-Xscreenscroll:
+_screenscroll:
 	mdsp	#-2
 	mdsp	#-2
 	mspa	#2
@@ -40,7 +40,7 @@ $4:
 	popb	
 	aadd	
 	psha	
-;	Arguments Passed: #2
+	lwib	#2
 	call	outp
 	mdsp	#4
 	mspa	#0
@@ -54,7 +54,7 @@ $4:
 	jpz 	$6
 	lwia	#6
 	psha	
-;	Arguments Passed: #1
+	lwib	#1
 	call	inp
 	mdsp	#2
 	jmp 	$7
@@ -68,7 +68,7 @@ $7:
 	mspa	#4
 	lwpa	
 	psha	
-;	Arguments Passed: #2
+	lwib	#2
 	call	outp
 	mdsp	#4
 	lwia	#6
@@ -76,14 +76,14 @@ $7:
 	mspa	#2
 	lwpa	
 	psha	
-;	Arguments Passed: #2
+	lwib	#2
 	call	outp
 	mdsp	#4
 	jmp 	$3
 $5:
 	mdsp	#0
 	lwia	#960
-	swma	Xscreenpos
+	swma	_screenpos
 $1:
 	mdsp	#4
 	ret 	
@@ -95,8 +95,8 @@ putchar:
 	popb	
 	aequ	
 	jpz 	$9
-;	Arguments Passed: #0
-	call	Xscreenscroll
+	lwib	#0
+	call	_screenscroll
 	mdsp	#0
 	mdsp	#0
 	jmp 	$10
@@ -108,23 +108,23 @@ $9:
 	popb	
 	aequ	
 	jpz 	$11
-	lwma	Xscreenpos
+	lwma	_screenpos
 	psha	
 	lwia	#8
 	popb	
 	aadd	
-	swma	Xscreenpos
+	swma	_screenpos
 	mdsp	#0
 	jmp 	$12
 $11:
 	lwia	#5
 	psha	
-	lwma	Xscreenpos
+	lwma	_screenpos
 	inca	
-	swma	Xscreenpos
+	swma	_screenpos
 	deca	
 	psha	
-;	Arguments Passed: #2
+	lwib	#2
 	call	outp
 	mdsp	#4
 	lwia	#6
@@ -132,22 +132,22 @@ $11:
 	mspa	#4
 	lbpa	
 	psha	
-;	Arguments Passed: #2
+	lwib	#2
 	call	outp
 	mdsp	#4
 	mdsp	#0
 $12:
 	mdsp	#0
 $10:
-	lwma	Xscreenpos
+	lwma	_screenpos
 	psha	
 	lwia	#1000
 	popb	
 	ault	
 	alng	
 	jpz 	$13
-;	Arguments Passed: #0
-	call	Xscreenscroll
+	lwib	#0
+	call	_screenscroll
 	mdsp	#0
 	mdsp	#0
 $13:
@@ -155,10 +155,10 @@ $8:
 	mdsp	#0
 	ret 	
 ;	Data Segment
-;	globl	Xscreenpos
-Xscreenpos:
+;	globl	_screenpos
+_screenpos:
 	.dw	#960
-;	globl	Xscreenscroll
+;	globl	_screenscroll
 ;	extrn	outp
 ;	extrn	inp
 ;	globl	putchar
