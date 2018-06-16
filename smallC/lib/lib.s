@@ -1196,6 +1196,10 @@ $5:
 	mspa	#4
 	lwpa	
 	lwpa	
+	psha	
+	lwia	#255
+	popb	
+	abnd	
 	jpz 	$6
 	mspa	#6
 	psha	
@@ -1211,19 +1215,11 @@ $5:
 	sbqa	
 	mspa	#6
 	lbpa	
-	alng	
-	jpz 	$7
-	mdsp	#0
-	jmp 	$6
-	mdsp	#0
-$7:
-	mspa	#6
-	lbpa	
 	psha	
 	lwia	#37
 	popb	
 	aequ	
-	jpz 	$8
+	jpz 	$7
 	mspa	#6
 	psha	
 	mspa	#6
@@ -1242,7 +1238,7 @@ $7:
 	lwia	#99
 	popb	
 	aequ	
-	jpz 	$9
+	jpz 	$8
 	mspa	#2
 	lwpa	
 	psha	
@@ -1256,24 +1252,24 @@ $7:
 	call	putchar
 	mdsp	#2
 	mdsp	#0
-	jmp 	$10
-$9:
+	jmp 	$9
+$8:
 	mspa	#6
 	lbpa	
 	psha	
 	lwia	#105
 	popb	
 	aequ	
-	jpnz	$12
+	jpnz	$11
 	mspa	#6
 	lbpa	
 	psha	
 	lwia	#100
 	popb	
 	aequ	
-$12:
+$11:
 	aclv	
-	jpz 	$11
+	jpz 	$10
 	mspa	#2
 	lwpa	
 	psha	
@@ -1289,15 +1285,15 @@ $12:
 	call	printn
 	mdsp	#4
 	mdsp	#0
-	jmp 	$13
-$11:
+	jmp 	$12
+$10:
 	mspa	#6
 	lbpa	
 	psha	
 	lwia	#117
 	popb	
 	aequ	
-	jpz 	$14
+	jpz 	$13
 	mspa	#2
 	lwpa	
 	psha	
@@ -1313,15 +1309,15 @@ $11:
 	call	uprintn
 	mdsp	#4
 	mdsp	#0
-	jmp 	$15
-$14:
+	jmp 	$14
+$13:
 	mspa	#6
 	lbpa	
 	psha	
 	lwia	#115
 	popb	
 	aequ	
-	jpz 	$16
+	jpz 	$15
 	mspa	#2
 	lwpa	
 	psha	
@@ -1335,15 +1331,15 @@ $14:
 	call	Xprint
 	mdsp	#2
 	mdsp	#0
-	jmp 	$17
-$16:
+	jmp 	$16
+$15:
 	mspa	#6
 	lbpa	
 	psha	
 	lwia	#120
 	popb	
 	aequ	
-	jpz 	$18
+	jpz 	$17
 	mspa	#2
 	lwpa	
 	psha	
@@ -1359,15 +1355,15 @@ $16:
 	call	uprintn
 	mdsp	#4
 	mdsp	#0
-$18:
-	mdsp	#0
 $17:
 	mdsp	#0
-$15:
+$16:
 	mdsp	#0
-$13:
+$14:
 	mdsp	#0
-$10:
+$12:
+	mdsp	#0
+$9:
 	mspa	#7
 	psha	
 	lwpa	
@@ -1378,8 +1374,8 @@ $10:
 	popb	
 	swqa	
 	mdsp	#0
-	jmp 	$19
-$8:
+	jmp 	$18
+$7:
 	mspa	#6
 	lbpa	
 	psha	
@@ -1387,7 +1383,7 @@ $8:
 	call	putchar
 	mdsp	#2
 	mdsp	#0
-$19:
+$18:
 	jmp 	$5
 $6:
 	mdsp	#0

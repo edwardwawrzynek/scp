@@ -32,11 +32,8 @@ printf(char *string/*more passed*/){
 	str = *(arg_start + 9 + num_args);
 	arg_start = arg_start + 7 + num_args;
 	//Start iterating through the string
-	while(*str){
+	while(*str&0x00ff){
 		c = *str++;
-		if(!c){
-			break;
-		}
 		if(c == '%'){
 			//Get next char
 			c = *str++;
