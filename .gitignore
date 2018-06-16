@@ -7,10 +7,17 @@
 /quartus/db/
 /quartus/incremental_db/
 /quartus/serv_req_info.txt
+/quartus/scp_nativelink_simulation.rpt
 greybox_tmp/
+/quartus/pll_sim.f
+/quartus/vga_pll_sim.f
 #Hide pyc if they get generated
 *.pyc
 #Hide compiled smallC files
 *.o
 #Hide compiled smallC binaries
 /smallC/scc8080
+/smallC/sccscp
+/assembler/scpasm
+/assembler/scpmif
+/assembler/scplnk
