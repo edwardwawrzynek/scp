@@ -26,6 +26,8 @@ putchar(unsigned char c){
 	}
 	else if(c == 8){
 		_screenpos -= 1;
+		outp(5, _screenpos);
+		outp(6, 0);
 	}
 	else{
 		outp(5,_screenpos++);
