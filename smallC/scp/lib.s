@@ -117,6 +117,22 @@ $9:
 	mdsp	#0
 	jmp 	$12
 $11:
+	mspa	#2
+	lbpa	
+	psha	
+	lwia	#8
+	popb	
+	aequ	
+	jpz 	$13
+	lwma	_screenpos
+	psha	
+	lwia	#1
+	popb	
+	asub	
+	swma	_screenpos
+	mdsp	#0
+	jmp 	$14
+$13:
 	lwia	#5
 	psha	
 	lwma	_screenpos
@@ -136,6 +152,8 @@ $11:
 	call	outp
 	mdsp	#4
 	mdsp	#0
+$14:
+	mdsp	#0
 $12:
 	mdsp	#0
 $10:
@@ -143,14 +161,14 @@ $10:
 	psha	
 	lwia	#1000
 	popb	
-	ault	
+	aule	
 	alng	
-	jpz 	$13
+	jpz 	$15
 	lwib	#0
 	call	_screenscroll
 	mdsp	#0
 	mdsp	#0
-$13:
+$15:
 $8:
 	mdsp	#0
 	ret 	

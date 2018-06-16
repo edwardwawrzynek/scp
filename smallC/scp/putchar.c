@@ -24,11 +24,14 @@ putchar(unsigned char c){
 	else if(c == '\t'){
 		_screenpos += 8;
 	}
+	else if(c == 8){
+		_screenpos -= 1;
+	}
 	else{
 		outp(5,_screenpos++);
 		outp(6,c);
 	}
-	if(_screenpos >= 1000){
+	if(_screenpos > 1000){
 		_screenscroll();
 	}
 }
