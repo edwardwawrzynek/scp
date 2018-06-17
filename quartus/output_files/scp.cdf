@@ -6,7 +6,7 @@ JedecChain;
 	P ActionCode(Ign)
 		Device PartName(SOCVHPS) MfrSpec(OpMask(0));
 	P ActionCode(Cfg)
-		Device PartName(5CSEMA4U23) Path("/home/edward/scp/quartus/output_files/") File("scp.sof") MfrSpec(OpMask(1));
+		Device PartName(5CSEMA4) Path("/home/edward/scp/quartus/output_files/") File("serial_boot.jic") MfrSpec(OpMask(1) SEC_Device(EPCS128) Child_OpMask(1 1));
 
 ChainEnd;
 
