@@ -656,12 +656,12 @@ $20:
 ;	program area SMALLC_GENERATED is RELOCATABLE
 	.module	SMALLC_GENERATED
 ;	Code Segment
-gets:
+_gets:
 	mdsp	#-1
 	mdsp	#-2
 	mspa	#0
 	psha	
-	mspa	#7
+	mspa	#9
 	lwpa	
 	popb	
 	swqa	
@@ -674,7 +674,9 @@ $2:
 	popb	
 	sbqa	
 	psha	
-	lwia	#10
+	mspa	#7
+	lbpa	
+	asex	
 	popb	
 	aneq	
 	jpz 	$4
@@ -700,7 +702,7 @@ $4:
 	mspa	#0
 	lwpa	
 	psha	
-	mspa	#7
+	mspa	#9
 	lwpa	
 	popb	
 	aule	
@@ -712,48 +714,11 @@ $4:
 	deca	
 	popb	
 	swqa	
-	lwia	#32
-	psha	
-	lwib	#1
-	call	putchar
-	mdsp	#2
-	lwia	#8
-	psha	
-	lwib	#1
-	call	putchar
-	mdsp	#2
 	mdsp	#0
 $6:
 	mdsp	#0
 	jmp 	$7
 $5:
-	mspa	#2
-	lbpa	
-	asex	
-	psha	
-	lwia	#21
-	popb	
-	aequ	
-	jpz 	$8
-	mspa	#0
-	psha	
-	mspa	#7
-	lwpa	
-	popb	
-	swqa	
-	lwia	#10
-	psha	
-	lwib	#1
-	call	putchar
-	mdsp	#2
-	lwia	#35
-	psha	
-	lwib	#1
-	call	putchar
-	mdsp	#2
-	mdsp	#0
-	jmp 	$9
-$8:
 	mspa	#0
 	psha	
 	lwpa	
@@ -768,8 +733,6 @@ $8:
 	popb	
 	sbqa	
 	mdsp	#0
-$9:
-	mdsp	#0
 $7:
 	jmp 	$2
 $3:
@@ -782,42 +745,55 @@ $3:
 	aneg	
 	popb	
 	aequ	
-	jpz 	$11
+	jpz 	$9
 	mspa	#0
 	lwpa	
 	psha	
-	mspa	#7
+	mspa	#9
 	lwpa	
 	popb	
 	aequ	
-$11:
+$9:
 	aclv	
-	jpz 	$10
+	jpz 	$8
 	lwia	#0
 	jmp 	$1
 	mdsp	#0
-$10:
+$8:
 	mspa	#0
 	lwpa	
 	psha	
 	lwia	#0
 	popb	
 	sbqa	
-	mspa	#5
+	mspa	#7
 	lwpa	
 	jmp 	$1
 $1:
 	mdsp	#3
 	ret 	
+gets:
+	mspa	#2
+	lwpa	
+	psha	
+	lwia	#10
+	psha	
+	lwib	#2
+	call	_gets
+	mdsp	#4
+	jmp 	$10
+$10:
+	mdsp	#0
+	ret 	
 ;	Data Segment
-;	globl	gets
+;	globl	_gets
 ;	extrn	getchar
-;	extrn	putchar
+;	globl	gets
 
 ;	0 error(s) in compilation
 ;	literal pool:0
 ;	global pool:3
-;	Macro pool:128
+;	Macro pool:117
 ;	.end
 
 ;	Small C

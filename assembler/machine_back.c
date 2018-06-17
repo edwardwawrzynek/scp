@@ -17,6 +17,8 @@ unsigned int labels_allocd = 0;
 
 //Hard limit of 64 modules
 #define NUM_MODULES 64
+//Number of labels to increment allocs on
+#define LABEL_INC 128
 char **mod_labels[NUM_MODULES];
 unsigned int *mod_addr[NUM_MODULES];
 unsigned int mod_labels_append_pos[NUM_MODULES];
@@ -29,22 +31,22 @@ unsigned int bytes_out = 0;
 int back_init(){
   unsigned int i;
   //Init global labels
-  labels = (char **) calloc(64, sizeof(char *));
-  labels_addr = (unsigned int *) calloc(64, sizeof(unsigned int));
+  labels = (char **) calloc(LABEL_INC, sizeof(char *));
+  labels_addr = (unsigned int *) calloc(LABEL_INC , sizeof(unsigned int));
   if(labels == NULL){
     print("malloc error\n");
     err_exit();
   }
-  labels_allocd = 64;
+  labels_allocd = LABEL_INC;
   //Init modules labels
   for(i = 0; i < NUM_MODULES; i++){
-    mod_labels[i] = (char **) calloc(64, sizeof(char *));
-    mod_addr[i] = (unsigned int *) calloc(64, sizeof(unsigned int));
+    mod_labels[i] = (char **) calloc(LABEL_INC, sizeof(char *));
+    mod_addr[i] = (unsigned int *) calloc(LABEL_INC, sizeof(unsigned int));
     if(mod_labels[i] == NULL){
       print("malloc error\n");
       err_exit();
     }
-    mod_labels_allocd[i] = 64;
+    mod_labels_allocd[i] = LABEL_INC;
   }
   return 0;
 }
@@ -95,9 +97,18 @@ strcmp(char * s1, char * s2){
 }
 
 int base_label_append(char *name, unsigned int addr, char **labels, unsigned int *label_addr, unsigned int *labels_append_pos, unsigned int *labels_allocd){
-  if(*labels_append_pos >= *labels_allocd){
-    print("Need to realloc label buffer, not yet implemented\n");
-    err_exit();
+	unsigned int i;
+	if(*labels_append_pos >= *labels_allocd){
+    //Realloc both labels and label_addr - DOESN'T WORK
+		labels = (char **) realloc(labels, (LABEL_INC+(*labels_allocd)) * sizeof(char *));
+  	labels_addr = (unsigned int *) realloc(labels_addr, (LABEL_INC+(*labels_allocd)) * sizeof(unsigned int));
+		for(i = 64; i < 128; i++){
+			printf("%u", i);
+			//labels[i] = NULL;
+			//label_addr[i] = 0;
+		}
+		printf("good");
+		*labels_allocd += LABEL_INC;
   }
   label_addr[*labels_append_pos] = addr;
   labels[*labels_append_pos] = calloc(strlen(name), sizeof(char));
