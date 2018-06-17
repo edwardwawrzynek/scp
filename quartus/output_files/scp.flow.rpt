@@ -1,5 +1,5 @@
 Flow report for scp
-Sun Jun 17 14:53:16 2018
+Sun Jun 17 16:26:30 2018
 Quartus Prime Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
 
 
@@ -40,7 +40,7 @@ refer to the applicable agreement for further details.
 +-------------------------------------------------------------------------------+
 ; Flow Summary                                                                  ;
 +---------------------------------+---------------------------------------------+
-; Flow Status                     ; Successful - Sun Jun 17 14:53:16 2018       ;
+; Flow Status                     ; Successful - Sun Jun 17 16:26:30 2018       ;
 ; Quartus Prime Version           ; 17.1.0 Build 590 10/25/2017 SJ Lite Edition ;
 ; Revision Name                   ; scp                                         ;
 ; Top-level Entity Name           ; scp                                         ;
@@ -156,7 +156,25 @@ refer to the applicable agreement for further details.
 ; MIF/HEX Update            ; 00:00:06     ; 1.0                     ; 1318 MB             ; 00:00:06                           ;
 ; Assembler                 ; 00:00:08     ; 1.0                     ; 1005 MB             ; 00:00:08                           ;
 ; EDA Netlist Writer        ; 00:00:02     ; 1.0                     ; 1259 MB             ; 00:00:03                           ;
-; Total                     ; 00:05:36     ; --                      ; --                  ; 00:08:13                           ;
+; MIF/HEX Update            ; 00:00:06     ; 1.0                     ; 1321 MB             ; 00:00:06                           ;
+; Assembler                 ; 00:00:08     ; 1.0                     ; 1006 MB             ; 00:00:08                           ;
+; EDA Netlist Writer        ; 00:00:03     ; 1.0                     ; 1259 MB             ; 00:00:03                           ;
+; MIF/HEX Update            ; 00:00:06     ; 1.0                     ; 1324 MB             ; 00:00:06                           ;
+; Assembler                 ; 00:00:09     ; 1.0                     ; 1004 MB             ; 00:00:08                           ;
+; EDA Netlist Writer        ; 00:00:03     ; 1.0                     ; 1262 MB             ; 00:00:03                           ;
+; MIF/HEX Update            ; 00:00:06     ; 1.0                     ; 1324 MB             ; 00:00:06                           ;
+; Assembler                 ; 00:00:09     ; 1.0                     ; 1006 MB             ; 00:00:08                           ;
+; EDA Netlist Writer        ; 00:00:03     ; 1.0                     ; 1263 MB             ; 00:00:03                           ;
+; MIF/HEX Update            ; 00:00:06     ; 1.0                     ; 1338 MB             ; 00:00:06                           ;
+; Assembler                 ; 00:00:09     ; 1.0                     ; 1012 MB             ; 00:00:09                           ;
+; EDA Netlist Writer        ; 00:00:03     ; 1.0                     ; 1266 MB             ; 00:00:03                           ;
+; MIF/HEX Update            ; 00:00:06     ; 1.0                     ; 1338 MB             ; 00:00:06                           ;
+; Assembler                 ; 00:00:08     ; 1.0                     ; 1008 MB             ; 00:00:09                           ;
+; EDA Netlist Writer        ; 00:00:03     ; 1.0                     ; 1269 MB             ; 00:00:03                           ;
+; MIF/HEX Update            ; 00:00:06     ; 1.0                     ; 1344 MB             ; 00:00:06                           ;
+; Assembler                 ; 00:00:09     ; 1.0                     ; 1032 MB             ; 00:00:09                           ;
+; EDA Netlist Writer        ; 00:00:03     ; 1.0                     ; 1271 MB             ; 00:00:03                           ;
+; Total                     ; 00:07:22     ; --                      ; --                  ; 00:09:58                           ;
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 
@@ -203,6 +221,24 @@ refer to the applicable agreement for further details.
 ; MIF/HEX Update            ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
 ; Assembler                 ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
 ; EDA Netlist Writer        ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; MIF/HEX Update            ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; Assembler                 ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; EDA Netlist Writer        ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; MIF/HEX Update            ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; Assembler                 ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; EDA Netlist Writer        ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; MIF/HEX Update            ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; Assembler                 ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; EDA Netlist Writer        ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; MIF/HEX Update            ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; Assembler                 ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; EDA Netlist Writer        ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; MIF/HEX Update            ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; Assembler                 ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; EDA Netlist Writer        ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; MIF/HEX Update            ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; Assembler                 ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; EDA Netlist Writer        ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
 +---------------------------+-------------------+--------------+------------+----------------+
 
 
@@ -213,6 +249,24 @@ quartus_map --read_settings_files=on --write_settings_files=off scp -c scp
 quartus_fit --read_settings_files=off --write_settings_files=off scp -c scp
 quartus_asm --read_settings_files=off --write_settings_files=off scp -c scp
 quartus_sta scp -c scp
+quartus_eda --read_settings_files=off --write_settings_files=off scp -c scp
+quartus_cdb scp -c scp --update_mif
+quartus_asm --read_settings_files=on --write_settings_files=off scp -c scp
+quartus_eda --read_settings_files=off --write_settings_files=off scp -c scp
+quartus_cdb scp -c scp --update_mif
+quartus_asm --read_settings_files=on --write_settings_files=off scp -c scp
+quartus_eda --read_settings_files=off --write_settings_files=off scp -c scp
+quartus_cdb scp -c scp --update_mif
+quartus_asm --read_settings_files=on --write_settings_files=off scp -c scp
+quartus_eda --read_settings_files=off --write_settings_files=off scp -c scp
+quartus_cdb scp -c scp --update_mif
+quartus_asm --read_settings_files=on --write_settings_files=off scp -c scp
+quartus_eda --read_settings_files=off --write_settings_files=off scp -c scp
+quartus_cdb scp -c scp --update_mif
+quartus_asm --read_settings_files=on --write_settings_files=off scp -c scp
+quartus_eda --read_settings_files=off --write_settings_files=off scp -c scp
+quartus_cdb scp -c scp --update_mif
+quartus_asm --read_settings_files=on --write_settings_files=off scp -c scp
 quartus_eda --read_settings_files=off --write_settings_files=off scp -c scp
 quartus_cdb scp -c scp --update_mif
 quartus_asm --read_settings_files=on --write_settings_files=off scp -c scp
