@@ -254,7 +254,7 @@ $1:
 	mdsp	#0
 	ret 	
 _key_async_read:
-	mdsp	#-1
+	mdsp	#-2
 	lwib	#0
 	call	_key_in_waiting
 	mdsp	#0
@@ -267,7 +267,7 @@ _key_async_read:
 	call	inp
 	mdsp	#2
 	popb	
-	sbqa	
+	swqa	
 	lwia	#7
 	psha	
 	lwia	#1
@@ -275,16 +275,19 @@ _key_async_read:
 	lwib	#2
 	call	outp
 	mdsp	#4
+	mspa	#0
+	lwpa	
+	jmp 	$2
 	mdsp	#0
 $3:
 	lwia	#1
 	aneg	
 	jmp 	$2
 $2:
-	mdsp	#1
+	mdsp	#2
 	ret 	
 _key_read:
-	mdsp	#-1
+	mdsp	#-2
 $5:
 	mspa	#0
 	psha	
@@ -292,10 +295,10 @@ $5:
 	call	_key_async_read
 	mdsp	#0
 	popb	
-	sbqa	
+	swqa	
 $6:
 	mspa	#0
-	lbpa	
+	lwpa	
 	psha	
 	lwia	#1
 	aneg	
@@ -305,14 +308,40 @@ $6:
 $7:
 	mdsp	#0
 	mspa	#0
-	lbpa	
+	lwpa	
 	jmp 	$4
 $4:
-	mdsp	#1
+	mdsp	#2
+	ret 	
+_key_press_read:
+	mdsp	#-2
+$9:
+	mspa	#0
+	psha	
+	lwib	#0
+	call	_key_read
+	mdsp	#0
+	popb	
+	swqa	
+$10:
+	mspa	#0
+	lwpa	
+	psha	
+	lwia	#256
+	popb	
+	abnd	
+	jpnz	$9
+$11:
+	mdsp	#0
+	mspa	#0
+	lwpa	
+	jmp 	$8
+$8:
+	mdsp	#2
 	ret 	
 getchar:
 	mdsp	#-2
-$8:
+$12:
 	mdsp	#2
 	ret 	
 ;	Data Segment
@@ -321,14 +350,18 @@ $8:
 ;	globl	_key_async_read
 ;	extrn	outp
 ;	globl	_key_read
+;	globl	_key_press_read
 ;	globl	_getcharecho
 _getcharecho:
 	.db	#1
+;	globl	_getcharshifted
+_getcharshifted:
+	.db	#0
 ;	globl	getchar
 
 ;	0 error(s) in compilation
 ;	literal pool:0
-;	global pool:7
+;	global pool:9
 ;	Macro pool:178
 ;	.end
 
