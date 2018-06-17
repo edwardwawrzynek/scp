@@ -120,7 +120,7 @@ RESERVED_INPUT_WITH_WEAK_PULLUP : AA15      :        :                   :      
 VCCIO4A                      : AA16      : power  :                   : 3.0V    : 4A        :                
 GND                          : AA17      : gnd    :                   :         :           :                
 VGA_COL_R[2]                 : AA18      : output : 3.0-V LVCMOS      :         : 4A        : Y              
-RESERVED_INPUT_WITH_WEAK_PULLUP : AA19      :        :                   :         : 4A        :                
+PS2_DATA                     : AA19      : input  : 3.0-V LVCMOS      :         : 4A        : Y              
 RESERVED_INPUT_WITH_WEAK_PULLUP : AA20      :        :                   :         : 5A        :                
 VCCA_FPLL                    : AA21      : power  :                   : 2.5V    :           :                
 LED[7]                       : AA23      : output : 2.5 V             :         : 5A        : Y              
@@ -151,7 +151,7 @@ TMS                          : AC7       : input  :                   :         
 VCC_AUX                      : AC8       : power  :                   : 2.5V    :           :                
 VCC_AUX                      : AC21      : power  :                   : 2.5V    :           :                
 VGA_COL_G[1]                 : AC22      : output : 3.0-V LVCMOS      :         : 4A        : Y              
-RESERVED_INPUT_WITH_WEAK_PULLUP : AC23      :        :                   :         : 4A        :                
+PS2_CLK                      : AC23      : input  : 3.0-V LVCMOS      :         : 4A        : Y              
 RESERVED_INPUT_WITH_WEAK_PULLUP : AC24      :        :                   :         : 5A        :                
 VCCIO5A                      : AC25      : power  :                   : 2.5V    : 5A        :                
 VREFB5AN0                    : AC26      : power  :                   :         : 5A        :                

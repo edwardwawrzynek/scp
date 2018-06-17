@@ -130,6 +130,20 @@ $11:
 	popb	
 	asub	
 	swma	_screenpos
+	lwia	#5
+	psha	
+	lwma	_screenpos
+	psha	
+	lwib	#2
+	call	outp
+	mdsp	#4
+	lwia	#6
+	psha	
+	lwia	#0
+	psha	
+	lwib	#2
+	call	outp
+	mdsp	#4
 	mdsp	#0
 	jmp 	$14
 $13:
