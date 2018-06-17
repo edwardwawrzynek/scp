@@ -88,26 +88,38 @@ $1:
 	mdsp	#4
 	ret 	
 putchar:
+	lwma	_screenpos
+	psha	
+	lwia	#1000
+	popb	
+	ault	
+	alng	
+	jpz 	$9
+	lwib	#0
+	call	_screenscroll
+	mdsp	#0
+	mdsp	#0
+$9:
 	mspa	#2
 	lbpa	
 	psha	
 	lwia	#10
 	popb	
 	aequ	
-	jpz 	$9
+	jpz 	$10
 	lwib	#0
 	call	_screenscroll
 	mdsp	#0
 	mdsp	#0
-	jmp 	$10
-$9:
+	jmp 	$11
+$10:
 	mspa	#2
 	lbpa	
 	psha	
 	lwia	#9
 	popb	
 	aequ	
-	jpz 	$11
+	jpz 	$12
 	lwma	_screenpos
 	psha	
 	lwia	#8
@@ -115,15 +127,15 @@ $9:
 	aadd	
 	swma	_screenpos
 	mdsp	#0
-	jmp 	$12
-$11:
+	jmp 	$13
+$12:
 	mspa	#2
 	lbpa	
 	psha	
 	lwia	#8
 	popb	
 	aequ	
-	jpz 	$13
+	jpz 	$14
 	lwma	_screenpos
 	psha	
 	lwia	#1
@@ -145,8 +157,8 @@ $11:
 	call	outp
 	mdsp	#4
 	mdsp	#0
-	jmp 	$14
-$13:
+	jmp 	$15
+$14:
 	lwia	#5
 	psha	
 	lwma	_screenpos
@@ -166,23 +178,11 @@ $13:
 	call	outp
 	mdsp	#4
 	mdsp	#0
-$14:
-	mdsp	#0
-$12:
-	mdsp	#0
-$10:
-	lwma	_screenpos
-	psha	
-	lwia	#1000
-	popb	
-	aule	
-	alng	
-	jpz 	$15
-	lwib	#0
-	call	_screenscroll
-	mdsp	#0
-	mdsp	#0
 $15:
+	mdsp	#0
+$13:
+	mdsp	#0
+$11:
 $8:
 	mdsp	#0
 	ret 	

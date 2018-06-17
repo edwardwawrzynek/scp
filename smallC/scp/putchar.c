@@ -18,6 +18,9 @@ _screenscroll(){
 }
 
 putchar(unsigned char c){
+	if(_screenpos >= 1000){
+		_screenscroll();
+	}
 	if(c == '\n'){
 		_screenscroll();
 	}
@@ -32,8 +35,5 @@ putchar(unsigned char c){
 	else{
 		outp(5,_screenpos++);
 		outp(6,c);
-	}
-	if(_screenpos > 1000){
-		_screenscroll();
 	}
 }
