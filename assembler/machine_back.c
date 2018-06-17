@@ -100,15 +100,8 @@ int base_label_append(char *name, unsigned int addr, char **labels, unsigned int
 	unsigned int i;
 	if(*labels_append_pos >= *labels_allocd){
     //Realloc both labels and label_addr - DOESN'T WORK
-		labels = (char **) realloc(labels, (LABEL_INC+(*labels_allocd)) * sizeof(char *));
-  	labels_addr = (unsigned int *) realloc(labels_addr, (LABEL_INC+(*labels_allocd)) * sizeof(unsigned int));
-		for(i = 64; i < 128; i++){
-			printf("%u", i);
-			//labels[i] = NULL;
-			//label_addr[i] = 0;
-		}
-		printf("good");
-		*labels_allocd += LABEL_INC;
+		print("Realloc for labels not implemented\n");
+		err_exit();
   }
   label_addr[*labels_append_pos] = addr;
   labels[*labels_append_pos] = calloc(strlen(name), sizeof(char));
