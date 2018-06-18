@@ -287,6 +287,7 @@ first_pass(){
       addr += first_pass_cmd();
     }
   }
+	return addr;
 }
 
 //Handle the directive command in name with arguments in buf
@@ -516,6 +517,7 @@ write_offset(){
 main(int argc, char **argv){
 	unsigned int argv_off;
 	unsigned char end = 0;
+	unsigned int addr = 0;
 	argv_off = 0;
   //For scp, set argc and argv
   if(argc < 3){
@@ -529,6 +531,7 @@ main(int argc, char **argv){
 		}
 		else if(argv[1][1] == 'e'){
 			argv_off = 1;
+			end = 1;
 		}
 	}
   back_init();
@@ -536,7 +539,11 @@ main(int argc, char **argv){
   open_out(argv[1 + argv_off]);
   //First Pass
   file_restart();
-  first_pass();
+  //first_pass();
+	addr = first_pass();
+	if(end){
+		offset = 65536 - addr;
+	}
 	//Write offset number of blank bytes before start
 	write_offset();
   //Second Pass
