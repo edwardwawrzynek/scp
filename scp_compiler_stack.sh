@@ -3,7 +3,7 @@
 #automates c compiling, linking, assembling, and binary and mif file output for scp
 
 usage() {
-echo "Usage: scpc [-o bin_out] [-m mif_out] [-a asm_out] [-s asm_out_without_links] [-l file_to_link.s] [-L directory_to_link] [-h] file.c"
+echo "Usage: scpc [-o bin_out] [-m mif_out] [-a asm_out] [-s asm_out_without_links] [-l file_to_link.s] [-L directory_to_link] [-h] [-e] file.c"
 }
 
 #Binary out - will always be generated
@@ -17,6 +17,9 @@ DO_MIF=false
 ASM_OUTPUT=""
 DO_ASM=false
 
+#whether to place prgm at end of addr space or not
+DO_END=false
+
 #Non linked assembley output
 CLEAN_ASM_OUTPUT=""
 DP_CLEAN_ASM=false
@@ -24,11 +27,14 @@ DP_CLEAN_ASM=false
 #Files to link with
 LINKS="/home/edward/scp/smallC/scp/cret.asm /home/edward/scp/smallC/scp/crun.asm /home/edward/scp/smallC/scp/lib.s /home/edward/scp/smallC/lib/lib.s"
 
-while getopts "ho:m:a:s:l:L:" opt; do
+while getopts "eho:m:a:s:l:L:" opt; do
   case $opt in
+    e)
+	DO_END=true
+	;;
     o)
-      OUTPUT=$OPTARG
-      ;;
+      	OUTPUT=$OPTARG
+      	;;
     h)
     	usage
     	;;
@@ -84,7 +90,11 @@ scplnk "SCP_ASM_LINKED.s" $LINKS
 
 
 #Assemble
-scpasm $OUTPUT "SCP_ASM_LINKED.s"
+if [ "$DO_END" == "true" ]; then
+	scpasm -e $OUTPUT "SCP_ASM_LINKED.s"
+else
+	scpasm $OUTPUT "SCP_ASM_LINKED.s"
+fi
 rm $name
 #If -a was specified, preserve asm
 if [ "$DO_ASM" == "true" ]; then
