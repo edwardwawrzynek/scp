@@ -24,6 +24,9 @@ char cmds[CMD_ARRAY_LEN] = "nop \0lbia\0lbib\0lwia\0lwib\0lbpa\0lbpb\0lwpa\0lwpb
 //length not including opcode byte
 char cmd_lens[NUM_CMDS] = {0, 1, 1, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 0, 0, 0, 0, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 2, 0, 2, 0, 0, 0, 0, 2, 0, 0, 0};
 
+//Offset for programs that don't start at addr 0
+unsigned int offset = 0;
+
 //Debug 
 print_cmd_names(){
 	int i;
@@ -58,7 +61,7 @@ label_append(char *name, unsigned int addr){
 
 //get addr for label
 label_addr(char * name){
-  return base_get_addr_for_label(name, labels_allocd, labels, labels_addr);
+  return base_get_addr_for_label(name, labels_allocd, labels, labels_addr)+offset;
 }
 //Append a label and position to a module's namespace
 mod_label_append(char *name, unsigned int addr, unsigned int module){
@@ -66,7 +69,7 @@ mod_label_append(char *name, unsigned int addr, unsigned int module){
 		print("Module number limit passed\n");
 		err_exit();
 	}
-  return base_label_append(name, addr, mod_labels[module], mod_addr[module], &mod_labels_append_pos[module], &mod_labels_allocd[module]);
+  return base_label_append(name, addr, mod_labels[module], mod_addr[module], &mod_labels_append_pos[module], &mod_labels_allocd[module])+offset;
 }
 //get addr for label in module's namespace
 mod_label_addr(char *name, unsigned int module){
@@ -74,7 +77,7 @@ mod_label_addr(char *name, unsigned int module){
 		print("Module number limit passed\n");
 		err_exit();
 	}
-  return base_get_addr_for_label(name, mod_labels_allocd[module], mod_labels[module], mod_addr[module]);
+  return base_get_addr_for_label(name, mod_labels_allocd[module], mod_labels[module], mod_addr[module])+offset;
 }
 
 //Write out a number in bytes bytes in little-endian format
@@ -148,7 +151,7 @@ read_to_nl_or_tab(){
 }
 
 usage(){
-  print("Usage: scpasm [output file] [one or more asm files]\n");
+  print("Usage: scpasm [options] [output file] [one or more asm files]\nOptions:\n-o offset :pad the output by offset null bytes\n-e        :pad the output to the end of the addr space\n");
   err_exit();
   return 0;
 }
@@ -503,17 +506,39 @@ second_pass(){
   }
 }
 
+write_offset(){
+	unsigned int i;
+	for(i = 0; i < offset; i++){
+		write(0);
+	}
+}
+
 main(int argc, char **argv){
+	unsigned int argv_off;
+	unsigned char end = 0;
+	argv_off = 0;
   //For scp, set argc and argv
   if(argc < 3){
     usage();
   }
+	//Handle flags
+	if(argv[1][0] == '-'){
+		if(argv[1][1] == 'o'){
+			argv_off = 2;
+			offset = atoi(argv[2]);
+		}
+		else if(argv[1][1] == 'e'){
+			argv_off = 1;
+		}
+	}
   back_init();
-  open_asm(argv[2]);
-  open_out(argv[1]);
+  open_asm(argv[2 + argv_off]);
+  open_out(argv[1 + argv_off]);
   //First Pass
   file_restart();
   first_pass();
+	//Write offset number of blank bytes before start
+	write_offset();
   //Second Pass
   MODULE_NUM = 0;
   file_restart();
