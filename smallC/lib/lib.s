@@ -2225,39 +2225,16 @@ $3:
 $2:
 	mdsp	#0
 	ret 	
-getrand:
-	lwia	$0+#0
-	psha	
-	lwib	#1
-	call	puts
-	mdsp	#2
-	lwib	#0
-	call	getchar
-	mdsp	#0
-	psha	
-	lwia	#123
-	popb	
-	amul	
-	jmp 	$4
-$4:
-	mdsp	#0
-	ret 	
 ;	Data Segment
-$0:	.db	#84,#121,#112,#101,#32,#97,#32,#99
-	.db	#104,#97,#114,#97,#99,#116,#101,#114
-	.db	#0
 ;	globl	xxseed
 xxseed:
 	.dw	#0
 ;	globl	srand
 ;	globl	rand
-;	globl	getrand
-;	extrn	puts
-;	extrn	getchar
 
 ;	0 error(s) in compilation
-;	literal pool:17
-;	global pool:6
+;	literal pool:0
+;	global pool:3
 ;	Macro pool:51
 ;	.end
 

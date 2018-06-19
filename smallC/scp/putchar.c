@@ -17,6 +17,16 @@ _screenscroll(){
 	_screenpos = 960;
 }
 
+//Clear the screen
+_screenclear(){
+	unsigned int i;
+	for(i = 0; i < 1000; i++){
+		outp(5,i);
+		outp(6,0);
+	}
+	_screenpos = 960;
+}
+
 putchar(unsigned char c){
 	if(_screenpos >= 1000){
 		_screenscroll();

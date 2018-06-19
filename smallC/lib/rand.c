@@ -13,8 +13,3 @@ rand () {
 
 }
 
-getrand () {
-        puts ("Type a character");
-        return (getchar() * 123);
-}
-

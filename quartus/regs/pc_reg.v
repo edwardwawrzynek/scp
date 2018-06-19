@@ -7,8 +7,7 @@ module pc_reg(
 	input bus_we,
 	input [15:0] mdr_in,
 	input mdr_we,
-	input inc,
-	input jmpfff0
+	input inc
 );
 
 always @ (posedge clk)
@@ -24,9 +23,6 @@ always @ (posedge clk)
 		end
 		if(mdr_we) begin
 			val <= mdr_in;
-		end
-		if(jmpfff0) begin
-			val <= 16'hfff0;
 		end
 	end
 	
