@@ -40,6 +40,8 @@ int main(int argc, char **argv){
     addr++;
   }
   //Write Footer
-  fprintf(mif_file, "\t[%u..65535] : 00000000;\n", addr);
+	if(addr <= 65535){
+  	fprintf(mif_file, "\t[%u..65535] : 00000000;\n", addr);
+	}
   fputs("END;", mif_file);
 }

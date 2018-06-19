@@ -3,7 +3,17 @@
 #automates c compiling, linking, assembling, and binary and mif file output for scp
 
 usage() {
-echo "Usage: scpc [-o bin_out] [-m mif_out] [-a asm_out] [-s asm_out_without_links] [-l file_to_link.s] [-L directory_to_link] [-h] [-e] file.c"
+echo "Usage: scpc [options] file.c
+Options:
+-o bin_out :specifies the file to write the final binary to(defaults to a.out)
+-m mif.mif :if specified, a memory initialization file for scp is generated
+-a asm.s   :if specified, the fully linked assembly output is saved
+-s asm.s   :if specified, the non-linked assembly is saved
+-l file.s  :links an assembly file to be directly before the c file assembly
+-L dir     :all files in the directory ending in .s are linked
+-f file.s  :links an assembly file at the very end of the binary
+-h         :display usage
+-e         :if specified, the binary is put against the end of the address space"
 }
 
 #Binary out - will always be generated
@@ -26,8 +36,9 @@ DP_CLEAN_ASM=false
 
 #Files to link with
 LINKS="/home/edward/scp/smallC/scp/cret.asm /home/edward/scp/smallC/scp/crun.asm /home/edward/scp/smallC/scp/lib.s /home/edward/scp/smallC/lib/lib.s"
-
-while getopts "eho:m:a:s:l:L:" opt; do
+#File to link at end
+END_LINK=""
+while getopts "eho:m:a:s:l:L:f:" opt; do
   case $opt in
     e)
 	DO_END=true
@@ -37,6 +48,7 @@ while getopts "eho:m:a:s:l:L:" opt; do
       	;;
     h)
     	usage
+    	exit 1
     	;;
     m)
     	MIF_OUTPUT=$OPTARG
@@ -55,6 +67,9 @@ while getopts "eho:m:a:s:l:L:" opt; do
     	;;
     L)
     	LINKS="$LINKS $OPTARG/*.s"
+    	;;
+    f)
+    	END_LINK="$END_LINK $OPTARG"
     	;;
     \?)
       echo "Invalid option: -$OPTARG" >&2
@@ -84,7 +99,7 @@ if [ "$DO_CLEAN_ASM" == "true" ]; then
 fi
 #Link
 #Add output to linking
-LINKS="$LINKS $name"
+LINKS="$LINKS $name $END_LINK"
 
 scplnk "SCP_ASM_LINKED.s" $LINKS
 

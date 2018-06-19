@@ -1,5 +1,5 @@
 Flow report for scp
-Mon Jun 18 16:16:12 2018
+Tue Jun 19 14:47:51 2018
 Quartus Prime Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
 
 
@@ -37,29 +37,29 @@ refer to the applicable agreement for further details.
 
 
 
-+------------------------------------------------------------------------------------+
-; Flow Summary                                                                       ;
-+---------------------------------+--------------------------------------------------+
-; Flow Status                     ; MIF/HEX Update Failed - Mon Jun 18 16:16:12 2018 ;
-; Quartus Prime Version           ; 17.1.0 Build 590 10/25/2017 SJ Lite Edition      ;
-; Revision Name                   ; scp                                              ;
-; Top-level Entity Name           ; scp                                              ;
-; Family                          ; Cyclone V                                        ;
-; Device                          ; 5CSEMA4U23C6                                     ;
-; Timing Models                   ; Final                                            ;
-; Logic utilization (in ALMs)     ; 678 / 15,880 ( 4 % )                             ;
-; Total registers                 ; 565                                              ;
-; Total pins                      ; 25 / 314 ( 8 % )                                 ;
-; Total virtual pins              ; 0                                                ;
-; Total block memory bits         ; 603,136 / 2,764,800 ( 22 % )                     ;
-; Total DSP Blocks                ; 1 / 84 ( 1 % )                                   ;
-; Total HSSI RX PCSs              ; 0                                                ;
-; Total HSSI PMA RX Deserializers ; 0                                                ;
-; Total HSSI TX PCSs              ; 0                                                ;
-; Total HSSI PMA TX Serializers   ; 0                                                ;
-; Total PLLs                      ; 2 / 5 ( 40 % )                                   ;
-; Total DLLs                      ; 0 / 4 ( 0 % )                                    ;
-+---------------------------------+--------------------------------------------------+
++-------------------------------------------------------------------------------+
+; Flow Summary                                                                  ;
++---------------------------------+---------------------------------------------+
+; Flow Status                     ; Successful - Tue Jun 19 14:47:51 2018       ;
+; Quartus Prime Version           ; 17.1.0 Build 590 10/25/2017 SJ Lite Edition ;
+; Revision Name                   ; scp                                         ;
+; Top-level Entity Name           ; scp                                         ;
+; Family                          ; Cyclone V                                   ;
+; Device                          ; 5CSEMA4U23C6                                ;
+; Timing Models                   ; Final                                       ;
+; Logic utilization (in ALMs)     ; 678 / 15,880 ( 4 % )                        ;
+; Total registers                 ; 565                                         ;
+; Total pins                      ; 25 / 314 ( 8 % )                            ;
+; Total virtual pins              ; 0                                           ;
+; Total block memory bits         ; 603,136 / 2,764,800 ( 22 % )                ;
+; Total DSP Blocks                ; 1 / 84 ( 1 % )                              ;
+; Total HSSI RX PCSs              ; 0                                           ;
+; Total HSSI PMA RX Deserializers ; 0                                           ;
+; Total HSSI TX PCSs              ; 0                                           ;
+; Total HSSI PMA TX Serializers   ; 0                                           ;
+; Total PLLs                      ; 2 / 5 ( 40 % )                              ;
+; Total DLLs                      ; 0 / 4 ( 0 % )                               ;
++---------------------------------+---------------------------------------------+
 
 
 +-----------------------------------------+
@@ -127,7 +127,11 @@ refer to the applicable agreement for further details.
 ; Assembler                 ; 00:00:08     ; 1.0                     ; 986 MB              ; 00:00:08                           ;
 ; EDA Netlist Writer        ; 00:00:02     ; 1.0                     ; 1237 MB             ; 00:00:03                           ;
 ; MIF/HEX Update            ; 00:00:06     ; 1.0                     ; 1308 MB             ; 00:00:05                           ;
-; Total                     ; 00:02:33     ; --                      ; --                  ; 00:04:44                           ;
+; MIF/HEX Update            ; 00:00:06     ; 1.0                     ; 1311 MB             ; 00:00:06                           ;
+; Assembler                 ; 00:00:07     ; 1.0                     ; 980 MB              ; 00:00:08                           ;
+; EDA Netlist Writer        ; 00:00:03     ; 1.0                     ; 1239 MB             ; 00:00:03                           ;
+; MIF/HEX Update            ; 00:00:06     ; 1.0                     ; 1311 MB             ; 00:00:06                           ;
+; Total                     ; 00:02:55     ; --                      ; --                  ; 00:05:07                           ;
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 
@@ -145,6 +149,10 @@ refer to the applicable agreement for further details.
 ; Assembler                 ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
 ; EDA Netlist Writer        ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
 ; MIF/HEX Update            ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; MIF/HEX Update            ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; Assembler                 ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; EDA Netlist Writer        ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; MIF/HEX Update            ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
 +---------------------------+-------------------+--------------+------------+----------------+
 
 
@@ -156,6 +164,10 @@ quartus_fit --read_settings_files=off --write_settings_files=off scp -c scp
 quartus_asm --read_settings_files=off --write_settings_files=off scp -c scp
 quartus_sta scp -c scp
 quartus_eda --read_settings_files=off --write_settings_files=off scp -c scp
+quartus_cdb scp -c scp --update_mif
+quartus_asm --read_settings_files=on --write_settings_files=off scp -c scp
+quartus_eda --read_settings_files=off --write_settings_files=off scp -c scp
+quartus_cdb scp -c scp --update_mif
 quartus_cdb scp -c scp --update_mif
 quartus_asm --read_settings_files=on --write_settings_files=off scp -c scp
 quartus_eda --read_settings_files=off --write_settings_files=off scp -c scp

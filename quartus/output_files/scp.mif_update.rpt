@@ -1,5 +1,5 @@
 MIF/HEX Update report for scp
-Mon Jun 18 16:16:12 2018
+Tue Jun 19 14:47:51 2018
 Quartus Prime Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
 
 
@@ -32,15 +32,15 @@ refer to the applicable agreement for further details.
 
 
 
-+-----------------------------------------------------------+
-; MIF/HEX Update Summary                                    ;
-+-----------------------+-----------------------------------+
-; MIF/HEX Update Status ; Failed - Mon Jun 18 16:16:12 2018 ;
-; Revision Name         ; scp                               ;
-; Top-level Entity Name ; scp                               ;
-; Family                ; Cyclone V                         ;
-; Device                ; 5CSEMA4U23C6                      ;
-+-----------------------+-----------------------------------+
++---------------------------------------------------------------+
+; MIF/HEX Update Summary                                        ;
++-----------------------+---------------------------------------+
+; MIF/HEX Update Status ; Successful - Tue Jun 19 14:47:51 2018 ;
+; Revision Name         ; scp                                   ;
+; Top-level Entity Name ; scp                                   ;
+; Family                ; Cyclone V                             ;
+; Device                ; 5CSEMA4U23C6                          ;
++-----------------------+---------------------------------------+
 
 
 +---------------------------------------------------+
@@ -49,6 +49,7 @@ refer to the applicable agreement for further details.
 ; File Name                                         ;
 +---------------------------------------------------+
 ; /home/edward/scp/quartus/decode/rom_mega_cnts.mif ;
+; /home/edward/scp/quartus/ram/ram_mega_cnts.mif    ;
 +---------------------------------------------------+
 
 
@@ -58,18 +59,16 @@ refer to the applicable agreement for further details.
 Info: *******************************************************************
 Info: Running Quartus Prime MIF/HEX Update
     Info: Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
-    Info: Processing started: Mon Jun 18 16:16:06 2018
+    Info: Processing started: Tue Jun 19 14:47:45 2018
 Info: Command: quartus_cdb scp -c scp --update_mif
 Warning (39023): Can't find Memory Initialization File charset.mif -- skipped updates for this file
-Error (113012): Address at line 65542 exceeds the specified depth (65536) in the Memory Initialization File "ram_mega_cnts.mif" File: /home/edward/scp/quartus/ram/ram_mega_cnts.mif Line: 65542
-Error (113000): Memory Initialization File or Hexadecimal (Intel-Format) File "ram_mega_cnts.mif" contains illegal syntax at line 65542 File: /home/edward/scp/quartus/ram/ram_mega_cnts.mif Line: 65542
-Critical Warning (127002): Can't read Memory Initialization File or Hexadecimal (Intel-Format) File /home/edward/scp/quartus/ram/ram_mega_cnts.mif -- setting all initial values to 0
 Info (39024): Processed the following Memory Initialization File(s)
     Info (39025): Processed Memory Initialization File /home/edward/scp/quartus/decode/rom_mega_cnts.mif File: /home/edward/scp/quartus/decode/rom_mega_cnts.mif Line: 0
-Error: Quartus Prime MIF/HEX Update was unsuccessful. 2 errors, 2 warnings
-    Error: Peak virtual memory: 1308 megabytes
-    Error: Processing ended: Mon Jun 18 16:16:12 2018
-    Error: Elapsed time: 00:00:06
-    Error: Total CPU time (on all processors): 00:00:05
+    Info (39025): Processed Memory Initialization File /home/edward/scp/quartus/ram/ram_mega_cnts.mif File: /home/edward/scp/quartus/ram/ram_mega_cnts.mif Line: 0
+Info: Quartus Prime MIF/HEX Update was successful. 0 errors, 1 warning
+    Info: Peak virtual memory: 1311 megabytes
+    Info: Processing ended: Tue Jun 19 14:47:51 2018
+    Info: Elapsed time: 00:00:06
+    Info: Total CPU time (on all processors): 00:00:06
 
 
