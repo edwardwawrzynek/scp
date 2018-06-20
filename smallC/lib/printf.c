@@ -31,6 +31,7 @@ printf(char *string/*more passed*/){
 #endasm
 	str = *(arg_start + 9 + num_args);
 	arg_start = arg_start + 7 + num_args;
+	index = 0;
 	//Start iterating through the string
 	while(*str&0x00ff){
 		c = *str++;

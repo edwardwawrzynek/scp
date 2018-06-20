@@ -84,6 +84,11 @@ printf:
 	aadd	
 	popb	
 	swqa	
+	mspa	#7
+	psha	
+	lwia	#0
+	popb	
+	swqa	
 $5:
 	mspa	#4
 	lwpa	
@@ -292,5 +297,5 @@ $4:
 ;	0 error(s) in compilation
 ;	literal pool:0
 ;	global pool:5
-;	Macro pool:103
+;	Macro pool:305
 ;	.end
