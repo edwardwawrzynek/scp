@@ -1,10 +1,6 @@
 //Not implemented
 #include <stdio.h>
 
-#define _key_in_waiting_port 8
-#define _key_data_in_port 7
-#define _key_next_port 7
-
 //retur number of keys in waiting
 _key_in_waiting(){
 	return inp(_key_in_waiting_port);

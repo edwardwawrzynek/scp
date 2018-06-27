@@ -25,3 +25,13 @@
 
 #define KEY_PAGE_UP 33
 #define KEY_PAGE_DOWN 34
+
+#define _key_in_waiting_port 8
+#define _key_data_in_port 7
+#define _key_next_port 7
+
+#define _text_addr_port 5
+#define _text_data_port 6
+
+#define _gfx_addr_port 9
+#define _gfx_data_port 10
