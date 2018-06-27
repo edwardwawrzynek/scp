@@ -1,5 +1,5 @@
 MIF/HEX Update report for scp
-Tue Jun 19 16:05:02 2018
+Wed Jun 27 15:23:08 2018
 Quartus Prime Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
 
 
@@ -35,7 +35,7 @@ refer to the applicable agreement for further details.
 +---------------------------------------------------------------+
 ; MIF/HEX Update Summary                                        ;
 +-----------------------+---------------------------------------+
-; MIF/HEX Update Status ; Successful - Tue Jun 19 16:05:02 2018 ;
+; MIF/HEX Update Status ; Successful - Wed Jun 27 15:23:08 2018 ;
 ; Revision Name         ; scp                                   ;
 ; Top-level Entity Name ; scp                                   ;
 ; Family                ; Cyclone V                             ;
@@ -48,6 +48,7 @@ refer to the applicable agreement for further details.
 +---------------------------------------------------+
 ; File Name                                         ;
 +---------------------------------------------------+
+; /home/edward/scp/quartus/IO/vga/gfx_init.mif      ;
 ; /home/edward/scp/quartus/decode/rom_mega_cnts.mif ;
 ; /home/edward/scp/quartus/ram/ram_mega_cnts.mif    ;
 +---------------------------------------------------+
@@ -59,15 +60,16 @@ refer to the applicable agreement for further details.
 Info: *******************************************************************
 Info: Running Quartus Prime MIF/HEX Update
     Info: Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
-    Info: Processing started: Tue Jun 19 16:04:56 2018
+    Info: Processing started: Wed Jun 27 15:23:02 2018
 Info: Command: quartus_cdb scp -c scp --update_mif
 Warning (39023): Can't find Memory Initialization File charset.mif -- skipped updates for this file
 Info (39024): Processed the following Memory Initialization File(s)
+    Info (39025): Processed Memory Initialization File /home/edward/scp/quartus/IO/vga/gfx_init.mif File: /home/edward/scp/quartus/IO/vga/gfx_init.mif Line: 0
     Info (39025): Processed Memory Initialization File /home/edward/scp/quartus/decode/rom_mega_cnts.mif File: /home/edward/scp/quartus/decode/rom_mega_cnts.mif Line: 0
     Info (39025): Processed Memory Initialization File /home/edward/scp/quartus/ram/ram_mega_cnts.mif File: /home/edward/scp/quartus/ram/ram_mega_cnts.mif Line: 0
 Info: Quartus Prime MIF/HEX Update was successful. 0 errors, 1 warning
-    Info: Peak virtual memory: 1317 megabytes
-    Info: Processing ended: Tue Jun 19 16:05:02 2018
+    Info: Peak virtual memory: 1299 megabytes
+    Info: Processing ended: Wed Jun 27 15:23:08 2018
     Info: Elapsed time: 00:00:06
     Info: Total CPU time (on all processors): 00:00:06
 

@@ -6,8 +6,12 @@ module text_gen(
 	output [7:0] col,
 	//Text Memory Access
 	output [9:0] char_addr,
+	//Video memory access
+	output [15:0] gfx_addr,
 	//Charset rom access
-	input [63:0] charset
+	input [63:0] charset,
+	//gfx pixel in
+	input [7:0] gfx_in
 );
 
 //Pixel locations
@@ -22,6 +26,7 @@ assign textX = x[8:3];
 assign textY = y[7:3];
 
 assign char_addr = (textX + (textY*40));
+assign gfx_addr = (x + (y*320));
 
 //Location in char
 wire [2:0] charX;
@@ -41,6 +46,7 @@ assign pixel = charset[63 - charset_addr];
 wire real_pixel;
 assign real_pixel = (y >= 200) ? 0 : pixel;
 
-assign col = col_en ? {real_pixel, real_pixel, real_pixel, real_pixel, real_pixel, real_pixel, real_pixel, real_pixel} : 0;
+//assign col = col_en ? {real_pixel, real_pixel, real_pixel, real_pixel, real_pixel, real_pixel, real_pixel, real_pixel} : 0;
+assign col = col_en ? ((y >= 200) ? 0: gfx_in) : 0;
 
 endmodule
