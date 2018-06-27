@@ -11,7 +11,9 @@ module text_gen(
 	//Charset rom access
 	input [63:0] charset,
 	//gfx pixel in
-	input [7:0] gfx_in
+	input [7:0] gfx_in,
+	//char being drawn
+	input [7:0] char
 );
 
 //Pixel locations
@@ -42,11 +44,11 @@ assign charset_addr = {charY,charX};
 wire pixel;
 assign pixel = charset[63 - charset_addr];
 
-//Real pixel that cuts out bottom 80 pixels to get 640 x 400
-wire real_pixel;
-assign real_pixel = (y >= 200) ? 0 : pixel;
+//Real pixel that combines gfx and text
+wire [7:0] real_pixel;
+assign real_pixel = char ? {pixel, pixel, pixel, pixel, pixel, pixel, pixel, pixel}: gfx_in;
 
 //assign col = col_en ? {real_pixel, real_pixel, real_pixel, real_pixel, real_pixel, real_pixel, real_pixel, real_pixel} : 0;
-assign col = col_en ? ((y >= 200) ? 0: gfx_in) : 0;
+assign col = col_en ? ((y >= 200) ? 0: real_pixel) : 0;
 
 endmodule

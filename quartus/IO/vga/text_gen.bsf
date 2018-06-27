@@ -59,6 +59,13 @@ refer to the applicable agreement for further details.
 		(line (pt 0 96)(pt 16 96)(line_width 3))
 	)
 	(port
+		(pt 0 112)
+		(input)
+		(text "char[7..0]" (rect 0 0 37 12)(font "Arial" ))
+		(text "char[7..0]" (rect 21 107 58 119)(font "Arial" ))
+		(line (pt 0 112)(pt 16 112)(line_width 3))
+	)
+	(port
 		(pt 216 32)
 		(output)
 		(text "col[7..0]" (rect 0 0 30 12)(font "Arial" ))
