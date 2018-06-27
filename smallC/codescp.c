@@ -259,6 +259,7 @@ gen_pop() {
  * swap the primary register and the top of the stack
  */
 gen_swap_stack() {
+		printf("Warning: stack swap not implemented\n");
     output_line ("xthl");
 }
 /**

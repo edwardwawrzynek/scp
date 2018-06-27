@@ -35,7 +35,7 @@ CLEAN_ASM_OUTPUT=""
 DP_CLEAN_ASM=false
 
 #Files to link with
-LINKS="/home/edward/scp/smallC/scp/cret.asm /home/edward/scp/smallC/scp/crun.asm /home/edward/scp/smallC/scp/lib.s /home/edward/scp_software/lib/lib_asms/small_c_lib.s"
+LINKS="/home/edward/scp_software/lib/lib_asms/cret.asm /home/edward/scp_software/lib/lib_asms/crun.asm /home/edward/scp_software/lib/lib_asms/scp_lib.s /home/edward/scp_software/lib/lib_asms/small_c_lib.s"
 #File to link at end
 END_LINK=""
 while getopts "eho:m:a:s:l:L:f:" opt; do
