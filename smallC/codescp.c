@@ -392,9 +392,12 @@ gen_modify_stack(int newstkp) {
     output_line ("sphl");
     gen_swap ();
     return (newstkp);*/
-    output_with_tab ("mdsp\t");
-    output_number (k);
-    newline();
+		//Only write out if there is actually a change
+		if(k){
+    	output_with_tab ("mdsp\t");
+    	output_number (k);
+    	newline();
+		}
     return (newstkp);
 }
 
@@ -727,7 +730,8 @@ char *inclib() {
  */
 gnargs(d)
 int     d; {
-    output_string ("\tlwib\t");
+		//Probably less than 256 args
+    output_string ("\tlbib\t");
     output_number(d);
     newline ();
 }
