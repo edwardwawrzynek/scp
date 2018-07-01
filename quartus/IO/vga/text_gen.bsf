@@ -86,6 +86,13 @@ refer to the applicable agreement for further details.
 		(text "gfx_addr[15..0]" (rect 135 59 195 71)(font "Arial" ))
 		(line (pt 216 64)(pt 200 64)(line_width 3))
 	)
+	(port
+		(pt 216 80)
+		(output)
+		(text "screen_en" (rect 0 0 42 12)(font "Arial" ))
+		(text "screen_en" (rect 153 75 195 87)(font "Arial" ))
+		(line (pt 216 80)(pt 200 80)(line_width 1))
+	)
 	(drawing
 		(rectangle (rect 16 16 200 128)(line_width 1))
 	)

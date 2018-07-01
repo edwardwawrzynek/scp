@@ -13,7 +13,9 @@ module text_gen(
 	//gfx pixel in
 	input [7:0] gfx_in,
 	//char being drawn
-	input [7:0] char
+	input [7:0] char,
+	//if the screen is being drawn
+	output screen_en
 );
 
 //Pixel locations
@@ -50,5 +52,7 @@ assign real_pixel = char ? {pixel, pixel, pixel, pixel, pixel, pixel, pixel, pix
 
 //assign col = col_en ? {real_pixel, real_pixel, real_pixel, real_pixel, real_pixel, real_pixel, real_pixel, real_pixel} : 0;
 assign col = col_en ? ((y >= 200) ? 0: real_pixel) : 0;
+
+assign screen_en = (y>=200) ? 0 : 1;
 
 endmodule
