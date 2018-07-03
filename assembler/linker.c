@@ -5,7 +5,7 @@
 #include <string.h>
 
 usage(){
-	printf("Usage: scplnk [option] [output file] [input files]\nOptions:\n-i [.incl file] :link files listed in the .incl file\n");
+	printf("Usage: scplnk [option] [output file] [input files]\nOptions:\n-i [.incl file] :link files listed in the .incl file, placing them directly after the first passed input file\n");
 }
 
 FILE *open(char * name, char *md){
@@ -42,17 +42,16 @@ main(int argc, char **argv){
 		fnum = 4;
 	}												 
 	out = open(argv[1 + (fnum-2)], "w");
-	while(fnum < argc){
-		cur = open(argv[fnum], "r");
+	//Add first file
+	cur = open(argv[fnum], "r");
+	c = fgetc(cur);
+	while(c != EOF){
+		fputc(c, out);
 		c = fgetc(cur);
-		while(c != EOF){
-			fputc(c, out);
-			c = fgetc(cur);
-		}
-		fclose(cur);
-		fputc('\n', out);
-		fnum++;
 	}
+	fclose(cur);
+	fputc('\n', out);
+	fnum++;
 	//Add files from .incl
 	if(incl != NULL){
 		inclf = open(incl, "r");
@@ -79,6 +78,17 @@ main(int argc, char **argv){
 					fputc('\n', out);
 				}
     }
+	}
+	while(fnum < argc){
+		cur = open(argv[fnum], "r");
+		c = fgetc(cur);
+		while(c != EOF){
+			fputc(c, out);
+			c = fgetc(cur);
+		}
+		fclose(cur);
+		fputc('\n', out);
+		fnum++;
 	}
 	fclose(out);
 }
