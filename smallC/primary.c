@@ -191,6 +191,11 @@ number (int val[]) {
             inbyte ();
             k = k * 16 + (numeric (c) ? (c - '0') : ((c & 07) + 9));
         }
+		else if(match("0b") || match("0B"))
+			while ((c = ch ()) == '0' || c == '1'){
+            inbyte ();
+            k = k * 2 + (c - 48);
+        }
     else {
         base = (c == '0') ? 8 : 10;
         while (numeric(ch())) {
