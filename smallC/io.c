@@ -46,11 +46,11 @@ openout ()
 openincl ()
 {
 	inclfname(fname);
-	printf(".incl file: %s\n", fname);
 	if ((inclf = fopen (fname, "w")) == NULL) {
                 pl ("Open failure on .incl - run scc without -i to not generate .incl");
                 return (NO);
         }
+	kill ();
 	return (YES);
 }
 
