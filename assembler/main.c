@@ -517,6 +517,7 @@ write_offset(){
 main(int argc, char **argv){
 	unsigned int argv_off;
 	unsigned char end = 0;
+	unsigned char print_size = 0;
 	unsigned int addr = 0;
 	argv_off = 0;
   //For scp, set argc and argv
@@ -533,6 +534,10 @@ main(int argc, char **argv){
 			argv_off = 1;
 			end = 1;
 		}
+		else if(argv[1][1] == 's'){
+			argv_off = 1;
+			print_size = 1;
+		}
 	}
   back_init();
   open_asm(argv[2 + argv_off]);
@@ -541,6 +546,11 @@ main(int argc, char **argv){
   file_restart();
   //first_pass();
 	addr = first_pass();
+	if(print_size){
+		print("Size: ");
+		printn(addr);
+		print(" bytes.\n");
+	}
 	if(end){
 		offset = 65536 - addr;
 	}
