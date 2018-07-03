@@ -13,7 +13,8 @@ Options:
 -L dir     :all files in the directory ending in .s are linked
 -f file.s  :links an assembly file at the very end of the binary
 -h         :display usage
--e         :if specified, the binary is put against the end of the address space"
+-e         :if specified, the binary is put against the end of the address space
+-n         :don't link asms associated with included system header files"
 }
 
 #Binary out - will always be generated
@@ -34,11 +35,15 @@ DO_END=false
 CLEAN_ASM_OUTPUT=""
 DP_CLEAN_ASM=false
 
+#Weather to link files in .incl
+LINK_INCS=true
+INCL_FILE=""
+
 #Files to link with
 LINKS="/home/edward/scp_software/lib/lib_asms/cret.asm /home/edward/scp_software/lib/lib_asms/crun.asm /home/edward/scp_software/lib/lib_asms/scp_lib.s /home/edward/scp_software/lib/lib_asms/small_c_lib.s"
 #File to link at end
 END_LINK=""
-while getopts "eho:m:a:s:l:L:f:" opt; do
+while getopts "ehno:m:a:s:l:L:f:" opt; do
   case $opt in
     e)
 	DO_END=true
@@ -50,6 +55,9 @@ while getopts "eho:m:a:s:l:L:f:" opt; do
     	usage
     	exit 1
     	;;
+    n)
+        LINK_INCS=false
+        ;;
     m)
     	MIF_OUTPUT=$OPTARG
     	DO_MIF=true
@@ -89,10 +97,11 @@ fi
 
 shift $((OPTIND-1))
 
-#Compile the file
-sccscp $1
+#Compile the file, generating .incl
+sccscp -i $1
 #figure out what file it was assembled to (.s instead of .c)
 name=$(echo "$1" | cut -f 1 -d '.')
+INCL_FILE="$name.incl"
 name="$name.s"
 if [ "$DO_CLEAN_ASM" == "true" ]; then
 	cp $name $CLEAN_ASM_OUTPUT
@@ -101,8 +110,14 @@ fi
 #Add output to linking
 LINKS="$LINKS $name $END_LINK"
 
-scplnk "SCP_ASM_LINKED.s" $LINKS
+if [ "$LINK_INCS" == "true" ]; then
+	scplnk -i $INCL_FILE "SCP_ASM_LINKED.s" $LINKS
+else
+	scplnk "SCP_ASM_LINKED.s" $LINKS
+fi
 
+#remove .incl file
+rm $INCL_FILE
 
 #Assemble
 if [ "$DO_END" == "true" ]; then

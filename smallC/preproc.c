@@ -36,7 +36,7 @@ FILE* fix_include_name () {
                 strcat(buf2, buf);
 					      //write .incl
 								if(iflag){
-									fputs(buf, inclf);
+									fputs(buf2, inclf);
 									fputc('\n', inclf);
 								}
 				        //Copy buf to .incl file here
