@@ -41,6 +41,33 @@ openout ()
 
 }
 
+// open .incl file
+
+openincl ()
+{
+	inclfname(fname);
+	printf(".incl file: %s\n", fname);
+	if ((inclf = fopen (fname, "w")) == NULL) {
+                pl ("Open failure on .incl - run scc without -i to not generate .incl");
+                return (NO);
+        }
+	return (YES);
+}
+
+// change input filename to .incl filename
+
+inclfname (s)
+char    *s;
+{
+        while (*s)
+                s++;
+        *--s = 'i';
+				*++s = 'n';
+				*++s = 'c';
+				*++s = 'l';
+
+}
+
 /*
  *      change input filename to output filename
  */

@@ -1,0 +1,11 @@
+usage: sccXXXX [-tcsah] [-dSYM[=VALUE]] [-l[log]] files
+-t: output c source as asm comments
+-a: no argument count in A to function calls
+-d: define macro
+-u: use undocumented 8085 instructions LDSI, LHLX, SHLX
+-s: assemble generated output, not implemented
+-c: link, not implemented
+-h: displays usage
+-l: set the log
+log - a file that you wish to contain most (if not all) messages
+files - one or more files. no filename redirects to stdin/stdout

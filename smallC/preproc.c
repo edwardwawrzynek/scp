@@ -34,6 +34,7 @@ FILE* fix_include_name () {
         if (c1 == '<' || !(fp = fopen(buf, "r"))) {
                 strcpy(buf2, DEFLIB);
                 strcat(buf2, buf);
+				        //Copy buf to .incl file here
                 fp = fopen(buf2, "r");
         }
         return (fp);
