@@ -40,7 +40,7 @@ LINK_INCS=true
 INCL_FILE=""
 
 #Files to link with
-LINKS="/home/edward/scp_software/lib/lib_asms/cret.asm /home/edward/scp_software/lib/lib_asms/crun.asm /home/edward/scp_software/lib/lib_asms/scp_lib.s /home/edward/scp_software/lib/lib_asms/small_c_lib.s"
+LINKS="/home/edward/scp_software/lib/include/cret.asm /home/edward/scp_software/lib/include/crun.asm"
 #File to link at end
 END_LINK=""
 while getopts "ehno:m:a:s:l:L:f:" opt; do

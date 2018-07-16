@@ -1,5 +1,5 @@
 Flow report for scp
-Sun Jul  1 14:25:54 2018
+Tue Jul  3 16:39:41 2018
 Quartus Prime Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
 
 
@@ -40,7 +40,7 @@ refer to the applicable agreement for further details.
 +-------------------------------------------------------------------------------+
 ; Flow Summary                                                                  ;
 +---------------------------------+---------------------------------------------+
-; Flow Status                     ; Successful - Sun Jul  1 14:25:54 2018       ;
+; Flow Status                     ; Successful - Tue Jul  3 16:39:41 2018       ;
 ; Quartus Prime Version           ; 17.1.0 Build 590 10/25/2017 SJ Lite Edition ;
 ; Revision Name                   ; scp                                         ;
 ; Top-level Entity Name           ; scp                                         ;
@@ -125,7 +125,10 @@ refer to the applicable agreement for further details.
 ; Assembler                 ; 00:00:08     ; 1.0                     ; 1003 MB             ; 00:00:08                           ;
 ; TimeQuest Timing Analyzer ; 00:00:17     ; 2.3                     ; 1250 MB             ; 00:00:34                           ;
 ; EDA Netlist Writer        ; 00:00:03     ; 1.0                     ; 1252 MB             ; 00:00:03                           ;
-; Total                     ; 00:02:27     ; --                      ; --                  ; 00:05:04                           ;
+; MIF/HEX Update            ; 00:00:06     ; 1.0                     ; 1314 MB             ; 00:00:06                           ;
+; Assembler                 ; 00:00:09     ; 1.0                     ; 995 MB              ; 00:00:09                           ;
+; EDA Netlist Writer        ; 00:00:03     ; 1.0                     ; 1253 MB             ; 00:00:03                           ;
+; Total                     ; 00:02:45     ; --                      ; --                  ; 00:05:22                           ;
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 
@@ -139,6 +142,9 @@ refer to the applicable agreement for further details.
 ; Assembler                 ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
 ; TimeQuest Timing Analyzer ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
 ; EDA Netlist Writer        ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; MIF/HEX Update            ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; Assembler                 ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
+; EDA Netlist Writer        ; ubuntu-MacBookPro ; Ubuntu 18.04 ; 18         ; x86_64         ;
 +---------------------------+-------------------+--------------+------------+----------------+
 
 
@@ -149,6 +155,9 @@ quartus_map --read_settings_files=on --write_settings_files=off scp -c scp
 quartus_fit --read_settings_files=off --write_settings_files=off scp -c scp
 quartus_asm --read_settings_files=off --write_settings_files=off scp -c scp
 quartus_sta scp -c scp
+quartus_eda --read_settings_files=off --write_settings_files=off scp -c scp
+quartus_cdb scp -c scp --update_mif
+quartus_asm --read_settings_files=on --write_settings_files=off scp -c scp
 quartus_eda --read_settings_files=off --write_settings_files=off scp -c scp
 
 

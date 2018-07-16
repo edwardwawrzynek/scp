@@ -340,6 +340,7 @@ gen_def_byte() {
  * print pseudo-op to define storage
  */
 gen_def_storage() {
+		printf("Storage Definition not implemented\n");
     output_with_tab (".ds\t");
 }
 
