@@ -389,10 +389,12 @@ dump_struct(SYMBOL *symbol, int position) {
     newline();
     for (i=0; i<number_of_members; i++) {
         /* i is the index of current member, get type */
+				SYMBOL member = member_table[
+            tag_table[symbol->tagidx].member_idx + i];
         int member_type = member_table[
             tag_table[symbol->tagidx].member_idx + i].type;
 
-        if (member_type & CINT) {
+        if ((member.type & CINT) || (member.identity == POINTER)) {
             gen_def_word();
         } else {
             gen_def_byte();
