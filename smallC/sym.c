@@ -140,7 +140,6 @@ int initials(char *symbol_name, int type, int identity, int dim, int otag) {
 struct_init(TAG_SYMBOL *tag, char *symbol_name) {
     int dim ;
     int member_idx;
-
     member_idx = tag->member_idx;
     while (member_idx < tag->member_idx + tag->number_of_members) {
         init(symbol_name, member_table[tag->member_idx + member_idx].type,
