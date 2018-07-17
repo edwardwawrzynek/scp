@@ -184,8 +184,13 @@ doLocalAnsiArgument(int type) {
             argstk = argstk + INTSIZE;
             ptr = local_table_index;
 						//If struct, set tagidx
-						if(type == STRUCT)
+						if(type == STRUCT){
+							//only struct pointers can be passed, as structs can take more than two bytes alloted for each argument
+							if(identity != POINTER){
+								error("only struct pointers, not structs, can be passed");
+							}
 							symbol_table[argptr].tagidx = otag;
+						}
             /* modify stack offset as we push more params */
             while (ptr != NUMBER_OF_GLOBALS) {
                 ptr = ptr - 1;
