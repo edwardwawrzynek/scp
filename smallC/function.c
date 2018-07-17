@@ -119,7 +119,7 @@ getarg(int t) {
                 symbol_table[argptr].type = t;
                 address = argtop - symbol_table[argptr].offset;
                 symbol_table[argptr].offset = address;
-								//If struct, set tagidx here
+								//If struct, set tagidx here - only used for k&r style
             } else
                 error("expecting argument name");
         }
@@ -159,8 +159,18 @@ doAnsiArguments() {
 
 doLocalAnsiArgument(int type) {
     char symbol_name[NAMESIZE];
-    int identity, address, argptr, ptr;
-
+    int identity, address, argptr, ptr, otag;
+		if(type == STRUCT){
+			//Read struct type into otag
+			if (symname(symbol_name) == 0) { /* legal name ? */
+      	illname();
+      }
+      if ((otag=find_tag(symbol_name)) == -1) /* structure not previously defined */
+      {
+      	//Structures can't be defined in an argument
+				error("struct tag not defined");
+      }
+		}
     if (match("*")) {
         identity = POINTER;
     } else {
@@ -173,6 +183,9 @@ doLocalAnsiArgument(int type) {
             argptr = add_local (symbol_name, identity, type, 0, AUTO);
             argstk = argstk + INTSIZE;
             ptr = local_table_index;
+						//If struct, set tagidx
+						if(type == STRUCT)
+							symbol_table[argptr].tagidx = otag;
             /* modify stack offset as we push more params */
             while (ptr != NUMBER_OF_GLOBALS) {
                 ptr = ptr - 1;

@@ -251,7 +251,10 @@ declare_local(int typ, int stclass, int otag) {
 									symbol_table[current_symbol_table_idx].tagidx = otag;
 								};
             } else
-                add_local(sname, j, typ, k, LSTATIC);
+                current_symbol_table_idx = add_local(sname, j, typ, k, LSTATIC);
+								if(typ == STRUCT){
+									symbol_table[current_symbol_table_idx].tagidx = otag;
+								};
             break;
         }
         if (!match(","))
