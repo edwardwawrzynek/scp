@@ -25,7 +25,7 @@
  * print all assembler info before any code is generated
  */
 void header () {
-    output_string (";\tSmall C\n;\tSmall C Processor Backend Coder (Minimally works for some stuff)\n;");
+    output_string (";\tSmall C\n;\tSmall C Processor Backend Coder(Mostly Works)\n;");
     frontend_version();
     newline ();
     output_string (";\tprogram area SMALLC_GENERATED is RELOCATABLE\n");
