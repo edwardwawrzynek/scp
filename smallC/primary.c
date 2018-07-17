@@ -21,8 +21,8 @@ primary (LVALUE *lval) {
     if (amatch("sizeof", 6)) {
         needbrack("(");
         gen_immediate();
-        if (amatch("int", 3)) output_number(INTSIZE);
-        else if (amatch("char", 4)) output_number(1);
+        if (amatch("int", 3) || amatch("unsigned int", 12)) output_number(INTSIZE);
+        else if (amatch("char", 4) || amatch("unsigned char", 13)) output_number(1);
         else if (symname(sname)) {
             if (((symbol_table_idx = find_locale(sname)) > -1) ||
                 ((symbol_table_idx = find_global(sname)) > -1)) {
