@@ -53,7 +53,6 @@ declare_global(int type, int storage, TAG_SYMBOL *mtag, int otag, int is_struct)
                 break;
             } else if (is_struct) {
                 /* structure member, mtag->size is offset */
-								printf("%s %u\n", sname, identity);
                 add_member(sname, identity, type, mtag->size, storage, (type & CINT || identity == POINTER) ? dim*INTSIZE: dim);
                 /* store (correctly scaled) size of member in tag table entry */
                 if (identity == POINTER)
@@ -247,7 +246,8 @@ declare_local(int typ, int stclass, int otag) {
             }
             if (stclass != LSTATIC) {
                 stkp = gen_modify_stack(stkp - k);
-                add_local(sname, j, typ, stkp, AUTO);
+                current_symbol_table_idx = add_local(sname, j, typ, stkp, AUTO);
+								symbol_table[current_symbol_table_idx].tagidx = otag;
             } else
                 add_local(sname, j, typ, k, LSTATIC);
             break;

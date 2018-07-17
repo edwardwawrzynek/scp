@@ -35,7 +35,6 @@ SYMBOL *find_member(TAG_SYMBOL *tag, char *sname) {
     int member_idx;
 
     member_idx = tag->member_idx;
-
     while (member_idx < tag->member_idx + tag->number_of_members) {
         if (strcmp(member_table[member_idx].name, sname) == 0)
             return &member_table[member_idx];
@@ -75,7 +74,6 @@ add_member(char *sname, char identity, char type, int offset, int storage_class,
 int define_struct(char *sname, int storage, int is_struct) {
     TAG_SYMBOL *symbol;
     char *buffer_ptr;
-
     /*tag_table_index++;*/
     if (tag_table_index >= NUMTAG) {
         error("struct table overflow");
