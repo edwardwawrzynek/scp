@@ -401,9 +401,7 @@ dump_struct(SYMBOL *symbol, int position) {
 						}
 						else{
 							output_number(0);
-							if(array_i % 10 != 9){
-								output_byte(',');
-							}
+							output_byte(',');
 						}
 					}
 				}
