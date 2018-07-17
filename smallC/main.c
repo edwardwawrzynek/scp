@@ -391,24 +391,40 @@ dump_struct(SYMBOL *symbol, int position) {
         /* i is the index of current member, get type */
 				SYMBOL member = member_table[
             tag_table[symbol->tagidx].member_idx + i];
-        int member_type = member_table[
-            tag_table[symbol->tagidx].member_idx + i].type;
-
-        if ((member.type & CINT) || (member.identity == POINTER)) {
-            gen_def_word();
-        } else {
-            gen_def_byte();
-        }
-        if (position < get_size(symbol->name)) {
-            /* dump data */
-            value = get_item_at(symbol->name, position*number_of_members+i,
-                &tag_table[symbol->tagidx]);
-            output_number(value);
-        } else {
-            /* dump zero, no more data available */
-            output_number(0);
-        }
-        newline();
+				if(member.identity == ARRAY){
+					for(unsigned int array_i = 0; array_i < member.struct_size; array_i++){
+						if(array_i % 10 == 0){
+							newline();
+							gen_def_byte();
+							output_number(0);
+							output_byte(',');
+						}
+						else{
+							output_number(0);
+							if(array_i % 10 != 9){
+								output_byte(',');
+							}
+						}
+					}
+				}
+				//init'd data
+				else{
+        	if ((member.type & CINT) || (member.identity == POINTER)) {
+        	    gen_def_word();
+        	} else {
+        	    gen_def_byte();
+        	}
+        	if (position < get_size(symbol->name)) {
+        	    /* dump data */
+        	    value = get_item_at(symbol->name, position*number_of_members+i,
+        	        &tag_table[symbol->tagidx]);
+        	    output_number(value);
+        	} else {
+        	    /* dump zero, no more data available */
+        	    output_number(0);
+        	}
+        	newline();
+				}
     }
 }
 

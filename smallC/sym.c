@@ -53,12 +53,14 @@ declare_global(int type, int storage, TAG_SYMBOL *mtag, int otag, int is_struct)
                 break;
             } else if (is_struct) {
                 /* structure member, mtag->size is offset */
-                add_member(sname, identity, type, mtag->size, storage);
+								printf("%s %u\n", sname, identity);
+                add_member(sname, identity, type, mtag->size, storage, (type & CINT || identity == POINTER) ? dim*INTSIZE: dim);
                 /* store (correctly scaled) size of member in tag table entry */
                 if (identity == POINTER)
                     type = CINT;
                 scale_const(type, otag, &dim);
                 mtag->size += dim;
+								
             }
             else {
                 /* union member, offset is always zero */
