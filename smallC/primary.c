@@ -8,7 +8,7 @@
 
 primary (LVALUE *lval) {
     char    sname[NAMESIZE];
-    int     num[1], k, symbol_table_idx, offset, reg;
+    int     num[1], k, symbol_table_idx, offset, reg, otag;
     SYMBOL *symbol;
 
     lval->ptr_type = 0;  /* clear pointer/array type */
@@ -23,18 +23,28 @@ primary (LVALUE *lval) {
         gen_immediate();
         if (amatch("int", 3) || amatch("unsigned int", 12)) output_number(INTSIZE);
         else if (amatch("char", 4) || amatch("unsigned char", 13)) output_number(1);
-        else if (symname(sname)) {
+				else if (amatch("struct", 6)){
+					if(symname(sname) == 0){
+						illname();
+					}
+					if((otag = find_tag(sname)) == -1){
+						error("struct tag not defined");
+					}
+					//Write out struct size
+					output_number(tag_table[otag].size);
+				} else if (symname(sname)) {
             if (((symbol_table_idx = find_locale(sname)) > -1) ||
                 ((symbol_table_idx = find_global(sname)) > -1)) {
                 symbol = &symbol_table[symbol_table_idx];
                 if (symbol->storage == LSTATIC)
                     error("sizeof local static");
+								//offset is only the correct size for global variables
                 offset = symbol->offset;
                 if ((symbol->type & CINT) ||
                     (symbol->identity == POINTER))
                     offset *= INTSIZE;
                 else if (symbol->type == STRUCT)
-                    offset *= tag_table[symbol->tagidx].size;
+                    offset = tag_table[symbol->tagidx].size;
                 output_number(offset);
             } else {
                 error("sizeof undeclared variable");
