@@ -94,13 +94,24 @@ newfunc() {
  * @return
  */
 getarg(int t) {
-    int j, legalname, address, argptr;
+    int j, legalname, address, argptr, otag;
     char n[NAMESIZE];
 
     FOREVER
-    {
+    {	
         if (argstk == 0)
             return;
+				//If struct, read in otag
+				if(t == STRUCT){
+					if (symname(n) == 0) { /* legal name ? */
+      			illname();
+      		}
+      		if ((otag=find_tag(n)) == -1) /* structure not previously defined */
+      		{
+      			//Structures can't be defined in an argument
+						error("struct tag not defined");
+      		}
+				}
         if (match("*"))
             j = POINTER;
         else
@@ -119,7 +130,13 @@ getarg(int t) {
                 symbol_table[argptr].type = t;
                 address = argtop - symbol_table[argptr].offset;
                 symbol_table[argptr].offset = address;
-								//If struct, set tagidx here - only used for k&r style
+								//If struct, set tagidx here
+								if(t == STRUCT){
+									if(j != POINTER){
+										error("only struct pointers, not structs, can be passed");
+									}
+									symbol_table[argptr].tagidx = otag;
+								}
             } else
                 error("expecting argument name");
         }
