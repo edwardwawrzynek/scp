@@ -119,6 +119,7 @@ getarg(int t) {
                 symbol_table[argptr].type = t;
                 address = argtop - symbol_table[argptr].offset;
                 symbol_table[argptr].offset = address;
+								//If struct, set tagidx here
             } else
                 error("expecting argument name");
         }

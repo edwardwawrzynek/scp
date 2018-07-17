@@ -247,7 +247,9 @@ declare_local(int typ, int stclass, int otag) {
             if (stclass != LSTATIC) {
                 stkp = gen_modify_stack(stkp - k);
                 current_symbol_table_idx = add_local(sname, j, typ, stkp, AUTO);
-								symbol_table[current_symbol_table_idx].tagidx = otag;
+								if(typ == STRUCT){
+									symbol_table[current_symbol_table_idx].tagidx = otag;
+								};
             } else
                 add_local(sname, j, typ, k, LSTATIC);
             break;
