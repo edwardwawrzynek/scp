@@ -188,6 +188,8 @@ first_pass_cmd(){
   dir = 0;
   pos = 0;
   e = 0;
+	//pointer to start of arguments
+	int arg_start;
   //Get the command name into name
 
       e = buf[pos];
@@ -200,6 +202,7 @@ first_pass_cmd(){
         e = buf[pos];
       }
       name[pos] = '\0';
+			arg_start = pos+1;
       //if not a directive, no need to count args, just return length
       if(dir == 0){
         return cmd_lens[get_opcode(name)]+1;
@@ -225,6 +228,9 @@ first_pass_cmd(){
       if(!strcmp(name,".dw")){
         return nargs << 1;
       }
+			if(!strcmp(name,".ds")){
+				return atoi(buf+arg_start+1);
+			}
       return 0;
 }
 
@@ -294,6 +300,8 @@ first_pass(){
 second_handle_dir(){
   int pos;
   char c;
+	int arg1;
+	int i;
   pos = 0;
   if(!strcmp(name, ".module")){
     MODULE_NUM++;
@@ -330,6 +338,12 @@ second_handle_dir(){
       }
     }
   }
+	else if(!strcmp(name, ".ds")){
+		arg1 = atoi(args+pos+1);
+		for(i = 0; i < arg1; i++){
+			write_num(0,1);
+		}
+	}
 	else{
 		print("Error: no such directive: ");
 		print(name);
