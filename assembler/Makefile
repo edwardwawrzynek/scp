@@ -1,6 +1,6 @@
 all: scpasm scplnk scpmif
-scpasm: machine_back.c main.c
-	gcc -o scpasm main.c
+scpasm: assembler_machine_back.c assembler.c
+	gcc -o scpasm assembler.c
 scplnk: linker.c
 	gcc -o scplnk linker.c
 scpmif: bin_to_mif.c
