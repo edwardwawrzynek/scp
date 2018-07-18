@@ -88,7 +88,7 @@ hier1 (LVALUE *lval) {
             switch (fc) {
                 case '-':       {
                     if (dbltest(lval,lval2)) {
-                        gen_multiply(lval->ptr_type, lval->tagsym ? lval->tagsym->size : INTSIZE);
+                        gen_multiply(lval->ptr_type, lval->symbol->identity, lval->tagsym ? lval->tagsym->size : INTSIZE);
                     }
                     gen_sub();
                     result (lval, lval2);
@@ -96,7 +96,7 @@ hier1 (LVALUE *lval) {
                 }
                 case '+':       {
                     if (dbltest(lval,lval2)) {
-                        gen_multiply(lval->ptr_type, lval->tagsym ? lval->tagsym->size : INTSIZE);
+                        gen_multiply(lval->ptr_type, lval->symbol->identity, lval->tagsym ? lval->tagsym->size : INTSIZE);
                     }
                     gen_add (lval,lval2);
                     result(lval,lval2);
@@ -494,7 +494,7 @@ hier8 (LVALUE *lval) {
                 k = rvalue(lval2, k);
             /* if left is pointer and right is int, scale right */
             if (dbltest(lval,lval2)) {
-                gen_multiply(lval->ptr_type, lval->tagsym ? lval->tagsym->size : INTSIZE);
+                gen_multiply(lval->ptr_type, lval->symbol->identity, lval->tagsym ? lval->tagsym->size : INTSIZE);
             }
             /* will scale left if right int pointer and left int */
             gen_add (lval,lval2);
@@ -509,7 +509,7 @@ hier8 (LVALUE *lval) {
                 in first case, int is scaled up,
                 in second, result is scaled down. */
             if (dbltest(lval,lval2)) {
-                gen_multiply(lval->ptr_type, lval->tagsym ? lval->tagsym->size : INTSIZE);
+                gen_multiply(lval->ptr_type, lval->symbol->identity, lval->tagsym ? lval->tagsym->size : INTSIZE);
             }
             gen_sub ();
             /* if both pointers, scale result */
@@ -714,7 +714,7 @@ hier11(LVALUE *lval) {
                 gen_push(k);
                 expression (YES);
                 needbrack ("]");
-                gen_multiply(ptr->type, tag_table[ptr->tagidx].size);
+                gen_multiply(ptr->type, ptr->identity, tag_table[ptr->tagidx].size);
                 gen_add (NULL,NULL);
                 /*lval->symbol = 0;*/
                 lval->indirect = ptr->type;
