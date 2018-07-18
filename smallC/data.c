@@ -60,7 +60,7 @@ int     cflag;
 int     errs;
 int     aflag;
 int     uflag;  /* undocumented 8085 instructions */
-int			iflag;  /* outputs .incl file containing included files in compilation */
+int            iflag;  /* outputs .incl file containing included files in compilation */
 
 INITIALS initials_table[NUMBER_OF_GLOBALS];
 char initials_data_table[INITIALS_SIZE]; /* 5kB space for initialisation data */

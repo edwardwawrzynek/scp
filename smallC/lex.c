@@ -222,8 +222,8 @@ int get_type() {
     } else if (amatch ("int", 3)) {
         return CINT;
     } else if (amatch ("struct", 6)) {
-			return STRUCT;
-		}
+            return STRUCT;
+        }
     return 0;
 }
 

@@ -20,7 +20,6 @@ declare_global(int type, int storage, TAG_SYMBOL *mtag, int otag, int is_struct)
 {
     int     dim, identity;
     char    sname[NAMESIZE];
-
     FOREVER {
         FOREVER {
             if (endst ())
@@ -59,7 +58,6 @@ declare_global(int type, int storage, TAG_SYMBOL *mtag, int otag, int is_struct)
                     type = CINT;
                 scale_const(type, otag, &dim);
                 mtag->size += dim;
-								
             }
             else {
                 /* union member, offset is always zero */
@@ -247,14 +245,12 @@ declare_local(int typ, int stclass, int otag) {
             if (stclass != LSTATIC) {
                 stkp = gen_modify_stack(stkp - k);
                 current_symbol_table_idx = add_local(sname, j, typ, stkp, AUTO);
-								if(typ == STRUCT){
-									symbol_table[current_symbol_table_idx].tagidx = otag;
-								};
+                if(typ == STRUCT)
+                    symbol_table[current_symbol_table_idx].tagidx = otag;
             } else
                 current_symbol_table_idx = add_local(sname, j, typ, k, LSTATIC);
-								if(typ == STRUCT){
-									symbol_table[current_symbol_table_idx].tagidx = otag;
-								};
+                if(typ == STRUCT)
+                    symbol_table[current_symbol_table_idx].tagidx = otag;
             break;
         }
         if (!match(","))

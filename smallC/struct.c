@@ -66,7 +66,7 @@ add_member(char *sname, char identity, char type, int offset, int storage_class,
     symbol->type = type;
     symbol->storage = storage_class;
     symbol->offset = offset;
-		symbol->struct_size = member_size;
+        symbol->struct_size = member_size;
 
     member_table_index++;
 }

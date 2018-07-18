@@ -259,7 +259,7 @@ gen_pop() {
  * swap the primary register and the top of the stack
  */
 gen_swap_stack() {
-		printf("Warning: stack swap not implemented\n");
+        printf("Warning: stack swap not implemented\n");
     output_line ("xthl");
 }
 /**
@@ -340,7 +340,7 @@ gen_def_byte() {
  * print pseudo-op to define storage
  */
 gen_def_storage() {
-		printf("Storage Definition not implemented\n");
+        printf("Storage Definition not implemented\n");
     output_with_tab (".ds\t");
 }
 
@@ -394,12 +394,12 @@ gen_modify_stack(int newstkp) {
     output_line ("sphl");
     gen_swap ();
     return (newstkp);*/
-		//Only write out if there is actually a change
-		if(k){
-    	output_with_tab ("mdsp\t");
-    	output_number (k);
-    	newline();
-		}
+        //Only write out if there is actually a change
+        if(k){
+        output_with_tab ("mdsp\t");
+        output_number (k);
+        newline();
+        }
     return (newstkp);
 }
 
@@ -407,8 +407,8 @@ gen_modify_stack(int newstkp) {
  * multiply the primary register by INTSIZE
  */
 gen_multiply_by_two() {
-		output_line ("lwia\t#2");
-		output_line ("amul\t");
+        output_line ("lwia\t#2");
+        output_line ("amul\t");
 }
 
 /**
@@ -428,7 +428,7 @@ gen_divide_by_two() {
  */
 gen_jump_case() {
     printf("Case not implemented\n");
-		//output_with_tab ("jmp \tcccase");
+        //output_with_tab ("jmp \tcccase");
     newline ();
 }
 
@@ -667,7 +667,7 @@ gen_less_or_equal() {
 gen_greater_than() {
     gen_pop();
     output_line ("asle\t");
-		gen_logical_negation();
+        gen_logical_negation();
 }
 
 /**
@@ -676,7 +676,7 @@ gen_greater_than() {
 gen_greater_or_equal() {
     gen_pop();
     output_line ("aslt\t");
-		gen_logical_negation();
+        gen_logical_negation();
 }
 
 /**
@@ -701,7 +701,7 @@ gen_unsigned_less_or_equal() {
 gen_usigned_greater_than() {
     gen_pop();
     output_line ("aule\t");
-		gen_logical_negation();
+        gen_logical_negation();
 }
 
 /**
@@ -710,7 +710,7 @@ gen_usigned_greater_than() {
 gen_unsigned_greater_or_equal() {
     gen_pop();
     output_line ("ault\t");
-		gen_logical_negation();
+        gen_logical_negation();
 }
 
 char *inclib() {
@@ -732,7 +732,7 @@ char *inclib() {
  */
 gnargs(d)
 int     d; {
-		//Probably less than 256 args
+    //Probably less than 256 args
     output_string ("\tlbib\t");
     output_number(d);
     newline ();
