@@ -21,18 +21,30 @@ primary (LVALUE *lval) {
     if (amatch("sizeof", 6)) {
         needbrack("(");
         gen_immediate();
-        if (amatch("int", 3) || amatch("unsigned int", 12)) output_number(INTSIZE);
-        else if (amatch("char", 4) || amatch("unsigned char", 13)) output_number(1);
-                else if (amatch("struct", 6)){
-                    if(symname(sname) == 0){
-                        illname();
-                    }
-                    if((otag = find_tag(sname)) == -1){
-                        error("struct tag not defined");
-                    }
-                    //Write out struct size
-                    output_number(tag_table[otag].size);
-                } else if (symname(sname)) {
+        if (amatch("int", 3) || amatch("unsigned int", 12)){
+            blanks();
+            //Pointers are also INTSIZE
+            match("*");
+            output_number(INTSIZE);
+        } else if (amatch("char", 4) || amatch("unsigned char", 13)){
+            blanks();
+            if(match("*"))
+                output_number(INTSIZE);
+            else
+                output_number(1);
+        } else if (amatch("struct", 6)){
+            if(symname(sname) == 0){
+                illname();
+            }
+            if((otag = find_tag(sname)) == -1){
+                error("struct tag not defined");
+            }
+            //Write out struct size
+            if(match("*"))
+                output_number(INTSIZE);
+            else
+                output_number(tag_table[otag].size);
+        } else if (symname(sname)) {
             if (((symbol_table_idx = find_locale(sname)) > -1) ||
                 ((symbol_table_idx = find_global(sname)) > -1)) {
                 symbol = &symbol_table[symbol_table_idx];
