@@ -785,20 +785,17 @@ add_offset(int val) {
  * @param type
  * @param size
  */
-gen_multiply(int type, int identity, int size) {
+gen_multiply(int type, int size) {
     switch (type) {
         case CINT:
         case UINT:
             gen_multiply_by_two();
             break;
         case STRUCT:
-            //Pointer additions with structs shouldn't scale
-            if(identity != POINTER){
-                gen_immediate2();
-                output_number(size);
-                newline();
-                output_line ("amul\t");
-            }
+            gen_immediate2();
+            output_number(size);
+            newline();
+            output_line ("amul\t");
             break ;
         default:
             break;
