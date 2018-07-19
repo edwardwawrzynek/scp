@@ -635,7 +635,10 @@ hier10 (LVALUE *lval) {
         inbyte();
         k = hier10 (lval);
         if ((k & FETCH) == 0) {
-            error ("illegal address");
+            /* struct addresses can be passed as arguments, and don't need special handling to be passed */
+            if (lval->symbol->type != STRUCT){
+                error ("illegal address");
+            }
             return (0);
         }
         ptr = lval->symbol;

@@ -245,12 +245,13 @@ declare_local(int typ, int stclass, int otag) {
             if (stclass != LSTATIC) {
                 stkp = gen_modify_stack(stkp - k);
                 current_symbol_table_idx = add_local(sname, j, typ, stkp, AUTO);
-                if(typ == STRUCT)
-                    symbol_table[current_symbol_table_idx].tagidx = otag;
-            } else
+                if(typ == STRUCT){}
+                    //symbol_table[current_symbol_table_idx].tagidx = otag;
+            } else {
                 current_symbol_table_idx = add_local(sname, j, typ, k, LSTATIC);
-                if(typ == STRUCT)
-                    symbol_table[current_symbol_table_idx].tagidx = otag;
+                if(typ == STRUCT){}
+                    //symbol_table[current_symbol_table_idx].tagidx = otag;
+            }
             break;
         }
         if (!match(","))
