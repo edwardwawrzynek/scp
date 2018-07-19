@@ -392,18 +392,9 @@ dump_struct(SYMBOL *symbol, int position) {
 				SYMBOL member = member_table[
             tag_table[symbol->tagidx].member_idx + i];
 				if(member.identity == ARRAY){
-					for(unsigned int array_i = 0; array_i < member.struct_size; array_i++){
-						if(array_i % 10 == 0){
-							newline();
-							gen_def_byte();
-							output_number(0);
-							output_byte(',');
-						}
-						else{
-							output_number(0);
-							output_byte(',');
-						}
-					}
+					gen_def_storage();
+                    output_number(member.struct_size);
+                    newline();
 				}
 				//init'd data
 				else{
