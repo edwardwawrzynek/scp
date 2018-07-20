@@ -1,5 +1,5 @@
 TimeQuest Timing Analyzer report for scp
-Sun Jul  1 14:25:49 2018
+Fri Jul 20 17:51:06 2018
 Quartus Prime Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
 
 
@@ -100,14 +100,14 @@ refer to the applicable agreement for further details.
 ; Number detected on machine ; 4           ;
 ; Maximum allowed            ; 4           ;
 ;                            ;             ;
-; Average used               ; 2.35        ;
+; Average used               ; 2.31        ;
 ; Maximum used               ; 4           ;
 ;                            ;             ;
 ; Usage by Processor         ; % Time Used ;
 ;     Processor 1            ; 100.0%      ;
-;     Processor 2            ;  45.3%      ;
-;     Processor 3            ;  44.9%      ;
-;     Processor 4            ;  44.9%      ;
+;     Processor 2            ;  43.9%      ;
+;     Processor 3            ;  43.4%      ;
+;     Processor 4            ;  43.3%      ;
 +----------------------------+-------------+
 
 
@@ -116,7 +116,7 @@ refer to the applicable agreement for further details.
 +---------------+--------+--------------------------+
 ; SDC File Path ; Status ; Read at                  ;
 +---------------+--------+--------------------------+
-; csp.sdc       ; OK     ; Sun Jul  1 14:25:34 2018 ;
+; csp.sdc       ; OK     ; Fri Jul 20 17:50:50 2018 ;
 +---------------+--------+--------------------------+
 
 
@@ -779,7 +779,7 @@ No non-DPA dedicated SERDES Receiver circuitry present in device or used in desi
 Info: *******************************************************************
 Info: Running Quartus Prime TimeQuest Timing Analyzer
     Info: Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
-    Info: Processing started: Sun Jul  1 14:25:32 2018
+    Info: Processing started: Fri Jul 20 17:50:47 2018
 Info: Command: quartus_sta scp -c scp
 Info: qsta_default_script.tcl version: #3
 Info (20032): Parallel compilation is enabled and will use up to 4 processors
@@ -1016,9 +1016,9 @@ Info (332114): Report Metastability: Found 2 synchronizer chains.
 Info (332102): Design is not fully constrained for setup requirements
 Info (332102): Design is not fully constrained for hold requirements
 Info: Quartus Prime TimeQuest Timing Analyzer was successful. 0 errors, 9 warnings
-    Info: Peak virtual memory: 1250 megabytes
-    Info: Processing ended: Sun Jul  1 14:25:49 2018
-    Info: Elapsed time: 00:00:17
+    Info: Peak virtual memory: 1249 megabytes
+    Info: Processing ended: Fri Jul 20 17:51:06 2018
+    Info: Elapsed time: 00:00:19
     Info: Total CPU time (on all processors): 00:00:35
 
 
