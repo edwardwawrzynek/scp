@@ -4,6 +4,6 @@ module mmu_addr_add(
 	output [10:0] out
 );
 
-assign out = page + ptb;
+assign out = ptb + page;
 
 endmodule

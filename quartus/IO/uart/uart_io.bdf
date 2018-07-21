@@ -148,83 +148,6 @@ refer to the applicable agreement for further details.
 	)
 )
 (symbol
-	(rect 128 72 296 216)
-	(text "uart" (rect 5 0 26 11)(font "Arial" ))
-	(text "inst01" (rect 8 128 38 139)(font "Arial" ))
-	(port
-		(pt 0 32)
-		(input)
-		(text "din[7..0]" (rect 0 0 40 11)(font "Arial" ))
-		(text "din[7..0]" (rect 21 27 61 38)(font "Arial" ))
-		(line (pt 0 32)(pt 16 32)(line_width 3))
-	)
-	(port
-		(pt 0 48)
-		(input)
-		(text "wr_en" (rect 0 0 31 11)(font "Arial" ))
-		(text "wr_en" (rect 21 43 52 54)(font "Arial" ))
-		(line (pt 0 48)(pt 16 48))
-	)
-	(port
-		(pt 0 64)
-		(input)
-		(text "clk" (rect 0 0 15 11)(font "Arial" ))
-		(text "clk" (rect 21 59 36 70)(font "Arial" ))
-		(line (pt 0 64)(pt 16 64))
-	)
-	(port
-		(pt 0 80)
-		(input)
-		(text "rx" (rect 0 0 10 11)(font "Arial" ))
-		(text "rx" (rect 21 75 31 86)(font "Arial" ))
-		(line (pt 0 80)(pt 16 80))
-	)
-	(port
-		(pt 0 96)
-		(input)
-		(text "rdy_clr" (rect 0 0 34 11)(font "Arial" ))
-		(text "rdy_clr" (rect 21 91 55 102)(font "Arial" ))
-		(line (pt 0 96)(pt 16 96))
-	)
-	(port
-		(pt 168 32)
-		(output)
-		(text "tx" (rect 0 0 10 11)(font "Arial" ))
-		(text "tx" (rect 139 27 149 38)(font "Arial" ))
-		(line (pt 168 32)(pt 152 32))
-	)
-	(port
-		(pt 168 48)
-		(output)
-		(text "tx_busy" (rect 0 0 40 11)(font "Arial" ))
-		(text "tx_busy" (rect 114 43 154 54)(font "Arial" ))
-		(line (pt 168 48)(pt 152 48))
-	)
-	(port
-		(pt 168 64)
-		(output)
-		(text "rdy" (rect 0 0 16 11)(font "Arial" ))
-		(text "rdy" (rect 134 59 150 70)(font "Arial" ))
-		(line (pt 168 64)(pt 152 64))
-	)
-	(port
-		(pt 168 80)
-		(output)
-		(text "dout[7..0]" (rect 0 0 46 11)(font "Arial" ))
-		(text "dout[7..0]" (rect 109 75 155 86)(font "Arial" ))
-		(line (pt 168 80)(pt 152 80)(line_width 3))
-	)
-	(parameter
-		"CLK_SPEED"
-		"50000000"
-		""
-		(type "PARAMETER_SIGNED_DEC")	)
-	(drawing
-		(rectangle (rect 16 16 152 128))
-	)
-	(annotation_block (parameter)(rect 128 32 328 64))
-)
-(symbol
 	(rect 128 272 312 384)
 	(text "uartRecFIFO" (rect 5 0 69 11)(font "Arial" ))
 	(text "inst02" (rect 8 96 38 107)(font "Arial" ))
@@ -553,6 +476,83 @@ refer to the applicable agreement for further details.
 		(rectangle (rect 16 16 136 64))
 	)
 	(annotation_block (parameter)(rect 128 824 299 854))
+)
+(symbol
+	(rect 128 72 296 216)
+	(text "uart" (rect 5 0 26 11)(font "Arial" ))
+	(text "inst01" (rect 8 128 37 139)(font "Arial" ))
+	(port
+		(pt 0 32)
+		(input)
+		(text "din[7..0]" (rect 0 0 40 11)(font "Arial" ))
+		(text "din[7..0]" (rect 21 27 61 38)(font "Arial" ))
+		(line (pt 0 32)(pt 16 32)(line_width 3))
+	)
+	(port
+		(pt 0 48)
+		(input)
+		(text "wr_en" (rect 0 0 31 11)(font "Arial" ))
+		(text "wr_en" (rect 21 43 52 54)(font "Arial" ))
+		(line (pt 0 48)(pt 16 48))
+	)
+	(port
+		(pt 0 64)
+		(input)
+		(text "clk" (rect 0 0 15 11)(font "Arial" ))
+		(text "clk" (rect 21 59 36 70)(font "Arial" ))
+		(line (pt 0 64)(pt 16 64))
+	)
+	(port
+		(pt 0 80)
+		(input)
+		(text "rx" (rect 0 0 10 11)(font "Arial" ))
+		(text "rx" (rect 21 75 31 86)(font "Arial" ))
+		(line (pt 0 80)(pt 16 80))
+	)
+	(port
+		(pt 0 96)
+		(input)
+		(text "rdy_clr" (rect 0 0 35 11)(font "Arial" ))
+		(text "rdy_clr" (rect 21 91 56 102)(font "Arial" ))
+		(line (pt 0 96)(pt 16 96))
+	)
+	(port
+		(pt 168 32)
+		(output)
+		(text "tx" (rect 0 0 10 11)(font "Arial" ))
+		(text "tx" (rect 139 27 149 38)(font "Arial" ))
+		(line (pt 168 32)(pt 152 32))
+	)
+	(port
+		(pt 168 48)
+		(output)
+		(text "tx_busy" (rect 0 0 40 11)(font "Arial" ))
+		(text "tx_busy" (rect 114 43 154 54)(font "Arial" ))
+		(line (pt 168 48)(pt 152 48))
+	)
+	(port
+		(pt 168 64)
+		(output)
+		(text "rdy" (rect 0 0 16 11)(font "Arial" ))
+		(text "rdy" (rect 134 59 150 70)(font "Arial" ))
+		(line (pt 168 64)(pt 152 64))
+	)
+	(port
+		(pt 168 80)
+		(output)
+		(text "dout[7..0]" (rect 0 0 46 11)(font "Arial" ))
+		(text "dout[7..0]" (rect 109 75 155 86)(font "Arial" ))
+		(line (pt 168 80)(pt 152 80)(line_width 3))
+	)
+	(parameter
+		"CLK_SPEED"
+		"35000000"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(drawing
+		(rectangle (rect 16 16 152 128))
+	)
+	(annotation_block (parameter)(rect 128 32 328 62))
 )
 (connector
 	(pt 8 248)

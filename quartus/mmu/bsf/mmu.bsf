@@ -47,8 +47,8 @@ refer to the applicable agreement for further details.
 	(port
 		(pt 0 80)
 		(input)
-		(text "PTB[10..0]" (rect 0 0 60 15)(font "Intel Clear" (font_size 8)))
-		(text "PTB[10..0]" (rect 21 75 81 90)(font "Intel Clear" (font_size 8)))
+		(text "ptb[10..0]" (rect 0 0 56 15)(font "Intel Clear" (font_size 8)))
+		(text "ptb[10..0]" (rect 21 75 77 90)(font "Intel Clear" (font_size 8)))
 		(line (pt 0 80)(pt 16 80)(line_width 3))
 	)
 	(port
@@ -61,15 +61,15 @@ refer to the applicable agreement for further details.
 	(port
 		(pt 208 32)
 		(output)
-		(text "addr1[16..0]" (rect 0 0 70 15)(font "Intel Clear" (font_size 8)))
-		(text "addr1[16..0]" (rect 117 27 187 42)(font "Intel Clear" (font_size 8)))
+		(text "addr1[15..0]" (rect 0 0 70 15)(font "Intel Clear" (font_size 8)))
+		(text "addr1[15..0]" (rect 117 27 187 42)(font "Intel Clear" (font_size 8)))
 		(line (pt 208 32)(pt 192 32)(line_width 3))
 	)
 	(port
 		(pt 208 48)
 		(output)
-		(text "addr2[16..0]" (rect 0 0 70 15)(font "Intel Clear" (font_size 8)))
-		(text "addr2[16..0]" (rect 117 43 187 58)(font "Intel Clear" (font_size 8)))
+		(text "addr2[15..0]" (rect 0 0 70 15)(font "Intel Clear" (font_size 8)))
+		(text "addr2[15..0]" (rect 117 43 187 58)(font "Intel Clear" (font_size 8)))
 		(line (pt 208 48)(pt 192 48)(line_width 3))
 	)
 	(drawing
