@@ -1,5 +1,5 @@
 Analysis & Synthesis report for scp
-Sat Jul 21 15:13:21 2018
+Sat Jul 21 15:24:16 2018
 Quartus Prime Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
 
 
@@ -93,16 +93,16 @@ refer to the applicable agreement for further details.
 +-------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                  ;
 +---------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status     ; Successful - Sat Jul 21 15:13:21 2018       ;
+; Analysis & Synthesis Status     ; Successful - Sat Jul 21 15:24:16 2018       ;
 ; Quartus Prime Version           ; 17.1.0 Build 590 10/25/2017 SJ Lite Edition ;
 ; Revision Name                   ; scp                                         ;
 ; Top-level Entity Name           ; scp                                         ;
 ; Family                          ; Cyclone V                                   ;
 ; Logic utilization (in ALMs)     ; N/A                                         ;
-; Total registers                 ; 573                                         ;
+; Total registers                 ; 575                                         ;
 ; Total pins                      ; 26                                          ;
 ; Total virtual pins              ; 0                                           ;
-; Total block memory bits         ; 1,127,584                                   ;
+; Total block memory bits         ; 1,651,904                                   ;
 ; Total DSP Blocks                ; 1                                           ;
 ; Total HSSI RX PCSs              ; 0                                           ;
 ; Total HSSI PMA RX Deserializers ; 0                                           ;
@@ -306,20 +306,20 @@ refer to the applicable agreement for further details.
 +---------------------------------------------+--------------------------------------------------------------------+
 ; Resource                                    ; Usage                                                              ;
 +---------------------------------------------+--------------------------------------------------------------------+
-; Estimate of Logic utilization (ALMs needed) ; 793                                                                ;
+; Estimate of Logic utilization (ALMs needed) ; 860                                                                ;
 ;                                             ;                                                                    ;
-; Combinational ALUT usage for logic          ; 1169                                                               ;
-;     -- 7 input functions                    ; 23                                                                 ;
-;     -- 6 input functions                    ; 365                                                                ;
-;     -- 5 input functions                    ; 149                                                                ;
-;     -- 4 input functions                    ; 135                                                                ;
-;     -- <=3 input functions                  ; 497                                                                ;
+; Combinational ALUT usage for logic          ; 1244                                                               ;
+;     -- 7 input functions                    ; 21                                                                 ;
+;     -- 6 input functions                    ; 426                                                                ;
+;     -- 5 input functions                    ; 153                                                                ;
+;     -- 4 input functions                    ; 159                                                                ;
+;     -- <=3 input functions                  ; 485                                                                ;
 ;                                             ;                                                                    ;
-; Dedicated logic registers                   ; 573                                                                ;
+; Dedicated logic registers                   ; 575                                                                ;
 ;                                             ;                                                                    ;
 ; I/O pins                                    ; 26                                                                 ;
 ; Total MLAB memory bits                      ; 0                                                                  ;
-; Total block memory bits                     ; 1127584                                                            ;
+; Total block memory bits                     ; 1651904                                                            ;
 ;                                             ;                                                                    ;
 ; Total DSP Blocks                            ; 1                                                                  ;
 ;                                             ;                                                                    ;
@@ -327,9 +327,9 @@ refer to the applicable agreement for further details.
 ;     -- PLLs                                 ; 6                                                                  ;
 ;                                             ;                                                                    ;
 ; Maximum fan-out node                        ; pll:inst9|pll_0002:pll_inst|altera_pll:altera_pll_i|outclk_wire[0] ;
-; Maximum fan-out                             ; 393                                                                ;
-; Total fan-out                               ; 12488                                                              ;
-; Average fan-out                             ; 6.03                                                               ;
+; Maximum fan-out                             ; 459                                                                ;
+; Total fan-out                               ; 14855                                                              ;
+; Average fan-out                             ; 6.71                                                               ;
 +---------------------------------------------+--------------------------------------------------------------------+
 
 
@@ -338,12 +338,12 @@ refer to the applicable agreement for further details.
 +----------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+-------------------------------------------------------------------------------------------------------------------------+------------------------+--------------+
 ; Compilation Hierarchy Node                   ; Combinational ALUTs ; Dedicated Logic Registers ; Block Memory Bits ; DSP Blocks ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                                     ; Entity Name            ; Library Name ;
 +----------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+-------------------------------------------------------------------------------------------------------------------------+------------------------+--------------+
-; |scp                                         ; 1169 (23)           ; 573 (0)                   ; 1127584           ; 1          ; 26   ; 0            ; |scp                                                                                                                    ; scp                    ; work         ;
+; |scp                                         ; 1244 (23)           ; 575 (0)                   ; 1651904           ; 1          ; 26   ; 0            ; |scp                                                                                                                    ; scp                    ; work         ;
 ;    |ab_bus_in_mux:inst15|                    ; 95 (95)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ab_bus_in_mux:inst15                                                                                               ; ab_bus_in_mux          ; work         ;
 ;    |ab_bus_out_mux:inst13|                   ; 16 (16)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ab_bus_out_mux:inst13                                                                                              ; ab_bus_out_mux         ; work         ;
-;    |alu:inst1|                               ; 258 (258)           ; 16 (16)                   ; 0                 ; 1          ; 0    ; 0            ; |scp|alu:inst1                                                                                                          ; alu                    ; work         ;
+;    |alu:inst1|                               ; 269 (269)           ; 16 (16)                   ; 0                 ; 1          ; 0    ; 0            ; |scp|alu:inst1                                                                                                          ; alu                    ; work         ;
 ;    |cond:inst16|                             ; 7 (7)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|cond:inst16                                                                                                        ; cond                   ; work         ;
-;    |decode_addr_mux:inst8|                   ; 26 (26)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|decode_addr_mux:inst8                                                                                              ; decode_addr_mux        ; work         ;
+;    |decode_addr_mux:inst8|                   ; 50 (50)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|decode_addr_mux:inst8                                                                                              ; decode_addr_mux        ; work         ;
 ;    |general_reg:A_REG|                       ; 34 (34)             ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|general_reg:A_REG                                                                                                  ; general_reg            ; work         ;
 ;    |general_reg:B_REG|                       ; 36 (36)             ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|general_reg:B_REG                                                                                                  ; general_reg            ; work         ;
 ;    |io_port:inst22|                          ; 2 (2)               ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|io_port:inst22                                                                                                     ; io_port                ; work         ;
@@ -351,10 +351,10 @@ refer to the applicable agreement for further details.
 ;    |mar_mux:inst6|                           ; 16 (16)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|mar_mux:inst6                                                                                                      ; mar_mux                ; work         ;
 ;    |mdr_in_byte_select:inst14|               ; 18 (18)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|mdr_in_byte_select:inst14                                                                                          ; mdr_in_byte_select     ; work         ;
 ;    |mdr_out_byte_shift_reg:inst2|            ; 19 (19)             ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|mdr_out_byte_shift_reg:inst2                                                                                       ; mdr_out_byte_shift_reg ; work         ;
-;    |mmu:inst24|                              ; 0 (0)               ; 0 (0)                     ; 160               ; 0          ; 0    ; 0            ; |scp|mmu:inst24                                                                                                         ; mmu                    ; work         ;
-;       |page_table_mega:inst|                 ; 0 (0)               ; 0 (0)                     ; 160               ; 0          ; 0    ; 0            ; |scp|mmu:inst24|page_table_mega:inst                                                                                    ; page_table_mega        ; work         ;
-;          |altsyncram:altsyncram_component|   ; 0 (0)               ; 0 (0)                     ; 160               ; 0          ; 0    ; 0            ; |scp|mmu:inst24|page_table_mega:inst|altsyncram:altsyncram_component                                                    ; altsyncram             ; work         ;
-;             |altsyncram_nlr2:auto_generated| ; 0 (0)               ; 0 (0)                     ; 160               ; 0          ; 0    ; 0            ; |scp|mmu:inst24|page_table_mega:inst|altsyncram:altsyncram_component|altsyncram_nlr2:auto_generated                     ; altsyncram_nlr2        ; work         ;
+;    |mmu:inst24|                              ; 0 (0)               ; 0 (0)                     ; 192               ; 0          ; 0    ; 0            ; |scp|mmu:inst24                                                                                                         ; mmu                    ; work         ;
+;       |page_table_mega:inst|                 ; 0 (0)               ; 0 (0)                     ; 192               ; 0          ; 0    ; 0            ; |scp|mmu:inst24|page_table_mega:inst                                                                                    ; page_table_mega        ; work         ;
+;          |altsyncram:altsyncram_component|   ; 0 (0)               ; 0 (0)                     ; 192               ; 0          ; 0    ; 0            ; |scp|mmu:inst24|page_table_mega:inst|altsyncram:altsyncram_component                                                    ; altsyncram             ; work         ;
+;             |altsyncram_nlr2:auto_generated| ; 0 (0)               ; 0 (0)                     ; 192               ; 0          ; 0    ; 0            ; |scp|mmu:inst24|page_table_mega:inst|altsyncram:altsyncram_component|altsyncram_nlr2:auto_generated                     ; altsyncram_nlr2        ; work         ;
 ;    |pc_reg:inst3|                            ; 33 (33)             ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|pc_reg:inst3                                                                                                       ; pc_reg                 ; work         ;
 ;    |pll:inst9|                               ; 0 (0)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|pll:inst9                                                                                                          ; pll                    ; pll          ;
 ;       |pll_0002:pll_inst|                    ; 0 (0)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|pll:inst9|pll_0002:pll_inst                                                                                        ; pll_0002               ; pll          ;
@@ -369,13 +369,13 @@ refer to the applicable agreement for further details.
 ;          |debounce:debounce_ps2_clk|         ; 13 (13)             ; 12 (12)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|ps2_io:inst11|ps2_keyboard:instp|debounce:debounce_ps2_clk                                                         ; debounce               ; work         ;
 ;          |debounce:debounce_ps2_data|        ; 13 (13)             ; 12 (12)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|ps2_io:inst11|ps2_keyboard:instp|debounce:debounce_ps2_data                                                        ; debounce               ; work         ;
 ;       |ps2_to_ascii:instp4|                  ; 38 (38)             ; 11 (11)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|ps2_io:inst11|ps2_to_ascii:instp4                                                                                  ; ps2_to_ascii           ; work         ;
-;    |ram_mega:RAM|                            ; 48 (0)              ; 6 (0)                     ; 524288            ; 0          ; 0    ; 0            ; |scp|ram_mega:RAM                                                                                                       ; ram_mega               ; work         ;
-;       |altsyncram:altsyncram_component|      ; 48 (0)              ; 6 (0)                     ; 524288            ; 0          ; 0    ; 0            ; |scp|ram_mega:RAM|altsyncram:altsyncram_component                                                                       ; altsyncram             ; work         ;
-;          |altsyncram_i5r2:auto_generated|    ; 48 (0)              ; 6 (6)                     ; 524288            ; 0          ; 0    ; 0            ; |scp|ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated                                        ; altsyncram_i5r2        ; work         ;
-;             |decode_m2a:rden_decode_a|       ; 8 (8)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|decode_m2a:rden_decode_a               ; decode_m2a             ; work         ;
-;             |decode_m2a:rden_decode_b|       ; 8 (8)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|decode_m2a:rden_decode_b               ; decode_m2a             ; work         ;
-;             |decode_tma:decode2|             ; 8 (8)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|decode_tma:decode2                     ; decode_tma             ; work         ;
-;             |mux_dhb:mux4|                   ; 24 (24)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|mux_dhb:mux4                           ; mux_dhb                ; work         ;
+;    |ram_mega:RAM|                            ; 88 (0)              ; 8 (0)                     ; 1048576           ; 0          ; 0    ; 0            ; |scp|ram_mega:RAM                                                                                                       ; ram_mega               ; work         ;
+;       |altsyncram:altsyncram_component|      ; 88 (0)              ; 8 (0)                     ; 1048576           ; 0          ; 0    ; 0            ; |scp|ram_mega:RAM|altsyncram:altsyncram_component                                                                       ; altsyncram             ; work         ;
+;          |altsyncram_i5r2:auto_generated|    ; 88 (0)              ; 8 (8)                     ; 1048576           ; 0          ; 0    ; 0            ; |scp|ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated                                        ; altsyncram_i5r2        ; work         ;
+;             |decode_m2a:rden_decode_a|       ; 16 (16)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|decode_m2a:rden_decode_a               ; decode_m2a             ; work         ;
+;             |decode_m2a:rden_decode_b|       ; 16 (16)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|decode_m2a:rden_decode_b               ; decode_m2a             ; work         ;
+;             |decode_tma:decode2|             ; 16 (16)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|decode_tma:decode2                     ; decode_tma             ; work         ;
+;             |mux_dhb:mux4|                   ; 40 (40)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|mux_dhb:mux4                           ; mux_dhb                ; work         ;
 ;    |rom_mega:DECODE_ROM|                     ; 0 (0)               ; 0 (0)                     ; 50176             ; 0          ; 0    ; 0            ; |scp|rom_mega:DECODE_ROM                                                                                                ; rom_mega               ; work         ;
 ;       |altsyncram:altsyncram_component|      ; 0 (0)               ; 0 (0)                     ; 50176             ; 0          ; 0    ; 0            ; |scp|rom_mega:DECODE_ROM|altsyncram:altsyncram_component                                                                ; altsyncram             ; work         ;
 ;          |altsyncram_nkh1:auto_generated|    ; 0 (0)               ; 0 (0)                     ; 50176             ; 0          ; 0    ; 0            ; |scp|rom_mega:DECODE_ROM|altsyncram:altsyncram_component|altsyncram_nkh1:auto_generated                                 ; altsyncram_nkh1        ; work         ;
@@ -502,21 +502,19 @@ Encoding Type:  One-Hot
 +-------------------+------------------+------------------+-------------------+------------------+
 
 
-+---------------------------------------------------------------------------------------------------------------------------------------+
-; Registers Removed During Synthesis                                                                                                    ;
-+----------------------------------------------------------------------------------------------+----------------------------------------+
-; Register name                                                                                ; Reason for Removal                     ;
-+----------------------------------------------------------------------------------------------+----------------------------------------+
-; ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|address_reg_a[3] ; Stuck at GND due to stuck port data_in ;
-; ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|address_reg_b[3] ; Stuck at GND due to stuck port data_in ;
-; ps2_io:inst11|ps2_to_ascii:instp4|cur[7]                                                     ; Stuck at GND due to stuck port data_in ;
-; vga_io:inst23|VGA_controller:instv6|x[17..31]                                                ; Lost fanout                            ;
-; vga_io:inst23|VGA_controller:instv6|y[28..31]                                                ; Stuck at GND due to stuck port data_in ;
-; uart_io:inst10|uartRecFIFO:inst02|state~5                                                    ; Lost fanout                            ;
-; uart_io:inst10|uart:inst01|transmitter:uart_tx|state~5                                       ; Lost fanout                            ;
-; uart_io:inst10|uart:inst01|transmitter:uart_tx|state~6                                       ; Lost fanout                            ;
-; Total Number of Removed Registers = 25                                                       ;                                        ;
-+----------------------------------------------------------------------------------------------+----------------------------------------+
++-------------------------------------------------------------------------------------------------+
+; Registers Removed During Synthesis                                                              ;
++--------------------------------------------------------+----------------------------------------+
+; Register name                                          ; Reason for Removal                     ;
++--------------------------------------------------------+----------------------------------------+
+; ps2_io:inst11|ps2_to_ascii:instp4|cur[7]               ; Stuck at GND due to stuck port data_in ;
+; vga_io:inst23|VGA_controller:instv6|x[17..31]          ; Lost fanout                            ;
+; vga_io:inst23|VGA_controller:instv6|y[28..31]          ; Stuck at GND due to stuck port data_in ;
+; uart_io:inst10|uartRecFIFO:inst02|state~5              ; Lost fanout                            ;
+; uart_io:inst10|uart:inst01|transmitter:uart_tx|state~5 ; Lost fanout                            ;
+; uart_io:inst10|uart:inst01|transmitter:uart_tx|state~6 ; Lost fanout                            ;
+; Total Number of Removed Registers = 23                 ;                                        ;
++--------------------------------------------------------+----------------------------------------+
 
 
 +------------------------------------------------------+
@@ -524,7 +522,7 @@ Encoding Type:  One-Hot
 +----------------------------------------------+-------+
 ; Statistic                                    ; Value ;
 +----------------------------------------------+-------+
-; Total registers                              ; 573   ;
+; Total registers                              ; 575   ;
 ; Number of registers using Synchronous Clear  ; 132   ;
 ; Number of registers using Synchronous Load   ; 64    ;
 ; Number of registers using Asynchronous Clear ; 0     ;
@@ -624,17 +622,17 @@ Encoding Type:  One-Hot
 ; 35:1               ; 2 bits    ; 46 LEs        ; 32 LEs               ; 14 LEs                 ; Yes        ; |scp|alu:inst1|res[14]                                                                                             ;
 ; 36:1               ; 2 bits    ; 48 LEs        ; 32 LEs               ; 16 LEs                 ; Yes        ; |scp|alu:inst1|res[2]                                                                                              ;
 ; 3:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |scp|uart_io:inst10|uartRecFIFO:inst02|state                                                                       ;
-; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |scp|alu:inst1|ShiftRight1                                                                                         ;
-; 4:1                ; 17 bits   ; 34 LEs        ; 34 LEs               ; 0 LEs                  ; No         ; |scp|alu:inst1|ShiftRight1                                                                                         ;
-; 4:1                ; 16 bits   ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |scp|mar_mux:inst6|mar[3]                                                                                          ;
-; 6:1                ; 8 bits    ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |scp|mdr_in_byte_select:inst14|out[0]                                                                              ;
-; 8:1                ; 8 bits    ; 40 LEs        ; 40 LEs               ; 0 LEs                  ; No         ; |scp|ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|mux_dhb:mux4|l3_w1_n0_mux_dataout ;
-; 9:1                ; 8 bits    ; 48 LEs        ; 48 LEs               ; 0 LEs                  ; No         ; |scp|decode_addr_mux:inst8|addr[5]                                                                                 ;
+; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |scp|alu:inst1|ShiftLeft0                                                                                          ;
+; 4:1                ; 17 bits   ; 34 LEs        ; 34 LEs               ; 0 LEs                  ; No         ; |scp|alu:inst1|ShiftLeft0                                                                                          ;
+; 4:1                ; 16 bits   ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |scp|mar_mux:inst6|mar[5]                                                                                          ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |scp|mdr_in_byte_select:inst14|out[2]                                                                              ;
 ; 7:1                ; 3 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; No         ; |scp|uart_io:inst10|uart:inst01|receiver:uart_rx|state                                                             ;
 ; 6:1                ; 2 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; No         ; |scp|uart_io:inst10|uart:inst01|transmitter:uart_tx|Selector1                                                      ;
-; 11:1               ; 8 bits    ; 56 LEs        ; 56 LEs               ; 0 LEs                  ; No         ; |scp|vga_io:inst23|text_gen:instv1|col[2]                                                                          ;
-; 8:1                ; 2 bits    ; 10 LEs        ; 4 LEs                ; 6 LEs                  ; No         ; |scp|uart_io:inst10|uart:inst01|transmitter:uart_tx|Selector2                                                      ;
-; 16:1               ; 7 bits    ; 70 LEs        ; 70 LEs               ; 0 LEs                  ; No         ; |scp|ab_bus_in_mux:inst15|out[10]                                                                                  ;
+; 11:1               ; 8 bits    ; 56 LEs        ; 56 LEs               ; 0 LEs                  ; No         ; |scp|vga_io:inst23|text_gen:instv1|col[7]                                                                          ;
+; 8:1                ; 2 bits    ; 10 LEs        ; 4 LEs                ; 6 LEs                  ; No         ; |scp|uart_io:inst10|uart:inst01|transmitter:uart_tx|Selector0                                                      ;
+; 16:1               ; 8 bits    ; 80 LEs        ; 80 LEs               ; 0 LEs                  ; No         ; |scp|ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|mux_dhb:mux4|l4_w0_n0_mux_dataout ;
+; 17:1               ; 8 bits    ; 88 LEs        ; 88 LEs               ; 0 LEs                  ; No         ; |scp|decode_addr_mux:inst8|addr[7]                                                                                 ;
+; 16:1               ; 7 bits    ; 70 LEs        ; 70 LEs               ; 0 LEs                  ; No         ; |scp|ab_bus_in_mux:inst15|out[11]                                                                                  ;
 ; 3:1                ; 14 bits   ; 28 LEs        ; 14 LEs               ; 14 LEs                 ; No         ; |scp|alu:inst1|Add0                                                                                                ;
 ; 3:1                ; 14 bits   ; 28 LEs        ; 14 LEs               ; 14 LEs                 ; No         ; |scp|alu:inst1|Add0                                                                                                ;
 ; 25:1               ; 6 bits    ; 96 LEs        ; 96 LEs               ; 0 LEs                  ; No         ; |scp|ab_bus_in_mux:inst15|out[1]                                                                                   ;
@@ -2028,40 +2026,40 @@ Note: In order to hide this table in the UI and the text report file, please set
 +-----------------------+-----------------------------+
 ; Type                  ; Count                       ;
 +-----------------------+-----------------------------+
-; arriav_ff             ; 573                         ;
+; arriav_ff             ; 575                         ;
 ;     ENA               ; 262                         ;
 ;     ENA SCLR          ; 63                          ;
 ;     ENA SCLR SLD      ; 8                           ;
 ;     ENA SLD           ; 56                          ;
 ;     SCLR              ; 61                          ;
-;     plain             ; 123                         ;
-; arriav_lcell_comb     ; 1171                        ;
+;     plain             ; 125                         ;
+; arriav_lcell_comb     ; 1246                        ;
 ;     arith             ; 289                         ;
 ;         1 data inputs ; 205                         ;
 ;         2 data inputs ; 66                          ;
 ;         3 data inputs ; 2                           ;
 ;         4 data inputs ; 14                          ;
 ;         5 data inputs ; 2                           ;
-;     extend            ; 23                          ;
-;         7 data inputs ; 23                          ;
-;     normal            ; 833                         ;
+;     extend            ; 21                          ;
+;         7 data inputs ; 21                          ;
+;     normal            ; 910                         ;
 ;         0 data inputs ; 1                           ;
 ;         1 data inputs ; 6                           ;
-;         2 data inputs ; 44                          ;
-;         3 data inputs ; 149                         ;
-;         4 data inputs ; 121                         ;
-;         5 data inputs ; 147                         ;
-;         6 data inputs ; 365                         ;
+;         2 data inputs ; 45                          ;
+;         3 data inputs ; 136                         ;
+;         4 data inputs ; 145                         ;
+;         5 data inputs ; 151                         ;
+;         6 data inputs ; 426                         ;
 ;     shared            ; 26                          ;
 ;         2 data inputs ; 18                          ;
 ;         3 data inputs ; 8                           ;
 ; arriav_mac            ; 1                           ;
 ; boundary_port         ; 26                          ;
 ; generic_pll           ; 6                           ;
-; stratixv_ram_block    ; 270                         ;
+; stratixv_ram_block    ; 335                         ;
 ;                       ;                             ;
 ; Max LUT depth         ; 7.00                        ;
-; Average LUT depth     ; 3.34                        ;
+; Average LUT depth     ; 3.29                        ;
 +-----------------------+-----------------------------+
 
 
@@ -2080,7 +2078,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
-    Info: Processing started: Sat Jul 21 15:12:55 2018
+    Info: Processing started: Sat Jul 21 15:23:50 2018
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off scp -c scp
 Info (20032): Parallel compilation is enabled and will use up to 4 processors
 Warning (20031): Parallel compilation is enabled for 4 processors, but there are only 2 processors in the system. Runtime may increase due to over usage of the processor space.
@@ -2605,72 +2603,7 @@ Info (12128): Elaborating entity "mdr_in_byte_select" for hierarchy "mdr_in_byte
 Info (12128): Elaborating entity "mdr_out_mux" for hierarchy "mdr_out_mux:inst20"
 Warning (14284): Synthesized away the following node(s):
     Warning (14285): Synthesized away the following RAM node(s):
-        Warning (14320): Synthesized away node "mmu:inst24|page_table_mega:inst|altsyncram:altsyncram_component|altsyncram_nlr2:auto_generated|q_a[5]" File: /home/edward/scp/quartus/db/altsyncram_nlr2.tdf Line: 215
         Warning (14320): Synthesized away node "mmu:inst24|page_table_mega:inst|altsyncram:altsyncram_component|altsyncram_nlr2:auto_generated|q_a[6]" File: /home/edward/scp/quartus/db/altsyncram_nlr2.tdf Line: 250
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a64" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 2422
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a65" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 2459
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a66" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 2496
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a67" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 2533
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a68" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 2570
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a69" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 2607
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a70" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 2644
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a71" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 2681
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a72" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 2718
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a73" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 2755
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a74" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 2792
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a75" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 2829
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a76" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 2866
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a77" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 2903
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a78" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 2940
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a79" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 2977
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a80" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 3014
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a81" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 3051
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a82" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 3088
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a83" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 3125
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a84" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 3162
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a85" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 3199
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a86" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 3236
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a87" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 3273
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a88" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 3310
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a89" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 3347
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a90" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 3384
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a91" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 3421
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a92" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 3458
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a93" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 3495
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a94" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 3532
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a95" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 3569
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a96" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 3606
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a97" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 3643
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a98" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 3680
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a99" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 3717
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a100" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 3754
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a101" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 3791
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a102" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 3828
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a103" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 3865
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a104" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 3902
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a105" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 3939
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a106" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 3976
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a107" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 4013
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a108" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 4050
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a109" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 4087
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a110" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 4124
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a111" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 4161
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a112" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 4198
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a113" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 4235
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a114" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 4272
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a115" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 4309
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a116" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 4346
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a117" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 4383
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a118" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 4420
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a119" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 4457
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a120" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 4494
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a121" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 4531
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a122" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 4568
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a123" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 4605
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a124" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 4642
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a125" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 4679
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a126" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 4716
-        Warning (14320): Synthesized away node "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|ram_block1a127" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 4753
         Warning (14320): Synthesized away node "rom_mega:DECODE_ROM|altsyncram:altsyncram_component|altsyncram_nkh1:auto_generated|q_a[49]" File: /home/edward/scp/quartus/db/altsyncram_nkh1.tdf Line: 1063
         Warning (14320): Synthesized away node "rom_mega:DECODE_ROM|altsyncram:altsyncram_component|altsyncram_nkh1:auto_generated|q_a[50]" File: /home/edward/scp/quartus/db/altsyncram_nkh1.tdf Line: 1084
         Warning (14320): Synthesized away node "rom_mega:DECODE_ROM|altsyncram:altsyncram_component|altsyncram_nkh1:auto_generated|q_a[51]" File: /home/edward/scp/quartus/db/altsyncram_nkh1.tdf Line: 1105
@@ -2756,18 +2689,18 @@ Info (17036): Removed 6 MSB VCC or GND address nodes from RAM block "mmu:inst24|
 Info (144001): Generated suppressed messages file /home/edward/scp/quartus/output_files/scp.map.smsg
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 12 node(s), including 0 DDIO, 6 PLL, 0 transceiver and 0 LCELL
-Info (21057): Implemented 1761 device resources after synthesis - the final resource count might be different
+Info (21057): Implemented 1903 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 6 input pins
     Info (21059): Implemented 20 output pins
-    Info (21061): Implemented 1458 logic cells
-    Info (21064): Implemented 270 RAM segments
+    Info (21061): Implemented 1535 logic cells
+    Info (21064): Implemented 335 RAM segments
     Info (21065): Implemented 6 PLLs
     Info (21062): Implemented 1 DSP elements
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 126 warnings
-    Info: Peak virtual memory: 1147 megabytes
-    Info: Processing ended: Sat Jul 21 15:13:21 2018
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 61 warnings
+    Info: Peak virtual memory: 1151 megabytes
+    Info: Processing ended: Sat Jul 21 15:24:16 2018
     Info: Elapsed time: 00:00:26
-    Info: Total CPU time (on all processors): 00:00:52
+    Info: Total CPU time (on all processors): 00:00:53
 
 
 +------------------------------------------+
