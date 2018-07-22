@@ -5,6 +5,6 @@ module real_ptb(
 	output [10:0] out
 );
 
-assign out = 10'b0;
+assign out = privilage_level ? ptb : 10'b0;
 	
 endmodule

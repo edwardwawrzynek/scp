@@ -32,3 +32,6 @@
 46: IO_DATA_WE - write a or b into io_data
 47: IO_ADDR_WE - write a or b into io_addr
 48: IO_WE - sets io_we high
+49: PTB_WE - write a or b into ptb
+50: PRIV_WE - set privilage level to PRIV_LV
+51: PRIV_LV - privilage level to set (0=sys, 1=user (only used for memory))
