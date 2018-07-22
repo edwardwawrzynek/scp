@@ -245,7 +245,7 @@ $mdsp_2:mdsp_2:MDR_OUT_HIGH_WE,MAR_SEL=2,PC_INC,DECODE_NEXT=mdsp_3
 $mdsp_3:mdsp_3:SP_ADD_WE,PC_INC,NEW_INSTR
 
 //Set stack pointer equal to value in A - Status: COMPLETE + CONFIRMED
-55:masp:SP_BUS_WE,PC_INC,NEW_INSTR
+55:masp:AB_OUT_SEL=0,SP_BUS_WE,PC_INC,NEW_INSTR
 
 //Set A equal to value in sp + (offset in word following instruction)
 56:mspa:MAR_SEL=2,MDR_OUT_LOW_WE,PC_INC,DECODE_NEXT=$mspa_2
@@ -299,3 +299,14 @@ $outa_2:outa_2:AB_OUT_SEL=0,IO_DATA_WE,IO_WE,PC_INC,NEW_INSTR
 //Load value from port in b into a
 64:ina:AB_OUT_SEL=1,IO_ADDR_WE,DECODE_NEXT=$ina_2
 $ina_2:ina_2:BUS_IN_SEL=3,A_BUS_WE,PC_INC,NEW_INSTR
+
+//System OPCODES
+
+//Set the Page Table Base to the Value in A (only call in sys privilage level, or current memory mapping will be changed)
+65:aptb:AB_OUT_SEL=0,PTB_WE,PC_INC,NEW_INSTR
+
+//Set priv level to user - for debugging
+66:prvu:PRIV_WE,PRIV_LV=1,PC_INC,NEW_INSTR
+
+//Set priv level to sys - for debugging
+67:prvs:PRIV_WE,PRIV_LV=0,PC_INC,NEW_INSTR
