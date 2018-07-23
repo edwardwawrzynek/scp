@@ -198,7 +198,6 @@ $a_end:a_end:A_ALU_WE,NEW_INSTR,PC_INC
 
 //JMP OPCODES 46 - 48 STATUS - COMPLETE + CONFIRMED
 
-//All jumps are to static locations as it is all small c requires
 //Jump utility microinstruction - because pc latches take a cycle, this is called to decode the right instruction after a jump
 $jmp_end:jmp_end:NEW_INSTR,PC_INC
 
@@ -300,18 +299,21 @@ $outa_2:outa_2:AB_OUT_SEL=0,IO_DATA_WE,IO_WE,PC_INC,NEW_INSTR
 64:ina:AB_OUT_SEL=1,IO_ADDR_WE,DECODE_NEXT=$ina_2
 $ina_2:ina_2:BUS_IN_SEL=3,A_BUS_WE,PC_INC,NEW_INSTR
 
+//Indirect Jump - jump to the addrs in a
+65:jmpa:AB_OUT_SEL=0,PC_BUS_WE,DECODE_NEXT=jmp_end
+
 //System OPCODES
 
 //Set the Page Table Base to the Value in A (only call in sys privilage level, or current memory mapping will be changed)
-65:aptb:AB_OUT_SEL=0,PTB_WE,PC_INC,NEW_INSTR
+66:aptb:AB_OUT_SEL=0,PTB_WE,PC_INC,NEW_INSTR
 
 //Set priv level to user - for debugging
-66:prvu:PRIV_WE,PRIV_LV=1,PC_INC,NEW_INSTR
+67:prvu:PRIV_WE,PRIV_LV=1,PC_INC,NEW_INSTR
 
 //Set priv level to sys - for debugging
-67:prvs:PRIV_WE,PRIV_LV=0,PC_INC,NEW_INSTR
+68:prvs:PRIV_WE,PRIV_LV=0,PC_INC,NEW_INSTR
 
 //Set the page table value pointed to by (the page table base + the upper five bits of b reg) to the value in a (only to be called from sys priv_lv)
-68:mmus:AB_OUT_SEL=1,MAR_SEL=0,PRIV_LV=1,PRIV_WE,DECODE_NEXT=$mmus_2
+69:mmus:AB_OUT_SEL=1,MAR_SEL=0,PRIV_LV=1,PRIV_WE,DECODE_NEXT=$mmus_2
 $mmus_2:mmus_2:AB_OUT_SEL=1,MAR_SEL=0,MMU_WE,PRIV_LV=0,PRIV_WE,DECODE_NEXT=$mmus_3
 $mmus_3:mmus_3:PC_INC,NEW_INSTR
