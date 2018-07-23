@@ -731,8 +731,12 @@ char *inclib() {
  */
 gnargs(d)
 int     d; {
-    //Probably less than 256 args
-    output_string ("\tlbib\t");
+    if(d < 256){
+        output_string ("\tlbib\t");
+    } else {
+        /* More than 255 args passed? */
+        output_string ("\tlwib\t");
+    }
     output_number(d);
     newline ();
 }

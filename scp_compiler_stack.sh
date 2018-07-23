@@ -40,7 +40,7 @@ LINK_INCS=true
 INCL_FILE=""
 
 #Files to link with
-LINKS="/home/edward/scp_software/lib/include/cret.asm /home/edward/scp_software/lib/include/crun.asm"
+LINKS="/home/edward/scp_software/lib/include/cret.s /home/edward/scp_software/lib/include/crun.s"
 #File to link at end
 END_LINK=""
 while getopts "ehno:m:a:s:l:L:f:" opt; do
@@ -111,9 +111,9 @@ fi
 LINKS="$LINKS $name $END_LINK"
 
 if [ "$LINK_INCS" == "true" ]; then
-	scplnk -i $INCL_FILE "SCP_ASM_LINKED.s" $LINKS
+	scplnk -i $INCL_FILE ".SCP_ASM_LINKED.s" $LINKS
 else
-	scplnk "SCP_ASM_LINKED.s" $LINKS
+	scplnk ".SCP_ASM_LINKED.s" $LINKS
 fi
 
 #remove .incl file
@@ -121,14 +121,14 @@ rm $INCL_FILE
 
 #Assemble
 if [ "$DO_END" == "true" ]; then
-	scpasm -e $OUTPUT "SCP_ASM_LINKED.s"
+	scpasm -e $OUTPUT ".SCP_ASM_LINKED.s"
 else
-	scpasm $OUTPUT "SCP_ASM_LINKED.s"
+	scpasm $OUTPUT ".SCP_ASM_LINKED.s"
 fi
 rm $name
 #If -a was specified, preserve asm
 if [ "$DO_ASM" == "true" ]; then
-	mv "SCP_ASM_LINKED.s" $ASM_OUTPUT
+	mv ".SCP_ASM_LINKED.s" $ASM_OUTPUT
 else
 	rm "SCP_ASM_LINKED.s"
 fi

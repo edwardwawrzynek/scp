@@ -302,21 +302,30 @@ second_handle_dir(){
   char c;
 	int arg1;
 	int i;
+  unsigned int addr;
   pos = 0;
   if(!strcmp(name, ".module")){
     MODULE_NUM++;
   }
   else if(!strcmp(name, ".db")){
     while(1){
-      if(args[pos] != '#'){
-        print("Error: .db requires a byte literal.\nAt: ");
-        print(buf);
-        print("\n");
-        err_exit();
+      //Literal
+      if(args[pos] == '#'){
+        write_num(atoi(args+pos+1), 1);
+        pos += strlen(args+pos)+1;
       }
-      //Write out byte - +1 to skip #
-      write_num(atoi(args+pos+1), 1);
-      pos += strlen(args+pos)+1;
+      //Module Label
+      else if(args[pos] == '$'){
+        addr = mod_label_addr(args+pos, MODULE_NUM);
+        write_num(addr, 1);
+        pos += strlen(args+pos)+1;
+      }
+      //Global Label
+      else if(isalpha(args[pos])){
+        addr = label_addr(args+pos);
+        write_num(addr, 1);
+        pos += strlen(args+pos)+1;
+      }
       if(args[pos] == '\0'){
         break;
       }
@@ -324,15 +333,24 @@ second_handle_dir(){
   }
   else if(!strcmp(name, ".dw")){
     while(1){
-      if(args[pos] != '#'){
-        print("Error: .dw requires a byte literal.\nAt: ");
-        print(buf);
-        print("\n");
-        err_exit();
+      //Literal
+      if(args[pos] == '#'){
+        write_num(atoi(args+pos+1), 2);
+        pos += strlen(args+pos)+1;
       }
-      //Write out word - +1 to skip #
-      write_num(atoi(args+pos+1), 2);
-      pos += strlen(args+pos)+1;
+      //Module Label
+      else if(args[pos] == '$'){
+        printf("LABEL: %s\n", args+pos);
+        addr = mod_label_addr(args+pos, MODULE_NUM);
+        write_num(addr, 2);
+        pos += strlen(args+pos)+1;
+      }
+      //Global Label
+      else if(isalpha(args[pos])){
+        addr = label_addr(args+pos);
+        write_num(addr, 2);
+        pos += strlen(args+pos)+1;
+      }
       if(args[pos] == '\0'){
         break;
       }
