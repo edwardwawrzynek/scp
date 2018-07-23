@@ -410,7 +410,7 @@ dumpsw(WHILE *ws) {
         }
         gen_def_word ();
         print_label (ws->incr_def);
-        output_string (",0");
+        output_string (",#0");
         newline ();
         code_segment_gtext ();
 }

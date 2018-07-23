@@ -130,7 +130,7 @@ rm $name
 if [ "$DO_ASM" == "true" ]; then
 	mv ".SCP_ASM_LINKED.s" $ASM_OUTPUT
 else
-	rm "SCP_ASM_LINKED.s"
+	rm ".SCP_ASM_LINKED.s"
 fi
 #if -m was specified, generate a mif file
 if [ "$DO_MIF" == "true" ]; then

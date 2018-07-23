@@ -340,7 +340,6 @@ second_handle_dir(){
       }
       //Module Label
       else if(args[pos] == '$'){
-        printf("LABEL: %s\n", args+pos);
         addr = mod_label_addr(args+pos, MODULE_NUM);
         write_num(addr, 2);
         pos += strlen(args+pos)+1;
