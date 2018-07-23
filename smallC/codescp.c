@@ -260,7 +260,7 @@ gen_pop() {
  */
 gen_swap_stack() {
         printf("Warning: stack swap not implemented\n");
-    output_line ("xthl");
+    output_line ("xthl\t");
 }
 /**
  * call the specified subroutine name
@@ -296,7 +296,7 @@ callstk() {
     output_string ("#.+5");
     newline ();
     gen_swap_stack ();
-    output_line ("pchl");
+    output_line ("pchl\t");
     stkp = stkp + INTSIZE;
 }
 

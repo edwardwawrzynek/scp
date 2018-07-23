@@ -35,7 +35,7 @@ struct symbol {
 #define SYMBOL struct symbol
 
 
-#define NUMBER_OF_GLOBALS 100
+#define NUMBER_OF_GLOBALS 200
 #define NUMBER_OF_LOCALS 20
 
 /* Define the structure tag table parameters */
