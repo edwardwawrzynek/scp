@@ -1,5 +1,5 @@
 Analysis & Synthesis report for scp
-Sat Jul 21 18:30:45 2018
+Sun Jul 22 17:39:37 2018
 Quartus Prime Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
 
 
@@ -93,7 +93,7 @@ refer to the applicable agreement for further details.
 +-------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                  ;
 +---------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status     ; Successful - Sat Jul 21 18:30:44 2018       ;
+; Analysis & Synthesis Status     ; Successful - Sun Jul 22 17:39:37 2018       ;
 ; Quartus Prime Version           ; 17.1.0 Build 590 10/25/2017 SJ Lite Edition ;
 ; Revision Name                   ; scp                                         ;
 ; Top-level Entity Name           ; scp                                         ;
@@ -102,7 +102,7 @@ refer to the applicable agreement for further details.
 ; Total registers                 ; 587                                         ;
 ; Total pins                      ; 26                                          ;
 ; Total virtual pins              ; 0                                           ;
-; Total block memory bits         ; 1,667,072                                   ;
+; Total block memory bits         ; 1,668,096                                   ;
 ; Total DSP Blocks                ; 1                                           ;
 ; Total HSSI RX PCSs              ; 0                                           ;
 ; Total HSSI PMA RX Deserializers ; 0                                           ;
@@ -321,7 +321,7 @@ refer to the applicable agreement for further details.
 ;                                             ;                                                                    ;
 ; I/O pins                                    ; 26                                                                 ;
 ; Total MLAB memory bits                      ; 0                                                                  ;
-; Total block memory bits                     ; 1667072                                                            ;
+; Total block memory bits                     ; 1668096                                                            ;
 ;                                             ;                                                                    ;
 ; Total DSP Blocks                            ; 1                                                                  ;
 ;                                             ;                                                                    ;
@@ -330,7 +330,7 @@ refer to the applicable agreement for further details.
 ;                                             ;                                                                    ;
 ; Maximum fan-out node                        ; pll:inst9|pll_0002:pll_inst|altera_pll:altera_pll_i|outclk_wire[0] ;
 ; Maximum fan-out                             ; 471                                                                ;
-; Total fan-out                               ; 15072                                                              ;
+; Total fan-out                               ; 15095                                                              ;
 ; Average fan-out                             ; 6.70                                                               ;
 +---------------------------------------------+--------------------------------------------------------------------+
 
@@ -340,7 +340,7 @@ refer to the applicable agreement for further details.
 +----------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+-------------------------------------------------------------------------------------------------------------------------+------------------------+--------------+
 ; Compilation Hierarchy Node                   ; Combinational ALUTs ; Dedicated Logic Registers ; Block Memory Bits ; DSP Blocks ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                                     ; Entity Name            ; Library Name ;
 +----------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+-------------------------------------------------------------------------------------------------------------------------+------------------------+--------------+
-; |scp                                         ; 1267 (23)           ; 587 (0)                   ; 1667072           ; 1          ; 26   ; 0            ; |scp                                                                                                                    ; scp                    ; work         ;
+; |scp                                         ; 1267 (23)           ; 587 (0)                   ; 1668096           ; 1          ; 26   ; 0            ; |scp                                                                                                                    ; scp                    ; work         ;
 ;    |ab_bus_in_mux:inst15|                    ; 95 (95)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ab_bus_in_mux:inst15                                                                                               ; ab_bus_in_mux          ; work         ;
 ;    |ab_bus_out_mux:inst13|                   ; 16 (16)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ab_bus_out_mux:inst13                                                                                              ; ab_bus_out_mux         ; work         ;
 ;    |alu:inst1|                               ; 269 (269)           ; 16 (16)                   ; 0                 ; 1          ; 0    ; 0            ; |scp|alu:inst1                                                                                                          ; alu                    ; work         ;
@@ -381,9 +381,9 @@ refer to the applicable agreement for further details.
 ;             |decode_m2a:rden_decode_b|       ; 16 (16)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|decode_m2a:rden_decode_b               ; decode_m2a             ; work         ;
 ;             |decode_tma:decode2|             ; 16 (16)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|decode_tma:decode2                     ; decode_tma             ; work         ;
 ;             |mux_dhb:mux4|                   ; 40 (40)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|mux_dhb:mux4                           ; mux_dhb                ; work         ;
-;    |rom_mega:DECODE_ROM|                     ; 0 (0)               ; 0 (0)                     ; 53248             ; 0          ; 0    ; 0            ; |scp|rom_mega:DECODE_ROM                                                                                                ; rom_mega               ; work         ;
-;       |altsyncram:altsyncram_component|      ; 0 (0)               ; 0 (0)                     ; 53248             ; 0          ; 0    ; 0            ; |scp|rom_mega:DECODE_ROM|altsyncram:altsyncram_component                                                                ; altsyncram             ; work         ;
-;          |altsyncram_nkh1:auto_generated|    ; 0 (0)               ; 0 (0)                     ; 53248             ; 0          ; 0    ; 0            ; |scp|rom_mega:DECODE_ROM|altsyncram:altsyncram_component|altsyncram_nkh1:auto_generated                                 ; altsyncram_nkh1        ; work         ;
+;    |rom_mega:DECODE_ROM|                     ; 0 (0)               ; 0 (0)                     ; 54272             ; 0          ; 0    ; 0            ; |scp|rom_mega:DECODE_ROM                                                                                                ; rom_mega               ; work         ;
+;       |altsyncram:altsyncram_component|      ; 0 (0)               ; 0 (0)                     ; 54272             ; 0          ; 0    ; 0            ; |scp|rom_mega:DECODE_ROM|altsyncram:altsyncram_component                                                                ; altsyncram             ; work         ;
+;          |altsyncram_nkh1:auto_generated|    ; 0 (0)               ; 0 (0)                     ; 54272             ; 0          ; 0    ; 0            ; |scp|rom_mega:DECODE_ROM|altsyncram:altsyncram_component|altsyncram_nkh1:auto_generated                                 ; altsyncram_nkh1        ; work         ;
 ;    |sound_io:inst12|                         ; 51 (0)              ; 36 (0)                    ; 0                 ; 0          ; 0    ; 0            ; |scp|sound_io:inst12                                                                                                    ; sound_io               ; work         ;
 ;       |io_port:inst|                         ; 3 (3)               ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|sound_io:inst12|io_port:inst                                                                                       ; io_port                ; work         ;
 ;       |sound_gen:inst1|                      ; 48 (48)             ; 20 (20)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|sound_io:inst12|sound_gen:inst1                                                                                    ; sound_gen              ; work         ;
@@ -2062,10 +2062,10 @@ Note: In order to hide this table in the UI and the text report file, please set
 ; arriav_mac            ; 1                           ;
 ; boundary_port         ; 26                          ;
 ; generic_pll           ; 6                           ;
-; stratixv_ram_block    ; 338                         ;
+; stratixv_ram_block    ; 339                         ;
 ;                       ;                             ;
 ; Max LUT depth         ; 7.00                        ;
-; Average LUT depth     ; 3.28                        ;
+; Average LUT depth     ; 3.27                        ;
 +-----------------------+-----------------------------+
 
 
@@ -2084,7 +2084,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
-    Info: Processing started: Sat Jul 21 18:30:16 2018
+    Info: Processing started: Sun Jul 22 17:39:04 2018
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off scp -c scp
 Info (20032): Parallel compilation is enabled and will use up to 4 processors
 Warning (20031): Parallel compilation is enabled for 4 processors, but there are only 2 processors in the system. Runtime may increase due to over usage of the processor space.
@@ -2559,14 +2559,13 @@ Info (12128): Elaborating entity "altsyncram_nlr2" for hierarchy "mmu:inst24|pag
 Info (12128): Elaborating entity "mmu_addr_add" for hierarchy "mmu:inst24|mmu_addr_add:minst2"
 Info (12128): Elaborating entity "real_ptb" for hierarchy "mmu:inst24|real_ptb:minst1"
 Info (12128): Elaborating entity "sys_privilage_reg" for hierarchy "sys_privilage_reg:inst25"
-Info (12128): Elaborating entity "mar_mux" for hierarchy "mar_mux:inst6"
-Info (12128): Elaborating entity "ab_bus_out_mux" for hierarchy "ab_bus_out_mux:inst13"
 Info (12128): Elaborating entity "general_reg" for hierarchy "general_reg:A_REG"
 Warning (10230): Verilog HDL assignment warning at general_reg.v(28): truncated value with size 32 to match size of target (16) File: /home/edward/scp/quartus/regs/general_reg.v Line: 28
 Warning (10230): Verilog HDL assignment warning at general_reg.v(31): truncated value with size 32 to match size of target (16) File: /home/edward/scp/quartus/regs/general_reg.v Line: 31
 Info (12128): Elaborating entity "ab_bus_in_mux" for hierarchy "ab_bus_in_mux:inst15"
 Info (12128): Elaborating entity "io_port" for hierarchy "io_port:inst22"
 Info (12128): Elaborating entity "io_regs" for hierarchy "io_regs:inst21"
+Info (12128): Elaborating entity "ab_bus_out_mux" for hierarchy "ab_bus_out_mux:inst13"
 Info (12128): Elaborating entity "uart_io" for hierarchy "uart_io:inst10"
 Info (12128): Elaborating entity "uart" for hierarchy "uart_io:inst10|uart:inst01"
 Info (12128): Elaborating entity "baud_rate_gen" for hierarchy "uart_io:inst10|uart:inst01|baud_rate_gen:uart_baud" File: /home/edward/scp/quartus/IO/uart/uart.v Line: 19
@@ -2608,13 +2607,13 @@ Warning (10230): Verilog HDL assignment warning at sp_reg.v(23): truncated value
 Info (12128): Elaborating entity "alu" for hierarchy "alu:inst1"
 Warning (10764): Verilog HDL warning at alu.v(21): converting signed shift amount to unsigned File: /home/edward/scp/quartus/alu/alu.v Line: 21
 Warning (10230): Verilog HDL assignment warning at alu.v(39): truncated value with size 24 to match size of target (16) File: /home/edward/scp/quartus/alu/alu.v Line: 39
+Info (12128): Elaborating entity "mar_mux" for hierarchy "mar_mux:inst6"
 Info (12128): Elaborating entity "ptb_reg" for hierarchy "ptb_reg:inst17"
 Info (12128): Elaborating entity "mdr_in_byte_select" for hierarchy "mdr_in_byte_select:inst14"
 Info (12128): Elaborating entity "mdr_out_mux" for hierarchy "mdr_out_mux:inst20"
 Warning (14284): Synthesized away the following node(s):
     Warning (14285): Synthesized away the following RAM node(s):
         Warning (14320): Synthesized away node "mmu:inst24|page_table_mega:inst|altsyncram:altsyncram_component|altsyncram_nlr2:auto_generated|q_a[6]" File: /home/edward/scp/quartus/db/altsyncram_nlr2.tdf Line: 250
-        Warning (14320): Synthesized away node "rom_mega:DECODE_ROM|altsyncram:altsyncram_component|altsyncram_nkh1:auto_generated|q_a[52]" File: /home/edward/scp/quartus/db/altsyncram_nkh1.tdf Line: 1126
         Warning (14320): Synthesized away node "rom_mega:DECODE_ROM|altsyncram:altsyncram_component|altsyncram_nkh1:auto_generated|q_a[53]" File: /home/edward/scp/quartus/db/altsyncram_nkh1.tdf Line: 1147
         Warning (14320): Synthesized away node "rom_mega:DECODE_ROM|altsyncram:altsyncram_component|altsyncram_nkh1:auto_generated|q_a[54]" File: /home/edward/scp/quartus/db/altsyncram_nkh1.tdf Line: 1168
         Warning (14320): Synthesized away node "rom_mega:DECODE_ROM|altsyncram:altsyncram_component|altsyncram_nkh1:auto_generated|q_a[55]" File: /home/edward/scp/quartus/db/altsyncram_nkh1.tdf Line: 1189
@@ -2695,18 +2694,18 @@ Info (17049): 18 registers lost all their fanouts during netlist optimizations.
 Info (144001): Generated suppressed messages file /home/edward/scp/quartus/output_files/scp.map.smsg
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 12 node(s), including 0 DDIO, 6 PLL, 0 transceiver and 0 LCELL
-Info (21057): Implemented 1940 device resources after synthesis - the final resource count might be different
+Info (21057): Implemented 1941 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 6 input pins
     Info (21059): Implemented 20 output pins
     Info (21061): Implemented 1569 logic cells
-    Info (21064): Implemented 338 RAM segments
+    Info (21064): Implemented 339 RAM segments
     Info (21065): Implemented 6 PLLs
     Info (21062): Implemented 1 DSP elements
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 58 warnings
-    Info: Peak virtual memory: 1160 megabytes
-    Info: Processing ended: Sat Jul 21 18:30:45 2018
-    Info: Elapsed time: 00:00:29
-    Info: Total CPU time (on all processors): 00:00:54
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 57 warnings
+    Info: Peak virtual memory: 1167 megabytes
+    Info: Processing ended: Sun Jul 22 17:39:37 2018
+    Info: Elapsed time: 00:00:33
+    Info: Total CPU time (on all processors): 00:00:56
 
 
 +------------------------------------------+

@@ -310,3 +310,8 @@ $ina_2:ina_2:BUS_IN_SEL=3,A_BUS_WE,PC_INC,NEW_INSTR
 
 //Set priv level to sys - for debugging
 67:prvs:PRIV_WE,PRIV_LV=0,PC_INC,NEW_INSTR
+
+//Set the page table value pointed to by (the page table base + the upper five bits of b reg) to the value in a (only to be called from sys priv_lv)
+68:mmus:AB_OUT_SEL=1,MAR_SEL=0,PRIV_LV=1,PRIV_WE,DECODE_NEXT=$mmus_2
+$mmus_2:mmus_2:AB_OUT_SEL=1,MAR_SEL=0,MMU_WE,PRIV_LV=0,PRIV_WE,DECODE_NEXT=$mmus_3
+$mmus_3:mmus_3:PC_INC,NEW_INSTR
