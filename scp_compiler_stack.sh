@@ -41,7 +41,6 @@ INCL_FILE=""
 
 #Files to link with
 LINKS="/home/edward/scp_software/lib/include/cret.s /home/edward/scp_software/lib/include/crun.s"
-#File to link at end
 END_LINK=""
 while getopts "ehno:m:a:s:l:L:f:" opt; do
   case $opt in

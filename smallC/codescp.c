@@ -426,8 +426,7 @@ gen_divide_by_two() {
  * Case jump instruction
  */
 gen_jump_case() {
-    printf("Case not implemented\n");
-        //output_with_tab ("jmp \tcccase");
+    output_with_tab ("jmp \tcccase");
     newline ();
 }
 
