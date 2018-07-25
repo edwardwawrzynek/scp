@@ -56,7 +56,7 @@ struct tag_symbol {
 #endif
 
 /* Define the structure member table parameters */
-#define NUMMEMB     30
+#define NUMMEMB     50
 
 /* possible entries for "ident" */
 #define VARIABLE        1

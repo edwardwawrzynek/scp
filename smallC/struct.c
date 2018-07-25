@@ -56,7 +56,7 @@ add_member(char *sname, char identity, char type, int offset, int storage_class,
     char *buffer_ptr;
     SYMBOL *symbol;
     if (member_table_index >= NUMMEMB) {
-        error("symbol table overflow");
+        error("struct symbol table overflow");
         return 0;
     }
     symbol = &member_table[member_table_index];

@@ -18,7 +18,7 @@ unsigned int labels_allocd = 0;
 //Hard limit of 64 modules
 #define NUM_MODULES 64
 //Number of labels to increment allocs on
-#define LABEL_INC 2048
+#define LABEL_INC 1024
 char **mod_labels[NUM_MODULES];
 unsigned int *mod_addr[NUM_MODULES];
 unsigned int mod_labels_append_pos[NUM_MODULES];
@@ -99,7 +99,7 @@ strcmp(char * s1, char * s2){
 int base_label_append(char *name, unsigned int addr, char **labels, unsigned int *label_addr, unsigned int *labels_append_pos, unsigned int *labels_allocd){
 	unsigned int i;
 	if(*labels_append_pos >= *labels_allocd){
-    //Realloc both labels and label_addr - DOESN'T WORK
+        //Realloc both labels and label_addr - DOESN'T WORK
 		print("Realloc for labels not implemented\n");
 		err_exit();
   }

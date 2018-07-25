@@ -259,7 +259,7 @@ gen_pop() {
  * swap the primary register and the top of the stack
  */
 gen_swap_stack() {
-        printf("Warning: stack swap not implemented\n");
+    printf("Warning: stack swap not implemented\n");
     output_line ("xthl\t");
 }
 /**
@@ -665,7 +665,7 @@ gen_less_or_equal() {
 gen_greater_than() {
     gen_pop();
     output_line ("asle\t");
-        gen_logical_negation();
+    gen_logical_negation();
 }
 
 /**
@@ -674,7 +674,7 @@ gen_greater_than() {
 gen_greater_or_equal() {
     gen_pop();
     output_line ("aslt\t");
-        gen_logical_negation();
+    gen_logical_negation();
 }
 
 /**
@@ -699,7 +699,7 @@ gen_unsigned_less_or_equal() {
 gen_usigned_greater_than() {
     gen_pop();
     output_line ("aule\t");
-        gen_logical_negation();
+    gen_logical_negation();
 }
 
 /**
@@ -708,7 +708,7 @@ gen_usigned_greater_than() {
 gen_unsigned_greater_or_equal() {
     gen_pop();
     output_line ("ault\t");
-        gen_logical_negation();
+    gen_logical_negation();
 }
 
 char *inclib() {
@@ -757,9 +757,9 @@ char    *s; {
 
 int link() {
 #ifdef  LDNM
-        fputs("I don't know how to link files yet\n", stderr);
+    fputs("I don't know how to link files yet\n", stderr);
 #else
-        return(0);
+    return(0);
 #endif
 }
 
