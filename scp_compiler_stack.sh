@@ -95,28 +95,43 @@ if [ $# == 0 ]; then
 fi
 
 shift $((OPTIND-1))
-
 #Compile the file, generating .incl
-sccscp -i $1
-#figure out what file it was assembled to (.s instead of .c)
-name=$(echo "$1" | cut -f 1 -d '.')
-INCL_FILE="$name.incl"
-name="$name.s"
+sccscp -i "$@"
+
+ASMD_FILES=""
+INCLD_FILES=""
+#set asm and incl file names
+for arg in "$@"
+do
+	ASMD_FILES="$ASMD_FILES $(echo "$arg" | cut -f 1 -d '.').s"
+	INCLD_FILES="$INCLD_FILES $(echo "$arg" | cut -f 1 -d '.').incl"
+done
+
+#write incl files to one incl file
+cat $INCLD_FILES >> .SCP_INCL_COMBINED_REP.incl
+rm $INCLD_FILES
+
+sort .SCP_INCL_COMBINED_REP.incl | uniq >> .SCP_INCL_COMBINED.incl
+rm .SCP_INCL_COMBINED_REP.incl
+
+INCL_FILE=".SCP_INCL_COMBINED.incl"
+
+#Write out full clean asm
 if [ "$DO_CLEAN_ASM" == "true" ]; then
-	cp $name $CLEAN_ASM_OUTPUT
+	cat $ASMD_FILES > $CLEAN_ASM_OUTPUT
 fi
 #Link
 #Add output to linking
-LINKS="$LINKS $name $END_LINK"
+LINKS="$LINKS $ASMD_FILES $END_LINK"
 
 if [ "$LINK_INCS" == "true" ]; then
-	scplnk -i $INCL_FILE ".SCP_ASM_LINKED.s" $LINKS
+	scplnk -i .SCP_INCL_COMBINED.incl .SCP_ASM_LINKED.s $LINKS
 else
 	scplnk ".SCP_ASM_LINKED.s" $LINKS
 fi
 
 #remove .incl file
-rm $INCL_FILE
+rm .SCP_INCL_COMBINED.incl
 
 #Assemble
 if [ "$DO_END" == "true" ]; then
@@ -124,7 +139,7 @@ if [ "$DO_END" == "true" ]; then
 else
 	scpasm $OUTPUT ".SCP_ASM_LINKED.s"
 fi
-rm $name
+rm $ASMD_FILES
 #If -a was specified, preserve asm
 if [ "$DO_ASM" == "true" ]; then
 	mv ".SCP_ASM_LINKED.s" $ASM_OUTPUT
