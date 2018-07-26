@@ -3,7 +3,7 @@
 #automates c compiling, linking, assembling, and binary and mif file output for scp
 
 usage() {
-echo "Usage: scpc [options] file.c
+echo "Usage: scpc [options] files
 Options:
 -o bin_out :specifies the file to write the final binary to(defaults to a.out)
 -m mif.mif :if specified, a memory initialization file for scp is generated
@@ -11,6 +11,7 @@ Options:
 -s asm.s   :if specified, the non-linked assembly is saved
 -l file.s  :links an assembly file to be directly before the c file assembly
 -L dir     :all files in the directory ending in .s are linked
+-c         :assemble files instead of compiling
 -f file.s  :links an assembly file at the very end of the binary
 -h         :display usage
 -e         :if specified, the binary is put against the end of the address space
@@ -35,14 +36,17 @@ DO_END=false
 CLEAN_ASM_OUTPUT=""
 DP_CLEAN_ASM=false
 
-#Weather to link files in .incl
+#whether to link files in .incl
 LINK_INCS=true
 INCL_FILE=""
+
+#whether to compile the c files
+DO_COMP=true
 
 #Files to link with
 LINKS="/home/edward/scp_software/lib/include/cret.s /home/edward/scp_software/lib/include/crun.s"
 END_LINK=""
-while getopts "ehno:m:a:s:l:L:f:" opt; do
+while getopts "ehnco:m:a:s:l:L:f:" opt; do
   case $opt in
     e)
 	DO_END=true
@@ -57,6 +61,9 @@ while getopts "ehno:m:a:s:l:L:f:" opt; do
     n)
         LINK_INCS=false
         ;;
+    c)
+    	DO_COMP=false
+    	;;
     m)
     	MIF_OUTPUT=$OPTARG
     	DO_MIF=true
@@ -96,16 +103,24 @@ fi
 
 shift $((OPTIND-1))
 #Compile the file, generating .incl
-sccscp -i "$@"
+if [ "$DO_COMP" == "true" ]; then
+	sccscp -i "$@"
+fi
 
 ASMD_FILES=""
 INCLD_FILES=""
 #set asm and incl file names
-for arg in "$@"
-do
-	ASMD_FILES="$ASMD_FILES $(echo "$arg" | cut -f 1 -d '.').s"
-	INCLD_FILES="$INCLD_FILES $(echo "$arg" | cut -f 1 -d '.').incl"
-done
+if [ "$DO_COMP" == "true" ]; then
+	for arg in "$@"
+	do
+		ASMD_FILES="$ASMD_FILES $(echo "$arg" | cut -f 1 -d '.').s"
+		INCLD_FILES="$INCLD_FILES $(echo "$arg" | cut -f 1 -d '.').incl"
+	done
+else
+	ASMD_FILES="$@"
+	touch .SCP_INCL_FAKE.incl
+	INCLD_FILES=".SCP_INCL_FAKE.incl"
+fi
 
 #write incl files to one incl file
 cat $INCLD_FILES >> .SCP_INCL_COMBINED_REP.incl
@@ -139,7 +154,9 @@ if [ "$DO_END" == "true" ]; then
 else
 	scpasm $OUTPUT ".SCP_ASM_LINKED.s"
 fi
-rm $ASMD_FILES
+if [ "$DO_COMP" == "true" ]; then
+	rm $ASMD_FILES
+fi
 #If -a was specified, preserve asm
 if [ "$DO_ASM" == "true" ]; then
 	mv ".SCP_ASM_LINKED.s" $ASM_OUTPUT
