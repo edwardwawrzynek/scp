@@ -119,7 +119,7 @@ refer to the applicable agreement for further details.
 	(input)
 	(rect 0 2064 168 2080)
 	(text "INPUT" (rect 125 0 154 10)(font "Arial" (font_size 6)))
-	(text "KEY[1]" (rect 5 0 40 11)(font "Arial" ))
+	(text "KEY[1]" (rect 5 0 39 11)(font "Arial" ))
 	(pt 168 8)
 	(drawing
 		(line (pt 84 12)(pt 109 12))
@@ -135,7 +135,7 @@ refer to the applicable agreement for further details.
 	(input)
 	(rect 80 2152 264 2168)
 	(text "INPUT" (rect 141 0 170 10)(font "Arial" (font_size 6)))
-	(text "SD_CARD_MISO" (rect 5 0 94 11)(font "Arial" ))
+	(text "SD_CARD_MISO" (rect 5 0 93 11)(font "Arial" ))
 	(pt 184 8)
 	(drawing
 		(line (pt 100 12)(pt 125 12))
@@ -357,22 +357,6 @@ refer to the applicable agreement for further details.
 )
 (pin
 	(output)
-	(rect 840 2080 1016 2096)
-	(text "OUTPUT" (rect 1 0 41 10)(font "Arial" (font_size 6)))
-	(text "LED[7..1]" (rect 90 0 136 11)(font "Arial" ))
-	(pt 0 8)
-	(drawing
-		(line (pt 0 8)(pt 52 8))
-		(line (pt 52 4)(pt 78 4))
-		(line (pt 52 12)(pt 78 12))
-		(line (pt 52 12)(pt 52 4))
-		(line (pt 78 4)(pt 82 8))
-		(line (pt 82 8)(pt 78 12))
-		(line (pt 78 12)(pt 82 8))
-	)
-)
-(pin
-	(output)
 	(rect 552 2088 728 2104)
 	(text "OUTPUT" (rect 1 0 41 10)(font "Arial" (font_size 6)))
 	(text "SD_CARD_CS" (rect 90 0 165 11)(font "Arial" ))
@@ -408,6 +392,22 @@ refer to the applicable agreement for further details.
 	(rect 552 2120 735 2136)
 	(text "OUTPUT" (rect 1 0 41 10)(font "Arial" (font_size 6)))
 	(text "SD_CARD_MOSI" (rect 90 0 177 11)(font "Arial" ))
+	(pt 0 8)
+	(drawing
+		(line (pt 0 8)(pt 52 8))
+		(line (pt 52 4)(pt 78 4))
+		(line (pt 52 12)(pt 78 12))
+		(line (pt 52 12)(pt 52 4))
+		(line (pt 78 4)(pt 82 8))
+		(line (pt 82 8)(pt 78 12))
+		(line (pt 78 12)(pt 82 8))
+	)
+)
+(pin
+	(output)
+	(rect 968 2072 1144 2088)
+	(text "OUTPUT" (rect 1 0 41 10)(font "Arial" (font_size 6)))
+	(text "LED[1]" (rect 90 0 124 11)(font "Arial" ))
 	(pt 0 8)
 	(drawing
 		(line (pt 0 8)(pt 52 8))
@@ -2317,6 +2317,28 @@ refer to the applicable agreement for further details.
 	)
 	(annotation_block (parameter)(rect 496 1904 734 1994))
 )
+(symbol
+	(rect 776 2048 936 2128)
+	(text "sd_is_error" (rect 5 0 62 11)(font "Arial" ))
+	(text "inst26" (rect 8 64 41 77)(font "Intel Clear" ))
+	(port
+		(pt 0 32)
+		(input)
+		(text "error[15..0]" (rect 0 0 54 11)(font "Arial" ))
+		(text "error[15..0]" (rect 21 27 75 38)(font "Arial" ))
+		(line (pt 0 32)(pt 16 32)(line_width 3))
+	)
+	(port
+		(pt 160 32)
+		(output)
+		(text "out" (rect 0 0 16 11)(font "Arial" ))
+		(text "out" (rect 126 27 142 38)(font "Arial" ))
+		(line (pt 160 32)(pt 144 32))
+	)
+	(drawing
+		(rectangle (rect 16 16 144 64))
+	)
+)
 (connector
 	(pt -120 240)
 	(pt 112 240)
@@ -3996,18 +4018,6 @@ refer to the applicable agreement for further details.
 	(pt 536 2048)
 )
 (connector
-	(text "SD_ERROR[15..0]" (rect 504 2064 592 2077)(font "Intel Clear" ))
-	(pt 496 2080)
-	(pt 528 2080)
-	(bus)
-)
-(connector
-	(text "SD_ERROR[6..0]" (rect 826 2072 907 2085)(font "Intel Clear" ))
-	(pt 840 2088)
-	(pt 808 2088)
-	(bus)
-)
-(connector
 	(pt 496 2096)
 	(pt 552 2096)
 )
@@ -4032,6 +4042,15 @@ refer to the applicable agreement for further details.
 	(pt 144 1792)
 	(pt 144 2128)
 	(bus)
+)
+(connector
+	(pt 496 2080)
+	(pt 776 2080)
+	(bus)
+)
+(connector
+	(pt 936 2080)
+	(pt 968 2080)
 )
 (junction (pt 272 -88))
 (junction (pt 264 -72))
