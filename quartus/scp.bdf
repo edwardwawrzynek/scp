@@ -117,23 +117,7 @@ refer to the applicable agreement for further details.
 )
 (pin
 	(input)
-	(rect 0 2064 168 2080)
-	(text "INPUT" (rect 125 0 154 10)(font "Arial" (font_size 6)))
-	(text "KEY[1]" (rect 5 0 39 11)(font "Arial" ))
-	(pt 168 8)
-	(drawing
-		(line (pt 84 12)(pt 109 12))
-		(line (pt 84 4)(pt 109 4))
-		(line (pt 113 8)(pt 168 8))
-		(line (pt 84 12)(pt 84 4))
-		(line (pt 109 4)(pt 113 8))
-		(line (pt 109 12)(pt 113 8))
-	)
-	(text "VCC" (rect 128 7 149 17)(font "Arial" (font_size 6)))
-)
-(pin
-	(input)
-	(rect 80 2152 264 2168)
+	(rect 496 1992 680 2008)
 	(text "INPUT" (rect 141 0 170 10)(font "Arial" (font_size 6)))
 	(text "SD_CARD_MISO" (rect 5 0 93 11)(font "Arial" ))
 	(pt 184 8)
@@ -341,23 +325,7 @@ refer to the applicable agreement for further details.
 )
 (pin
 	(output)
-	(rect 536 2040 712 2056)
-	(text "OUTPUT" (rect 1 0 41 10)(font "Arial" (font_size 6)))
-	(text "LED[0]" (rect 90 0 124 11)(font "Arial" ))
-	(pt 0 8)
-	(drawing
-		(line (pt 0 8)(pt 52 8))
-		(line (pt 52 4)(pt 78 4))
-		(line (pt 52 12)(pt 78 12))
-		(line (pt 52 12)(pt 52 4))
-		(line (pt 78 4)(pt 82 8))
-		(line (pt 82 8)(pt 78 12))
-		(line (pt 78 12)(pt 82 8))
-	)
-)
-(pin
-	(output)
-	(rect 552 2088 728 2104)
+	(rect 496 1944 672 1960)
 	(text "OUTPUT" (rect 1 0 41 10)(font "Arial" (font_size 6)))
 	(text "SD_CARD_CS" (rect 90 0 165 11)(font "Arial" ))
 	(pt 0 8)
@@ -373,7 +341,7 @@ refer to the applicable agreement for further details.
 )
 (pin
 	(output)
-	(rect 552 2104 738 2120)
+	(rect 496 1960 682 1976)
 	(text "OUTPUT" (rect 1 0 41 10)(font "Arial" (font_size 6)))
 	(text "SD_CARD_SCLK" (rect 90 0 180 11)(font "Arial" ))
 	(pt 0 8)
@@ -389,25 +357,9 @@ refer to the applicable agreement for further details.
 )
 (pin
 	(output)
-	(rect 552 2120 735 2136)
+	(rect 496 1976 679 1992)
 	(text "OUTPUT" (rect 1 0 41 10)(font "Arial" (font_size 6)))
 	(text "SD_CARD_MOSI" (rect 90 0 177 11)(font "Arial" ))
-	(pt 0 8)
-	(drawing
-		(line (pt 0 8)(pt 52 8))
-		(line (pt 52 4)(pt 78 4))
-		(line (pt 52 12)(pt 78 12))
-		(line (pt 52 12)(pt 52 4))
-		(line (pt 78 4)(pt 82 8))
-		(line (pt 82 8)(pt 78 12))
-		(line (pt 78 12)(pt 82 8))
-	)
-)
-(pin
-	(output)
-	(rect 968 2072 1144 2088)
-	(text "OUTPUT" (rect 1 0 41 10)(font "Arial" (font_size 6)))
-	(text "LED[1]" (rect 90 0 124 11)(font "Arial" ))
 	(pt 0 8)
 	(drawing
 		(line (pt 0 8)(pt 52 8))
@@ -2147,196 +2099,74 @@ refer to the applicable agreement for further details.
 	)
 )
 (symbol
-	(rect 208 2056 256 2088)
-	(text "NOT" (rect 1 0 22 10)(font "Arial" (font_size 6)))
-	(text "inst27" (rect 3 21 34 34)(font "Intel Clear" ))
-	(port
-		(pt 0 16)
-		(input)
-		(text "IN" (rect 2 7 17 18)(font "Courier New" (bold))(invisible))
-		(text "IN" (rect 2 7 17 18)(font "Courier New" (bold))(invisible))
-		(line (pt 0 16)(pt 13 16))
-	)
-	(port
-		(pt 48 16)
-		(output)
-		(text "OUT" (rect 32 7 53 18)(font "Courier New" (bold))(invisible))
-		(text "OUT" (rect 32 7 53 18)(font "Courier New" (bold))(invisible))
-		(line (pt 39 16)(pt 48 16))
-	)
-	(drawing
-		(line (pt 13 25)(pt 13 7))
-		(line (pt 13 7)(pt 31 16))
-		(line (pt 13 25)(pt 31 16))
-		(circle (rect 31 12 39 20))
-	)
-)
-(symbol
-	(rect 288 2000 496 2208)
-	(text "SdCardCtrl" (rect 5 0 61 11)(font "Arial" ))
-	(text "inst29" (rect 8 192 39 205)(font "Intel Clear" ))
+	(rect 200 1904 440 2032)
+	(text "sd_io" (rect 5 0 36 15)(font "Intel Clear" (font_size 8)))
+	(text "inst27" (rect 8 111 39 124)(font "Intel Clear" ))
 	(port
 		(pt 0 32)
 		(input)
-		(text "clk_i" (rect 0 0 23 11)(font "Arial" ))
-		(text "clk_i" (rect 21 27 44 38)(font "Arial" ))
+		(text "io_clk" (rect 0 0 34 15)(font "Intel Clear" (font_size 8)))
+		(text "io_clk" (rect 21 27 55 42)(font "Intel Clear" (font_size 8)))
 		(line (pt 0 32)(pt 16 32))
 	)
 	(port
 		(pt 0 48)
 		(input)
-		(text "reset_i" (rect 0 0 34 11)(font "Arial" ))
-		(text "reset_i" (rect 21 43 55 54)(font "Arial" ))
+		(text "io_we" (rect 0 0 34 15)(font "Intel Clear" (font_size 8)))
+		(text "io_we" (rect 21 43 55 58)(font "Intel Clear" (font_size 8)))
 		(line (pt 0 48)(pt 16 48))
 	)
 	(port
 		(pt 0 64)
 		(input)
-		(text "rd_i" (rect 0 0 20 11)(font "Arial" ))
-		(text "rd_i" (rect 21 59 41 70)(font "Arial" ))
-		(line (pt 0 64)(pt 16 64))
+		(text "io_addr[7..0]" (rect 0 0 73 15)(font "Intel Clear" (font_size 8)))
+		(text "io_addr[7..0]" (rect 21 59 94 74)(font "Intel Clear" (font_size 8)))
+		(line (pt 0 64)(pt 16 64)(line_width 3))
 	)
 	(port
 		(pt 0 80)
 		(input)
-		(text "wr_i" (rect 0 0 22 11)(font "Arial" ))
-		(text "wr_i" (rect 21 75 43 86)(font "Arial" ))
-		(line (pt 0 80)(pt 16 80))
+		(text "io_data[15..0]" (rect 0 0 79 15)(font "Intel Clear" (font_size 8)))
+		(text "io_data[15..0]" (rect 21 75 100 90)(font "Intel Clear" (font_size 8)))
+		(line (pt 0 80)(pt 16 80)(line_width 3))
 	)
 	(port
 		(pt 0 96)
 		(input)
-		(text "continue_i" (rect 0 0 51 11)(font "Arial" ))
-		(text "continue_i" (rect 21 91 72 102)(font "Arial" ))
+		(text "SD_CARD_MISO" (rect 0 0 94 15)(font "Intel Clear" (font_size 8)))
+		(text "SD_CARD_MISO" (rect 21 91 115 106)(font "Intel Clear" (font_size 8)))
 		(line (pt 0 96)(pt 16 96))
 	)
 	(port
-		(pt 0 112)
-		(input)
-		(text "addr_i[31..0]" (rect 0 0 61 11)(font "Arial" ))
-		(text "addr_i[31..0]" (rect 21 107 82 118)(font "Arial" ))
-		(line (pt 0 112)(pt 16 112)(line_width 3))
-	)
-	(port
-		(pt 0 128)
-		(input)
-		(text "data_i[7..0]" (rect 0 0 55 11)(font "Arial" ))
-		(text "data_i[7..0]" (rect 21 123 76 134)(font "Arial" ))
-		(line (pt 0 128)(pt 16 128)(line_width 3))
-	)
-	(port
-		(pt 0 144)
-		(input)
-		(text "hndShk_i" (rect 0 0 47 11)(font "Arial" ))
-		(text "hndShk_i" (rect 21 139 68 150)(font "Arial" ))
-		(line (pt 0 144)(pt 16 144))
-	)
-	(port
-		(pt 0 160)
-		(input)
-		(text "miso_i" (rect 0 0 33 11)(font "Arial" ))
-		(text "miso_i" (rect 21 155 54 166)(font "Arial" ))
-		(line (pt 0 160)(pt 16 160))
-	)
-	(port
-		(pt 208 32)
+		(pt 240 32)
 		(output)
-		(text "data_o[7..0]" (rect 0 0 59 11)(font "Arial" ))
-		(text "data_o[7..0]" (rect 138 27 197 38)(font "Arial" ))
-		(line (pt 208 32)(pt 192 32)(line_width 3))
+		(text "io_out[15..0]" (rect 0 0 73 15)(font "Intel Clear" (font_size 8)))
+		(text "io_out[15..0]" (rect 146 27 219 42)(font "Intel Clear" (font_size 8)))
+		(line (pt 240 32)(pt 224 32)(line_width 3))
 	)
 	(port
-		(pt 208 48)
+		(pt 240 48)
 		(output)
-		(text "busy_o" (rect 0 0 37 11)(font "Arial" ))
-		(text "busy_o" (rect 156 43 193 54)(font "Arial" ))
-		(line (pt 208 48)(pt 192 48))
+		(text "SD_CARD_CS" (rect 0 0 79 15)(font "Intel Clear" (font_size 8)))
+		(text "SD_CARD_CS" (rect 140 43 219 58)(font "Intel Clear" (font_size 8)))
+		(line (pt 240 48)(pt 224 48))
 	)
 	(port
-		(pt 208 64)
+		(pt 240 64)
 		(output)
-		(text "hndShk_o" (rect 0 0 50 11)(font "Arial" ))
-		(text "hndShk_o" (rect 145 59 195 70)(font "Arial" ))
-		(line (pt 208 64)(pt 192 64))
+		(text "SD_CARD_SCLK" (rect 0 0 93 15)(font "Intel Clear" (font_size 8)))
+		(text "SD_CARD_SCLK" (rect 126 59 219 74)(font "Intel Clear" (font_size 8)))
+		(line (pt 240 64)(pt 224 64))
 	)
 	(port
-		(pt 208 80)
+		(pt 240 80)
 		(output)
-		(text "error_o[15..0]" (rect 0 0 66 11)(font "Arial" ))
-		(text "error_o[15..0]" (rect 132 75 198 86)(font "Arial" ))
-		(line (pt 208 80)(pt 192 80)(line_width 3))
-	)
-	(port
-		(pt 208 96)
-		(output)
-		(text "cs_bo" (rect 0 0 30 11)(font "Arial" ))
-		(text "cs_bo" (rect 162 91 192 102)(font "Arial" ))
-		(line (pt 208 96)(pt 192 96))
-	)
-	(port
-		(pt 208 112)
-		(output)
-		(text "sclk_o" (rect 0 0 33 11)(font "Arial" ))
-		(text "sclk_o" (rect 160 107 193 118)(font "Arial" ))
-		(line (pt 208 112)(pt 192 112))
-	)
-	(port
-		(pt 208 128)
-		(output)
-		(text "mosi_o" (rect 0 0 37 11)(font "Arial" ))
-		(text "mosi_o" (rect 156 123 193 134)(font "Arial" ))
-		(line (pt 208 128)(pt 192 128))
-	)
-	(parameter
-		"FREQ_G"
-		"50.0"
-		""
-		(type "PARAMETER_SIGNED_FLOAT")	)
-	(parameter
-		"INIT_SPI_FREQ_G"
-		"0.4"
-		""
-		(type "PARAMETER_SIGNED_FLOAT")	)
-	(parameter
-		"SPI_FREQ_G"
-		"25.0"
-		""
-		(type "PARAMETER_SIGNED_FLOAT")	)
-	(parameter
-		"BLOCK_SIZE_G"
-		"512"
-		""
-		(type "PARAMETER_SIGNED_DEC")	)
-	(parameter
-		"CARD_TYPE_G"
-		"SD_CARD_E"
-		""
-		(type "PARAMETER_ENUM")	)
-	(drawing
-		(rectangle (rect 16 16 192 192))
-	)
-	(annotation_block (parameter)(rect 496 1904 734 1994))
-)
-(symbol
-	(rect 776 2048 936 2128)
-	(text "sd_is_error" (rect 5 0 62 11)(font "Arial" ))
-	(text "inst26" (rect 8 64 41 77)(font "Intel Clear" ))
-	(port
-		(pt 0 32)
-		(input)
-		(text "error[15..0]" (rect 0 0 54 11)(font "Arial" ))
-		(text "error[15..0]" (rect 21 27 75 38)(font "Arial" ))
-		(line (pt 0 32)(pt 16 32)(line_width 3))
-	)
-	(port
-		(pt 160 32)
-		(output)
-		(text "out" (rect 0 0 16 11)(font "Arial" ))
-		(text "out" (rect 126 27 142 38)(font "Arial" ))
-		(line (pt 160 32)(pt 144 32))
+		(text "SD_CARD_MOSI" (rect 0 0 93 15)(font "Intel Clear" (font_size 8)))
+		(text "SD_CARD_MOSI" (rect 126 75 219 90)(font "Intel Clear" (font_size 8)))
+		(line (pt 240 80)(pt 224 80))
 	)
 	(drawing
-		(rectangle (rect 16 16 144 64))
+		(rectangle (rect 16 16 224 112))
 	)
 )
 (connector
@@ -3574,20 +3404,12 @@ refer to the applicable agreement for further details.
 	(pt 128 1760)
 )
 (connector
-	(pt 128 1760)
-	(pt 128 2040)
-)
-(connector
 	(pt 240 1776)
 	(pt 136 1776)
 )
 (connector
 	(pt 136 1640)
 	(pt 136 1776)
-)
-(connector
-	(pt 136 1776)
-	(pt 136 2040)
 )
 (connector
 	(pt 240 1792)
@@ -3607,11 +3429,6 @@ refer to the applicable agreement for further details.
 (connector
 	(pt 152 1672)
 	(pt 152 1808)
-	(bus)
-)
-(connector
-	(pt 152 1808)
-	(pt 152 2040)
 	(bus)
 )
 (connector
@@ -3993,64 +3810,105 @@ refer to the applicable agreement for further details.
 	(bus)
 )
 (connector
-	(text "CLK" (rect 224 2016 245 2029)(font "Intel Clear" ))
-	(pt 288 2032)
-	(pt 216 2032)
+	(pt 200 1936)
+	(pt 128 1936)
 )
 (connector
-	(pt 280 2048)
-	(pt 280 2072)
+	(pt 128 1760)
+	(pt 128 1936)
 )
 (connector
-	(pt 288 2048)
-	(pt 280 2048)
+	(pt 128 1936)
+	(pt 128 2040)
 )
 (connector
-	(pt 280 2072)
-	(pt 256 2072)
+	(pt 200 1952)
+	(pt 136 1952)
 )
 (connector
-	(pt 208 2072)
-	(pt 168 2072)
+	(pt 136 1776)
+	(pt 136 1952)
 )
 (connector
-	(pt 496 2048)
-	(pt 536 2048)
+	(pt 136 1952)
+	(pt 136 2040)
 )
 (connector
-	(pt 496 2096)
-	(pt 552 2096)
+	(pt 200 1968)
+	(pt 144 1968)
+	(bus)
 )
 (connector
-	(pt 552 2112)
-	(pt 496 2112)
+	(pt 200 1984)
+	(pt 152 1984)
+	(bus)
 )
 (connector
-	(pt 552 2128)
-	(pt 496 2128)
+	(pt 152 1808)
+	(pt 152 1984)
+	(bus)
 )
 (connector
-	(pt 264 2160)
-	(pt 288 2160)
+	(pt 152 1984)
+	(pt 152 2040)
+	(bus)
 )
 (connector
-	(pt 288 2128)
-	(pt 144 2128)
+	(pt 440 1936)
+	(pt 448 1936)
+	(bus)
+)
+(connector
+	(pt 448 1936)
+	(pt 448 2040)
+	(bus)
+)
+(connector
+	(pt 448 2040)
+	(pt 160 2040)
 	(bus)
 )
 (connector
 	(pt 144 1792)
-	(pt 144 2128)
+	(pt 144 1968)
 	(bus)
 )
 (connector
-	(pt 496 2080)
-	(pt 776 2080)
+	(pt 144 1968)
+	(pt 144 2040)
 	(bus)
 )
 (connector
-	(pt 936 2080)
-	(pt 968 2080)
+	(pt 440 1952)
+	(pt 496 1952)
+)
+(connector
+	(pt 496 1968)
+	(pt 440 1968)
+)
+(connector
+	(pt 496 1984)
+	(pt 440 1984)
+)
+(connector
+	(pt 192 2000)
+	(pt 192 2056)
+)
+(connector
+	(pt 192 2000)
+	(pt 200 2000)
+)
+(connector
+	(pt 688 2000)
+	(pt 688 2056)
+)
+(connector
+	(pt 680 2000)
+	(pt 688 2000)
+)
+(connector
+	(pt 192 2056)
+	(pt 688 2056)
 )
 (junction (pt 272 -88))
 (junction (pt 264 -72))
@@ -4100,3 +3958,7 @@ refer to the applicable agreement for further details.
 (junction (pt -216 696))
 (junction (pt -216 624))
 (junction (pt 96 -320))
+(junction (pt 128 1936))
+(junction (pt 136 1952))
+(junction (pt 144 1968))
+(junction (pt 152 1984))
