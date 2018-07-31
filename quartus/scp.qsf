@@ -72,7 +72,7 @@ set_location_assignment PIN_V11 -to CLOCK_50
 set_global_assignment -name TIMEQUEST_MULTICORNER_ANALYSIS ON
 set_global_assignment -name NUM_PARALLEL_PROCESSORS 4
 set_global_assignment -name SMART_RECOMPILE ON
-set_global_assignment -name OPTIMIZATION_MODE BALANCED
+set_global_assignment -name OPTIMIZATION_MODE "AGGRESSIVE PERFORMANCE"
 set_location_assignment PIN_AE19 -to VGA_COL_B[1]
 set_location_assignment PIN_AG23 -to VGA_COL_B[0]
 set_location_assignment PIN_AF22 -to VGA_COL_G[2]

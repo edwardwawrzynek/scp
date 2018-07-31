@@ -1,5 +1,5 @@
 Flow report for scp
-Mon Jul 30 16:21:23 2018
+Mon Jul 30 17:55:31 2018
 Quartus Prime Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
 
 
@@ -40,18 +40,18 @@ refer to the applicable agreement for further details.
 +-------------------------------------------------------------------------------+
 ; Flow Summary                                                                  ;
 +---------------------------------+---------------------------------------------+
-; Flow Status                     ; Successful - Mon Jul 30 16:21:23 2018       ;
+; Flow Status                     ; Successful - Mon Jul 30 17:55:31 2018       ;
 ; Quartus Prime Version           ; 17.1.0 Build 590 10/25/2017 SJ Lite Edition ;
 ; Revision Name                   ; scp                                         ;
 ; Top-level Entity Name           ; scp                                         ;
 ; Family                          ; Cyclone V                                   ;
 ; Device                          ; 5CSEMA4U23C6                                ;
 ; Timing Models                   ; Final                                       ;
-; Logic utilization (in ALMs)     ; 1,063 / 15,880 ( 7 % )                      ;
-; Total registers                 ; 875                                         ;
+; Logic utilization (in ALMs)     ; 1,202 / 15,880 ( 8 % )                      ;
+; Total registers                 ; 1064                                        ;
 ; Total pins                      ; 22 / 314 ( 7 % )                            ;
 ; Total virtual pins              ; 0                                           ;
-; Total block memory bits         ; 1,672,192 / 2,764,800 ( 60 % )              ;
+; Total block memory bits         ; 1,676,288 / 2,764,800 ( 61 % )              ;
 ; Total DSP Blocks                ; 1 / 84 ( 1 % )                              ;
 ; Total HSSI RX PCSs              ; 0                                           ;
 ; Total HSSI PMA RX Deserializers ; 0                                           ;
@@ -67,52 +67,60 @@ refer to the applicable agreement for further details.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 07/30/2018 16:17:29 ;
+; Start date & time ; 07/30/2018 17:51:23 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; scp                 ;
 +-------------------+---------------------+
 
 
-+-----------------------------------------------------------------------------------------------------------------------------+
-; Flow Non-Default Global Settings                                                                                            ;
-+-------------------------------------+----------------------------------------+---------------+-------------+----------------+
-; Assignment Name                     ; Value                                  ; Default Value ; Entity Name ; Section Id     ;
-+-------------------------------------+----------------------------------------+---------------+-------------+----------------+
-; COMPILER_SIGNATURE_ID               ; 220083050252176.153298904921464        ; --            ; --          ; --             ;
-; EDA_OUTPUT_DATA_FORMAT              ; Verilog Hdl                            ; --            ; --          ; eda_simulation ;
-; EDA_SIMULATION_TOOL                 ; ModelSim-Altera (Verilog)              ; <None>        ; --          ; --             ;
-; EDA_TIME_SCALE                      ; 1 ps                                   ; --            ; --          ; eda_simulation ;
-; MAX_CORE_JUNCTION_TEMP              ; 85                                     ; --            ; --          ; --             ;
-; MIN_CORE_JUNCTION_TEMP              ; 0                                      ; --            ; --          ; --             ;
-; MISC_FILE                           ; pll.cmp                                ; --            ; --          ; --             ;
-; MISC_FILE                           ; pll_sim/pll.vo                         ; --            ; --          ; --             ;
-; MISC_FILE                           ; ram/ram_mega.bsf                       ; --            ; --          ; --             ;
-; MISC_FILE                           ; ram/ram_mega_bb.v                      ; --            ; --          ; --             ;
-; MISC_FILE                           ; decode/rom_mega.bsf                    ; --            ; --          ; --             ;
-; MISC_FILE                           ; decode/rom_mega_bb.v                   ; --            ; --          ; --             ;
-; MISC_FILE                           ; mmu/page_table_mega.bsf                ; --            ; --          ; --             ;
-; MISC_FILE                           ; mmu/page_table_mega_bb.v               ; --            ; --          ; --             ;
-; MISC_FILE                           ; vga_pll.cmp                            ; --            ; --          ; --             ;
-; MISC_FILE                           ; vga_pll_sim/vga_pll.vo                 ; --            ; --          ; --             ;
-; MISC_FILE                           ; IO/vga/char_mem.bsf                    ; --            ; --          ; --             ;
-; MISC_FILE                           ; IO/vga/char_mem_bb.v                   ; --            ; --          ; --             ;
-; MISC_FILE                           ; IO/vga/charset_rom.bsf                 ; --            ; --          ; --             ;
-; MISC_FILE                           ; IO/vga/charset_rom_bb.v                ; --            ; --          ; --             ;
-; MISC_FILE                           ; IO/vga/gfx_mem.bsf                     ; --            ; --          ; --             ;
-; MISC_FILE                           ; IO/vga/gfx_mem_bb.v                    ; --            ; --          ; --             ;
-; NUM_PARALLEL_PROCESSORS             ; 4                                      ; --            ; --          ; --             ;
-; PARTITION_COLOR                     ; -- (Not supported for targeted family) ; --            ; --          ; Top            ;
-; PARTITION_FITTER_PRESERVATION_LEVEL ; -- (Not supported for targeted family) ; --            ; --          ; Top            ;
-; PARTITION_NETLIST_TYPE              ; -- (Not supported for targeted family) ; --            ; --          ; Top            ;
-; POWER_BOARD_THERMAL_MODEL           ; None (CONSERVATIVE)                    ; --            ; --          ; --             ;
-; POWER_PRESET_COOLING_SOLUTION       ; 23 MM HEAT SINK WITH 200 LFPM AIRFLOW  ; --            ; --          ; --             ;
-; PROJECT_OUTPUT_DIRECTORY            ; output_files                           ; --            ; --          ; --             ;
-; SMART_RECOMPILE                     ; On                                     ; Off           ; --          ; --             ;
-; SPD_FILE                            ; pll.spd                                ; --            ; --          ; --             ;
-; SPD_FILE                            ; vga_pll.spd                            ; --            ; --          ; --             ;
-; SYNTHESIS_ONLY_QIP                  ; On                                     ; --            ; --          ; --             ;
-; SYNTHESIS_ONLY_QIP                  ; On                                     ; --            ; --          ; --             ;
-+-------------------------------------+----------------------------------------+---------------+-------------+----------------+
++------------------------------------------------------------------------------------------------------------------------------+
+; Flow Non-Default Global Settings                                                                                             ;
++--------------------------------------+----------------------------------------+---------------+-------------+----------------+
+; Assignment Name                      ; Value                                  ; Default Value ; Entity Name ; Section Id     ;
++--------------------------------------+----------------------------------------+---------------+-------------+----------------+
+; COMPILER_SIGNATURE_ID                ; 220083050252176.153299468329890        ; --            ; --          ; --             ;
+; EDA_OUTPUT_DATA_FORMAT               ; Verilog Hdl                            ; --            ; --          ; eda_simulation ;
+; EDA_SIMULATION_TOOL                  ; ModelSim-Altera (Verilog)              ; <None>        ; --          ; --             ;
+; EDA_TIME_SCALE                       ; 1 ps                                   ; --            ; --          ; eda_simulation ;
+; FITTER_EFFORT                        ; Standard Fit                           ; Auto Fit      ; --          ; --             ;
+; MAX_CORE_JUNCTION_TEMP               ; 85                                     ; --            ; --          ; --             ;
+; MIN_CORE_JUNCTION_TEMP               ; 0                                      ; --            ; --          ; --             ;
+; MISC_FILE                            ; pll.cmp                                ; --            ; --          ; --             ;
+; MISC_FILE                            ; pll_sim/pll.vo                         ; --            ; --          ; --             ;
+; MISC_FILE                            ; ram/ram_mega.bsf                       ; --            ; --          ; --             ;
+; MISC_FILE                            ; ram/ram_mega_bb.v                      ; --            ; --          ; --             ;
+; MISC_FILE                            ; decode/rom_mega.bsf                    ; --            ; --          ; --             ;
+; MISC_FILE                            ; decode/rom_mega_bb.v                   ; --            ; --          ; --             ;
+; MISC_FILE                            ; mmu/page_table_mega.bsf                ; --            ; --          ; --             ;
+; MISC_FILE                            ; mmu/page_table_mega_bb.v               ; --            ; --          ; --             ;
+; MISC_FILE                            ; vga_pll.cmp                            ; --            ; --          ; --             ;
+; MISC_FILE                            ; vga_pll_sim/vga_pll.vo                 ; --            ; --          ; --             ;
+; MISC_FILE                            ; IO/vga/char_mem.bsf                    ; --            ; --          ; --             ;
+; MISC_FILE                            ; IO/vga/char_mem_bb.v                   ; --            ; --          ; --             ;
+; MISC_FILE                            ; IO/vga/charset_rom.bsf                 ; --            ; --          ; --             ;
+; MISC_FILE                            ; IO/vga/charset_rom_bb.v                ; --            ; --          ; --             ;
+; MISC_FILE                            ; IO/vga/gfx_mem.bsf                     ; --            ; --          ; --             ;
+; MISC_FILE                            ; IO/vga/gfx_mem_bb.v                    ; --            ; --          ; --             ;
+; MUX_RESTRUCTURE                      ; Off                                    ; Auto          ; --          ; --             ;
+; NUM_PARALLEL_PROCESSORS              ; 4                                      ; --            ; --          ; --             ;
+; OPTIMIZATION_MODE                    ; Aggressive Performance                 ; Balanced      ; --          ; --             ;
+; OPTIMIZATION_TECHNIQUE               ; Speed                                  ; Balanced      ; --          ; --             ;
+; PARTITION_COLOR                      ; -- (Not supported for targeted family) ; --            ; --          ; Top            ;
+; PARTITION_FITTER_PRESERVATION_LEVEL  ; -- (Not supported for targeted family) ; --            ; --          ; Top            ;
+; PARTITION_NETLIST_TYPE               ; -- (Not supported for targeted family) ; --            ; --          ; Top            ;
+; PHYSICAL_SYNTHESIS_COMBO_LOGIC       ; On                                     ; Off           ; --          ; --             ;
+; PHYSICAL_SYNTHESIS_REGISTER_RETIMING ; On                                     ; Off           ; --          ; --             ;
+; PLACEMENT_EFFORT_MULTIPLIER          ; 4.0                                    ; 1.0           ; --          ; --             ;
+; POWER_BOARD_THERMAL_MODEL            ; None (CONSERVATIVE)                    ; --            ; --          ; --             ;
+; POWER_PRESET_COOLING_SOLUTION        ; 23 MM HEAT SINK WITH 200 LFPM AIRFLOW  ; --            ; --          ; --             ;
+; PROJECT_OUTPUT_DIRECTORY             ; output_files                           ; --            ; --          ; --             ;
+; ROUTER_TIMING_OPTIMIZATION_LEVEL     ; MAXIMUM                                ; Normal        ; --          ; --             ;
+; SMART_RECOMPILE                      ; On                                     ; Off           ; --          ; --             ;
+; SPD_FILE                             ; pll.spd                                ; --            ; --          ; --             ;
+; SPD_FILE                             ; vga_pll.spd                            ; --            ; --          ; --             ;
+; SYNTHESIS_ONLY_QIP                   ; On                                     ; --            ; --          ; --             ;
+; SYNTHESIS_ONLY_QIP                   ; On                                     ; --            ; --          ; --             ;
++--------------------------------------+----------------------------------------+---------------+-------------+----------------+
 
 
 +-------------------------------------------------------------------------------------------------------------------------------+
@@ -120,12 +128,12 @@ refer to the applicable agreement for further details.
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name               ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis      ; 00:00:30     ; 1.0                     ; 1142 MB             ; 00:00:57                           ;
-; Fitter                    ; 00:02:38     ; 1.3                     ; 2332 MB             ; 00:05:56                           ;
-; Assembler                 ; 00:00:09     ; 1.0                     ; 1016 MB             ; 00:00:10                           ;
-; TimeQuest Timing Analyzer ; 00:00:24     ; 2.6                     ; 1276 MB             ; 00:00:50                           ;
-; EDA Netlist Writer        ; 00:00:04     ; 1.0                     ; 1271 MB             ; 00:00:04                           ;
-; Total                     ; 00:03:45     ; --                      ; --                  ; 00:07:57                           ;
+; Analysis & Synthesis      ; 00:00:26     ; 1.0                     ; 1151 MB             ; 00:00:47                           ;
+; Fitter                    ; 00:02:57     ; 1.3                     ; 2369 MB             ; 00:06:36                           ;
+; Assembler                 ; 00:00:10     ; 1.0                     ; 1017 MB             ; 00:00:10                           ;
+; TimeQuest Timing Analyzer ; 00:00:23     ; 2.6                     ; 1275 MB             ; 00:00:51                           ;
+; EDA Netlist Writer        ; 00:00:04     ; 1.0                     ; 1273 MB             ; 00:00:04                           ;
+; Total                     ; 00:04:00     ; --                      ; --                  ; 00:08:28                           ;
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 
