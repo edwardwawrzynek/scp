@@ -36,6 +36,8 @@ declare_global(int type, int storage, TAG_SYMBOL *mtag, int otag, int is_struct)
                 /* Don't multidef if variable is an extern */
                 if(symbol_table[find_global (sname)].storage != EXTERN){
                     multidef (sname);
+                } else {
+                    storage = PUBLIC;
                 }
             }
             if (match ("[")) {
@@ -331,7 +333,10 @@ int add_global (char *sname, int identity, int type, int offset, int storage) {
     SYMBOL *symbol;
     char *buffer_ptr;
     if ((current_symbol_table_idx = find_global(sname)) > -1) {
-        return (current_symbol_table_idx);
+        /* ALlow definition of declared externs */
+        if(symbol_table[current_symbol_table_idx].storage != EXTERN){
+            return (current_symbol_table_idx);
+        }
     }
     if (global_table_index >= NUMBER_OF_GLOBALS) {
         error ("global symbol table overflow");
