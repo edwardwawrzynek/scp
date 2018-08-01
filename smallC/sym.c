@@ -32,8 +32,12 @@ declare_global(int type, int storage, TAG_SYMBOL *mtag, int otag, int is_struct)
             }
             if (!symname (sname))
                 illname ();
-            if (find_global (sname) > -1)
-                multidef (sname);
+            if (find_global (sname) > -1){
+                /* Don't multidef if variable is an extern */
+                if(symbol_table[find_global (sname)].storage != EXTERN){
+                    multidef (sname);
+                }
+            }
             if (match ("[")) {
                 dim = needsub ();
                 /*if (dim || storage == EXTERN) {*/
