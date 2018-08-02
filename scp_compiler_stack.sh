@@ -15,7 +15,8 @@ Options:
 -f file.s  :links an assembly file at the very end of the binary
 -h         :display usage
 -e         :if specified, the binary is put against the end of the address space
--n         :don't link asms associated with included system header files"
+-n         :don't link asms associated with included system header files
+-I	   :don't fix #asm prefixed section's indentation with scpcasmfix"
 }
 
 #Binary out - will always be generated
@@ -43,10 +44,13 @@ INCL_FILE=""
 #whether to compile the c files
 DO_COMP=true
 
+#whether to run scpcasmfix on the c files
+DO_ASMFIX=true
+
 #Files to link with
 LINKS="/home/edward/scp_software/lib/include/cret.s /home/edward/scp_software/lib/include/crun.s"
 END_LINK=""
-while getopts "ehnco:m:a:s:l:L:f:" opt; do
+while getopts "ehncIo:m:a:s:l:L:f:" opt; do
   case $opt in
     e)
 	DO_END=true
@@ -63,6 +67,9 @@ while getopts "ehnco:m:a:s:l:L:f:" opt; do
         ;;
     c)
     	DO_COMP=false
+    	;;
+    I)
+    	DO_ASMFIX=false
     	;;
     m)
     	MIF_OUTPUT=$OPTARG
@@ -104,20 +111,29 @@ fi
 shift $((OPTIND-1))
 #Compile the file, generating .incl
 if [ "$DO_COMP" == "true" ]; then
+	if [ "$DO_ASMFIX" == "true" ]; then
+		for c_file in "$@"
+		do
+			mv "$c_file" "$c_file.scpcasmfix"
+			scpcasmfix "$c_file.scpcasmfix" "$c_file"
+			rm "$c_file.scpcasmfix"
+		done
+	fi
 	sccscp -i "$@"
 fi
 
 ASMD_FILES=""
 INCLD_FILES=""
+C_FILES="$@"
 #set asm and incl file names
 if [ "$DO_COMP" == "true" ]; then
-	for arg in "$@"
+	for arg in "$C_FILES"
 	do
 		ASMD_FILES="$ASMD_FILES $(echo "$arg" | cut -f 1 -d '.').s"
 		INCLD_FILES="$INCLD_FILES $(echo "$arg" | cut -f 1 -d '.').incl"
 	done
 else
-	ASMD_FILES="$@"
+	ASMD_FILES="$C_FILES"
 	touch .SCP_INCL_FAKE.incl
 	INCLD_FILES=".SCP_INCL_FAKE.incl"
 fi
