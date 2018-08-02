@@ -134,11 +134,6 @@ if [ "$DO_COMP" == "true" ]; then
 	sccscp -i "$C_FILES"
 fi
 
-#stop with just asms
-if [ "$DO_STOP_ASMLNK" == "true" ]; then
-	exit 0
-fi
-
 #set asm and incl file names
 if [ "$DO_COMP" == "true" ]; then
 	for arg in "$C_FILES"
@@ -150,6 +145,12 @@ else
 	ASMD_FILES="$C_FILES"
 	touch .SCP_INCL_FAKE.incl
 	INCLD_FILES=".SCP_INCL_FAKE.incl"
+fi
+
+#stop with just asms
+if [ "$DO_STOP_ASMLNK" == "true" ]; then
+	rm $INCLD_FILES
+	exit 0
 fi
 
 #write incl files to one incl file
