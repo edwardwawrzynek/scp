@@ -743,7 +743,6 @@ hier11(LVALUE *lval) {
                 if (symname(sname) == 0 ||
                    ((ptr=find_member(lval->tagsym, sname)) == 0)) {
                     error("unknown member");
-                                        
                     junk();
                     return 0;
                 }

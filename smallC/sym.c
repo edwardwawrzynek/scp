@@ -58,7 +58,7 @@ declare_global(int type, int storage, TAG_SYMBOL *mtag, int otag, int is_struct)
                 break;
             } else if (is_struct) {
                 /* structure member, mtag->size is offset */
-                add_member(sname, identity, type, mtag->size, storage, (type & CINT || identity == POINTER) ? dim*INTSIZE: dim);
+                add_member(sname, identity, type, mtag->size, storage, otag, (type & CINT || identity == POINTER) ? dim*INTSIZE: dim);
                 /* store (correctly scaled) size of member in tag table entry */
                 if (identity == POINTER)
                     type = CINT;
@@ -67,7 +67,7 @@ declare_global(int type, int storage, TAG_SYMBOL *mtag, int otag, int is_struct)
             }
             else {
                 /* union member, offset is always zero */
-                add_member(sname, identity, type, 0, storage);
+                add_member(sname, identity, type, 0, storage, otag, (type & CINT || identity == POINTER) ? dim*INTSIZE: dim);
                 /* store maximum member size in tag table entry */
                 if (identity == POINTER)
                     type = CINT;
