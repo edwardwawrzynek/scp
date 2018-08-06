@@ -4900,7 +4900,7 @@ panic:
 	call	printf
 	mdsp	#4
 $2:
-	lwia	#-1
+	lwia	#1
 	jpz 	$3
 	jmp 	$2
 $3:

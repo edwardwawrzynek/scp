@@ -137,9 +137,19 @@ def match_pat_des(pat, token):
 
 def match_pat(pat, tokens):
     pat_len = len(pat)
+    #first index of good matches
+    goods = []
+    hitGood = True
     for i in range(len(tokens)-pat_len+1):
         #attempt to match this pattern on the sequence starting at tokens[i]
-        pass
+        hitGood = True
+        for p in range(pat_len):
+            if not match_pat_des(pat[p], tokens[i+p]):
+                hitGood = False
+                break;
+        if hitGood:
+            goods.append(i)
+    return goods
 
 '''
 match pattern format
@@ -156,7 +166,6 @@ def optimize_file(path):
     file = open(path, "r")
     fout = open("output.s", "w")
     tokens = parse_file(file)
-    match_pat([1], tokens)
     put_tokens(fout, tokens)
 
 def main():
@@ -167,6 +176,6 @@ def main():
     for f in sys.argv[1:]:
         optimize_file(f)
 
-    print match_pat_des(["lwia,lwib", arg.TYPE_LIT, lambda v: v<256], cmd.fromAsm("lwib\t#-1\n"));
+    print match_pat([["lwia,lwib", arg.TYPE_LIT, lambda v: v<256], ["nop ", arg.TYPE_ANY, VAL_ANY]], [cmd.fromAsm("nop \t\n"), cmd.fromAsm("lwib\t#255\n"), cmd.fromAsm("nop \t\n"), cmd.fromAsm("lwib\t#255\n"), cmd.fromAsm("nop \t\n")])
 
 main()
