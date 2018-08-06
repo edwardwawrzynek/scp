@@ -108,13 +108,8 @@ def parse_file(f):
         #a label, so asm (ignore comments)
         elif l[0] != ';' and len(l) > 1 and l[1] != ';':
             res.append(asm.fromAsm(l))
-    res.append(asm.fromAsm(";\toptomizer end"))
+    res.append(asm.fromAsm(";\toptimizer end"))
     return res
-
-#output a new asm file from a list of asm's and cmd's
-def put_tokens(f, tokens):
-    for t in tokens:
-        f.write(t.toAsm())
 
 #command matching routines
 def VAL_ANY(val):
@@ -160,7 +155,7 @@ def match_pat(pat, rep, tokens):
 #applies all the matches of a pat to tokens
 def apply_pat(pat, rep, tokens):
     res = match_pat(pat, rep, tokens)
-    while res:
+    while res != False:
         tokens = res
         res = match_pat(pat, rep, tokens)
     return tokens
@@ -176,24 +171,32 @@ def error(err):
     print err
     exit(1)
 
-def optimize_file(path):
+#output a new asm file from a list of asm's and cmd's
+def put_tokens(f, tokens):
+    for t in tokens:
+        f.write(t.toAsm())
+
+def apply_pats(pats, tokens):
+    for p in pats:
+        print p
+        tokens = apply_pat(p[0], p[1], tokens)
+    return tokens
+
+def optimize_file(path, pats):
     file = open(path, "r")
     fout = open("output.s", "w")
     tokens = parse_file(file)
+    tokens = apply_pats(pats, tokens)
     put_tokens(fout, tokens)
 
 def printTokens(t):
     for i in t:
         print i.toAsm()
 
-def main():
+def main(pats):
     if (len(sys.argv)<2):
         error("Usage: scpopt [files.s]")
 
     #for each file listed, run the optomizer on it
     for f in sys.argv[1:]:
-        optimize_file(f)
-
-    newT = apply_pat([["lwia,lwib", arg.TYPE_LIT, lambda v: v<256], ["nop ", arg.TYPE_ANY, VAL_ANY]], lambda c: [cg("extr", c[0].arg)], [cmd.fromAsm("cmda\t\n"), cmd.fromAsm("lwib\t#255\n"), cmd.fromAsm("nop \t\n"), cmd.fromAsm("lwib\t#2\n"), cmd.fromAsm("nop \t\n")])
-    printTokens(newT)
-main()
+        optimize_file(f, pats)

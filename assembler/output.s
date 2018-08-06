@@ -12,24 +12,24 @@ ccudiv:
 	swpb	
 	mspa	#8
 	psha	
-	lwia	#0
+	abcd	#5
 	popb	
 	swqa	
 	mspa	#6
 	psha	
-	lwia	#0
+	abcd	#5
 	popb	
 	swqa	
 	mspa	#4
 	psha	
-	lwia	#15
+	abcd	#5
 	popb	
 	swqa	
 ccudiv_2:
 	mspa	#4
 	lwpa	
 	psha	
-	lwia	#1
+	abcd	#5
 	popb	
 	aadd	
 	jpnz	ccudiv_4
@@ -48,7 +48,7 @@ ccudiv_4:
 	mspa	#8
 	lwpa	
 	psha	
-	lwia	#1
+	abcd	#5
 	popb	
 	ashl	
 	popb	
@@ -58,14 +58,14 @@ ccudiv_4:
 	mspa	#8
 	lwpa	
 	psha	
-	lwia	#4094
+	abcd	#5
 	popb	
 	abnd	
 	psha	
 	mspa	#6
 	lwpa	
 	psha	
-	lwia	#1
+	abcd	#5
 	psha	
 	mspa	#12
 	lwpa	
@@ -107,7 +107,7 @@ ccudiv_4:
 	mspa	#10
 	lwpa	
 	psha	
-	lwia	#1
+	abcd	#5
 	psha	
 	mspa	#10
 	lwpa	
@@ -137,21 +137,21 @@ ccdiv:
 	popb	
 	mspa	#2
 	swpb	
-	nop 	
+	b	
 	mspa	#5
 	psha	
-	lwia	#0
+	abcd	#5
 	popb	
 	sbqa	
 	mspa	#4
 	psha	
-	lwia	#0
+	abcd	#5
 	popb	
 	sbqa	
 	mspa	#2
 	lwpa	
 	psha	
-	lwia	#32768
+	abcd	#5
 	popb	
 	abnd	
 	jpz 	ccdiv_2
@@ -166,21 +166,21 @@ ccdiv:
 	psha	
 	lbpa	
 	psha	
-	lwia	#1
+	abcd	#5
 	popb	
 	abxr	
 	popb	
 	sbqa	
 	mspa	#4
 	psha	
-	lwia	#1
+	abcd	#5
 	popb	
 	sbqa	
 ccdiv_2:
 	mspa	#0
 	lwpa	
 	psha	
-	lwia	#32768
+	abcd	#5
 	popb	
 	abnd	
 	jpz 	ccdiv_3
@@ -195,7 +195,7 @@ ccdiv_2:
 	psha	
 	lbpa	
 	psha	
-	lwia	#1
+	abcd	#5
 	popb	
 	abxr	
 	popb	
@@ -256,7 +256,7 @@ cccase:
 	popb	
 	swqa	
 $2:
-	lwia	#1
+	abcd	#5
 	jpz 	$3
 	mspa	#0
 	lwpa	
@@ -336,7 +336,7 @@ _malloc_new:
 	lwib	#6
 	aadd	
 	psha	
-	lwia	#0
+	abcd	#5
 	popb	
 	sbqa	
 	mspa	#0
@@ -359,14 +359,14 @@ _malloc_new:
 	lwib	#2
 	aadd	
 	psha	
-	lwia	#0
+	abcd	#5
 	popb	
 	swqa	
 	lwma	brk
 	psha	
 	mspa	#2
 	psha	
-	lwia	#12
+	abcd	#5
 	psha	
 	lbib	#3
 	call	memcpy
@@ -391,7 +391,7 @@ $3:
 	swma	_malloc_tail
 	lwma	brk
 	psha	
-	lwia	#12
+	abcd	#5
 	psha	
 	mspa	#20
 	lwpa	
@@ -442,7 +442,7 @@ _malloc_combine:
 	aadd	
 	lwpa	
 	psha	
-	lwia	#12
+	abcd	#5
 	popb	
 	aadd	
 	popb	
@@ -515,7 +515,7 @@ $5:
 	aadd	
 	lwpa	
 	psha	
-	lwia	#12
+	abcd	#5
 	popb	
 	aadd	
 	popb	
@@ -591,7 +591,7 @@ $15:
 	lwib	#6
 	aadd	
 	psha	
-	lwia	#0
+	abcd	#5
 	popb	
 	sbqa	
 	mspa	#16
@@ -617,7 +617,7 @@ $15:
 	mspa	#14
 	lwpa	
 	psha	
-	lwia	#12
+	abcd	#5
 	popb	
 	aule	
 	alng	
@@ -638,7 +638,7 @@ $15:
 	mspa	#16
 	lwpa	
 	psha	
-	lwia	#12
+	abcd	#5
 	popb	
 	asub	
 	popb	
@@ -647,7 +647,7 @@ $15:
 	lwib	#6
 	aadd	
 	psha	
-	lwia	#1
+	abcd	#5
 	popb	
 	sbqa	
 	mspa	#2
@@ -674,7 +674,7 @@ $15:
 	mspa	#18
 	lwpa	
 	psha	
-	lwia	#12
+	abcd	#5
 	popb	
 	aadd	
 	psha	
@@ -689,7 +689,7 @@ $15:
 	psha	
 	mspa	#4
 	psha	
-	lwia	#12
+	abcd	#5
 	psha	
 	lbib	#3
 	call	memcpy
@@ -731,7 +731,7 @@ $16:
 	mspa	#16
 	lwpa	
 	psha	
-	lwia	#12
+	abcd	#5
 	popb	
 	aadd	
 	jmp 	$11
@@ -807,7 +807,7 @@ $20:
 	swqa	
 	deca	
 	psha	
-	lwia	#0
+	abcd	#5
 	popb	
 	sbqa	
 	jmp 	$20
@@ -825,7 +825,7 @@ kfree:
 	mspa	#6
 	lwpa	
 	psha	
-	lwia	#12
+	abcd	#5
 	popb	
 	asub	
 	popb	
@@ -835,7 +835,7 @@ kfree:
 	lwib	#6
 	aadd	
 	psha	
-	lwia	#1
+	abcd	#5
 	popb	
 	sbqa	
 	mspa	#0
@@ -855,7 +855,7 @@ krealloc:
 	mspa	#10
 	lwpa	
 	psha	
-	lwia	#12
+	abcd	#5
 	popb	
 	asub	
 	popb	
@@ -957,7 +957,7 @@ $4:
 	swqa	
 	jmp 	$2
 $3:
-	lwia	#0
+	abcd	#5
 	jmp 	$1
 $1:
 	ret 	
@@ -1037,7 +1037,7 @@ $5:
 	lbpa	
 	asex	
 	jpz 	$6
-	lwia	#5
+	abcd	#5
 	psha	
 	mspa	#4
 	psha	
@@ -1050,7 +1050,7 @@ $5:
 	lbib	#2
 	call	outp
 	mdsp	#4
-	lwia	#6
+	abcd	#5
 	psha	
 	mspa	#6
 	psha	
@@ -1082,7 +1082,7 @@ printf:
 	mspa	#2
 	lwpa	
 	psha	
-	lwia	#2
+	abcd	#5
 	popb	
 	amul	
 	popb	
@@ -1096,7 +1096,7 @@ printf:
 	mspa	#4
 	lwpa	
 	psha	
-	lwia	#9
+	abcd	#5
 	popb	
 	aadd	
 	psha	
@@ -1112,7 +1112,7 @@ printf:
 	mspa	#4
 	lwpa	
 	psha	
-	lwia	#7
+	abcd	#5
 	popb	
 	aadd	
 	psha	
@@ -1124,7 +1124,7 @@ printf:
 	swqa	
 	mspa	#7
 	psha	
-	lwia	#0
+	abcd	#5
 	popb	
 	swqa	
 $8:
@@ -1132,7 +1132,7 @@ $8:
 	lwpa	
 	lwpa	
 	psha	
-	lwia	#255
+	abcd	#5
 	popb	
 	abnd	
 	jpz 	$9
@@ -1151,7 +1151,7 @@ $8:
 	mspa	#6
 	lbpa	
 	psha	
-	lwia	#37
+	abcd	#5
 	popb	
 	aequ	
 	jpz 	$10
@@ -1170,7 +1170,7 @@ $8:
 	mspa	#6
 	lbpa	
 	psha	
-	lwia	#99
+	abcd	#5
 	popb	
 	aequ	
 	jpz 	$11
@@ -1191,14 +1191,14 @@ $11:
 	mspa	#6
 	lbpa	
 	psha	
-	lwia	#105
+	abcd	#5
 	popb	
 	aequ	
 	jpnz	$14
 	mspa	#6
 	lbpa	
 	psha	
-	lwia	#100
+	abcd	#5
 	popb	
 	aequ	
 $14:
@@ -1213,7 +1213,7 @@ $14:
 	asub	
 	lwpa	
 	psha	
-	lwia	#10
+	abcd	#5
 	psha	
 	lbib	#2
 	call	_sprintn
@@ -1223,7 +1223,7 @@ $13:
 	mspa	#6
 	lbpa	
 	psha	
-	lwia	#117
+	abcd	#5
 	popb	
 	aequ	
 	jpz 	$16
@@ -1236,7 +1236,7 @@ $13:
 	asub	
 	lwpa	
 	psha	
-	lwia	#10
+	abcd	#5
 	psha	
 	lbib	#2
 	call	_uprintn
@@ -1246,7 +1246,7 @@ $16:
 	mspa	#6
 	lbpa	
 	psha	
-	lwia	#115
+	abcd	#5
 	popb	
 	aequ	
 	jpz 	$18
@@ -1267,7 +1267,7 @@ $18:
 	mspa	#6
 	lbpa	
 	psha	
-	lwia	#120
+	abcd	#5
 	popb	
 	aequ	
 	jpz 	$20
@@ -1280,7 +1280,7 @@ $18:
 	asub	
 	lwpa	
 	psha	
-	lwia	#16
+	abcd	#5
 	psha	
 	lbib	#2
 	call	_uprintn
@@ -1294,7 +1294,7 @@ $12:
 	psha	
 	lwpa	
 	psha	
-	lwia	#2
+	abcd	#5
 	popb	
 	aadd	
 	popb	
@@ -1320,11 +1320,11 @@ _sprintn:
 	mspa	#8
 	lwpa	
 	psha	
-	lwia	#0
+	abcd	#5
 	popb	
 	aslt	
 	jpz 	$2
-	lwia	#45
+	abcd	#5
 	psha	
 	lbib	#1
 	call	putchar
@@ -1349,7 +1349,7 @@ $2:
 	popb	
 	swqa	
 	psha	
-	lwia	#0
+	abcd	#5
 	popb	
 	aneq	
 	jpz 	$3
@@ -1365,7 +1365,7 @@ $2:
 $3:
 	mspa	#0
 	psha	
-	lwia	$0+#0
+	abcd	#5
 	popb	
 	swqa	
 	mspa	#0
@@ -1405,7 +1405,7 @@ _uprintn:
 	popb	
 	swqa	
 	psha	
-	lwia	#0
+	abcd	#5
 	popb	
 	aneq	
 	jpz 	$5
@@ -1421,7 +1421,7 @@ _uprintn:
 $5:
 	mspa	#0
 	psha	
-	lwia	$0+#17
+	abcd	#5
 	popb	
 	swqa	
 	mspa	#0
@@ -1457,14 +1457,14 @@ _screenscroll:
 	mdsp	#-2
 	mspa	#2
 	psha	
-	lwia	#0
+	abcd	#5
 	popb	
 	swqa	
 $2:
 	mspa	#2
 	lwpa	
 	psha	
-	lwia	#1000
+	abcd	#5
 	popb	
 	ault	
 	jpnz	$4
@@ -1478,12 +1478,12 @@ $3:
 	swqa	
 	jmp 	$2
 $4:
-	lwia	#5
+	abcd	#5
 	psha	
 	mspa	#4
 	lwpa	
 	psha	
-	lwia	#40
+	abcd	#5
 	popb	
 	aadd	
 	psha	
@@ -1495,22 +1495,22 @@ $4:
 	mspa	#4
 	lwpa	
 	psha	
-	lwia	#960
+	abcd	#5
 	popb	
 	ault	
 	jpz 	$6
-	lwia	#6
+	abcd	#5
 	psha	
 	lbib	#1
 	call	inp
 	mdsp	#2
 	jmp 	$7
 $6:
-	lwia	#0
+	abcd	#5
 $7:
 	popb	
 	swqa	
-	lwia	#5
+	abcd	#5
 	psha	
 	mspa	#4
 	lwpa	
@@ -1518,7 +1518,7 @@ $7:
 	lbib	#2
 	call	outp
 	mdsp	#4
-	lwia	#6
+	abcd	#5
 	psha	
 	mspa	#2
 	lwpa	
@@ -1528,7 +1528,7 @@ $7:
 	mdsp	#4
 	jmp 	$3
 $5:
-	lwia	#960
+	abcd	#5
 	swma	_screenpos
 $1:
 	mdsp	#4
@@ -1537,14 +1537,14 @@ _screenclear:
 	mdsp	#-2
 	mspa	#0
 	psha	
-	lwia	#0
+	abcd	#5
 	popb	
 	swqa	
 $9:
 	mspa	#0
 	lwpa	
 	psha	
-	lwia	#1000
+	abcd	#5
 	popb	
 	ault	
 	jpnz	$11
@@ -1559,7 +1559,7 @@ $10:
 	deca	
 	jmp 	$9
 $11:
-	lwia	#5
+	abcd	#5
 	psha	
 	mspa	#2
 	lwpa	
@@ -1567,16 +1567,16 @@ $11:
 	lbib	#2
 	call	outp
 	mdsp	#4
-	lwia	#6
+	abcd	#5
 	psha	
-	lwia	#0
+	abcd	#5
 	psha	
 	lbib	#2
 	call	outp
 	mdsp	#4
 	jmp 	$10
 $12:
-	lwia	#960
+	abcd	#5
 	swma	_screenpos
 $8:
 	mdsp	#2
@@ -1584,7 +1584,7 @@ $8:
 putchar:
 	lwma	_screenpos
 	psha	
-	lwia	#1000
+	abcd	#5
 	popb	
 	ault	
 	alng	
@@ -1595,7 +1595,7 @@ $14:
 	mspa	#2
 	lbpa	
 	psha	
-	lwia	#10
+	abcd	#5
 	popb	
 	aequ	
 	jpz 	$15
@@ -1606,13 +1606,13 @@ $15:
 	mspa	#2
 	lbpa	
 	psha	
-	lwia	#9
+	abcd	#5
 	popb	
 	aequ	
 	jpz 	$17
 	lwma	_screenpos
 	psha	
-	lwia	#8
+	abcd	#5
 	popb	
 	aadd	
 	swma	_screenpos
@@ -1621,33 +1621,33 @@ $17:
 	mspa	#2
 	lbpa	
 	psha	
-	lwia	#8
+	abcd	#5
 	popb	
 	aequ	
 	jpz 	$19
 	lwma	_screenpos
 	psha	
-	lwia	#1
+	abcd	#5
 	popb	
 	asub	
 	swma	_screenpos
-	lwia	#5
+	abcd	#5
 	psha	
 	lwma	_screenpos
 	psha	
 	lbib	#2
 	call	outp
 	mdsp	#4
-	lwia	#6
+	abcd	#5
 	psha	
-	lwia	#0
+	abcd	#5
 	psha	
 	lbib	#2
 	call	outp
 	mdsp	#4
 	jmp 	$20
 $19:
-	lwia	#5
+	abcd	#5
 	psha	
 	lwma	_screenpos
 	inca	
@@ -1657,7 +1657,7 @@ $19:
 	lbib	#2
 	call	outp
 	mdsp	#4
-	lwia	#6
+	abcd	#5
 	psha	
 	mspa	#4
 	lbpa	
@@ -1674,15 +1674,15 @@ _screenpos:
 	.dw	#960
 	.module	SMALLC_GENERATED
 disk_init:
-	lwia	#13
+	abcd	#5
 	psha	
-	lwia	#1
+	abcd	#5
 	psha	
 	lbib	#2
 	call	outp
 	mdsp	#4
 $2:
-	lwia	#13
+	abcd	#5
 	psha	
 	lbib	#1
 	call	inp
@@ -1690,7 +1690,7 @@ $2:
 	jpz 	$3
 	jmp 	$2
 $3:
-	lwia	#14
+	abcd	#5
 	psha	
 	lbib	#1
 	call	inp
@@ -1700,7 +1700,7 @@ $1:
 	ret 	
 disk_read:
 $5:
-	lwia	#13
+	abcd	#5
 	psha	
 	lbib	#1
 	call	inp
@@ -1708,7 +1708,7 @@ $5:
 	jpz 	$6
 	jmp 	$5
 $6:
-	lwia	#14
+	abcd	#5
 	psha	
 	mspa	#6
 	lwpa	
@@ -1716,22 +1716,22 @@ $6:
 	lbib	#2
 	call	outp
 	mdsp	#4
-	lwia	#16
+	abcd	#5
 	psha	
-	lwia	#1
+	abcd	#5
 	psha	
 	lbib	#2
 	call	outp
 	mdsp	#4
-	lwia	#16
+	abcd	#5
 	psha	
-	lwia	#0
+	abcd	#5
 	psha	
 	lbib	#2
 	call	outp
 	mdsp	#4
 $7:
-	lwia	#13
+	abcd	#5
 	psha	
 	lbib	#1
 	call	inp
@@ -1748,22 +1748,22 @@ $9:
 	swqa	
 	deca	
 	psha	
-	lwia	#15
+	abcd	#5
 	psha	
 	lbib	#1
 	call	inp
 	mdsp	#2
 	popb	
 	sbqa	
-	lwia	#15
+	abcd	#5
 	psha	
-	lwia	#0
+	abcd	#5
 	psha	
 	lbib	#2
 	call	outp
 	mdsp	#4
 $10:
-	lwia	#16
+	abcd	#5
 	psha	
 	lbib	#1
 	call	inp
@@ -1774,7 +1774,7 @@ $4:
 	ret 	
 disk_write:
 $13:
-	lwia	#13
+	abcd	#5
 	psha	
 	lbib	#1
 	call	inp
@@ -1782,7 +1782,7 @@ $13:
 	jpz 	$14
 	jmp 	$13
 $14:
-	lwia	#14
+	abcd	#5
 	psha	
 	mspa	#6
 	lwpa	
@@ -1791,7 +1791,7 @@ $14:
 	call	outp
 	mdsp	#4
 $15:
-	lwia	#17
+	abcd	#5
 	psha	
 	mspa	#4
 	psha	
@@ -1806,23 +1806,23 @@ $15:
 	call	outp
 	mdsp	#4
 $16:
-	lwia	#18
+	abcd	#5
 	psha	
 	lbib	#1
 	call	inp
 	mdsp	#2
 	jpnz	$15
 $17:
-	lwia	#18
+	abcd	#5
 	psha	
-	lwia	#1
+	abcd	#5
 	psha	
 	lbib	#2
 	call	outp
 	mdsp	#4
-	lwia	#18
+	abcd	#5
 	psha	
-	lwia	#0
+	abcd	#5
 	psha	
 	lbib	#2
 	call	outp
@@ -1834,14 +1834,14 @@ buffer_alloc:
 	mdsp	#-2
 	mspa	#0
 	psha	
-	lwia	#0
+	abcd	#5
 	popb	
 	swqa	
 $2:
 	mspa	#0
 	lwpa	
 	psha	
-	lwia	#32
+	abcd	#5
 	popb	
 	ault	
 	jpnz	$4
@@ -1855,7 +1855,7 @@ $3:
 	swqa	
 	jmp 	$2
 $4:
-	lwia	buffer_table
+	abcd	#5
 	psha	
 	mspa	#2
 	lwpa	
@@ -1868,7 +1868,7 @@ $4:
 	lbpa	
 	alng	
 	jpz 	$6
-	lwia	buffer_table
+	abcd	#5
 	psha	
 	mspa	#2
 	lwpa	
@@ -1879,14 +1879,14 @@ $4:
 	lwib	#0
 	aadd	
 	psha	
-	lwia	#512
+	abcd	#5
 	psha	
 	lbib	#1
 	call	kmalloc
 	mdsp	#2
 	popb	
 	swqa	
-	lwia	buffer_table
+	abcd	#5
 	psha	
 	mspa	#2
 	lwpa	
@@ -1901,7 +1901,7 @@ $4:
 	inca	
 	popb	
 	sbqa	
-	lwia	buffer_table
+	abcd	#5
 	psha	
 	mspa	#2
 	lwpa	
@@ -1919,7 +1919,7 @@ $4:
 	mspa	#4
 	lwpa	
 	psha	
-	lwia	buffer_table
+	abcd	#5
 	psha	
 	mspa	#4
 	lwpa	
@@ -1934,7 +1934,7 @@ $4:
 	lbib	#2
 	call	disk_read
 	mdsp	#4
-	lwia	buffer_table
+	abcd	#5
 	psha	
 	mspa	#2
 	lwpa	
@@ -1946,7 +1946,7 @@ $4:
 $6:
 	jmp 	$3
 $5:
-	lwia	#1
+	abcd	#5
 	psha	
 	lbib	#1
 	call	panic
@@ -1958,14 +1958,14 @@ buffer_get:
 	mdsp	#-2
 	mspa	#0
 	psha	
-	lwia	#0
+	abcd	#5
 	popb	
 	swqa	
 $8:
 	mspa	#0
 	lwpa	
 	psha	
-	lwia	#32
+	abcd	#5
 	popb	
 	ault	
 	jpnz	$10
@@ -1979,7 +1979,7 @@ $9:
 	swqa	
 	jmp 	$8
 $10:
-	lwia	buffer_table
+	abcd	#5
 	psha	
 	mspa	#2
 	lwpa	
@@ -1996,7 +1996,7 @@ $10:
 	popb	
 	aequ	
 	jpz 	$12
-	lwia	buffer_table
+	abcd	#5
 	psha	
 	mspa	#2
 	lwpa	
@@ -2011,7 +2011,7 @@ $10:
 	inca	
 	popb	
 	sbqa	
-	lwia	buffer_table
+	abcd	#5
 	psha	
 	mspa	#2
 	lwpa	
@@ -2081,14 +2081,14 @@ buffer_flush_all:
 	mdsp	#-2
 	mspa	#0
 	psha	
-	lwia	#0
+	abcd	#5
 	popb	
 	swqa	
 $16:
 	mspa	#0
 	lwpa	
 	psha	
-	lwia	#32
+	abcd	#5
 	popb	
 	ault	
 	jpnz	$18
@@ -2102,7 +2102,7 @@ $17:
 	swqa	
 	jmp 	$16
 $18:
-	lwia	buffer_table
+	abcd	#5
 	psha	
 	mspa	#2
 	lwpa	
@@ -2114,7 +2114,7 @@ $18:
 	aadd	
 	lwpa	
 	psha	
-	lwia	buffer_table
+	abcd	#5
 	psha	
 	mspa	#4
 	lwpa	
@@ -2235,23 +2235,23 @@ buffer_table:
 balloc_alloc:
 	mdsp	#-2
 	mdsp	#-2
-	lwia	superblk
+	abcd	#5
 	lwib	#2
 	aadd	
 	lwpa	
 	psha	
-	lwia	#8
+	abcd	#5
 	popb	
 	ashr	
 	psha	
-	lwia	balloc_buffer
+	abcd	#5
 	psha	
 	lbib	#2
 	call	disk_read
 	mdsp	#4
 	mspa	#2
 	psha	
-	lwia	superblk
+	abcd	#5
 	lwib	#2
 	aadd	
 	lwpa	
@@ -2261,7 +2261,7 @@ $2:
 	mspa	#2
 	lwpa	
 	psha	
-	lwia	#65535
+	abcd	#5
 	popb	
 	ault	
 	jpnz	$4
@@ -2278,7 +2278,7 @@ $4:
 	mspa	#2
 	lwpa	
 	psha	
-	lwia	#255
+	abcd	#5
 	popb	
 	abnd	
 	alng	
@@ -2286,11 +2286,11 @@ $4:
 	mspa	#2
 	lwpa	
 	psha	
-	lwia	#8
+	abcd	#5
 	popb	
 	ashr	
 	psha	
-	lwia	balloc_buffer
+	abcd	#5
 	psha	
 	lbib	#2
 	call	disk_read
@@ -2298,12 +2298,12 @@ $4:
 $6:
 	mspa	#0
 	psha	
-	lwia	balloc_buffer
+	abcd	#5
 	psha	
 	mspa	#6
 	lwpa	
 	psha	
-	lwia	#255
+	abcd	#5
 	popb	
 	abnd	
 	lbib	#2
@@ -2316,7 +2316,7 @@ $6:
 	mspa	#0
 	lwpa	
 	psha	
-	lwia	#0
+	abcd	#5
 	popb	
 	aequ	
 	jpz 	$7
@@ -2326,7 +2326,7 @@ $6:
 $7:
 	jmp 	$3
 $5:
-	lwia	#2
+	abcd	#5
 	psha	
 	lbib	#1
 	call	panic
@@ -2362,7 +2362,7 @@ $9:
 	mspa	#2
 	lwpa	
 	psha	
-	lwia	#8
+	abcd	#5
 	popb	
 	ashr	
 	popb	
@@ -2372,7 +2372,7 @@ $9:
 	mspa	#2
 	lwpa	
 	psha	
-	lwia	#255
+	abcd	#5
 	popb	
 	abnd	
 	popb	
@@ -2380,12 +2380,12 @@ $9:
 	mspa	#4
 	lwpa	
 	psha	
-	lwia	balloc_buffer
+	abcd	#5
 	psha	
 	lbib	#2
 	call	disk_read
 	mdsp	#4
-	lwia	balloc_buffer
+	abcd	#5
 	psha	
 	mspa	#4
 	lwpa	
@@ -2401,7 +2401,7 @@ $9:
 	popb	
 	aneq	
 	jpz 	$11
-	lwia	balloc_buffer
+	abcd	#5
 	psha	
 	mspa	#4
 	lwpa	
@@ -2418,7 +2418,7 @@ $9:
 	mspa	#4
 	lwpa	
 	psha	
-	lwia	balloc_buffer
+	abcd	#5
 	psha	
 	lbib	#2
 	call	disk_write
@@ -2445,7 +2445,7 @@ $10:
 	mspa	#2
 	lwpa	
 	psha	
-	lwia	#8
+	abcd	#5
 	popb	
 	ashr	
 	popb	
@@ -2455,7 +2455,7 @@ $10:
 	mspa	#2
 	lwpa	
 	psha	
-	lwia	#255
+	abcd	#5
 	popb	
 	abnd	
 	popb	
@@ -2463,12 +2463,12 @@ $10:
 	mspa	#4
 	lwpa	
 	psha	
-	lwia	balloc_buffer
+	abcd	#5
 	psha	
 	lbib	#2
 	call	disk_read
 	mdsp	#4
-	lwia	balloc_buffer
+	abcd	#5
 	psha	
 	mspa	#4
 	lwpa	
@@ -2478,11 +2478,11 @@ $10:
 	aadd	
 	lwpa	
 	psha	
-	lwia	#1
+	abcd	#5
 	popb	
 	aneq	
 	jpz 	$12
-	lwia	balloc_buffer
+	abcd	#5
 	psha	
 	mspa	#4
 	lwpa	
@@ -2491,13 +2491,13 @@ $10:
 	popb	
 	aadd	
 	psha	
-	lwia	#1
+	abcd	#5
 	popb	
 	swqa	
 	mspa	#4
 	lwpa	
 	psha	
-	lwia	balloc_buffer
+	abcd	#5
 	psha	
 	lbib	#2
 	call	disk_write
@@ -2511,38 +2511,38 @@ balloc_get:
 	mdsp	#-2
 	mspa	#2
 	psha	
-	lwia	#1
+	abcd	#5
 	popb	
 	swqa	
-	lwia	balloc_get_buf
+	abcd	#5
 	psha	
 	mspa	#10
 	lwpa	
 	popb	
 	swqa	
 $14:
-	lwia	#1
+	abcd	#5
 	jpz 	$15
 	mspa	#8
 	lwpa	
 	psha	
-	lwia	#8
+	abcd	#5
 	popb	
 	ashr	
 	psha	
-	lwia	balloc_buffer
+	abcd	#5
 	psha	
 	lbib	#2
 	call	disk_read
 	mdsp	#4
 	mspa	#8
 	psha	
-	lwia	balloc_buffer
+	abcd	#5
 	psha	
 	mspa	#12
 	lwpa	
 	psha	
-	lwia	#255
+	abcd	#5
 	popb	
 	abnd	
 	lbib	#2
@@ -2559,31 +2559,31 @@ $14:
 	mspa	#8
 	lwpa	
 	psha	
-	lwia	#65535
+	abcd	#5
 	popb	
 	aequ	
 $17:
 	aclv	
 	jpz 	$16
-	lwia	#0
+	abcd	#5
 	jmp 	$13
 $16:
 	mspa	#8
 	lwpa	
 	psha	
-	lwia	#1
+	abcd	#5
 	popb	
 	aequ	
 	jpz 	$18
 	mspa	#2
 	lwpa	
 	psha	
-	lwia	#129
+	abcd	#5
 	popb	
 	ault	
 	alng	
 	jpz 	$19
-	lwia	#4
+	abcd	#5
 	psha	
 	lbib	#1
 	call	panic
@@ -2596,7 +2596,7 @@ $19:
 	lwpa	
 	popb	
 	sbqa	
-	lwia	balloc_get_buf
+	abcd	#5
 	psha	
 	mspa	#4
 	psha	
@@ -2610,7 +2610,7 @@ $19:
 	popb	
 	aadd	
 	psha	
-	lwia	#0
+	abcd	#5
 	popb	
 	swqa	
 	mspa	#0
@@ -2618,7 +2618,7 @@ $19:
 	mspa	#4
 	lwpa	
 	psha	
-	lwia	#1
+	abcd	#5
 	popb	
 	ashl	
 	psha	
@@ -2630,12 +2630,12 @@ $19:
 	mspa	#0
 	lwpa	
 	psha	
-	lwia	balloc_get_buf
+	abcd	#5
 	psha	
 	mspa	#6
 	lwpa	
 	psha	
-	lwia	#1
+	abcd	#5
 	popb	
 	ashl	
 	psha	
@@ -2646,7 +2646,7 @@ $19:
 	lwpa	
 	jmp 	$13
 $18:
-	lwia	balloc_get_buf
+	abcd	#5
 	psha	
 	mspa	#4
 	psha	
@@ -2675,23 +2675,23 @@ $21:
 	mspa	#4
 	lwpa	
 	psha	
-	lwia	#8
+	abcd	#5
 	popb	
 	ashr	
 	psha	
-	lwia	balloc_buffer
+	abcd	#5
 	psha	
 	lbib	#2
 	call	disk_read
 	mdsp	#4
 	mspa	#0
 	psha	
-	lwia	balloc_buffer
+	abcd	#5
 	psha	
 	mspa	#8
 	lwpa	
 	psha	
-	lwia	#255
+	abcd	#5
 	popb	
 	abnd	
 	lbib	#2
@@ -2701,12 +2701,12 @@ $21:
 	lwpa	
 	popb	
 	swqa	
-	lwia	balloc_buffer
+	abcd	#5
 	psha	
 	mspa	#6
 	lwpa	
 	psha	
-	lwia	#255
+	abcd	#5
 	popb	
 	abnd	
 	lbib	#2
@@ -2714,17 +2714,17 @@ $21:
 	popb	
 	aadd	
 	psha	
-	lwia	#0
+	abcd	#5
 	popb	
 	swqa	
 	mspa	#4
 	lwpa	
 	psha	
-	lwia	#8
+	abcd	#5
 	popb	
 	ashr	
 	psha	
-	lwia	balloc_buffer
+	abcd	#5
 	psha	
 	lbib	#2
 	call	disk_write
@@ -2742,7 +2742,7 @@ $22:
 	mspa	#4
 	lwpa	
 	psha	
-	lwia	#1
+	abcd	#5
 	popb	
 	aneq	
 $24:
@@ -2751,7 +2751,7 @@ $24:
 	mspa	#4
 	lwpa	
 	psha	
-	lwia	#65535
+	abcd	#5
 	popb	
 	aneq	
 $25:
@@ -2804,18 +2804,18 @@ balloc_get_buf:
 	.dw	#0,#0,#0,#0,#0,#0,#0,#0,#0
 	.module	SMALLC_GENERATED
 superblock_read:
-	lwia	#383
+	abcd	#5
 	psha	
-	lwia	fs_global_buf
+	abcd	#5
 	psha	
 	lbib	#2
 	call	disk_read
 	mdsp	#4
-	lwia	superblk
+	abcd	#5
 	psha	
-	lwia	fs_global_buf
+	abcd	#5
 	psha	
-	lwia	#13
+	abcd	#5
 	psha	
 	lbib	#3
 	call	memcpy
@@ -2831,14 +2831,14 @@ inode_alloc:
 	mdsp	#-2
 	mspa	#0
 	psha	
-	lwia	#0
+	abcd	#5
 	popb	
 	swqa	
 $2:
 	mspa	#0
 	lwpa	
 	psha	
-	lwia	#24
+	abcd	#5
 	popb	
 	ault	
 	jpnz	$4
@@ -2852,7 +2852,7 @@ $3:
 	swqa	
 	jmp 	$2
 $4:
-	lwia	inode_table
+	abcd	#5
 	psha	
 	mspa	#2
 	lwpa	
@@ -2864,11 +2864,11 @@ $4:
 	aadd	
 	lbpa	
 	psha	
-	lwia	#0
+	abcd	#5
 	popb	
 	aequ	
 	jpz 	$6
-	lwia	inode_table
+	abcd	#5
 	psha	
 	mspa	#2
 	lwpa	
@@ -2880,7 +2880,7 @@ $4:
 $6:
 	jmp 	$3
 $5:
-	lwia	#3
+	abcd	#5
 	psha	
 	lbib	#1
 	call	panic
@@ -2894,7 +2894,7 @@ inode_load:
 	mspa	#6
 	lwpa	
 	psha	
-	lwia	superblk
+	abcd	#5
 	lwib	#0
 	aadd	
 	lwpa	
@@ -2902,7 +2902,7 @@ inode_load:
 	ault	
 	alng	
 	jpz 	$8
-	lwia	#5
+	abcd	#5
 	psha	
 	lbib	#1
 	call	panic
@@ -2910,12 +2910,12 @@ inode_load:
 $8:
 	mspa	#2
 	psha	
-	lwia	#384
+	abcd	#5
 	psha	
 	mspa	#10
 	lwpa	
 	psha	
-	lwia	#6
+	abcd	#5
 	popb	
 	ashr	
 	popb	
@@ -2927,11 +2927,11 @@ $8:
 	mspa	#8
 	lwpa	
 	psha	
-	lwia	#63
+	abcd	#5
 	popb	
 	abnd	
 	psha	
-	lwia	#8
+	abcd	#5
 	popb	
 	amul	
 	popb	
@@ -2939,7 +2939,7 @@ $8:
 	mspa	#2
 	lwpa	
 	psha	
-	lwia	fs_global_buf
+	abcd	#5
 	psha	
 	lbib	#2
 	call	disk_read
@@ -2947,14 +2947,14 @@ $8:
 	mspa	#8
 	lwpa	
 	psha	
-	lwia	fs_global_buf
+	abcd	#5
 	psha	
 	mspa	#4
 	lwpa	
 	popb	
 	aadd	
 	psha	
-	lwia	#8
+	abcd	#5
 	psha	
 	lbib	#3
 	call	memcpy
@@ -2968,7 +2968,7 @@ inode_write:
 	mspa	#6
 	lwpa	
 	psha	
-	lwia	superblk
+	abcd	#5
 	lwib	#0
 	aadd	
 	lwpa	
@@ -2976,7 +2976,7 @@ inode_write:
 	ault	
 	alng	
 	jpz 	$10
-	lwia	#5
+	abcd	#5
 	psha	
 	lbib	#1
 	call	panic
@@ -2984,12 +2984,12 @@ inode_write:
 $10:
 	mspa	#2
 	psha	
-	lwia	#384
+	abcd	#5
 	psha	
 	mspa	#10
 	lwpa	
 	psha	
-	lwia	#6
+	abcd	#5
 	popb	
 	ashr	
 	popb	
@@ -3001,11 +3001,11 @@ $10:
 	mspa	#8
 	lwpa	
 	psha	
-	lwia	#63
+	abcd	#5
 	popb	
 	abnd	
 	psha	
-	lwia	#8
+	abcd	#5
 	popb	
 	amul	
 	popb	
@@ -3013,12 +3013,12 @@ $10:
 	mspa	#2
 	lwpa	
 	psha	
-	lwia	fs_global_buf
+	abcd	#5
 	psha	
 	lbib	#2
 	call	disk_read
 	mdsp	#4
-	lwia	fs_global_buf
+	abcd	#5
 	psha	
 	mspa	#2
 	lwpa	
@@ -3028,7 +3028,7 @@ $10:
 	mspa	#10
 	lwpa	
 	psha	
-	lwia	#8
+	abcd	#5
 	psha	
 	lbib	#3
 	call	memcpy
@@ -3036,7 +3036,7 @@ $10:
 	mspa	#2
 	lwpa	
 	psha	
-	lwia	fs_global_buf
+	abcd	#5
 	psha	
 	lbib	#2
 	call	disk_write
@@ -3049,14 +3049,14 @@ inode_get:
 	mdsp	#-2
 	mspa	#2
 	psha	
-	lwia	#0
+	abcd	#5
 	popb	
 	swqa	
 $12:
 	mspa	#2
 	lwpa	
 	psha	
-	lwia	#24
+	abcd	#5
 	popb	
 	ault	
 	jpnz	$14
@@ -3070,7 +3070,7 @@ $13:
 	swqa	
 	jmp 	$12
 $14:
-	lwia	inode_table
+	abcd	#5
 	psha	
 	mspa	#4
 	lwpa	
@@ -3087,7 +3087,7 @@ $14:
 	popb	
 	aequ	
 	jpz 	$17
-	lwia	inode_table
+	abcd	#5
 	psha	
 	mspa	#4
 	lwpa	
@@ -3101,7 +3101,7 @@ $14:
 $17:
 	aclv	
 	jpz 	$16
-	lwia	inode_table
+	abcd	#5
 	psha	
 	mspa	#4
 	lwpa	
@@ -3116,7 +3116,7 @@ $17:
 	inca	
 	popb	
 	sbqa	
-	lwia	inode_table
+	abcd	#5
 	psha	
 	mspa	#4
 	lwpa	
@@ -3150,7 +3150,7 @@ $15:
 	lbpa	
 	alng	
 	jpz 	$18
-	lwia	#7
+	abcd	#5
 	psha	
 	lbib	#1
 	call	panic
@@ -3161,7 +3161,7 @@ $18:
 	lwib	#10
 	aadd	
 	psha	
-	lwia	#1
+	abcd	#5
 	popb	
 	sbqa	
 	mspa	#0
@@ -3200,11 +3200,11 @@ $18:
 	aadd	
 	lwpa	
 	psha	
-	lwia	#0
+	abcd	#5
 	popb	
 	aequ	
 	jpz 	$19
-	lwia	#6
+	abcd	#5
 	psha	
 	lbib	#1
 	call	panic
@@ -3261,14 +3261,14 @@ inode_put_all:
 	mdsp	#-2
 	mspa	#0
 	psha	
-	lwia	#0
+	abcd	#5
 	popb	
 	swqa	
 $23:
 	mspa	#0
 	lwpa	
 	psha	
-	lwia	#24
+	abcd	#5
 	popb	
 	ault	
 	jpnz	$25
@@ -3282,7 +3282,7 @@ $24:
 	swqa	
 	jmp 	$23
 $25:
-	lwia	inode_table
+	abcd	#5
 	psha	
 	mspa	#2
 	lwpa	
@@ -3304,7 +3304,7 @@ inode_add_blk:
 	mdsp	#-2
 	mspa	#2
 	psha	
-	lwia	#0
+	abcd	#5
 	popb	
 	swqa	
 	mspa	#0
@@ -3350,11 +3350,11 @@ $30:
 	mspa	#6
 	lwpa	
 	psha	
-	lwia	#1
+	abcd	#5
 	popb	
 	aadd	
 	psha	
-	lwia	#1
+	abcd	#5
 	popb	
 	ashl	
 	psha	
@@ -3372,7 +3372,7 @@ $30:
 	mspa	#4
 	lwpa	
 	psha	
-	lwia	#1
+	abcd	#5
 	popb	
 	asub	
 	lbib	#2
@@ -3397,7 +3397,7 @@ $30:
 	popb	
 	aadd	
 	psha	
-	lwia	#0
+	abcd	#5
 	popb	
 	swqa	
 	mspa	#6
@@ -3429,7 +3429,7 @@ inode_truncate:
 	lwib	#3
 	aadd	
 	psha	
-	lwia	#0
+	abcd	#5
 	popb	
 	swqa	
 	mspa	#8
@@ -3452,7 +3452,7 @@ inode_truncate:
 	swqa	
 	mspa	#2
 	psha	
-	lwia	#0
+	abcd	#5
 	lbib	#2
 	amul	
 	popb	
@@ -3467,13 +3467,13 @@ inode_truncate:
 	swqa	
 	mspa	#2
 	psha	
-	lwia	#1
+	abcd	#5
 	lbib	#2
 	amul	
 	popb	
 	aadd	
 	psha	
-	lwia	#0
+	abcd	#5
 	popb	
 	swqa	
 	mspa	#2
@@ -3520,14 +3520,14 @@ inode_new:
 	mdsp	#-4
 	mspa	#18
 	psha	
-	lwia	#0
+	abcd	#5
 	popb	
 	swqa	
 $33:
 	mspa	#18
 	lwpa	
 	psha	
-	lwia	superblk
+	abcd	#5
 	lwib	#0
 	aadd	
 	lwpa	
@@ -3562,21 +3562,21 @@ $35:
 	lwib	#7
 	aadd	
 	psha	
-	lwia	#1
+	abcd	#5
 	popb	
 	sbqa	
 	mspa	#4
 	lwib	#0
 	aadd	
 	psha	
-	lwia	#0
+	abcd	#5
 	popb	
 	sbqa	
 	mspa	#4
 	lwib	#3
 	aadd	
 	psha	
-	lwia	#0
+	abcd	#5
 	popb	
 	swqa	
 	mspa	#4
@@ -3605,7 +3605,7 @@ $35:
 	swqa	
 	mspa	#0
 	psha	
-	lwia	#0
+	abcd	#5
 	lbib	#2
 	amul	
 	popb	
@@ -3619,13 +3619,13 @@ $35:
 	swqa	
 	mspa	#0
 	psha	
-	lwia	#1
+	abcd	#5
 	lbib	#2
 	amul	
 	popb	
 	aadd	
 	psha	
-	lwia	#0
+	abcd	#5
 	popb	
 	swqa	
 	mspa	#0
@@ -3647,7 +3647,7 @@ $35:
 $37:
 	jmp 	$34
 $36:
-	lwia	#8
+	abcd	#5
 	psha	
 	lbib	#1
 	call	panic
@@ -3669,21 +3669,21 @@ inode_delete:
 	lwib	#0
 	aadd	
 	psha	
-	lwia	#0
+	abcd	#5
 	popb	
 	sbqa	
 	mspa	#0
 	lwib	#3
 	aadd	
 	psha	
-	lwia	#0
+	abcd	#5
 	popb	
 	swqa	
 	mspa	#0
 	lwib	#7
 	aadd	
 	psha	
-	lwia	#0
+	abcd	#5
 	popb	
 	sbqa	
 	mspa	#0
@@ -3951,14 +3951,14 @@ file_alloc:
 	mdsp	#-2
 	mspa	#0
 	psha	
-	lwia	#0
+	abcd	#5
 	popb	
 	swqa	
 $2:
 	mspa	#0
 	lwpa	
 	psha	
-	lwia	#32
+	abcd	#5
 	popb	
 	ault	
 	jpnz	$4
@@ -3972,7 +3972,7 @@ $3:
 	swqa	
 	jmp 	$2
 $4:
-	lwia	file_table
+	abcd	#5
 	psha	
 	mspa	#2
 	lwpa	
@@ -3985,7 +3985,7 @@ $4:
 	lwpa	
 	alng	
 	jpz 	$6
-	lwia	file_table
+	abcd	#5
 	psha	
 	mspa	#2
 	lwpa	
@@ -3997,7 +3997,7 @@ $4:
 $6:
 	jmp 	$3
 $5:
-	lwia	#9
+	abcd	#5
 	psha	
 	lbib	#1
 	call	panic
@@ -4018,7 +4018,7 @@ file_get:
 	lwib	#7
 	aadd	
 	psha	
-	lwia	#1
+	abcd	#5
 	popb	
 	sbqa	
 	mspa	#0
@@ -4035,7 +4035,7 @@ file_get:
 	lwib	#4
 	aadd	
 	psha	
-	lwia	#0
+	abcd	#5
 	popb	
 	swqa	
 	mspa	#0
@@ -4054,7 +4054,7 @@ file_get:
 	mspa	#4
 	lbpa	
 	psha	
-	lwia	#4
+	abcd	#5
 	popb	
 	abnd	
 	jpz 	$8
@@ -4071,7 +4071,7 @@ $8:
 	mspa	#4
 	lbpa	
 	psha	
-	lwia	#8
+	abcd	#5
 	popb	
 	abnd	
 	jpz 	$9
@@ -4180,14 +4180,14 @@ file_put_all:
 	mdsp	#-2
 	mspa	#0
 	psha	
-	lwia	#0
+	abcd	#5
 	popb	
 	swqa	
 $14:
 	mspa	#0
 	lwpa	
 	psha	
-	lwia	#32
+	abcd	#5
 	popb	
 	ault	
 	jpnz	$16
@@ -4201,7 +4201,7 @@ $15:
 	swqa	
 	jmp 	$14
 $16:
-	lwia	file_table
+	abcd	#5
 	psha	
 	mspa	#2
 	lwpa	
@@ -4228,7 +4228,7 @@ file_set_buf:
 	aadd	
 	lwpa	
 	psha	
-	lwia	#9
+	abcd	#5
 	popb	
 	ashr	
 	popb	
@@ -4334,12 +4334,12 @@ file_write:
 	aadd	
 	lbpa	
 	psha	
-	lwia	#2
+	abcd	#5
 	popb	
 	abnd	
 	alng	
 	jpz 	$23
-	lwia	#0
+	abcd	#5
 	jmp 	$22
 $23:
 	mspa	#8
@@ -4363,7 +4363,7 @@ $24:
 	aadd	
 	lwpa	
 	psha	
-	lwia	#511
+	abcd	#5
 	popb	
 	abnd	
 	alng	
@@ -4395,7 +4395,7 @@ $26:
 	swqa	
 	deca	
 	psha	
-	lwia	#511
+	abcd	#5
 	popb	
 	abnd	
 	popb	
@@ -4467,12 +4467,12 @@ file_read:
 	aadd	
 	lbpa	
 	psha	
-	lwia	#1
+	abcd	#5
 	popb	
 	abnd	
 	alng	
 	jpz 	$29
-	lwia	#0
+	abcd	#5
 	jmp 	$28
 $29:
 	mspa	#8
@@ -4514,7 +4514,7 @@ $30:
 	mspa	#6
 	lwpa	
 	psha	
-	lwia	#1
+	abcd	#5
 	popb	
 	aadd	
 	popb	
@@ -4527,7 +4527,7 @@ $32:
 	aadd	
 	lwpa	
 	psha	
-	lwia	#511
+	abcd	#5
 	popb	
 	abnd	
 	alng	
@@ -4567,7 +4567,7 @@ $33:
 	swqa	
 	deca	
 	psha	
-	lwia	#511
+	abcd	#5
 	popb	
 	abnd	
 	popb	
@@ -4584,7 +4584,7 @@ $28:
 	mdsp	#2
 	ret 	
 file_seek:
-	lwia	$35
+	abcd	#5
 	psha	
 	mspa	#4
 	lbpa	
@@ -4891,7 +4891,7 @@ fs_global_buf:
 	.db	#0,#0
 	.module	SMALLC_GENERATED
 panic:
-	lwia	$0+#0
+	abcd	#5
 	psha	
 	mspa	#4
 	lbpa	
@@ -4900,7 +4900,7 @@ panic:
 	call	printf
 	mdsp	#4
 $2:
-	lwia	#1
+	abcd	#5
 	jpz 	$3
 	jmp 	$2
 $3:
@@ -4919,4 +4919,4 @@ main:
 $1:
 	ret 	
 _MEM_END:
-;	optomizer end
+;	optimizer end
