@@ -19,6 +19,23 @@ class arg:
             else:
                 self.type = arg.TYPE_ADDR
 
+#represents non-optomizable asm
+class asm:
+    @classmethod
+    def fromAsm(cls, asm_v):
+        res = asm()
+        res.asm = asm_v
+        return res
+
+    def __init__(self):
+        self.is_cmd = False
+        self.asm = ""
+
+    def toAsm(self):
+        if self.asm[-1] != '\n':
+            return self.asm + '\n'
+        return self.asm
+
 #represents a command
 class cmd:
 
@@ -38,6 +55,7 @@ class cmd:
         return res
 
     def __init__(self):
+        self.is_cmd = True
         #full asm
         self.asm = ""
         #command name
@@ -68,14 +86,30 @@ class cmd:
         res += '\n'
         return res
 
-#Main routines
+#parse a list of asm's and cmd's from a file
+def parse_file(f):
+    res = []
+    for l in f:
+        #A cmd or directive
+        if l[0] == '\t':
+            if l[1] == '.':
+                res.append(asm.fromAsm(l))
+            else:
+                res.append(cmd.fromAsm(l))
+        #a label or comment, so asm
+        else:
+            res.append(asm.fromAsm(l))
+    return res
 
+#Main routines
 def error(err):
     print err
     exit(1)
 
 def optimize_file(path):
     file = open(path, "r")
+    tokens = parse_file(file)
+    print len(tokens)
 
 def main():
     if (len(sys.argv)<2):
@@ -84,8 +118,5 @@ def main():
     #for each file listed, run the optomizer on it
     for f in sys.argv[1:]:
         optimize_file(f)
-
-    a = cmd.fromVal("nop ", arg("#255"))
-    print a.toAsm()
 
 main()
