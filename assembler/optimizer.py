@@ -12,6 +12,7 @@ class arg:
         self.type = arg.TYPE_NONE
         self.val = 0
         self.parse_arg()
+
     def parse_arg(self):
         if len(self.arg) > 0:
             if self.arg[0] == '#':
@@ -91,9 +92,8 @@ class cmd:
         return res
 
 #shorthand cmd gen
-class cg:
-    def __init__(self, cmd_n, arg):
-        return cmd.fromVal(cmd_n, arg)
+def cg(cmd_n, arg):
+    return cmd.fromVal(cmd_n, arg)
 
 #parse a list of asm's and cmd's from a file
 def parse_file(f):
@@ -108,6 +108,7 @@ def parse_file(f):
         #a label, so asm (ignore comments)
         elif l[0] != ';' and len(l) > 1 and l[1] != ';':
             res.append(asm.fromAsm(l))
+    res.append(asm.fromAsm(";\toptomizer end"))
     return res
 
 #output a new asm file from a list of asm's and cmd's
@@ -135,7 +136,8 @@ def match_pat_des(pat, token):
         return False
     return True
 
-def match_pat(pat, tokens):
+#applies the first match to the tokens
+def match_pat(pat, rep, tokens):
     pat_len = len(pat)
     #first index of good matches
     goods = []
@@ -148,8 +150,20 @@ def match_pat(pat, tokens):
                 hitGood = False
                 break;
         if hitGood:
-            goods.append(i)
-    return goods
+            #tokens = tokens[:i] + apply_replace() + tokens[i+p:]
+            tokens = tokens[:i] + rep(tokens[i:i+p]) + tokens[i+p+1:]
+            return tokens
+            #get range to apply
+
+    return False
+
+#applies all the matches of a pat to tokens
+def apply_pat(pat, rep, tokens):
+    res = match_pat(pat, rep, tokens)
+    while res:
+        tokens = res
+        res = match_pat(pat, rep, tokens)
+    return tokens
 
 '''
 match pattern format
@@ -168,6 +182,10 @@ def optimize_file(path):
     tokens = parse_file(file)
     put_tokens(fout, tokens)
 
+def printTokens(t):
+    for i in t:
+        print i.toAsm()
+
 def main():
     if (len(sys.argv)<2):
         error("Usage: scpopt [files.s]")
@@ -176,6 +194,6 @@ def main():
     for f in sys.argv[1:]:
         optimize_file(f)
 
-    print match_pat([["lwia,lwib", arg.TYPE_LIT, lambda v: v<256], ["nop ", arg.TYPE_ANY, VAL_ANY]], [cmd.fromAsm("nop \t\n"), cmd.fromAsm("lwib\t#255\n"), cmd.fromAsm("nop \t\n"), cmd.fromAsm("lwib\t#255\n"), cmd.fromAsm("nop \t\n")])
-
+    newT = apply_pat([["lwia,lwib", arg.TYPE_LIT, lambda v: v<256], ["nop ", arg.TYPE_ANY, VAL_ANY]], lambda c: [cg("extr", c[0].arg)], [cmd.fromAsm("cmda\t\n"), cmd.fromAsm("lwib\t#255\n"), cmd.fromAsm("nop \t\n"), cmd.fromAsm("lwib\t#2\n"), cmd.fromAsm("nop \t\n")])
+    printTokens(newT)
 main()

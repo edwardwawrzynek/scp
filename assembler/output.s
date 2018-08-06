@@ -4919,3 +4919,4 @@ main:
 $1:
 	ret 	
 _MEM_END:
+;	optomizer end
