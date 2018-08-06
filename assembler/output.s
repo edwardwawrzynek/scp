@@ -1,16 +1,8 @@
-;	Runtime start off for smallc on SCP
-;	For now, the stack pointer doesn't need to be changed
-;	This expects an adequete number of pages have been mapped in to memory on start
-
-;	Call main
 	call	main
-;	Halt
 	.db	#255
 	.module	CC_DIV_SMALLC_GENERATED
-;	Unsigned divide A=A/B, B=A%B
 ccudiv:
 	mdsp	#-10
-;
 	pshb	
 	xswp	
 	mspa	#2
@@ -18,7 +10,6 @@ ccudiv:
 	popb	
 	mspa	#2
 	swpb	
-;	
 	mspa	#8
 	psha	
 	lwia	#0
@@ -137,10 +128,8 @@ ccudiv_5:
 ccudiv_1:
 	mdsp	#10
 	ret 	
-;	Signed divide
 ccdiv:
 	mdsp	#-6
-;
 	pshb	
 	xswp	
 	mspa	#2
@@ -148,7 +137,6 @@ ccdiv:
 	popb	
 	mspa	#2
 	swpb	
-;	
 	nop 	
 	mspa	#5
 	psha	
@@ -219,7 +207,6 @@ ccdiv_3:
 	mspa	#0
 	lwpa	
 	call	ccudiv
-;	Store b
 	psha	
 	mspa	#2
 	swpb	
@@ -300,7 +287,6 @@ $5:
 	mspa	#4
 	lwpa	
 	lwpa	
-;	Reset sp
 	mdsp	#8
 	jmpa	
 $4:
@@ -311,10 +297,8 @@ $4:
 	jpz 	$6
 	mspa	#2
 	lwpa	
-;	Properly reset sp
 	mdsp	#8
 	jmpa	
-
 	mspa	#4
 	psha	
 	lwpa	
@@ -322,21 +306,13 @@ $4:
 	inca	
 	popb	
 	swqa	
-
 $6:
 	jmp 	$2
 $3:
 $1:
 	mdsp	#8
 	.module	CRUN_END
-
-;	Small C
-;	Small C Processor Backend Coder(Mostly Works)
-;	Front End (2.8,13/01/20)
-
-;	program area SMALLC_GENERATED is RELOCATABLE
 	.module	SMALLC_GENERATED
-;	Code Segment
 outp:
 	mspa	#4
 	lbpa	
@@ -353,23 +329,7 @@ inp:
 	ina 	
 $2:
 	ret 	
-;	Data Segment
-;	globl	outp
-;	globl	inp
-
-;	0 error(s) in compilation
-;	literal pool:0
-;	global pool:2
-;	Macro pool:51
-;	.end
-
-;	Small C
-;	Small C Processor Backend Coder(Mostly Works)
-;	Front End (2.8,13/01/20)
-
-;	program area SMALLC_GENERATED is RELOCATABLE
 	.module	SMALLC_GENERATED
-;	Code Segment
 _malloc_new:
 	mdsp	#-12
 	mspa	#0
@@ -937,47 +897,21 @@ krealloc:
 $23:
 	mdsp	#4
 	ret 	
-;	Data Segment
-;	globl	brk
 brk:
 	.dw	#0
-;	globl	_malloc_head
 _malloc_head:
 	.dw	#0
 	.dw	#0
 	.dw	#0
 	.db	#0
 	.ds	#5
-
-;	globl	_malloc_tail
 _malloc_tail:
 	.dw	#0
 	.dw	#0
 	.dw	#0
 	.db	#0
 	.ds	#5
-
-;	globl	_malloc_new
-;	extrn	memcpy
-;	globl	_malloc_combine
-;	globl	kmalloc
-;	globl	kcalloc
-;	globl	kfree
-;	globl	krealloc
-
-;	0 error(s) in compilation
-;	literal pool:0
-;	global pool:10
-;	Macro pool:51
-;	.end
-
-;	Small C
-;	Small C Processor Backend Coder(Mostly Works)
-;	Front End (2.8,13/01/20)
-
-;	program area SMALLC_GENERATED is RELOCATABLE
 	.module	SMALLC_GENERATED
-;	Code Segment
 memcmp:
 $2:
 	mspa	#2
@@ -1027,22 +961,7 @@ $3:
 	jmp 	$1
 $1:
 	ret 	
-;	Data Segment
-;	globl	memcmp
-
-;	0 error(s) in compilation
-;	literal pool:0
-;	global pool:1
-;	Macro pool:51
-;	.end
-
-;	Small C
-;	Small C Processor Backend Coder(Mostly Works)
-;	Front End (2.8,13/01/20)
-
-;	program area SMALLC_GENERATED is RELOCATABLE
 	.module	SMALLC_GENERATED
-;	Code Segment
 memcpy:
 	mdsp	#-2
 	mspa	#0
@@ -1086,22 +1005,7 @@ $3:
 $1:
 	mdsp	#2
 	ret 	
-;	Data Segment
-;	globl	memcpy
-
-;	0 error(s) in compilation
-;	literal pool:0
-;	global pool:1
-;	Macro pool:51
-;	.end
-
-;	Small C
-;	Small C Processor Backend Coder(Mostly Works)
-;	Front End (2.8,13/01/20)
-
-;	program area SMALLC_GENERATED is RELOCATABLE
 	.module	SMALLC_GENERATED
-;	Code Segment
 _print:
 $2:
 	mspa	#2
@@ -1409,31 +1313,7 @@ $9:
 $7:
 	mdsp	#9
 	ret 	
-;	Data Segment
-;	extrn	_getcharecho
-;	extrn	_getcharshifted
-;	extrn	_screenpos
-;	globl	_print
-;	extrn	putchar
-;	globl	_print_at
-;	extrn	outp
-;	globl	printf
-;	extrn	_sprintn
-;	extrn	_uprintn
-
-;	0 error(s) in compilation
-;	literal pool:0
-;	global pool:10
-;	Macro pool:494
-;	.end
-
-;	Small C
-;	Small C Processor Backend Coder(Mostly Works)
-;	Front End (2.8,13/01/20)
-
-;	program area SMALLC_GENERATED is RELOCATABLE
 	.module	SMALLC_GENERATED
-;	Code Segment
 _sprintn:
 	mdsp	#-2
 	mdsp	#-2
@@ -1566,32 +1446,12 @@ $5:
 $4:
 	mdsp	#4
 	ret 	
-;	Data Segment
 $0:	.db	#48,#49,#50,#51,#52,#53,#54,#55
 	.db	#56,#57,#97,#98,#99,#100,#101,#102
 	.db	#0,#48,#49,#50,#51,#52,#53,#54
 	.db	#55,#56,#57,#97,#98,#99,#100,#101
 	.db	#102,#0
-;	extrn	_getcharecho
-;	extrn	_getcharshifted
-;	extrn	_screenpos
-;	globl	_sprintn
-;	extrn	putchar
-;	globl	_uprintn
-
-;	0 error(s) in compilation
-;	literal pool:34
-;	global pool:6
-;	Macro pool:520
-;	.end
-
-;	Small C
-;	Small C Processor Backend Coder(Mostly Works)
-;	Front End (2.8,13/01/20)
-
-;	program area SMALLC_GENERATED is RELOCATABLE
 	.module	SMALLC_GENERATED
-;	Code Segment
 _screenscroll:
 	mdsp	#-2
 	mdsp	#-2
@@ -1810,29 +1670,9 @@ $18:
 $16:
 $13:
 	ret 	
-;	Data Segment
-;	globl	_screenpos
 _screenpos:
 	.dw	#960
-;	globl	_screenscroll
-;	extrn	outp
-;	extrn	inp
-;	globl	_screenclear
-;	globl	putchar
-
-;	0 error(s) in compilation
-;	literal pool:0
-;	global pool:6
-;	Macro pool:513
-;	.end
-
-;	Small C
-;	Small C Processor Backend Coder(Mostly Works)
-;	Front End (2.8,13/01/20)
-
-;	program area SMALLC_GENERATED is RELOCATABLE
 	.module	SMALLC_GENERATED
-;	Code Segment
 disk_init:
 	lwia	#13
 	psha	
@@ -1989,26 +1829,7 @@ $17:
 	mdsp	#4
 $12:
 	ret 	
-;	Data Segment
-;	globl	disk_init
-;	extrn	outp
-;	extrn	inp
-;	globl	disk_read
-;	globl	disk_write
-
-;	0 error(s) in compilation
-;	literal pool:0
-;	global pool:5
-;	Macro pool:573
-;	.end
-
-;	Small C
-;	Small C Processor Backend Coder(Mostly Works)
-;	Front End (2.8,13/01/20)
-
-;	program area SMALLC_GENERATED is RELOCATABLE
 	.module	SMALLC_GENERATED
-;	Code Segment
 buffer_alloc:
 	mdsp	#-2
 	mspa	#0
@@ -2313,166 +2134,104 @@ $19:
 $15:
 	mdsp	#2
 	ret 	
-;	Data Segment
-;	extrn	superblk
-;	extrn	some_value
-;	extrn	buffer_table
-;	extrn	inode_table
-;	extrn	file_table
-;	extrn	fs_global_buf
-;	globl	buffer_table
 buffer_table:
 	.dw	#0
 	.dw	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.db	#0
-
-;	globl	buffer_alloc
-;	extrn	kmalloc
-;	extrn	disk_read
-;	extrn	panic
-;	globl	buffer_get
-;	globl	buffer_put
-;	extrn	disk_write
-;	extrn	kfree
-;	globl	buffer_flush_all
-
-;	0 error(s) in compilation
-;	literal pool:0
-;	global pool:16
-;	Macro pool:1284
-;	.end
-
-;	Small C
-;	Small C Processor Backend Coder(Mostly Works)
-;	Front End (2.8,13/01/20)
-
-;	program area SMALLC_GENERATED is RELOCATABLE
 	.module	SMALLC_GENERATED
-;	Code Segment
 balloc_alloc:
 	mdsp	#-2
 	mdsp	#-2
@@ -3002,14 +2761,6 @@ $23:
 $20:
 	mdsp	#2
 	ret 	
-;	Data Segment
-;	extrn	superblk
-;	extrn	some_value
-;	extrn	buffer_table
-;	extrn	inode_table
-;	extrn	file_table
-;	extrn	fs_global_buf
-;	globl	balloc_buffer
 balloc_buffer:
 	.dw	#0,#0,#0,#0,#0,#0,#0,#0,#0,#0
 	.dw	#0,#0,#0,#0,#0,#0,#0,#0,#0,#0
@@ -3037,7 +2788,6 @@ balloc_buffer:
 	.dw	#0,#0,#0,#0,#0,#0,#0,#0,#0,#0
 	.dw	#0,#0,#0,#0,#0,#0,#0,#0,#0,#0
 	.dw	#0,#0,#0,#0,#0,#0
-;	globl	balloc_get_buf
 balloc_get_buf:
 	.dw	#0,#0,#0,#0,#0,#0,#0,#0,#0,#0
 	.dw	#0,#0,#0,#0,#0,#0,#0,#0,#0,#0
@@ -3052,29 +2802,7 @@ balloc_get_buf:
 	.dw	#0,#0,#0,#0,#0,#0,#0,#0,#0,#0
 	.dw	#0,#0,#0,#0,#0,#0,#0,#0,#0,#0
 	.dw	#0,#0,#0,#0,#0,#0,#0,#0,#0
-;	globl	balloc_alloc
-;	extrn	disk_read
-;	extrn	panic
-;	globl	balloc_put
-;	extrn	disk_write
-;	globl	balloc_get
-;	extrn	kmalloc
-;	extrn	memcpy
-;	globl	balloc_free
-
-;	0 error(s) in compilation
-;	literal pool:0
-;	global pool:17
-;	Macro pool:1284
-;	.end
-
-;	Small C
-;	Small C Processor Backend Coder(Mostly Works)
-;	Front End (2.8,13/01/20)
-
-;	program area SMALLC_GENERATED is RELOCATABLE
 	.module	SMALLC_GENERATED
-;	Code Segment
 superblock_read:
 	lwia	#383
 	psha	
@@ -3094,36 +2822,11 @@ superblock_read:
 	mdsp	#6
 $1:
 	ret 	
-;	Data Segment
-;	extrn	superblk
-;	extrn	some_value
-;	extrn	buffer_table
-;	extrn	inode_table
-;	extrn	file_table
-;	extrn	fs_global_buf
-;	globl	superblk
 superblk:
 	.dw	#0
 	.dw	#0
 	.ds	#9
-
-;	globl	superblock_read
-;	extrn	disk_read
-;	extrn	memcpy
-
-;	0 error(s) in compilation
-;	literal pool:0
-;	global pool:10
-;	Macro pool:769
-;	.end
-
-;	Small C
-;	Small C Processor Backend Coder(Mostly Works)
-;	Front End (2.8,13/01/20)
-
-;	program area SMALLC_GENERATED is RELOCATABLE
 	.module	SMALLC_GENERATED
-;	Code Segment
 inode_alloc:
 	mdsp	#-2
 	mspa	#0
@@ -4002,14 +3705,6 @@ inode_delete:
 $38:
 	mdsp	#14
 	ret 	
-;	Data Segment
-;	extrn	superblk
-;	extrn	some_value
-;	extrn	buffer_table
-;	extrn	inode_table
-;	extrn	file_table
-;	extrn	fs_global_buf
-;	globl	inode_table
 inode_table:
 	.db	#0
 	.db	#0
@@ -4021,7 +3716,6 @@ inode_table:
 	.db	#0
 	.dw	#0
 	.db	#0
-
 	.db	#0
 	.db	#0
 	.db	#0
@@ -4032,7 +3726,6 @@ inode_table:
 	.db	#0
 	.dw	#0
 	.db	#0
-
 	.db	#0
 	.db	#0
 	.db	#0
@@ -4043,7 +3736,6 @@ inode_table:
 	.db	#0
 	.dw	#0
 	.db	#0
-
 	.db	#0
 	.db	#0
 	.db	#0
@@ -4054,7 +3746,6 @@ inode_table:
 	.db	#0
 	.dw	#0
 	.db	#0
-
 	.db	#0
 	.db	#0
 	.db	#0
@@ -4065,7 +3756,6 @@ inode_table:
 	.db	#0
 	.dw	#0
 	.db	#0
-
 	.db	#0
 	.db	#0
 	.db	#0
@@ -4076,7 +3766,6 @@ inode_table:
 	.db	#0
 	.dw	#0
 	.db	#0
-
 	.db	#0
 	.db	#0
 	.db	#0
@@ -4087,7 +3776,6 @@ inode_table:
 	.db	#0
 	.dw	#0
 	.db	#0
-
 	.db	#0
 	.db	#0
 	.db	#0
@@ -4098,7 +3786,6 @@ inode_table:
 	.db	#0
 	.dw	#0
 	.db	#0
-
 	.db	#0
 	.db	#0
 	.db	#0
@@ -4109,7 +3796,6 @@ inode_table:
 	.db	#0
 	.dw	#0
 	.db	#0
-
 	.db	#0
 	.db	#0
 	.db	#0
@@ -4120,7 +3806,6 @@ inode_table:
 	.db	#0
 	.dw	#0
 	.db	#0
-
 	.db	#0
 	.db	#0
 	.db	#0
@@ -4131,7 +3816,6 @@ inode_table:
 	.db	#0
 	.dw	#0
 	.db	#0
-
 	.db	#0
 	.db	#0
 	.db	#0
@@ -4142,7 +3826,6 @@ inode_table:
 	.db	#0
 	.dw	#0
 	.db	#0
-
 	.db	#0
 	.db	#0
 	.db	#0
@@ -4153,7 +3836,6 @@ inode_table:
 	.db	#0
 	.dw	#0
 	.db	#0
-
 	.db	#0
 	.db	#0
 	.db	#0
@@ -4164,7 +3846,6 @@ inode_table:
 	.db	#0
 	.dw	#0
 	.db	#0
-
 	.db	#0
 	.db	#0
 	.db	#0
@@ -4175,7 +3856,6 @@ inode_table:
 	.db	#0
 	.dw	#0
 	.db	#0
-
 	.db	#0
 	.db	#0
 	.db	#0
@@ -4186,7 +3866,6 @@ inode_table:
 	.db	#0
 	.dw	#0
 	.db	#0
-
 	.db	#0
 	.db	#0
 	.db	#0
@@ -4197,7 +3876,6 @@ inode_table:
 	.db	#0
 	.dw	#0
 	.db	#0
-
 	.db	#0
 	.db	#0
 	.db	#0
@@ -4208,7 +3886,6 @@ inode_table:
 	.db	#0
 	.dw	#0
 	.db	#0
-
 	.db	#0
 	.db	#0
 	.db	#0
@@ -4219,7 +3896,6 @@ inode_table:
 	.db	#0
 	.dw	#0
 	.db	#0
-
 	.db	#0
 	.db	#0
 	.db	#0
@@ -4230,7 +3906,6 @@ inode_table:
 	.db	#0
 	.dw	#0
 	.db	#0
-
 	.db	#0
 	.db	#0
 	.db	#0
@@ -4241,7 +3916,6 @@ inode_table:
 	.db	#0
 	.dw	#0
 	.db	#0
-
 	.db	#0
 	.db	#0
 	.db	#0
@@ -4252,7 +3926,6 @@ inode_table:
 	.db	#0
 	.dw	#0
 	.db	#0
-
 	.db	#0
 	.db	#0
 	.db	#0
@@ -4263,7 +3936,6 @@ inode_table:
 	.db	#0
 	.dw	#0
 	.db	#0
-
 	.db	#0
 	.db	#0
 	.db	#0
@@ -4274,41 +3946,7 @@ inode_table:
 	.db	#0
 	.dw	#0
 	.db	#0
-
-;	globl	inode_alloc
-;	extrn	panic
-;	globl	inode_load
-;	extrn	disk_read
-;	extrn	memcpy
-;	globl	inode_write
-;	extrn	disk_write
-;	globl	inode_get
-;	extrn	balloc_get
-;	globl	inode_put
-;	extrn	kfree
-;	globl	inode_put_all
-;	globl	inode_add_blk
-;	extrn	krealloc
-;	extrn	balloc_alloc
-;	extrn	balloc_put
-;	globl	inode_truncate
-;	extrn	balloc_free
-;	globl	inode_new
-;	globl	inode_delete
-
-;	0 error(s) in compilation
-;	literal pool:0
-;	global pool:27
-;	Macro pool:1284
-;	.end
-
-;	Small C
-;	Small C Processor Backend Coder(Mostly Works)
-;	Front End (2.8,13/01/20)
-
-;	program area SMALLC_GENERATED is RELOCATABLE
 	.module	SMALLC_GENERATED
-;	Code Segment
 file_alloc:
 	mdsp	#-2
 	mspa	#0
@@ -5001,11 +4639,9 @@ $40:
 	swqa	
 	jmp 	$36
 	jmp 	$36
-;	Data Segment
 $35:
 	.dw	#2,$37,#3,$38,#1,$39
 	.dw	$40,#0
-;	Code Segment
 $36:
 	mspa	#6
 	lwpa	
@@ -5024,237 +4660,168 @@ file_tell:
 	jmp 	$41
 $41:
 	ret 	
-;	Data Segment
-;	extrn	superblk
-;	extrn	some_value
-;	extrn	buffer_table
-;	extrn	inode_table
-;	extrn	file_table
-;	extrn	fs_global_buf
-;	globl	file_table
 file_table:
 	.dw	#0
 	.dw	#0
 	.dw	#0
 	.db	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.dw	#0
 	.db	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.dw	#0
 	.db	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.dw	#0
 	.db	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.dw	#0
 	.db	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.dw	#0
 	.db	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.dw	#0
 	.db	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.dw	#0
 	.db	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.dw	#0
 	.db	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.dw	#0
 	.db	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.dw	#0
 	.db	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.dw	#0
 	.db	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.dw	#0
 	.db	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.dw	#0
 	.db	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.dw	#0
 	.db	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.dw	#0
 	.db	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.dw	#0
 	.db	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.dw	#0
 	.db	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.dw	#0
 	.db	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.dw	#0
 	.db	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.dw	#0
 	.db	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.dw	#0
 	.db	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.dw	#0
 	.db	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.dw	#0
 	.db	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.dw	#0
 	.db	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.dw	#0
 	.db	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.dw	#0
 	.db	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.dw	#0
 	.db	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.dw	#0
 	.db	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.dw	#0
 	.db	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.dw	#0
 	.db	#0
 	.db	#0
-
 	.dw	#0
 	.dw	#0
 	.dw	#0
 	.db	#0
 	.db	#0
-
-;	globl	file_alloc
-;	extrn	panic
-;	globl	file_get
-;	extrn	inode_get
-;	extrn	inode_truncate
-;	extrn	inode_add_blk
-;	extrn	buffer_get
-;	globl	file_put
-;	extrn	inode_put
-;	extrn	buffer_put
-;	globl	file_put_all
-;	globl	file_set_buf
-;	globl	file_write
-;	globl	file_read
-;	globl	file_seek
-;	globl	file_tell
-
-;	0 error(s) in compilation
-;	literal pool:0
-;	global pool:23
-;	Macro pool:1284
-;	.end
-
-;	Small C
-;	Small C Processor Backend Coder(Mostly Works)
-;	Front End (2.8,13/01/20)
-
-;	program area SMALLC_GENERATED is RELOCATABLE
 	.module	SMALLC_GENERATED
-;	Code Segment
 fs_init:
 	lbib	#0
 	call	superblock_read
@@ -5269,14 +4836,6 @@ fs_close:
 	call	buffer_flush_all
 $2:
 	ret 	
-;	Data Segment
-;	extrn	superblk
-;	extrn	some_value
-;	extrn	buffer_table
-;	extrn	inode_table
-;	extrn	file_table
-;	extrn	fs_global_buf
-;	globl	fs_global_buf
 fs_global_buf:
 	.db	#0,#0,#0,#0,#0,#0,#0,#0,#0,#0
 	.db	#0,#0,#0,#0,#0,#0,#0,#0,#0,#0
@@ -5330,26 +4889,7 @@ fs_global_buf:
 	.db	#0,#0,#0,#0,#0,#0,#0,#0,#0,#0
 	.db	#0,#0,#0,#0,#0,#0,#0,#0,#0,#0
 	.db	#0,#0
-;	globl	fs_init
-;	extrn	superblock_read
-;	globl	fs_close
-;	extrn	file_put_all
-;	extrn	inode_put_all
-;	extrn	buffer_flush_all
-
-;	0 error(s) in compilation
-;	literal pool:0
-;	global pool:13
-;	Macro pool:769
-;	.end
-
-;	Small C
-;	Small C Processor Backend Coder(Mostly Works)
-;	Front End (2.8,13/01/20)
-
-;	program area SMALLC_GENERATED is RELOCATABLE
 	.module	SMALLC_GENERATED
-;	Code Segment
 panic:
 	lwia	$0+#0
 	psha	
@@ -5360,13 +4900,12 @@ panic:
 	call	printf
 	mdsp	#4
 $2:
-	lwia	#1
+	lwia	#-1
 	jpz 	$3
 	jmp 	$2
 $3:
 $1:
 	ret 	
-;	Data Segment
 $0:	.db	#10,#10,#10,#84,#104,#101,#32,#75
 	.db	#101,#114,#110,#101,#108,#32,#69,#120
 	.db	#112,#101,#114,#105,#101,#110,#99,#101
@@ -5375,49 +4914,8 @@ $0:	.db	#10,#10,#10,#84,#104,#101,#32,#75
 	.db	#32,#67,#111,#100,#101,#58,#32,#37
 	.db	#117,#10,#83,#116,#111,#112,#112,#105
 	.db	#110,#103,#10,#0
-;	extrn	superblk
-;	extrn	some_value
-;	extrn	buffer_table
-;	extrn	inode_table
-;	extrn	file_table
-;	extrn	fs_global_buf
-;	globl	panic
-;	extrn	printf
-
-;	0 error(s) in compilation
-;	literal pool:60
-;	global pool:8
-;	Macro pool:769
-;	.end
-
-;	Small C
-;	Small C Processor Backend Coder(Mostly Works)
-;	Front End (2.8,13/01/20)
-
-;	program area SMALLC_GENERATED is RELOCATABLE
 	.module	SMALLC_GENERATED
-;	Code Segment
 main:
 $1:
 	ret 	
-;	Data Segment
-;	extrn	superblk
-;	extrn	some_value
-;	extrn	buffer_table
-;	extrn	inode_table
-;	extrn	file_table
-;	extrn	fs_global_buf
-;	extrn	brk
-;	extrn	_MEM_END
-;	globl	main
-
-;	0 error(s) in compilation
-;	literal pool:0
-;	global pool:9
-;	Macro pool:769
-;	.end
-
-;	for kmalloc before sutable sbrk
 _MEM_END:
-;	Nothing much
-

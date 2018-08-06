@@ -3,6 +3,7 @@ import sys
 
 #represents a command argument
 class arg:
+    TYPE_ANY = -1
     TYPE_NONE = 0
     TYPE_LIT = 1
     TYPE_ADDR = 2
@@ -16,6 +17,9 @@ class arg:
             if self.arg[0] == '#':
                 self.type = arg.TYPE_LIT
                 self.val = int(self.arg[1:])
+                #adjust for two's complement
+                if self.val < 0:
+                    self.val = 65536 + self.val
             else:
                 self.type = arg.TYPE_ADDR
 
@@ -86,6 +90,11 @@ class cmd:
         res += '\n'
         return res
 
+#shorthand cmd gen
+class cg:
+    def __init__(self, cmd_n, arg):
+        return cmd.fromVal(cmd_n, arg)
+
 #parse a list of asm's and cmd's from a file
 def parse_file(f):
     res = []
@@ -96,10 +105,47 @@ def parse_file(f):
                 res.append(asm.fromAsm(l))
             else:
                 res.append(cmd.fromAsm(l))
-        #a label or comment, so asm
-        else:
+        #a label, so asm (ignore comments)
+        elif l[0] != ';' and len(l) > 1 and l[1] != ';':
             res.append(asm.fromAsm(l))
     return res
+
+#output a new asm file from a list of asm's and cmd's
+def put_tokens(f, tokens):
+    for t in tokens:
+        f.write(t.toAsm())
+
+#command matching routines
+def VAL_ANY(val):
+    return 1
+
+#match a single pattern on a signle token
+def match_pat_des(pat, token):
+    #if asm, return False
+    if not token.is_cmd:
+        return False
+    #check if name is in comma seperated list
+    if not (token.cmd in pat[0].split(',')):
+        return False
+    #check arg type
+    if token.arg.type != pat[1] and pat[1] != arg.TYPE_ANY:
+        return False
+    #check val
+    if not pat[2](token.arg.val):
+        return False
+    return True
+
+def match_pat(pat, tokens):
+    pat_len = len(pat)
+    for i in range(len(tokens)-pat_len+1):
+        #attempt to match this pattern on the sequence starting at tokens[i]
+        pass
+
+'''
+match pattern format
+an array, one entry for each command, specifying how to match that command
+[ [ cmd_name , cmd_arg_type(or arg.TYPE_ANY), cmd_arg_val_function(prob. VAL_ANY, or a custom lambda)], ...]
+'''
 
 #Main routines
 def error(err):
@@ -108,8 +154,10 @@ def error(err):
 
 def optimize_file(path):
     file = open(path, "r")
+    fout = open("output.s", "w")
     tokens = parse_file(file)
-    print len(tokens)
+    match_pat([1], tokens)
+    put_tokens(fout, tokens)
 
 def main():
     if (len(sys.argv)<2):
@@ -118,5 +166,7 @@ def main():
     #for each file listed, run the optomizer on it
     for f in sys.argv[1:]:
         optimize_file(f)
+
+    print match_pat_des(["lwia,lwib", arg.TYPE_LIT, lambda v: v<256], cmd.fromAsm("lwib\t#-1\n"));
 
 main()
