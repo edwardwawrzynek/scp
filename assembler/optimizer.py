@@ -150,11 +150,13 @@ def match_pat(pat, rep, tokens):
 
 #applies all the matches of a pat to tokens
 def apply_pat(pat, rep, tokens):
+    hit=False
     res = match_pat(pat, rep, tokens)
     while res != False:
+        hit=True
         tokens = res
         res = match_pat(pat, rep, tokens)
-    return tokens
+    return tokens, hit
 
 '''
 match pattern format
@@ -173,8 +175,12 @@ def put_tokens(f, tokens):
         f.write(t.toAsm())
 
 def apply_pats(pats, tokens):
-    for p in pats:
-        tokens = apply_pat(p[0], p[1], tokens)
+    p = 0
+    while p < len(pats):
+        tokens, hit = apply_pat(pats[p][0], pats[p][1], tokens)
+        p += 1
+        if hit:
+            p = 0
     return tokens
 
 def optimize_file(inp, outp, pats):

@@ -317,3 +317,8 @@ $ina_2:ina_2:BUS_IN_SEL=3,A_BUS_WE,PC_INC,NEW_INSTR
 69:mmus:AB_OUT_SEL=1,MAR_SEL=0,PRIV_LV=1,PRIV_WE,DECODE_NEXT=$mmus_2
 $mmus_2:mmus_2:AB_OUT_SEL=1,MAR_SEL=0,MMU_WE,PRIV_LV=0,PRIV_WE,DECODE_NEXT=$mmus_3
 $mmus_3:mmus_3:PC_INC,NEW_INSTR
+
+//Optimized opcodes
+//Set A equal to value in sp + (offset in byte following instruction)
+70:bspa:MAR_SEL=2,MDR_OUT_LOW_WE,MDR_HIGH_RST,PC_INC,DECODE_NEXT=$bspa_2
+$bspa_2:bspa_2:BUS_IN_SEL=2,A_BUS_WE,PC_INC,NEW_INSTR
