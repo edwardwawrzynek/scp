@@ -18,9 +18,6 @@ class arg:
             if self.arg[0] == '#':
                 self.type = arg.TYPE_LIT
                 self.val = int(self.arg[1:])
-                #adjust for two's complement
-                if self.val < 0:
-                    self.val = 65536 + self.val
             else:
                 self.type = arg.TYPE_ADDR
 
@@ -126,8 +123,7 @@ def match_pat_des(pat, token):
     #check arg type
     if token.arg.type != pat[1] and pat[1] != arg.TYPE_ANY:
         return False
-    #check val
-    if not pat[2](token.arg.val):
+    if pat[2] != -1 and not pat[2](token.arg.val):
         return False
     return True
 
@@ -146,7 +142,7 @@ def match_pat(pat, rep, tokens):
                 break;
         if hitGood:
             #tokens = tokens[:i] + apply_replace() + tokens[i+p:]
-            tokens = tokens[:i] + rep(tokens[i:i+p]) + tokens[i+p+1:]
+            tokens = tokens[:i] + rep(tokens[i:i+pat_len]) + tokens[i+p+1:]
             return tokens
             #get range to apply
 
@@ -178,14 +174,13 @@ def put_tokens(f, tokens):
 
 def apply_pats(pats, tokens):
     for p in pats:
-        print p
         tokens = apply_pat(p[0], p[1], tokens)
     return tokens
 
-def optimize_file(path, pats):
-    file = open(path, "r")
-    fout = open("output.s", "w")
-    tokens = parse_file(file)
+def optimize_file(inp, outp, pats):
+    fin = open(inp, "r")
+    fout = open(outp, "w")
+    tokens = parse_file(fin)
     tokens = apply_pats(pats, tokens)
     put_tokens(fout, tokens)
 
@@ -194,9 +189,8 @@ def printTokens(t):
         print i.toAsm()
 
 def main(pats):
-    if (len(sys.argv)<2):
-        error("Usage: scpopt [files.s]")
+    if (len(sys.argv)!=3):
+        error("Usage: scpopt [in.s] [out.s]")
 
-    #for each file listed, run the optomizer on it
-    for f in sys.argv[1:]:
-        optimize_file(f, pats)
+    #run optomizer
+    optimize_file(sys.argv[1], sys.argv[2], pats)
