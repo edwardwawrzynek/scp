@@ -17,7 +17,8 @@ Options:
 -h         :display usage
 -e         :if specified, the binary is put against the end of the address space
 -n         :don't link asms associated with included system header files
--I	   :don't fix #asm prefixed section's indentation with scpcasmfix"
+-I	   :don't fix #asm prefixed section's indentation with scpcasmfix
+-O:	   :run scpopt optimizer on the asm files"
 }
 
 #Binary out - will always be generated
@@ -51,10 +52,13 @@ DO_ASMFIX=true
 #whether to stop before asm and lnk
 DO_STOP_ASMLNK=false
 
+#whether to run scpopt on the asm file
+DO_OPT=false
+
 #Files to link with
 LINKS="/home/edward/scp_software/lib/include/cret.s /home/edward/scp_software/lib/include/crun.s"
 END_LINK=""
-while getopts "ehncIXo:m:a:s:l:L:f:" opt; do
+while getopts "ehncIXOo:m:a:s:l:L:f:" opt; do
   case $opt in
     e)
 	DO_END=true
@@ -77,6 +81,9 @@ while getopts "ehncIXo:m:a:s:l:L:f:" opt; do
     	;;
     X)
     	DO_STOP_ASMLNK=true
+    	;;
+    O)
+    	DO_OPT=true
     	;;
     m)
     	MIF_OUTPUT=$OPTARG
@@ -179,20 +186,28 @@ fi
 #remove .incl file
 rm .SCP_INCL_COMBINED.incl
 
+LINKD_ASM=".SCP_ASM_LINKED.s"
+
+#optimize
+if [ "$DO_OPT" == "true" ]; then
+	scpopt "$LINKD_ASM" ".SCP_ASM_LINKED.s.opt"
+	LINKD_ASM=".SCP_ASM_LINKED.s.opt"
+fi
+
 #Assemble
 if [ "$DO_END" == "true" ]; then
-	scpasm -e $OUTPUT ".SCP_ASM_LINKED.s"
+	scpasm -e $OUTPUT "$LINKD_ASM"
 else
-	scpasm $OUTPUT ".SCP_ASM_LINKED.s"
+	scpasm $OUTPUT "$LINKD_ASM"
 fi
 if [ "$DO_COMP" == "true" ]; then
 	rm $ASMD_FILES
 fi
 #If -a was specified, preserve asm
 if [ "$DO_ASM" == "true" ]; then
-	mv ".SCP_ASM_LINKED.s" $ASM_OUTPUT
+	mv "$LINKD_ASM" $ASM_OUTPUT
 else
-	rm ".SCP_ASM_LINKED.s"
+	rm "$LINKD_ASM"
 fi
 #if -m was specified, generate a mif file
 if [ "$DO_MIF" == "true" ]; then
