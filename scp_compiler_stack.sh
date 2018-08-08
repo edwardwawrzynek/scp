@@ -17,7 +17,7 @@ Options:
 -h         :display usage
 -e         :if specified, the binary is put against the end of the address space
 -n         :don't link asms associated with included system header files
--I	   :don't fix #asm prefixed section's indentation with scpcasmfix
+-I	   :fix #asm prefixed section's indentation with scpcasmfix
 -O:	   :run scpopt optimizer on the asm files"
 }
 
@@ -47,7 +47,7 @@ INCL_FILE=""
 DO_COMP=true
 
 #whether to run scpcasmfix on the c files
-DO_ASMFIX=true
+DO_ASMFIX=false
 
 #whether to stop before asm and lnk
 DO_STOP_ASMLNK=false
@@ -77,7 +77,7 @@ while getopts "ehncIXOo:m:a:s:l:L:f:" opt; do
     	DO_COMP=false
     	;;
     I)
-    	DO_ASMFIX=false
+    	DO_ASMFIX=true
     	;;
     X)
     	DO_STOP_ASMLNK=true
@@ -138,18 +138,18 @@ if [ "$DO_COMP" == "true" ]; then
 			rm "$c_file.scpcasmfix"
 		done
 	fi
-	sccscp -i "$C_FILES"
+	sccscp -i $C_FILES
 fi
 
 #set asm and incl file names
 if [ "$DO_COMP" == "true" ]; then
-	for arg in "$C_FILES"
+	for arg in $C_FILES
 	do
 		ASMD_FILES="$ASMD_FILES $(echo "$arg" | cut -f 1 -d '.').s"
 		INCLD_FILES="$INCLD_FILES $(echo "$arg" | cut -f 1 -d '.').incl"
 	done
 else
-	ASMD_FILES="$C_FILES"
+	ASMD_FILES=$C_FILES
 	touch .SCP_INCL_FAKE.incl
 	INCLD_FILES=".SCP_INCL_FAKE.incl"
 fi

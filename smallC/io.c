@@ -18,7 +18,8 @@ openin (p) char *p;
         if (!checkname (fname))
                 return (NO);
         if ((input = fopen (fname, "r")) == NULL) {
-                pl ("Open failure\n");
+                pl ("Open failure on file:\n");
+                pl (fname);
                 return (NO);
         }
         kill ();
@@ -33,7 +34,8 @@ openout ()
 {
         outfname (fname);
         if ((output = fopen (fname, "w")) == NULL) {
-                pl ("Open failure");
+                pl ("Open failure on file:");
+                pl(fname);
                 return (NO);
         }
         kill ();
@@ -65,6 +67,7 @@ char    *s;
 				*++s = 'n';
 				*++s = 'c';
 				*++s = 'l';
+                *++s = '\0';
 
 }
 
@@ -77,6 +80,7 @@ char    *s;
         while (*s)
                 s++;
         *--s = 's';
+        *++s = '\0';
 
 }
 
