@@ -7,7 +7,7 @@ multitasking OS (a work in progress).
 The quartus project is located in `quartus`, and is the physical implementation
 of the cpu. Each subfolder contains verilog and ip files for the individual
 components of the cpu. Some of the IO (keyboard and text output) is taken from a
-previous [project](https://github.com/darksteelcode/comp16.git) of mine, while
+previous [project](https://github.com/edwardwawrzynek/comp16.git) of mine, while
 some parts, including the disk and graphics systems, are new.
 
 ## The Compilation Suite
@@ -40,7 +40,7 @@ formatting in c files (`scpasmfix`). All of these are invoced through options in
 `scpc`.
 
 ## The Software
-Software for SCP is located [here](https://github.com/darksteelcode/scp_software),
+Software for SCP is located [here](https://github.com/edwardwawrzynek/scp_software),
 and includes a few games, demos and partial c standard library implementation, as
 well as a work in progress Operating System including a complete filesystem and
 multitasking and memory managment facilities.
