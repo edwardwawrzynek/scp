@@ -24,6 +24,14 @@ newfunc() {
         kill();
         return;
     }
+#ifdef SINGLE_LINE_DECLARATIONS
+    /* if there is a ; before a {,a this is a declaration, so return early */
+    if(strchr(line, ';') > strchr(line, '{')){
+        while(*(line+lptr++) != ';'){
+        }
+        return;
+    }
+#endif
     if ((idx = find_global(n)) > -1) {
         if (symbol_table[idx].identity != FUNCTION)
             multidef(n);

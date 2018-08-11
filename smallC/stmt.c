@@ -25,6 +25,7 @@ statement (int func) {
             return (lastst);
         } else
             error ("function requires compound statement");
+            //exit(0);
     if (match ("{"))
         do_compound (NO);
     else

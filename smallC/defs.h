@@ -2,6 +2,9 @@
  * File defs.h: 2.1 (83/03/21,02:07:20)
  */
 
+/* ignore one line declarations, and don't throw error */
+#define SINGLE_LINE_DECLARATIONS 1
+
 /* Intel 8080 architecture defs */
 #define INTSIZE 2
 

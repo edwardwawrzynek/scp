@@ -218,7 +218,7 @@ usage() {
     oputs("-c: link, not implemented\n");
     oputs("-h: displays usage\n");
     oputs("-l: set the log\n");
-		oputs("-i: output a .incl file with a list of all included files\n");
+	oputs("-i: output a .incl file with a list of all included files\n");
     oputs("log - a file that you wish to contain most (if not all) messages\n");
     oputs("files - one or more files. no filename redirects to stdin/stdout\n");
     exit(1);
