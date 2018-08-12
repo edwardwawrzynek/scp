@@ -1,5 +1,5 @@
 Flow report for scp
-Tue Aug  7 13:22:29 2018
+Sat Aug 11 19:21:42 2018
 Quartus Prime Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
 
 
@@ -40,14 +40,14 @@ refer to the applicable agreement for further details.
 +-------------------------------------------------------------------------------+
 ; Flow Summary                                                                  ;
 +---------------------------------+---------------------------------------------+
-; Flow Status                     ; Successful - Tue Aug  7 13:22:29 2018       ;
+; Flow Status                     ; Successful - Sat Aug 11 19:21:42 2018       ;
 ; Quartus Prime Version           ; 17.1.0 Build 590 10/25/2017 SJ Lite Edition ;
 ; Revision Name                   ; scp                                         ;
 ; Top-level Entity Name           ; scp                                         ;
 ; Family                          ; Cyclone V                                   ;
 ; Device                          ; 5CSEMA4U23C6                                ;
 ; Timing Models                   ; Final                                       ;
-; Logic utilization (in ALMs)     ; 1,202 / 15,880 ( 8 % )                      ;
+; Logic utilization (in ALMs)     ; 1,198 / 15,880 ( 8 % )                      ;
 ; Total registers                 ; 1064                                        ;
 ; Total pins                      ; 22 / 314 ( 7 % )                            ;
 ; Total virtual pins              ; 0                                           ;
@@ -67,7 +67,7 @@ refer to the applicable agreement for further details.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 07/30/2018 17:51:23 ;
+; Start date & time ; 08/11/2018 19:17:24 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; scp                 ;
 +-------------------+---------------------+
@@ -78,7 +78,7 @@ refer to the applicable agreement for further details.
 +--------------------------------------+----------------------------------------+---------------+-------------+----------------+
 ; Assignment Name                      ; Value                                  ; Default Value ; Entity Name ; Section Id     ;
 +--------------------------------------+----------------------------------------+---------------+-------------+----------------+
-; COMPILER_SIGNATURE_ID                ; 220083050252176.153299468329890        ; --            ; --          ; --             ;
+; COMPILER_SIGNATURE_ID                ; 247356951922156.153403664428931        ; --            ; --          ; --             ;
 ; EDA_OUTPUT_DATA_FORMAT               ; Verilog Hdl                            ; --            ; --          ; eda_simulation ;
 ; EDA_SIMULATION_TOOL                  ; ModelSim-Altera (Verilog)              ; <None>        ; --          ; --             ;
 ; EDA_TIME_SCALE                       ; 1 ps                                   ; --            ; --          ; eda_simulation ;
@@ -128,15 +128,12 @@ refer to the applicable agreement for further details.
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name               ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis      ; 00:00:26     ; 1.0                     ; 1151 MB             ; 00:00:47                           ;
-; Fitter                    ; 00:02:57     ; 1.3                     ; 2369 MB             ; 00:06:36                           ;
-; Assembler                 ; 00:00:10     ; 1.0                     ; 1017 MB             ; 00:00:10                           ;
-; TimeQuest Timing Analyzer ; 00:00:23     ; 2.6                     ; 1275 MB             ; 00:00:51                           ;
+; Analysis & Synthesis      ; 00:00:30     ; 1.0                     ; 1142 MB             ; 00:00:57                           ;
+; Fitter                    ; 00:03:01     ; 1.3                     ; 2368 MB             ; 00:06:43                           ;
+; Assembler                 ; 00:00:10     ; 1.0                     ; 1019 MB             ; 00:00:10                           ;
+; TimeQuest Timing Analyzer ; 00:00:23     ; 2.6                     ; 1273 MB             ; 00:00:53                           ;
 ; EDA Netlist Writer        ; 00:00:04     ; 1.0                     ; 1273 MB             ; 00:00:04                           ;
-; MIF/HEX Update            ; 00:00:08     ; 1.0                     ; 1326 MB             ; 00:00:08                           ;
-; Assembler                 ; 00:00:10     ; 1.0                     ; 1020 MB             ; 00:00:10                           ;
-; EDA Netlist Writer        ; 00:00:03     ; 1.0                     ; 1278 MB             ; 00:00:03                           ;
-; Total                     ; 00:04:21     ; --                      ; --                  ; 00:08:49                           ;
+; Total                     ; 00:04:08     ; --                      ; --                  ; 00:08:47                           ;
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 
@@ -150,9 +147,6 @@ refer to the applicable agreement for further details.
 ; Assembler                 ; ubuntu-MacBookPro ; Ubuntu 18.04.1 ; 18         ; x86_64         ;
 ; TimeQuest Timing Analyzer ; ubuntu-MacBookPro ; Ubuntu 18.04.1 ; 18         ; x86_64         ;
 ; EDA Netlist Writer        ; ubuntu-MacBookPro ; Ubuntu 18.04.1 ; 18         ; x86_64         ;
-; MIF/HEX Update            ; ubuntu-MacBookPro ; Ubuntu 18.04.1 ; 18         ; x86_64         ;
-; Assembler                 ; ubuntu-MacBookPro ; Ubuntu 18.04.1 ; 18         ; x86_64         ;
-; EDA Netlist Writer        ; ubuntu-MacBookPro ; Ubuntu 18.04.1 ; 18         ; x86_64         ;
 +---------------------------+-------------------+----------------+------------+----------------+
 
 
@@ -163,9 +157,6 @@ quartus_map --read_settings_files=on --write_settings_files=off scp -c scp
 quartus_fit --read_settings_files=off --write_settings_files=off scp -c scp
 quartus_asm --read_settings_files=off --write_settings_files=off scp -c scp
 quartus_sta scp -c scp
-quartus_eda --read_settings_files=off --write_settings_files=off scp -c scp
-quartus_cdb scp -c scp --update_mif
-quartus_asm --read_settings_files=on --write_settings_files=off scp -c scp
 quartus_eda --read_settings_files=off --write_settings_files=off scp -c scp
 
 
