@@ -5,7 +5,7 @@ module text_gen(
 	input col_en,
 	output [7:0] col,
 	//Text Memory Access
-	output [9:0] char_addr,
+	output [10:0] char_addr,
 	//Video memory access
 	output [15:0] gfx_addr,
 	//Charset rom access
@@ -21,21 +21,23 @@ module text_gen(
 //Pixel locations
 wire [30:0] x;
 wire [30:0] y;
-assign x = row[31:1] - 1;
+assign x = row[31:1]-2;
 assign y = colu[31:1];
+wire [31:0] x_char;
+assign x_char = row[31:0]-4;
 //Text locations
-wire [5:0] textX;
+wire [6:0] textX;
 wire [4:0] textY;
-assign textX = x[8:3];
+assign textX = x[8:2];
 assign textY = y[7:3];
 
-assign char_addr = (textX + (textY*40));
+assign char_addr = (textX + (textY*80));
 assign gfx_addr = (x + (y*320));
 
 //Location in char
 wire [2:0] charX;
 wire [2:0] charY;
-assign charX = x[2:0];
+assign charX = x_char[2:0];
 assign charY = y[2:0];
 
 //Bit in charset
