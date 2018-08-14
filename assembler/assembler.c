@@ -18,12 +18,13 @@
 #define LABEL_SIZE 33
 
 //increment to realloc labels array on - number of labels
-#define LABEL_ALLOC_SIZE 64
+#define LABEL_ALLOC_SIZE 16
 
 //Return types
 #ifndef IS_SCP
 #define CHARP char *
 #define INT int
+#define UINT unsigned int
 #define VOID void
 #define SLABELP struct label *
 #endif
@@ -31,6 +32,7 @@
 #ifdef IS_SCP
 #define CHARP
 #define INT
+#define UINT
 #define VOID
 #define SLABELP
 #endif
@@ -118,12 +120,11 @@ VOID labels_alloc(){
 //realloc labels to contain another group of LABEL_ALLOC_SIZE
 VOID labels_realloc(){
 	labels_allocd += LABEL_ALLOC_SIZE;
-	labels = realloc(labels, LABEL_ALLOC_SIZE * sizeof(struct label));
+	labels = realloc(labels, labels_allocd * sizeof(struct label));
 }
 
 //get a label pointer for a new label
 SLABELP label_new(){
-	struct label * res;
 	if(labels_used >= labels_allocd){
 		labels_realloc();
 	}
@@ -145,7 +146,7 @@ INT is_whitespace(char * s){
 //read a valid line into line, resetting lptr
 //returns 1 on success, 0 on EOF
 INT read_line_raw(){
-	char c;
+	int c;
 	++line_num;
 	lptr = 0;
 	do {
@@ -159,9 +160,9 @@ INT read_line_raw(){
 			line[lptr++] = ':';
 			line[lptr] = 0;
 			lptr = 0;
+			--line_num;
 			return 1;
-		}
-		else {
+		} else {
 			line[lptr++] = c;
 		}
 	} while(c != '\n');
@@ -224,6 +225,7 @@ INT match_cmd(){
 		}
 	}
 	error("no such command");
+	return 0;
 }
 
 //get an arg from the current location, copying it to arg
@@ -249,7 +251,6 @@ INT get_arg(){
 INT get_dir_size(){
 	unsigned int i;
 	i = 0;
-	module = 0;
 	if(!memcmp(line+lptr, ".db", 3)){
 		read_to_white();
 		while(get_arg()){++i;}
@@ -280,12 +281,18 @@ INT get_dir_size(){
 VOID addr_pass(){
 	char * label;
 	unsigned int cmd;
+	struct label * new_label;
 
 	addr = addr_start;
+	module = 0;
 	while(read_line()){
 		label = read_label();
 		if(label){
 			//add label
+			new_label = label_new();
+			strcpy(new_label->name, label);
+			new_label->addr = addr;
+			new_label->mod_num = (*label=='$') ? module: -1;
 		} else {
 			cmd = match_cmd();
 			if(cmd == -1){
@@ -295,19 +302,121 @@ VOID addr_pass(){
 			}
 		}
 	}
-	printf("Addr: %u\n", addr);
+}
+
+//return the addr of a symbol, given the module number 
+UINT label_addr(char * name, int module){
+	unsigned int i;
+	for(i = 0; i < labels_used+1;++i){
+		if(!strcmp(name, labels[i].name) && (labels[i].mod_num == module || labels[i].mod_num == -1)){
+			return labels[i].addr;
+		}
+	}
+	printf("scpasm: label not defined: %s\n", name);
+	error("no such label");
+	return 0;
+}
+
+//evaluate an argument to a value - handles labels and literals
+UINT arg_val(char *arg, unsigned int module){
+	char * plusi;
+	unsigned int add;
+	add = 0;
+	//apply +#'s
+	plusi = strchr(arg, '+');
+	if(plusi){
+		*plusi = 0;
+		add = atoi(plusi+2);
+	}
+	if(*arg == '#'){
+		return atoi(arg+1)+add;
+	} else {
+		return label_addr(arg, module)+add;
+	}
+}
+
+//output a value to the output file
+VOID out_v(unsigned int val, unsigned char num_b){
+	while(num_b--){
+		fputc(val&0xff, outf);
+		val>>=8;
+	}
+}
+
+//output a directive
+VOID output_dir(){
+	unsigned int i;
+	i = 0;
+	blanks();
+	if(!memcmp(line+lptr, ".db", 3)){
+		read_to_white();
+		while(get_arg()){out_v(arg_val(arg, module), 1);}
+		return;
+	}
+	if(!memcmp(line+lptr, ".dw", 3)){
+		read_to_white();
+		while(get_arg()){out_v(arg_val(arg, module), 2);}
+		return;
+	}
+	if(!memcmp(line+lptr, ".ds", 3)){
+		read_to_white();
+		if(!get_arg()){
+			error(".ds requires an argument");
+		}
+		i = atoi(arg+1);
+		while(i--){
+			out_v(0, 1);
+		}
+		return;
+	}
+	if(!memcmp(line+lptr, ".module", 7)){
+		++module;
+		return;
+	}
+	error("no such directive");
+}
+
+//run the output pass
+VOID out_pass(){
+	int cmd;
+	char * label;
+	fseek(inf, 0, SEEK_SET);
+	line_num=0;
+
+	module = 0;
+	while(read_line()){
+		label = read_label();
+		if(label){
+			//don't do anything with labels
+			continue;
+		} else {
+			cmd = match_cmd();
+			if(cmd == -1){
+				output_dir();
+			} else{
+				//write out cmd opcode
+				out_v(cmd, 1);
+				//if nessesary, read in arg
+				if(cmd_lens[cmd]){
+					read_to_white();
+					if(!get_arg()){
+						error("cmd requires and argument");
+					}
+					out_v(arg_val(arg, module), cmd_lens[cmd]);
+				}
+			}
+		}
+	}
 }
 
 INT main(int argc, char **argv){
-	char * label;
-	struct label * l;
-	unsigned int i;
 
 	handle_args(argc, argv);
 
+	labels_alloc();
+
 	addr_pass();
-	for(i = 0; i < labels_used; ++i){
-		printf("%s\n", labels[i].name);
-	}
+	out_pass();
+
 	free(labels);
 }

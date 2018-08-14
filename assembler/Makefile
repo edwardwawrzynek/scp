@@ -1,6 +1,6 @@
 all: scpasm scpasmold scplnk scpmif scpcasmfix
 scpasm: assembler.c
-	gcc -o scpasm assembler.c
+	gcc -Wall -o scpasm assembler.c
 scpasmold: assembler_machine_back.c old_asm.c
 	gcc -o scpasmold old_asm.c
 scplnk: linker.c
