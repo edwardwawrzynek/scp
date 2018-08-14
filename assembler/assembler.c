@@ -18,7 +18,7 @@
 #define LABEL_SIZE 33
 
 //increment to realloc labels array on - number of labels
-#define LABEL_ALLOC_SIZE 16
+#define LABEL_ALLOC_SIZE 64
 
 //Return types
 #ifndef IS_SCP
@@ -36,6 +36,9 @@
 #define VOID
 #define SLABELP
 #endif
+
+unsigned int sflag;
+unsigned int eflag;
 
 //a label
 struct label {
@@ -78,6 +81,7 @@ unsigned int addr_start = 0;
 //current module number
 unsigned int module = 0;
 
+
 VOID error(char * err){
 	int i;
 	printf("scpasm: Error: %s\nLine: %u\n--------\n%s\n", err, line_num, line);
@@ -104,11 +108,22 @@ VOID open_files(char * in, char * out){
 
 //handle args
 VOID handle_args(int argc, char **argv){
-	if(argc != 3){
-		printf("Usage: scpasm [out] [in.s]\n");
+	unsigned int argv_off;
+	argv_off = 0;
+	if(argc < 3){
+		printf("Usage: scpasm [options] [out] [in.s]\nOptions:\n-e :pad the output to the end of the addr space\n-s :display the size of the binary\n");
 		exit(1);
 	}
-	open_files(argv[2], argv[1]);
+	if(*argv[1] == '-'){
+		if(argv[1][1] == 'e'){
+			eflag = 1;
+		}
+		if(argv[1][1] == 's'){
+			sflag = 1;
+		}
+		argv_off = 1;
+	}
+	open_files(argv[2+argv_off], argv[1+argv_off]);
 }
 
 //first alloc of labels
@@ -309,7 +324,7 @@ UINT label_addr(char * name, int module){
 	unsigned int i;
 	for(i = 0; i < labels_used+1;++i){
 		if(!strcmp(name, labels[i].name) && (labels[i].mod_num == module || labels[i].mod_num == -1)){
-			return labels[i].addr;
+			return labels[i].addr+addr_start;
 		}
 	}
 	printf("scpasm: label not defined: %s\n", name);
@@ -376,13 +391,21 @@ VOID output_dir(){
 	error("no such directive");
 }
 
+//pad output with addr_start zeros
+VOID pad_out(){
+	unsigned int i;
+	for(i = 0; i < addr_start; ++i){
+		out_v(0,1);
+	}
+}
+
 //run the output pass
 VOID out_pass(){
 	int cmd;
 	char * label;
 	fseek(inf, 0, SEEK_SET);
 	line_num=0;
-
+	pad_out();
 	module = 0;
 	while(read_line()){
 		label = read_label();
@@ -412,10 +435,14 @@ VOID out_pass(){
 INT main(int argc, char **argv){
 
 	handle_args(argc, argv);
-
 	labels_alloc();
-
 	addr_pass();
+	if(sflag){
+		printf("Size: %u\n", addr);
+	}
+	if(eflag){
+		addr_start = 65536-addr;
+	}
 	out_pass();
 
 	free(labels);
