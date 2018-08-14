@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define IS_SCP 1
 //comment out to compile on scp
@@ -10,13 +11,51 @@
 //Length of array for cmds - NUM_CMDS * 5
 #define CMD_ARRAY_LEN 355
 
+//maximum line length - including null
+#define LINE_SIZE 81
+
+//maximum label length - including null
+#define LABEL_SIZE 33
+
+//increment to realloc labels array on - number of labels
+#define LABEL_ALLOC_SIZE 64
+
+//Return types
+#ifndef IS_SCP
+#define CHARP char *
+#define INT int
+#define VOID void
+#define SLABELP struct label *
+#endif
+
+#ifdef IS_SCP
+#define CHARP
+#define INT
+#define VOID
+#define SLABELP
+#endif
+
+//a label
+struct label {
+	//name, including $ for module labels - malloc'd
+	char name[LABEL_SIZE];
+	//addr
+	unsigned int addr;
+	//module number, or -1 for globals
+	int mod_num;
+};
+
+//list of labels - malloc'd
+struct label * labels;
+//number of labels malloc'd
+unsigned int labels_allocd;
+//number of used labels
+unsigned int labels_used;
+
 //Command names
 char cmds[CMD_ARRAY_LEN] = "nop \0lbia\0lbib\0lwia\0lwib\0lbpa\0lbpb\0lwpa\0lwpb\0lbqa\0lbqb\0lwqa\0lwqb\0lbma\0lbmb\0lwma\0lwmb\0sbpb\0swpb\0sbqa\0swqa\0sbma\0sbmb\0swma\0swmb\0aadd\0asub\0amul\0abor\0abxr\0abnd\0assr\0ashr\0ashl\0aneg\0alng\0abng\0aclv\0aequ\0aneq\0aslt\0ault\0asle\0aule\0asex\0aaeb\0jmp \0jpnz\0jpz \0inca\0incb\0deca\0decb\0xswp\0mdsp\0masp\0mspa\0psha\0pshb\0popa\0popb\0call\0ret \0outa\0ina \0jmpa\0aptb\0prvu\0prvs\0mmus\0bspa\0";
 //length not including opcode byte
 char cmd_lens[NUM_CMDS] = {0, 1, 1, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 0, 0, 0, 0, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 2, 0, 2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 1};
-
-//maximum line length - including null
-#define LINE_SIZE 81
 
 //file reading operations
 char line [LINE_SIZE];
@@ -26,19 +65,6 @@ unsigned int line_num;
 //File IO
 FILE *inf;
 FILE *outf;
-
-//Return types
-#ifndef IS_SCP
-#define CHARP char *
-#define INT int
-#define VOID void
-#endif
-
-#ifdef IS_SCP
-#define CHARP
-#define INT
-#define VOID
-#endif
 
 VOID error(char * err){
 	int i;
@@ -71,6 +97,27 @@ VOID handle_args(int argc, char **argv){
 		exit(1);
 	}
 	open_files(argv[2], argv[1]);
+}
+
+//first alloc of labels
+VOID labels_alloc(){
+	labels = malloc(LABEL_ALLOC_SIZE * sizeof(struct label));
+	labels_allocd = LABEL_ALLOC_SIZE;
+}
+
+//realloc labels to contain another group of LABEL_ALLOC_SIZE
+VOID labels_realloc(){
+	labels_allocd += LABEL_ALLOC_SIZE;
+	labels = realloc(labels, LABEL_ALLOC_SIZE * sizeof(struct label));
+}
+
+//get a label pointer for a new label
+SLABELP label_new(){
+	struct label * res;
+	if(labels_used >= labels_allocd){
+		labels_realloc();
+	}
+	return labels + (labels_used++);
 }
 
 //checks if a string is just whitespace
@@ -134,13 +181,20 @@ CHARP read_label(){
 
 INT main(int argc, char **argv){
 	char * label;
+	struct label * l;
+	unsigned int i;
 
 	handle_args(argc, argv);
 
 	while(read_line()){
 		label = read_label();
 		if(label){
-			printf("%s\n", label);
+			//printf("%s\n", label);
+			l = label_new();
+			strcpy(l->name, label);
 		}
+	}
+	for(i = 0; i < labels_used; ++i){
+		printf("%s\n", labels[i].name);
 	}
 }
