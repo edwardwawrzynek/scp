@@ -2,9 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define IS_SCP 1
-//comment out to compile on scp
-#undef IS_SCP
+//define to compile on scp
+//#define MACHINE_SCP 1
 
 //Number of commands
 #define NUM_CMDS 71
@@ -21,7 +20,7 @@
 #define LABEL_ALLOC_SIZE 64
 
 //Return types
-#ifndef IS_SCP
+#ifndef MACHINE_SCP
 #define CHARP char *
 #define INT int
 #define UINT unsigned int
@@ -29,7 +28,7 @@
 #define SLABELP struct label *
 #endif
 
-#ifdef IS_SCP
+#ifdef MACHINE_SCP
 #define CHARP
 #define INT
 #define UINT
