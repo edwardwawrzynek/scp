@@ -62,9 +62,19 @@ char line [LINE_SIZE];
 unsigned int lptr;
 unsigned int line_num;
 
+char arg [LINE_SIZE];
+
 //File IO
 FILE *inf;
 FILE *outf;
+
+//current addr in file
+unsigned int addr;
+
+unsigned int addr_start = 0;
+
+//current module number
+unsigned int module = 0;
 
 VOID error(char * err){
 	int i;
@@ -145,7 +155,13 @@ INT read_line_raw(){
 		}
 		if(c == '\n'){
 			line[lptr++] = 0;
-		} else {
+		} else if (c == ':' && *line != ';'){
+			line[lptr++] = ':';
+			line[lptr] = 0;
+			lptr = 0;
+			return 1;
+		}
+		else {
 			line[lptr++] = c;
 		}
 	} while(c != '\n');
@@ -179,6 +195,109 @@ CHARP read_label(){
 	return line;
 }
 
+//clear blanks in the line
+VOID blanks(){
+	while(line[lptr] == ' ' || line[lptr] == '\t' || line[lptr] == '\n'){
+		++lptr;
+	}
+}
+
+//read until next whitespace
+VOID read_to_white(){
+	while(line[lptr] != ' ' && line[lptr] != '\t'){
+		++lptr;
+	}
+}
+
+//match a cmd name, and return its instr addr, -1 if directive, or error if neither
+INT match_cmd(){
+	unsigned int i;
+	blanks();
+	//check for directive
+	if(line[lptr] == '.'){
+		return -1;
+	}
+	//check name
+	for(i = 0; i < NUM_CMDS; ++i){
+		if(!memcmp(line+lptr, (cmds + i*5), 4)){
+			return i;
+		}
+	}
+	error("no such command");
+}
+
+//get an arg from the current location, copying it to arg
+//returns 1 if an arg was found, or 0 if not found
+INT get_arg(){
+	unsigned int i;
+	blanks();
+	if(!line[lptr]){
+		return 0;
+	}
+	i = 0;
+	if(line[lptr] == ','){
+		++lptr;
+	}
+	while(line[lptr] && line[lptr] != ','){
+		arg[i++] = line[lptr++];
+	}
+	arg[i] = '\0';
+	return 1;
+}
+
+//get the size in bytes of a directive located at line+lptr
+INT get_dir_size(){
+	unsigned int i;
+	i = 0;
+	module = 0;
+	if(!memcmp(line+lptr, ".db", 3)){
+		read_to_white();
+		while(get_arg()){++i;}
+		return i;
+	}
+	if(!memcmp(line+lptr, ".dw", 3)){
+		read_to_white();
+		while(get_arg()){++i;}
+		return i<<1;
+	}
+	if(!memcmp(line+lptr, ".ds", 3)){
+		read_to_white();
+		if(!get_arg()){
+			error(".ds requires an argument");
+		}
+		i = atoi(arg+1);
+		return i;
+	}
+	if(!memcmp(line+lptr, ".module", 7)){
+		++module;
+		return 0;
+	}
+	error("no such directive");
+	return 0;
+}
+
+//run the addr resolution pass on the file
+VOID addr_pass(){
+	char * label;
+	unsigned int cmd;
+
+	addr = addr_start;
+	while(read_line()){
+		label = read_label();
+		if(label){
+			//add label
+		} else {
+			cmd = match_cmd();
+			if(cmd == -1){
+				addr += get_dir_size();
+			} else{
+				addr += cmd_lens[cmd] + 1;
+			}
+		}
+	}
+	printf("Addr: %u\n", addr);
+}
+
 INT main(int argc, char **argv){
 	char * label;
 	struct label * l;
@@ -186,15 +305,9 @@ INT main(int argc, char **argv){
 
 	handle_args(argc, argv);
 
-	while(read_line()){
-		label = read_label();
-		if(label){
-			//printf("%s\n", label);
-			l = label_new();
-			strcpy(l->name, label);
-		}
-	}
+	addr_pass();
 	for(i = 0; i < labels_used; ++i){
 		printf("%s\n", labels[i].name);
 	}
+	free(labels);
 }
