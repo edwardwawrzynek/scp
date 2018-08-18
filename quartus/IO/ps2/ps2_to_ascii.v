@@ -42,7 +42,7 @@ begin
 				begin
 					jmpff00 <= 0;
 				end
-			real_new <= 1;
+			real_new <= (in == 8'he1) ? 0:1;
 			released_sent <= 1;
 			//PS2 to Ascii Keycodes - US keyboard
 			case(in)
