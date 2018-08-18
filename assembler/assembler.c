@@ -443,6 +443,5 @@ INT main(int argc, char **argv){
 		addr_start = 65536-addr;
 	}
 	out_pass();
-
 	free(labels);
 }
