@@ -31,6 +31,7 @@ begin
 					released_sent <= 0;
 					released <= 0;
 				end
+			jmpff00 <= 0;
 		end
 	else if(in != 8'he0 && in != 8'hf0)
 		begin
@@ -81,9 +82,9 @@ begin
 				8'h29: cur <= " ";
 				8'h4a: cur <= "/";
 				8'h4c: cur <= ";";
-            			8'h52: cur <= "'";
-            			8'h41: cur <= ",";
-            			8'h49: cur <= ".";
+            8'h52: cur <= "'";
+            8'h41: cur <= ",";
+            8'h49: cur <= ".";
 				8'h71: cur <= 8'd46; //Del
 				8'h7d: cur <= 8'd33; //Page Up
 				8'h7a: cur <= 8'd34; //Page Down

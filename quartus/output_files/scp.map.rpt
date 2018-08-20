@@ -1,5 +1,5 @@
 Analysis & Synthesis report for scp
-Sun Aug 19 18:38:35 2018
+Sun Aug 19 19:32:42 2018
 Quartus Prime Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
 
 
@@ -23,67 +23,68 @@ Quartus Prime Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
  15. State Machine - |scp|uart_io:inst10|uart:inst01|receiver:uart_rx|state
  16. State Machine - |scp|uart_io:inst10|uart:inst01|transmitter:uart_tx|state
  17. Registers Removed During Synthesis
- 18. General Register Statistics
- 19. Inverted Register Statistics
- 20. Registers Added for RAM Pass-Through Logic
- 21. Multiplexer Restructuring Statistics (No Restructuring Performed)
- 22. Source assignments for vga_io:inst23|char_mem:instv2|altsyncram:altsyncram_component|altsyncram_tnj2:auto_generated
- 23. Source assignments for vga_io:inst23|charset_rom:instv5|altsyncram:altsyncram_component|altsyncram_1ag1:auto_generated
- 24. Source assignments for vga_io:inst23|gfx_mem:inst|altsyncram:altsyncram_component|altsyncram_trj2:auto_generated
- 25. Source assignments for rom_mega:DECODE_ROM|altsyncram:altsyncram_component|altsyncram_nkh1:auto_generated
- 26. Source assignments for ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated
- 27. Source assignments for mmu:inst24|page_table_mega:inst|altsyncram:altsyncram_component|altsyncram_nlr2:auto_generated
- 28. Source assignments for sd_io:inst27|sdCtrlInt:sdinst7|altsyncram:data_rd_mem_rtl_0|altsyncram_qji1:auto_generated
- 29. Source assignments for sd_io:inst27|sdCtrlInt:sdinst7|altsyncram:data_wr_mem_rtl_0|altsyncram_i3n1:auto_generated
- 30. Source assignments for uart_io:inst10|uartRecFIFO:inst02|altsyncram:mem_rtl_0|altsyncram_93k1:auto_generated
- 31. Source assignments for ps2_io:inst11|ps2_fifo:instp3|altsyncram:mem_rtl_0|altsyncram_93k1:auto_generated
- 32. Parameter Settings for User Entity Instance: vga_io:inst23|VGA_controller:instv6
- 33. Parameter Settings for User Entity Instance: vga_io:inst23|io_port:instv3
- 34. Parameter Settings for User Entity Instance: vga_io:inst23|io_port:instv4
- 35. Parameter Settings for User Entity Instance: vga_io:inst23|char_mem:instv2|altsyncram:altsyncram_component
- 36. Parameter Settings for User Entity Instance: vga_io:inst23|charset_rom:instv5|altsyncram:altsyncram_component
- 37. Parameter Settings for User Entity Instance: vga_io:inst23|gfx_mem:inst|altsyncram:altsyncram_component
- 38. Parameter Settings for User Entity Instance: vga_io:inst23|io_port:inst2
- 39. Parameter Settings for User Entity Instance: vga_io:inst23|io_port:inst1
- 40. Parameter Settings for User Entity Instance: vga_io:inst23|io_port:inst3
- 41. Parameter Settings for User Entity Instance: vga_pll:inst|vga_pll_0002:vga_pll_inst|altera_pll:altera_pll_i
- 42. Parameter Settings for User Entity Instance: pll:inst9|pll_0002:pll_inst|altera_pll:altera_pll_i
- 43. Parameter Settings for User Entity Instance: rom_mega:DECODE_ROM|altsyncram:altsyncram_component
- 44. Parameter Settings for User Entity Instance: decode_addr_mux:inst30
- 45. Parameter Settings for User Entity Instance: ps2_io:inst11|ps2_keyboard:instp
- 46. Parameter Settings for User Entity Instance: ps2_io:inst11|ps2_keyboard:instp|debounce:debounce_ps2_clk
- 47. Parameter Settings for User Entity Instance: ps2_io:inst11|ps2_keyboard:instp|debounce:debounce_ps2_data
- 48. Parameter Settings for User Entity Instance: ps2_io:inst11|io_port:instp1
- 49. Parameter Settings for User Entity Instance: ps2_io:inst11|io_port:instp2
- 50. Parameter Settings for User Entity Instance: io_port:inst22
- 51. Parameter Settings for User Entity Instance: uart_io:inst10|uart:inst01
- 52. Parameter Settings for User Entity Instance: uart_io:inst10|uart:inst01|baud_rate_gen:uart_baud
- 53. Parameter Settings for User Entity Instance: uart_io:inst10|uart:inst01|transmitter:uart_tx
- 54. Parameter Settings for User Entity Instance: uart_io:inst10|uart:inst01|receiver:uart_rx
- 55. Parameter Settings for User Entity Instance: uart_io:inst10|io_port:inst04
- 56. Parameter Settings for User Entity Instance: uart_io:inst10|io_port:inst03
- 57. Parameter Settings for User Entity Instance: uart_io:inst10|io_port:inst05
- 58. Parameter Settings for User Entity Instance: uart_io:inst10|io_port:inst06
- 59. Parameter Settings for User Entity Instance: sound_io:inst12|io_port:inst
- 60. Parameter Settings for User Entity Instance: sd_io:inst27|SdCardCtrl:sdinst
- 61. Parameter Settings for User Entity Instance: sd_io:inst27|io_port:sdinst1
- 62. Parameter Settings for User Entity Instance: sd_io:inst27|sdCtrlInt:sdinst7
- 63. Parameter Settings for User Entity Instance: sd_io:inst27|io_port:sdinst3
- 64. Parameter Settings for User Entity Instance: sd_io:inst27|io_port:sdinst4
- 65. Parameter Settings for User Entity Instance: sd_io:inst27|io_port:sdinst5
- 66. Parameter Settings for User Entity Instance: sd_io:inst27|io_port:sdinst8
- 67. Parameter Settings for User Entity Instance: sd_io:inst27|io_port:sdinst2
- 68. Parameter Settings for User Entity Instance: ram_mega:RAM|altsyncram:altsyncram_component
- 69. Parameter Settings for User Entity Instance: mmu:inst24|page_table_mega:inst|altsyncram:altsyncram_component
- 70. Parameter Settings for Inferred Entity Instance: sd_io:inst27|sdCtrlInt:sdinst7|altsyncram:data_rd_mem_rtl_0
- 71. Parameter Settings for Inferred Entity Instance: sd_io:inst27|sdCtrlInt:sdinst7|altsyncram:data_wr_mem_rtl_0
- 72. Parameter Settings for Inferred Entity Instance: uart_io:inst10|uartRecFIFO:inst02|altsyncram:mem_rtl_0
- 73. Parameter Settings for Inferred Entity Instance: ps2_io:inst11|ps2_fifo:instp3|altsyncram:mem_rtl_0
- 74. altsyncram Parameter Settings by Entity Instance
- 75. Post-Synthesis Netlist Statistics for Top Partition
- 76. Elapsed Time Per Partition
- 77. Analysis & Synthesis Messages
- 78. Analysis & Synthesis Suppressed Messages
+ 18. Removed Registers Triggering Further Register Optimizations
+ 19. General Register Statistics
+ 20. Inverted Register Statistics
+ 21. Registers Added for RAM Pass-Through Logic
+ 22. Multiplexer Restructuring Statistics (No Restructuring Performed)
+ 23. Source assignments for vga_io:inst23|char_mem:instv2|altsyncram:altsyncram_component|altsyncram_tnj2:auto_generated
+ 24. Source assignments for vga_io:inst23|charset_rom:instv5|altsyncram:altsyncram_component|altsyncram_1ag1:auto_generated
+ 25. Source assignments for vga_io:inst23|gfx_mem:inst|altsyncram:altsyncram_component|altsyncram_trj2:auto_generated
+ 26. Source assignments for rom_mega:DECODE_ROM|altsyncram:altsyncram_component|altsyncram_nkh1:auto_generated
+ 27. Source assignments for ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated
+ 28. Source assignments for mmu:inst24|page_table_mega:inst|altsyncram:altsyncram_component|altsyncram_nlr2:auto_generated
+ 29. Source assignments for sd_io:inst27|sdCtrlInt:sdinst7|altsyncram:data_rd_mem_rtl_0|altsyncram_qji1:auto_generated
+ 30. Source assignments for sd_io:inst27|sdCtrlInt:sdinst7|altsyncram:data_wr_mem_rtl_0|altsyncram_i3n1:auto_generated
+ 31. Source assignments for uart_io:inst10|uartRecFIFO:inst02|altsyncram:mem_rtl_0|altsyncram_93k1:auto_generated
+ 32. Source assignments for ps2_io:inst11|ps2_fifo:instp3|altsyncram:mem_rtl_0|altsyncram_93k1:auto_generated
+ 33. Parameter Settings for User Entity Instance: vga_io:inst23|VGA_controller:instv6
+ 34. Parameter Settings for User Entity Instance: vga_io:inst23|io_port:instv3
+ 35. Parameter Settings for User Entity Instance: vga_io:inst23|io_port:instv4
+ 36. Parameter Settings for User Entity Instance: vga_io:inst23|char_mem:instv2|altsyncram:altsyncram_component
+ 37. Parameter Settings for User Entity Instance: vga_io:inst23|charset_rom:instv5|altsyncram:altsyncram_component
+ 38. Parameter Settings for User Entity Instance: vga_io:inst23|gfx_mem:inst|altsyncram:altsyncram_component
+ 39. Parameter Settings for User Entity Instance: vga_io:inst23|io_port:inst2
+ 40. Parameter Settings for User Entity Instance: vga_io:inst23|io_port:inst1
+ 41. Parameter Settings for User Entity Instance: vga_io:inst23|io_port:inst3
+ 42. Parameter Settings for User Entity Instance: vga_pll:inst|vga_pll_0002:vga_pll_inst|altera_pll:altera_pll_i
+ 43. Parameter Settings for User Entity Instance: pll:inst9|pll_0002:pll_inst|altera_pll:altera_pll_i
+ 44. Parameter Settings for User Entity Instance: rom_mega:DECODE_ROM|altsyncram:altsyncram_component
+ 45. Parameter Settings for User Entity Instance: decode_addr_mux:inst30
+ 46. Parameter Settings for User Entity Instance: ps2_io:inst11|ps2_keyboard:instp
+ 47. Parameter Settings for User Entity Instance: ps2_io:inst11|ps2_keyboard:instp|debounce:debounce_ps2_clk
+ 48. Parameter Settings for User Entity Instance: ps2_io:inst11|ps2_keyboard:instp|debounce:debounce_ps2_data
+ 49. Parameter Settings for User Entity Instance: ps2_io:inst11|io_port:instp1
+ 50. Parameter Settings for User Entity Instance: ps2_io:inst11|io_port:instp2
+ 51. Parameter Settings for User Entity Instance: io_port:inst22
+ 52. Parameter Settings for User Entity Instance: uart_io:inst10|uart:inst01
+ 53. Parameter Settings for User Entity Instance: uart_io:inst10|uart:inst01|baud_rate_gen:uart_baud
+ 54. Parameter Settings for User Entity Instance: uart_io:inst10|uart:inst01|transmitter:uart_tx
+ 55. Parameter Settings for User Entity Instance: uart_io:inst10|uart:inst01|receiver:uart_rx
+ 56. Parameter Settings for User Entity Instance: uart_io:inst10|io_port:inst04
+ 57. Parameter Settings for User Entity Instance: uart_io:inst10|io_port:inst03
+ 58. Parameter Settings for User Entity Instance: uart_io:inst10|io_port:inst05
+ 59. Parameter Settings for User Entity Instance: uart_io:inst10|io_port:inst06
+ 60. Parameter Settings for User Entity Instance: sound_io:inst12|io_port:inst
+ 61. Parameter Settings for User Entity Instance: sd_io:inst27|SdCardCtrl:sdinst
+ 62. Parameter Settings for User Entity Instance: sd_io:inst27|io_port:sdinst1
+ 63. Parameter Settings for User Entity Instance: sd_io:inst27|sdCtrlInt:sdinst7
+ 64. Parameter Settings for User Entity Instance: sd_io:inst27|io_port:sdinst3
+ 65. Parameter Settings for User Entity Instance: sd_io:inst27|io_port:sdinst4
+ 66. Parameter Settings for User Entity Instance: sd_io:inst27|io_port:sdinst5
+ 67. Parameter Settings for User Entity Instance: sd_io:inst27|io_port:sdinst8
+ 68. Parameter Settings for User Entity Instance: sd_io:inst27|io_port:sdinst2
+ 69. Parameter Settings for User Entity Instance: ram_mega:RAM|altsyncram:altsyncram_component
+ 70. Parameter Settings for User Entity Instance: mmu:inst24|page_table_mega:inst|altsyncram:altsyncram_component
+ 71. Parameter Settings for Inferred Entity Instance: sd_io:inst27|sdCtrlInt:sdinst7|altsyncram:data_rd_mem_rtl_0
+ 72. Parameter Settings for Inferred Entity Instance: sd_io:inst27|sdCtrlInt:sdinst7|altsyncram:data_wr_mem_rtl_0
+ 73. Parameter Settings for Inferred Entity Instance: uart_io:inst10|uartRecFIFO:inst02|altsyncram:mem_rtl_0
+ 74. Parameter Settings for Inferred Entity Instance: ps2_io:inst11|ps2_fifo:instp3|altsyncram:mem_rtl_0
+ 75. altsyncram Parameter Settings by Entity Instance
+ 76. Post-Synthesis Netlist Statistics for Top Partition
+ 77. Elapsed Time Per Partition
+ 78. Analysis & Synthesis Messages
+ 79. Analysis & Synthesis Suppressed Messages
 
 
 
@@ -109,13 +110,13 @@ refer to the applicable agreement for further details.
 +-------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                  ;
 +---------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status     ; Successful - Sun Aug 19 18:38:34 2018       ;
+; Analysis & Synthesis Status     ; Successful - Sun Aug 19 19:32:42 2018       ;
 ; Quartus Prime Version           ; 17.1.0 Build 590 10/25/2017 SJ Lite Edition ;
 ; Revision Name                   ; scp                                         ;
 ; Top-level Entity Name           ; scp                                         ;
 ; Family                          ; Cyclone V                                   ;
 ; Logic utilization (in ALMs)     ; N/A                                         ;
-; Total registers                 ; 867                                         ;
+; Total registers                 ; 885                                         ;
 ; Total pins                      ; 22                                          ;
 ; Total virtual pins              ; 0                                           ;
 ; Total block memory bits         ; 1,686,528                                   ;
@@ -296,6 +297,8 @@ refer to the applicable agreement for further details.
 ; IO/sd/sd_io.bdf                  ; yes             ; User Block Diagram/Schematic File      ; /home/edward/scp/quartus/IO/sd/sd_io.bdf                                               ;         ;
 ; IO/sd/real_sd_addr.v             ; yes             ; User Verilog HDL File                  ; /home/edward/scp/quartus/IO/sd/real_sd_addr.v                                          ;         ;
 ; IO/sd/sdCtrlInt.v                ; yes             ; User Verilog HDL File                  ; /home/edward/scp/quartus/IO/sd/sdCtrlInt.v                                             ;         ;
+; int/int_handler.v                ; yes             ; User Verilog HDL File                  ; /home/edward/scp/quartus/int/int_handler.v                                             ;         ;
+; int/break_addr.v                 ; yes             ; User Verilog HDL File                  ; /home/edward/scp/quartus/int/break_addr.v                                              ;         ;
 ; altsyncram.tdf                   ; yes             ; Megafunction                           ; /home/edward/intelFPGA_lite/17.1/quartus/libraries/megafunctions/altsyncram.tdf        ;         ;
 ; stratix_ram_block.inc            ; yes             ; Megafunction                           ; /home/edward/intelFPGA_lite/17.1/quartus/libraries/megafunctions/stratix_ram_block.inc ;         ;
 ; lpm_mux.inc                      ; yes             ; Megafunction                           ; /home/edward/intelFPGA_lite/17.1/quartus/libraries/megafunctions/lpm_mux.inc           ;         ;
@@ -330,16 +333,16 @@ refer to the applicable agreement for further details.
 +---------------------------------------------+--------------------------------------------------------------------+
 ; Resource                                    ; Usage                                                              ;
 +---------------------------------------------+--------------------------------------------------------------------+
-; Estimate of Logic utilization (ALMs needed) ; 1256                                                               ;
+; Estimate of Logic utilization (ALMs needed) ; 1276                                                               ;
 ;                                             ;                                                                    ;
-; Combinational ALUT usage for logic          ; 1832                                                               ;
-;     -- 7 input functions                    ; 128                                                                ;
-;     -- 6 input functions                    ; 505                                                                ;
-;     -- 5 input functions                    ; 262                                                                ;
-;     -- 4 input functions                    ; 214                                                                ;
-;     -- <=3 input functions                  ; 723                                                                ;
+; Combinational ALUT usage for logic          ; 1861                                                               ;
+;     -- 7 input functions                    ; 127                                                                ;
+;     -- 6 input functions                    ; 517                                                                ;
+;     -- 5 input functions                    ; 257                                                                ;
+;     -- 4 input functions                    ; 222                                                                ;
+;     -- <=3 input functions                  ; 738                                                                ;
 ;                                             ;                                                                    ;
-; Dedicated logic registers                   ; 867                                                                ;
+; Dedicated logic registers                   ; 885                                                                ;
 ;                                             ;                                                                    ;
 ; I/O pins                                    ; 22                                                                 ;
 ; Total MLAB memory bits                      ; 0                                                                  ;
@@ -352,8 +355,8 @@ refer to the applicable agreement for further details.
 ;                                             ;                                                                    ;
 ; Maximum fan-out node                        ; pll:inst9|pll_0002:pll_inst|altera_pll:altera_pll_i|outclk_wire[1] ;
 ; Maximum fan-out                             ; 561                                                                ;
-; Total fan-out                               ; 18512                                                              ;
-; Average fan-out                             ; 5.96                                                               ;
+; Total fan-out                               ; 18672                                                              ;
+; Average fan-out                             ; 5.92                                                               ;
 +---------------------------------------------+--------------------------------------------------------------------+
 
 
@@ -362,14 +365,15 @@ refer to the applicable agreement for further details.
 +----------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+-------------------------------------------------------------------------------------------------------------------------+------------------------+--------------+
 ; Compilation Hierarchy Node                   ; Combinational ALUTs ; Dedicated Logic Registers ; Block Memory Bits ; DSP Blocks ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                                     ; Entity Name            ; Library Name ;
 +----------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+-------------------------------------------------------------------------------------------------------------------------+------------------------+--------------+
-; |scp                                         ; 1832 (108)          ; 867 (0)                   ; 1686528           ; 1          ; 22   ; 0            ; |scp                                                                                                                    ; scp                    ; work         ;
+; |scp                                         ; 1861 (108)          ; 885 (0)                   ; 1686528           ; 1          ; 22   ; 0            ; |scp                                                                                                                    ; scp                    ; work         ;
 ;    |ab_bus_in_mux:inst15|                    ; 35 (35)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ab_bus_in_mux:inst15                                                                                               ; ab_bus_in_mux          ; work         ;
 ;    |ab_bus_out_mux:inst13|                   ; 16 (16)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ab_bus_out_mux:inst13                                                                                              ; ab_bus_out_mux         ; work         ;
-;    |alu:inst1|                               ; 271 (271)           ; 16 (16)                   ; 0                 ; 1          ; 0    ; 0            ; |scp|alu:inst1                                                                                                          ; alu                    ; work         ;
-;    |cond:inst16|                             ; 6 (6)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|cond:inst16                                                                                                        ; cond                   ; work         ;
+;    |alu:inst1|                               ; 272 (272)           ; 16 (16)                   ; 0                 ; 1          ; 0    ; 0            ; |scp|alu:inst1                                                                                                          ; alu                    ; work         ;
+;    |cond:inst16|                             ; 9 (9)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|cond:inst16                                                                                                        ; cond                   ; work         ;
 ;    |decode_addr_mux:inst30|                  ; 10 (10)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|decode_addr_mux:inst30                                                                                             ; decode_addr_mux        ; work         ;
 ;    |general_reg:A_REG|                       ; 50 (50)             ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|general_reg:A_REG                                                                                                  ; general_reg            ; work         ;
 ;    |general_reg:B_REG|                       ; 50 (50)             ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|general_reg:B_REG                                                                                                  ; general_reg            ; work         ;
+;    |int_handler:inst8|                       ; 24 (24)             ; 18 (18)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|int_handler:inst8                                                                                                  ; int_handler            ; work         ;
 ;    |io_port:inst22|                          ; 2 (2)               ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|io_port:inst22                                                                                                     ; io_port                ; work         ;
 ;    |io_regs:inst21|                          ; 0 (0)               ; 24 (24)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|io_regs:inst21                                                                                                     ; io_regs                ; work         ;
 ;    |mar_mux:inst6|                           ; 16 (16)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|mar_mux:inst6                                                                                                      ; mar_mux                ; work         ;
@@ -386,7 +390,7 @@ refer to the applicable agreement for further details.
 ;    |pll:inst9|                               ; 0 (0)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|pll:inst9                                                                                                          ; pll                    ; pll          ;
 ;       |pll_0002:pll_inst|                    ; 0 (0)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|pll:inst9|pll_0002:pll_inst                                                                                        ; pll_0002               ; pll          ;
 ;          |altera_pll:altera_pll_i|           ; 0 (0)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|pll:inst9|pll_0002:pll_inst|altera_pll:altera_pll_i                                                                ; altera_pll             ; work         ;
-;    |ps2_io:inst11|                           ; 112 (0)             ; 111 (0)                   ; 2048              ; 0          ; 0    ; 0            ; |scp|ps2_io:inst11                                                                                                      ; ps2_io                 ; work         ;
+;    |ps2_io:inst11|                           ; 113 (0)             ; 111 (0)                   ; 2048              ; 0          ; 0    ; 0            ; |scp|ps2_io:inst11                                                                                                      ; ps2_io                 ; work         ;
 ;       |io_port:instp1|                       ; 2 (2)               ; 1 (1)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ps2_io:inst11|io_port:instp1                                                                                       ; io_port                ; work         ;
 ;       |io_port:instp2|                       ; 1 (1)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ps2_io:inst11|io_port:instp2                                                                                       ; io_port                ; work         ;
 ;       |ps2_fifo:instp3|                      ; 28 (28)             ; 41 (41)                   ; 2048              ; 0          ; 0    ; 0            ; |scp|ps2_io:inst11|ps2_fifo:instp3                                                                                      ; ps2_fifo               ; work         ;
@@ -395,7 +399,7 @@ refer to the applicable agreement for further details.
 ;       |ps2_keyboard:instp|                   ; 43 (17)             ; 57 (33)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|ps2_io:inst11|ps2_keyboard:instp                                                                                   ; ps2_keyboard           ; work         ;
 ;          |debounce:debounce_ps2_clk|         ; 13 (13)             ; 12 (12)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|ps2_io:inst11|ps2_keyboard:instp|debounce:debounce_ps2_clk                                                         ; debounce               ; work         ;
 ;          |debounce:debounce_ps2_data|        ; 13 (13)             ; 12 (12)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|ps2_io:inst11|ps2_keyboard:instp|debounce:debounce_ps2_data                                                        ; debounce               ; work         ;
-;       |ps2_to_ascii:instp4|                  ; 38 (38)             ; 12 (12)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|ps2_io:inst11|ps2_to_ascii:instp4                                                                                  ; ps2_to_ascii           ; work         ;
+;       |ps2_to_ascii:instp4|                  ; 39 (39)             ; 12 (12)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|ps2_io:inst11|ps2_to_ascii:instp4                                                                                  ; ps2_to_ascii           ; work         ;
 ;    |ptb_reg:inst17|                          ; 0 (0)               ; 11 (11)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|ptb_reg:inst17                                                                                                     ; ptb_reg                ; work         ;
 ;    |ram_mega:RAM|                            ; 128 (0)             ; 8 (0)                     ; 1048576           ; 0          ; 0    ; 0            ; |scp|ram_mega:RAM                                                                                                       ; ram_mega               ; work         ;
 ;       |altsyncram:altsyncram_component|      ; 128 (0)             ; 8 (0)                     ; 1048576           ; 0          ; 0    ; 0            ; |scp|ram_mega:RAM|altsyncram:altsyncram_component                                                                       ; altsyncram             ; work         ;
@@ -630,6 +634,129 @@ Encoding Type:  One-Hot
 ; ps2_io:inst11|ps2_to_ascii:instp4|cur[7]                   ; Stuck at GND due to stuck port data_in                         ;
 ; vga_io:inst23|VGA_controller:instv6|x[17..31]              ; Lost fanout                                                    ;
 ; sd_io:inst27|SdCardCtrl:sdinst|clkDivider_v[1,3,5]         ; Merged with sd_io:inst27|SdCardCtrl:sdinst|clkDivider_v[0]     ;
+; int_handler:inst8|int_addr[1..3,7,8,10,11,15]              ; Merged with int_handler:inst8|int_addr[0]                      ;
+; int_handler:inst8|int_addr[4..6,9,13,14]                   ; Merged with int_handler:inst8|int_addr[12]                     ;
+; int_handler:inst8|queue[0][10]                             ; Merged with int_handler:inst8|queue[0][0]                      ;
+; int_handler:inst8|queue[0][11]                             ; Merged with int_handler:inst8|queue[0][0]                      ;
+; int_handler:inst8|queue[0][15]                             ; Merged with int_handler:inst8|queue[0][0]                      ;
+; int_handler:inst8|queue[0][1]                              ; Merged with int_handler:inst8|queue[0][0]                      ;
+; int_handler:inst8|queue[0][2]                              ; Merged with int_handler:inst8|queue[0][0]                      ;
+; int_handler:inst8|queue[0][3]                              ; Merged with int_handler:inst8|queue[0][0]                      ;
+; int_handler:inst8|queue[0][7]                              ; Merged with int_handler:inst8|queue[0][0]                      ;
+; int_handler:inst8|queue[0][8]                              ; Merged with int_handler:inst8|queue[0][0]                      ;
+; int_handler:inst8|queue[1][10]                             ; Merged with int_handler:inst8|queue[1][0]                      ;
+; int_handler:inst8|queue[1][11]                             ; Merged with int_handler:inst8|queue[1][0]                      ;
+; int_handler:inst8|queue[1][15]                             ; Merged with int_handler:inst8|queue[1][0]                      ;
+; int_handler:inst8|queue[1][1]                              ; Merged with int_handler:inst8|queue[1][0]                      ;
+; int_handler:inst8|queue[1][2]                              ; Merged with int_handler:inst8|queue[1][0]                      ;
+; int_handler:inst8|queue[1][3]                              ; Merged with int_handler:inst8|queue[1][0]                      ;
+; int_handler:inst8|queue[1][7]                              ; Merged with int_handler:inst8|queue[1][0]                      ;
+; int_handler:inst8|queue[1][8]                              ; Merged with int_handler:inst8|queue[1][0]                      ;
+; int_handler:inst8|queue[2][10]                             ; Merged with int_handler:inst8|queue[2][0]                      ;
+; int_handler:inst8|queue[2][11]                             ; Merged with int_handler:inst8|queue[2][0]                      ;
+; int_handler:inst8|queue[2][15]                             ; Merged with int_handler:inst8|queue[2][0]                      ;
+; int_handler:inst8|queue[2][1]                              ; Merged with int_handler:inst8|queue[2][0]                      ;
+; int_handler:inst8|queue[2][2]                              ; Merged with int_handler:inst8|queue[2][0]                      ;
+; int_handler:inst8|queue[2][3]                              ; Merged with int_handler:inst8|queue[2][0]                      ;
+; int_handler:inst8|queue[2][7]                              ; Merged with int_handler:inst8|queue[2][0]                      ;
+; int_handler:inst8|queue[2][8]                              ; Merged with int_handler:inst8|queue[2][0]                      ;
+; int_handler:inst8|queue[3][10]                             ; Merged with int_handler:inst8|queue[3][0]                      ;
+; int_handler:inst8|queue[3][11]                             ; Merged with int_handler:inst8|queue[3][0]                      ;
+; int_handler:inst8|queue[3][15]                             ; Merged with int_handler:inst8|queue[3][0]                      ;
+; int_handler:inst8|queue[3][1]                              ; Merged with int_handler:inst8|queue[3][0]                      ;
+; int_handler:inst8|queue[3][2]                              ; Merged with int_handler:inst8|queue[3][0]                      ;
+; int_handler:inst8|queue[3][3]                              ; Merged with int_handler:inst8|queue[3][0]                      ;
+; int_handler:inst8|queue[3][7]                              ; Merged with int_handler:inst8|queue[3][0]                      ;
+; int_handler:inst8|queue[3][8]                              ; Merged with int_handler:inst8|queue[3][0]                      ;
+; int_handler:inst8|queue[4][10]                             ; Merged with int_handler:inst8|queue[4][0]                      ;
+; int_handler:inst8|queue[4][11]                             ; Merged with int_handler:inst8|queue[4][0]                      ;
+; int_handler:inst8|queue[4][15]                             ; Merged with int_handler:inst8|queue[4][0]                      ;
+; int_handler:inst8|queue[4][1]                              ; Merged with int_handler:inst8|queue[4][0]                      ;
+; int_handler:inst8|queue[4][2]                              ; Merged with int_handler:inst8|queue[4][0]                      ;
+; int_handler:inst8|queue[4][3]                              ; Merged with int_handler:inst8|queue[4][0]                      ;
+; int_handler:inst8|queue[4][7]                              ; Merged with int_handler:inst8|queue[4][0]                      ;
+; int_handler:inst8|queue[4][8]                              ; Merged with int_handler:inst8|queue[4][0]                      ;
+; int_handler:inst8|queue[5][10]                             ; Merged with int_handler:inst8|queue[5][0]                      ;
+; int_handler:inst8|queue[5][11]                             ; Merged with int_handler:inst8|queue[5][0]                      ;
+; int_handler:inst8|queue[5][15]                             ; Merged with int_handler:inst8|queue[5][0]                      ;
+; int_handler:inst8|queue[5][1]                              ; Merged with int_handler:inst8|queue[5][0]                      ;
+; int_handler:inst8|queue[5][2]                              ; Merged with int_handler:inst8|queue[5][0]                      ;
+; int_handler:inst8|queue[5][3]                              ; Merged with int_handler:inst8|queue[5][0]                      ;
+; int_handler:inst8|queue[5][7]                              ; Merged with int_handler:inst8|queue[5][0]                      ;
+; int_handler:inst8|queue[5][8]                              ; Merged with int_handler:inst8|queue[5][0]                      ;
+; int_handler:inst8|queue[6][10]                             ; Merged with int_handler:inst8|queue[6][0]                      ;
+; int_handler:inst8|queue[6][11]                             ; Merged with int_handler:inst8|queue[6][0]                      ;
+; int_handler:inst8|queue[6][15]                             ; Merged with int_handler:inst8|queue[6][0]                      ;
+; int_handler:inst8|queue[6][1]                              ; Merged with int_handler:inst8|queue[6][0]                      ;
+; int_handler:inst8|queue[6][2]                              ; Merged with int_handler:inst8|queue[6][0]                      ;
+; int_handler:inst8|queue[6][3]                              ; Merged with int_handler:inst8|queue[6][0]                      ;
+; int_handler:inst8|queue[6][7]                              ; Merged with int_handler:inst8|queue[6][0]                      ;
+; int_handler:inst8|queue[6][8]                              ; Merged with int_handler:inst8|queue[6][0]                      ;
+; int_handler:inst8|queue[7][10]                             ; Merged with int_handler:inst8|queue[7][0]                      ;
+; int_handler:inst8|queue[7][11]                             ; Merged with int_handler:inst8|queue[7][0]                      ;
+; int_handler:inst8|queue[7][15]                             ; Merged with int_handler:inst8|queue[7][0]                      ;
+; int_handler:inst8|queue[7][1]                              ; Merged with int_handler:inst8|queue[7][0]                      ;
+; int_handler:inst8|queue[7][2]                              ; Merged with int_handler:inst8|queue[7][0]                      ;
+; int_handler:inst8|queue[7][3]                              ; Merged with int_handler:inst8|queue[7][0]                      ;
+; int_handler:inst8|queue[7][7]                              ; Merged with int_handler:inst8|queue[7][0]                      ;
+; int_handler:inst8|queue[7][8]                              ; Merged with int_handler:inst8|queue[7][0]                      ;
+; int_handler:inst8|queue[0][13]                             ; Merged with int_handler:inst8|queue[0][12]                     ;
+; int_handler:inst8|queue[0][14]                             ; Merged with int_handler:inst8|queue[0][12]                     ;
+; int_handler:inst8|queue[0][4]                              ; Merged with int_handler:inst8|queue[0][12]                     ;
+; int_handler:inst8|queue[0][5]                              ; Merged with int_handler:inst8|queue[0][12]                     ;
+; int_handler:inst8|queue[0][6]                              ; Merged with int_handler:inst8|queue[0][12]                     ;
+; int_handler:inst8|queue[0][9]                              ; Merged with int_handler:inst8|queue[0][12]                     ;
+; int_handler:inst8|queue[1][13]                             ; Merged with int_handler:inst8|queue[1][12]                     ;
+; int_handler:inst8|queue[1][14]                             ; Merged with int_handler:inst8|queue[1][12]                     ;
+; int_handler:inst8|queue[1][4]                              ; Merged with int_handler:inst8|queue[1][12]                     ;
+; int_handler:inst8|queue[1][5]                              ; Merged with int_handler:inst8|queue[1][12]                     ;
+; int_handler:inst8|queue[1][6]                              ; Merged with int_handler:inst8|queue[1][12]                     ;
+; int_handler:inst8|queue[1][9]                              ; Merged with int_handler:inst8|queue[1][12]                     ;
+; int_handler:inst8|queue[2][13]                             ; Merged with int_handler:inst8|queue[2][12]                     ;
+; int_handler:inst8|queue[2][14]                             ; Merged with int_handler:inst8|queue[2][12]                     ;
+; int_handler:inst8|queue[2][4]                              ; Merged with int_handler:inst8|queue[2][12]                     ;
+; int_handler:inst8|queue[2][5]                              ; Merged with int_handler:inst8|queue[2][12]                     ;
+; int_handler:inst8|queue[2][6]                              ; Merged with int_handler:inst8|queue[2][12]                     ;
+; int_handler:inst8|queue[2][9]                              ; Merged with int_handler:inst8|queue[2][12]                     ;
+; int_handler:inst8|queue[3][13]                             ; Merged with int_handler:inst8|queue[3][12]                     ;
+; int_handler:inst8|queue[3][14]                             ; Merged with int_handler:inst8|queue[3][12]                     ;
+; int_handler:inst8|queue[3][4]                              ; Merged with int_handler:inst8|queue[3][12]                     ;
+; int_handler:inst8|queue[3][5]                              ; Merged with int_handler:inst8|queue[3][12]                     ;
+; int_handler:inst8|queue[3][6]                              ; Merged with int_handler:inst8|queue[3][12]                     ;
+; int_handler:inst8|queue[3][9]                              ; Merged with int_handler:inst8|queue[3][12]                     ;
+; int_handler:inst8|queue[4][13]                             ; Merged with int_handler:inst8|queue[4][12]                     ;
+; int_handler:inst8|queue[4][14]                             ; Merged with int_handler:inst8|queue[4][12]                     ;
+; int_handler:inst8|queue[4][4]                              ; Merged with int_handler:inst8|queue[4][12]                     ;
+; int_handler:inst8|queue[4][5]                              ; Merged with int_handler:inst8|queue[4][12]                     ;
+; int_handler:inst8|queue[4][6]                              ; Merged with int_handler:inst8|queue[4][12]                     ;
+; int_handler:inst8|queue[4][9]                              ; Merged with int_handler:inst8|queue[4][12]                     ;
+; int_handler:inst8|queue[5][13]                             ; Merged with int_handler:inst8|queue[5][12]                     ;
+; int_handler:inst8|queue[5][14]                             ; Merged with int_handler:inst8|queue[5][12]                     ;
+; int_handler:inst8|queue[5][4]                              ; Merged with int_handler:inst8|queue[5][12]                     ;
+; int_handler:inst8|queue[5][5]                              ; Merged with int_handler:inst8|queue[5][12]                     ;
+; int_handler:inst8|queue[5][6]                              ; Merged with int_handler:inst8|queue[5][12]                     ;
+; int_handler:inst8|queue[5][9]                              ; Merged with int_handler:inst8|queue[5][12]                     ;
+; int_handler:inst8|queue[6][13]                             ; Merged with int_handler:inst8|queue[6][12]                     ;
+; int_handler:inst8|queue[6][14]                             ; Merged with int_handler:inst8|queue[6][12]                     ;
+; int_handler:inst8|queue[6][4]                              ; Merged with int_handler:inst8|queue[6][12]                     ;
+; int_handler:inst8|queue[6][5]                              ; Merged with int_handler:inst8|queue[6][12]                     ;
+; int_handler:inst8|queue[6][6]                              ; Merged with int_handler:inst8|queue[6][12]                     ;
+; int_handler:inst8|queue[6][9]                              ; Merged with int_handler:inst8|queue[6][12]                     ;
+; int_handler:inst8|queue[7][13]                             ; Merged with int_handler:inst8|queue[7][12]                     ;
+; int_handler:inst8|queue[7][14]                             ; Merged with int_handler:inst8|queue[7][12]                     ;
+; int_handler:inst8|queue[7][4]                              ; Merged with int_handler:inst8|queue[7][12]                     ;
+; int_handler:inst8|queue[7][5]                              ; Merged with int_handler:inst8|queue[7][12]                     ;
+; int_handler:inst8|queue[7][6]                              ; Merged with int_handler:inst8|queue[7][12]                     ;
+; int_handler:inst8|queue[7][9]                              ; Merged with int_handler:inst8|queue[7][12]                     ;
+; int_handler:inst8|queue[7][0]                              ; Stuck at GND due to stuck port data_in                         ;
+; int_handler:inst8|queue[6][0]                              ; Stuck at GND due to stuck port data_in                         ;
+; int_handler:inst8|queue[5][0]                              ; Stuck at GND due to stuck port data_in                         ;
+; int_handler:inst8|queue[4][0]                              ; Stuck at GND due to stuck port data_in                         ;
+; int_handler:inst8|queue[3][0]                              ; Stuck at GND due to stuck port data_in                         ;
+; int_handler:inst8|queue[2][0]                              ; Stuck at GND due to stuck port data_in                         ;
+; int_handler:inst8|queue[1][0]                              ; Stuck at GND due to stuck port data_in                         ;
+; int_handler:inst8|queue[0][0]                              ; Stuck at GND due to stuck port data_in                         ;
+; int_handler:inst8|int_addr[0]                              ; Stuck at GND due to stuck port data_in                         ;
 ; vga_io:inst23|VGA_controller:instv6|y[28..31]              ; Stuck at GND due to stuck port data_in                         ;
 ; sd_io:inst27|sdCtrlInt:sdinst7|state~9                     ; Lost fanout                                                    ;
 ; sd_io:inst27|sdCtrlInt:sdinst7|state~10                    ; Lost fanout                                                    ;
@@ -646,8 +773,18 @@ Encoding Type:  One-Hot
 ; sd_io:inst27|SdCardCtrl:sdinst|rtnState_v.TX_BITS          ; Merged with sd_io:inst27|SdCardCtrl:sdinst|rtnState_v.DESELECT ;
 ; sd_io:inst27|SdCardCtrl:sdinst|rtnState_v.DESELECT         ; Stuck at GND due to stuck port data_in                         ;
 ; sd_io:inst27|SdCardCtrl:sdinst|tx_v[0]                     ; Stuck at VCC due to stuck port data_in                         ;
-; Total Number of Removed Registers = 72                     ;                                                                ;
+; Total Number of Removed Registers = 207                    ;                                                                ;
 +------------------------------------------------------------+----------------------------------------------------------------+
+
+
++----------------------------------------------------------------------------------------------------+
+; Removed Registers Triggering Further Register Optimizations                                        ;
++-------------------------------+---------------------------+----------------------------------------+
+; Register name                 ; Reason for Removal        ; Registers Removed due to This Register ;
++-------------------------------+---------------------------+----------------------------------------+
+; int_handler:inst8|queue[7][0] ; Stuck at GND              ; int_handler:inst8|int_addr[0]          ;
+;                               ; due to stuck port data_in ;                                        ;
++-------------------------------+---------------------------+----------------------------------------+
 
 
 +------------------------------------------------------+
@@ -655,12 +792,12 @@ Encoding Type:  One-Hot
 +----------------------------------------------+-------+
 ; Statistic                                    ; Value ;
 +----------------------------------------------+-------+
-; Total registers                              ; 867   ;
-; Number of registers using Synchronous Clear  ; 147   ;
-; Number of registers using Synchronous Load   ; 78    ;
+; Total registers                              ; 885   ;
+; Number of registers using Synchronous Clear  ; 148   ;
+; Number of registers using Synchronous Load   ; 85    ;
 ; Number of registers using Asynchronous Clear ; 0     ;
 ; Number of registers using Asynchronous Load  ; 0     ;
-; Number of registers using Clock Enable       ; 476   ;
+; Number of registers using Clock Enable       ; 477   ;
 ; Number of registers using Preset             ; 0     ;
 +----------------------------------------------+-------+
 
@@ -794,29 +931,30 @@ Encoding Type:  One-Hot
 +--------------------+-----------+---------------+----------------------+------------------------+------------+--------------------------------------------------------------------------------------------------------------------+
 ; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                                                                                         ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+--------------------------------------------------------------------------------------------------------------------+
-; 3:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |scp|mdr_out_byte_shift_reg:inst2|val[6]                                                                           ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |scp|mdr_out_byte_shift_reg:inst2|val[7]                                                                           ;
 ; 3:1                ; 11 bits   ; 22 LEs        ; 0 LEs                ; 22 LEs                 ; Yes        ; |scp|ps2_io:inst11|ps2_keyboard:instp|count_idle[2]                                                                ;
 ; 3:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |scp|ps2_io:inst11|ps2_keyboard:instp|debounce:debounce_ps2_clk|counter_out[7]                                     ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |scp|ps2_io:inst11|ps2_keyboard:instp|debounce:debounce_ps2_data|counter_out[0]                                    ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |scp|ps2_io:inst11|ps2_keyboard:instp|debounce:debounce_ps2_data|counter_out[6]                                    ;
 ; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|sclkPhaseTimer_v[4]                                                            ;
-; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |scp|mdr_out_byte_shift_reg:inst2|val[15]                                                                          ;
-; 5:1                ; 16 bits   ; 48 LEs        ; 32 LEs               ; 16 LEs                 ; Yes        ; |scp|general_reg:A_REG|val[14]                                                                                     ;
-; 5:1                ; 16 bits   ; 48 LEs        ; 32 LEs               ; 16 LEs                 ; Yes        ; |scp|general_reg:B_REG|val[1]                                                                                      ;
-; 5:1                ; 16 bits   ; 48 LEs        ; 32 LEs               ; 16 LEs                 ; Yes        ; |scp|sp_reg:inst18|val[14]                                                                                         ;
-; 5:1                ; 8 bits    ; 24 LEs        ; 0 LEs                ; 24 LEs                 ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|rx_v[0]                                                                        ;
-; 5:1                ; 4 bits    ; 12 LEs        ; 4 LEs                ; 8 LEs                  ; Yes        ; |scp|uart_io:inst10|uart:inst01|receiver:uart_rx|bitpos[3]                                                         ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |scp|mdr_out_byte_shift_reg:inst2|val[10]                                                                          ;
+; 5:1                ; 16 bits   ; 48 LEs        ; 32 LEs               ; 16 LEs                 ; Yes        ; |scp|general_reg:A_REG|val[1]                                                                                      ;
+; 5:1                ; 16 bits   ; 48 LEs        ; 32 LEs               ; 16 LEs                 ; Yes        ; |scp|general_reg:B_REG|val[8]                                                                                      ;
+; 5:1                ; 16 bits   ; 48 LEs        ; 32 LEs               ; 16 LEs                 ; Yes        ; |scp|sp_reg:inst18|val[11]                                                                                         ;
+; 5:1                ; 8 bits    ; 24 LEs        ; 0 LEs                ; 24 LEs                 ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|rx_v[3]                                                                        ;
+; 5:1                ; 4 bits    ; 12 LEs        ; 4 LEs                ; 8 LEs                  ; Yes        ; |scp|uart_io:inst10|uart:inst01|receiver:uart_rx|bitpos[0]                                                         ;
 ; 5:1                ; 3 bits    ; 9 LEs         ; 3 LEs                ; 6 LEs                  ; Yes        ; |scp|uart_io:inst10|uart:inst01|transmitter:uart_tx|bitpos[0]                                                      ;
-; 6:1                ; 16 bits   ; 64 LEs        ; 32 LEs               ; 32 LEs                 ; Yes        ; |scp|pc_reg:inst3|val[1]                                                                                           ;
-; 6:1                ; 4 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |scp|uart_io:inst10|uart:inst01|receiver:uart_rx|sample[2]                                                         ;
+; 6:1                ; 9 bits    ; 36 LEs        ; 18 LEs               ; 18 LEs                 ; Yes        ; |scp|pc_reg:inst3|val[1]                                                                                           ;
+; 6:1                ; 7 bits    ; 28 LEs        ; 21 LEs               ; 7 LEs                  ; Yes        ; |scp|pc_reg:inst3|val[4]                                                                                           ;
+; 6:1                ; 4 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |scp|uart_io:inst10|uart:inst01|receiver:uart_rx|sample[0]                                                         ;
 ; 7:1                ; 4 bits    ; 16 LEs        ; 12 LEs               ; 4 LEs                  ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|sclkPhaseTimer_v[0]                                                            ;
 ; 7:1                ; 11 bits   ; 44 LEs        ; 0 LEs                ; 44 LEs                 ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|tx_v[21]                                                                       ;
-; 8:1                ; 17 bits   ; 85 LEs        ; 34 LEs               ; 51 LEs                 ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|tx_v[36]                                                                       ;
-; 8:1                ; 5 bits    ; 25 LEs        ; 10 LEs               ; 15 LEs                 ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|tx_v[15]                                                                       ;
-; 8:1                ; 10 bits   ; 50 LEs        ; 20 LEs               ; 30 LEs                 ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|byteCnt_v[0]                                                                   ;
-; 9:1                ; 3 bits    ; 18 LEs        ; 9 LEs                ; 9 LEs                  ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|tx_v[5]                                                                        ;
+; 8:1                ; 17 bits   ; 85 LEs        ; 34 LEs               ; 51 LEs                 ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|tx_v[2]                                                                        ;
+; 8:1                ; 5 bits    ; 25 LEs        ; 10 LEs               ; 15 LEs                 ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|tx_v[16]                                                                       ;
+; 8:1                ; 10 bits   ; 50 LEs        ; 20 LEs               ; 30 LEs                 ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|byteCnt_v[4]                                                                   ;
+; 9:1                ; 3 bits    ; 18 LEs        ; 9 LEs                ; 9 LEs                  ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|tx_v[3]                                                                        ;
 ; 14:1               ; 2 bits    ; 18 LEs        ; 10 LEs               ; 8 LEs                  ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|tx_v[46]                                                                       ;
 ; 44:1               ; 2 bits    ; 58 LEs        ; 32 LEs               ; 26 LEs                 ; Yes        ; |scp|alu:inst1|res[9]                                                                                              ;
-; 44:1               ; 2 bits    ; 58 LEs        ; 32 LEs               ; 26 LEs                 ; Yes        ; |scp|alu:inst1|res[5]                                                                                              ;
+; 44:1               ; 2 bits    ; 58 LEs        ; 32 LEs               ; 26 LEs                 ; Yes        ; |scp|alu:inst1|res[6]                                                                                              ;
 ; 43:1               ; 2 bits    ; 56 LEs        ; 34 LEs               ; 22 LEs                 ; Yes        ; |scp|alu:inst1|res[13]                                                                                             ;
 ; 15:1               ; 3 bits    ; 30 LEs        ; 18 LEs               ; 12 LEs                 ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|tx_v[41]                                                                       ;
 ; 15:1               ; 2 bits    ; 20 LEs        ; 12 LEs               ; 8 LEs                  ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|tx_v[40]                                                                       ;
@@ -826,25 +964,25 @@ Encoding Type:  One-Hot
 ; 3:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |scp|decode_addr_mux:inst30|addr[9]                                                                                ;
 ; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |scp|alu:inst1|ShiftLeft0                                                                                          ;
 ; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |scp|alu:inst1|ShiftRight1                                                                                         ;
-; 4:1                ; 18 bits   ; 36 LEs        ; 36 LEs               ; 0 LEs                  ; No         ; |scp|alu:inst1|ShiftLeft0                                                                                          ;
-; 4:1                ; 16 bits   ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |scp|mar_mux:inst6|mar[7]                                                                                          ;
+; 4:1                ; 18 bits   ; 36 LEs        ; 36 LEs               ; 0 LEs                  ; No         ; |scp|alu:inst1|ShiftRight1                                                                                         ;
+; 4:1                ; 16 bits   ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |scp|mar_mux:inst6|mar[12]                                                                                         ;
 ; 5:1                ; 2 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |scp|sd_io:inst27|SdCardCtrl:sdinst|rtnState_v                                                                     ;
-; 6:1                ; 8 bits    ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |scp|mdr_in_byte_select:inst14|out[2]                                                                              ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |scp|mdr_in_byte_select:inst14|out[1]                                                                              ;
 ; 7:1                ; 3 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; No         ; |scp|uart_io:inst10|uart:inst01|receiver:uart_rx|state                                                             ;
-; 6:1                ; 2 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; No         ; |scp|uart_io:inst10|uart:inst01|transmitter:uart_tx|Selector1                                                      ;
-; 11:1               ; 8 bits    ; 56 LEs        ; 56 LEs               ; 0 LEs                  ; No         ; |scp|vga_io:inst23|text_gen:instv1|col[5]                                                                          ;
+; 6:1                ; 2 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; No         ; |scp|uart_io:inst10|uart:inst01|transmitter:uart_tx|Selector3                                                      ;
+; 11:1               ; 8 bits    ; 56 LEs        ; 56 LEs               ; 0 LEs                  ; No         ; |scp|vga_io:inst23|text_gen:instv1|col[3]                                                                          ;
 ; 8:1                ; 9 bits    ; 45 LEs        ; 18 LEs               ; 27 LEs                 ; No         ; |scp|sd_io:inst27|SdCardCtrl:sdinst|rtnState_v                                                                     ;
-; 8:1                ; 2 bits    ; 10 LEs        ; 4 LEs                ; 6 LEs                  ; No         ; |scp|uart_io:inst10|uart:inst01|transmitter:uart_tx|Selector2                                                      ;
+; 8:1                ; 2 bits    ; 10 LEs        ; 4 LEs                ; 6 LEs                  ; No         ; |scp|uart_io:inst10|uart:inst01|transmitter:uart_tx|Selector0                                                      ;
 ; 9:1                ; 2 bits    ; 12 LEs        ; 8 LEs                ; 4 LEs                  ; No         ; |scp|sd_io:inst27|SdCardCtrl:sdinst|rtnState_v                                                                     ;
 ; 9:1                ; 2 bits    ; 12 LEs        ; 8 LEs                ; 4 LEs                  ; No         ; |scp|sd_io:inst27|SdCardCtrl:sdinst|rtnState_v                                                                     ;
-; 16:1               ; 8 bits    ; 80 LEs        ; 80 LEs               ; 0 LEs                  ; No         ; |scp|ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|mux_dhb:mux4|l4_w6_n0_mux_dataout ;
+; 16:1               ; 8 bits    ; 80 LEs        ; 80 LEs               ; 0 LEs                  ; No         ; |scp|ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|mux_dhb:mux4|l4_w0_n0_mux_dataout ;
 ; 9:1                ; 3 bits    ; 18 LEs        ; 12 LEs               ; 6 LEs                  ; No         ; |scp|sd_io:inst27|sdCtrlInt:sdinst7|Selector3                                                                      ;
-; 18:1               ; 8 bits    ; 96 LEs        ; 96 LEs               ; 0 LEs                  ; No         ; |scp|decode_addr_mux:inst30|addr[5]                                                                                ;
-; 12:1               ; 2 bits    ; 16 LEs        ; 10 LEs               ; 6 LEs                  ; No         ; |scp|sd_io:inst27|sdCtrlInt:sdinst7|Selector5                                                                      ;
-; 12:1               ; 2 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; No         ; |scp|sd_io:inst27|sdCtrlInt:sdinst7|Selector4                                                                      ;
+; 18:1               ; 8 bits    ; 96 LEs        ; 96 LEs               ; 0 LEs                  ; No         ; |scp|decode_addr_mux:inst30|addr[1]                                                                                ;
+; 12:1               ; 2 bits    ; 16 LEs        ; 10 LEs               ; 6 LEs                  ; No         ; |scp|sd_io:inst27|sdCtrlInt:sdinst7|Selector8                                                                      ;
+; 12:1               ; 2 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; No         ; |scp|sd_io:inst27|sdCtrlInt:sdinst7|Selector7                                                                      ;
 ; 16:1               ; 8 bits    ; 80 LEs        ; 32 LEs               ; 48 LEs                 ; No         ; |scp|sd_io:inst27|SdCardCtrl:sdinst|state_v                                                                        ;
 ; 17:1               ; 2 bits    ; 22 LEs        ; 8 LEs                ; 14 LEs                 ; No         ; |scp|sd_io:inst27|SdCardCtrl:sdinst|state_v                                                                        ;
-; 22:1               ; 7 bits    ; 98 LEs        ; 98 LEs               ; 0 LEs                  ; No         ; |scp|ab_bus_in_mux:inst15|out[13]                                                                                  ;
+; 22:1               ; 7 bits    ; 98 LEs        ; 98 LEs               ; 0 LEs                  ; No         ; |scp|ab_bus_in_mux:inst15|out[14]                                                                                  ;
 ; 32:1               ; 6 bits    ; 126 LEs       ; 126 LEs              ; 0 LEs                  ; No         ; |scp|ab_bus_in_mux:inst15|out[6]                                                                                   ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+--------------------------------------------------------------------------------------------------------------------+
 
@@ -2498,27 +2636,27 @@ Note: In order to hide this table in the UI and the text report file, please set
 +-----------------------+-----------------------------+
 ; Type                  ; Count                       ;
 +-----------------------+-----------------------------+
-; arriav_ff             ; 867                         ;
-;     ENA               ; 402                         ;
+; arriav_ff             ; 885                         ;
+;     ENA               ; 403                         ;
 ;     ENA SCLR          ; 74                          ;
-;     SCLR              ; 73                          ;
-;     SLD               ; 78                          ;
-;     plain             ; 240                         ;
-; arriav_lcell_comb     ; 1836                        ;
+;     SCLR              ; 74                          ;
+;     SLD               ; 85                          ;
+;     plain             ; 249                         ;
+; arriav_lcell_comb     ; 1865                        ;
 ;     arith             ; 442                         ;
 ;         1 data inputs ; 377                         ;
 ;         2 data inputs ; 53                          ;
 ;         3 data inputs ; 12                          ;
-;     extend            ; 128                         ;
-;         7 data inputs ; 128                         ;
-;     normal            ; 1224                        ;
+;     extend            ; 127                         ;
+;         7 data inputs ; 127                         ;
+;     normal            ; 1254                        ;
 ;         0 data inputs ; 1                           ;
 ;         1 data inputs ; 10                          ;
-;         2 data inputs ; 93                          ;
-;         3 data inputs ; 139                         ;
-;         4 data inputs ; 214                         ;
-;         5 data inputs ; 262                         ;
-;         6 data inputs ; 505                         ;
+;         2 data inputs ; 101                         ;
+;         3 data inputs ; 146                         ;
+;         4 data inputs ; 222                         ;
+;         5 data inputs ; 257                         ;
+;         6 data inputs ; 517                         ;
 ;     shared            ; 42                          ;
 ;         2 data inputs ; 34                          ;
 ;         3 data inputs ; 8                           ;
@@ -2528,7 +2666,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 ; stratixv_ram_block    ; 357                         ;
 ;                       ;                             ;
 ; Max LUT depth         ; 8.00                        ;
-; Average LUT depth     ; 3.39                        ;
+; Average LUT depth     ; 3.37                        ;
 +-----------------------+-----------------------------+
 
 
@@ -2537,7 +2675,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------+--------------+
 ; Partition Name ; Elapsed Time ;
 +----------------+--------------+
-; Top            ; 00:00:07     ;
+; Top            ; 00:00:08     ;
 +----------------+--------------+
 
 
@@ -2547,7 +2685,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
-    Info: Processing started: Sun Aug 19 18:38:05 2018
+    Info: Processing started: Sun Aug 19 19:32:10 2018
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off scp -c scp
 Info (16303): Aggressive Performance optimization mode selected -- timing performance will be prioritized at the potential cost of increased logic area and compilation time
 Info (20032): Parallel compilation is enabled and will use up to 4 processors
@@ -2696,6 +2834,9 @@ Info (12021): Found 1 design units, including 1 entities, in source file IO/sd/s
     Info (12023): Found entity 1: sdCtrlInt File: /home/edward/scp/quartus/IO/sd/sdCtrlInt.v Line: 2
 Info (12021): Found 1 design units, including 1 entities, in source file int/int_handler.v
     Info (12023): Found entity 1: int_handler File: /home/edward/scp/quartus/int/int_handler.v Line: 11
+Warning (10229): Verilog HDL Expression warning at break_addr.v(5): truncated literal to match 15 bits File: /home/edward/scp/quartus/int/break_addr.v Line: 5
+Info (12021): Found 1 design units, including 1 entities, in source file int/break_addr.v
+    Info (12023): Found entity 1: break_addr File: /home/edward/scp/quartus/int/break_addr.v Line: 1
 Info (12127): Elaborating entity "scp" for the top level hierarchy
 Info (12128): Elaborating entity "vga_io" for hierarchy "vga_io:inst23"
 Info (12128): Elaborating entity "VGA_controller" for hierarchy "vga_io:inst23|VGA_controller:instv6"
@@ -2959,9 +3100,16 @@ Info (12021): Found 1 design units, including 1 entities, in source file db/alts
 Info (12128): Elaborating entity "altsyncram_nkh1" for hierarchy "rom_mega:DECODE_ROM|altsyncram:altsyncram_component|altsyncram_nkh1:auto_generated" File: /home/edward/intelFPGA_lite/17.1/quartus/libraries/megafunctions/altsyncram.tdf Line: 791
 Info (12128): Elaborating entity "decode_addr_mux" for hierarchy "decode_addr_mux:inst30"
 Warning (10230): Verilog HDL assignment warning at decode_addr_mux.v(15): truncated value with size 32 to match size of target (10) File: /home/edward/scp/quartus/mux/decode_addr_mux.v Line: 15
+Info (12128): Elaborating entity "int_handler" for hierarchy "int_handler:inst8"
+Warning (10230): Verilog HDL assignment warning at int_handler.v(39): truncated value with size 32 to match size of target (4) File: /home/edward/scp/quartus/int/int_handler.v Line: 39
+Warning (10230): Verilog HDL assignment warning at int_handler.v(43): truncated value with size 32 to match size of target (4) File: /home/edward/scp/quartus/int/int_handler.v Line: 43
+Warning (10230): Verilog HDL assignment warning at int_handler.v(47): truncated value with size 32 to match size of target (4) File: /home/edward/scp/quartus/int/int_handler.v Line: 47
+Warning (10230): Verilog HDL assignment warning at int_handler.v(51): truncated value with size 32 to match size of target (4) File: /home/edward/scp/quartus/int/int_handler.v Line: 51
+Warning (10230): Verilog HDL assignment warning at int_handler.v(56): truncated value with size 32 to match size of target (4) File: /home/edward/scp/quartus/int/int_handler.v Line: 56
+Info (12128): Elaborating entity "sys_privilage_reg" for hierarchy "sys_privilage_reg:inst25"
 Info (12128): Elaborating entity "ps2_io" for hierarchy "ps2_io:inst11"
 Info (12128): Elaborating entity "ps2_to_ascii" for hierarchy "ps2_io:inst11|ps2_to_ascii:instp4"
-Warning (10230): Verilog HDL assignment warning at ps2_to_ascii.v(45): truncated value with size 32 to match size of target (1) File: /home/edward/scp/quartus/IO/ps2/ps2_to_ascii.v Line: 45
+Warning (10230): Verilog HDL assignment warning at ps2_to_ascii.v(46): truncated value with size 32 to match size of target (1) File: /home/edward/scp/quartus/IO/ps2/ps2_to_ascii.v Line: 46
 Info (12128): Elaborating entity "ps2_keyboard" for hierarchy "ps2_io:inst11|ps2_keyboard:instp"
 Info (12128): Elaborating entity "debounce" for hierarchy "ps2_io:inst11|ps2_keyboard:instp|debounce:debounce_ps2_clk" File: /home/edward/scp/quartus/IO/ps2/ps2_keyboard.vhd Line: 67
 Info (12128): Elaborating entity "io_port" for hierarchy "ps2_io:inst11|io_port:instp1"
@@ -3043,6 +3191,7 @@ Info (12133): Instantiated megafunction "ram_mega:RAM|altsyncram:altsyncram_comp
 Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_i5r2.tdf
     Info (12023): Found entity 1: altsyncram_i5r2 File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 33
 Info (12128): Elaborating entity "altsyncram_i5r2" for hierarchy "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated" File: /home/edward/intelFPGA_lite/17.1/quartus/libraries/megafunctions/altsyncram.tdf Line: 791
+Critical Warning (127005): Memory depth (131072) in the design file differs from memory depth (65536) in the Memory Initialization File "/home/edward/scp/quartus/ram/ram_mega_cnts.mif" -- setting initial value for remaining addresses to 0 File: /home/edward/scp/quartus/ram/ram_mega.v Line: 97
 Info (12021): Found 1 design units, including 1 entities, in source file db/decode_tma.tdf
     Info (12023): Found entity 1: decode_tma File: /home/edward/scp/quartus/db/decode_tma.tdf Line: 22
 Info (12128): Elaborating entity "decode_tma" for hierarchy "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|decode_tma:decode2" File: /home/edward/scp/quartus/db/altsyncram_i5r2.tdf Line: 48
@@ -3090,7 +3239,6 @@ Info (12021): Found 1 design units, including 1 entities, in source file db/alts
 Info (12128): Elaborating entity "altsyncram_nlr2" for hierarchy "mmu:inst24|page_table_mega:inst|altsyncram:altsyncram_component|altsyncram_nlr2:auto_generated" File: /home/edward/intelFPGA_lite/17.1/quartus/libraries/megafunctions/altsyncram.tdf Line: 791
 Info (12128): Elaborating entity "mmu_addr_add" for hierarchy "mmu:inst24|mmu_addr_add:minst2"
 Info (12128): Elaborating entity "real_ptb" for hierarchy "mmu:inst24|real_ptb:minst1"
-Info (12128): Elaborating entity "sys_privilage_reg" for hierarchy "sys_privilage_reg:inst25"
 Info (12128): Elaborating entity "mar_mux" for hierarchy "mar_mux:inst6"
 Info (12128): Elaborating entity "pc_reg" for hierarchy "pc_reg:inst3"
 Warning (10230): Verilog HDL assignment warning at pc_reg.v(22): truncated value with size 32 to match size of target (16) File: /home/edward/scp/quartus/regs/pc_reg.v Line: 22
@@ -3109,6 +3257,7 @@ Info (12128): Elaborating entity "mdr_out_mux" for hierarchy "mdr_out_mux:inst20
 Info (12128): Elaborating entity "alu" for hierarchy "alu:inst1"
 Warning (10764): Verilog HDL warning at alu.v(21): converting signed shift amount to unsigned File: /home/edward/scp/quartus/alu/alu.v Line: 21
 Warning (10230): Verilog HDL assignment warning at alu.v(39): truncated value with size 24 to match size of target (16) File: /home/edward/scp/quartus/alu/alu.v Line: 39
+Info (12128): Elaborating entity "break_addr" for hierarchy "break_addr:inst28"
 Warning (14284): Synthesized away the following node(s):
     Warning (14285): Synthesized away the following RAM node(s):
         Warning (14320): Synthesized away node "mmu:inst24|page_table_mega:inst|altsyncram:altsyncram_component|altsyncram_nlr2:auto_generated|q_a[6]" File: /home/edward/scp/quartus/db/altsyncram_nlr2.tdf Line: 250
@@ -3264,26 +3413,26 @@ Warning: RST port on the PLL is not properly connected on instance vga_pll:inst|
     Info: Must be connected
 Warning: RST port on the PLL is not properly connected on instance pll:inst9|pll_0002:pll_inst|altera_pll:altera_pll_i|general[1].gpll. The reset port on the PLL should be connected. If the PLL loses lock for any reason, you might need to manually reset the PLL in order to re-establish lock to the reference clock. File: /home/edward/intelFPGA_lite/17.1/quartus/libraries/megafunctions/altera_pll.v Line: 748
     Info: Must be connected
-Warning: RST port on the PLL is not properly connected on instance pll:inst9|pll_0002:pll_inst|altera_pll:altera_pll_i|general[0].gpll. The reset port on the PLL should be connected. If the PLL loses lock for any reason, you might need to manually reset the PLL in order to re-establish lock to the reference clock. File: /home/edward/intelFPGA_lite/17.1/quartus/libraries/megafunctions/altera_pll.v Line: 748
-    Info: Must be connected
 Warning: RST port on the PLL is not properly connected on instance vga_pll:inst|vga_pll_0002:vga_pll_inst|altera_pll:altera_pll_i|general[2].gpll. The reset port on the PLL should be connected. If the PLL loses lock for any reason, you might need to manually reset the PLL in order to re-establish lock to the reference clock. File: /home/edward/intelFPGA_lite/17.1/quartus/libraries/megafunctions/altera_pll.v Line: 748
     Info: Must be connected
 Warning: RST port on the PLL is not properly connected on instance vga_pll:inst|vga_pll_0002:vga_pll_inst|altera_pll:altera_pll_i|general[1].gpll. The reset port on the PLL should be connected. If the PLL loses lock for any reason, you might need to manually reset the PLL in order to re-establish lock to the reference clock. File: /home/edward/intelFPGA_lite/17.1/quartus/libraries/megafunctions/altera_pll.v Line: 748
     Info: Must be connected
+Warning: RST port on the PLL is not properly connected on instance pll:inst9|pll_0002:pll_inst|altera_pll:altera_pll_i|general[0].gpll. The reset port on the PLL should be connected. If the PLL loses lock for any reason, you might need to manually reset the PLL in order to re-establish lock to the reference clock. File: /home/edward/intelFPGA_lite/17.1/quartus/libraries/megafunctions/altera_pll.v Line: 748
+    Info: Must be connected
 Warning: RST port on the PLL is not properly connected on instance pll:inst9|pll_0002:pll_inst|altera_pll:altera_pll_i|general[2].gpll. The reset port on the PLL should be connected. If the PLL loses lock for any reason, you might need to manually reset the PLL in order to re-establish lock to the reference clock. File: /home/edward/intelFPGA_lite/17.1/quartus/libraries/megafunctions/altera_pll.v Line: 748
     Info: Must be connected
-Info (21057): Implemented 2624 device resources after synthesis - the final resource count might be different
-    Info (21058): Implemented 6 input pins
-    Info (21059): Implemented 16 output pins
-    Info (21061): Implemented 2238 logic cells
+Info (21057): Implemented 2653 device resources after synthesis - the final resource count might be different
+    Info (21058): Implemented 7 input pins
+    Info (21059): Implemented 15 output pins
+    Info (21061): Implemented 2267 logic cells
     Info (21064): Implemented 357 RAM segments
     Info (21065): Implemented 6 PLLs
     Info (21062): Implemented 1 DSP elements
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 71 warnings
-    Info: Peak virtual memory: 1159 megabytes
-    Info: Processing ended: Sun Aug 19 18:38:35 2018
-    Info: Elapsed time: 00:00:30
-    Info: Total CPU time (on all processors): 00:00:55
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 78 warnings
+    Info: Peak virtual memory: 1173 megabytes
+    Info: Processing ended: Sun Aug 19 19:32:42 2018
+    Info: Elapsed time: 00:00:32
+    Info: Total CPU time (on all processors): 00:00:58
 
 
 +------------------------------------------+
