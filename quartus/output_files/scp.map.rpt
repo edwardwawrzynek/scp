@@ -1,5 +1,5 @@
 Analysis & Synthesis report for scp
-Sat Aug 18 17:19:50 2018
+Sun Aug 19 18:38:35 2018
 Quartus Prime Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
 
 
@@ -49,7 +49,7 @@ Quartus Prime Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
  41. Parameter Settings for User Entity Instance: vga_pll:inst|vga_pll_0002:vga_pll_inst|altera_pll:altera_pll_i
  42. Parameter Settings for User Entity Instance: pll:inst9|pll_0002:pll_inst|altera_pll:altera_pll_i
  43. Parameter Settings for User Entity Instance: rom_mega:DECODE_ROM|altsyncram:altsyncram_component
- 44. Parameter Settings for User Entity Instance: decode_addr_mux:inst26
+ 44. Parameter Settings for User Entity Instance: decode_addr_mux:inst30
  45. Parameter Settings for User Entity Instance: ps2_io:inst11|ps2_keyboard:instp
  46. Parameter Settings for User Entity Instance: ps2_io:inst11|ps2_keyboard:instp|debounce:debounce_ps2_clk
  47. Parameter Settings for User Entity Instance: ps2_io:inst11|ps2_keyboard:instp|debounce:debounce_ps2_data
@@ -109,14 +109,14 @@ refer to the applicable agreement for further details.
 +-------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                  ;
 +---------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status     ; Successful - Sat Aug 18 17:19:50 2018       ;
+; Analysis & Synthesis Status     ; Successful - Sun Aug 19 18:38:34 2018       ;
 ; Quartus Prime Version           ; 17.1.0 Build 590 10/25/2017 SJ Lite Edition ;
 ; Revision Name                   ; scp                                         ;
 ; Top-level Entity Name           ; scp                                         ;
 ; Family                          ; Cyclone V                                   ;
 ; Logic utilization (in ALMs)     ; N/A                                         ;
 ; Total registers                 ; 867                                         ;
-; Total pins                      ; 21                                          ;
+; Total pins                      ; 22                                          ;
 ; Total virtual pins              ; 0                                           ;
 ; Total block memory bits         ; 1,686,528                                   ;
 ; Total DSP Blocks                ; 1                                           ;
@@ -335,13 +335,13 @@ refer to the applicable agreement for further details.
 ; Combinational ALUT usage for logic          ; 1832                                                               ;
 ;     -- 7 input functions                    ; 128                                                                ;
 ;     -- 6 input functions                    ; 505                                                                ;
-;     -- 5 input functions                    ; 261                                                                ;
+;     -- 5 input functions                    ; 262                                                                ;
 ;     -- 4 input functions                    ; 214                                                                ;
-;     -- <=3 input functions                  ; 724                                                                ;
+;     -- <=3 input functions                  ; 723                                                                ;
 ;                                             ;                                                                    ;
 ; Dedicated logic registers                   ; 867                                                                ;
 ;                                             ;                                                                    ;
-; I/O pins                                    ; 21                                                                 ;
+; I/O pins                                    ; 22                                                                 ;
 ; Total MLAB memory bits                      ; 0                                                                  ;
 ; Total block memory bits                     ; 1686528                                                            ;
 ;                                             ;                                                                    ;
@@ -352,7 +352,7 @@ refer to the applicable agreement for further details.
 ;                                             ;                                                                    ;
 ; Maximum fan-out node                        ; pll:inst9|pll_0002:pll_inst|altera_pll:altera_pll_i|outclk_wire[1] ;
 ; Maximum fan-out                             ; 561                                                                ;
-; Total fan-out                               ; 18508                                                              ;
+; Total fan-out                               ; 18512                                                              ;
 ; Average fan-out                             ; 5.96                                                               ;
 +---------------------------------------------+--------------------------------------------------------------------+
 
@@ -362,12 +362,12 @@ refer to the applicable agreement for further details.
 +----------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+-------------------------------------------------------------------------------------------------------------------------+------------------------+--------------+
 ; Compilation Hierarchy Node                   ; Combinational ALUTs ; Dedicated Logic Registers ; Block Memory Bits ; DSP Blocks ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                                     ; Entity Name            ; Library Name ;
 +----------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+-------------------------------------------------------------------------------------------------------------------------+------------------------+--------------+
-; |scp                                         ; 1832 (108)          ; 867 (0)                   ; 1686528           ; 1          ; 21   ; 0            ; |scp                                                                                                                    ; scp                    ; work         ;
+; |scp                                         ; 1832 (108)          ; 867 (0)                   ; 1686528           ; 1          ; 22   ; 0            ; |scp                                                                                                                    ; scp                    ; work         ;
 ;    |ab_bus_in_mux:inst15|                    ; 35 (35)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ab_bus_in_mux:inst15                                                                                               ; ab_bus_in_mux          ; work         ;
 ;    |ab_bus_out_mux:inst13|                   ; 16 (16)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ab_bus_out_mux:inst13                                                                                              ; ab_bus_out_mux         ; work         ;
 ;    |alu:inst1|                               ; 271 (271)           ; 16 (16)                   ; 0                 ; 1          ; 0    ; 0            ; |scp|alu:inst1                                                                                                          ; alu                    ; work         ;
 ;    |cond:inst16|                             ; 6 (6)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|cond:inst16                                                                                                        ; cond                   ; work         ;
-;    |decode_addr_mux:inst26|                  ; 10 (10)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|decode_addr_mux:inst26                                                                                             ; decode_addr_mux        ; work         ;
+;    |decode_addr_mux:inst30|                  ; 10 (10)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|decode_addr_mux:inst30                                                                                             ; decode_addr_mux        ; work         ;
 ;    |general_reg:A_REG|                       ; 50 (50)             ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|general_reg:A_REG                                                                                                  ; general_reg            ; work         ;
 ;    |general_reg:B_REG|                       ; 50 (50)             ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|general_reg:B_REG                                                                                                  ; general_reg            ; work         ;
 ;    |io_port:inst22|                          ; 2 (2)               ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|io_port:inst22                                                                                                     ; io_port                ; work         ;
@@ -816,20 +816,20 @@ Encoding Type:  One-Hot
 ; 9:1                ; 3 bits    ; 18 LEs        ; 9 LEs                ; 9 LEs                  ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|tx_v[5]                                                                        ;
 ; 14:1               ; 2 bits    ; 18 LEs        ; 10 LEs               ; 8 LEs                  ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|tx_v[46]                                                                       ;
 ; 44:1               ; 2 bits    ; 58 LEs        ; 32 LEs               ; 26 LEs                 ; Yes        ; |scp|alu:inst1|res[9]                                                                                              ;
-; 44:1               ; 2 bits    ; 58 LEs        ; 32 LEs               ; 26 LEs                 ; Yes        ; |scp|alu:inst1|res[6]                                                                                              ;
+; 44:1               ; 2 bits    ; 58 LEs        ; 32 LEs               ; 26 LEs                 ; Yes        ; |scp|alu:inst1|res[5]                                                                                              ;
 ; 43:1               ; 2 bits    ; 56 LEs        ; 34 LEs               ; 22 LEs                 ; Yes        ; |scp|alu:inst1|res[13]                                                                                             ;
 ; 15:1               ; 3 bits    ; 30 LEs        ; 18 LEs               ; 12 LEs                 ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|tx_v[41]                                                                       ;
-; 15:1               ; 2 bits    ; 20 LEs        ; 12 LEs               ; 8 LEs                  ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|tx_v[45]                                                                       ;
-; 44:1               ; 2 bits    ; 58 LEs        ; 34 LEs               ; 24 LEs                 ; Yes        ; |scp|alu:inst1|res[1]                                                                                              ;
-; 23:1               ; 2 bits    ; 30 LEs        ; 12 LEs               ; 18 LEs                 ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|bitCnt_v[0]                                                                    ;
+; 15:1               ; 2 bits    ; 20 LEs        ; 12 LEs               ; 8 LEs                  ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|tx_v[40]                                                                       ;
+; 44:1               ; 2 bits    ; 58 LEs        ; 34 LEs               ; 24 LEs                 ; Yes        ; |scp|alu:inst1|res[2]                                                                                              ;
+; 23:1               ; 2 bits    ; 30 LEs        ; 12 LEs               ; 18 LEs                 ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|bitCnt_v[2]                                                                    ;
 ; 3:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |scp|uart_io:inst10|uartRecFIFO:inst02|state                                                                       ;
-; 3:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |scp|decode_addr_mux:inst26|addr[8]                                                                                ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |scp|decode_addr_mux:inst30|addr[9]                                                                                ;
 ; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |scp|alu:inst1|ShiftLeft0                                                                                          ;
 ; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |scp|alu:inst1|ShiftRight1                                                                                         ;
 ; 4:1                ; 18 bits   ; 36 LEs        ; 36 LEs               ; 0 LEs                  ; No         ; |scp|alu:inst1|ShiftLeft0                                                                                          ;
-; 4:1                ; 16 bits   ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |scp|mar_mux:inst6|mar[0]                                                                                          ;
+; 4:1                ; 16 bits   ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |scp|mar_mux:inst6|mar[7]                                                                                          ;
 ; 5:1                ; 2 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |scp|sd_io:inst27|SdCardCtrl:sdinst|rtnState_v                                                                     ;
-; 6:1                ; 8 bits    ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |scp|mdr_in_byte_select:inst14|out[3]                                                                              ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |scp|mdr_in_byte_select:inst14|out[2]                                                                              ;
 ; 7:1                ; 3 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; No         ; |scp|uart_io:inst10|uart:inst01|receiver:uart_rx|state                                                             ;
 ; 6:1                ; 2 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; No         ; |scp|uart_io:inst10|uart:inst01|transmitter:uart_tx|Selector1                                                      ;
 ; 11:1               ; 8 bits    ; 56 LEs        ; 56 LEs               ; 0 LEs                  ; No         ; |scp|vga_io:inst23|text_gen:instv1|col[5]                                                                          ;
@@ -839,7 +839,7 @@ Encoding Type:  One-Hot
 ; 9:1                ; 2 bits    ; 12 LEs        ; 8 LEs                ; 4 LEs                  ; No         ; |scp|sd_io:inst27|SdCardCtrl:sdinst|rtnState_v                                                                     ;
 ; 16:1               ; 8 bits    ; 80 LEs        ; 80 LEs               ; 0 LEs                  ; No         ; |scp|ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|mux_dhb:mux4|l4_w6_n0_mux_dataout ;
 ; 9:1                ; 3 bits    ; 18 LEs        ; 12 LEs               ; 6 LEs                  ; No         ; |scp|sd_io:inst27|sdCtrlInt:sdinst7|Selector3                                                                      ;
-; 18:1               ; 8 bits    ; 96 LEs        ; 96 LEs               ; 0 LEs                  ; No         ; |scp|decode_addr_mux:inst26|addr[5]                                                                                ;
+; 18:1               ; 8 bits    ; 96 LEs        ; 96 LEs               ; 0 LEs                  ; No         ; |scp|decode_addr_mux:inst30|addr[5]                                                                                ;
 ; 12:1               ; 2 bits    ; 16 LEs        ; 10 LEs               ; 6 LEs                  ; No         ; |scp|sd_io:inst27|sdCtrlInt:sdinst7|Selector5                                                                      ;
 ; 12:1               ; 2 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; No         ; |scp|sd_io:inst27|sdCtrlInt:sdinst7|Selector4                                                                      ;
 ; 16:1               ; 8 bits    ; 80 LEs        ; 32 LEs               ; 48 LEs                 ; No         ; |scp|sd_io:inst27|SdCardCtrl:sdinst|state_v                                                                        ;
@@ -1749,7 +1749,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 
 
 +---------------------------------------------------------------------+
-; Parameter Settings for User Entity Instance: decode_addr_mux:inst26 ;
+; Parameter Settings for User Entity Instance: decode_addr_mux:inst30 ;
 +----------------+-------+--------------------------------------------+
 ; Parameter Name ; Value ; Type                                       ;
 +----------------+-------+--------------------------------------------+
@@ -2515,15 +2515,15 @@ Note: In order to hide this table in the UI and the text report file, please set
 ;         0 data inputs ; 1                           ;
 ;         1 data inputs ; 10                          ;
 ;         2 data inputs ; 93                          ;
-;         3 data inputs ; 140                         ;
+;         3 data inputs ; 139                         ;
 ;         4 data inputs ; 214                         ;
-;         5 data inputs ; 261                         ;
+;         5 data inputs ; 262                         ;
 ;         6 data inputs ; 505                         ;
 ;     shared            ; 42                          ;
 ;         2 data inputs ; 34                          ;
 ;         3 data inputs ; 8                           ;
 ; arriav_mac            ; 1                           ;
-; boundary_port         ; 21                          ;
+; boundary_port         ; 22                          ;
 ; generic_pll           ; 6                           ;
 ; stratixv_ram_block    ; 357                         ;
 ;                       ;                             ;
@@ -2537,7 +2537,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------+--------------+
 ; Partition Name ; Elapsed Time ;
 +----------------+--------------+
-; Top            ; 00:00:08     ;
+; Top            ; 00:00:07     ;
 +----------------+--------------+
 
 
@@ -2547,7 +2547,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
-    Info: Processing started: Sat Aug 18 17:19:21 2018
+    Info: Processing started: Sun Aug 19 18:38:05 2018
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off scp -c scp
 Info (16303): Aggressive Performance optimization mode selected -- timing performance will be prioritized at the potential cost of increased logic area and compilation time
 Info (20032): Parallel compilation is enabled and will use up to 4 processors
@@ -2632,7 +2632,7 @@ Info (12021): Found 1 design units, including 1 entities, in source file regs/io
     Info (12023): Found entity 1: io_regs File: /home/edward/scp/quartus/regs/io_regs.v Line: 2
 Info (12021): Found 1 design units, including 1 entities, in source file regs/sys_privilage_reg.v
     Info (12023): Found entity 1: sys_privilage_reg File: /home/edward/scp/quartus/regs/sys_privilage_reg.v Line: 2
-Warning (10463): Verilog HDL Declaration warning at decode_addr_mux.v(7): "int" is SystemVerilog-2005 keyword File: /home/edward/scp/quartus/mux/decode_addr_mux.v Line: 7
+Warning (10463): Verilog HDL Declaration warning at decode_addr_mux.v(6): "int" is SystemVerilog-2005 keyword File: /home/edward/scp/quartus/mux/decode_addr_mux.v Line: 6
 Info (12021): Found 1 design units, including 1 entities, in source file mux/decode_addr_mux.v
     Info (12023): Found entity 1: decode_addr_mux File: /home/edward/scp/quartus/mux/decode_addr_mux.v Line: 1
 Warning (12019): Can't analyze file -- file ram/decode_rom.v is missing
@@ -2694,6 +2694,8 @@ Info (12021): Found 1 design units, including 1 entities, in source file IO/sd/r
     Info (12023): Found entity 1: real_sd_addr File: /home/edward/scp/quartus/IO/sd/real_sd_addr.v Line: 2
 Info (12021): Found 1 design units, including 1 entities, in source file IO/sd/sdCtrlInt.v
     Info (12023): Found entity 1: sdCtrlInt File: /home/edward/scp/quartus/IO/sd/sdCtrlInt.v Line: 2
+Info (12021): Found 1 design units, including 1 entities, in source file int/int_handler.v
+    Info (12023): Found entity 1: int_handler File: /home/edward/scp/quartus/int/int_handler.v Line: 11
 Info (12127): Elaborating entity "scp" for the top level hierarchy
 Info (12128): Elaborating entity "vga_io" for hierarchy "vga_io:inst23"
 Info (12128): Elaborating entity "VGA_controller" for hierarchy "vga_io:inst23|VGA_controller:instv6"
@@ -2955,8 +2957,8 @@ Info (12133): Instantiated megafunction "rom_mega:DECODE_ROM|altsyncram:altsyncr
 Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_nkh1.tdf
     Info (12023): Found entity 1: altsyncram_nkh1 File: /home/edward/scp/quartus/db/altsyncram_nkh1.tdf Line: 27
 Info (12128): Elaborating entity "altsyncram_nkh1" for hierarchy "rom_mega:DECODE_ROM|altsyncram:altsyncram_component|altsyncram_nkh1:auto_generated" File: /home/edward/intelFPGA_lite/17.1/quartus/libraries/megafunctions/altsyncram.tdf Line: 791
-Info (12128): Elaborating entity "decode_addr_mux" for hierarchy "decode_addr_mux:inst26"
-Warning (10230): Verilog HDL assignment warning at decode_addr_mux.v(14): truncated value with size 32 to match size of target (10) File: /home/edward/scp/quartus/mux/decode_addr_mux.v Line: 14
+Info (12128): Elaborating entity "decode_addr_mux" for hierarchy "decode_addr_mux:inst30"
+Warning (10230): Verilog HDL assignment warning at decode_addr_mux.v(15): truncated value with size 32 to match size of target (10) File: /home/edward/scp/quartus/mux/decode_addr_mux.v Line: 15
 Info (12128): Elaborating entity "ps2_io" for hierarchy "ps2_io:inst11"
 Info (12128): Elaborating entity "ps2_to_ascii" for hierarchy "ps2_io:inst11|ps2_to_ascii:instp4"
 Warning (10230): Verilog HDL assignment warning at ps2_to_ascii.v(45): truncated value with size 32 to match size of target (1) File: /home/edward/scp/quartus/IO/ps2/ps2_to_ascii.v Line: 45
@@ -3262,26 +3264,26 @@ Warning: RST port on the PLL is not properly connected on instance vga_pll:inst|
     Info: Must be connected
 Warning: RST port on the PLL is not properly connected on instance pll:inst9|pll_0002:pll_inst|altera_pll:altera_pll_i|general[1].gpll. The reset port on the PLL should be connected. If the PLL loses lock for any reason, you might need to manually reset the PLL in order to re-establish lock to the reference clock. File: /home/edward/intelFPGA_lite/17.1/quartus/libraries/megafunctions/altera_pll.v Line: 748
     Info: Must be connected
+Warning: RST port on the PLL is not properly connected on instance pll:inst9|pll_0002:pll_inst|altera_pll:altera_pll_i|general[0].gpll. The reset port on the PLL should be connected. If the PLL loses lock for any reason, you might need to manually reset the PLL in order to re-establish lock to the reference clock. File: /home/edward/intelFPGA_lite/17.1/quartus/libraries/megafunctions/altera_pll.v Line: 748
+    Info: Must be connected
 Warning: RST port on the PLL is not properly connected on instance vga_pll:inst|vga_pll_0002:vga_pll_inst|altera_pll:altera_pll_i|general[2].gpll. The reset port on the PLL should be connected. If the PLL loses lock for any reason, you might need to manually reset the PLL in order to re-establish lock to the reference clock. File: /home/edward/intelFPGA_lite/17.1/quartus/libraries/megafunctions/altera_pll.v Line: 748
     Info: Must be connected
 Warning: RST port on the PLL is not properly connected on instance vga_pll:inst|vga_pll_0002:vga_pll_inst|altera_pll:altera_pll_i|general[1].gpll. The reset port on the PLL should be connected. If the PLL loses lock for any reason, you might need to manually reset the PLL in order to re-establish lock to the reference clock. File: /home/edward/intelFPGA_lite/17.1/quartus/libraries/megafunctions/altera_pll.v Line: 748
     Info: Must be connected
-Warning: RST port on the PLL is not properly connected on instance pll:inst9|pll_0002:pll_inst|altera_pll:altera_pll_i|general[0].gpll. The reset port on the PLL should be connected. If the PLL loses lock for any reason, you might need to manually reset the PLL in order to re-establish lock to the reference clock. File: /home/edward/intelFPGA_lite/17.1/quartus/libraries/megafunctions/altera_pll.v Line: 748
-    Info: Must be connected
 Warning: RST port on the PLL is not properly connected on instance pll:inst9|pll_0002:pll_inst|altera_pll:altera_pll_i|general[2].gpll. The reset port on the PLL should be connected. If the PLL loses lock for any reason, you might need to manually reset the PLL in order to re-establish lock to the reference clock. File: /home/edward/intelFPGA_lite/17.1/quartus/libraries/megafunctions/altera_pll.v Line: 748
     Info: Must be connected
-Info (21057): Implemented 2623 device resources after synthesis - the final resource count might be different
+Info (21057): Implemented 2624 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 6 input pins
-    Info (21059): Implemented 15 output pins
+    Info (21059): Implemented 16 output pins
     Info (21061): Implemented 2238 logic cells
     Info (21064): Implemented 357 RAM segments
     Info (21065): Implemented 6 PLLs
     Info (21062): Implemented 1 DSP elements
 Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 71 warnings
     Info: Peak virtual memory: 1159 megabytes
-    Info: Processing ended: Sat Aug 18 17:19:50 2018
-    Info: Elapsed time: 00:00:29
-    Info: Total CPU time (on all processors): 00:00:53
+    Info: Processing ended: Sun Aug 19 18:38:35 2018
+    Info: Elapsed time: 00:00:30
+    Info: Total CPU time (on all processors): 00:00:55
 
 
 +------------------------------------------+
