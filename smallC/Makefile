@@ -7,7 +7,7 @@
 #	INCDIR will be the look up location for #include <stdio.h> ..
 #TARGDIR = /home/notebook/Public/work/smallCextended/lib
 #INCDIR = "/usr/shared/smallC/src/scc/include/"
-INCDIR = "/home/edward/scp_software/lib/include/"
+INCDIR = "/home/edward/Documents/scp_software/lib/include/"
 
 INSTFLAGS = -DINCDIR=$(INCDIR)
    CFLAGS = '$(INSTFLAGS)' -ggdb -g
