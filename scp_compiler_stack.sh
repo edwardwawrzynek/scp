@@ -56,7 +56,7 @@ DO_STOP_ASMLNK=false
 DO_OPT=false
 
 #Files to link with
-LINKS="/home/edward/Documents/scp_software/lib/include/cret.s /home/edward/Documents/scp_software/lib/include/crun.s"
+LINKS="/home/edward/scp_software/lib/include/cret.s /home/edward/scp_software/lib/include/crun.s"
 END_LINK=""
 while getopts "ehncIXOo:m:a:s:l:L:f:" opt; do
   case $opt in
