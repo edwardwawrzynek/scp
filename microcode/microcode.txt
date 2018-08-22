@@ -327,5 +327,9 @@ $bspa_2:bspa_2:BUS_IN_SEL=2,A_BUS_WE,PC_INC,NEW_INSTR
 71:bdsp:MDR_OUT_LOW_WE,MDR_HIGH_RST,MAR_SEL=2,PC_INC,DECODE_NEXT=bdsp_2
 $bdsp_2:bdsp_2:SP_ADD_WE,PC_INC,NEW_INSTR
 
+//effectivley do a bspa, then a lwpa - really load addr into mdr, and use that as mar
+72:bspl:MAR_SEL=2,MDR_OUT_LOW_WE,MDR_HIGH_RST,PC_INC,DECODE_NEXT=$bspl_2
+$bspl_2:bspl_2:BUS_IN_SEL=2,A_BUS_WE,DECODE_NEXT=#lwpa
+
 1023:int:PC_INT_WE,DECODE_NEXT=$int_2
 $int_2:int_2:PC_INC,NEW_INSTR

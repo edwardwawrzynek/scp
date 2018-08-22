@@ -36,6 +36,10 @@ patterns = [
     [ [
         ["mspa", arg.TYPE_LIT, lambda v: (v < 256 and v >= 0)] ],
         lambda c : [cg("bspa", c[0].arg)] ],
+    [ [
+        ["bspa", A, A],
+        ["lwpa", A, A], ],
+        lambda c:[cg("bspl", c[0].arg)] ],
     #one byte mdsp
     [ [
         ["mdsp", arg.TYPE_LIT, lambda v: (v < 256 and v >= 0)] ],
