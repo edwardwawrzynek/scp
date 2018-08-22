@@ -3,7 +3,7 @@
 #include <string.h>
 
 //define to compile on scp
-//#define MACHINE_SCP 1
+#define MACHINE_SCP 1
 
 //Number of commands
 #define NUM_CMDS 71
@@ -291,6 +291,16 @@ INT get_dir_size(){
 	return 0;
 }
 
+UINT exists_label(char * name, int module){
+	unsigned int i;
+	for(i = 0; i < labels_used+1;++i){
+		if(!strcmp(name, labels[i].name) && (labels[i].mod_num == module || labels[i].mod_num == -1)){
+			return 1;
+		}
+	}
+	return 0;
+}
+
 //run the addr resolution pass on the file
 VOID addr_pass(){
 	char * label;
@@ -302,6 +312,9 @@ VOID addr_pass(){
 	while(read_line()){
 		label = read_label();
 		if(label){
+			if(exists_label(label, module)){
+				printf("Warning: label %s is defined multipule times\n", label);
+			}
 			//add label
 			new_label = label_new();
 			strcpy(new_label->name, label);

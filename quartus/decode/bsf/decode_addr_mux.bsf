@@ -58,6 +58,13 @@ refer to the applicable agreement for further details.
 		(text "addr[9..0]" (rect 150 27 187 39)(font "Arial" ))
 		(line (pt 208 32)(pt 192 32)(line_width 3))
 	)
+	(port
+		(pt 208 48)
+		(output)
+		(text "int_ack" (rect 0 0 28 12)(font "Arial" ))
+		(text "int_ack" (rect 159 43 187 55)(font "Arial" ))
+		(line (pt 208 48)(pt 192 48)(line_width 1))
+	)
 	(parameter
 		"INT_ADDR"
 		"1023"

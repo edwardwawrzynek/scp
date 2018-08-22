@@ -20,9 +20,9 @@ refer to the applicable agreement for further details.
 */
 (header "symbol" (version "1.1"))
 (symbol
-	(rect 16 16 208 192)
+	(rect 16 16 208 224)
 	(text "pc_reg" (rect 5 0 33 12)(font "Arial" ))
-	(text "inst" (rect 8 160 20 172)(font "Arial" ))
+	(text "inst" (rect 8 192 20 204)(font "Arial" ))
 	(port
 		(pt 0 32)
 		(input)
@@ -73,6 +73,27 @@ refer to the applicable agreement for further details.
 		(line (pt 0 128)(pt 16 128)(line_width 1))
 	)
 	(port
+		(pt 0 144)
+		(input)
+		(text "dec" (rect 0 0 14 12)(font "Arial" ))
+		(text "dec" (rect 21 139 35 151)(font "Arial" ))
+		(line (pt 0 144)(pt 16 144)(line_width 1))
+	)
+	(port
+		(pt 0 160)
+		(input)
+		(text "int_in[15..0]" (rect 0 0 43 12)(font "Arial" ))
+		(text "int_in[15..0]" (rect 21 155 64 167)(font "Arial" ))
+		(line (pt 0 160)(pt 16 160)(line_width 3))
+	)
+	(port
+		(pt 0 176)
+		(input)
+		(text "int_we" (rect 0 0 24 12)(font "Arial" ))
+		(text "int_we" (rect 21 171 45 183)(font "Arial" ))
+		(line (pt 0 176)(pt 16 176)(line_width 1))
+	)
+	(port
 		(pt 192 32)
 		(output)
 		(text "val[15..0]" (rect 0 0 35 12)(font "Arial" ))
@@ -80,6 +101,6 @@ refer to the applicable agreement for further details.
 		(line (pt 192 32)(pt 176 32)(line_width 3))
 	)
 	(drawing
-		(rectangle (rect 16 16 176 160)(line_width 1))
+		(rectangle (rect 16 16 176 192)(line_width 1))
 	)
 )
