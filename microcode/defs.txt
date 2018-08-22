@@ -36,3 +36,5 @@
 50: PRIV_WE - set priv level
 51: PRIV_LV - priv level to set (0=sys, 1=usr)
 52: MMU_WE - write reg a into the page being accessed by the mar
+53: PC_DEC - deincrement the program counter
+54: PC_INT_WE - write the int addr into the pc

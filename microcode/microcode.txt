@@ -322,3 +322,6 @@ $mmus_3:mmus_3:PC_INC,NEW_INSTR
 //Set A equal to value in sp + (offset in byte following instruction)
 70:bspa:MAR_SEL=2,MDR_OUT_LOW_WE,MDR_HIGH_RST,PC_INC,DECODE_NEXT=$bspa_2
 $bspa_2:bspa_2:BUS_IN_SEL=2,A_BUS_WE,PC_INC,NEW_INSTR
+
+1023:int:PC_INT_WE,DECODE_NEXT=$int_2
+$int_2:int_2:PC_INC,NEW_INSTR
