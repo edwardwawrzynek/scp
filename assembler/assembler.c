@@ -197,7 +197,8 @@ INT read_line(){
 //set name to just be a label
 //returns pointer to name if label, NULL if otherwise
 CHARP read_label(){
-	if(*line == '\t'){
+	// If the line starts with a tab or at least two spaces, it is a cmd, so return 
+	if(line[0] == '\t' || (line[0] == ' ' && line[1] == ' ')){
 		return NULL;
 	}
 	while(line[lptr] != ':'){

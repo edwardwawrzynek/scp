@@ -35,8 +35,7 @@ Options:
 The tools that scpc uses are located in `smallC`, which contains the compiler,
 and `assembler`, which contains an assembler (`scpasm`) and linker (`scplnk`)
 written in c, as well as an assembly optimizer (`scpopt`), binary to memory
-initialization file converter (`scpbintomif`), and a tool to fix inline assembly
-formatting in c files (`scpasmfix`). All of these are invoced through options in
+initialization file converter (`scpbintomif`). All of these can be invoced through options in
 `scpc`.
 
 ## The Software

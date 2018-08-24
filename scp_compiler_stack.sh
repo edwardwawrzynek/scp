@@ -17,7 +17,6 @@ Options:
 -h         :display usage
 -e         :if specified, the binary is put against the end of the address space
 -n         :don't link asms associated with included system header files
--I	   :fix #asm prefixed section's indentation with scpcasmfix
 -O:	   :run scpopt optimizer on the asm files"
 }
 
@@ -37,7 +36,7 @@ DO_END=false
 
 #Non linked assembley output
 CLEAN_ASM_OUTPUT=""
-DP_CLEAN_ASM=false
+DO_CLEAN_ASM=false
 
 #whether to link files in .incl
 LINK_INCS=true
@@ -45,9 +44,6 @@ INCL_FILE=""
 
 #whether to compile the c files
 DO_COMP=true
-
-#whether to run scpcasmfix on the c files
-DO_ASMFIX=false
 
 #whether to stop before asm and lnk
 DO_STOP_ASMLNK=false
@@ -58,7 +54,7 @@ DO_OPT=false
 #Files to link with
 LINKS="/home/edward/scp_software/lib/include/cret.s /home/edward/scp_software/lib/include/crun.s"
 END_LINK=""
-while getopts "ehncIXOo:m:a:s:l:L:f:" opt; do
+while getopts "ehncXOo:m:a:s:l:L:f:" opt; do
   case $opt in
     e)
 	DO_END=true
@@ -75,9 +71,6 @@ while getopts "ehncIXOo:m:a:s:l:L:f:" opt; do
         ;;
     c)
     	DO_COMP=false
-    	;;
-    I)
-    	DO_ASMFIX=true
     	;;
     X)
     	DO_STOP_ASMLNK=true
@@ -130,14 +123,6 @@ C_FILES="$@"
 
 #Compile the file, generating .incl
 if [ "$DO_COMP" == "true" ]; then
-	if [ "$DO_ASMFIX" == "true" ]; then
-		for c_file in "$@"
-		do
-			mv "$c_file" "$c_file.scpcasmfix"
-			scpcasmfix "$c_file.scpcasmfix" "$c_file"
-			rm "$c_file.scpcasmfix"
-		done
-	fi
 	sccscp -i $C_FILES
 fi
 
