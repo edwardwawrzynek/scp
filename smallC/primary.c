@@ -313,6 +313,9 @@ spechar() {
  */
 void callfunction (char *ptr) {
     int     nargs;
+    unsigned int level;
+
+    level = 0;
 
     nargs = 0;
     blanks ();
@@ -321,6 +324,7 @@ void callfunction (char *ptr) {
     while (!streq (line + lptr, ")")) {
         if (endst ())
             break;
+        set_asm_buffer(level++);
         expression (NO);
         if (ptr == 0)
             gen_swap_stack ();
@@ -330,6 +334,13 @@ void callfunction (char *ptr) {
             break;
     }
     needbrack (")");
+
+    //dump buffers
+    while(level--){
+        dump_asm_buffer(level);
+    }
+    set_asm_buffer(-1);
+
     if (aflag)
         gnargs(nargs / INTSIZE);
     if (ptr)

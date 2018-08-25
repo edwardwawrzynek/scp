@@ -41,6 +41,19 @@ struct symbol {
 #define NUMBER_OF_GLOBALS 200
 #define NUMBER_OF_LOCALS 20
 
+/* asm buffers for rearanging / delaying output */
+#define USE_ASM_BUFFERS
+#undef USE_ASM_BUFFERS
+
+/* 16 buffers - usage:
+ * -1 is symbolic for straight output to file
+ * 0-11 are used for function calls (right to left)
+ * 12-15 not used (as of now) */
+#define NUMBER_OF_ASM_BUFFERS 16
+
+/* 512 byte buffers - increase if more space is being used */
+#define ASM_BUFFER_SIZE 512 
+
 /* Define the structure tag table parameters */
 #define NUMTAG      10
 

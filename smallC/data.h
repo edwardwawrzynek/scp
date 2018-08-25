@@ -57,3 +57,4 @@ extern INITIALS initials_table[NUMBER_OF_GLOBALS];
 /* 5kB space for initialisation data*/
 extern char initials_data_table[INITIALS_SIZE];
 extern int initials_idx, initials_data_idx;
+

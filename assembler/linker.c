@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-usage(){
+void usage(){
 	printf("Usage: scplnk [option] [output file] [input files]\nOptions:\n-i [.incl file] :link files listed in the .incl file, placing them directly after the first passed input file\n");
 }
 
@@ -18,7 +18,7 @@ FILE *open(char * name, char *md){
 	return fp;
 }
 
-main(int argc, char **argv){
+int main(int argc, char **argv){
 	FILE * out;
 	FILE * cur;
 	char c;
