@@ -137,7 +137,14 @@ getarg(int t) {
                 symbol_table[argptr].identity = j;
                 symbol_table[argptr].type = t;
                 address = argtop - symbol_table[argptr].offset;
+                /* only adjust(invert) addr if not using right to left */
+#ifndef CALL_RIGHT_TO_LEFT
                 symbol_table[argptr].offset = address;
+#endif
+                /* if using right to left, add 2 to addr */
+#ifdef CALL_RIGHT_TO_LEFT
+                symbol_table[argptr].offset += 2;
+#endif
                 //If struct, set tagidx here
                 if(t == STRUCT){
                     if(j != POINTER){
@@ -185,6 +192,7 @@ doAnsiArguments() {
 doLocalAnsiArgument(int type) {
     char symbol_name[NAMESIZE];
     int identity, address, argptr, ptr, otag;
+
     if(type == STRUCT){
         //Read struct type into otag
         if (symname(symbol_name) == 0)  /* legal name ? */
@@ -201,7 +209,12 @@ doLocalAnsiArgument(int type) {
         if (find_locale(symbol_name) > -1) {
             multidef(symbol_name);
         } else {
+#ifndef CALL_RIGHT_TO_LEFT
             argptr = add_local (symbol_name, identity, type, 0, AUTO);
+#endif
+#ifdef CALL_RIGHT_TO_LEFT
+            add_local (symbol_name, identity, type, argstk+2, AUTO);
+#endif
             argstk = argstk + INTSIZE;
             ptr = local_table_index;
             //If struct, set tagidx
@@ -212,12 +225,15 @@ doLocalAnsiArgument(int type) {
                 }
                 symbol_table[argptr].tagidx = otag;
             }
-            /* modify stack offset as we push more params */
+            /* modify stack offset as we push more params - only needed for left to right*/
+#ifndef CALL_RIGHT_TO_LEFT
             while (ptr != NUMBER_OF_GLOBALS) {
                 ptr = ptr - 1;
                 address = symbol_table[ptr].offset;
                 symbol_table[ptr].offset = address + INTSIZE;
+                printf("Argument: %s, Offset: %u\n", symbol_table[ptr].name, address + INTSIZE);
             }
+#endif
         }
     } else {
         error("illegal argument name");

@@ -324,7 +324,9 @@ void callfunction (char *ptr) {
     while (!streq (line + lptr, ")")) {
         if (endst ())
             break;
+#ifdef CALL_RIGHT_TO_LEFT
         set_asm_buffer(level++);
+#endif
         expression (NO);
         if (ptr == 0)
             gen_swap_stack ();
@@ -336,10 +338,12 @@ void callfunction (char *ptr) {
     needbrack (")");
 
     //dump buffers
+#ifdef CALL_RIGHT_TO_LEFT
     while(level--){
         dump_asm_buffer(level);
     }
     set_asm_buffer(-1);
+#endif
 
     if (aflag)
         gnargs(nargs / INTSIZE);
