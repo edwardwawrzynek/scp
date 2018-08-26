@@ -24,7 +24,7 @@ main(int argc, char *argv[]) {
     macptr = 0;
     ctext = 0;
     errs = 0;
-    aflag = 1;
+    aflag = 0;
     uflag = 0;
 
     setbuf(stdout, NULL); /* disable stdout buffering */ /* why exactly? */
@@ -46,9 +46,9 @@ main(int argc, char *argv[]) {
                     case 'c': case 'C':
                         cflag = 1;
                         break;
-                    /* no argument count in A to function calls */
+                    /* argument count in A to function calls */
                     case 'a': case 'A':
-                        aflag = 0;
+                        aflag = 1;
                         break;
                     /* use undocumented 8085 instructions */
                     case 'u': case 'U':
@@ -211,7 +211,7 @@ frontend_version() {
 usage() {
     oputs("usage: sccXXXX [-tcsah] [-dSYM[=VALUE]] [-l[log]] files\n");
     oputs("-t: output c source as asm comments\n");
-    oputs("-a: no argument count in A to function calls\n");
+    oputs("-a: argument count in A to function calls\n");
     oputs("-d: define macro\n");
     oputs("-u: use undocumented 8085 instructions LDSI, LHLX, SHLX\n");
     oputs("-s: assemble generated output, not implemented\n");

@@ -394,6 +394,10 @@ void callfunction (char *ptr) {
 
     old_lptr = lptr-1;
 
+
+    if (ptr == 0){
+        gen_push (HL_REG);
+    }
     for(arg = nargs-1; arg >= 0; --arg){
         lptr = brks[arg];
         if (endst ()){
@@ -401,36 +405,22 @@ void callfunction (char *ptr) {
         }
         printf("%s\n", line+lptr);
         expression (NO);
+        if (ptr == 0){
+            gen_swap_stack ();
+        }
         gen_push (HL_REG);
     }
     lptr = old_lptr;
     needbrack (")");
-    gen_call (ptr);
-    stkp = gen_modify_stack (stkp + (nargs*INTSIZE));
-/*
-    if (ptr == 0)
-        gen_push (HL_REG);
-    while (!streq (line + lptr, ")")) {
-        if (endst ())
-            break;
-        expression (NO);
-        if (ptr == 0)
-            gen_swap_stack ();
-        gen_push (HL_REG);
-        nargs = nargs + INTSIZE;
-        if (!match (","))
-            break;
-    }
-    needbrack (")");
 
     if (aflag)
-        gnargs(nargs / INTSIZE);
+        gnargs(nargs);
     if (ptr)
         gen_call (ptr);
     else
         callstk ();
-    stkp = gen_modify_stack (stkp + nargs);
-    */
+    
+    stkp = gen_modify_stack (stkp + (nargs*INTSIZE));
 }
 #endif
 
