@@ -117,10 +117,16 @@ kill () {
         line[lptr] = 0;
 }
 
+//if using right to left, read multi line function calls into one line
 readline () {
         int     k;
         FILE    *unit;
-
+#ifdef CALL_RIGHT_TO_LEFT
+        char esc_s, esc_c, in_call;
+        esc_c = 0;
+        esc_s = 0;
+        in_call = 0;
+#endif
         FOREVER {
                 if (feof (input))
                         return;
@@ -128,9 +134,29 @@ readline () {
                         unit = input;
                 kill ();
                 while ((k = fgetc (unit)) != EOF) {
-                        if ((k == CR) || (k == LF) | (lptr >= LINEMAX))
+#ifdef CALL_RIGHT_TO_LEFT
+                        if(k == '"'){
+                                esc_s = !esc_s;
+                        } else if (k == '\''){
+                                esc_c = !esc_c;
+                        } else if (k == '(' && ((!esc_s) && (!esc_c))){
+                                in_call = 1;
+                        } else if (k == ')' && ((!esc_s) && (!esc_c))){
+                                in_call = 0;
+                        }
+#endif
+                        if ((k == CR) || (k == LF) | (lptr >= LINEMAX)){
+#ifdef CALL_RIGHT_TO_LEFT
+                                if(!in_call){
+                                        break;
+                                }            
+#endif
+#ifndef CALL_RIGHT_TO_LEFT
                                 break;
-                        line[lptr++] = k;
+#endif
+                        } else {
+                                line[lptr++] = k;
+                        }
                 }
                 line[lptr] = 0;
                 if (k <= 0)

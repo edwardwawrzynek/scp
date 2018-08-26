@@ -43,11 +43,11 @@ struct symbol {
 
 /* right to left function calls */
 #define CALL_RIGHT_TO_LEFT
-#undef CALL_RIGHT_TO_LEFT
+//#undef CALL_RIGHT_TO_LEFT
 
 /* asm buffers for rearanging / delaying output - required by CALL_RIGHT_TO_LEFT*/
 #define USE_ASM_BUFFERS
-#undef USE_ASM_BUFFERS
+//#undef USE_ASM_BUFFERS
 
 /* 16 buffers - usage:
  * -1 is symbolic for straight output to file

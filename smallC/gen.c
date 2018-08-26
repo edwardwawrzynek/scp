@@ -97,6 +97,7 @@ dump_asm_buffer(int buf){
         asm_buffers[buf].buf[i] = 0;
     }
 #endif
+    asm_buffers[buf].pos = 0;
     return;
 }
 

@@ -213,7 +213,7 @@ doLocalAnsiArgument(int type) {
             argptr = add_local (symbol_name, identity, type, 0, AUTO);
 #endif
 #ifdef CALL_RIGHT_TO_LEFT
-            add_local (symbol_name, identity, type, argstk+2, AUTO);
+            argptr = add_local (symbol_name, identity, type, argstk+2, AUTO);
 #endif
             argstk = argstk + INTSIZE;
             ptr = local_table_index;
@@ -231,8 +231,10 @@ doLocalAnsiArgument(int type) {
                 ptr = ptr - 1;
                 address = symbol_table[ptr].offset;
                 symbol_table[ptr].offset = address + INTSIZE;
-                printf("Argument: %s, Offset: %u\n", symbol_table[ptr].name, address + INTSIZE);
             }
+#endif
+#ifdef CALL_RIGHT_TO_LEFT
+    ptr = NUMBER_OF_GLOBALS;
 #endif
         }
     } else {

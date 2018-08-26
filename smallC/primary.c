@@ -311,11 +311,9 @@ spechar() {
  * of HL
  * @param ptr name of the function
  */
+#ifndef CALL_RIGHT_TO_LEFT
 void callfunction (char *ptr) {
     int     nargs;
-    unsigned int level;
-
-    level = 0;
 
     nargs = 0;
     blanks ();
@@ -324,9 +322,6 @@ void callfunction (char *ptr) {
     while (!streq (line + lptr, ")")) {
         if (endst ())
             break;
-#ifdef CALL_RIGHT_TO_LEFT
-        set_asm_buffer(level++);
-#endif
         expression (NO);
         if (ptr == 0)
             gen_swap_stack ();
@@ -337,14 +332,6 @@ void callfunction (char *ptr) {
     }
     needbrack (")");
 
-    //dump buffers
-#ifdef CALL_RIGHT_TO_LEFT
-    while(level--){
-        dump_asm_buffer(level);
-    }
-    set_asm_buffer(-1);
-#endif
-
     if (aflag)
         gnargs(nargs / INTSIZE);
     if (ptr)
@@ -353,6 +340,99 @@ void callfunction (char *ptr) {
         callstk ();
     stkp = gen_modify_stack (stkp + nargs);
 }
+#endif
+#ifdef CALL_RIGHT_TO_LEFT
+void callfunction (char *ptr) {
+    int     nargs, old_lptr, arg;
+    char    esc_c, esc_s, exit_init;
+    //16 args max
+    int brks[16];
+
+    //use nargs as counter
+    for(nargs=0;nargs<16;++nargs){
+        brks[nargs] = -1;
+    }
+    esc_c = 0;
+    esc_s = 0;
+    exit_init = 0;
+
+    nargs = 0;
+    blanks ();
+
+    //put first arg
+    if(*(line+lptr) == ')'){
+        exit_init = 1;
+        lptr++;
+    } else {
+        brks[nargs++] = lptr;
+    }
+
+    /* go over the  line, recording arg starts*/
+    while(*(line+lptr) && (!exit_init)){
+        switch(*(line+lptr)){
+        case '"':
+            esc_s = !esc_s;
+            break;
+        case '\'':
+            esc_c = !esc_c;
+            break;
+        case ')':
+            if((!esc_c) && (!esc_s)){
+                exit_init = 1;
+            }
+            break;
+        case ',':
+            if((!esc_c) && (!esc_s)){
+                brks[nargs++] = lptr+1;
+            }
+            break;
+        default:
+            break;
+        }
+        ++lptr;
+    }
+
+    old_lptr = lptr-1;
+
+    for(arg = nargs-1; arg >= 0; --arg){
+        lptr = brks[arg];
+        if (endst ()){
+            break;
+        }
+        printf("%s\n", line+lptr);
+        expression (NO);
+        gen_push (HL_REG);
+    }
+    lptr = old_lptr;
+    needbrack (")");
+    gen_call (ptr);
+    stkp = gen_modify_stack (stkp + (nargs*INTSIZE));
+/*
+    if (ptr == 0)
+        gen_push (HL_REG);
+    while (!streq (line + lptr, ")")) {
+        if (endst ())
+            break;
+        expression (NO);
+        if (ptr == 0)
+            gen_swap_stack ();
+        gen_push (HL_REG);
+        nargs = nargs + INTSIZE;
+        if (!match (","))
+            break;
+    }
+    needbrack (")");
+
+    if (aflag)
+        gnargs(nargs / INTSIZE);
+    if (ptr)
+        gen_call (ptr);
+    else
+        callstk ();
+    stkp = gen_modify_stack (stkp + nargs);
+    */
+}
+#endif
 
 needlval () {
     error ("must be lvalue");
