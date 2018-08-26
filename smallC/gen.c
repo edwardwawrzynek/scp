@@ -7,17 +7,7 @@
 #include "defs.h"
 #include "data.h"
 
-/* asm buffer's for rearanging or delaying output (right to left function calls, etc) */
-/* buffers */
-
-struct asm_buffer {
-    char buf[ASM_BUFFER_SIZE];
-    unsigned int pos;
-};
-
-struct asm_buffer asm_buffers[NUMBER_OF_ASM_BUFFERS];
-/* current buffer (-1 is file output) */
-int asm_buffer = -1;
+FILE * output_cp;
 
 /**
  * return next available internal label number
@@ -66,45 +56,8 @@ output_byte(char c) {
     if (c == 0){
         return (0);
     }
-#ifndef USE_ASM_BUFFERS
     fputc (c, output);
-#endif
-#ifdef USE_ASM_BUFFERS
-    if(asm_buffer == -1){
-        fputc(c, output);
-    } else {
-        if(asm_buffers[asm_buffer].pos >= ASM_BUFFER_SIZE){
-            printf("Error: assembly buffer overflow - Increase size of ASM_BUFFERS_SIZE\n");
-            exit (1);
-        } else {
-            asm_buffers[asm_buffer].buf[(asm_buffers[asm_buffer].pos)++] = c;
-        }
-    }
-#endif
     return (c);
-}
-
-/** dump the contents of a asm buffer to the output file, clearing the buffer */
-
-dump_asm_buffer(int buf){
-    unsigned int i;
-    if(buf==-1){
-        return;
-    }
-#ifdef USE_ASM_BUFFERS
-    fputs(asm_buffers[buf].buf, output);
-    for(i = 0; i < ASM_BUFFER_SIZE; ++i){
-        asm_buffers[buf].buf[i] = 0;
-    }
-#endif
-    asm_buffers[buf].pos = 0;
-    return;
-}
-
-set_asm_buffer(int level){
-#ifdef USE_ASM_BUFFERS
-    asm_buffer = level;
-#endif
 }
 
 /**
@@ -153,16 +106,7 @@ output_with_tab(char ptr[]) {
  * @return 
  */
 output_decimal(int number) {
-#ifndef USE_ASM_BUFFERS
     fprintf(output, "%d", number);
-#endif
-#ifdef USE_ASM_BUFFERS
-    if(asm_buffer == -1){
-        fprintf(output, "%d", number);  
-    } else {
-        asm_buffers[asm_buffer].pos += sprintf(asm_buffers[asm_buffer].buf+asm_buffers[asm_buffer].pos, "%d", number);
-    }
-#endif
 }
 
 /**
@@ -217,4 +161,18 @@ scale_const(int type, int otag, int *size) {
         default:
             break;
     }
+}
+
+/* write all output to nothing */
+
+disable_output(){
+    output_enabled = 0;
+    output_cp = output;
+    output = fopen("/dev/null", "w");
+}
+
+enable_output(){
+    output_enabled = 1;
+    fclose(output);
+    output = output_cp;
 }

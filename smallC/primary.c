@@ -278,10 +278,14 @@ quoted_string (int *position) {
             return (1);
         }
         c = gch();
-        litq[litptr++] = (c == '\\') ? spechar(): c;
+        if(output_enabled){
+            litq[litptr++] = (c == '\\') ? spechar(): c;
+        }
     }
     gch ();
-    litq[litptr++] = 0;
+    if(output_enabled){
+        litq[litptr++] = 0;
+    }
     return (1);
 }
 
@@ -358,16 +362,16 @@ void callfunction (char *ptr) {
 
     nargs = 0;
     blanks ();
-
     //put first arg
     if(*(line+lptr) == ')'){
         exit_init = 1;
-        lptr++;
+        lptr;
     } else {
         brks[nargs++] = lptr;
     }
 
     /* go over the  line, recording arg starts*/
+    /*
     while(*(line+lptr) && (!exit_init)){
         switch(*(line+lptr)){
         case '"':
@@ -390,10 +394,17 @@ void callfunction (char *ptr) {
             break;
         }
         ++lptr;
+    }*/
+    disable_output();
+    while (!streq (line + lptr, ")") && exit_init==0){
+        expression (NO);
+        if(!match(",")){
+            break;
+        }
+        brks[nargs++] = lptr;
     }
-
-    old_lptr = lptr-1;
-
+    enable_output();
+    old_lptr = lptr;
 
     if (ptr == 0){
         gen_push (HL_REG);
@@ -403,7 +414,6 @@ void callfunction (char *ptr) {
         if (endst ()){
             break;
         }
-        printf("%s\n", line+lptr);
         expression (NO);
         if (ptr == 0){
             gen_swap_stack ();

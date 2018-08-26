@@ -17,6 +17,8 @@ extern  char    line[];
 extern  char    mline[];
 extern  int     lptr, mptr;
 
+extern int output_enabled;
+
 extern TAG_SYMBOL  tag_table[NUMTAG]; /* start of structure tag table */
 extern int     tag_table_index;   /* ptr to next entry */
 

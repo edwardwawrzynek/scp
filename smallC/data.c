@@ -25,6 +25,8 @@ char    line[LINESIZE];
 char    mline[LINESIZE];
 int     lptr, mptr;
 
+extern int output_enabled=1;
+
 TAG_SYMBOL  tag_table[NUMTAG]; /* start of structure tag table */
 int         tag_table_index; /* ptr to next entry */
 
