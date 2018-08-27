@@ -182,7 +182,7 @@ compile(char *file) {
         errorsummary();
         trailer();
         fclose(output);
-        pl("");
+        //pl("");
         errs = errs || errfile;
 #ifndef NOASLD
     }
@@ -443,7 +443,7 @@ errorsummary() {
     output_decimal(macptr);
     newline();
     if (errcnt > 0)
-        pl("Error(s)");
+        pl("Error(s)\n");
 }
 
 /**

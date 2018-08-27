@@ -347,11 +347,10 @@ void callfunction (char *ptr) {
 #endif
 #ifdef CALL_RIGHT_TO_LEFT
 void callfunction (char *ptr) {
-    int     nargs, old_lptr, arg;
+    int     nargs, old_lptr, arg, semi_depth;
     char    esc_c, esc_s, exit_init;
     //16 args max
     int brks[16];
-
     //use nargs as counter
     for(nargs=0;nargs<16;++nargs){
         brks[nargs] = -1;
@@ -359,19 +358,20 @@ void callfunction (char *ptr) {
     esc_c = 0;
     esc_s = 0;
     exit_init = 0;
+    semi_depth = 1;
 
     nargs = 0;
     blanks ();
     //put first arg
     if(*(line+lptr) == ')'){
         exit_init = 1;
-        lptr;
+        ++lptr;
     } else {
         brks[nargs++] = lptr;
     }
 
     /* go over the  line, recording arg starts*/
-    /*
+    
     while(*(line+lptr) && (!exit_init)){
         switch(*(line+lptr)){
         case '"':
@@ -382,7 +382,10 @@ void callfunction (char *ptr) {
             break;
         case ')':
             if((!esc_c) && (!esc_s)){
-                exit_init = 1;
+                --semi_depth;
+                if(!semi_depth){
+                    exit_init = 1;
+                }
             }
             break;
         case ',':
@@ -390,11 +393,16 @@ void callfunction (char *ptr) {
                 brks[nargs++] = lptr+1;
             }
             break;
+        case '(':
+            if((!esc_c) && (!esc_s)){
+                ++semi_depth;
+            }
         default:
             break;
         }
         ++lptr;
-    }*/
+    }
+    /*
     disable_output();
     while (!streq (line + lptr, ")") && exit_init==0){
         expression (NO);
@@ -403,8 +411,8 @@ void callfunction (char *ptr) {
         }
         brks[nargs++] = lptr;
     }
-    enable_output();
-    old_lptr = lptr;
+    enable_output();*/
+    old_lptr = lptr -1;
 
     if (ptr == 0){
         gen_push (HL_REG);

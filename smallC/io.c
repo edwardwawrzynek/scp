@@ -122,10 +122,11 @@ readline () {
         int     k;
         FILE    *unit;
 #ifdef CALL_RIGHT_TO_LEFT
-        char esc_s, esc_c, in_call;
+        char esc_s, esc_c;
+        unsigned int semi_depth;
         esc_c = 0;
         esc_s = 0;
-        in_call = 0;
+        semi_depth = 0;
 #endif
         FOREVER {
                 if (feof (input))
@@ -140,14 +141,14 @@ readline () {
                         } else if (k == '\''){
                                 esc_c = !esc_c;
                         } else if (k == '(' && ((!esc_s) && (!esc_c))){
-                                in_call = 1;
+                                semi_depth++;
                         } else if (k == ')' && ((!esc_s) && (!esc_c))){
-                                in_call = 0;
+                                semi_depth--;
                         }
 #endif
                         if ((k == CR) || (k == LF) | (lptr >= LINEMAX)){
 #ifdef CALL_RIGHT_TO_LEFT
-                                if(!in_call){
+                                if(!semi_depth){
                                         break;
                                 }            
 #endif
