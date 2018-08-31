@@ -36,6 +36,17 @@ uint8_t cpu_read_mem(struct cpu * cpu, uint16_t addr){
     low_addr = addr & 0x7ff;
     high_addr = (addr & 0xf800) >> 11;
     //get real high_addr through mmu_table
-    high_addr = cpu->mmu_table[cpu->reg_ptb + high_addr];
-    return vpu->memory[(high_addr << 11) + low_addr];
+    high_addr = cpu->mmu_table[(cpu->reg_priv ? cpu->reg_ptb : 0) + high_addr];
+    return cpu->memory[(high_addr << 11) + low_addr];
+}
+
+//Write to machine memory
+uint8_t cpu_write_mem(struct cpu * cpu, uint16_t addr, uint8_t val){
+    uint16_t high_addr, low_addr;
+    //Get low addr from addr
+    low_addr = addr & 0x7ff;
+    high_addr = (addr & 0xf800) >> 11;
+    //get real high_addr through mmu_table
+    high_addr = cpu->mmu_table[(cpu->reg_priv ? cpu->reg_ptb : 0) + high_addr];
+    cpu->memory[(high_addr << 11) + low_addr] = val;
 }
