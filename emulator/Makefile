@@ -1,3 +1,3 @@
 all: scpemu
 scpemu: main.c
-	gcc -o escpemu main.c
+	gcc -o scpemu main.c

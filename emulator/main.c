@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdint.h>
+#include <stdlib.h>
 
 //cpu state structure
 struct cpu {
@@ -49,4 +50,38 @@ uint8_t cpu_write_mem(struct cpu * cpu, uint16_t addr, uint8_t val){
     //get real high_addr through mmu_table
     high_addr = cpu->mmu_table[(cpu->reg_priv ? cpu->reg_ptb : 0) + high_addr];
     cpu->memory[(high_addr << 11) + low_addr] = val;
+}
+
+//Load and cpu's memory from a binary file (writes directly to physical memory, not based on mmu)
+//Used to write startup memory
+void cpu_init_mem(struct cpu * cpu, char * file_path){
+    FILE * fp;
+    char c;
+    uint16_t addr;
+
+    fp = fopen(file_path, "r");
+    if(fp == NULL){
+        printf("No such file: %s\n", file_path);
+        exit(1);
+    }
+    addr = 0;
+
+    while((c=fgetc(fp)) != EOF){
+        cpu->memory[addr++] = c;
+    }
+}
+
+//Init the cpu state to that of scp on power on
+void cpu_init(struct cpu * cpu){
+    //Create mmu_table (only first proc's addr space is inited)
+    for(uint16_t i = 0; i < 32; i++){
+        cpu->mmu_table[i] = i;
+    }
+}
+
+struct cpu c;
+
+int main(){
+    cpu_init(&c);
+    cpu_read_mem(&c, 0x200f);
 }
