@@ -1,6 +1,12 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include <string.h>
+
+//Opcode definitions
+#include "opcodes.c"
+
+#define WARNINGS
 
 //cpu state structure
 struct cpu {
@@ -56,8 +62,10 @@ uint8_t cpu_write_mem(struct cpu * cpu, uint16_t addr, uint8_t val){
 //Used to write startup memory
 void cpu_init_mem(struct cpu * cpu, char * file_path){
     FILE * fp;
-    char c;
     uint16_t addr;
+    size_t n_read;
+
+    uint8_t buf[256];
 
     fp = fopen(file_path, "r");
     if(fp == NULL){
@@ -65,10 +73,12 @@ void cpu_init_mem(struct cpu * cpu, char * file_path){
         exit(1);
     }
     addr = 0;
-
-    while((c=fgetc(fp)) != EOF){
-        cpu->memory[addr++] = c;
-    }
+    
+    do{
+        n_read = fread(buf, 1, 256, fp);
+        memcpy(cpu->memory + addr, buf, n_read);
+        addr += 256;
+    } while(n_read == 256);
 }
 
 //Init the cpu state to that of scp on power on
@@ -79,9 +89,116 @@ void cpu_init(struct cpu * cpu){
     }
 }
 
+//run a cpu cycle
+void cpu_cycle(struct cpu * cpu){
+    uint8_t opcode;
+    uint8_t val8;
+    uint16_t val16;
+
+    //fetch the opcode
+    opcode = cpu_read_mem(cpu, cpu->reg_pc);
+    //fetch the values after the opcode
+    val8 = cpu_read_mem(cpu, cpu->reg_pc+1);
+    val16 = (val8 << 8) + cpu_read_mem(cpu, cpu->reg_pc+2);
+    
+    //giant switch for opcodes (seperate out?)
+    switch(opcode){
+    case NOP:
+        break;
+    case LBIA:
+        cpu->reg_a = val8;
+        break;
+    case LBIB:
+        cpu->reg_b = val8;
+        break;
+    case LWIA:
+        cpu->reg_a = val16;
+        break;
+    case LWIB:
+        cpu->reg_b = val16;
+        break;
+
+    case LBPA:
+        cpu->reg_a = cpu_read_mem(cpu, cpu->reg_a);
+        break;
+    case LBPB:
+        cpu->reg_b = cpu_read_mem(cpu, cpu->reg_a);
+        break;
+    case LWPA:
+        cpu->reg_a = cpu_read_mem(cpu, cpu->reg_a) + (cpu_read_mem(cpu, cpu->reg_a+1) << 8);
+        break;
+    case LWPB:
+        cpu->reg_b = cpu_read_mem(cpu, cpu->reg_a) + (cpu_read_mem(cpu, cpu->reg_a+1) << 8);
+        break;
+
+    case LBQA:
+        cpu->reg_a = cpu_read_mem(cpu, cpu->reg_b);
+        break;
+    case LBQB:
+        cpu->reg_b = cpu_read_mem(cpu, cpu->reg_b);
+        break;
+    case LWQA:
+        cpu->reg_a = cpu_read_mem(cpu, cpu->reg_b) + (cpu_read_mem(cpu, cpu->reg_b+1)<<8);
+        break;
+    case LWQB:
+        cpu->reg_b = cpu_read_mem(cpu, cpu->reg_b) + (cpu_read_mem(cpu, cpu->reg_b+1)<<8);
+        break;
+    
+    case LBMA:
+        cpu->reg_a = cpu_read_mem(cpu, val16);
+        break;
+    case LBMB:
+        cpu->reg_b = cpu_read_mem(cpu, val16);
+        break;
+    case LWMA:
+        cpu->reg_a = cpu_read_mem(cpu, val16) + (cpu_read_mem(cpu, val16 + 1));
+        break;
+    case LWMB:
+        cpu->reg_b = cpu_read_mem(cpu, val16) + (cpu_read_mem(cpu, val16 + 1));
+        break;
+    
+    case SBPB:
+        cpu_write_mem(cpu, cpu->reg_a, (uint8_t)cpu->reg_b);
+        break;
+    case SBQA:
+        cpu_write_mem(cpu, cpu->reg_b, (uint8_t)cpu->reg_a);
+        break;
+    case SWPB:
+        cpu_write_mem(cpu, cpu->reg_a, (uint8_t)cpu->reg_b);
+        cpu_write_mem(cpu, cpu->reg_a+1, (uint8_t)((cpu->reg_b<<8));
+        break;
+    case SWQA:
+        cpu_write_mem(cpu, cpu->reg_b, (uint8_t)cpu->reg_a);
+        cpu_write_mem(cpu, cpu->reg_b+1, (uint8_t)((cpu->reg_a)<<8);
+        break;
+    
+    default:
+#ifdef WARNINGS
+        printf("Warning: Unrecognized opcode: %u|\n", opcode);
+#endif
+        break;
+    }
+    //increment the pc to the next instruction
+    cpu->reg_pc += CMD_LENS[opcode]+1;
+    printf("%u\n", cpu->reg_pc);
+
+}
+
+//run the cpu
+void cpu_run(struct cpu * cpu){
+    while(1){
+        cpu_cycle(cpu);
+    }
+}
+
 struct cpu c;
 
-int main(){
+int main(int argc, char ** argv){
+    if(argc != 2){
+        printf("Usage: scpemu [bin file]\n");
+        exit(1);
+    }
     cpu_init(&c);
-    cpu_read_mem(&c, 0x200f);
+    cpu_init_mem(&c, argv[1]);
+    cpu_run(&c);
 }
