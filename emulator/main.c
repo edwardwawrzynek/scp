@@ -165,13 +165,92 @@ void cpu_cycle(struct cpu * cpu){
         break;
     case SWPB:
         cpu_write_mem(cpu, cpu->reg_a, (uint8_t)cpu->reg_b);
-        cpu_write_mem(cpu, cpu->reg_a+1, (uint8_t)((cpu->reg_b<<8));
+        cpu_write_mem(cpu, cpu->reg_a+1, (uint8_t)((cpu->reg_b)<<8));
         break;
     case SWQA:
         cpu_write_mem(cpu, cpu->reg_b, (uint8_t)cpu->reg_a);
-        cpu_write_mem(cpu, cpu->reg_b+1, (uint8_t)((cpu->reg_a)<<8);
+        cpu_write_mem(cpu, cpu->reg_b+1, (uint8_t)((cpu->reg_a)<<8));
+        break;
+
+    case SBMA:
+        cpu_write_mem(cpu, val16, (uint8_t)cpu->reg_a);
+        break;
+    case SBMB:
+        cpu_write_mem(cpu, val16, (uint8_t)cpu->reg_b);
+        break;
+    case SWMA:
+        cpu_write_mem(cpu, val16, (uint8_t)cpu->reg_a);
+        cpu_write_mem(cpu, val16+1, (uint8_t)((cpu->reg_a)<<8));
+        break;
+    case SWMB:
+        cpu_write_mem(cpu, val16, (uint8_t)cpu->reg_b);
+        cpu_write_mem(cpu, val16+1, (uint8_t)((cpu->reg_b)<<8));
         break;
     
+    case AADD:
+        cpu->reg_a = cpu->reg_b + cpu->reg_a;
+        break;
+    case ASUB:
+        cpu->reg_a = cpu->reg_b - cpu->reg_a;
+        break;
+    case AMUL:
+        cpu->reg_a = cpu->reg_b * cpu->reg_a;
+        break;
+    case ABOR:
+        cpu->reg_a = cpu->reg_b | cpu->reg_a;
+        break;
+    case ABXR:
+        cpu->reg_a = cpu->reg_b ^ cpu->reg_a;
+        break;
+    case ABND:
+        cpu->reg_a = cpu->reg_b & cpu->reg_a;
+        break;
+    case ASSR:
+        cpu->reg_a = (int16_t)cpu->reg_b >> (int16_t)cpu->reg_a;
+        break;
+    case ASHR:
+        cpu->reg_a = (uint16_t)cpu->reg_b >> (uint16_t)cpu->reg_a;
+        break;
+    case ASHL:
+        cpu->reg_a = (uint16_t)cpu->reg_b << (uint16_t)cpu->reg_a;
+        break;
+    case ANEG:
+        cpu->reg_a = -(cpu->reg_a);
+        break;
+    case ALNG:
+        cpu->reg_a = !(cpu->reg_a);
+        break;
+    case ABNG:
+        cpu->reg_a = ~(cpu->reg_a);
+        break;
+    case ACLV:
+        cpu->reg_a = (cpu->reg_a) ? 1 : 0;
+        break;
+    case AEQU:
+        cpu->reg_a = cpu->reg_b == cpu->reg_a;
+        break;
+    case ANEQ:
+        cpu->reg_a = cpu->reg_b != cpu->reg_a;
+        break;
+    case ASLT:
+        cpu->reg_a = (int16_t)cpu->reg_b < (int16_t)cpu->reg_a;
+        break;
+    case AULT:
+        cpu->reg_a = cpu->reg_b < cpu->reg_a;
+        break;
+    case ASLE:
+        cpu->reg_a = (int16_t)cpu->reg_b <= (int16_t)cpu->reg_a;
+        break;
+    case AULE:
+        cpu->reg_a = cpu->reg_b <= cpu->reg_a;
+        break;
+    case ASEX:
+        cpu->reg_a = (cpu->reg_a & 0x80) ? (cpu->reg_a | 0xff00) : (cpu->reg_a & 0x00ff);
+        break;
+    case AAEB:
+        cpu->reg_a = cpu->reg_b;
+        break;
+
     default:
 #ifdef WARNINGS
         printf("Warning: Unrecognized opcode: %u|\n", opcode);

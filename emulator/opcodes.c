@@ -7,22 +7,18 @@
 #define LBPB 6
 #define LWPA 7
 #define LWPB 8
-
 #define LBQA 9
 #define LBQB 10
 #define LWQA 11
 #define LWQB 12
-
 #define LBMA 13
 #define LBMB 14
 #define LWMA 15
 #define LWMB 16
-
 #define SBPB 17
 #define SWPB 18
 #define SBQA 19
 #define SWQA 20
-
 #define SBMA 21
 #define SBMB 22
 #define SWMA 23
@@ -48,6 +44,7 @@
 #define AULE 43
 #define ASEX 44
 #define AAEB 45
+
 #define JMP  46
 #define JPNZ 47
 #define JPZ  48
