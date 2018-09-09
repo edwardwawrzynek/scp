@@ -449,11 +449,11 @@ void cpu_cycle(struct cpu * cpu){
 
 //graphics functions
 void init_sdl(char * window_name){
-    window = SDL_CreateWindow(window_name, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 320, 200, SDL_WINDOW_SHOWN);
+    window = SDL_CreateWindow(window_name, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 400, SDL_WINDOW_SHOWN);
     windowSurface = SDL_GetWindowSurface(window);
 }
 
-void sdl_set_pixel(SDL_Surface *surface, int addr, Uint32 pixel)
+static inline void sdl_set_pixel(SDL_Surface *surface, int addr, Uint32 pixel)
 {
   Uint32 *target_pixel = (Uint8 *) surface->pixels + addr* sizeof *target_pixel;
   *target_pixel = pixel;
@@ -484,15 +484,89 @@ Uint32 color_conv(uint8_t color){
 
 //io subsys vars
 uint16_t io_gfx_addr;
+uint16_t io_text_addr;
+//the character set (64 bits per char)
+uint64_t io_charset[256];
+
+//load the charset from file
+void io_load_charset(char * file){
+    FILE * fp;
+    int addr;
+
+    fp = fopen(file, "r");
+    if(fp == NULL){
+        printf("No such file: %s\n", file);
+        exit(1);
+    }
+    for(addr = 0; addr < 256; ++addr){
+        if(fread(io_charset + addr, 1, 8, fp) != 8){
+            printf("charset file: %s not formatted properly\n", file);
+        }
+    }
+    fclose(fp);
+}
+
+//write a char to the window
+void io_text_write_char(uint8_t c, uint16_t addr){
+    uint16_t x;
+    uint16_t y;
+
+    unsigned int pos;
+    int i;
+
+    uint64_t charset;
+    Uint32 color;
+    //x and y in terms of text location
+    x = addr%80;
+    y = addr/80;
+
+    //find pos on screen
+    pos = x*8 + (y*16*640);
+
+    charset = io_charset[c];
+    for(i = 0; i < 64; ++i){
+        color = charset&0x8000000000000000 ? 0xffffff : 0;
+        sdl_set_pixel(windowSurface, pos, color);
+        sdl_set_pixel(windowSurface, pos+640, color);
+        charset = charset << 1;
+        pos++;
+        if(pos % 8 == 0){
+            pos -= 8;
+            pos += 1280;
+        }
+    }
+}
+
+//set a "pixel" on the screen (really a 2x2 block)
+void io_gfx_set_pixel(uint16_t addr, uint8_t val){
+    uint16_t x;
+    uint16_t y;
+    x = addr%320;
+    y = addr/320;
+
+    sdl_set_pixel(windowSurface, x*2 + y*1280, color_conv(val));
+    sdl_set_pixel(windowSurface, (x*2 + y*1280) +1, color_conv(val));
+    sdl_set_pixel(windowSurface, (x*2 + y*1280) +640, color_conv(val));
+    sdl_set_pixel(windowSurface, (x*2 + y*1280) +641, color_conv(val));
+}
 
 //handle io
 void io_out(uint8_t port, uint16_t val){
     switch(port){
+        //text
+        case IO_text_addr_port:
+            io_text_addr = val;
+            break;
+        case IO_text_data_port:
+            //get char
+            io_text_write_char((uint8_t)val, io_text_addr);
+            break;
+        //gfx
         case IO_gfx_addr_port:
             io_gfx_addr = val;
             break;
         case IO_gfx_data_port:
-            sdl_set_pixel(windowSurface, io_gfx_addr, color_conv(val));
+            io_gfx_set_pixel(io_gfx_addr, val);
             break;
         default:
         break;
@@ -519,5 +593,6 @@ int main(int argc, char ** argv){
     cpu_init(&c);
     cpu_init_mem(&c, argv[1]);
     init_sdl(argv[1]);
+    io_load_charset("charset");
     cpu_run(&c);
 }
