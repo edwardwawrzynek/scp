@@ -7,12 +7,40 @@
 //sdl (for graphics)
 #include "SDL2/SDL.h"
 
-
 #define WARNINGS
 
 //#define DEBUG
 
 #define EVENT_CHECK_FREQ 1000
+
+//io port defs
+
+
+#define IO_key_in_waiting_port 8
+#define IO_key_data_in_port 7
+#define IO_key_next_port 7
+
+#define IO_text_addr_port 5
+#define IO_text_data_port 6
+
+#define IO_gfx_addr_port 9
+#define IO_gfx_data_port 10
+#define IO_gfx_screen_en_port 12
+
+#define IO_sound_freq_port 11
+
+#define IO_disk_busy_port 13
+#define IO_disk_reset_port 13
+#define IO_disk_error_port 14
+#define IO_disk_block_addr_port 14
+
+#define IO_disk_data_in_port 15
+#define IO_disk_data_in_next_port 15
+#define IO_disk_data_in_rd_en_port 16
+#define IO_disk_data_in_addr_port 16
+#define IO_disk_data_out_port 17
+#define IO_disk_data_out_wr_en_port 18
+#define IO_disk_data_out_addr_port 18
 
 //cpu state structure
 struct cpu {
@@ -360,11 +388,7 @@ void cpu_cycle(struct cpu * cpu){
     
     case OUTA:
         //write out to the io
-        //printf("Writing value %u to port %u\n", cpu->reg_a, (uint8_t)cpu->reg_b);
-        //handle io here: TODO
-        if((uint8_t)cpu->reg_b == 6){
-            putchar(cpu->reg_a);
-        }
+        io_out((uint8_t)cpu->reg_b, cpu->reg_a);
         break;
     case INA:
         //read in from io
@@ -429,18 +453,49 @@ void init_sdl(char * window_name){
     windowSurface = SDL_GetWindowSurface(window);
 }
 
-void sdl_set_pixel(SDL_Surface *surface, int x, int y, Uint32 pixel)
+void sdl_set_pixel(SDL_Surface *surface, int addr, Uint32 pixel)
 {
-  Uint32 *target_pixel = (Uint8 *) surface->pixels + y * surface->pitch +
-                                                     x * sizeof *target_pixel;
+  Uint32 *target_pixel = (Uint8 *) surface->pixels + addr* sizeof *target_pixel;
   *target_pixel = pixel;
 }
 
 void sdl_check_events(){
+    //update window
+    SDL_UpdateWindowSurface(window);
+
     while( SDL_PollEvent( &window_event ) ){
         if(window_event.type == SDL_QUIT){
             exit(0);
         }
+    }
+}
+
+//convert an 8-bit color to Uint32 for sdl
+Uint32 color_conv(uint8_t color){
+    Uint32 res;
+    //red
+    res = ((color>>5) & 0b111)<<(16+5);
+    //green
+    res += ((color>>2) & 0b111)<<(8+5);
+    //blue
+    res += ((color) & 0b11)<<6;
+    return res;
+}
+
+//io subsys vars
+uint16_t io_gfx_addr;
+
+//handle io
+void io_out(uint8_t port, uint16_t val){
+    switch(port){
+        case IO_gfx_addr_port:
+            io_gfx_addr = val;
+            break;
+        case IO_gfx_data_port:
+            sdl_set_pixel(windowSurface, io_gfx_addr, color_conv(val));
+            break;
+        default:
+        break;
     }
 }
 
