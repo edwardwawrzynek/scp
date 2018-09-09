@@ -2,13 +2,17 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
-
 //Opcode definitions
 #include "opcodes.c"
+//sdl (for graphics)
+#include "SDL2/SDL.h"
+
 
 #define WARNINGS
 
 //#define DEBUG
+
+#define EVENT_CHECK_FREQ 1000
 
 //cpu state structure
 struct cpu {
@@ -37,6 +41,13 @@ struct cpu {
     //physical memory (128 k)
     uint8_t memory[131072];
 };
+
+//main cpu
+struct cpu c;
+//window
+SDL_Window *window;
+SDL_Surface *windowSurface;
+SDL_Event window_event;
 
 //Read from machine memory
 uint8_t cpu_read_mem(struct cpu * cpu, uint16_t addr){
@@ -81,6 +92,7 @@ void cpu_init_mem(struct cpu * cpu, char * file_path){
         memcpy(cpu->memory + addr, buf, n_read);
         addr += 256;
     } while(n_read == 256);
+    fclose(fp);
 }
 
 //Init the cpu state to that of scp on power on
@@ -411,14 +423,37 @@ void cpu_cycle(struct cpu * cpu){
     
 }
 
-//run the cpu
-void cpu_run(struct cpu * cpu){
-    while(1){
-        cpu_cycle(cpu);
+//graphics functions
+void init_sdl(char * window_name){
+    window = SDL_CreateWindow(window_name, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 320, 200, SDL_WINDOW_SHOWN);
+    windowSurface = SDL_GetWindowSurface(window);
+}
+
+void sdl_set_pixel(SDL_Surface *surface, int x, int y, Uint32 pixel)
+{
+  Uint32 *target_pixel = (Uint8 *) surface->pixels + y * surface->pitch +
+                                                     x * sizeof *target_pixel;
+  *target_pixel = pixel;
+}
+
+void sdl_check_events(){
+    while( SDL_PollEvent( &window_event ) ){
+        if(window_event.type == SDL_QUIT){
+            exit(0);
+        }
     }
 }
 
-struct cpu c;
+//run the cpu
+void cpu_run(struct cpu * cpu){
+    unsigned long i;
+    while(1){
+        for(i = 0; i < EVENT_CHECK_FREQ; ++i){
+            cpu_cycle(cpu);
+        }
+        sdl_check_events();
+    }
+}
 
 int main(int argc, char ** argv){
     setbuf(stdout, NULL);
@@ -428,5 +463,6 @@ int main(int argc, char ** argv){
     }
     cpu_init(&c);
     cpu_init_mem(&c, argv[1]);
+    init_sdl(argv[1]);
     cpu_run(&c);
 }

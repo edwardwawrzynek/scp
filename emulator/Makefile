@@ -1,3 +1,3 @@
 all: scpemu
 scpemu: main.c opcodes.c
-	gcc -Wall -o scpemu main.c
+	gcc -Wall -o scpemu main.c -lSDL2
