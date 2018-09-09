@@ -8,6 +8,8 @@
 
 #define WARNINGS
 
+#define DEBUG
+
 //cpu state structure
 struct cpu {
     //Primary Registers
@@ -43,12 +45,12 @@ uint8_t cpu_read_mem(struct cpu * cpu, uint16_t addr){
     low_addr = addr & 0x7ff;
     high_addr = (addr & 0xf800) >> 11;
     //get real high_addr through mmu_table
-    high_addr = cpu->mmu_table[(cpu->reg_priv ? cpu->reg_ptb : 0) + high_addr];
+    high_addr = cpu->mmu_table[(cpu->reg_priv ? (cpu->reg_ptb & 0x7ff) : 0) + high_addr];
     return cpu->memory[(high_addr << 11) + low_addr];
 }
 
 //Write to machine memory
-uint8_t cpu_write_mem(struct cpu * cpu, uint16_t addr, uint8_t val){
+void cpu_write_mem(struct cpu * cpu, uint16_t addr, uint8_t val){
     uint16_t high_addr, low_addr;
     //Get low addr from addr
     low_addr = addr & 0x7ff;
@@ -102,8 +104,16 @@ void cpu_cycle(struct cpu * cpu){
     opcode = cpu_read_mem(cpu, cpu->reg_pc);
     //fetch the values after the opcode
     val8 = cpu_read_mem(cpu, cpu->reg_pc+1);
-    val16 = (val8 << 8) + cpu_read_mem(cpu, cpu->reg_pc+2);
-    
+    val16 = val8 + (cpu_read_mem(cpu, cpu->reg_pc+2)<<8);
+#ifdef DEBUG
+    printf("Addr: %x, opcode: %x, val8: %x, val16: %x,\n", cpu->reg_pc, opcode, val8, val16);
+    printf("dasm: %s", cmds + (opcode*5));
+    if(CMD_LENS[opcode]){
+        printf(" 0x%x (#%i)", CMD_LENS[opcode] == 1 ? val8 : val16, CMD_LENS[opcode] == 1 ? (int16_t)val8 : (int16_t)val16);
+    }
+    printf("\n");
+    printf("A: 0x%x, B: 0x%x, PC: 0x%x, SP:m0x%x, PTB: 0x%x, priv_lv: %u\n", cpu->reg_a, cpu->reg_b, cpu->reg_pc, cpu->reg_sp, cpu->reg_ptb, cpu->reg_priv);
+#endif
     //giant switch for opcodes (seperate out?)
     switch(opcode){
     case NOP:
@@ -128,10 +138,10 @@ void cpu_cycle(struct cpu * cpu){
         cpu->reg_b = cpu_read_mem(cpu, cpu->reg_a);
         break;
     case LWPA:
-        cpu->reg_a = cpu_read_mem(cpu, cpu->reg_a) + (cpu_read_mem(cpu, cpu->reg_a+1) << 8);
+        cpu->reg_a = cpu_read_mem(cpu, cpu->reg_a) + (cpu_read_mem(cpu, cpu->reg_a+1) >> 8);
         break;
     case LWPB:
-        cpu->reg_b = cpu_read_mem(cpu, cpu->reg_a) + (cpu_read_mem(cpu, cpu->reg_a+1) << 8);
+        cpu->reg_b = cpu_read_mem(cpu, cpu->reg_a) + (cpu_read_mem(cpu, cpu->reg_a+1) >> 8);
         break;
 
     case LBQA:
@@ -141,10 +151,10 @@ void cpu_cycle(struct cpu * cpu){
         cpu->reg_b = cpu_read_mem(cpu, cpu->reg_b);
         break;
     case LWQA:
-        cpu->reg_a = cpu_read_mem(cpu, cpu->reg_b) + (cpu_read_mem(cpu, cpu->reg_b+1)<<8);
+        cpu->reg_a = cpu_read_mem(cpu, cpu->reg_b) + (cpu_read_mem(cpu, cpu->reg_b+1) >> 8);
         break;
     case LWQB:
-        cpu->reg_b = cpu_read_mem(cpu, cpu->reg_b) + (cpu_read_mem(cpu, cpu->reg_b+1)<<8);
+        cpu->reg_b = cpu_read_mem(cpu, cpu->reg_b) + (cpu_read_mem(cpu, cpu->reg_b+1) >> 8);
         break;
     
     case LBMA:
@@ -154,10 +164,10 @@ void cpu_cycle(struct cpu * cpu){
         cpu->reg_b = cpu_read_mem(cpu, val16);
         break;
     case LWMA:
-        cpu->reg_a = cpu_read_mem(cpu, val16) + (cpu_read_mem(cpu, val16 + 1));
+        cpu->reg_a = cpu_read_mem(cpu, val16) + (cpu_read_mem(cpu, val16 + 1) >> 8);
         break;
     case LWMB:
-        cpu->reg_b = cpu_read_mem(cpu, val16) + (cpu_read_mem(cpu, val16 + 1));
+        cpu->reg_b = cpu_read_mem(cpu, val16) + (cpu_read_mem(cpu, val16 + 1) >> 8);
         break;
     
     case SBPB:
@@ -303,61 +313,91 @@ void cpu_cycle(struct cpu * cpu){
 
     //pushes write high bytes first so that it is the byte at addr+1 for 16 bit values
     case PSHA:
-        cpu_write_mem(cpu, cpu->reg_sp--, (uint8_t)((cpu->reg_a)>>8));
-        cpu_write_mem(cpu, cpu->reg_sp--, (uint8_t)(cpu->reg_a));
+        cpu_write_mem(cpu, --cpu->reg_sp, (uint8_t)((cpu->reg_a)>>8));
+        cpu_write_mem(cpu, --cpu->reg_sp, (uint8_t)(cpu->reg_a));
         break;
     case PSHB:
-        cpu_write_mem(cpu, cpu->reg_sp--, (uint8_t)((cpu->reg_b)>>8));
-        cpu_write_mem(cpu, cpu->reg_sp--, (uint8_t)(cpu->reg_b));
+        cpu_write_mem(cpu, --cpu->reg_sp, (uint8_t)((cpu->reg_b)>>8));
+        cpu_write_mem(cpu, --cpu->reg_sp, (uint8_t)(cpu->reg_b));
         break;
     case POPA:
-        cpu->reg_sp++;
         cpu->reg_a = cpu_read_mem(cpu, cpu->reg_sp++);
-        cpu->reg_a += cpu_read_mem(cpu, cpu->reg_sp)<<8;
+        cpu->reg_a += cpu_read_mem(cpu, cpu->reg_sp++)<<8;
         break;
     case POPB:
-        cpu->reg_sp++;
         cpu->reg_b = cpu_read_mem(cpu, cpu->reg_sp++);
-        cpu->reg_b += cpu_read_mem(cpu, cpu->reg_sp)<<8;
+        cpu->reg_b += cpu_read_mem(cpu, cpu->reg_sp++)<<8;
         break;
 
     case CALL:
         pc_inc = 0;
-        //set pc to next instruction
-        cpu->reg_pc++;
+        //set pc to next instruction ( 3 to account for the 2 byte addr)
+        cpu->reg_pc = cpu->reg_pc + 3;
         //push pc
-        cpu_write_mem(cpu, cpu->reg_sp--, (uint8_t)((cpu->reg_pc)>>8));
-        cpu_write_mem(cpu, cpu->reg_sp--, (uint8_t)(cpu->reg_pc));
+        cpu_write_mem(cpu, --cpu->reg_sp, (uint8_t)((cpu->reg_pc)>>8));
+        cpu_write_mem(cpu, --cpu->reg_sp, (uint8_t)(cpu->reg_pc));
         //set pc
         cpu->reg_pc = val16;
         break;
     case RET:
         pc_inc = 0;
         //pop value on stack into pc
-        cpu->reg_sp++;
         cpu->reg_pc = cpu_read_mem(cpu, cpu->reg_sp++);
-        cpu->reg_pc += cpu_read_mem(cpu, cpu->reg_sp)<<8;
+        cpu->reg_pc += cpu_read_mem(cpu, cpu->reg_sp++)<<8;
         break;
     
     case OUTA:
         //write out to the io
-        printf("Writing value %u to port %u\n", cpu->reg_a, val8);
+        printf("Writing value %u to port %u\n", cpu->reg_a, (uint8_t)cpu->reg_b);
         //handle io here: TODO
         break;
     case INA:
         //read in from io
-        printf("Reading from port %u\n", val8);
+        printf("Reading from port %u\n", (uint8_t)cpu->reg_b);
         //handle io here: TODO
 
         //placeholder read
         cpu->reg_a = 0;
         break;
+    case JMPA:
+        pc_inc = 0;
+        cpu->reg_pc = cpu->reg_a;
+        break;
     
+    case APTB:
+        //set ptb to value in a
+        cpu->reg_ptb = cpu->reg_a;
+        break;
+    case PRVU:
+        //set priv to usr(1)
+        cpu->reg_priv = 1;
+        break;
+    case PRVS:
+        //set priv to sys(0)
+        cpu->reg_priv = 0;
+        break;
+    case MMUS:
+        //sets the ptb value pointed to by (the page table base + the upper five bits of b reg) to the value in a
+        //sets priv to sys(0) in the process
+        cpu->reg_priv = 0;
+        cpu->mmu_table[(cpu->reg_ptb<<5) + (cpu->reg_b >> 11)] = (uint8_t)cpu->reg_a;
+        break;
+
+    case BSPA:
+        cpu->reg_a = cpu->reg_sp + val8;
+        break;
+    case BDSP:
+        cpu->reg_sp += val8;
+        break;
+    case BSPL:
+        cpu->reg_a = cpu->reg_sp + val8;
+        cpu->reg_a = cpu_read_mem(cpu, cpu->reg_a) + (cpu_read_mem(cpu, cpu->reg_a+1) >> 8);
+        break;
 
 
     default:
 #ifdef WARNINGS
-        printf("Warning: Unrecognized opcode: %u|\n", opcode);
+        printf("Warning: Unrecognized opcode: 0x%x\n", opcode);
 #endif
         break;
     }
@@ -365,8 +405,7 @@ void cpu_cycle(struct cpu * cpu){
     if(pc_inc){
         cpu->reg_pc += CMD_LENS[opcode]+1;
     }
-    printf("%u\n", cpu->reg_pc);
-
+    
 }
 
 //run the cpu
