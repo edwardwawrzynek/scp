@@ -301,6 +301,7 @@ void cpu_cycle(struct cpu * cpu){
         cpu->reg_a = cpu->reg_sp + val16;
         break;
 
+    //pushes write high bytes first so that it is the byte at addr+1 for 16 bit values
     case PSHA:
         cpu_write_mem(cpu, cpu->reg_sp--, (uint8_t)((cpu->reg_a)>>8));
         cpu_write_mem(cpu, cpu->reg_sp--, (uint8_t)(cpu->reg_a));
@@ -319,6 +320,40 @@ void cpu_cycle(struct cpu * cpu){
         cpu->reg_b = cpu_read_mem(cpu, cpu->reg_sp++);
         cpu->reg_b += cpu_read_mem(cpu, cpu->reg_sp)<<8;
         break;
+
+    case CALL:
+        pc_inc = 0;
+        //set pc to next instruction
+        cpu->reg_pc++;
+        //push pc
+        cpu_write_mem(cpu, cpu->reg_sp--, (uint8_t)((cpu->reg_pc)>>8));
+        cpu_write_mem(cpu, cpu->reg_sp--, (uint8_t)(cpu->reg_pc));
+        //set pc
+        cpu->reg_pc = val16;
+        break;
+    case RET:
+        pc_inc = 0;
+        //pop value on stack into pc
+        cpu->reg_sp++;
+        cpu->reg_pc = cpu_read_mem(cpu, cpu->reg_sp++);
+        cpu->reg_pc += cpu_read_mem(cpu, cpu->reg_sp)<<8;
+        break;
+    
+    case OUTA:
+        //write out to the io
+        printf("Writing value %u to port %u\n", cpu->reg_a, val8);
+        //handle io here: TODO
+        break;
+    case INA:
+        //read in from io
+        printf("Reading from port %u\n", val8);
+        //handle io here: TODO
+
+        //placeholder read
+        cpu->reg_a = 0;
+        break;
+    
+
 
     default:
 #ifdef WARNINGS
