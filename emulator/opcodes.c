@@ -52,14 +52,17 @@
 #define INCB 50
 #define DECA 51
 #define DECB 52
+
 #define XSWP 53
 #define MDSP 54
 #define MASP 55
 #define MSPA 56
+
 #define PSHA 57
 #define PSHB 58
 #define POPA 59
 #define POPB 60
+
 #define CALL 61
 #define RET  62
 #define OUTA 63

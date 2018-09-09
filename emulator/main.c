@@ -16,7 +16,7 @@ struct cpu {
     //Program Counter
     uint16_t reg_pc;
     //Stack pointer
-    uint16_t rep_sp;
+    uint16_t reg_sp;
     //Machine privilage level (0=sys, 1=usr)
     uint8_t reg_priv;
     //MMU memory map (higest bit is ignored on each entry)
@@ -94,6 +94,9 @@ void cpu_cycle(struct cpu * cpu){
     uint8_t opcode;
     uint8_t val8;
     uint16_t val16;
+    uint8_t pc_inc;
+
+    pc_inc = 1;
 
     //fetch the opcode
     opcode = cpu_read_mem(cpu, cpu->reg_pc);
@@ -251,6 +254,72 @@ void cpu_cycle(struct cpu * cpu){
         cpu->reg_a = cpu->reg_b;
         break;
 
+    case JMP:
+        cpu->reg_pc = val16;
+        pc_inc = 0;
+        break;
+    case JPNZ:
+        if(cpu->reg_a){
+            cpu->reg_pc = val16;
+            pc_inc = 0;
+        }
+        break;
+    case JPZ:
+        if(!(cpu->reg_a)){
+            cpu->reg_pc = val16;
+            pc_inc = 0;
+        }
+        break;
+    
+    case INCA:
+        cpu->reg_a++;
+        break;
+    case INCB:
+        cpu->reg_b++;
+        break;
+    case DECA:
+        cpu->reg_a--;
+        break;
+    case DECB:
+        cpu->reg_b--;
+        break;
+    
+    case XSWP:
+        //use val16 as a temp
+        val16 = cpu->reg_a;
+        cpu->reg_a = cpu->reg_b;
+        cpu->reg_b = val16;
+        break;
+    
+    case MDSP:
+        cpu->reg_sp += val16;
+        break;
+    case MASP:
+        cpu->reg_sp = cpu->reg_a;
+        break;
+    case MSPA:
+        cpu->reg_a = cpu->reg_sp + val16;
+        break;
+
+    case PSHA:
+        cpu_write_mem(cpu, cpu->reg_sp--, (uint8_t)((cpu->reg_a)>>8));
+        cpu_write_mem(cpu, cpu->reg_sp--, (uint8_t)(cpu->reg_a));
+        break;
+    case PSHB:
+        cpu_write_mem(cpu, cpu->reg_sp--, (uint8_t)((cpu->reg_b)>>8));
+        cpu_write_mem(cpu, cpu->reg_sp--, (uint8_t)(cpu->reg_b));
+        break;
+    case POPA:
+        cpu->reg_sp++;
+        cpu->reg_a = cpu_read_mem(cpu, cpu->reg_sp++);
+        cpu->reg_a += cpu_read_mem(cpu, cpu->reg_sp)<<8;
+        break;
+    case POPB:
+        cpu->reg_sp++;
+        cpu->reg_b = cpu_read_mem(cpu, cpu->reg_sp++);
+        cpu->reg_b += cpu_read_mem(cpu, cpu->reg_sp)<<8;
+        break;
+
     default:
 #ifdef WARNINGS
         printf("Warning: Unrecognized opcode: %u|\n", opcode);
@@ -258,7 +327,9 @@ void cpu_cycle(struct cpu * cpu){
         break;
     }
     //increment the pc to the next instruction
-    cpu->reg_pc += CMD_LENS[opcode]+1;
+    if(pc_inc){
+        cpu->reg_pc += CMD_LENS[opcode]+1;
+    }
     printf("%u\n", cpu->reg_pc);
 
 }
