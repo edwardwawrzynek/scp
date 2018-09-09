@@ -8,7 +8,7 @@
 
 #define WARNINGS
 
-#define DEBUG
+//#define DEBUG
 
 //cpu state structure
 struct cpu {
@@ -138,10 +138,10 @@ void cpu_cycle(struct cpu * cpu){
         cpu->reg_b = cpu_read_mem(cpu, cpu->reg_a);
         break;
     case LWPA:
-        cpu->reg_a = cpu_read_mem(cpu, cpu->reg_a) + (cpu_read_mem(cpu, cpu->reg_a+1) >> 8);
+        cpu->reg_a = cpu_read_mem(cpu, cpu->reg_a) + (cpu_read_mem(cpu, cpu->reg_a+1) << 8);
         break;
     case LWPB:
-        cpu->reg_b = cpu_read_mem(cpu, cpu->reg_a) + (cpu_read_mem(cpu, cpu->reg_a+1) >> 8);
+        cpu->reg_b = cpu_read_mem(cpu, cpu->reg_a) + (cpu_read_mem(cpu, cpu->reg_a+1) << 8);
         break;
 
     case LBQA:
@@ -164,10 +164,10 @@ void cpu_cycle(struct cpu * cpu){
         cpu->reg_b = cpu_read_mem(cpu, val16);
         break;
     case LWMA:
-        cpu->reg_a = cpu_read_mem(cpu, val16) + (cpu_read_mem(cpu, val16 + 1) >> 8);
+        cpu->reg_a = cpu_read_mem(cpu, val16) + (cpu_read_mem(cpu, val16 + 1) << 8);
         break;
     case LWMB:
-        cpu->reg_b = cpu_read_mem(cpu, val16) + (cpu_read_mem(cpu, val16 + 1) >> 8);
+        cpu->reg_b = cpu_read_mem(cpu, val16) + (cpu_read_mem(cpu, val16 + 1) << 8);
         break;
     
     case SBPB:
@@ -178,11 +178,11 @@ void cpu_cycle(struct cpu * cpu){
         break;
     case SWPB:
         cpu_write_mem(cpu, cpu->reg_a, (uint8_t)cpu->reg_b);
-        cpu_write_mem(cpu, cpu->reg_a+1, (uint8_t)((cpu->reg_b)<<8));
+        cpu_write_mem(cpu, cpu->reg_a+1, (uint8_t)((cpu->reg_b)>>8));
         break;
     case SWQA:
         cpu_write_mem(cpu, cpu->reg_b, (uint8_t)cpu->reg_a);
-        cpu_write_mem(cpu, cpu->reg_b+1, (uint8_t)((cpu->reg_a)<<8));
+        cpu_write_mem(cpu, cpu->reg_b+1, (uint8_t)((cpu->reg_a)>>8));
         break;
 
     case SBMA:
@@ -193,11 +193,11 @@ void cpu_cycle(struct cpu * cpu){
         break;
     case SWMA:
         cpu_write_mem(cpu, val16, (uint8_t)cpu->reg_a);
-        cpu_write_mem(cpu, val16+1, (uint8_t)((cpu->reg_a)<<8));
+        cpu_write_mem(cpu, val16+1, (uint8_t)((cpu->reg_a)>>8));
         break;
     case SWMB:
         cpu_write_mem(cpu, val16, (uint8_t)cpu->reg_b);
-        cpu_write_mem(cpu, val16+1, (uint8_t)((cpu->reg_b)<<8));
+        cpu_write_mem(cpu, val16+1, (uint8_t)((cpu->reg_b)>>8));
         break;
     
     case AADD:
@@ -348,12 +348,15 @@ void cpu_cycle(struct cpu * cpu){
     
     case OUTA:
         //write out to the io
-        printf("Writing value %u to port %u\n", cpu->reg_a, (uint8_t)cpu->reg_b);
+        //printf("Writing value %u to port %u\n", cpu->reg_a, (uint8_t)cpu->reg_b);
         //handle io here: TODO
+        if((uint8_t)cpu->reg_b == 6){
+            putchar(cpu->reg_a);
+        }
         break;
     case INA:
         //read in from io
-        printf("Reading from port %u\n", (uint8_t)cpu->reg_b);
+        //printf("Reading from port %u\n", (uint8_t)cpu->reg_b);
         //handle io here: TODO
 
         //placeholder read
@@ -418,6 +421,7 @@ void cpu_run(struct cpu * cpu){
 struct cpu c;
 
 int main(int argc, char ** argv){
+    setbuf(stdout, NULL);
     if(argc != 2){
         printf("Usage: scpemu [bin file]\n");
         exit(1);

@@ -22,6 +22,8 @@ def main():
         print "Can't find asm definitions in file - must contain exactly the following:\ncmds[CMD_ARRAY_LEN] ="
         exit(1)
     defs = data[data.find('"', pos):data.find(";", pos)]
+    outf.write("char cmds[1280] = " + defs + ";\n")
+    print defs
     defs = defs.replace('"', "")
 
     defs = defs.split("\\0")
@@ -43,7 +45,7 @@ def main():
     defs = defs.replace("{", "")
     defs = defs.split(",")
     
-    outf.write("uint8_t CMD_LENS[256] = {")
+    outf.write("unsigned char CMD_LENS[256] = {")
 
     for d in defs:
         outf.write(d + ", ")
