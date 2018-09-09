@@ -5,15 +5,15 @@ import sys
 
 def main():
     if len(sys.argv) != 3:
-        print "Usage: gen_charset.py [charset.txt] [out]"
+        print "Usage: gen_charset.py [charset.txt] [charset.c]"
         exit()
     inf = open(sys.argv[1], "r")
     outf = open(sys.argv[2], "w")
-
+    outf.write("uint64_t io_charset[256] = {");
     for l in inf:
-        d = int(l, 16)
-        for i in range(8):
-            outf.write(chr(d&0xff))
-            d = d >> 8
+        outf.write("\n0x" + l[:-1] + ", ")
+    outf.write("};")
+    outf.close()
+
 
 main()

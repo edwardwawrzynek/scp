@@ -38,10 +38,16 @@ uint16_t io_text_addr;
 uint64_t io_charset[256];
 //the character memory
 uint8_t io_text_mem[2000];
+//the keyboard memory
+uint16_t io_key_mem[256];
+uint8_t io_key_read;
+uint8_t io_key_write;
 
 //graphics functions
 void init_sdl(char * window_name){
-    window = SDL_CreateWindow(window_name, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 400, SDL_WINDOW_SHOWN);
+    char name[256];
+    sprintf(name, "scpemu - %s", window_name);
+    window = SDL_CreateWindow(name, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 400, SDL_WINDOW_SHOWN);
     windowSurface = SDL_GetWindowSurface(window);
 }
 
@@ -51,6 +57,36 @@ static inline void sdl_set_pixel(SDL_Surface *surface, int addr, Uint32 pixel)
   *target_pixel = pixel;
 }
 
+//convert a keysym
+uint16_t io_to_keycode(SDL_Keycode key, uint8_t release){
+    uint16_t res;
+    res = key;
+    switch(key){
+        case 1073741904:
+            res = 28;
+            break;
+        case 1073741906:
+            res = 29;
+            break;
+        case 1073741903:
+            res = 30;
+            break;
+        case 1073741905:
+            res = 31;
+            break;
+        case 1073742049:
+            res = 16;
+            break;
+        case 13:
+            res = 10;
+            break;
+        default:
+        break;
+    }
+    res = release ? 0x100 + res : res;
+    return res;
+}
+
 void sdl_check_events(){
     //update window
     SDL_UpdateWindowSurface(window);
@@ -58,6 +94,12 @@ void sdl_check_events(){
     while( SDL_PollEvent( &window_event ) ){
         if(window_event.type == SDL_QUIT){
             exit(0);
+        }
+        if(window_event.type == SDL_KEYDOWN){
+            io_key_mem[io_key_write++] = io_to_keycode(window_event.key.keysym.sym, 0);
+        }
+        if(window_event.type == SDL_KEYUP){
+            io_key_mem[io_key_write++] = io_to_keycode(window_event.key.keysym.sym, 1);
         }
     }
 }
@@ -167,6 +209,11 @@ uint16_t io_in(uint8_t port){
     switch(port){
         case IO_text_data_port:
             return io_text_mem[io_text_addr];
+        //keyboard
+        case IO_key_in_waiting_port:
+            return io_key_write - io_key_read;
+        case IO_key_data_in_port:
+            return io_key_mem[io_key_read++];
         default:
             return 0;
             break;

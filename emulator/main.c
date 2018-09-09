@@ -14,7 +14,7 @@
 
 //#define DEBUG
 
-#define EVENT_CHECK_FREQ 1000
+#define EVENT_CHECK_FREQ 500000
 
 //cpu state structure
 struct cpu {
