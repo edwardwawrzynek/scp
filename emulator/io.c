@@ -1,5 +1,8 @@
 #include "stdint.h"
 #include "SDL2/SDL.h"
+
+#include "charset.c"
+
 //io port defs
 SDL_Window *window;
 SDL_Surface *windowSurface;
@@ -34,8 +37,6 @@ SDL_Event window_event;
 //io subsys vars
 uint16_t io_gfx_addr;
 uint16_t io_text_addr;
-//the character set (64 bits per char)
-uint64_t io_charset[256];
 //the character memory
 uint8_t io_text_mem[2000];
 //the keyboard memory
@@ -114,24 +115,6 @@ Uint32 color_conv(uint8_t color){
     //blue
     res += ((color) & 0b11)<<6;
     return res;
-}
-
-//load the charset from file
-void io_load_charset(char * file){
-    FILE * fp;
-    int addr;
-
-    fp = fopen(file, "r");
-    if(fp == NULL){
-        printf("No such file: %s\n", file);
-        exit(1);
-    }
-    for(addr = 0; addr < 256; ++addr){
-        if(fread(io_charset + addr, 1, 8, fp) != 8){
-            printf("charset file: %s not formatted properly\n", file);
-        }
-    }
-    fclose(fp);
 }
 
 //write a char to the window

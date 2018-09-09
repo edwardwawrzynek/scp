@@ -437,6 +437,5 @@ int main(int argc, char ** argv){
     cpu_init(&c);
     cpu_init_mem(&c, argv[1]);
     init_sdl(argv[1]);
-    io_load_charset("charset");
     cpu_run(&c);
 }
