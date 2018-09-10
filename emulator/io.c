@@ -1,6 +1,8 @@
 #include "stdint.h"
 #include "SDL2/SDL.h"
 
+#include <time.h>
+
 #include "charset.c"
 
 //io port defs
@@ -44,6 +46,9 @@ uint16_t io_key_mem[256];
 uint8_t io_key_read;
 uint8_t io_key_write;
 
+//timing variables
+clock_t p_clock;
+
 //graphics functions
 void init_sdl(char * window_name){
     char name[256];
@@ -54,7 +59,7 @@ void init_sdl(char * window_name){
 
 static inline void sdl_set_pixel(SDL_Surface *surface, int addr, Uint32 pixel)
 {
-  Uint32 *target_pixel = (Uint8 *) surface->pixels + addr* sizeof *target_pixel;
+  Uint32 *target_pixel = (Uint32 *)((Uint8 *) surface->pixels + addr* sizeof *target_pixel);
   *target_pixel = pixel;
 }
 
@@ -88,7 +93,7 @@ uint16_t io_to_keycode(SDL_Keycode key, uint8_t release){
     return res;
 }
 
-void sdl_check_events(){
+void sdl_check_events(unsigned long cycles){
     //update window
     SDL_UpdateWindowSurface(window);
 
@@ -103,6 +108,20 @@ void sdl_check_events(){
             io_key_mem[io_key_write++] = io_to_keycode(window_event.key.keysym.sym, 1);
         }
     }
+    //how long it took the emulator to run cycles cycles
+    double time = (double)(clock()-p_clock)/(double)CLOCKS_PER_SEC;
+    //the rate in mhz (1x10^6 for mhz)
+    double rate = ((double)cycles/(time*1000000.0));
+    if(limit_speed){
+        do{
+            time = (double)(clock()-p_clock)/(double)CLOCKS_PER_SEC;
+            rate = ((double)cycles/(time*1000000.0));
+        } while (rate > speed_limit);
+    }
+    if(print_speed){
+        printf("%.1f Mhz\n", rate);
+    }
+    p_clock = clock();
 }
 
 //convert an 8-bit color to Uint32 for sdl

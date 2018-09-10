@@ -4,17 +4,28 @@
 #include <string.h>
 //Opcode definitions
 #include "opcodes.c"
+//cycles per cmd definitions
+#include "cycles.c"
+
 //sdl (for graphics)
 #include "SDL2/SDL.h"
+
+//speed throtling (set by cmds, this is just default)
+uint8_t limit_speed = 1;
+//limit in mhz
+double speed_limit = 35.0;
+//print the speed
+uint8_t print_speed = 0;
 
 //io subsystem
 #include "io.c"
 
-#define WARNINGS
+uint8_t WARNINGS = 1;
 
-//#define DEBUG
+uint8_t DEBUG = 0;
 
-#define EVENT_CHECK_FREQ 500000
+unsigned long EVENT_CHECK_FREQ = 100000;
+
 
 //cpu state structure
 struct cpu {
@@ -105,8 +116,8 @@ void cpu_init(struct cpu * cpu){
     }
 }
 
-//run a cpu cycle
-void cpu_cycle(struct cpu * cpu){
+//run a cpu cycle, returning the number of cpu cycles the instruction took
+uint8_t cpu_cycle(struct cpu * cpu){
     uint8_t opcode;
     uint8_t val8;
     uint16_t val16;
@@ -119,15 +130,15 @@ void cpu_cycle(struct cpu * cpu){
     //fetch the values after the opcode
     val8 = cpu_read_mem(cpu, cpu->reg_pc+1);
     val16 = val8 + (cpu_read_mem(cpu, cpu->reg_pc+2)<<8);
-#ifdef DEBUG
-    printf("Addr: %x, opcode: %x, val8: %x, val16: %x,\n", cpu->reg_pc, opcode, val8, val16);
-    printf("dasm: %s", cmds + (opcode*5));
-    if(CMD_LENS[opcode]){
-        printf(" 0x%x (#%i)", CMD_LENS[opcode] == 1 ? val8 : val16, CMD_LENS[opcode] == 1 ? (int16_t)val8 : (int16_t)val16);
+    if(DEBUG){
+        printf("Addr: %x, opcode: %x, val8: %x, val16: %x,\n", cpu->reg_pc, opcode, val8, val16);
+        printf("dasm: %s", cmds + (opcode*5));
+        if(CMD_LENS[opcode]){
+            printf(" 0x%x (#%i)", CMD_LENS[opcode] == 1 ? val8 : val16, CMD_LENS[opcode] == 1 ? (int16_t)val8 : (int16_t)val16);
+        }
+        printf("\n");
+        printf("A: 0x%x, B: 0x%x, PC: 0x%x, SP:m0x%x, PTB: 0x%x, priv_lv: %u\n", cpu->reg_a, cpu->reg_b, cpu->reg_pc, cpu->reg_sp, cpu->reg_ptb, cpu->reg_priv);
     }
-    printf("\n");
-    printf("A: 0x%x, B: 0x%x, PC: 0x%x, SP:m0x%x, PTB: 0x%x, priv_lv: %u\n", cpu->reg_a, cpu->reg_b, cpu->reg_pc, cpu->reg_sp, cpu->reg_ptb, cpu->reg_priv);
-#endif
     //giant switch for opcodes (seperate out?)
     switch(opcode){
     case NOP:
@@ -405,37 +416,78 @@ void cpu_cycle(struct cpu * cpu){
 
 
     default:
-#ifdef WARNINGS
-        printf("Warning: Unrecognized opcode: 0x%x\n", opcode);
-#endif
+        if(WARNINGS){
+            printf("Warning: Unrecognized opcode: 0x%x\n", opcode);
+        }
         break;
     }
     //increment the pc to the next instruction
     if(pc_inc){
         cpu->reg_pc += CMD_LENS[opcode]+1;
     }
+    return cmd_cycles[opcode];
     
 }
 
 //run the cpu
 void cpu_run(struct cpu * cpu){
     unsigned long i;
+    unsigned long cyc;
     while(1){
+        cyc = 0;
         for(i = 0; i < EVENT_CHECK_FREQ; ++i){
-            cpu_cycle(cpu);
+            cyc += cpu_cycle(cpu);
         }
-        sdl_check_events();
+        sdl_check_events(cyc);
     }
 }
 
+void usage(){
+    printf("Usage: scpemu [options] [bin file]\nOptions:\n-n\t\t:don't throttle the emulator\n-w (speed)\t:throttle the emulator to speed in mhz\n-d\t\t:print debugging information on each instruction executed\n-w\t\t:don't print warnings\n-s\t\t:print the speed the emulator is operating at\n");
+}
+
 int main(int argc, char ** argv){
-    setbuf(stdout, NULL);
-    if(argc != 2){
-        printf("Usage: scpemu [bin file]\n");
+    int argv_off;
+    argv_off = 0;
+    if(argc < 2){  
+        usage();
         exit(1);
     }
+    while(argv[1+argv_off][0] == '-'){
+        switch(argv[1+argv_off][1]){
+        case 'n':
+            limit_speed = 0;
+            argv_off += 1;
+            //update less often - no smothing with waits needed
+            EVENT_CHECK_FREQ = 1000000;
+            break;
+        case 't':
+            limit_speed = 1;
+            speed_limit = atof(argv[2+argv_off]);
+            argv_off += 2;
+            break;
+        case 'd':
+            argv_off++;
+            DEBUG = 1;
+            break;
+        case 'w':
+            argv_off++;
+            WARNINGS = 0;
+            break;
+        case 's':
+            print_speed = 1;
+            argv_off++;
+            break;
+        default:
+            usage();
+            printf("scpemu: no such option: %s\n", argv[1+argv_off]);
+            exit(1);
+            argv_off++;
+            break;
+        }
+    }
+    init_sdl(argv[1+argv_off]);
     cpu_init(&c);
-    cpu_init_mem(&c, argv[1]);
-    init_sdl(argv[1]);
+    cpu_init_mem(&c, argv[1+argv_off]);
     cpu_run(&c);
 }

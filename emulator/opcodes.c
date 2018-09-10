@@ -73,3 +73,4 @@ char cmds[1280] = "nop \0lbia\0lbib\0lwia\0lwib\0lbpa\0lbpb\0lwpa\0lwpb\0lbqa\0l
 #define BDSP 71
 #define BSPL 72
 unsigned char CMD_LENS[256] = {0,  1,  1,  2,  2,  0,  0,  0,  0,  0,  0,  0,  0,  2,  2,  2,  2,  0,  0,  0,  0,  2,  2,  2,  2,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  2,  2,  0,  0,  0,  0,  0,  2,  0,  2,  0,  0,  0,  0,  2,  0,  0,  0,  0,  0,  0,  0,  0,  1,  1,  1, };
+unsigned char CMD_CYCLES[256] = {};
