@@ -99,7 +99,7 @@ void cpu_init_mem(struct cpu * cpu, char * file_path){
         exit(1);
     }
     addr = 0;
-    
+
     do{
         n_read = fread(buf, 1, 256, fp);
         memcpy(cpu->memory + addr, buf, n_read);
@@ -181,7 +181,7 @@ uint8_t cpu_cycle(struct cpu * cpu){
     case LWQB:
         cpu->reg_b = cpu_read_mem(cpu, cpu->reg_b) + (cpu_read_mem(cpu, cpu->reg_b+1) >> 8);
         break;
-    
+
     case LBMA:
         cpu->reg_a = cpu_read_mem(cpu, val16);
         break;
@@ -194,7 +194,7 @@ uint8_t cpu_cycle(struct cpu * cpu){
     case LWMB:
         cpu->reg_b = cpu_read_mem(cpu, val16) + (cpu_read_mem(cpu, val16 + 1) << 8);
         break;
-    
+
     case SBPB:
         cpu_write_mem(cpu, cpu->reg_a, (uint8_t)cpu->reg_b);
         break;
@@ -224,7 +224,7 @@ uint8_t cpu_cycle(struct cpu * cpu){
         cpu_write_mem(cpu, val16, (uint8_t)cpu->reg_b);
         cpu_write_mem(cpu, val16+1, (uint8_t)((cpu->reg_b)>>8));
         break;
-    
+
     case AADD:
         cpu->reg_a = cpu->reg_b + cpu->reg_a;
         break;
@@ -305,7 +305,7 @@ uint8_t cpu_cycle(struct cpu * cpu){
             pc_inc = 0;
         }
         break;
-    
+
     case INCA:
         cpu->reg_a++;
         break;
@@ -318,14 +318,14 @@ uint8_t cpu_cycle(struct cpu * cpu){
     case DECB:
         cpu->reg_b--;
         break;
-    
+
     case XSWP:
         //use val16 as a temp
         val16 = cpu->reg_a;
         cpu->reg_a = cpu->reg_b;
         cpu->reg_b = val16;
         break;
-    
+
     case MDSP:
         cpu->reg_sp += val16;
         break;
@@ -370,7 +370,7 @@ uint8_t cpu_cycle(struct cpu * cpu){
         cpu->reg_pc = cpu_read_mem(cpu, cpu->reg_sp++);
         cpu->reg_pc += cpu_read_mem(cpu, cpu->reg_sp++)<<8;
         break;
-    
+
     case OUTA:
         //write out to the io
         io_out((uint8_t)cpu->reg_b, cpu->reg_a);
@@ -383,7 +383,7 @@ uint8_t cpu_cycle(struct cpu * cpu){
         pc_inc = 0;
         cpu->reg_pc = cpu->reg_a;
         break;
-    
+
     case APTB:
         //set ptb to value in a
         cpu->reg_ptb = cpu->reg_a;
@@ -414,6 +414,21 @@ uint8_t cpu_cycle(struct cpu * cpu){
         cpu->reg_a = cpu_read_mem(cpu, cpu->reg_a) + (cpu_read_mem(cpu, cpu->reg_a+1) >> 8);
         break;
 
+    //scpemu debugging
+    case 254:
+        printf("Opcode 0xfe - scpemu Debug\n");
+        if(val8 == 1){
+            //dump mmu table
+            for(uint16_t i = 0; i < 2048; ++i){
+                if(i % 32 == 0){
+                    printf("\nProc: %u\n", i/32);
+                }
+                printf("%02x:%03x ", i%32, cpu->mmu_table[i]);
+            }
+            printf("\n");
+        }
+        break;
+
     case 255:
         printf("spcemu stopping (encountered opcode 255)\n");
         exit(1);
@@ -430,7 +445,7 @@ uint8_t cpu_cycle(struct cpu * cpu){
         cpu->reg_pc += CMD_LENS[opcode]+1;
     }
     return cmd_cycles[opcode];
-    
+
 }
 
 //run the cpu
@@ -490,7 +505,7 @@ int main(int argc, char ** argv){
             break;
         }
     }
-    if(argc-argv_off < 3){  
+    if(argc-argv_off < 3){
         usage();
         exit(1);
     }
