@@ -104,6 +104,7 @@ void sdl_check_events(unsigned long cycles){
 
     while( SDL_PollEvent( &window_event ) ){
         if(window_event.type == SDL_QUIT){
+            fclose(io_disk_file);
             exit(0);
         }
         if(window_event.type == SDL_KEYDOWN){
