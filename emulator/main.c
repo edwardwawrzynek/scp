@@ -414,6 +414,10 @@ uint8_t cpu_cycle(struct cpu * cpu){
         cpu->reg_a = cpu_read_mem(cpu, cpu->reg_a) + (cpu_read_mem(cpu, cpu->reg_a+1) >> 8);
         break;
 
+    case 255:
+        printf("spcemu stopping (encountered opcode 255)\n");
+        exit(1);
+        break;
 
     default:
         if(WARNINGS){

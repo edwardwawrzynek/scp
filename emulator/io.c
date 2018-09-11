@@ -234,19 +234,29 @@ void io_out(uint8_t port, uint16_t val){
         
         case IO_disk_data_in_next_port:
             io_disk_blk_mem_addr++;
+            if(io_disk_blk_mem_addr >= 512){
+                io_disk_blk_mem_addr = 0;
+            }
             break;
 
         //write the contents of io_disk_blk_mem to disk
         case IO_disk_data_out_wr_en_port:
             //seek to place in disk
-            /*fseek(io_disk_file, io_disk_blk_addr*512, SEEK_SET);
+            fseek(io_disk_file, io_disk_blk_addr*512, SEEK_SET);
             if(fwrite(io_disk_blk_mem, 1, 512, io_disk_file) != 512){
                 printf("scpemu: disk write failed\n");
                 exit(1);
-            }*/
-            printf("Attempted write on block %u\n", io_disk_blk_addr);
+            }
             io_disk_blk_mem_addr = 0;
             break;
+
+        case IO_disk_data_out_port:
+            io_disk_blk_mem[io_disk_blk_mem_addr++] = val;
+            if(io_disk_blk_mem_addr >= 512){
+                io_disk_blk_mem_addr = 0;
+            }
+            break;
+
         default:
         break;
     }
@@ -268,6 +278,7 @@ uint16_t io_in(uint8_t port){
             //return data in buffer
             return io_disk_blk_mem[io_disk_blk_mem_addr];
         
+        case IO_disk_data_out_addr_port:
         case IO_disk_data_in_addr_port:
             //return cur place in buffer
             return io_disk_blk_mem_addr;
