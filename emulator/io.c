@@ -46,6 +46,11 @@ uint16_t io_key_mem[256];
 uint8_t io_key_read;
 uint8_t io_key_write;
 
+//disk subsystem
+uint16_t io_disk_blk_addr;
+uint8_t io_disk_blk_mem[512];
+uint16_t io_disk_blk_mem_addr;
+FILE * io_disk_file;
 //timing variables
 clock_t p_clock;
 
@@ -183,6 +188,15 @@ void io_gfx_set_pixel(uint16_t addr, uint8_t val){
     sdl_set_pixel(windowSurface, (x*2 + y*1280) +641, color_conv(val));
 }
 
+//init the disk
+void init_disk(char * path){
+    io_disk_file = fopen(path, "r+");
+    if(io_disk_file == NULL){
+        printf("scpemu: No such file: %s\n", path);
+        exit(1);
+    }
+}
+
 //handle io
 void io_out(uint8_t port, uint16_t val){
     switch(port){
@@ -201,6 +215,38 @@ void io_out(uint8_t port, uint16_t val){
         case IO_gfx_data_port:
             io_gfx_set_pixel(io_gfx_addr, val);
             break;
+
+        //disk
+        //set the blk addr
+        case IO_disk_block_addr_port:
+            io_disk_blk_addr = val;
+            break;
+        //init a read of the disk
+        case IO_disk_data_in_rd_en_port:
+            //seek to place in disk
+            fseek(io_disk_file, io_disk_blk_addr*512, SEEK_SET);
+            if(fread(io_disk_blk_mem, 1, 512, io_disk_file) != 512){
+                printf("scpemu: disk read failed\n");
+                exit(1);
+            }
+            io_disk_blk_mem_addr = 0;
+            break;
+        
+        case IO_disk_data_in_next_port:
+            io_disk_blk_mem_addr++;
+            break;
+
+        //write the contents of io_disk_blk_mem to disk
+        case IO_disk_data_out_wr_en_port:
+            //seek to place in disk
+            /*fseek(io_disk_file, io_disk_blk_addr*512, SEEK_SET);
+            if(fwrite(io_disk_blk_mem, 1, 512, io_disk_file) != 512){
+                printf("scpemu: disk write failed\n");
+                exit(1);
+            }*/
+            printf("Attempted write on block %u\n", io_disk_blk_addr);
+            io_disk_blk_mem_addr = 0;
+            break;
         default:
         break;
     }
@@ -216,6 +262,16 @@ uint16_t io_in(uint8_t port){
             return io_key_write - io_key_read;
         case IO_key_data_in_port:
             return io_key_mem[io_key_read++];
+        /**/
+        //disk
+        case IO_disk_data_in_port:
+            //return data in buffer
+            return io_disk_blk_mem[io_disk_blk_mem_addr];
+        
+        case IO_disk_data_in_addr_port:
+            //return cur place in buffer
+            return io_disk_blk_mem_addr;
+        
         default:
             return 0;
             break;
