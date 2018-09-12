@@ -80,8 +80,11 @@ void cpu_write_mem(struct cpu * cpu, uint16_t addr, uint8_t val){
     low_addr = addr & 0x7ff;
     high_addr = (addr & 0xf800) >> 11;
     //get real high_addr through mmu_table
-    high_addr = cpu->mmu_table[(cpu->reg_priv ? cpu->reg_ptb : 0) + high_addr];
+    high_addr = cpu->mmu_table[(cpu->reg_priv ? cpu->reg_ptb & 0x7ff: 0) + high_addr];
     cpu->memory[(high_addr << 11) + low_addr] = val;
+    if(DEBUG){
+        printf("Writing 0x%x to addr 0x%x\n", val, (high_addr << 11) + low_addr);
+    }
 }
 
 //Load and cpu's memory from a binary file (writes directly to physical memory, not based on mmu)
@@ -131,13 +134,13 @@ uint8_t cpu_cycle(struct cpu * cpu){
     val8 = cpu_read_mem(cpu, cpu->reg_pc+1);
     val16 = val8 + (cpu_read_mem(cpu, cpu->reg_pc+2)<<8);
     if(DEBUG){
-        printf("Addr: %x, opcode: %x, val8: %x, val16: %x,\n", cpu->reg_pc, opcode, val8, val16);
+        printf("-----------------\nAddr: 0x%x, opcode: 0x%x, val8: 0x%x, val16: 0x%x,\n", cpu->reg_pc, opcode, val8, val16);
         printf("dasm: %s", cmds + (opcode*5));
         if(CMD_LENS[opcode]){
             printf(" 0x%x (#%i)", CMD_LENS[opcode] == 1 ? val8 : val16, CMD_LENS[opcode] == 1 ? (int16_t)val8 : (int16_t)val16);
         }
         printf("\n");
-        printf("A: 0x%x, B: 0x%x, PC: 0x%x, SP:m0x%x, PTB: 0x%x, priv_lv: %u\n", cpu->reg_a, cpu->reg_b, cpu->reg_pc, cpu->reg_sp, cpu->reg_ptb, cpu->reg_priv);
+        printf("A: 0x%x, B: 0x%x, PC: 0x%x, SP: 0x%x, PTB: 0x%x, priv_lv: %u\n", cpu->reg_a, cpu->reg_b, cpu->reg_pc, cpu->reg_sp, cpu->reg_ptb, cpu->reg_priv);
     }
     //giant switch for opcodes (seperate out?)
     switch(opcode){
@@ -419,24 +422,25 @@ uint8_t cpu_cycle(struct cpu * cpu){
         printf("Opcode 0xfe - scpemu Debug\n");
         if(val8 == 1){
             //dump mmu table
-            printf("Page:     ");
+            printf("Page:    ");
             for(uint16_t p = 0; p < 32; ++p){
                 printf("%02u ", p);
             }
             printf("\n");
             for(uint16_t p = 0; p < 64; ++p){
-                printf("Proc %02u | ", p);
+                printf("Proc %02u |", p);
                 for(uint16_t i = 0; i < 32; ++i){
-                    printf("%02u ", cpu->mmu_table[(p*32) + i]);
+                    printf("%02u|", cpu->mmu_table[(p*32) + i]);
                 }
                 printf("\n");    
             }
             
         }
+        cpu->reg_pc++;
         break;
 
     case 255:
-        printf("spcemu stopping (encountered opcode 255)\n");
+        printf("spcemu stopping (encountered opcode 255)\nAddr: 0x%x\n", cpu->reg_pc);
         exit(1);
         break;
 

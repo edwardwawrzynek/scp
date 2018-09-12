@@ -41,6 +41,9 @@ declare_global(int type, int storage, TAG_SYMBOL *mtag, int otag, int is_struct)
                 }
             }
             if (match ("[")) {
+                if(identity == POINTER){
+                    error("scc can't handle arrays of pointers - use an unsigned int array, and set a pointer var to the variable in the array");
+                }
                 dim = needsub ();
                 /*if (dim || storage == EXTERN) {*/
                     identity = ARRAY;
