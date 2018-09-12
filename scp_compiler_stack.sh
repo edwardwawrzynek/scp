@@ -123,7 +123,7 @@ C_FILES="$@"
 
 #Compile the file, generating .incl
 if [ "$DO_COMP" == "true" ]; then
-	sccscp -i $C_FILES
+	sccscp -i $C_FILES || exit 1
 fi
 
 #set asm and incl file names
@@ -163,9 +163,9 @@ fi
 LINKS="$LINKS $ASMD_FILES $END_LINK"
 
 if [ "$LINK_INCS" == "true" ]; then
-	scplnk -i .SCP_INCL_COMBINED.incl .SCP_ASM_LINKED.s $LINKS
+	scplnk -i .SCP_INCL_COMBINED.incl .SCP_ASM_LINKED.s $LINKS || exit 1
 else
-	scplnk ".SCP_ASM_LINKED.s" $LINKS
+	scplnk ".SCP_ASM_LINKED.s" $LINKS || exit 1
 fi
 
 #remove .incl file
@@ -175,15 +175,15 @@ LINKD_ASM=".SCP_ASM_LINKED.s"
 
 #optimize
 if [ "$DO_OPT" == "true" ]; then
-	scpopt "$LINKD_ASM" ".SCP_ASM_LINKED.s.opt"
+	scpopt "$LINKD_ASM" ".SCP_ASM_LINKED.s.opt" || exit 1
 	LINKD_ASM=".SCP_ASM_LINKED.s.opt"
 fi
 
 #Assemble
 if [ "$DO_END" == "true" ]; then
-	scpasm -e $OUTPUT "$LINKD_ASM"
+	scpasm -e $OUTPUT "$LINKD_ASM" || exit 1
 else
-	scpasm $OUTPUT "$LINKD_ASM"
+	scpasm $OUTPUT "$LINKD_ASM" || exit 1
 fi
 if [ "$DO_COMP" == "true" ]; then
 	rm $ASMD_FILES
@@ -196,5 +196,5 @@ else
 fi
 #if -m was specified, generate a mif file
 if [ "$DO_MIF" == "true" ]; then
-	scpmif $OUTPUT $MIF_OUTPUT
+	scpmif $OUTPUT $MIF_OUTPUT || exit 1
 fi
