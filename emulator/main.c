@@ -67,7 +67,7 @@ uint8_t cpu_read_mem(struct cpu * cpu, uint16_t addr){
     uint16_t high_addr, low_addr;
     //Get low addr from addr
     low_addr = addr & 0x7ff;
-    high_addr = (addr & 0xf800) >> 11;
+    high_addr = addr >> 11;
     //get real high_addr through mmu_table
     high_addr = cpu->mmu_table[(cpu->reg_priv ? (cpu->reg_ptb & 0x7ff) : 0) + high_addr];
     return cpu->memory[(high_addr << 11) + low_addr];
@@ -403,7 +403,7 @@ uint8_t cpu_cycle(struct cpu * cpu){
         //sets the ptb value pointed to by (the page table base + the upper five bits of b reg) to the value in a
         //sets priv to sys(0) in the process
         cpu->reg_priv = 0;
-        cpu->mmu_table[(cpu->reg_ptb<<5) + (cpu->reg_b >> 11)] = (uint8_t)cpu->reg_a;
+        cpu->mmu_table[(cpu->reg_ptb<<5) + (cpu->reg_b >> 11)] = (uint8_t)cpu->reg_a & 0b1111111;
         break;
 
     case BSPA:
