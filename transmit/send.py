@@ -2,32 +2,40 @@
 
 import serial, sys, time
 import serial.tools.list_ports
-import argparse
-ser = serial.Serial()
+
+if len(sys.argv) >= 3:
+    ser = serial.Serial(sys.argv[2])
+else:
+    ser = serial.Serial()
+    ser.port = "FALSE"
+
 ser.baudrate = 115200
-ser.port = "FALSE"
 
 def print_usage():
-    print "\n--------------------\n- SCP Prgm Send -\nUsage:\nscpsnd <bin file>\n--------------------"
+    print "\n--------------------\n- SCP Prgm Send -\nUsage:\nscpsnd <bin file> <serial port (optional)>\n--------------------"
     exit()
 
-
-for p in serial.tools.list_ports.comports():
-    if "uart" in p[1].lower() and ser.port == "FALSE":
-        ser.port = p[0]
+if ser.port == "FALSE":
+    for p in serial.tools.list_ports.comports():
+        if "uart" in p[1].lower() and ser.port == "FALSE":
+            ser.port = p[0]
 
 if ser.port == "FALSE":
     print "No Port Specified, and no UART Port Found. Terminating"
     exit()
-ser.open()
+
+if not ser.isOpen():
+    ser.open()
+
 if ser.isOpen():
     ser.read(ser.inWaiting())
 else:
     print "Port Failed to open"
     exit()
 
-if len(sys.argv) != 2:
+if len(sys.argv) < 2:
     print_usage()
+
 path = sys.argv[1]
 print "Transmiting " + path + " to " + ser.port
 

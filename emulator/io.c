@@ -10,6 +10,12 @@ SDL_Window *window;
 SDL_Surface *windowSurface;
 SDL_Event window_event;
 
+#define IO_serial_data_in_port 1
+#define IO_serial_next_port 1
+#define IO_serial_in_waiting_port 2
+#define IO_serial_data_out_port 3
+#define IO_serial_tx_busy_port 4
+
 #define IO_key_in_waiting_port 8
 #define IO_key_data_in_port 7
 #define IO_key_next_port 7
