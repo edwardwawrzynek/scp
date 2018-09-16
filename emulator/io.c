@@ -1,5 +1,6 @@
-#include "stdint.h"
+#include <stdint.h>
 #include "SDL2/SDL.h"
+
 
 #include <time.h>
 
@@ -60,6 +61,16 @@ FILE * io_disk_file;
 //timing variables
 clock_t p_clock;
 
+//serial subsytem
+FILE * io_serial_file_out;
+FILE * io_serial_file_in;
+//memory
+uint8_t io_serial_mem[256];
+uint8_t io_serial_read;
+uint8_t io_serial_write;
+
+
+
 //graphics functions
 void init_sdl(char * window_name){
     char name[256];
@@ -105,6 +116,7 @@ uint16_t io_to_keycode(SDL_Keycode key, uint8_t release){
 }
 
 void sdl_check_events(unsigned long cycles){
+    char c;
     //update window
     SDL_UpdateWindowSurface(window);
 
@@ -120,6 +132,14 @@ void sdl_check_events(unsigned long cycles){
             io_key_mem[io_key_write++] = io_to_keycode(window_event.key.keysym.sym, 1);
         }
     }
+    //check for serial data in
+    while(!feof(io_serial_file_in)){
+        c = fgetc(io_serial_file_in);
+        if(c != EOF){
+            io_serial_mem[io_serial_write++] = c;
+        }
+    }
+
     //how long it took the emulator to run cycles cycles
     double time = (double)(clock()-p_clock)/(double)CLOCKS_PER_SEC;
     //the rate in mhz (1x10^6 for mhz)
@@ -155,7 +175,6 @@ void io_text_write_char(uint8_t c, uint16_t addr){
 
     unsigned int pos;
     int i;
-
     uint64_t charset;
     Uint32 color;
     //write to memory
@@ -196,12 +215,23 @@ void io_gfx_set_pixel(uint16_t addr, uint8_t val){
 }
 
 //init the disk and serial port
-void init_io(char * path, char * serial_path){
+void init_io(char * path, char * serial_path_out, char * serial_path_in){
     io_disk_file = fopen(path, "r+");
     if(io_disk_file == NULL){
         printf("scpemu: No such file: %s\n", path);
         exit(1);
     }
+    io_serial_file_out = fopen(serial_path_out, "w");
+    if(io_serial_file_out == NULL){
+        printf("scpemu: No such file: %s\n", serial_path_out);
+        exit(1);
+    }
+    io_serial_file_in = fopen(serial_path_in, "r");
+    if(io_serial_file_in == NULL){
+        printf("scpemu: No such file: %s\n", serial_path_in);
+        exit(1);
+    }
+    fseek(io_serial_file_in, 0, SEEK_SET);
 }
 
 //handle io
@@ -264,6 +294,16 @@ void io_out(uint8_t port, uint16_t val){
             }
             break;
 
+        //serial
+        case IO_serial_data_out_port:
+            fputc(val, io_serial_file_out);
+            fflush(io_serial_file_out);
+            break;
+
+        case IO_serial_next_port:
+            io_serial_read++;
+            break;
+        
         default:
         break;
     }
@@ -289,6 +329,13 @@ uint16_t io_in(uint8_t port){
         case IO_disk_data_in_addr_port:
             //return cur place in buffer
             return io_disk_blk_mem_addr;
+
+        //serial
+        case IO_serial_data_in_port:
+            return io_serial_mem[io_serial_read];
+        
+        case IO_serial_in_waiting_port:
+            return io_serial_write - io_serial_read;
 
         default:
             return 0;
