@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <libserialport.h>
 
 //Opcode definitions
 #include "opcodes.c"
@@ -474,13 +475,13 @@ void cpu_run(struct cpu * cpu){
 }
 
 void usage(){
-    printf("Usage: scpemu [options] [bin file] [disk file] [serial port file out] [serial port file in]\nOptions:\n-n\t\t:don't throttle the emulator\n-w (speed)\t:throttle the emulator to speed in mhz\n-d\t\t:print debugging information on each instruction executed\n-w\t\t:don't print warnings\n-s\t\t:print the speed the emulator is operating at\n");
+    printf("Usage: scpemu [options] [bin file] [disk file] [serial port file]\nOptions:\n-n\t\t:don't throttle the emulator\n-w (speed)\t:throttle the emulator to speed in mhz\n-d\t\t:print debugging information on each instruction executed\n-w\t\t:don't print warnings\n-s\t\t:print the speed the emulator is operating at\n");
 }
 
 int main(int argc, char ** argv){
     int argv_off;
     argv_off = 0;
-    if(argc < 5){
+    if(argc < 4){
         usage();
         exit(1);
     }
@@ -517,12 +518,12 @@ int main(int argc, char ** argv){
             break;
         }
     }
-    if(argc-argv_off < 5){
+    if(argc-argv_off < 4){
         usage();
         exit(1);
     }
     init_sdl(argv[1+argv_off]);
-    init_io(argv[2+argv_off], argv[3+argv_off], argv[4+argv_off]);
+    io_init(argv[2+argv_off], argv[3+argv_off]);
     cpu_init(&c);
     cpu_init_mem(&c, argv[1+argv_off]);
     cpu_run(&c);

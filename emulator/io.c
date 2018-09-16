@@ -61,9 +61,8 @@ FILE * io_disk_file;
 //timing variables
 clock_t p_clock;
 
-//serial subsytem
-FILE * io_serial_file_out;
-FILE * io_serial_file_in;
+//serial
+struct sp_port * io_serial_port;
 //memory
 uint8_t io_serial_mem[256];
 uint8_t io_serial_read;
@@ -133,11 +132,9 @@ void sdl_check_events(unsigned long cycles){
         }
     }
     //check for serial data in
-    while(!feof(io_serial_file_in)){
-        c = fgetc(io_serial_file_in);
-        if(c != EOF){
-            io_serial_mem[io_serial_write++] = c;
-        }
+    while(sp_input_waiting(io_serial_port) > 0){
+        sp_blocking_read(io_serial_port, &c, 1, 0);
+        io_serial_mem[io_serial_write++] = c;
     }
 
     //how long it took the emulator to run cycles cycles
@@ -215,27 +212,27 @@ void io_gfx_set_pixel(uint16_t addr, uint8_t val){
 }
 
 //init the disk and serial port
-void init_io(char * path, char * serial_path_out, char * serial_path_in){
+void io_init(char * path, char * io_serial_port_path){
     io_disk_file = fopen(path, "r+");
     if(io_disk_file == NULL){
         printf("scpemu: No such file: %s\n", path);
         exit(1);
     }
-    io_serial_file_out = fopen(serial_path_out, "w");
-    if(io_serial_file_out == NULL){
-        printf("scpemu: No such file: %s\n", serial_path_out);
+    
+    if(sp_get_port_by_name(io_serial_port_path, &io_serial_port) != SP_OK){
+        printf("scpemu: no such serial port: %s\n", io_serial_port_path);
         exit(1);
     }
-    io_serial_file_in = fopen(serial_path_in, "r");
-    if(io_serial_file_in == NULL){
-        printf("scpemu: No such file: %s\n", serial_path_in);
+    if(sp_open(io_serial_port, SP_MODE_READ_WRITE) != SP_OK){
+        printf("scpemu: error openning serial port: %s\n", io_serial_port_path);
         exit(1);
     }
-    fseek(io_serial_file_in, 0, SEEK_SET);
+    sp_set_baudrate(io_serial_port,115200);
 }
 
 //handle io
 void io_out(uint8_t port, uint16_t val){
+    char val_c;
     switch(port){
         //text
         case IO_text_addr_port:
@@ -296,8 +293,8 @@ void io_out(uint8_t port, uint16_t val){
 
         //serial
         case IO_serial_data_out_port:
-            fputc(val, io_serial_file_out);
-            fflush(io_serial_file_out);
+            val_c = val;
+            sp_blocking_write(io_serial_port, &val_c, 1, 0);
             break;
 
         case IO_serial_next_port:
