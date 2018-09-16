@@ -195,8 +195,8 @@ void io_gfx_set_pixel(uint16_t addr, uint8_t val){
     sdl_set_pixel(windowSurface, (x*2 + y*1280) +641, color_conv(val));
 }
 
-//init the disk
-void init_disk(char * path){
+//init the disk and serial port
+void init_io(char * path, char * serial_path){
     io_disk_file = fopen(path, "r+");
     if(io_disk_file == NULL){
         printf("scpemu: No such file: %s\n", path);
@@ -289,7 +289,7 @@ uint16_t io_in(uint8_t port){
         case IO_disk_data_in_addr_port:
             //return cur place in buffer
             return io_disk_blk_mem_addr;
-        
+
         default:
             return 0;
             break;
