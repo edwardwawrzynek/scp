@@ -38,6 +38,10 @@
 
 unsigned int sflag;
 unsigned int eflag;
+unsigned int dflag;
+
+char * dfile;
+FILE * debug_file;
 
 //a label
 struct label {
@@ -110,17 +114,29 @@ VOID handle_args(int argc, char **argv){
 	unsigned int argv_off;
 	argv_off = 0;
 	if(argc < 3){
-		printf("Usage: scpasm [options] [out] [in.s]\nOptions:\n-e :pad the output to the end of the addr space\n-s :display the size of the binary\n");
+		printf("Usage: scpasm [options] [out] [in.s]\nOptions:\n-e\t\t:pad the output to the end of the addr space\n-s\t\t:display the size of the binary\n-d debug.txt\t:output a debug file\n");
 		exit(1);
 	}
-	if(*argv[1] == '-'){
-		if(argv[1][1] == 'e'){
+	while(*argv[1+argv_off] == '-'){
+		if(argv[1+argv_off][1] == 'e'){
 			eflag = 1;
+			argv_off += 1;
 		}
-		if(argv[1][1] == 's'){
+		if(argv[1+argv_off][1] == 's'){
 			sflag = 1;
+			argv_off += 1;
 		}
-		argv_off = 1;
+		if(argv[1+argv_off][1] == 'd'){
+			dflag = 1;
+			dfile = argv[2+argv_off];
+			argv_off += 2;
+			debug_file = fopen(dfile, "w");
+			if(debug_file == NULL){
+				printf("Couldn't open dbug file: %s\n", dfile);
+				exit(1);
+			}
+		}
+		
 	}
 	open_files(argv[2+argv_off], argv[1+argv_off]);
 }
@@ -311,6 +327,9 @@ VOID addr_pass(){
 	addr = addr_start;
 	module = 0;
 	while(read_line()){
+		if(dflag){
+			fprintf(debug_file, "0x%04x: %s\n", addr, line);
+		}
 		label = read_label();
 		if(label){
 			if(exists_label(label, module)){

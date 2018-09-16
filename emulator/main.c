@@ -182,10 +182,10 @@ uint8_t cpu_cycle(struct cpu * cpu){
         cpu->reg_b = cpu_read_mem(cpu, cpu->reg_b);
         break;
     case LWQA:
-        cpu->reg_a = cpu_read_mem(cpu, cpu->reg_b) + (cpu_read_mem(cpu, cpu->reg_b+1) >> 8);
+        cpu->reg_a = cpu_read_mem(cpu, cpu->reg_b) + (cpu_read_mem(cpu, cpu->reg_b+1) << 8);
         break;
     case LWQB:
-        cpu->reg_b = cpu_read_mem(cpu, cpu->reg_b) + (cpu_read_mem(cpu, cpu->reg_b+1) >> 8);
+        cpu->reg_b = cpu_read_mem(cpu, cpu->reg_b) + (cpu_read_mem(cpu, cpu->reg_b+1) << 8);
         break;
 
     case LBMA:
