@@ -443,8 +443,10 @@ uint8_t cpu_cycle(struct cpu * cpu){
         break;
 
     case 255:
-        printf("spcemu stopping (encountered opcode 255)\nAddr: 0x%x\n", cpu->reg_pc);
-        exit(1);
+        printf("spcemu stopping (encountered opcode 255)\n");
+        while(1){
+		sdl_check_events(1000000);
+	}
         break;
 
     default:

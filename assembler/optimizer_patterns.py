@@ -17,16 +17,55 @@ patterns = [
         lambda c:[cg("xswp", arg("")), c[1],], ],
     [ [
         ["psha", A, A],
+        ["lwpa", A, A],
+        ["inca,deca", A, A],
+        ["popb", A, A], ],
+        lambda c:[cg("xswp", arg("")), cg("lwqa", arg("")), c[2]], ],
+    [ [
+        ["psha", A, A],
+        ["lbpa", A, A],
+        ["inca,deca", A, A],
+        ["popb", A, A], ],
+        lambda c:[cg("xswp", arg("")), cg("lbqa", arg("")), c[2]], ],
+    [ [
+        ["psha", A, A],
         ["mspa,bspa", A, A],
         ["lwpa,lbpa", A, A],
         ["popb", A, A], ],
         lambda c:[cg("xswp", arg("")), cg(c[1].cmd, arg("#" + str(c[1].arg.val-2))), c[2]], ],
+    #loading to a register, then an xswp to switch to b register - just load to b
+    [ [
+        ["lwia", A, A],
+        ["xswp", A, A], ],
+        lambda c:[cg("lwib", c[0].arg)], ],
+    [ [
+        ["lbia", A, A],
+        ["xswp", A, A], ],
+        lambda c:[cg("lbib", c[0].arg)], ],
+    [ [
+        ["lwpa", A, A],
+        ["xswp", A, A], ],
+        lambda c:[cg("lwpb", c[0].arg)], ],
+    [ [
+        ["lbpa", A, A],
+        ["xswp", A, A], ],
+        lambda c:[cg("lbpb", c[0].arg)], ],
+    
     #pointer arithmetic constant multiplication
     [ [
         ["lwia,lbia", arg.TYPE_LIT, A],
         ["lwib,lbib", arg.TYPE_LIT, A],
         ["amul", A, A] ],
         lambda c:[cg("lwia", arg("#" + str(c[0].arg.val * c[1].arg.val)))] ],
+    #uneeded adds, or just increments
+    [[
+        ["lbib", arg.TYPE_LIT, lambda v: (v==0)],
+        ["aadd", A, A], ],
+        lambda c:[], ],
+    [[
+        ["lbib", arg.TYPE_LIT, lambda v: (v==1)],
+        ["aadd", A, A], ],
+        lambda c:[cg("inca", arg(""))], ],
     #jumps take logical value, no need to convert
     [ [
         ["aclv", A, A],
