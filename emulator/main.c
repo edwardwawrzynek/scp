@@ -406,7 +406,7 @@ uint8_t cpu_cycle(struct cpu * cpu){
         //sets the ptb value pointed to by (the page table base + the upper five bits of b reg) to the value in a
         //sets priv to sys(0) in the process
         cpu->reg_priv = 0;
-        cpu->mmu_table[(cpu->reg_ptb<<5) + (cpu->reg_b >> 11)] = (uint8_t)cpu->reg_a & 0b1111111;
+        cpu->mmu_table[(cpu->reg_ptb) + (cpu->reg_b >> 11)] = (uint8_t)cpu->reg_a & 0b1111111;
         break;
 
     case BSPA:
@@ -433,7 +433,7 @@ uint8_t cpu_cycle(struct cpu * cpu){
             for(uint16_t p = 0; p < 64; ++p){
                 printf("Proc %02u |", p);
                 for(uint16_t i = 0; i < 32; ++i){
-                    printf("%02u|", cpu->mmu_table[(p*32) + i]);
+                    printf("%02x|", cpu->mmu_table[(p*32) + i]);
                 }
                 printf("\n");    
             }
