@@ -1,8 +1,10 @@
 #!/usr/bin/python
 from __future__ import print_function
 from optimizer import *
+#any value
 A = -1
-NO_ARG = arg("")
+#no argument
+NO_A = arg("")
 patterns = [
     #optimize repetitive mdsp as one
     [ [
@@ -14,25 +16,25 @@ patterns = [
         ["psha", A, A],
         ["lwia,lbia", A, A],
         ["popb", A, A], ],
-        lambda c:[cg("xswp", arg("")), c[1],], ],
+        lambda c:[cg("xswp", NO_A), c[1],], ],
     [ [
         ["psha", A, A],
         ["lwpa", A, A],
         ["inca,deca", A, A],
         ["popb", A, A], ],
-        lambda c:[cg("xswp", arg("")), cg("lwqa", arg("")), c[2]], ],
+        lambda c:[cg("xswp", NO_A), cg("lwqa", NO_A), c[2]], ],
     [ [
         ["psha", A, A],
         ["lbpa", A, A],
         ["inca,deca", A, A],
         ["popb", A, A], ],
-        lambda c:[cg("xswp", arg("")), cg("lbqa", arg("")), c[2]], ],
+        lambda c:[cg("xswp", NO_A), cg("lbqa", NO_A), c[2]], ],
     [ [
         ["psha", A, A],
         ["mspa,bspa", A, A],
         ["lwpa,lbpa", A, A],
         ["popb", A, A], ],
-        lambda c:[cg("xswp", arg("")), cg(c[1].cmd, arg("#" + str(c[1].arg.val-2))), c[2]], ],
+        lambda c:[cg("xswp", NO_A), cg(c[1].cmd, arg("#" + str(c[1].arg.val-2))), c[2]], ],
     #loading to a register, then an xswp to switch to b register - just load to b
     [ [
         ["lwia", A, A],
@@ -65,7 +67,7 @@ patterns = [
     [[
         ["lbib", arg.TYPE_LIT, lambda v: (v==1)],
         ["aadd", A, A], ],
-        lambda c:[cg("inca", arg(""))], ],
+        lambda c:[cg("inca", NO_A)], ],
     #jumps take logical value, no need to convert
     [ [
         ["aclv", A, A],

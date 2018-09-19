@@ -6,18 +6,21 @@ usage() {
 echo "Usage: scpc [options] files
 Options:
 -o bin_out :specifies the file to write the final binary to(defaults to a.out)
+-Ox        :run scpopt optimizer on the output
+  -O0      :don't run any optomization
+	-O1      :run a faster optomization
+	-O2      :run a full, but longer optomization
+-c         :assemble files instead of compiling
+-X         :don't link and assemble - only generate asms with .s extension on .c
 -m mif.mif :if specified, a memory initialization file for scp is generated
 -a asm.s   :if specified, the fully linked assembly output is saved
 -s asm.s   :if specified, the non-linked assembly is saved
 -l file.s  :links an assembly file to be directly before the c file assembly
 -L dir     :all files in the directory ending in .s are linked
--c         :assemble files instead of compiling
--X	   :don't link and assemble - only generate asms with .s extension on .c
 -f file.s  :links an assembly file at the very end of the binary
--h         :display usage
 -e         :if specified, the binary is put against the end of the address space
 -n         :don't link asms associated with included system header files
--O:	   :run scpopt optimizer on the asm files"
+-h         :display usage"
 }
 
 #Binary out - will always be generated
@@ -54,7 +57,7 @@ DO_OPT=false
 #Files to link with
 LINKS="/home/edward/scp_software/lib/include/cret.s /home/edward/scp_software/lib/include/crun.s"
 END_LINK=""
-while getopts "ehncXOo:m:a:s:l:L:f:" opt; do
+while getopts "ehncXO:o:m:a:s:l:L:f:" opt; do
   case $opt in
     e)
 	DO_END=true
@@ -77,6 +80,15 @@ while getopts "ehncXOo:m:a:s:l:L:f:" opt; do
     	;;
     O)
     	DO_OPT=true
+			if [ $OPTARG == "0" ]; then
+				DO_OPT=false
+			fi
+			if [ $OPTARG == "1" ]; then
+				DO_OPT=quick
+			fi
+			if [ $OPTARG == "2" ]; then
+				DO_OPT=true
+			fi
     	;;
     m)
     	MIF_OUTPUT=$OPTARG
@@ -176,6 +188,10 @@ LINKD_ASM=".SCP_ASM_LINKED.s"
 #optimize
 if [ "$DO_OPT" == "true" ]; then
 	scpopt "$LINKD_ASM" ".SCP_ASM_LINKED.s.opt" || exit 1
+	LINKD_ASM=".SCP_ASM_LINKED.s.opt"
+fi
+if [ "$DO_OPT" == "quick" ]; then
+	scpopt -f "$LINKD_ASM" ".SCP_ASM_LINKED.s.opt" || exit 1
 	LINKD_ASM=".SCP_ASM_LINKED.s.opt"
 fi
 

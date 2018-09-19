@@ -128,34 +128,33 @@ def match_pat_des(pat, token):
     return True
 
 #applies the first match to the tokens
-def match_pat(pat, rep, tokens):
+def match_pat(pat, rep, tokens, start):
     pat_len = len(pat)
     #first index of good matches
-    goods = []
     hitGood = True
-    for i in range(len(tokens)-pat_len+1):
+    for i in range(start, len(tokens)-pat_len+1):
         #attempt to match this pattern on the sequence starting at tokens[i]
         hitGood = True
         for p in range(pat_len):
             if not match_pat_des(pat[p], tokens[i+p]):
                 hitGood = False
-                break;
+                break
         if hitGood:
             #tokens = tokens[:i] + apply_replace() + tokens[i+p:]
             tokens = tokens[:i] + rep(tokens[i:i+pat_len]) + tokens[i+p+1:]
-            return tokens
+            return tokens, i+pat_len+1
             #get range to apply
 
-    return False
+    return False, 0
 
 #applies all the matches of a pat to tokens
 def apply_pat(pat, rep, tokens):
     hit=False
-    res = match_pat(pat, rep, tokens)
+    res, endofmatch = match_pat(pat, rep, tokens, 0)
     while res != False:
         hit=True
         tokens = res
-        res = match_pat(pat, rep, tokens)
+        res, endofmatch = match_pat(pat, rep, tokens, endofmatch)
     return tokens, hit
 
 '''
@@ -174,20 +173,20 @@ def put_tokens(f, tokens):
     for t in tokens:
         f.write(t.toAsm())
 
-def apply_pats(pats, tokens):
+def apply_pats(pats, tokens, do_full_opt):
     p = 0
     while p < len(pats):
         tokens, hit = apply_pat(pats[p][0], pats[p][1], tokens)
         p += 1
-        if hit:
+        if hit and do_full_opt:
             p = 0
     return tokens
 
-def optimize_file(inp, outp, pats):
+def optimize_file(inp, outp, pats, do_full_opt):
     fin = open(inp, "r")
     fout = open(outp, "w")
     tokens = parse_file(fin)
-    tokens = apply_pats(pats, tokens)
+    tokens = apply_pats(pats, tokens, do_full_opt)
     put_tokens(fout, tokens)
 
 def printTokens(t):
@@ -195,8 +194,20 @@ def printTokens(t):
         print i.toAsm()
 
 def main(pats):
-    if (len(sys.argv)!=3):
-        error("Usage: scpopt [in.s] [out.s]")
+    if (len(sys.argv)<3):
+        error("Usage: scpopt [options] [in.s] [out.s]\nOptions\n-f\t:do a faster optomization\n-l\t:do a full, longer optomization")
+    do_full_opt = True
+    argv_off = 0
+    if "-f" == sys.argv[1]:
+        do_full_opt = False
+        argv_off = 1
+    if "-l" == sys.argv[1]:
+        do_full_opt = True
+        argv_off = 1
+
+    if (len(sys.argv)!=(3+argv_off)):
+        error("Usage: scpopt [options] [in.s] [out.s]\nOptions\n-f\t:do a faster optomization\n-l\t:do a full, longer optomization")
+
 
     #run optomizer
-    optimize_file(sys.argv[1], sys.argv[2], pats)
+    optimize_file(sys.argv[1 + argv_off], sys.argv[2 + argv_off], pats, do_full_opt)
