@@ -71,6 +71,27 @@ primary (LVALUE *lval) {
         lval->indirect = 0;
         return(0);
     }
+
+    if (amatch("_asm", 4)) {
+        needbrack("(");
+        cmode = 0;
+        while(line[lptr] != ')'){
+            if(*(line+lptr) == '\\'){
+                output_byte('\n');
+            } else if (*(line+lptr) != '\"') {
+                output_byte(*(line+lptr));
+            }
+            ++lptr;
+        }
+        newline();
+        needbrack(")");
+        //kill ();
+        cmode = 1;
+        lval->symbol = 0;
+        lval->indirect = 0;
+        return(0);
+    }
+
     if (symname (sname)) {
         if ((symbol_table_idx = find_locale(sname)) > -1) {
             symbol = &symbol_table[symbol_table_idx];

@@ -120,7 +120,7 @@ kill () {
 //if using right to left, read multi line function calls into one line
 readline () {
         int     k;
-        int prev_k;
+        char prev_k;
         FILE    *unit;
         prev_k = 0;
 #ifdef CALL_RIGHT_TO_LEFT
