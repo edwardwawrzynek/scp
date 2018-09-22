@@ -108,7 +108,6 @@ main(int argc, char *argv[]) {
         compile(NULL); /* training mode - read code from stdin */
         exit(0);
     }
-
     for (; i<argc; i++) {
         param = argv[i];
         errfile = 0;
@@ -161,17 +160,19 @@ compile(char *file) {
         /* compiler body */
         if (file == NULL) {
             input = stdin;
-        } else if (!openin(file))
+        } else if (!openin(file)){
             return;
+        }
         if (file == NULL) {
             output = stdout;
-        } else if (!openout())
+        } else if (!openout()){
             return;
-				if(iflag){
-					if(!openincl()){
-				      return;
-					}
-				}
+        }
+		if(iflag){
+			if(!openincl()){
+				return;
+			}
+		}
         header();
         code_segment_gtext();
         parse();
@@ -184,8 +185,13 @@ compile(char *file) {
         fclose(output);
         //pl("");
         errs = errs || errfile;
-#ifndef NOASLD
+    } else {
+        pl("File is not a .c file:");
+        pl(file);
+        pl("");
+        return;
     }
+#ifndef NOASLD
     if (!errfile && !sflag) {
         errs = errs || assemble(file);
     }

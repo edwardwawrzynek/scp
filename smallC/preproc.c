@@ -34,12 +34,6 @@ FILE* fix_include_name () {
         if (c1 == '<' || !(fp = fopen(buf, "r"))) {
                 strcpy(buf2, DEFLIB);
                 strcat(buf2, buf);
-					      //write .incl
-								if(iflag){
-									fputs(buf2, inclf);
-									fputc('\n', inclf);
-								}
-				        //Copy buf to .incl file here
                 fp = fopen(buf2, "r");
         }
         return (fp);
@@ -135,9 +129,26 @@ int ifdef;
 
 ifline()
 {
+        char buf[50];
         FOREVER {
                 readline();
                 if (feof(input)) return(1);
+                if (match("# ")){
+                        kill();
+                }
+                if (match("_SCP_gen_auto_ln")){
+                        needbrack("(");
+                        blanks();
+                        while(line[lptr++] != '"');
+                        fputs(DEFLIB, inclf);
+                        while(line[lptr] != '"'){
+                                fputc(line[lptr++], inclf);
+                        }
+                        fputc('\n', inclf);
+                        lptr++;
+                        blanks();
+                        needbrack(")");
+                }
                 if (match("#ifdef")) {
                         doifdef(YES);
                         continue;

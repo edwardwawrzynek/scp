@@ -131,11 +131,30 @@ shift $((OPTIND-1))
 
 ASMD_FILES=""
 INCLD_FILES=""
-C_FILES="$@"
+INPUT_FILES="$@"
+#preprocess files
+if [ "$DO_COMP" == "true" ]; then
+	C_FILES=""
+	for file in $INPUT_FILES; do
+		cpp -I. -I/home/edward/scp_software/lib/include $file > $file.SCP_PREPROC.c || exit 1
+		C_FILES="$file.SCP_PREPROC.c $C_FILES"
+	done
+
+else
+	C_FILES=$INPUT_FILES
+fi
+
 
 #Compile the file, generating .incl
 if [ "$DO_COMP" == "true" ]; then
 	sccscp -i $C_FILES || exit 1
+	#mv s and incl file, and remove preproc'd file
+	for file in $INPUT_FILES; do
+		mv $file.SCP_PREPROC.s $(echo "$file" | cut -f 1 -d '.').s
+		mv $file.SCP_PREPROC.incl $(echo "$file" | cut -f 1 -d '.').incl
+		rm $file.SCP_PREPROC.c
+	done
+
 fi
 
 #set asm and incl file names
@@ -151,6 +170,7 @@ else
 	INCLD_FILES=".SCP_INCL_FAKE.incl"
 fi
 
+
 #stop with just asms
 if [ "$DO_STOP_ASMLNK" == "true" ]; then
 	rm $INCLD_FILES
@@ -160,6 +180,7 @@ fi
 #write incl files to one incl file
 cat $INCLD_FILES >> .SCP_INCL_COMBINED_REP.incl
 rm $INCLD_FILES
+
 
 sort .SCP_INCL_COMBINED_REP.incl | uniq >> .SCP_INCL_COMBINED.incl
 rm .SCP_INCL_COMBINED_REP.incl

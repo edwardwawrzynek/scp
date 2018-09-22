@@ -15,8 +15,12 @@ openin (p) char *p;
 {
         strcpy(fname, p);
         fixname (fname);
-        if (!checkname (fname))
+        if (!checkname (fname)){
+                pl("File is not a .c file:");
+                pl(fname);
+                pl("");
                 return (NO);
+        }
         if ((input = fopen (fname, "r")) == NULL) {
                 pl ("Open failure on file:\n");
                 pl (fname);
@@ -64,10 +68,10 @@ char    *s;
         while (*s)
                 s++;
         *--s = 'i';
-				*++s = 'n';
-				*++s = 'c';
-				*++s = 'l';
-                *++s = '\0';
+	*++s = 'n';
+	*++s = 'c';
+	*++s = 'l';
+        *++s = '\0';
 
 }
 

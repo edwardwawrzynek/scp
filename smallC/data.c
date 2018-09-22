@@ -48,7 +48,7 @@ int     nxtlab,
 FILE    *input, *input2, *output, *inclf;
 FILE    *inclstk[INCLSIZ];
 int     inclsp;
-char    fname[20];
+char    fname[50];
 
 /*char    quote[2];
 char    *cptr;*/
