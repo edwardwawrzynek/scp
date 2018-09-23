@@ -408,6 +408,18 @@ uint8_t cpu_cycle(struct cpu * cpu){
         cpu->reg_priv = 0;
         cpu->mmu_table[(cpu->reg_ptb) + (cpu->reg_b >> 11)] = (uint8_t)cpu->reg_a & 0b1111111;
         break;
+    case KTOU:
+        //pop pc off stack, the sp off stack, set priv_lv to 1, and return
+        //pop pc
+        cpu->reg_pc = cpu_read_mem(cpu, cpu->reg_sp++);
+        cpu->reg_pc += cpu_read_mem(cpu, cpu->reg_sp++)<<8;
+        //pop sp, using val16 as a temporary
+        val16 = cpu_read_mem(cpu, cpu->reg_sp++);
+        val16 += cpu_read_mem(cpu, cpu->reg_sp++)<<8;
+        cpu->reg_sp = val16;
+        //set priv_lv
+        cpu->reg_priv = 1;
+        break;
 
     case BSPA:
         cpu->reg_a = cpu->reg_sp + val8;
