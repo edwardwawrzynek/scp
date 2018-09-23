@@ -76,9 +76,9 @@ primary (LVALUE *lval) {
         needbrack("(");
         cmode = 0;
         while(line[lptr] != ')'){
-            if(*(line+lptr) == '\\'){
+            if(*(line+lptr) == 'n' && *(line+lptr-1) == '\\'){
                 output_byte('\n');
-            } else if (*(line+lptr) != '\"') {
+            } else if (*(line+lptr) != '\"' && *(line+lptr) != '\\') {
                 output_byte(*(line+lptr));
             }
             ++lptr;

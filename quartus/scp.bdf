@@ -119,7 +119,7 @@ refer to the applicable agreement for further details.
 	(input)
 	(rect 208 616 376 632)
 	(text "INPUT" (rect 125 0 154 10)(font "Arial" (font_size 6)))
-	(text "KEY[1]" (rect 5 0 40 11)(font "Arial" ))
+	(text "KEY[1]" (rect 5 0 39 11)(font "Arial" ))
 	(pt 168 8)
 	(drawing
 		(line (pt 84 12)(pt 109 12))
@@ -852,35 +852,6 @@ refer to the applicable agreement for further details.
 	)
 	(drawing
 		(rectangle (rect 16 16 168 160))
-	)
-)
-(symbol
-	(rect 152 664 336 744)
-	(text "sp_adder" (rect 5 0 53 11)(font "Arial" ))
-	(text "inst19" (rect 8 64 38 75)(font "Arial" ))
-	(port
-		(pt 0 32)
-		(input)
-		(text "sp[15..0]" (rect 0 0 42 11)(font "Arial" ))
-		(text "sp[15..0]" (rect 21 27 63 38)(font "Arial" ))
-		(line (pt 0 32)(pt 16 32)(line_width 3))
-	)
-	(port
-		(pt 0 48)
-		(input)
-		(text "offset[15..0]" (rect 0 0 57 11)(font "Arial" ))
-		(text "offset[15..0]" (rect 21 43 78 54)(font "Arial" ))
-		(line (pt 0 48)(pt 16 48)(line_width 3))
-	)
-	(port
-		(pt 184 32)
-		(output)
-		(text "out[15..0]" (rect 0 0 46 11)(font "Arial" ))
-		(text "out[15..0]" (rect 125 27 171 38)(font "Arial" ))
-		(line (pt 184 32)(pt 168 32)(line_width 3))
-	)
-	(drawing
-		(rectangle (rect 16 16 168 64))
 	)
 )
 (symbol
@@ -2202,7 +2173,7 @@ refer to the applicable agreement for further details.
 		(pt 192 32)
 		(output)
 		(text "privilage" (rect 0 0 42 11)(font "Arial" ))
-		(text "privilage" (rect 136 27 171 38)(font "Arial" ))
+		(text "privilage" (rect 136 27 178 38)(font "Arial" ))
 		(line (pt 192 32)(pt 176 32))
 	)
 	(drawing
@@ -2346,6 +2317,42 @@ refer to the applicable agreement for further details.
 	)
 	(drawing
 		(rectangle (rect 16 16 128 64))
+	)
+)
+(symbol
+	(rect 152 664 336 776)
+	(text "sp_adder" (rect 5 0 53 11)(font "Arial" ))
+	(text "inst19" (rect 8 96 38 107)(font "Arial" ))
+	(port
+		(pt 0 32)
+		(input)
+		(text "sp[15..0]" (rect 0 0 42 11)(font "Arial" ))
+		(text "sp[15..0]" (rect 21 27 63 38)(font "Arial" ))
+		(line (pt 0 32)(pt 16 32)(line_width 3))
+	)
+	(port
+		(pt 0 48)
+		(input)
+		(text "offset[15..0]" (rect 0 0 57 11)(font "Arial" ))
+		(text "offset[15..0]" (rect 21 43 78 54)(font "Arial" ))
+		(line (pt 0 48)(pt 16 48)(line_width 3))
+	)
+	(port
+		(pt 0 64)
+		(input)
+		(text "just_off" (rect 0 0 37 11)(font "Arial" ))
+		(text "just_off" (rect 21 59 58 70)(font "Arial" ))
+		(line (pt 0 64)(pt 16 64))
+	)
+	(port
+		(pt 184 32)
+		(output)
+		(text "out[15..0]" (rect 0 0 46 11)(font "Arial" ))
+		(text "out[15..0]" (rect 125 27 163 38)(font "Arial" ))
+		(line (pt 184 32)(pt 168 32)(line_width 3))
+	)
+	(drawing
+		(rectangle (rect 16 16 168 96))
 	)
 )
 (connector
@@ -4203,6 +4210,11 @@ refer to the applicable agreement for further details.
 	(pt 456 616)
 	(pt 464 616)
 	(bus)
+)
+(connector
+	(text "DECODE[55]" (rect 112 712 176 725)(font "Intel Clear" ))
+	(pt 152 728)
+	(pt 104 728)
 )
 (junction (pt 272 -88))
 (junction (pt 264 -72))

@@ -331,5 +331,21 @@ $bdsp_2:bdsp_2:SP_ADD_WE,PC_INC,NEW_INSTR
 72:bspl:MAR_SEL=2,MDR_OUT_LOW_WE,MDR_HIGH_RST,PC_INC,DECODE_NEXT=$bspl_2
 $bspl_2:bspl_2:BUS_IN_SEL=2,A_BUS_WE,DECODE_NEXT=#lwpa
 
+//System Opcodes
+
+//pop the pc from the stack, pop the sp from the stack, set priv_lv to 1 (applying ptb shift), and load the next instruction
+//transitions from kernel to user space (kernel to user)
+
+//start by poping into pc
+73:ktou:MAR_SEL=3,MDR_OUT_LOW_WE,SP_INC,DECODE_NEXT=$ktou_2
+$ktou_2:ktou_2:MAR_SEL=3,MDR_OUT_HIGH_WE,SP_INC,DECODE_NEXT=$ktou_3
+$ktou_3:ktou_3:PC_MDR_WE,DECODE_NEXT=$ktou_4
+//pop into sp
+$ktou_4:ktou_4:MAR_SEL=3,MDR_OUT_LOW_WE,SP_INC,DECODE_NEXT=$ktou_5
+$ktou_5:ktuu_5:MAR_SEL=3,MDR_OUT_HIGH_WE,SP_INC,DECODE_NEXT=$ktou_6
+$ktou_6:ktou_6:SP_JUST_MDR,SP_ADD_WE,DECODE_NEXT=$ktou_7\
+//load next instruction
+$ktou_7:ktou_7:PRIV_WE,PRIV_LV=1,DECODE_NEXT=jmp_end
+
 1023:int:PC_INT_WE,DECODE_NEXT=$int_2
 $int_2:int_2:PC_INC,NEW_INSTR
