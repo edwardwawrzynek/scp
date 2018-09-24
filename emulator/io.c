@@ -1,7 +1,6 @@
 #include <stdint.h>
 #include "SDL2/SDL.h"
 
-
 #include <time.h>
 
 #include "charset.c"
@@ -48,6 +47,11 @@ uint16_t io_gfx_addr;
 uint16_t io_text_addr;
 //the character memory
 uint8_t io_text_mem[2000];
+uint8_t io_text_mem_dirty;
+//gfx memory
+uint8_t io_gfx_mem[64000];
+uint8_t io_gfx_mem_dirty;
+
 //the keyboard memory
 uint16_t io_key_mem[256];
 uint8_t io_key_read;
@@ -116,6 +120,7 @@ uint16_t io_to_keycode(SDL_Keycode key, uint8_t release){
 
 void sdl_check_events(unsigned long cycles){
     char c;
+
     //update window
     SDL_UpdateWindowSurface(window);
 
@@ -183,17 +188,31 @@ void io_text_write_char(uint8_t c, uint16_t addr){
 
     //find pos on screen
     pos = x*8 + (y*16*640);
-
-    charset = io_charset[c];
-    for(i = 0; i < 64; ++i){
-        color = charset&0x8000000000000000 ? 0xffffff : 0;
-        sdl_set_pixel(windowSurface, pos, color);
-        sdl_set_pixel(windowSurface, pos+640, color);
-        charset = charset << 1;
-        pos++;
-        if(pos % 8 == 0){
-            pos -= 8;
-            pos += 1280;
+    //write text data if the char isn't zero
+    if(c){
+        charset = io_charset[c];
+        for(i = 0; i < 64; ++i){
+            color = charset&0x8000000000000000 ? 0xffffff : 0;
+            sdl_set_pixel(windowSurface, pos, color);
+            sdl_set_pixel(windowSurface, pos+640, color);
+            charset = charset << 1;
+            pos++;
+            if(pos % 8 == 0){
+                pos -= 8;
+                pos += 1280;
+            }
+        }
+    } else {
+        //write screen mem instead of char mem
+        addr = x*4 + (y*320*8);
+        for(i = 0; i < 32; ++i){
+            color = io_gfx_mem[addr];
+            io_gfx_set_pixel(addr, color);
+            addr++;
+            if(addr % 4 == 0){
+                addr -= 4;
+                addr += 320;
+            }
         }
     }
 }
@@ -218,7 +237,7 @@ void io_init(char * path, char * io_serial_port_path){
         printf("scpemu: No such file: %s\n", path);
         exit(1);
     }
-    
+
     if(sp_get_port_by_name(io_serial_port_path, &io_serial_port) != SP_OK){
         printf("scpemu: no such serial port: %s\n", io_serial_port_path);
         exit(1);
@@ -233,21 +252,30 @@ void io_init(char * path, char * io_serial_port_path){
 //handle io
 void io_out(uint8_t port, uint16_t val){
     char val_c;
+    uint16_t txt_x;
+    uint16_t txt_y;
     switch(port){
         //text
         case IO_text_addr_port:
             io_text_addr = val;
             break;
         case IO_text_data_port:
-            //get char
             io_text_write_char((uint8_t)val, io_text_addr);
+            io_text_mem[io_text_addr] = val;
+            io_text_mem_dirty = 1;
             break;
         //gfx
         case IO_gfx_addr_port:
             io_gfx_addr = val;
             break;
         case IO_gfx_data_port:
-            io_gfx_set_pixel(io_gfx_addr, val);
+            txt_x = (io_gfx_addr % 320) / 4;
+            txt_y = (io_gfx_addr / (320*8));
+            if(!io_text_mem[txt_x+(txt_y*80)]){
+                io_gfx_set_pixel(io_gfx_addr, val);
+            }
+            io_gfx_mem[io_gfx_addr] = val;
+            io_gfx_mem_dirty = 1;
             break;
 
         //disk
@@ -265,7 +293,7 @@ void io_out(uint8_t port, uint16_t val){
             }
             io_disk_blk_mem_addr = 0;
             break;
-        
+
         case IO_disk_data_in_next_port:
             io_disk_blk_mem_addr++;
             if(io_disk_blk_mem_addr >= 512){
@@ -300,7 +328,7 @@ void io_out(uint8_t port, uint16_t val){
         case IO_serial_next_port:
             io_serial_read++;
             break;
-        
+
         default:
         break;
     }
@@ -321,7 +349,7 @@ uint16_t io_in(uint8_t port){
         case IO_disk_data_in_port:
             //return data in buffer
             return io_disk_blk_mem[io_disk_blk_mem_addr];
-        
+
         case IO_disk_data_out_addr_port:
         case IO_disk_data_in_addr_port:
             //return cur place in buffer
@@ -330,7 +358,7 @@ uint16_t io_in(uint8_t port){
         //serial
         case IO_serial_data_in_port:
             return io_serial_mem[io_serial_read];
-        
+
         case IO_serial_in_waiting_port:
             return io_serial_write - io_serial_read;
 
