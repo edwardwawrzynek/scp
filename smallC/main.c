@@ -397,7 +397,7 @@ dump_struct(SYMBOL *symbol, int position) {
         /* i is the index of current member, get type */
 				SYMBOL member = member_table[
             tag_table[symbol->tagidx].member_idx + i];
-				if(member.identity == ARRAY){
+                if(member.identity == ARRAY || member.type == STRUCT){
 					gen_def_storage();
                     output_number(member.struct_size);
                     newline();

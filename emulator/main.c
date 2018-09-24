@@ -86,7 +86,7 @@ void cpu_write_mem(struct cpu * cpu, uint16_t addr, uint8_t val){
     high_addr = cpu->mmu_table[(cpu->reg_priv ? cpu->reg_ptb & 0x7ff: 0) + high_addr];
     cpu->memory[(high_addr << 11) + low_addr] = val;
     if(DEBUG){
-        printf("Writing 0x%x to addr 0x%x\n", val, (high_addr << 11) + low_addr);
+        printf("Writing 0x%x to addr 0x%x\n", val, addr);
     }
 }
 

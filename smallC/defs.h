@@ -23,8 +23,8 @@
 #define TAB     9
 
 /* system-wide name size (for symbols) */
-#define NAMESIZE        33
-#define NAMEMAX         32
+#define NAMESIZE        129
+#define NAMEMAX         128
 
 struct symbol {
     char name[NAMESIZE];    /* symbol name */
@@ -38,15 +38,15 @@ struct symbol {
 #define SYMBOL struct symbol
 
 
-#define NUMBER_OF_GLOBALS 200
-#define NUMBER_OF_LOCALS 20
+#define NUMBER_OF_GLOBALS 500
+#define NUMBER_OF_LOCALS 50
 
 /* right to left argument passing function calls */
 #define CALL_RIGHT_TO_LEFT
 //#undef CALL_RIGHT_TO_LEFT
 
 /* Define the structure tag table parameters */
-#define NUMTAG      10
+#define NUMTAG      30
 
 struct tag_symbol {
     char name[NAMESIZE];    /* structure tag name */

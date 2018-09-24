@@ -163,6 +163,21 @@ scale_const(int type, int otag, int *size) {
     }
 }
 
+/* scale constant, returning the new result */
+scale_const_ret(int type, int otag, int size){
+    switch (type) {
+        case CINT:
+        case UINT:
+            size += size;
+            return size;
+        case STRUCT:
+            size *= tag_table[otag].size;
+            return size;
+        default:
+            return size;
+    }
+}
+
 /* write all output to nothing */
 
 disable_output(){

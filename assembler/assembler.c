@@ -11,10 +11,10 @@
 #define CMD_ARRAY_LEN 370
 
 //maximum line length - including null
-#define LINE_SIZE 81
+#define LINE_SIZE 257
 
 //maximum label length - including null
-#define LABEL_SIZE 33
+#define LABEL_SIZE 129
 
 //increment to realloc labels array on - number of labels
 #define LABEL_ALLOC_SIZE 64
