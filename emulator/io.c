@@ -82,10 +82,35 @@ void init_sdl(char * window_name){
     windowSurface = SDL_GetWindowSurface(window);
 }
 
+//convert an 8-bit color to Uint32 for sdl
+Uint32 color_conv(uint8_t color){
+    Uint32 res;
+    //red
+    res = ((color>>5) & 0b111)<<(16+5);
+    //green
+    res += ((color>>2) & 0b111)<<(8+5);
+    //blue
+    res += ((color) & 0b11)<<6;
+    return res;
+}
+
 static inline void sdl_set_pixel(SDL_Surface *surface, int addr, Uint32 pixel)
 {
   Uint32 *target_pixel = (Uint32 *)((Uint8 *) surface->pixels + addr* sizeof *target_pixel);
   *target_pixel = pixel;
+}
+
+//set a "pixel" on the screen (really a 2x2 block)
+void io_gfx_set_pixel(uint16_t addr, uint8_t val){
+    uint16_t x;
+    uint16_t y;
+    x = addr%320;
+    y = addr/320;
+
+    sdl_set_pixel(windowSurface, x*2 + y*1280, color_conv(val));
+    sdl_set_pixel(windowSurface, (x*2 + y*1280) +1, color_conv(val));
+    sdl_set_pixel(windowSurface, (x*2 + y*1280) +640, color_conv(val));
+    sdl_set_pixel(windowSurface, (x*2 + y*1280) +641, color_conv(val));
 }
 
 //convert a keysym
@@ -158,17 +183,7 @@ void sdl_check_events(unsigned long cycles){
     p_clock = clock();
 }
 
-//convert an 8-bit color to Uint32 for sdl
-Uint32 color_conv(uint8_t color){
-    Uint32 res;
-    //red
-    res = ((color>>5) & 0b111)<<(16+5);
-    //green
-    res += ((color>>2) & 0b111)<<(8+5);
-    //blue
-    res += ((color) & 0b11)<<6;
-    return res;
-}
+
 
 //write a char to the window
 void io_text_write_char(uint8_t c, uint16_t addr){
@@ -217,18 +232,7 @@ void io_text_write_char(uint8_t c, uint16_t addr){
     }
 }
 
-//set a "pixel" on the screen (really a 2x2 block)
-void io_gfx_set_pixel(uint16_t addr, uint8_t val){
-    uint16_t x;
-    uint16_t y;
-    x = addr%320;
-    y = addr/320;
 
-    sdl_set_pixel(windowSurface, x*2 + y*1280, color_conv(val));
-    sdl_set_pixel(windowSurface, (x*2 + y*1280) +1, color_conv(val));
-    sdl_set_pixel(windowSurface, (x*2 + y*1280) +640, color_conv(val));
-    sdl_set_pixel(windowSurface, (x*2 + y*1280) +641, color_conv(val));
-}
 
 //init the disk and serial port
 void io_init(char * path, char * io_serial_port_path){
