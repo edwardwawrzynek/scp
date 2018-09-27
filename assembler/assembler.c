@@ -122,11 +122,11 @@ VOID handle_args(int argc, char **argv){
 			eflag = 1;
 			argv_off += 1;
 		}
-		if(argv[1+argv_off][1] == 's'){
+		else if(argv[1+argv_off][1] == 's'){
 			sflag = 1;
 			argv_off += 1;
 		}
-		if(argv[1+argv_off][1] == 'd'){
+		else if(argv[1+argv_off][1] == 'd'){
 			dflag = 1;
 			dfile = argv[2+argv_off];
 			argv_off += 2;
@@ -136,7 +136,7 @@ VOID handle_args(int argc, char **argv){
 				exit(1);
 			}
 		}
-		
+
 	}
 	open_files(argv[2+argv_off], argv[1+argv_off]);
 }
@@ -213,7 +213,7 @@ INT read_line(){
 //set name to just be a label
 //returns pointer to name if label, NULL if otherwise
 CHARP read_label(){
-	// If the line starts with a tab or at least two spaces, it is a cmd, so return 
+	// If the line starts with a tab or at least two spaces, it is a cmd, so return
 	if(line[0] == '\t' || (line[0] == ' ' && line[1] == ' ')){
 		return NULL;
 	}
@@ -351,7 +351,7 @@ VOID addr_pass(){
 	}
 }
 
-//return the addr of a symbol, given the module number 
+//return the addr of a symbol, given the module number
 UINT label_addr(char * name, int module){
 	unsigned int i;
 	for(i = 0; i < labels_used+1;++i){

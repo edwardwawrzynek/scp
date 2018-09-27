@@ -72,10 +72,14 @@ class cmd:
         #Remove initial tab, if present
         if self.asm[0] == '\t':
             self.asm = self.asm[1:]
+        split_asm = self.asm.split('\t')
         #get command
-        self.cmd = self.asm.split('\t')[0]
+        self.cmd = split_asm[0]
         #get arg
-        self.arg = arg(self.asm.split('\t')[1])
+        if len(split_asm) >= 2:
+            self.arg = arg(split_asm[1])
+        else:
+            self.arg = arg("")
 
     #return asm, including leading tab and ending newline, from self.cmd and self.arg
     def toAsm(self):
@@ -92,10 +96,23 @@ class cmd:
 def cg(cmd_n, arg):
     return cmd.fromVal(cmd_n, arg)
 
+#format a line into tabs froms paces
+def format_line(l):
+    reps = [["  ", "\t"], ["\t\t", "\t"]]
+    #replace spaces
+    for pat in reps:
+        matched = 0
+        while l.find(pat[0]) != -1:
+            matched = 1
+            l = l.replace(pat[0], pat[1])
+    return l
+
+
 #parse a list of asm's and cmd's from a file
 def parse_file(f):
     res = []
     for l in f:
+        l = format_line(l)
         #A cmd or directive
         if l[0] == '\t':
             if l[1] == '.':

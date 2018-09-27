@@ -52,7 +52,18 @@ patterns = [
         ["lbpa", A, A],
         ["xswp", A, A], ],
         lambda c:[cg("lbpb", c[0].arg)], ],
-    
+    #unnedded register swapping in short sequences
+    [ [
+        ["xswp", A, A],
+        ["lbia", A, A],
+        ["swqa", A, A], ],
+        lambda c:[cg("lbib", c[1].arg), cg("swpb", NO_A)], ],
+    [ [
+        ["xswp", A, A],
+        ["lbia", A, A],
+        ["sbqa", A, A], ],
+        lambda c:[cg("lbib", c[1].arg), cg("sbpb", NO_A)], ],
+
     #pointer arithmetic constant multiplication
     [ [
         ["lwia,lbia", arg.TYPE_LIT, A],
@@ -73,6 +84,8 @@ patterns = [
         ["aclv", A, A],
         ["jpz ,jpnz", A, A], ],
         lambda c:[c[1]], ],
+    #optimizable logic before jumps
+
     #optimize one byte mspa
     [ [
         ["mspa", arg.TYPE_LIT, lambda v: (v < 256 and v >= 0)] ],
