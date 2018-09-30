@@ -290,7 +290,7 @@ void io_out(uint8_t port, uint16_t val){
         //init a read of the disk
         case IO_disk_data_in_rd_en_port:
             //seek to place in disk
-            fseek(io_disk_file, io_disk_blk_addr*512, SEEK_SET);
+            fseek(io_disk_file, ((long)io_disk_blk_addr)*512, SEEK_SET);
             if(fread(io_disk_blk_mem, 1, 512, io_disk_file) != 512){
                 printf("scpemu: disk read failed\n");
                 exit(1);
@@ -308,7 +308,7 @@ void io_out(uint8_t port, uint16_t val){
         //write the contents of io_disk_blk_mem to disk
         case IO_disk_data_out_wr_en_port:
             //seek to place in disk
-            fseek(io_disk_file, io_disk_blk_addr*512, SEEK_SET);
+            fseek(io_disk_file, ((long)io_disk_blk_addr)*512, SEEK_SET);
             if(fwrite(io_disk_blk_mem, 1, 512, io_disk_file) != 512){
                 printf("scpemu: disk write failed\n");
                 exit(1);

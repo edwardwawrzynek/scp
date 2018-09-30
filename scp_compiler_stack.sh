@@ -174,6 +174,20 @@ fi
 #stop with just asms
 if [ "$DO_STOP_ASMLNK" == "true" ]; then
 	rm $INCLD_FILES
+	#optomize if needed
+	if [ "$DO_OPT" == "true" ]; then
+		for file in $ASMD_FILES; do
+			scpopt $file "$file.SCP_OPT" || exit 1
+			mv "$file.SCP_OPT" $file
+		done
+	fi
+	if [ "$DO_OPT" == "quick" ]; then
+		for file in $ASMD_FILES; do
+			scpopt -f $file "$file.SCP_OPT" || exit 1
+			mv "$file.SCP_OPT" $file
+		done
+	fi
+
 	exit 0
 fi
 

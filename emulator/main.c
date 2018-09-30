@@ -456,9 +456,8 @@ uint8_t cpu_cycle(struct cpu * cpu){
 
     case 255:
         printf("spcemu stopping (encountered opcode 255)\n");
-        while(1){
-		sdl_check_events(1000000);
-	}
+        fclose(io_disk_file);
+        exit(0);
         break;
 
     default:

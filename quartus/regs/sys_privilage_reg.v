@@ -4,8 +4,7 @@ module sys_privilage_reg(
 	input rst,
 	input privilage_we,
 	input privilage_level,
-	output reg privilage,
-	input to_sys
+	output reg privilage
 );
 
 always @ (posedge clk)
@@ -15,9 +14,6 @@ always @ (posedge clk)
 		end
 		if (privilage_we) begin
 			privilage <= privilage_level;
-		end
-		if(to_sys) begin
-			privilage <= 0;
 		end
 	end
 

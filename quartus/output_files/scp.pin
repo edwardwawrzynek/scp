@@ -713,7 +713,7 @@ RESERVED_INPUT_WITH_WEAK_PULLUP : W11       :        :                   :      
 SD_CARD_SCLK                 : W12       : output : 3.3-V LVCMOS      :         : 3B        : Y              
 VCCIO4A                      : W13       : power  :                   : 3.3V    : 4A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : W14       :        :                   :         : 4A        :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : W15       :        :                   :         : 5A        :                
+LED[0]                       : W15       : output : 2.5 V             :         : 5A        : Y              
 GND                          : W16       : gnd    :                   :         :           :                
 VCCIO5A                      : W17       : power  :                   : 2.5V    : 5A        :                
 GND                          : W18       : gnd    :                   :         :           :                
