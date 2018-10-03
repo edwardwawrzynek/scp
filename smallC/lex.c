@@ -73,6 +73,7 @@ endst() {
 needbrack(char *str) {
     if (!match (str)) {
         error ("missing bracket");
+	printf("\nExpected: %s\n", str);
         gen_comment ();
         output_string (str);
         newline ();

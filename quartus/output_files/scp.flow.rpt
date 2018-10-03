@@ -1,5 +1,5 @@
 Flow report for scp
-Sun Sep 30 15:21:43 2018
+Tue Oct  2 21:02:45 2018
 Quartus Prime Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
 
 
@@ -40,15 +40,15 @@ refer to the applicable agreement for further details.
 +-------------------------------------------------------------------------------+
 ; Flow Summary                                                                  ;
 +---------------------------------+---------------------------------------------+
-; Flow Status                     ; Successful - Sun Sep 30 15:21:43 2018       ;
+; Flow Status                     ; Successful - Tue Oct  2 21:02:45 2018       ;
 ; Quartus Prime Version           ; 17.1.0 Build 590 10/25/2017 SJ Lite Edition ;
 ; Revision Name                   ; scp                                         ;
 ; Top-level Entity Name           ; scp                                         ;
 ; Family                          ; Cyclone V                                   ;
 ; Device                          ; 5CSEMA4U23C6                                ;
 ; Timing Models                   ; Final                                       ;
-; Logic utilization (in ALMs)     ; 1,107 / 15,880 ( 7 % )                      ;
-; Total registers                 ; 921                                         ;
+; Logic utilization (in ALMs)     ; 1,111 / 15,880 ( 7 % )                      ;
+; Total registers                 ; 949                                         ;
 ; Total pins                      ; 23 / 314 ( 7 % )                            ;
 ; Total virtual pins              ; 0                                           ;
 ; Total block memory bits         ; 1,687,552 / 2,764,800 ( 61 % )              ;
@@ -67,7 +67,7 @@ refer to the applicable agreement for further details.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 09/30/2018 15:17:32 ;
+; Start date & time ; 10/02/2018 20:57:11 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; scp                 ;
 +-------------------+---------------------+
@@ -78,7 +78,7 @@ refer to the applicable agreement for further details.
 +-------------------------------------+----------------------------------------+---------------+-------------+----------------+
 ; Assignment Name                     ; Value                                  ; Default Value ; Entity Name ; Section Id     ;
 +-------------------------------------+----------------------------------------+---------------+-------------+----------------+
-; COMPILER_SIGNATURE_ID               ; 247356951922156.153834225208269        ; --            ; --          ; --             ;
+; COMPILER_SIGNATURE_ID               ; 220083050252176.153853543027405        ; --            ; --          ; --             ;
 ; EDA_OUTPUT_DATA_FORMAT              ; Verilog Hdl                            ; --            ; --          ; eda_simulation ;
 ; EDA_SIMULATION_TOOL                 ; ModelSim-Altera (Verilog)              ; <None>        ; --          ; --             ;
 ; EDA_TIME_SCALE                      ; 1 ps                                   ; --            ; --          ; eda_simulation ;
@@ -120,12 +120,12 @@ refer to the applicable agreement for further details.
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name               ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis      ; 00:00:33     ; 1.0                     ; 1128 MB             ; 00:00:58                           ;
-; Fitter                    ; 00:02:40     ; 1.1                     ; 2042 MB             ; 00:04:21                           ;
-; Assembler                 ; 00:00:12     ; 1.0                     ; 1011 MB             ; 00:00:12                           ;
-; TimeQuest Timing Analyzer ; 00:00:33     ; 1.5                     ; 1237 MB             ; 00:00:48                           ;
-; EDA Netlist Writer        ; 00:00:04     ; 1.0                     ; 1272 MB             ; 00:00:04                           ;
-; Total                     ; 00:04:02     ; --                      ; --                  ; 00:06:23                           ;
+; Analysis & Synthesis      ; 00:00:40     ; 1.0                     ; 1127 MB             ; 00:00:59                           ;
+; Fitter                    ; 00:03:34     ; 1.2                     ; 2052 MB             ; 00:05:05                           ;
+; Assembler                 ; 00:00:20     ; 1.0                     ; 999 MB              ; 00:00:16                           ;
+; TimeQuest Timing Analyzer ; 00:00:43     ; 1.6                     ; 1236 MB             ; 00:01:00                           ;
+; EDA Netlist Writer        ; 00:00:04     ; 1.0                     ; 1274 MB             ; 00:00:03                           ;
+; Total                     ; 00:05:21     ; --                      ; --                  ; 00:07:23                           ;
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 

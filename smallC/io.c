@@ -154,7 +154,7 @@ readline () {
 #endif
                         if ((k == CR) || (k == LF) | (lptr >= LINEMAX)){
 #ifdef CALL_RIGHT_TO_LEFT
-                                if(!semi_depth && prev_k != '\\'){
+                                if(/*!semi_depth &&*/ prev_k != '\\'){
                                         break;
                                 }            
 #endif

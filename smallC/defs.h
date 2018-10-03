@@ -125,11 +125,11 @@ struct while_rec {
 #define MPMAX   LINEMAX
 
 /* macro (define) pool */
-#define MACQSIZE        3500
+#define MACQSIZE        1000
 #define MACMAX  (MACQSIZE-1)
 
 /* "include" stack */
-#define INCLSIZ     3
+#define INCLSIZ     5
 
 /* statement types (tokens) */
 #define STIF        1
