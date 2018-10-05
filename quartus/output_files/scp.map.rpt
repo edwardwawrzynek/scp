@@ -1,5 +1,5 @@
 Analysis & Synthesis report for scp
-Tue Oct  2 20:57:53 2018
+Thu Oct  4 21:37:27 2018
 Quartus Prime Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
 
 
@@ -35,8 +35,8 @@ Quartus Prime Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
  27. Source assignments for mmu:inst24|page_table_mega:inst|altsyncram:altsyncram_component|altsyncram_nlr2:auto_generated
  28. Source assignments for sd_io:inst27|sdCtrlInt:sdinst7|altsyncram:data_rd_mem_rtl_0|altsyncram_qji1:auto_generated
  29. Source assignments for sd_io:inst27|sdCtrlInt:sdinst7|altsyncram:data_wr_mem_rtl_0|altsyncram_i3n1:auto_generated
- 30. Source assignments for ps2_io:inst11|ps2_fifo:instp3|altsyncram:mem_rtl_0|altsyncram_93k1:auto_generated
- 31. Source assignments for uart_io:inst10|uartRecFIFO:inst02|altsyncram:mem_rtl_0|altsyncram_93k1:auto_generated
+ 30. Source assignments for uart_io:inst10|uartRecFIFO:inst02|altsyncram:mem_rtl_0|altsyncram_93k1:auto_generated
+ 31. Source assignments for ps2_io:inst11|ps2_fifo:instp3|altsyncram:mem_rtl_0|altsyncram_93k1:auto_generated
  32. Parameter Settings for User Entity Instance: vga_io:inst23|VGA_controller:instv6
  33. Parameter Settings for User Entity Instance: vga_io:inst23|io_port:instv3
  34. Parameter Settings for User Entity Instance: vga_io:inst23|io_port:instv4
@@ -50,35 +50,35 @@ Quartus Prime Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
  42. Parameter Settings for User Entity Instance: pll:inst9|pll_0002:pll_inst|altera_pll:altera_pll_i
  43. Parameter Settings for User Entity Instance: rom_mega:DECODE_ROM|altsyncram:altsyncram_component
  44. Parameter Settings for User Entity Instance: decode_addr_mux:inst30
- 45. Parameter Settings for User Entity Instance: ram_mega:RAM|altsyncram:altsyncram_component
- 46. Parameter Settings for User Entity Instance: mmu:inst24|page_table_mega:inst|altsyncram:altsyncram_component
- 47. Parameter Settings for User Entity Instance: io_port:inst22
- 48. Parameter Settings for User Entity Instance: uart_io:inst10|uart:inst01
- 49. Parameter Settings for User Entity Instance: uart_io:inst10|uart:inst01|baud_rate_gen:uart_baud
- 50. Parameter Settings for User Entity Instance: uart_io:inst10|uart:inst01|transmitter:uart_tx
- 51. Parameter Settings for User Entity Instance: uart_io:inst10|uart:inst01|receiver:uart_rx
- 52. Parameter Settings for User Entity Instance: uart_io:inst10|io_port:inst04
- 53. Parameter Settings for User Entity Instance: uart_io:inst10|io_port:inst03
- 54. Parameter Settings for User Entity Instance: uart_io:inst10|io_port:inst05
- 55. Parameter Settings for User Entity Instance: uart_io:inst10|io_port:inst06
- 56. Parameter Settings for User Entity Instance: ps2_io:inst11|ps2_keyboard:instp
- 57. Parameter Settings for User Entity Instance: ps2_io:inst11|ps2_keyboard:instp|debounce:debounce_ps2_clk
- 58. Parameter Settings for User Entity Instance: ps2_io:inst11|ps2_keyboard:instp|debounce:debounce_ps2_data
- 59. Parameter Settings for User Entity Instance: ps2_io:inst11|io_port:instp1
- 60. Parameter Settings for User Entity Instance: ps2_io:inst11|io_port:instp2
- 61. Parameter Settings for User Entity Instance: sound_io:inst12|io_port:inst
- 62. Parameter Settings for User Entity Instance: sd_io:inst27|SdCardCtrl:sdinst
- 63. Parameter Settings for User Entity Instance: sd_io:inst27|io_port:sdinst1
- 64. Parameter Settings for User Entity Instance: sd_io:inst27|sdCtrlInt:sdinst7
- 65. Parameter Settings for User Entity Instance: sd_io:inst27|io_port:sdinst3
- 66. Parameter Settings for User Entity Instance: sd_io:inst27|io_port:sdinst4
- 67. Parameter Settings for User Entity Instance: sd_io:inst27|io_port:sdinst5
- 68. Parameter Settings for User Entity Instance: sd_io:inst27|io_port:sdinst8
- 69. Parameter Settings for User Entity Instance: sd_io:inst27|io_port:sdinst2
+ 45. Parameter Settings for User Entity Instance: ps2_io:inst11|ps2_keyboard:instp
+ 46. Parameter Settings for User Entity Instance: ps2_io:inst11|ps2_keyboard:instp|debounce:debounce_ps2_clk
+ 47. Parameter Settings for User Entity Instance: ps2_io:inst11|ps2_keyboard:instp|debounce:debounce_ps2_data
+ 48. Parameter Settings for User Entity Instance: ps2_io:inst11|io_port:instp1
+ 49. Parameter Settings for User Entity Instance: ps2_io:inst11|io_port:instp2
+ 50. Parameter Settings for User Entity Instance: io_port:inst22
+ 51. Parameter Settings for User Entity Instance: uart_io:inst10|uart:inst01
+ 52. Parameter Settings for User Entity Instance: uart_io:inst10|uart:inst01|baud_rate_gen:uart_baud
+ 53. Parameter Settings for User Entity Instance: uart_io:inst10|uart:inst01|transmitter:uart_tx
+ 54. Parameter Settings for User Entity Instance: uart_io:inst10|uart:inst01|receiver:uart_rx
+ 55. Parameter Settings for User Entity Instance: uart_io:inst10|io_port:inst04
+ 56. Parameter Settings for User Entity Instance: uart_io:inst10|io_port:inst03
+ 57. Parameter Settings for User Entity Instance: uart_io:inst10|io_port:inst05
+ 58. Parameter Settings for User Entity Instance: uart_io:inst10|io_port:inst06
+ 59. Parameter Settings for User Entity Instance: sound_io:inst12|io_port:inst
+ 60. Parameter Settings for User Entity Instance: sd_io:inst27|SdCardCtrl:sdinst
+ 61. Parameter Settings for User Entity Instance: sd_io:inst27|io_port:sdinst1
+ 62. Parameter Settings for User Entity Instance: sd_io:inst27|sdCtrlInt:sdinst7
+ 63. Parameter Settings for User Entity Instance: sd_io:inst27|io_port:sdinst3
+ 64. Parameter Settings for User Entity Instance: sd_io:inst27|io_port:sdinst4
+ 65. Parameter Settings for User Entity Instance: sd_io:inst27|io_port:sdinst5
+ 66. Parameter Settings for User Entity Instance: sd_io:inst27|io_port:sdinst8
+ 67. Parameter Settings for User Entity Instance: sd_io:inst27|io_port:sdinst2
+ 68. Parameter Settings for User Entity Instance: ram_mega:RAM|altsyncram:altsyncram_component
+ 69. Parameter Settings for User Entity Instance: mmu:inst24|page_table_mega:inst|altsyncram:altsyncram_component
  70. Parameter Settings for Inferred Entity Instance: sd_io:inst27|sdCtrlInt:sdinst7|altsyncram:data_rd_mem_rtl_0
  71. Parameter Settings for Inferred Entity Instance: sd_io:inst27|sdCtrlInt:sdinst7|altsyncram:data_wr_mem_rtl_0
- 72. Parameter Settings for Inferred Entity Instance: ps2_io:inst11|ps2_fifo:instp3|altsyncram:mem_rtl_0
- 73. Parameter Settings for Inferred Entity Instance: uart_io:inst10|uartRecFIFO:inst02|altsyncram:mem_rtl_0
+ 72. Parameter Settings for Inferred Entity Instance: uart_io:inst10|uartRecFIFO:inst02|altsyncram:mem_rtl_0
+ 73. Parameter Settings for Inferred Entity Instance: ps2_io:inst11|ps2_fifo:instp3|altsyncram:mem_rtl_0
  74. altsyncram Parameter Settings by Entity Instance
  75. Post-Synthesis Netlist Statistics for Top Partition
  76. Elapsed Time Per Partition
@@ -109,16 +109,16 @@ refer to the applicable agreement for further details.
 +-------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                  ;
 +---------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status     ; Successful - Tue Oct  2 20:57:52 2018       ;
+; Analysis & Synthesis Status     ; Successful - Thu Oct  4 21:37:26 2018       ;
 ; Quartus Prime Version           ; 17.1.0 Build 590 10/25/2017 SJ Lite Edition ;
 ; Revision Name                   ; scp                                         ;
 ; Top-level Entity Name           ; scp                                         ;
 ; Family                          ; Cyclone V                                   ;
 ; Logic utilization (in ALMs)     ; N/A                                         ;
-; Total registers                 ; 867                                         ;
-; Total pins                      ; 23                                          ;
+; Total registers                 ; 868                                         ;
+; Total pins                      ; 22                                          ;
 ; Total virtual pins              ; 0                                           ;
-; Total block memory bits         ; 1,687,552                                   ;
+; Total block memory bits         ; 1,688,576                                   ;
 ; Total DSP Blocks                ; 1                                           ;
 ; Total HSSI RX PCSs              ; 0                                           ;
 ; Total HSSI PMA RX Deserializers ; 0                                           ;
@@ -330,20 +330,20 @@ refer to the applicable agreement for further details.
 +---------------------------------------------+--------------------------------------------------------------------+
 ; Resource                                    ; Usage                                                              ;
 +---------------------------------------------+--------------------------------------------------------------------+
-; Estimate of Logic utilization (ALMs needed) ; 1146                                                               ;
+; Estimate of Logic utilization (ALMs needed) ; 1139                                                               ;
 ;                                             ;                                                                    ;
-; Combinational ALUT usage for logic          ; 1652                                                               ;
-;     -- 7 input functions                    ; 45                                                                 ;
-;     -- 6 input functions                    ; 511                                                                ;
-;     -- 5 input functions                    ; 300                                                                ;
-;     -- 4 input functions                    ; 188                                                                ;
-;     -- <=3 input functions                  ; 608                                                                ;
+; Combinational ALUT usage for logic          ; 1639                                                               ;
+;     -- 7 input functions                    ; 51                                                                 ;
+;     -- 6 input functions                    ; 497                                                                ;
+;     -- 5 input functions                    ; 307                                                                ;
+;     -- 4 input functions                    ; 186                                                                ;
+;     -- <=3 input functions                  ; 598                                                                ;
 ;                                             ;                                                                    ;
-; Dedicated logic registers                   ; 867                                                                ;
+; Dedicated logic registers                   ; 868                                                                ;
 ;                                             ;                                                                    ;
-; I/O pins                                    ; 23                                                                 ;
+; I/O pins                                    ; 22                                                                 ;
 ; Total MLAB memory bits                      ; 0                                                                  ;
-; Total block memory bits                     ; 1687552                                                            ;
+; Total block memory bits                     ; 1688576                                                            ;
 ;                                             ;                                                                    ;
 ; Total DSP Blocks                            ; 1                                                                  ;
 ;                                             ;                                                                    ;
@@ -351,9 +351,9 @@ refer to the applicable agreement for further details.
 ;     -- PLLs                                 ; 6                                                                  ;
 ;                                             ;                                                                    ;
 ; Maximum fan-out node                        ; pll:inst9|pll_0002:pll_inst|altera_pll:altera_pll_i|outclk_wire[1] ;
-; Maximum fan-out                             ; 562                                                                ;
-; Total fan-out                               ; 18094                                                              ;
-; Average fan-out                             ; 6.18                                                               ;
+; Maximum fan-out                             ; 563                                                                ;
+; Total fan-out                               ; 18089                                                              ;
+; Average fan-out                             ; 6.20                                                               ;
 +---------------------------------------------+--------------------------------------------------------------------+
 
 
@@ -362,17 +362,17 @@ refer to the applicable agreement for further details.
 +----------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+-------------------------------------------------------------------------------------------------------------------------+------------------------+--------------+
 ; Compilation Hierarchy Node                   ; Combinational ALUTs ; Dedicated Logic Registers ; Block Memory Bits ; DSP Blocks ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                                     ; Entity Name            ; Library Name ;
 +----------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+-------------------------------------------------------------------------------------------------------------------------+------------------------+--------------+
-; |scp                                         ; 1652 (27)           ; 867 (0)                   ; 1687552           ; 1          ; 23   ; 0            ; |scp                                                                                                                    ; scp                    ; work         ;
-;    |ab_bus_in_mux:inst15|                    ; 126 (126)           ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ab_bus_in_mux:inst15                                                                                               ; ab_bus_in_mux          ; work         ;
+; |scp                                         ; 1639 (31)           ; 868 (0)                   ; 1688576           ; 1          ; 22   ; 0            ; |scp                                                                                                                    ; scp                    ; work         ;
+;    |ab_bus_in_mux:inst15|                    ; 110 (110)           ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ab_bus_in_mux:inst15                                                                                               ; ab_bus_in_mux          ; work         ;
 ;    |ab_bus_out_mux:inst13|                   ; 16 (16)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ab_bus_out_mux:inst13                                                                                              ; ab_bus_out_mux         ; work         ;
-;    |alu:inst1|                               ; 258 (258)           ; 16 (16)                   ; 0                 ; 1          ; 0    ; 0            ; |scp|alu:inst1                                                                                                          ; alu                    ; work         ;
-;    |cond:inst16|                             ; 6 (6)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|cond:inst16                                                                                                        ; cond                   ; work         ;
+;    |alu:inst1|                               ; 253 (253)           ; 16 (16)                   ; 0                 ; 1          ; 0    ; 0            ; |scp|alu:inst1                                                                                                          ; alu                    ; work         ;
+;    |cond:inst16|                             ; 7 (7)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|cond:inst16                                                                                                        ; cond                   ; work         ;
 ;    |decode_addr_mux:inst30|                  ; 58 (58)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|decode_addr_mux:inst30                                                                                             ; decode_addr_mux        ; work         ;
 ;    |general_reg:A_REG|                       ; 36 (36)             ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|general_reg:A_REG                                                                                                  ; general_reg            ; work         ;
 ;    |general_reg:B_REG|                       ; 36 (36)             ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|general_reg:B_REG                                                                                                  ; general_reg            ; work         ;
 ;    |int_manager:inst26|                      ; 1 (1)               ; 1 (1)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|int_manager:inst26                                                                                                 ; int_manager            ; work         ;
 ;    |io_port:inst22|                          ; 2 (2)               ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|io_port:inst22                                                                                                     ; io_port                ; work         ;
-;    |io_regs:inst21|                          ; 0 (0)               ; 24 (24)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|io_regs:inst21                                                                                                     ; io_regs                ; work         ;
+;    |io_regs:inst21|                          ; 1 (1)               ; 24 (24)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|io_regs:inst21                                                                                                     ; io_regs                ; work         ;
 ;    |mar_mux:inst6|                           ; 16 (16)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|mar_mux:inst6                                                                                                      ; mar_mux                ; work         ;
 ;    |mdr_in_byte_select:inst14|               ; 18 (18)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|mdr_in_byte_select:inst14                                                                                          ; mdr_in_byte_select     ; work         ;
 ;    |mdr_out_byte_shift_reg:inst2|            ; 19 (19)             ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|mdr_out_byte_shift_reg:inst2                                                                                       ; mdr_out_byte_shift_reg ; work         ;
@@ -382,20 +382,20 @@ refer to the applicable agreement for further details.
 ;       |page_table_mega:inst|                 ; 0 (0)               ; 0 (0)                     ; 12288             ; 0          ; 0    ; 0            ; |scp|mmu:inst24|page_table_mega:inst                                                                                    ; page_table_mega        ; work         ;
 ;          |altsyncram:altsyncram_component|   ; 0 (0)               ; 0 (0)                     ; 12288             ; 0          ; 0    ; 0            ; |scp|mmu:inst24|page_table_mega:inst|altsyncram:altsyncram_component                                                    ; altsyncram             ; work         ;
 ;             |altsyncram_nlr2:auto_generated| ; 0 (0)               ; 0 (0)                     ; 12288             ; 0          ; 0    ; 0            ; |scp|mmu:inst24|page_table_mega:inst|altsyncram:altsyncram_component|altsyncram_nlr2:auto_generated                     ; altsyncram_nlr2        ; work         ;
-;    |pc_reg:inst3|                            ; 35 (35)             ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|pc_reg:inst3                                                                                                       ; pc_reg                 ; work         ;
+;    |pc_reg:inst3|                            ; 36 (36)             ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|pc_reg:inst3                                                                                                       ; pc_reg                 ; work         ;
 ;    |pll:inst9|                               ; 0 (0)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|pll:inst9                                                                                                          ; pll                    ; pll          ;
 ;       |pll_0002:pll_inst|                    ; 0 (0)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|pll:inst9|pll_0002:pll_inst                                                                                        ; pll_0002               ; pll          ;
 ;          |altera_pll:altera_pll_i|           ; 0 (0)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|pll:inst9|pll_0002:pll_inst|altera_pll:altera_pll_i                                                                ; altera_pll             ; work         ;
-;    |ps2_io:inst11|                           ; 112 (0)             ; 110 (0)                   ; 2048              ; 0          ; 0    ; 0            ; |scp|ps2_io:inst11                                                                                                      ; ps2_io                 ; work         ;
+;    |ps2_io:inst11|                           ; 113 (0)             ; 111 (0)                   ; 2048              ; 0          ; 0    ; 0            ; |scp|ps2_io:inst11                                                                                                      ; ps2_io                 ; work         ;
 ;       |io_port:instp1|                       ; 2 (2)               ; 1 (1)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ps2_io:inst11|io_port:instp1                                                                                       ; io_port                ; work         ;
-;       |io_port:instp2|                       ; 2 (2)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ps2_io:inst11|io_port:instp2                                                                                       ; io_port                ; work         ;
+;       |io_port:instp2|                       ; 1 (1)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ps2_io:inst11|io_port:instp2                                                                                       ; io_port                ; work         ;
 ;       |ps2_fifo:instp3|                      ; 28 (28)             ; 41 (41)                   ; 2048              ; 0          ; 0    ; 0            ; |scp|ps2_io:inst11|ps2_fifo:instp3                                                                                      ; ps2_fifo               ; work         ;
 ;          |altsyncram:mem_rtl_0|              ; 0 (0)               ; 0 (0)                     ; 2048              ; 0          ; 0    ; 0            ; |scp|ps2_io:inst11|ps2_fifo:instp3|altsyncram:mem_rtl_0                                                                 ; altsyncram             ; work         ;
 ;             |altsyncram_93k1:auto_generated| ; 0 (0)               ; 0 (0)                     ; 2048              ; 0          ; 0    ; 0            ; |scp|ps2_io:inst11|ps2_fifo:instp3|altsyncram:mem_rtl_0|altsyncram_93k1:auto_generated                                  ; altsyncram_93k1        ; work         ;
 ;       |ps2_keyboard:instp|                   ; 43 (17)             ; 57 (33)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|ps2_io:inst11|ps2_keyboard:instp                                                                                   ; ps2_keyboard           ; work         ;
 ;          |debounce:debounce_ps2_clk|         ; 13 (13)             ; 12 (12)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|ps2_io:inst11|ps2_keyboard:instp|debounce:debounce_ps2_clk                                                         ; debounce               ; work         ;
 ;          |debounce:debounce_ps2_data|        ; 13 (13)             ; 12 (12)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|ps2_io:inst11|ps2_keyboard:instp|debounce:debounce_ps2_data                                                        ; debounce               ; work         ;
-;       |ps2_to_ascii:instp4|                  ; 37 (37)             ; 11 (11)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|ps2_io:inst11|ps2_to_ascii:instp4                                                                                  ; ps2_to_ascii           ; work         ;
+;       |ps2_to_ascii:instp4|                  ; 39 (39)             ; 12 (12)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|ps2_io:inst11|ps2_to_ascii:instp4                                                                                  ; ps2_to_ascii           ; work         ;
 ;    |ptb_reg:inst17|                          ; 0 (0)               ; 11 (11)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|ptb_reg:inst17                                                                                                     ; ptb_reg                ; work         ;
 ;    |ram_mega:RAM|                            ; 88 (0)              ; 8 (0)                     ; 1048576           ; 0          ; 0    ; 0            ; |scp|ram_mega:RAM                                                                                                       ; ram_mega               ; work         ;
 ;       |altsyncram:altsyncram_component|      ; 88 (0)              ; 8 (0)                     ; 1048576           ; 0          ; 0    ; 0            ; |scp|ram_mega:RAM|altsyncram:altsyncram_component                                                                       ; altsyncram             ; work         ;
@@ -404,32 +404,32 @@ refer to the applicable agreement for further details.
 ;             |decode_m2a:rden_decode_b|       ; 16 (16)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|decode_m2a:rden_decode_b               ; decode_m2a             ; work         ;
 ;             |decode_tma:decode2|             ; 16 (16)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|decode_tma:decode2                     ; decode_tma             ; work         ;
 ;             |mux_dhb:mux4|                   ; 40 (40)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|mux_dhb:mux4                           ; mux_dhb                ; work         ;
-;    |rom_mega:DECODE_ROM|                     ; 0 (0)               ; 0 (0)                     ; 57344             ; 0          ; 0    ; 0            ; |scp|rom_mega:DECODE_ROM                                                                                                ; rom_mega               ; work         ;
-;       |altsyncram:altsyncram_component|      ; 0 (0)               ; 0 (0)                     ; 57344             ; 0          ; 0    ; 0            ; |scp|rom_mega:DECODE_ROM|altsyncram:altsyncram_component                                                                ; altsyncram             ; work         ;
-;          |altsyncram_nkh1:auto_generated|    ; 0 (0)               ; 0 (0)                     ; 57344             ; 0          ; 0    ; 0            ; |scp|rom_mega:DECODE_ROM|altsyncram:altsyncram_component|altsyncram_nkh1:auto_generated                                 ; altsyncram_nkh1        ; work         ;
-;    |sd_io:inst27|                            ; 342 (0)             ; 279 (0)                   ; 8192              ; 0          ; 0    ; 0            ; |scp|sd_io:inst27                                                                                                       ; sd_io                  ; work         ;
+;    |rom_mega:DECODE_ROM|                     ; 0 (0)               ; 0 (0)                     ; 58368             ; 0          ; 0    ; 0            ; |scp|rom_mega:DECODE_ROM                                                                                                ; rom_mega               ; work         ;
+;       |altsyncram:altsyncram_component|      ; 0 (0)               ; 0 (0)                     ; 58368             ; 0          ; 0    ; 0            ; |scp|rom_mega:DECODE_ROM|altsyncram:altsyncram_component                                                                ; altsyncram             ; work         ;
+;          |altsyncram_nkh1:auto_generated|    ; 0 (0)               ; 0 (0)                     ; 58368             ; 0          ; 0    ; 0            ; |scp|rom_mega:DECODE_ROM|altsyncram:altsyncram_component|altsyncram_nkh1:auto_generated                                 ; altsyncram_nkh1        ; work         ;
+;    |sd_io:inst27|                            ; 338 (0)             ; 279 (0)                   ; 8192              ; 0          ; 0    ; 0            ; |scp|sd_io:inst27                                                                                                       ; sd_io                  ; work         ;
 ;       |SdCardCtrl:sdinst|                    ; 242 (242)           ; 142 (142)                 ; 0                 ; 0          ; 0    ; 0            ; |scp|sd_io:inst27|SdCardCtrl:sdinst                                                                                     ; SdCardCtrl             ; work         ;
 ;       |io_port:sdinst1|                      ; 2 (2)               ; 1 (1)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|sd_io:inst27|io_port:sdinst1                                                                                       ; io_port                ; work         ;
 ;       |io_port:sdinst2|                      ; 4 (4)               ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|sd_io:inst27|io_port:sdinst2                                                                                       ; io_port                ; work         ;
-;       |io_port:sdinst3|                      ; 3 (3)               ; 1 (1)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|sd_io:inst27|io_port:sdinst3                                                                                       ; io_port                ; work         ;
-;       |io_port:sdinst4|                      ; 3 (3)               ; 1 (1)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|sd_io:inst27|io_port:sdinst4                                                                                       ; io_port                ; work         ;
+;       |io_port:sdinst3|                      ; 2 (2)               ; 1 (1)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|sd_io:inst27|io_port:sdinst3                                                                                       ; io_port                ; work         ;
+;       |io_port:sdinst4|                      ; 1 (1)               ; 1 (1)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|sd_io:inst27|io_port:sdinst4                                                                                       ; io_port                ; work         ;
 ;       |io_port:sdinst5|                      ; 1 (1)               ; 9 (9)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|sd_io:inst27|io_port:sdinst5                                                                                       ; io_port                ; work         ;
-;       |io_port:sdinst8|                      ; 3 (3)               ; 1 (1)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|sd_io:inst27|io_port:sdinst8                                                                                       ; io_port                ; work         ;
+;       |io_port:sdinst8|                      ; 2 (2)               ; 1 (1)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|sd_io:inst27|io_port:sdinst8                                                                                       ; io_port                ; work         ;
 ;       |sdCtrlInt:sdinst7|                    ; 84 (84)             ; 108 (108)                 ; 8192              ; 0          ; 0    ; 0            ; |scp|sd_io:inst27|sdCtrlInt:sdinst7                                                                                     ; sdCtrlInt              ; work         ;
 ;          |altsyncram:data_rd_mem_rtl_0|      ; 0 (0)               ; 0 (0)                     ; 4096              ; 0          ; 0    ; 0            ; |scp|sd_io:inst27|sdCtrlInt:sdinst7|altsyncram:data_rd_mem_rtl_0                                                        ; altsyncram             ; work         ;
 ;             |altsyncram_qji1:auto_generated| ; 0 (0)               ; 0 (0)                     ; 4096              ; 0          ; 0    ; 0            ; |scp|sd_io:inst27|sdCtrlInt:sdinst7|altsyncram:data_rd_mem_rtl_0|altsyncram_qji1:auto_generated                         ; altsyncram_qji1        ; work         ;
 ;          |altsyncram:data_wr_mem_rtl_0|      ; 0 (0)               ; 0 (0)                     ; 4096              ; 0          ; 0    ; 0            ; |scp|sd_io:inst27|sdCtrlInt:sdinst7|altsyncram:data_wr_mem_rtl_0                                                        ; altsyncram             ; work         ;
 ;             |altsyncram_i3n1:auto_generated| ; 0 (0)               ; 0 (0)                     ; 4096              ; 0          ; 0    ; 0            ; |scp|sd_io:inst27|sdCtrlInt:sdinst7|altsyncram:data_wr_mem_rtl_0|altsyncram_i3n1:auto_generated                         ; altsyncram_i3n1        ; work         ;
-;    |sound_io:inst12|                         ; 50 (0)              ; 36 (0)                    ; 0                 ; 0          ; 0    ; 0            ; |scp|sound_io:inst12                                                                                                    ; sound_io               ; work         ;
-;       |io_port:inst|                         ; 2 (2)               ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|sound_io:inst12|io_port:inst                                                                                       ; io_port                ; work         ;
+;    |sound_io:inst12|                         ; 51 (0)              ; 36 (0)                    ; 0                 ; 0          ; 0    ; 0            ; |scp|sound_io:inst12                                                                                                    ; sound_io               ; work         ;
+;       |io_port:inst|                         ; 3 (3)               ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|sound_io:inst12|io_port:inst                                                                                       ; io_port                ; work         ;
 ;       |sound_gen:inst1|                      ; 48 (48)             ; 20 (20)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|sound_io:inst12|sound_gen:inst1                                                                                    ; sound_gen              ; work         ;
-;    |sp_adder:inst19|                         ; 17 (17)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|sp_adder:inst19                                                                                                    ; sp_adder               ; work         ;
+;    |sp_adder:inst19|                         ; 18 (18)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|sp_adder:inst19                                                                                                    ; sp_adder               ; work         ;
 ;    |sp_reg:inst18|                           ; 49 (49)             ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|sp_reg:inst18                                                                                                      ; sp_reg                 ; work         ;
 ;    |sys_privilage_reg:inst25|                ; 1 (1)               ; 1 (1)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|sys_privilage_reg:inst25                                                                                           ; sys_privilage_reg      ; work         ;
 ;    |uart_io:inst10|                          ; 106 (0)             ; 118 (0)                   ; 2048              ; 0          ; 0    ; 0            ; |scp|uart_io:inst10                                                                                                     ; uart_io                ; work         ;
 ;       |io_port:inst03|                       ; 2 (2)               ; 1 (1)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|uart_io:inst10|io_port:inst03                                                                                      ; io_port                ; work         ;
-;       |io_port:inst04|                       ; 1 (1)               ; 17 (17)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|uart_io:inst10|io_port:inst04                                                                                      ; io_port                ; work         ;
-;       |io_port:inst05|                       ; 2 (2)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|uart_io:inst10|io_port:inst05                                                                                      ; io_port                ; work         ;
+;       |io_port:inst04|                       ; 2 (2)               ; 17 (17)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|uart_io:inst10|io_port:inst04                                                                                      ; io_port                ; work         ;
+;       |io_port:inst05|                       ; 1 (1)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|uart_io:inst10|io_port:inst05                                                                                      ; io_port                ; work         ;
 ;       |uart:inst01|                          ; 72 (0)              ; 58 (0)                    ; 0                 ; 0          ; 0    ; 0            ; |scp|uart_io:inst10|uart:inst01                                                                                         ; uart                   ; work         ;
 ;          |baud_rate_gen:uart_baud|           ; 20 (20)             ; 14 (14)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|uart_io:inst10|uart:inst01|baud_rate_gen:uart_baud                                                                 ; baud_rate_gen          ; work         ;
 ;          |receiver:uart_rx|                  ; 38 (38)             ; 28 (28)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|uart_io:inst10|uart:inst01|receiver:uart_rx                                                                        ; receiver               ; work         ;
@@ -437,7 +437,7 @@ refer to the applicable agreement for further details.
 ;       |uartRecFIFO:inst02|                   ; 29 (29)             ; 42 (42)                   ; 2048              ; 0          ; 0    ; 0            ; |scp|uart_io:inst10|uartRecFIFO:inst02                                                                                  ; uartRecFIFO            ; work         ;
 ;          |altsyncram:mem_rtl_0|              ; 0 (0)               ; 0 (0)                     ; 2048              ; 0          ; 0    ; 0            ; |scp|uart_io:inst10|uartRecFIFO:inst02|altsyncram:mem_rtl_0                                                             ; altsyncram             ; work         ;
 ;             |altsyncram_93k1:auto_generated| ; 0 (0)               ; 0 (0)                     ; 2048              ; 0          ; 0    ; 0            ; |scp|uart_io:inst10|uartRecFIFO:inst02|altsyncram:mem_rtl_0|altsyncram_93k1:auto_generated                              ; altsyncram_93k1        ; work         ;
-;    |vga_io:inst23|                           ; 211 (0)             ; 167 (0)                   ; 557056            ; 0          ; 0    ; 0            ; |scp|vga_io:inst23                                                                                                      ; vga_io                 ; work         ;
+;    |vga_io:inst23|                           ; 213 (0)             ; 167 (0)                   ; 557056            ; 0          ; 0    ; 0            ; |scp|vga_io:inst23                                                                                                      ; vga_io                 ; work         ;
 ;       |VGA_controller:instv6|                ; 90 (90)             ; 111 (111)                 ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|VGA_controller:instv6                                                                                ; VGA_controller         ; work         ;
 ;       |char_mem:instv2|                      ; 0 (0)               ; 0 (0)                     ; 16384             ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|char_mem:instv2                                                                                      ; char_mem               ; work         ;
 ;          |altsyncram:altsyncram_component|   ; 0 (0)               ; 0 (0)                     ; 16384             ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|char_mem:instv2|altsyncram:altsyncram_component                                                      ; altsyncram             ; work         ;
@@ -452,11 +452,11 @@ refer to the applicable agreement for further details.
 ;                |decode_61a:rden_decode_b|    ; 8 (8)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|gfx_mem:inst|altsyncram:altsyncram_component|altsyncram_trj2:auto_generated|decode_61a:rden_decode_b ; decode_61a             ; work         ;
 ;                |decode_dla:decode3|          ; 8 (8)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|gfx_mem:inst|altsyncram:altsyncram_component|altsyncram_trj2:auto_generated|decode_dla:decode3       ; decode_dla             ; work         ;
 ;                |mux_tfb:mux5|                ; 4 (4)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|gfx_mem:inst|altsyncram:altsyncram_component|altsyncram_trj2:auto_generated|mux_tfb:mux5             ; mux_tfb                ; work         ;
-;       |io_port:inst1|                        ; 1 (1)               ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|io_port:inst1                                                                                        ; io_port                ; work         ;
+;       |io_port:inst1|                        ; 2 (2)               ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|io_port:inst1                                                                                        ; io_port                ; work         ;
 ;       |io_port:inst2|                        ; 2 (2)               ; 9 (9)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|io_port:inst2                                                                                        ; io_port                ; work         ;
 ;       |io_port:instv3|                       ; 1 (1)               ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|io_port:instv3                                                                                       ; io_port                ; work         ;
 ;       |io_port:instv4|                       ; 1 (1)               ; 9 (9)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|io_port:instv4                                                                                       ; io_port                ; work         ;
-;       |text_gen:instv1|                      ; 88 (88)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|text_gen:instv1                                                                                      ; text_gen               ; work         ;
+;       |text_gen:instv1|                      ; 89 (89)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|text_gen:instv1                                                                                      ; text_gen               ; work         ;
 ;    |vga_pll:inst|                            ; 0 (0)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_pll:inst                                                                                                       ; vga_pll                ; vga_pll      ;
 ;       |vga_pll_0002:vga_pll_inst|            ; 0 (0)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_pll:inst|vga_pll_0002:vga_pll_inst                                                                             ; vga_pll_0002           ; vga_pll      ;
 ;          |altera_pll:altera_pll_i|           ; 0 (0)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_pll:inst|vga_pll_0002:vga_pll_inst|altera_pll:altera_pll_i                                                     ; altera_pll             ; work         ;
@@ -653,12 +653,12 @@ Encoding Type:  One-Hot
 +----------------------------------------------+-------+
 ; Statistic                                    ; Value ;
 +----------------------------------------------+-------+
-; Total registers                              ; 867   ;
+; Total registers                              ; 868   ;
 ; Number of registers using Synchronous Clear  ; 183   ;
-; Number of registers using Synchronous Load   ; 123   ;
+; Number of registers using Synchronous Load   ; 131   ;
 ; Number of registers using Asynchronous Clear ; 0     ;
 ; Number of registers using Asynchronous Load  ; 0     ;
-; Number of registers using Clock Enable       ; 561   ;
+; Number of registers using Clock Enable       ; 563   ;
 ; Number of registers using Preset             ; 0     ;
 +----------------------------------------------+-------+
 
@@ -734,31 +734,6 @@ Encoding Type:  One-Hot
 ; sd_io:inst27|sdCtrlInt:sdinst7|data_wr_mem_rtl_0_bypass[24] ; sd_io:inst27|sdCtrlInt:sdinst7|data_wr_mem_rtl_0 ;
 ; sd_io:inst27|sdCtrlInt:sdinst7|data_wr_mem_rtl_0_bypass[25] ; sd_io:inst27|sdCtrlInt:sdinst7|data_wr_mem_rtl_0 ;
 ; sd_io:inst27|sdCtrlInt:sdinst7|data_wr_mem_rtl_0_bypass[26] ; sd_io:inst27|sdCtrlInt:sdinst7|data_wr_mem_rtl_0 ;
-; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0_bypass[0]           ; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0          ;
-; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0_bypass[1]           ; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0          ;
-; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0_bypass[2]           ; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0          ;
-; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0_bypass[3]           ; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0          ;
-; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0_bypass[4]           ; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0          ;
-; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0_bypass[5]           ; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0          ;
-; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0_bypass[6]           ; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0          ;
-; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0_bypass[7]           ; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0          ;
-; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0_bypass[8]           ; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0          ;
-; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0_bypass[9]           ; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0          ;
-; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0_bypass[10]          ; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0          ;
-; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0_bypass[11]          ; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0          ;
-; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0_bypass[12]          ; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0          ;
-; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0_bypass[13]          ; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0          ;
-; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0_bypass[14]          ; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0          ;
-; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0_bypass[15]          ; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0          ;
-; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0_bypass[16]          ; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0          ;
-; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0_bypass[17]          ; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0          ;
-; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0_bypass[18]          ; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0          ;
-; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0_bypass[19]          ; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0          ;
-; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0_bypass[20]          ; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0          ;
-; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0_bypass[21]          ; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0          ;
-; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0_bypass[22]          ; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0          ;
-; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0_bypass[23]          ; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0          ;
-; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0_bypass[24]          ; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0          ;
 ; uart_io:inst10|uartRecFIFO:inst02|mem_rtl_0_bypass[0]       ; uart_io:inst10|uartRecFIFO:inst02|mem_rtl_0      ;
 ; uart_io:inst10|uartRecFIFO:inst02|mem_rtl_0_bypass[1]       ; uart_io:inst10|uartRecFIFO:inst02|mem_rtl_0      ;
 ; uart_io:inst10|uartRecFIFO:inst02|mem_rtl_0_bypass[2]       ; uart_io:inst10|uartRecFIFO:inst02|mem_rtl_0      ;
@@ -784,6 +759,31 @@ Encoding Type:  One-Hot
 ; uart_io:inst10|uartRecFIFO:inst02|mem_rtl_0_bypass[22]      ; uart_io:inst10|uartRecFIFO:inst02|mem_rtl_0      ;
 ; uart_io:inst10|uartRecFIFO:inst02|mem_rtl_0_bypass[23]      ; uart_io:inst10|uartRecFIFO:inst02|mem_rtl_0      ;
 ; uart_io:inst10|uartRecFIFO:inst02|mem_rtl_0_bypass[24]      ; uart_io:inst10|uartRecFIFO:inst02|mem_rtl_0      ;
+; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0_bypass[0]           ; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0          ;
+; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0_bypass[1]           ; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0          ;
+; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0_bypass[2]           ; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0          ;
+; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0_bypass[3]           ; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0          ;
+; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0_bypass[4]           ; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0          ;
+; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0_bypass[5]           ; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0          ;
+; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0_bypass[6]           ; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0          ;
+; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0_bypass[7]           ; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0          ;
+; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0_bypass[8]           ; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0          ;
+; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0_bypass[9]           ; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0          ;
+; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0_bypass[10]          ; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0          ;
+; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0_bypass[11]          ; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0          ;
+; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0_bypass[12]          ; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0          ;
+; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0_bypass[13]          ; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0          ;
+; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0_bypass[14]          ; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0          ;
+; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0_bypass[15]          ; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0          ;
+; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0_bypass[16]          ; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0          ;
+; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0_bypass[17]          ; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0          ;
+; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0_bypass[18]          ; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0          ;
+; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0_bypass[19]          ; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0          ;
+; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0_bypass[20]          ; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0          ;
+; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0_bypass[21]          ; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0          ;
+; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0_bypass[22]          ; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0          ;
+; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0_bypass[23]          ; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0          ;
+; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0_bypass[24]          ; ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0          ;
 +-------------------------------------------------------------+--------------------------------------------------+
 
 
@@ -792,35 +792,36 @@ Encoding Type:  One-Hot
 +--------------------+-----------+---------------+----------------------+------------------------+------------+--------------------------------------------------------------------------------------------------------------------+
 ; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                                                                                         ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+--------------------------------------------------------------------------------------------------------------------+
-; 3:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |scp|mdr_out_byte_shift_reg:inst2|val[6]                                                                           ;
-; 3:1                ; 11 bits   ; 22 LEs        ; 0 LEs                ; 22 LEs                 ; Yes        ; |scp|ps2_io:inst11|ps2_keyboard:instp|count_idle[0]                                                                ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |scp|ps2_io:inst11|ps2_keyboard:instp|debounce:debounce_ps2_clk|counter_out[0]                                     ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |scp|ps2_io:inst11|ps2_keyboard:instp|debounce:debounce_ps2_data|counter_out[6]                                    ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |scp|io_regs:inst21|io_addr[1]                                                                                     ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |scp|mdr_out_byte_shift_reg:inst2|val[1]                                                                           ;
+; 3:1                ; 11 bits   ; 22 LEs        ; 0 LEs                ; 22 LEs                 ; Yes        ; |scp|ps2_io:inst11|ps2_keyboard:instp|count_idle[9]                                                                ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |scp|ps2_io:inst11|ps2_keyboard:instp|debounce:debounce_ps2_clk|counter_out[3]                                     ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |scp|ps2_io:inst11|ps2_keyboard:instp|debounce:debounce_ps2_data|counter_out[3]                                    ;
 ; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|sclkPhaseTimer_v[2]                                                            ;
-; 4:1                ; 16 bits   ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; Yes        ; |scp|general_reg:A_REG|val[0]                                                                                      ;
-; 4:1                ; 16 bits   ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; Yes        ; |scp|general_reg:B_REG|val[13]                                                                                     ;
-; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |scp|mdr_out_byte_shift_reg:inst2|val[8]                                                                           ;
-; 4:1                ; 16 bits   ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; Yes        ; |scp|sp_reg:inst18|val[4]                                                                                          ;
-; 5:1                ; 6 bits    ; 18 LEs        ; 12 LEs               ; 6 LEs                  ; Yes        ; |scp|pc_reg:inst3|val[14]                                                                                          ;
-; 5:1                ; 10 bits   ; 30 LEs        ; 20 LEs               ; 10 LEs                 ; Yes        ; |scp|pc_reg:inst3|val[7]                                                                                           ;
-; 5:1                ; 8 bits    ; 24 LEs        ; 0 LEs                ; 24 LEs                 ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|rx_v[0]                                                                        ;
-; 5:1                ; 4 bits    ; 12 LEs        ; 4 LEs                ; 8 LEs                  ; Yes        ; |scp|uart_io:inst10|uart:inst01|receiver:uart_rx|bitpos[3]                                                         ;
-; 5:1                ; 3 bits    ; 9 LEs         ; 3 LEs                ; 6 LEs                  ; Yes        ; |scp|uart_io:inst10|uart:inst01|transmitter:uart_tx|bitpos[2]                                                      ;
-; 6:1                ; 4 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |scp|uart_io:inst10|uart:inst01|receiver:uart_rx|sample[2]                                                         ;
+; 4:1                ; 16 bits   ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; Yes        ; |scp|general_reg:A_REG|val[6]                                                                                      ;
+; 4:1                ; 16 bits   ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; Yes        ; |scp|general_reg:B_REG|val[5]                                                                                      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |scp|mdr_out_byte_shift_reg:inst2|val[14]                                                                          ;
+; 4:1                ; 16 bits   ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; Yes        ; |scp|sp_reg:inst18|val[0]                                                                                          ;
+; 5:1                ; 6 bits    ; 18 LEs        ; 12 LEs               ; 6 LEs                  ; Yes        ; |scp|pc_reg:inst3|val[2]                                                                                           ;
+; 5:1                ; 10 bits   ; 30 LEs        ; 20 LEs               ; 10 LEs                 ; Yes        ; |scp|pc_reg:inst3|val[4]                                                                                           ;
+; 5:1                ; 8 bits    ; 24 LEs        ; 0 LEs                ; 24 LEs                 ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|rx_v[7]                                                                        ;
+; 5:1                ; 4 bits    ; 12 LEs        ; 4 LEs                ; 8 LEs                  ; Yes        ; |scp|uart_io:inst10|uart:inst01|receiver:uart_rx|bitpos[0]                                                         ;
+; 5:1                ; 3 bits    ; 9 LEs         ; 3 LEs                ; 6 LEs                  ; Yes        ; |scp|uart_io:inst10|uart:inst01|transmitter:uart_tx|bitpos[0]                                                      ;
+; 6:1                ; 4 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |scp|uart_io:inst10|uart:inst01|receiver:uart_rx|sample[3]                                                         ;
 ; 7:1                ; 4 bits    ; 16 LEs        ; 12 LEs               ; 4 LEs                  ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|sclkPhaseTimer_v[5]                                                            ;
-; 7:1                ; 11 bits   ; 44 LEs        ; 0 LEs                ; 44 LEs                 ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|tx_v[18]                                                                       ;
-; 8:1                ; 17 bits   ; 85 LEs        ; 34 LEs               ; 51 LEs                 ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|tx_v[30]                                                                       ;
-; 8:1                ; 5 bits    ; 25 LEs        ; 10 LEs               ; 15 LEs                 ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|tx_v[9]                                                                        ;
-; 8:1                ; 10 bits   ; 50 LEs        ; 20 LEs               ; 30 LEs                 ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|byteCnt_v[8]                                                                   ;
-; 9:1                ; 3 bits    ; 18 LEs        ; 9 LEs                ; 9 LEs                  ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|tx_v[5]                                                                        ;
+; 7:1                ; 11 bits   ; 44 LEs        ; 0 LEs                ; 44 LEs                 ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|tx_v[10]                                                                       ;
+; 8:1                ; 17 bits   ; 85 LEs        ; 34 LEs               ; 51 LEs                 ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|tx_v[7]                                                                        ;
+; 8:1                ; 5 bits    ; 25 LEs        ; 10 LEs               ; 15 LEs                 ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|tx_v[16]                                                                       ;
+; 8:1                ; 10 bits   ; 50 LEs        ; 20 LEs               ; 30 LEs                 ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|byteCnt_v[7]                                                                   ;
+; 9:1                ; 3 bits    ; 18 LEs        ; 9 LEs                ; 9 LEs                  ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|tx_v[3]                                                                        ;
 ; 14:1               ; 2 bits    ; 18 LEs        ; 10 LEs               ; 8 LEs                  ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|tx_v[47]                                                                       ;
 ; 15:1               ; 3 bits    ; 30 LEs        ; 18 LEs               ; 12 LEs                 ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|tx_v[41]                                                                       ;
 ; 15:1               ; 2 bits    ; 20 LEs        ; 12 LEs               ; 8 LEs                  ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|tx_v[40]                                                                       ;
-; 34:1               ; 2 bits    ; 44 LEs        ; 30 LEs               ; 14 LEs                 ; Yes        ; |scp|alu:inst1|res[9]                                                                                              ;
-; 36:1               ; 2 bits    ; 48 LEs        ; 30 LEs               ; 18 LEs                 ; Yes        ; |scp|alu:inst1|res[6]                                                                                              ;
-; 35:1               ; 2 bits    ; 46 LEs        ; 32 LEs               ; 14 LEs                 ; Yes        ; |scp|alu:inst1|res[14]                                                                                             ;
-; 36:1               ; 2 bits    ; 48 LEs        ; 32 LEs               ; 16 LEs                 ; Yes        ; |scp|alu:inst1|res[2]                                                                                              ;
-; 23:1               ; 2 bits    ; 30 LEs        ; 12 LEs               ; 18 LEs                 ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|bitCnt_v[2]                                                                    ;
+; 34:1               ; 2 bits    ; 44 LEs        ; 30 LEs               ; 14 LEs                 ; Yes        ; |scp|alu:inst1|res[10]                                                                                             ;
+; 36:1               ; 2 bits    ; 48 LEs        ; 30 LEs               ; 18 LEs                 ; Yes        ; |scp|alu:inst1|res[5]                                                                                              ;
+; 35:1               ; 2 bits    ; 46 LEs        ; 32 LEs               ; 14 LEs                 ; Yes        ; |scp|alu:inst1|res[13]                                                                                             ;
+; 36:1               ; 2 bits    ; 48 LEs        ; 32 LEs               ; 16 LEs                 ; Yes        ; |scp|alu:inst1|res[1]                                                                                              ;
+; 23:1               ; 2 bits    ; 30 LEs        ; 12 LEs               ; 18 LEs                 ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|bitCnt_v[0]                                                                    ;
 ; 3:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |scp|uart_io:inst10|uartRecFIFO:inst02|state                                                                       ;
 ; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |scp|alu:inst1|ShiftRight1                                                                                         ;
 ; 4:1                ; 17 bits   ; 34 LEs        ; 34 LEs               ; 0 LEs                  ; No         ; |scp|alu:inst1|ShiftRight1                                                                                         ;
@@ -835,7 +836,7 @@ Encoding Type:  One-Hot
 ; 8:1                ; 2 bits    ; 10 LEs        ; 4 LEs                ; 6 LEs                  ; No         ; |scp|uart_io:inst10|uart:inst01|transmitter:uart_tx|Selector0                                                      ;
 ; 9:1                ; 2 bits    ; 12 LEs        ; 8 LEs                ; 4 LEs                  ; No         ; |scp|sd_io:inst27|SdCardCtrl:sdinst|rtnState_v                                                                     ;
 ; 9:1                ; 2 bits    ; 12 LEs        ; 8 LEs                ; 4 LEs                  ; No         ; |scp|sd_io:inst27|SdCardCtrl:sdinst|rtnState_v                                                                     ;
-; 16:1               ; 8 bits    ; 80 LEs        ; 80 LEs               ; 0 LEs                  ; No         ; |scp|ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|mux_dhb:mux4|l4_w1_n0_mux_dataout ;
+; 16:1               ; 8 bits    ; 80 LEs        ; 80 LEs               ; 0 LEs                  ; No         ; |scp|ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|mux_dhb:mux4|l4_w0_n0_mux_dataout ;
 ; 9:1                ; 3 bits    ; 18 LEs        ; 12 LEs               ; 6 LEs                  ; No         ; |scp|sd_io:inst27|sdCtrlInt:sdinst7|Selector2                                                                      ;
 ; 18:1               ; 8 bits    ; 96 LEs        ; 96 LEs               ; 0 LEs                  ; No         ; |scp|decode_addr_mux:inst30|addr[2]                                                                                ;
 ; 12:1               ; 2 bits    ; 16 LEs        ; 10 LEs               ; 6 LEs                  ; No         ; |scp|sd_io:inst27|sdCtrlInt:sdinst7|Selector8                                                                      ;
@@ -845,7 +846,7 @@ Encoding Type:  One-Hot
 ; 3:1                ; 14 bits   ; 28 LEs        ; 14 LEs               ; 14 LEs                 ; No         ; |scp|alu:inst1|Add0                                                                                                ;
 ; 3:1                ; 14 bits   ; 28 LEs        ; 14 LEs               ; 14 LEs                 ; No         ; |scp|alu:inst1|Add0                                                                                                ;
 ; 22:1               ; 7 bits    ; 98 LEs        ; 98 LEs               ; 0 LEs                  ; No         ; |scp|ab_bus_in_mux:inst15|out[10]                                                                                  ;
-; 32:1               ; 6 bits    ; 126 LEs       ; 126 LEs              ; 0 LEs                  ; No         ; |scp|ab_bus_in_mux:inst15|out[5]                                                                                   ;
+; 32:1               ; 6 bits    ; 126 LEs       ; 126 LEs              ; 0 LEs                  ; No         ; |scp|ab_bus_in_mux:inst15|out[2]                                                                                   ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+--------------------------------------------------------------------------------------------------------------------+
 
 
@@ -921,15 +922,6 @@ Encoding Type:  One-Hot
 +---------------------------------+--------------------+------+-----------------------------------------------------+
 
 
-+----------------------------------------------------------------------------------------------------------+
-; Source assignments for ps2_io:inst11|ps2_fifo:instp3|altsyncram:mem_rtl_0|altsyncram_93k1:auto_generated ;
-+---------------------------------+--------------------+------+--------------------------------------------+
-; Assignment                      ; Value              ; From ; To                                         ;
-+---------------------------------+--------------------+------+--------------------------------------------+
-; OPTIMIZE_POWER_DURING_SYNTHESIS ; NORMAL_COMPILATION ; -    ; -                                          ;
-+---------------------------------+--------------------+------+--------------------------------------------+
-
-
 +--------------------------------------------------------------------------------------------------------------+
 ; Source assignments for uart_io:inst10|uartRecFIFO:inst02|altsyncram:mem_rtl_0|altsyncram_93k1:auto_generated ;
 +---------------------------------+--------------------+------+------------------------------------------------+
@@ -937,6 +929,15 @@ Encoding Type:  One-Hot
 +---------------------------------+--------------------+------+------------------------------------------------+
 ; OPTIMIZE_POWER_DURING_SYNTHESIS ; NORMAL_COMPILATION ; -    ; -                                              ;
 +---------------------------------+--------------------+------+------------------------------------------------+
+
+
++----------------------------------------------------------------------------------------------------------+
+; Source assignments for ps2_io:inst11|ps2_fifo:instp3|altsyncram:mem_rtl_0|altsyncram_93k1:auto_generated ;
++---------------------------------+--------------------+------+--------------------------------------------+
+; Assignment                      ; Value              ; From ; To                                         ;
++---------------------------------+--------------------+------+--------------------------------------------+
+; OPTIMIZE_POWER_DURING_SYNTHESIS ; NORMAL_COMPILATION ; -    ; -                                          ;
++---------------------------------+--------------------+------+--------------------------------------------+
 
 
 +----------------------------------------------------------------------------------+
@@ -1758,6 +1759,256 @@ Note: In order to hide this table in the UI and the text report file, please set
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
++-------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: ps2_io:inst11|ps2_keyboard:instp ;
++-----------------------+----------+--------------------------------------------+
+; Parameter Name        ; Value    ; Type                                       ;
++-----------------------+----------+--------------------------------------------+
+; clk_freq              ; 35000000 ; Signed Integer                             ;
+; debounce_counter_size ; 8        ; Signed Integer                             ;
++-----------------------+----------+--------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++---------------------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: ps2_io:inst11|ps2_keyboard:instp|debounce:debounce_ps2_clk ;
++----------------+-------+--------------------------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                                           ;
++----------------+-------+--------------------------------------------------------------------------------+
+; counter_size   ; 8     ; Signed Integer                                                                 ;
++----------------+-------+--------------------------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++----------------------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: ps2_io:inst11|ps2_keyboard:instp|debounce:debounce_ps2_data ;
++----------------+-------+---------------------------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                                            ;
++----------------+-------+---------------------------------------------------------------------------------+
+; counter_size   ; 8     ; Signed Integer                                                                  ;
++----------------+-------+---------------------------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++---------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: ps2_io:inst11|io_port:instp1 ;
++----------------+-------+--------------------------------------------------+
+; Parameter Name ; Value ; Type                                             ;
++----------------+-------+--------------------------------------------------+
+; io_port        ; 7     ; Signed Integer                                   ;
++----------------+-------+--------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++---------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: ps2_io:inst11|io_port:instp2 ;
++----------------+-------+--------------------------------------------------+
+; Parameter Name ; Value ; Type                                             ;
++----------------+-------+--------------------------------------------------+
+; io_port        ; 8     ; Signed Integer                                   ;
++----------------+-------+--------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++-------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: io_port:inst22 ;
++----------------+-------+------------------------------------+
+; Parameter Name ; Value ; Type                               ;
++----------------+-------+------------------------------------+
+; io_port        ; 0     ; Signed Integer                     ;
++----------------+-------+------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++-------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: uart_io:inst10|uart:inst01 ;
++----------------+----------+---------------------------------------------+
+; Parameter Name ; Value    ; Type                                        ;
++----------------+----------+---------------------------------------------+
+; CLK_SPEED      ; 35000000 ; Signed Integer                              ;
++----------------+----------+---------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++-------------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: uart_io:inst10|uart:inst01|baud_rate_gen:uart_baud ;
++----------------+----------+---------------------------------------------------------------------+
+; Parameter Name ; Value    ; Type                                                                ;
++----------------+----------+---------------------------------------------------------------------+
+; CLOCK_SPEED    ; 35000000 ; Signed Integer                                                      ;
+; RX_ACC_MAX     ; 18       ; Signed Integer                                                      ;
+; TX_ACC_MAX     ; 303      ; Signed Integer                                                      ;
+; RX_ACC_WIDTH   ; 5        ; Signed Integer                                                      ;
+; TX_ACC_WIDTH   ; 9        ; Signed Integer                                                      ;
++----------------+----------+---------------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++---------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: uart_io:inst10|uart:inst01|transmitter:uart_tx ;
++----------------+-------+--------------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                               ;
++----------------+-------+--------------------------------------------------------------------+
+; STATE_IDLE     ; 00    ; Unsigned Binary                                                    ;
+; STATE_START    ; 01    ; Unsigned Binary                                                    ;
+; STATE_DATA     ; 10    ; Unsigned Binary                                                    ;
+; STATE_STOP     ; 11    ; Unsigned Binary                                                    ;
++----------------+-------+--------------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: uart_io:inst10|uart:inst01|receiver:uart_rx ;
++----------------+-------+-----------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                            ;
++----------------+-------+-----------------------------------------------------------------+
+; RX_STATE_START ; 00    ; Unsigned Binary                                                 ;
+; RX_STATE_DATA  ; 01    ; Unsigned Binary                                                 ;
+; RX_STATE_STOP  ; 10    ; Unsigned Binary                                                 ;
++----------------+-------+-----------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++----------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: uart_io:inst10|io_port:inst04 ;
++----------------+-------+---------------------------------------------------+
+; Parameter Name ; Value ; Type                                              ;
++----------------+-------+---------------------------------------------------+
+; io_port        ; 3     ; Signed Integer                                    ;
++----------------+-------+---------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++----------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: uart_io:inst10|io_port:inst03 ;
++----------------+-------+---------------------------------------------------+
+; Parameter Name ; Value ; Type                                              ;
++----------------+-------+---------------------------------------------------+
+; io_port        ; 1     ; Signed Integer                                    ;
++----------------+-------+---------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++----------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: uart_io:inst10|io_port:inst05 ;
++----------------+-------+---------------------------------------------------+
+; Parameter Name ; Value ; Type                                              ;
++----------------+-------+---------------------------------------------------+
+; io_port        ; 2     ; Signed Integer                                    ;
++----------------+-------+---------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++----------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: uart_io:inst10|io_port:inst06 ;
++----------------+-------+---------------------------------------------------+
+; Parameter Name ; Value ; Type                                              ;
++----------------+-------+---------------------------------------------------+
+; io_port        ; 4     ; Signed Integer                                    ;
++----------------+-------+---------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++---------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: sound_io:inst12|io_port:inst ;
++----------------+-------+--------------------------------------------------+
+; Parameter Name ; Value ; Type                                             ;
++----------------+-------+--------------------------------------------------+
+; io_port        ; 11    ; Signed Integer                                   ;
++----------------+-------+--------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++-----------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: sd_io:inst27|SdCardCtrl:sdinst ;
++-----------------+-------------+---------------------------------------------+
+; Parameter Name  ; Value       ; Type                                        ;
++-----------------+-------------+---------------------------------------------+
+; freq_g          ; 35.0        ; Signed Float                                ;
+; init_spi_freq_g ; 0.4         ; Signed Float                                ;
+; spi_freq_g      ; 25.0        ; Signed Float                                ;
+; block_size_g    ; 512         ; Signed Integer                              ;
+; card_type_g     ; SDHC_CARD_E ; Enumerated                                  ;
++-----------------+-------------+---------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++---------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: sd_io:inst27|io_port:sdinst1 ;
++----------------+-------+--------------------------------------------------+
+; Parameter Name ; Value ; Type                                             ;
++----------------+-------+--------------------------------------------------+
+; io_port        ; 13    ; Signed Integer                                   ;
++----------------+-------+--------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++-----------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: sd_io:inst27|sdCtrlInt:sdinst7 ;
++---------------------+-------+-----------------------------------------------+
+; Parameter Name      ; Value ; Type                                          ;
++---------------------+-------+-----------------------------------------------+
+; STATE_IDLE          ; 000   ; Unsigned Binary                               ;
+; STATE_RD_INIT       ; 001   ; Unsigned Binary                               ;
+; STATE_RD_WAIT_DATA  ; 010   ; Unsigned Binary                               ;
+; STATE_RD_HND        ; 011   ; Unsigned Binary                               ;
+; STATE_WR_INIT       ; 100   ; Unsigned Binary                               ;
+; STATE_WR_WRITE_DATA ; 101   ; Unsigned Binary                               ;
+; STATE_WR_HND        ; 110   ; Unsigned Binary                               ;
++---------------------+-------+-----------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++---------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: sd_io:inst27|io_port:sdinst3 ;
++----------------+-------+--------------------------------------------------+
+; Parameter Name ; Value ; Type                                             ;
++----------------+-------+--------------------------------------------------+
+; io_port        ; 15    ; Signed Integer                                   ;
++----------------+-------+--------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++---------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: sd_io:inst27|io_port:sdinst4 ;
++----------------+-------+--------------------------------------------------+
+; Parameter Name ; Value ; Type                                             ;
++----------------+-------+--------------------------------------------------+
+; io_port        ; 16    ; Signed Integer                                   ;
++----------------+-------+--------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++---------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: sd_io:inst27|io_port:sdinst5 ;
++----------------+-------+--------------------------------------------------+
+; Parameter Name ; Value ; Type                                             ;
++----------------+-------+--------------------------------------------------+
+; io_port        ; 17    ; Signed Integer                                   ;
++----------------+-------+--------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++---------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: sd_io:inst27|io_port:sdinst8 ;
++----------------+-------+--------------------------------------------------+
+; Parameter Name ; Value ; Type                                             ;
++----------------+-------+--------------------------------------------------+
+; io_port        ; 18    ; Signed Integer                                   ;
++----------------+-------+--------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++---------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: sd_io:inst27|io_port:sdinst2 ;
++----------------+-------+--------------------------------------------------+
+; Parameter Name ; Value ; Type                                             ;
++----------------+-------+--------------------------------------------------+
+; io_port        ; 14    ; Signed Integer                                   ;
++----------------+-------+--------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
 +-------------------------------------------------------------------------------------------+
 ; Parameter Settings for User Entity Instance: ram_mega:RAM|altsyncram:altsyncram_component ;
 +------------------------------------+-------------------------+----------------------------+
@@ -1877,256 +2128,6 @@ Note: In order to hide this table in the UI and the text report file, please set
 ; DEVICE_FAMILY                      ; Cyclone V                      ; Untyped                                ;
 ; CBXI_PARAMETER                     ; altsyncram_nlr2                ; Untyped                                ;
 +------------------------------------+--------------------------------+----------------------------------------+
-Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
-
-
-+-------------------------------------------------------------+
-; Parameter Settings for User Entity Instance: io_port:inst22 ;
-+----------------+-------+------------------------------------+
-; Parameter Name ; Value ; Type                               ;
-+----------------+-------+------------------------------------+
-; io_port        ; 0     ; Signed Integer                     ;
-+----------------+-------+------------------------------------+
-Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
-
-
-+-------------------------------------------------------------------------+
-; Parameter Settings for User Entity Instance: uart_io:inst10|uart:inst01 ;
-+----------------+----------+---------------------------------------------+
-; Parameter Name ; Value    ; Type                                        ;
-+----------------+----------+---------------------------------------------+
-; CLK_SPEED      ; 35000000 ; Signed Integer                              ;
-+----------------+----------+---------------------------------------------+
-Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
-
-
-+-------------------------------------------------------------------------------------------------+
-; Parameter Settings for User Entity Instance: uart_io:inst10|uart:inst01|baud_rate_gen:uart_baud ;
-+----------------+----------+---------------------------------------------------------------------+
-; Parameter Name ; Value    ; Type                                                                ;
-+----------------+----------+---------------------------------------------------------------------+
-; CLOCK_SPEED    ; 35000000 ; Signed Integer                                                      ;
-; RX_ACC_MAX     ; 18       ; Signed Integer                                                      ;
-; TX_ACC_MAX     ; 303      ; Signed Integer                                                      ;
-; RX_ACC_WIDTH   ; 5        ; Signed Integer                                                      ;
-; TX_ACC_WIDTH   ; 9        ; Signed Integer                                                      ;
-+----------------+----------+---------------------------------------------------------------------+
-Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
-
-
-+---------------------------------------------------------------------------------------------+
-; Parameter Settings for User Entity Instance: uart_io:inst10|uart:inst01|transmitter:uart_tx ;
-+----------------+-------+--------------------------------------------------------------------+
-; Parameter Name ; Value ; Type                                                               ;
-+----------------+-------+--------------------------------------------------------------------+
-; STATE_IDLE     ; 00    ; Unsigned Binary                                                    ;
-; STATE_START    ; 01    ; Unsigned Binary                                                    ;
-; STATE_DATA     ; 10    ; Unsigned Binary                                                    ;
-; STATE_STOP     ; 11    ; Unsigned Binary                                                    ;
-+----------------+-------+--------------------------------------------------------------------+
-Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
-
-
-+------------------------------------------------------------------------------------------+
-; Parameter Settings for User Entity Instance: uart_io:inst10|uart:inst01|receiver:uart_rx ;
-+----------------+-------+-----------------------------------------------------------------+
-; Parameter Name ; Value ; Type                                                            ;
-+----------------+-------+-----------------------------------------------------------------+
-; RX_STATE_START ; 00    ; Unsigned Binary                                                 ;
-; RX_STATE_DATA  ; 01    ; Unsigned Binary                                                 ;
-; RX_STATE_STOP  ; 10    ; Unsigned Binary                                                 ;
-+----------------+-------+-----------------------------------------------------------------+
-Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
-
-
-+----------------------------------------------------------------------------+
-; Parameter Settings for User Entity Instance: uart_io:inst10|io_port:inst04 ;
-+----------------+-------+---------------------------------------------------+
-; Parameter Name ; Value ; Type                                              ;
-+----------------+-------+---------------------------------------------------+
-; io_port        ; 3     ; Signed Integer                                    ;
-+----------------+-------+---------------------------------------------------+
-Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
-
-
-+----------------------------------------------------------------------------+
-; Parameter Settings for User Entity Instance: uart_io:inst10|io_port:inst03 ;
-+----------------+-------+---------------------------------------------------+
-; Parameter Name ; Value ; Type                                              ;
-+----------------+-------+---------------------------------------------------+
-; io_port        ; 1     ; Signed Integer                                    ;
-+----------------+-------+---------------------------------------------------+
-Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
-
-
-+----------------------------------------------------------------------------+
-; Parameter Settings for User Entity Instance: uart_io:inst10|io_port:inst05 ;
-+----------------+-------+---------------------------------------------------+
-; Parameter Name ; Value ; Type                                              ;
-+----------------+-------+---------------------------------------------------+
-; io_port        ; 2     ; Signed Integer                                    ;
-+----------------+-------+---------------------------------------------------+
-Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
-
-
-+----------------------------------------------------------------------------+
-; Parameter Settings for User Entity Instance: uart_io:inst10|io_port:inst06 ;
-+----------------+-------+---------------------------------------------------+
-; Parameter Name ; Value ; Type                                              ;
-+----------------+-------+---------------------------------------------------+
-; io_port        ; 4     ; Signed Integer                                    ;
-+----------------+-------+---------------------------------------------------+
-Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
-
-
-+-------------------------------------------------------------------------------+
-; Parameter Settings for User Entity Instance: ps2_io:inst11|ps2_keyboard:instp ;
-+-----------------------+----------+--------------------------------------------+
-; Parameter Name        ; Value    ; Type                                       ;
-+-----------------------+----------+--------------------------------------------+
-; clk_freq              ; 35000000 ; Signed Integer                             ;
-; debounce_counter_size ; 8        ; Signed Integer                             ;
-+-----------------------+----------+--------------------------------------------+
-Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
-
-
-+---------------------------------------------------------------------------------------------------------+
-; Parameter Settings for User Entity Instance: ps2_io:inst11|ps2_keyboard:instp|debounce:debounce_ps2_clk ;
-+----------------+-------+--------------------------------------------------------------------------------+
-; Parameter Name ; Value ; Type                                                                           ;
-+----------------+-------+--------------------------------------------------------------------------------+
-; counter_size   ; 8     ; Signed Integer                                                                 ;
-+----------------+-------+--------------------------------------------------------------------------------+
-Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
-
-
-+----------------------------------------------------------------------------------------------------------+
-; Parameter Settings for User Entity Instance: ps2_io:inst11|ps2_keyboard:instp|debounce:debounce_ps2_data ;
-+----------------+-------+---------------------------------------------------------------------------------+
-; Parameter Name ; Value ; Type                                                                            ;
-+----------------+-------+---------------------------------------------------------------------------------+
-; counter_size   ; 8     ; Signed Integer                                                                  ;
-+----------------+-------+---------------------------------------------------------------------------------+
-Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
-
-
-+---------------------------------------------------------------------------+
-; Parameter Settings for User Entity Instance: ps2_io:inst11|io_port:instp1 ;
-+----------------+-------+--------------------------------------------------+
-; Parameter Name ; Value ; Type                                             ;
-+----------------+-------+--------------------------------------------------+
-; io_port        ; 7     ; Signed Integer                                   ;
-+----------------+-------+--------------------------------------------------+
-Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
-
-
-+---------------------------------------------------------------------------+
-; Parameter Settings for User Entity Instance: ps2_io:inst11|io_port:instp2 ;
-+----------------+-------+--------------------------------------------------+
-; Parameter Name ; Value ; Type                                             ;
-+----------------+-------+--------------------------------------------------+
-; io_port        ; 8     ; Signed Integer                                   ;
-+----------------+-------+--------------------------------------------------+
-Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
-
-
-+---------------------------------------------------------------------------+
-; Parameter Settings for User Entity Instance: sound_io:inst12|io_port:inst ;
-+----------------+-------+--------------------------------------------------+
-; Parameter Name ; Value ; Type                                             ;
-+----------------+-------+--------------------------------------------------+
-; io_port        ; 11    ; Signed Integer                                   ;
-+----------------+-------+--------------------------------------------------+
-Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
-
-
-+-----------------------------------------------------------------------------+
-; Parameter Settings for User Entity Instance: sd_io:inst27|SdCardCtrl:sdinst ;
-+-----------------+-------------+---------------------------------------------+
-; Parameter Name  ; Value       ; Type                                        ;
-+-----------------+-------------+---------------------------------------------+
-; freq_g          ; 35.0        ; Signed Float                                ;
-; init_spi_freq_g ; 0.4         ; Signed Float                                ;
-; spi_freq_g      ; 25.0        ; Signed Float                                ;
-; block_size_g    ; 512         ; Signed Integer                              ;
-; card_type_g     ; SDHC_CARD_E ; Enumerated                                  ;
-+-----------------+-------------+---------------------------------------------+
-Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
-
-
-+---------------------------------------------------------------------------+
-; Parameter Settings for User Entity Instance: sd_io:inst27|io_port:sdinst1 ;
-+----------------+-------+--------------------------------------------------+
-; Parameter Name ; Value ; Type                                             ;
-+----------------+-------+--------------------------------------------------+
-; io_port        ; 13    ; Signed Integer                                   ;
-+----------------+-------+--------------------------------------------------+
-Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
-
-
-+-----------------------------------------------------------------------------+
-; Parameter Settings for User Entity Instance: sd_io:inst27|sdCtrlInt:sdinst7 ;
-+---------------------+-------+-----------------------------------------------+
-; Parameter Name      ; Value ; Type                                          ;
-+---------------------+-------+-----------------------------------------------+
-; STATE_IDLE          ; 000   ; Unsigned Binary                               ;
-; STATE_RD_INIT       ; 001   ; Unsigned Binary                               ;
-; STATE_RD_WAIT_DATA  ; 010   ; Unsigned Binary                               ;
-; STATE_RD_HND        ; 011   ; Unsigned Binary                               ;
-; STATE_WR_INIT       ; 100   ; Unsigned Binary                               ;
-; STATE_WR_WRITE_DATA ; 101   ; Unsigned Binary                               ;
-; STATE_WR_HND        ; 110   ; Unsigned Binary                               ;
-+---------------------+-------+-----------------------------------------------+
-Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
-
-
-+---------------------------------------------------------------------------+
-; Parameter Settings for User Entity Instance: sd_io:inst27|io_port:sdinst3 ;
-+----------------+-------+--------------------------------------------------+
-; Parameter Name ; Value ; Type                                             ;
-+----------------+-------+--------------------------------------------------+
-; io_port        ; 15    ; Signed Integer                                   ;
-+----------------+-------+--------------------------------------------------+
-Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
-
-
-+---------------------------------------------------------------------------+
-; Parameter Settings for User Entity Instance: sd_io:inst27|io_port:sdinst4 ;
-+----------------+-------+--------------------------------------------------+
-; Parameter Name ; Value ; Type                                             ;
-+----------------+-------+--------------------------------------------------+
-; io_port        ; 16    ; Signed Integer                                   ;
-+----------------+-------+--------------------------------------------------+
-Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
-
-
-+---------------------------------------------------------------------------+
-; Parameter Settings for User Entity Instance: sd_io:inst27|io_port:sdinst5 ;
-+----------------+-------+--------------------------------------------------+
-; Parameter Name ; Value ; Type                                             ;
-+----------------+-------+--------------------------------------------------+
-; io_port        ; 17    ; Signed Integer                                   ;
-+----------------+-------+--------------------------------------------------+
-Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
-
-
-+---------------------------------------------------------------------------+
-; Parameter Settings for User Entity Instance: sd_io:inst27|io_port:sdinst8 ;
-+----------------+-------+--------------------------------------------------+
-; Parameter Name ; Value ; Type                                             ;
-+----------------+-------+--------------------------------------------------+
-; io_port        ; 18    ; Signed Integer                                   ;
-+----------------+-------+--------------------------------------------------+
-Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
-
-
-+---------------------------------------------------------------------------+
-; Parameter Settings for User Entity Instance: sd_io:inst27|io_port:sdinst2 ;
-+----------------+-------+--------------------------------------------------+
-; Parameter Name ; Value ; Type                                             ;
-+----------------+-------+--------------------------------------------------+
-; io_port        ; 14    ; Signed Integer                                   ;
-+----------------+-------+--------------------------------------------------+
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
@@ -2252,67 +2253,6 @@ Note: In order to hide this table in the UI and the text report file, please set
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
-+-----------------------------------------------------------------------------------------------------+
-; Parameter Settings for Inferred Entity Instance: ps2_io:inst11|ps2_fifo:instp3|altsyncram:mem_rtl_0 ;
-+------------------------------------+----------------------+-----------------------------------------+
-; Parameter Name                     ; Value                ; Type                                    ;
-+------------------------------------+----------------------+-----------------------------------------+
-; BYTE_SIZE_BLOCK                    ; 8                    ; Untyped                                 ;
-; AUTO_CARRY_CHAINS                  ; ON                   ; AUTO_CARRY                              ;
-; IGNORE_CARRY_BUFFERS               ; OFF                  ; IGNORE_CARRY                            ;
-; AUTO_CASCADE_CHAINS                ; ON                   ; AUTO_CASCADE                            ;
-; IGNORE_CASCADE_BUFFERS             ; OFF                  ; IGNORE_CASCADE                          ;
-; WIDTH_BYTEENA                      ; 1                    ; Untyped                                 ;
-; OPERATION_MODE                     ; DUAL_PORT            ; Untyped                                 ;
-; WIDTH_A                            ; 8                    ; Untyped                                 ;
-; WIDTHAD_A                          ; 8                    ; Untyped                                 ;
-; NUMWORDS_A                         ; 256                  ; Untyped                                 ;
-; OUTDATA_REG_A                      ; UNREGISTERED         ; Untyped                                 ;
-; ADDRESS_ACLR_A                     ; NONE                 ; Untyped                                 ;
-; OUTDATA_ACLR_A                     ; NONE                 ; Untyped                                 ;
-; WRCONTROL_ACLR_A                   ; NONE                 ; Untyped                                 ;
-; INDATA_ACLR_A                      ; NONE                 ; Untyped                                 ;
-; BYTEENA_ACLR_A                     ; NONE                 ; Untyped                                 ;
-; WIDTH_B                            ; 8                    ; Untyped                                 ;
-; WIDTHAD_B                          ; 8                    ; Untyped                                 ;
-; NUMWORDS_B                         ; 256                  ; Untyped                                 ;
-; INDATA_REG_B                       ; CLOCK1               ; Untyped                                 ;
-; WRCONTROL_WRADDRESS_REG_B          ; CLOCK1               ; Untyped                                 ;
-; RDCONTROL_REG_B                    ; CLOCK1               ; Untyped                                 ;
-; ADDRESS_REG_B                      ; CLOCK0               ; Untyped                                 ;
-; OUTDATA_REG_B                      ; UNREGISTERED         ; Untyped                                 ;
-; BYTEENA_REG_B                      ; CLOCK1               ; Untyped                                 ;
-; INDATA_ACLR_B                      ; NONE                 ; Untyped                                 ;
-; WRCONTROL_ACLR_B                   ; NONE                 ; Untyped                                 ;
-; ADDRESS_ACLR_B                     ; NONE                 ; Untyped                                 ;
-; OUTDATA_ACLR_B                     ; NONE                 ; Untyped                                 ;
-; RDCONTROL_ACLR_B                   ; NONE                 ; Untyped                                 ;
-; BYTEENA_ACLR_B                     ; NONE                 ; Untyped                                 ;
-; WIDTH_BYTEENA_A                    ; 1                    ; Untyped                                 ;
-; WIDTH_BYTEENA_B                    ; 1                    ; Untyped                                 ;
-; RAM_BLOCK_TYPE                     ; AUTO                 ; Untyped                                 ;
-; BYTE_SIZE                          ; 8                    ; Untyped                                 ;
-; READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE            ; Untyped                                 ;
-; READ_DURING_WRITE_MODE_PORT_A      ; NEW_DATA_NO_NBE_READ ; Untyped                                 ;
-; READ_DURING_WRITE_MODE_PORT_B      ; NEW_DATA_NO_NBE_READ ; Untyped                                 ;
-; INIT_FILE                          ; UNUSED               ; Untyped                                 ;
-; INIT_FILE_LAYOUT                   ; PORT_A               ; Untyped                                 ;
-; MAXIMUM_DEPTH                      ; 0                    ; Untyped                                 ;
-; CLOCK_ENABLE_INPUT_A               ; NORMAL               ; Untyped                                 ;
-; CLOCK_ENABLE_INPUT_B               ; NORMAL               ; Untyped                                 ;
-; CLOCK_ENABLE_OUTPUT_A              ; NORMAL               ; Untyped                                 ;
-; CLOCK_ENABLE_OUTPUT_B              ; NORMAL               ; Untyped                                 ;
-; CLOCK_ENABLE_CORE_A                ; USE_INPUT_CLKEN      ; Untyped                                 ;
-; CLOCK_ENABLE_CORE_B                ; USE_INPUT_CLKEN      ; Untyped                                 ;
-; ENABLE_ECC                         ; FALSE                ; Untyped                                 ;
-; ECC_PIPELINE_STAGE_ENABLED         ; FALSE                ; Untyped                                 ;
-; WIDTH_ECCSTATUS                    ; 3                    ; Untyped                                 ;
-; DEVICE_FAMILY                      ; Cyclone V            ; Untyped                                 ;
-; CBXI_PARAMETER                     ; altsyncram_93k1      ; Untyped                                 ;
-+------------------------------------+----------------------+-----------------------------------------+
-Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
-
-
 +---------------------------------------------------------------------------------------------------------+
 ; Parameter Settings for Inferred Entity Instance: uart_io:inst10|uartRecFIFO:inst02|altsyncram:mem_rtl_0 ;
 +------------------------------------+----------------------+---------------------------------------------+
@@ -2371,6 +2311,67 @@ Note: In order to hide this table in the UI and the text report file, please set
 ; DEVICE_FAMILY                      ; Cyclone V            ; Untyped                                     ;
 ; CBXI_PARAMETER                     ; altsyncram_93k1      ; Untyped                                     ;
 +------------------------------------+----------------------+---------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++-----------------------------------------------------------------------------------------------------+
+; Parameter Settings for Inferred Entity Instance: ps2_io:inst11|ps2_fifo:instp3|altsyncram:mem_rtl_0 ;
++------------------------------------+----------------------+-----------------------------------------+
+; Parameter Name                     ; Value                ; Type                                    ;
++------------------------------------+----------------------+-----------------------------------------+
+; BYTE_SIZE_BLOCK                    ; 8                    ; Untyped                                 ;
+; AUTO_CARRY_CHAINS                  ; ON                   ; AUTO_CARRY                              ;
+; IGNORE_CARRY_BUFFERS               ; OFF                  ; IGNORE_CARRY                            ;
+; AUTO_CASCADE_CHAINS                ; ON                   ; AUTO_CASCADE                            ;
+; IGNORE_CASCADE_BUFFERS             ; OFF                  ; IGNORE_CASCADE                          ;
+; WIDTH_BYTEENA                      ; 1                    ; Untyped                                 ;
+; OPERATION_MODE                     ; DUAL_PORT            ; Untyped                                 ;
+; WIDTH_A                            ; 8                    ; Untyped                                 ;
+; WIDTHAD_A                          ; 8                    ; Untyped                                 ;
+; NUMWORDS_A                         ; 256                  ; Untyped                                 ;
+; OUTDATA_REG_A                      ; UNREGISTERED         ; Untyped                                 ;
+; ADDRESS_ACLR_A                     ; NONE                 ; Untyped                                 ;
+; OUTDATA_ACLR_A                     ; NONE                 ; Untyped                                 ;
+; WRCONTROL_ACLR_A                   ; NONE                 ; Untyped                                 ;
+; INDATA_ACLR_A                      ; NONE                 ; Untyped                                 ;
+; BYTEENA_ACLR_A                     ; NONE                 ; Untyped                                 ;
+; WIDTH_B                            ; 8                    ; Untyped                                 ;
+; WIDTHAD_B                          ; 8                    ; Untyped                                 ;
+; NUMWORDS_B                         ; 256                  ; Untyped                                 ;
+; INDATA_REG_B                       ; CLOCK1               ; Untyped                                 ;
+; WRCONTROL_WRADDRESS_REG_B          ; CLOCK1               ; Untyped                                 ;
+; RDCONTROL_REG_B                    ; CLOCK1               ; Untyped                                 ;
+; ADDRESS_REG_B                      ; CLOCK0               ; Untyped                                 ;
+; OUTDATA_REG_B                      ; UNREGISTERED         ; Untyped                                 ;
+; BYTEENA_REG_B                      ; CLOCK1               ; Untyped                                 ;
+; INDATA_ACLR_B                      ; NONE                 ; Untyped                                 ;
+; WRCONTROL_ACLR_B                   ; NONE                 ; Untyped                                 ;
+; ADDRESS_ACLR_B                     ; NONE                 ; Untyped                                 ;
+; OUTDATA_ACLR_B                     ; NONE                 ; Untyped                                 ;
+; RDCONTROL_ACLR_B                   ; NONE                 ; Untyped                                 ;
+; BYTEENA_ACLR_B                     ; NONE                 ; Untyped                                 ;
+; WIDTH_BYTEENA_A                    ; 1                    ; Untyped                                 ;
+; WIDTH_BYTEENA_B                    ; 1                    ; Untyped                                 ;
+; RAM_BLOCK_TYPE                     ; AUTO                 ; Untyped                                 ;
+; BYTE_SIZE                          ; 8                    ; Untyped                                 ;
+; READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE            ; Untyped                                 ;
+; READ_DURING_WRITE_MODE_PORT_A      ; NEW_DATA_NO_NBE_READ ; Untyped                                 ;
+; READ_DURING_WRITE_MODE_PORT_B      ; NEW_DATA_NO_NBE_READ ; Untyped                                 ;
+; INIT_FILE                          ; UNUSED               ; Untyped                                 ;
+; INIT_FILE_LAYOUT                   ; PORT_A               ; Untyped                                 ;
+; MAXIMUM_DEPTH                      ; 0                    ; Untyped                                 ;
+; CLOCK_ENABLE_INPUT_A               ; NORMAL               ; Untyped                                 ;
+; CLOCK_ENABLE_INPUT_B               ; NORMAL               ; Untyped                                 ;
+; CLOCK_ENABLE_OUTPUT_A              ; NORMAL               ; Untyped                                 ;
+; CLOCK_ENABLE_OUTPUT_B              ; NORMAL               ; Untyped                                 ;
+; CLOCK_ENABLE_CORE_A                ; USE_INPUT_CLKEN      ; Untyped                                 ;
+; CLOCK_ENABLE_CORE_B                ; USE_INPUT_CLKEN      ; Untyped                                 ;
+; ENABLE_ECC                         ; FALSE                ; Untyped                                 ;
+; ECC_PIPELINE_STAGE_ENABLED         ; FALSE                ; Untyped                                 ;
+; WIDTH_ECCSTATUS                    ; 3                    ; Untyped                                 ;
+; DEVICE_FAMILY                      ; Cyclone V            ; Untyped                                 ;
+; CBXI_PARAMETER                     ; altsyncram_93k1      ; Untyped                                 ;
++------------------------------------+----------------------+-----------------------------------------+
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
@@ -2468,7 +2469,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 ;     -- OUTDATA_REG_B                      ; UNREGISTERED                                                     ;
 ;     -- RAM_BLOCK_TYPE                     ; AUTO                                                             ;
 ;     -- READ_DURING_WRITE_MODE_MIXED_PORTS ; OLD_DATA                                                         ;
-; Entity Instance                           ; ps2_io:inst11|ps2_fifo:instp3|altsyncram:mem_rtl_0               ;
+; Entity Instance                           ; uart_io:inst10|uartRecFIFO:inst02|altsyncram:mem_rtl_0           ;
 ;     -- OPERATION_MODE                     ; DUAL_PORT                                                        ;
 ;     -- WIDTH_A                            ; 8                                                                ;
 ;     -- NUMWORDS_A                         ; 256                                                              ;
@@ -2479,7 +2480,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 ;     -- OUTDATA_REG_B                      ; UNREGISTERED                                                     ;
 ;     -- RAM_BLOCK_TYPE                     ; AUTO                                                             ;
 ;     -- READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE                                                        ;
-; Entity Instance                           ; uart_io:inst10|uartRecFIFO:inst02|altsyncram:mem_rtl_0           ;
+; Entity Instance                           ; ps2_io:inst11|ps2_fifo:instp3|altsyncram:mem_rtl_0               ;
 ;     -- OPERATION_MODE                     ; DUAL_PORT                                                        ;
 ;     -- WIDTH_A                            ; 8                                                                ;
 ;     -- NUMWORDS_A                         ; 256                                                              ;
@@ -2498,41 +2499,41 @@ Note: In order to hide this table in the UI and the text report file, please set
 +-----------------------+-----------------------------+
 ; Type                  ; Count                       ;
 +-----------------------+-----------------------------+
-; arriav_ff             ; 867                         ;
-;     ENA               ; 367                         ;
+; arriav_ff             ; 868                         ;
+;     ENA               ; 361                         ;
 ;     ENA SCLR          ; 92                          ;
 ;     ENA SCLR SLD      ; 19                          ;
-;     ENA SLD           ; 83                          ;
+;     ENA SLD           ; 91                          ;
 ;     SCLR              ; 72                          ;
 ;     SLD               ; 21                          ;
-;     plain             ; 213                         ;
-; arriav_lcell_comb     ; 1656                        ;
+;     plain             ; 212                         ;
+; arriav_lcell_comb     ; 1643                        ;
 ;     arith             ; 363                         ;
 ;         1 data inputs ; 238                         ;
 ;         2 data inputs ; 97                          ;
 ;         3 data inputs ; 12                          ;
 ;         4 data inputs ; 14                          ;
 ;         5 data inputs ; 2                           ;
-;     extend            ; 45                          ;
-;         7 data inputs ; 45                          ;
-;     normal            ; 1222                        ;
+;     extend            ; 51                          ;
+;         7 data inputs ; 51                          ;
+;     normal            ; 1203                        ;
 ;         0 data inputs ; 1                           ;
 ;         1 data inputs ; 10                          ;
-;         2 data inputs ; 88                          ;
+;         2 data inputs ; 78                          ;
 ;         3 data inputs ; 140                         ;
-;         4 data inputs ; 174                         ;
-;         5 data inputs ; 298                         ;
-;         6 data inputs ; 511                         ;
+;         4 data inputs ; 172                         ;
+;         5 data inputs ; 305                         ;
+;         6 data inputs ; 497                         ;
 ;     shared            ; 26                          ;
 ;         2 data inputs ; 18                          ;
 ;         3 data inputs ; 8                           ;
 ; arriav_mac            ; 1                           ;
-; boundary_port         ; 23                          ;
+; boundary_port         ; 22                          ;
 ; generic_pll           ; 6                           ;
-; stratixv_ram_block    ; 358                         ;
+; stratixv_ram_block    ; 359                         ;
 ;                       ;                             ;
-; Max LUT depth         ; 9.00                        ;
-; Average LUT depth     ; 3.25                        ;
+; Max LUT depth         ; 8.00                        ;
+; Average LUT depth     ; 3.28                        ;
 +-----------------------+-----------------------------+
 
 
@@ -2541,7 +2542,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------+--------------+
 ; Partition Name ; Elapsed Time ;
 +----------------+--------------+
-; Top            ; 00:00:13     ;
+; Top            ; 00:00:10     ;
 +----------------+--------------+
 
 
@@ -2551,7 +2552,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
-    Info: Processing started: Tue Oct  2 20:57:09 2018
+    Info: Processing started: Thu Oct  4 21:36:49 2018
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off scp -c scp
 Info (20032): Parallel compilation is enabled and will use up to 2 processors
 Info (12021): Found 5 design units, including 1 entities, in source file IO/sd/SDCard.vhd
@@ -2967,7 +2968,56 @@ Info (12128): Elaborating entity "decode_addr_mux" for hierarchy "decode_addr_mu
 Warning (10230): Verilog HDL assignment warning at decode_addr_mux.v(15): truncated value with size 32 to match size of target (10) File: /home/edward/scp/quartus/mux/decode_addr_mux.v Line: 15
 Info (12128): Elaborating entity "int_manager" for hierarchy "int_manager:inst26"
 Warning (10036): Verilog HDL or VHDL warning at int_manager.v(9): object "p_irq" assigned a value but never read File: /home/edward/scp/quartus/int/int_manager.v Line: 9
-Info (12128): Elaborating entity "sys_privilage_reg" for hierarchy "sys_privilage_reg:inst25"
+Info (12128): Elaborating entity "ps2_io" for hierarchy "ps2_io:inst11"
+Info (12128): Elaborating entity "ps2_to_ascii" for hierarchy "ps2_io:inst11|ps2_to_ascii:instp4"
+Warning (10230): Verilog HDL assignment warning at ps2_to_ascii.v(46): truncated value with size 32 to match size of target (1) File: /home/edward/scp/quartus/IO/ps2/ps2_to_ascii.v Line: 46
+Info (12128): Elaborating entity "ps2_keyboard" for hierarchy "ps2_io:inst11|ps2_keyboard:instp"
+Info (12128): Elaborating entity "debounce" for hierarchy "ps2_io:inst11|ps2_keyboard:instp|debounce:debounce_ps2_clk" File: /home/edward/scp/quartus/IO/ps2/ps2_keyboard.vhd Line: 67
+Info (12128): Elaborating entity "io_port" for hierarchy "ps2_io:inst11|io_port:instp1"
+Info (12128): Elaborating entity "ps2_fifo" for hierarchy "ps2_io:inst11|ps2_fifo:instp3"
+Warning (10230): Verilog HDL assignment warning at ps2_fifo.v(21): truncated value with size 32 to match size of target (8) File: /home/edward/scp/quartus/IO/ps2/ps2_fifo.v Line: 21
+Warning (10230): Verilog HDL assignment warning at ps2_fifo.v(26): truncated value with size 32 to match size of target (8) File: /home/edward/scp/quartus/IO/ps2/ps2_fifo.v Line: 26
+Info (12128): Elaborating entity "io_port" for hierarchy "ps2_io:inst11|io_port:instp2"
+Info (12128): Elaborating entity "io_regs" for hierarchy "io_regs:inst21"
+Info (12128): Elaborating entity "ab_bus_out_mux" for hierarchy "ab_bus_out_mux:inst13"
+Info (12128): Elaborating entity "general_reg" for hierarchy "general_reg:A_REG"
+Warning (10230): Verilog HDL assignment warning at general_reg.v(28): truncated value with size 32 to match size of target (16) File: /home/edward/scp/quartus/regs/general_reg.v Line: 28
+Warning (10230): Verilog HDL assignment warning at general_reg.v(31): truncated value with size 32 to match size of target (16) File: /home/edward/scp/quartus/regs/general_reg.v Line: 31
+Info (12128): Elaborating entity "ab_bus_in_mux" for hierarchy "ab_bus_in_mux:inst15"
+Info (12128): Elaborating entity "io_port" for hierarchy "io_port:inst22"
+Info (12128): Elaborating entity "uart_io" for hierarchy "uart_io:inst10"
+Info (12128): Elaborating entity "uart" for hierarchy "uart_io:inst10|uart:inst01"
+Info (12128): Elaborating entity "baud_rate_gen" for hierarchy "uart_io:inst10|uart:inst01|baud_rate_gen:uart_baud" File: /home/edward/scp/quartus/IO/uart/uart.v Line: 19
+Info (12128): Elaborating entity "transmitter" for hierarchy "uart_io:inst10|uart:inst01|transmitter:uart_tx" File: /home/edward/scp/quartus/IO/uart/uart.v Line: 25
+Info (12128): Elaborating entity "receiver" for hierarchy "uart_io:inst10|uart:inst01|receiver:uart_rx" File: /home/edward/scp/quartus/IO/uart/uart.v Line: 31
+Info (12128): Elaborating entity "io_port" for hierarchy "uart_io:inst10|io_port:inst04"
+Info (12128): Elaborating entity "io_port" for hierarchy "uart_io:inst10|io_port:inst03"
+Info (12128): Elaborating entity "uartRecFIFO" for hierarchy "uart_io:inst10|uartRecFIFO:inst02"
+Warning (10230): Verilog HDL assignment warning at uartRecFIFO.v(22): truncated value with size 32 to match size of target (8) File: /home/edward/scp/quartus/IO/uart/uartRecFIFO.v Line: 22
+Warning (10230): Verilog HDL assignment warning at uartRecFIFO.v(35): truncated value with size 32 to match size of target (8) File: /home/edward/scp/quartus/IO/uart/uartRecFIFO.v Line: 35
+Info (12128): Elaborating entity "io_port" for hierarchy "uart_io:inst10|io_port:inst05"
+Info (12128): Elaborating entity "io_port" for hierarchy "uart_io:inst10|io_port:inst06"
+Info (12128): Elaborating entity "sound_io" for hierarchy "sound_io:inst12"
+Info (12128): Elaborating entity "sound_gen" for hierarchy "sound_io:inst12|sound_gen:inst1"
+Warning (10230): Verilog HDL assignment warning at sound_gen.v(9): truncated value with size 32 to match size of target (1) File: /home/edward/scp/quartus/IO/sound/sound_gen.v Line: 9
+Warning (10230): Verilog HDL assignment warning at sound_gen.v(17): truncated value with size 32 to match size of target (20) File: /home/edward/scp/quartus/IO/sound/sound_gen.v Line: 17
+Info (12128): Elaborating entity "io_port" for hierarchy "sound_io:inst12|io_port:inst"
+Info (12128): Elaborating entity "sd_io" for hierarchy "sd_io:inst27"
+Info (12128): Elaborating entity "SdCardCtrl" for hierarchy "sd_io:inst27|SdCardCtrl:sdinst"
+Info (12128): Elaborating entity "io_port" for hierarchy "sd_io:inst27|io_port:sdinst1"
+Info (12128): Elaborating entity "sdCtrlInt" for hierarchy "sd_io:inst27|sdCtrlInt:sdinst7"
+Warning (10230): Verilog HDL assignment warning at sdCtrlInt.v(48): truncated value with size 32 to match size of target (9) File: /home/edward/scp/quartus/IO/sd/sdCtrlInt.v Line: 48
+Warning (10230): Verilog HDL assignment warning at sdCtrlInt.v(50): truncated value with size 32 to match size of target (9) File: /home/edward/scp/quartus/IO/sd/sdCtrlInt.v Line: 50
+Warning (10230): Verilog HDL assignment warning at sdCtrlInt.v(82): truncated value with size 32 to match size of target (9) File: /home/edward/scp/quartus/IO/sd/sdCtrlInt.v Line: 82
+Warning (10230): Verilog HDL assignment warning at sdCtrlInt.v(110): truncated value with size 32 to match size of target (9) File: /home/edward/scp/quartus/IO/sd/sdCtrlInt.v Line: 110
+Info (12128): Elaborating entity "io_port" for hierarchy "sd_io:inst27|io_port:sdinst3"
+Info (12128): Elaborating entity "io_port" for hierarchy "sd_io:inst27|io_port:sdinst4"
+Info (12128): Elaborating entity "io_port" for hierarchy "sd_io:inst27|io_port:sdinst5"
+Info (12128): Elaborating entity "io_port" for hierarchy "sd_io:inst27|io_port:sdinst8"
+Info (12128): Elaborating entity "real_sd_addr" for hierarchy "sd_io:inst27|real_sd_addr:inst"
+Info (12128): Elaborating entity "io_port" for hierarchy "sd_io:inst27|io_port:sdinst2"
+Info (12128): Elaborating entity "mdr_out_byte_shift_reg" for hierarchy "mdr_out_byte_shift_reg:inst2"
+Warning (10230): Verilog HDL assignment warning at mdr_out_byte_shift_reg.v(19): truncated value with size 32 to match size of target (16) File: /home/edward/scp/quartus/ram/mdr_out_byte_shift_reg.v Line: 19
 Info (12128): Elaborating entity "ram_mega" for hierarchy "ram_mega:RAM"
 Info (12128): Elaborating entity "altsyncram" for hierarchy "ram_mega:RAM|altsyncram:altsyncram_component" File: /home/edward/scp/quartus/ram/ram_mega.v Line: 97
 Info (12130): Elaborated megafunction instantiation "ram_mega:RAM|altsyncram:altsyncram_component" File: /home/edward/scp/quartus/ram/ram_mega.v Line: 97
@@ -3049,56 +3099,8 @@ Info (12021): Found 1 design units, including 1 entities, in source file db/alts
 Info (12128): Elaborating entity "altsyncram_nlr2" for hierarchy "mmu:inst24|page_table_mega:inst|altsyncram:altsyncram_component|altsyncram_nlr2:auto_generated" File: /home/edward/intelFPGA_lite/17.1/quartus/libraries/megafunctions/altsyncram.tdf Line: 791
 Info (12128): Elaborating entity "mmu_addr_add" for hierarchy "mmu:inst24|mmu_addr_add:minst2"
 Info (12128): Elaborating entity "real_ptb" for hierarchy "mmu:inst24|real_ptb:minst1"
-Info (12128): Elaborating entity "general_reg" for hierarchy "general_reg:A_REG"
-Warning (10230): Verilog HDL assignment warning at general_reg.v(28): truncated value with size 32 to match size of target (16) File: /home/edward/scp/quartus/regs/general_reg.v Line: 28
-Warning (10230): Verilog HDL assignment warning at general_reg.v(31): truncated value with size 32 to match size of target (16) File: /home/edward/scp/quartus/regs/general_reg.v Line: 31
-Info (12128): Elaborating entity "ab_bus_in_mux" for hierarchy "ab_bus_in_mux:inst15"
-Info (12128): Elaborating entity "io_port" for hierarchy "io_port:inst22"
-Info (12128): Elaborating entity "io_regs" for hierarchy "io_regs:inst21"
-Info (12128): Elaborating entity "ab_bus_out_mux" for hierarchy "ab_bus_out_mux:inst13"
-Info (12128): Elaborating entity "uart_io" for hierarchy "uart_io:inst10"
-Info (12128): Elaborating entity "uart" for hierarchy "uart_io:inst10|uart:inst01"
-Info (12128): Elaborating entity "baud_rate_gen" for hierarchy "uart_io:inst10|uart:inst01|baud_rate_gen:uart_baud" File: /home/edward/scp/quartus/IO/uart/uart.v Line: 19
-Info (12128): Elaborating entity "transmitter" for hierarchy "uart_io:inst10|uart:inst01|transmitter:uart_tx" File: /home/edward/scp/quartus/IO/uart/uart.v Line: 25
-Info (12128): Elaborating entity "receiver" for hierarchy "uart_io:inst10|uart:inst01|receiver:uart_rx" File: /home/edward/scp/quartus/IO/uart/uart.v Line: 31
-Info (12128): Elaborating entity "io_port" for hierarchy "uart_io:inst10|io_port:inst04"
-Info (12128): Elaborating entity "io_port" for hierarchy "uart_io:inst10|io_port:inst03"
-Info (12128): Elaborating entity "uartRecFIFO" for hierarchy "uart_io:inst10|uartRecFIFO:inst02"
-Warning (10230): Verilog HDL assignment warning at uartRecFIFO.v(22): truncated value with size 32 to match size of target (8) File: /home/edward/scp/quartus/IO/uart/uartRecFIFO.v Line: 22
-Warning (10230): Verilog HDL assignment warning at uartRecFIFO.v(35): truncated value with size 32 to match size of target (8) File: /home/edward/scp/quartus/IO/uart/uartRecFIFO.v Line: 35
-Info (12128): Elaborating entity "io_port" for hierarchy "uart_io:inst10|io_port:inst05"
-Info (12128): Elaborating entity "io_port" for hierarchy "uart_io:inst10|io_port:inst06"
-Info (12128): Elaborating entity "ps2_io" for hierarchy "ps2_io:inst11"
-Info (12128): Elaborating entity "ps2_to_ascii" for hierarchy "ps2_io:inst11|ps2_to_ascii:instp4"
-Warning (10230): Verilog HDL assignment warning at ps2_to_ascii.v(46): truncated value with size 32 to match size of target (1) File: /home/edward/scp/quartus/IO/ps2/ps2_to_ascii.v Line: 46
-Info (12128): Elaborating entity "ps2_keyboard" for hierarchy "ps2_io:inst11|ps2_keyboard:instp"
-Info (12128): Elaborating entity "debounce" for hierarchy "ps2_io:inst11|ps2_keyboard:instp|debounce:debounce_ps2_clk" File: /home/edward/scp/quartus/IO/ps2/ps2_keyboard.vhd Line: 67
-Info (12128): Elaborating entity "io_port" for hierarchy "ps2_io:inst11|io_port:instp1"
-Info (12128): Elaborating entity "ps2_fifo" for hierarchy "ps2_io:inst11|ps2_fifo:instp3"
-Warning (10230): Verilog HDL assignment warning at ps2_fifo.v(21): truncated value with size 32 to match size of target (8) File: /home/edward/scp/quartus/IO/ps2/ps2_fifo.v Line: 21
-Warning (10230): Verilog HDL assignment warning at ps2_fifo.v(26): truncated value with size 32 to match size of target (8) File: /home/edward/scp/quartus/IO/ps2/ps2_fifo.v Line: 26
-Info (12128): Elaborating entity "io_port" for hierarchy "ps2_io:inst11|io_port:instp2"
-Info (12128): Elaborating entity "sound_io" for hierarchy "sound_io:inst12"
-Info (12128): Elaborating entity "sound_gen" for hierarchy "sound_io:inst12|sound_gen:inst1"
-Warning (10230): Verilog HDL assignment warning at sound_gen.v(9): truncated value with size 32 to match size of target (1) File: /home/edward/scp/quartus/IO/sound/sound_gen.v Line: 9
-Warning (10230): Verilog HDL assignment warning at sound_gen.v(17): truncated value with size 32 to match size of target (20) File: /home/edward/scp/quartus/IO/sound/sound_gen.v Line: 17
-Info (12128): Elaborating entity "io_port" for hierarchy "sound_io:inst12|io_port:inst"
-Info (12128): Elaborating entity "sd_io" for hierarchy "sd_io:inst27"
-Info (12128): Elaborating entity "SdCardCtrl" for hierarchy "sd_io:inst27|SdCardCtrl:sdinst"
-Info (12128): Elaborating entity "io_port" for hierarchy "sd_io:inst27|io_port:sdinst1"
-Info (12128): Elaborating entity "sdCtrlInt" for hierarchy "sd_io:inst27|sdCtrlInt:sdinst7"
-Warning (10230): Verilog HDL assignment warning at sdCtrlInt.v(48): truncated value with size 32 to match size of target (9) File: /home/edward/scp/quartus/IO/sd/sdCtrlInt.v Line: 48
-Warning (10230): Verilog HDL assignment warning at sdCtrlInt.v(50): truncated value with size 32 to match size of target (9) File: /home/edward/scp/quartus/IO/sd/sdCtrlInt.v Line: 50
-Warning (10230): Verilog HDL assignment warning at sdCtrlInt.v(82): truncated value with size 32 to match size of target (9) File: /home/edward/scp/quartus/IO/sd/sdCtrlInt.v Line: 82
-Warning (10230): Verilog HDL assignment warning at sdCtrlInt.v(110): truncated value with size 32 to match size of target (9) File: /home/edward/scp/quartus/IO/sd/sdCtrlInt.v Line: 110
-Info (12128): Elaborating entity "io_port" for hierarchy "sd_io:inst27|io_port:sdinst3"
-Info (12128): Elaborating entity "io_port" for hierarchy "sd_io:inst27|io_port:sdinst4"
-Info (12128): Elaborating entity "io_port" for hierarchy "sd_io:inst27|io_port:sdinst5"
-Info (12128): Elaborating entity "io_port" for hierarchy "sd_io:inst27|io_port:sdinst8"
-Info (12128): Elaborating entity "real_sd_addr" for hierarchy "sd_io:inst27|real_sd_addr:inst"
-Info (12128): Elaborating entity "io_port" for hierarchy "sd_io:inst27|io_port:sdinst2"
-Info (12128): Elaborating entity "mdr_out_byte_shift_reg" for hierarchy "mdr_out_byte_shift_reg:inst2"
-Warning (10230): Verilog HDL assignment warning at mdr_out_byte_shift_reg.v(19): truncated value with size 32 to match size of target (16) File: /home/edward/scp/quartus/ram/mdr_out_byte_shift_reg.v Line: 19
+Info (12128): Elaborating entity "sys_privilage_reg" for hierarchy "sys_privilage_reg:inst25"
+Info (12128): Elaborating entity "mar_mux" for hierarchy "mar_mux:inst6"
 Info (12128): Elaborating entity "pc_reg" for hierarchy "pc_reg:inst3"
 Warning (10230): Verilog HDL assignment warning at pc_reg.v(22): truncated value with size 32 to match size of target (16) File: /home/edward/scp/quartus/regs/pc_reg.v Line: 22
 Warning (10230): Verilog HDL assignment warning at pc_reg.v(25): truncated value with size 32 to match size of target (16) File: /home/edward/scp/quartus/regs/pc_reg.v Line: 25
@@ -3107,28 +3109,26 @@ Warning (10230): Verilog HDL assignment warning at cond.v(15): truncated value w
 Warning (10230): Verilog HDL assignment warning at cond.v(17): truncated value with size 32 to match size of target (1) File: /home/edward/scp/quartus/regs/cond.v Line: 17
 Warning (10230): Verilog HDL assignment warning at cond.v(18): truncated value with size 32 to match size of target (1) File: /home/edward/scp/quartus/regs/cond.v Line: 18
 Info (12128): Elaborating entity "break_addr" for hierarchy "break_addr:inst28"
-Info (12128): Elaborating entity "sp_adder" for hierarchy "sp_adder:inst19"
 Info (12128): Elaborating entity "sp_reg" for hierarchy "sp_reg:inst18"
 Warning (10230): Verilog HDL assignment warning at sp_reg.v(20): truncated value with size 32 to match size of target (16) File: /home/edward/scp/quartus/regs/sp_reg.v Line: 20
 Warning (10230): Verilog HDL assignment warning at sp_reg.v(23): truncated value with size 32 to match size of target (16) File: /home/edward/scp/quartus/regs/sp_reg.v Line: 23
-Info (12128): Elaborating entity "alu" for hierarchy "alu:inst1"
-Warning (10764): Verilog HDL warning at alu.v(21): converting signed shift amount to unsigned File: /home/edward/scp/quartus/alu/alu.v Line: 21
-Warning (10230): Verilog HDL assignment warning at alu.v(39): truncated value with size 24 to match size of target (16) File: /home/edward/scp/quartus/alu/alu.v Line: 39
-Info (12128): Elaborating entity "mar_mux" for hierarchy "mar_mux:inst6"
+Info (12128): Elaborating entity "sp_adder" for hierarchy "sp_adder:inst19"
 Info (12128): Elaborating entity "ptb_reg" for hierarchy "ptb_reg:inst17"
 Info (12128): Elaborating entity "mdr_in_byte_select" for hierarchy "mdr_in_byte_select:inst14"
 Info (12128): Elaborating entity "mdr_out_mux" for hierarchy "mdr_out_mux:inst20"
+Info (12128): Elaborating entity "alu" for hierarchy "alu:inst1"
+Warning (10764): Verilog HDL warning at alu.v(21): converting signed shift amount to unsigned File: /home/edward/scp/quartus/alu/alu.v Line: 21
+Warning (10230): Verilog HDL assignment warning at alu.v(39): truncated value with size 24 to match size of target (16) File: /home/edward/scp/quartus/alu/alu.v Line: 39
 Warning (14284): Synthesized away the following node(s):
     Warning (14285): Synthesized away the following RAM node(s):
         Warning (14320): Synthesized away node "mmu:inst24|page_table_mega:inst|altsyncram:altsyncram_component|altsyncram_nlr2:auto_generated|q_a[6]" File: /home/edward/scp/quartus/db/altsyncram_nlr2.tdf Line: 250
-        Warning (14320): Synthesized away node "rom_mega:DECODE_ROM|altsyncram:altsyncram_component|altsyncram_nkh1:auto_generated|q_a[56]" File: /home/edward/scp/quartus/db/altsyncram_nkh1.tdf Line: 1210
         Warning (14320): Synthesized away node "rom_mega:DECODE_ROM|altsyncram:altsyncram_component|altsyncram_nkh1:auto_generated|q_a[57]" File: /home/edward/scp/quartus/db/altsyncram_nkh1.tdf Line: 1231
         Warning (14320): Synthesized away node "rom_mega:DECODE_ROM|altsyncram:altsyncram_component|altsyncram_nkh1:auto_generated|q_a[58]" File: /home/edward/scp/quartus/db/altsyncram_nkh1.tdf Line: 1252
         Warning (14320): Synthesized away node "rom_mega:DECODE_ROM|altsyncram:altsyncram_component|altsyncram_nkh1:auto_generated|q_a[59]" File: /home/edward/scp/quartus/db/altsyncram_nkh1.tdf Line: 1273
 Warning (276020): Inferred RAM node "sd_io:inst27|sdCtrlInt:sdinst7|data_rd_mem_rtl_0" from synchronous design logic.  Pass-through logic has been added to match the read-during-write behavior of the original design.
 Warning (276020): Inferred RAM node "sd_io:inst27|sdCtrlInt:sdinst7|data_wr_mem_rtl_0" from synchronous design logic.  Pass-through logic has been added to match the read-during-write behavior of the original design.
-Warning (276020): Inferred RAM node "ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0" from synchronous design logic.  Pass-through logic has been added to match the read-during-write behavior of the original design.
 Warning (276020): Inferred RAM node "uart_io:inst10|uartRecFIFO:inst02|mem_rtl_0" from synchronous design logic.  Pass-through logic has been added to match the read-during-write behavior of the original design.
+Warning (276020): Inferred RAM node "ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0" from synchronous design logic.  Pass-through logic has been added to match the read-during-write behavior of the original design.
 Warning (13046): Tri-state node(s) do not directly drive top-level pin(s)
     Warning (13048): Converted tri-state node feeding "ab_bus_in_mux:inst15|out" into a selector File: /home/edward/scp/quartus/mux/ab_bus_in_mux.v Line: 9
     Warning (13048): Converted tri-state node feeding "ab_bus_in_mux:inst15|out" into a selector File: /home/edward/scp/quartus/mux/ab_bus_in_mux.v Line: 9
@@ -3178,7 +3178,7 @@ Info (19000): Inferred 4 megafunctions from design logic
         Info (286033): Parameter INDATA_ACLR_A set to NONE
         Info (286033): Parameter WRCONTROL_ACLR_A set to NONE
         Info (286033): Parameter READ_DURING_WRITE_MODE_MIXED_PORTS set to OLD_DATA
-    Info (276029): Inferred altsyncram megafunction from the following design logic: "ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0" 
+    Info (276029): Inferred altsyncram megafunction from the following design logic: "uart_io:inst10|uartRecFIFO:inst02|mem_rtl_0" 
         Info (286033): Parameter OPERATION_MODE set to DUAL_PORT
         Info (286033): Parameter WIDTH_A set to 8
         Info (286033): Parameter WIDTHAD_A set to 8
@@ -3193,7 +3193,7 @@ Info (19000): Inferred 4 megafunctions from design logic
         Info (286033): Parameter ADDRESS_REG_B set to CLOCK0
         Info (286033): Parameter INDATA_ACLR_A set to NONE
         Info (286033): Parameter WRCONTROL_ACLR_A set to NONE
-    Info (276029): Inferred altsyncram megafunction from the following design logic: "uart_io:inst10|uartRecFIFO:inst02|mem_rtl_0" 
+    Info (276029): Inferred altsyncram megafunction from the following design logic: "ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0" 
         Info (286033): Parameter OPERATION_MODE set to DUAL_PORT
         Info (286033): Parameter WIDTH_A set to 8
         Info (286033): Parameter WIDTHAD_A set to 8
@@ -3245,8 +3245,8 @@ Info (12133): Instantiated megafunction "sd_io:inst27|sdCtrlInt:sdinst7|altsyncr
     Info (12134): Parameter "READ_DURING_WRITE_MODE_MIXED_PORTS" = "OLD_DATA"
 Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_i3n1.tdf
     Info (12023): Found entity 1: altsyncram_i3n1 File: /home/edward/scp/quartus/db/altsyncram_i3n1.tdf Line: 27
-Info (12130): Elaborated megafunction instantiation "ps2_io:inst11|ps2_fifo:instp3|altsyncram:mem_rtl_0"
-Info (12133): Instantiated megafunction "ps2_io:inst11|ps2_fifo:instp3|altsyncram:mem_rtl_0" with the following parameter:
+Info (12130): Elaborated megafunction instantiation "uart_io:inst10|uartRecFIFO:inst02|altsyncram:mem_rtl_0"
+Info (12133): Instantiated megafunction "uart_io:inst10|uartRecFIFO:inst02|altsyncram:mem_rtl_0" with the following parameter:
     Info (12134): Parameter "OPERATION_MODE" = "DUAL_PORT"
     Info (12134): Parameter "WIDTH_A" = "8"
     Info (12134): Parameter "WIDTHAD_A" = "8"
@@ -3280,18 +3280,18 @@ Warning: RST port on the PLL is not properly connected on instance vga_pll:inst|
     Info: Must be connected
 Warning: RST port on the PLL is not properly connected on instance pll:inst9|pll_0002:pll_inst|altera_pll:altera_pll_i|general[2].gpll. The reset port on the PLL should be connected. If the PLL loses lock for any reason, you might need to manually reset the PLL in order to re-establish lock to the reference clock. File: /home/edward/intelFPGA_lite/17.1/quartus/libraries/megafunctions/altera_pll.v Line: 748
     Info: Must be connected
-Info (21057): Implemented 2490 device resources after synthesis - the final resource count might be different
-    Info (21058): Implemented 7 input pins
+Info (21057): Implemented 2478 device resources after synthesis - the final resource count might be different
+    Info (21058): Implemented 6 input pins
     Info (21059): Implemented 16 output pins
-    Info (21061): Implemented 2102 logic cells
-    Info (21064): Implemented 358 RAM segments
+    Info (21061): Implemented 2090 logic cells
+    Info (21064): Implemented 359 RAM segments
     Info (21065): Implemented 6 PLLs
     Info (21062): Implemented 1 DSP elements
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 70 warnings
-    Info: Peak virtual memory: 1127 megabytes
-    Info: Processing ended: Tue Oct  2 20:57:53 2018
-    Info: Elapsed time: 00:00:44
-    Info: Total CPU time (on all processors): 00:01:01
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 69 warnings
+    Info: Peak virtual memory: 1128 megabytes
+    Info: Processing ended: Thu Oct  4 21:37:27 2018
+    Info: Elapsed time: 00:00:38
+    Info: Total CPU time (on all processors): 00:00:58
 
 
 +------------------------------------------+

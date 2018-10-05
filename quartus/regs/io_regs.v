@@ -6,6 +6,8 @@ module io_regs(
 	input [15:0] addrs_bus,
 	input data_we,
 	input addrs_we,
+	input [15:0] addrs_sec_bus,
+	input addrs_sec_we,
 	output reg [15:0] io_data,
 	output reg [7:0] io_addr
 );
@@ -21,6 +23,9 @@ always @ (posedge clk)
 		end
 		if (addrs_we) begin
 			io_addr <= addrs_bus[7:0];
+		end
+		if (addrs_sec_we) begin
+			io_addr <= addrs_sec_bus[7:0];
 		end
 	end
 	
