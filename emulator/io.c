@@ -46,11 +46,9 @@ SDL_Event window_event;
 uint16_t io_gfx_addr;
 uint16_t io_text_addr;
 //the character memory
-uint8_t io_text_mem[2000];
-uint8_t io_text_mem_dirty;
+uint8_t io_text_mem[2048];
 //gfx memory
-uint8_t io_gfx_mem[64000];
-uint8_t io_gfx_mem_dirty;
+uint8_t io_gfx_mem[65536];
 
 //the keyboard memory
 uint16_t io_key_mem[256];
@@ -96,8 +94,10 @@ Uint32 color_conv(uint8_t color){
 
 static inline void sdl_set_pixel(SDL_Surface *surface, int addr, Uint32 pixel)
 {
-  Uint32 *target_pixel = (Uint32 *)((Uint8 *) surface->pixels + addr* sizeof *target_pixel);
-  *target_pixel = pixel;
+    if(addr < 256000){
+        Uint32 *target_pixel = (Uint32 *)((Uint8 *) surface->pixels + addr* sizeof *target_pixel);
+        *target_pixel = pixel;
+    }
 }
 
 //set a "pixel" on the screen (really a 2x2 block)
@@ -106,11 +106,10 @@ void io_gfx_set_pixel(uint16_t addr, uint8_t val){
     uint16_t y;
     x = addr%320;
     y = addr/320;
-
-    sdl_set_pixel(windowSurface, x*2 + y*1280, color_conv(val));
-    sdl_set_pixel(windowSurface, (x*2 + y*1280) +1, color_conv(val));
-    sdl_set_pixel(windowSurface, (x*2 + y*1280) +640, color_conv(val));
-    sdl_set_pixel(windowSurface, (x*2 + y*1280) +641, color_conv(val));
+        sdl_set_pixel(windowSurface, x*2 + y*1280, color_conv(val));
+        sdl_set_pixel(windowSurface, (x*2 + y*1280) +1, color_conv(val));
+        sdl_set_pixel(windowSurface, (x*2 + y*1280) +640, color_conv(val));
+        sdl_set_pixel(windowSurface, (x*2 + y*1280) +641, color_conv(val));
 }
 
 //convert a keysym
@@ -261,12 +260,11 @@ void io_out(uint8_t port, uint16_t val){
     switch(port){
         //text
         case IO_text_addr_port:
-            io_text_addr = val;
+            io_text_addr = val&0b11111111111;
             break;
         case IO_text_data_port:
             io_text_write_char((uint8_t)val, io_text_addr);
             io_text_mem[io_text_addr] = val;
-            io_text_mem_dirty = 1;
             break;
         //gfx
         case IO_gfx_addr_port:
@@ -279,7 +277,6 @@ void io_out(uint8_t port, uint16_t val){
                 io_gfx_set_pixel(io_gfx_addr, val);
             }
             io_gfx_mem[io_gfx_addr] = val;
-            io_gfx_mem_dirty = 1;
             break;
 
         //disk
