@@ -1,5 +1,5 @@
 Analysis & Synthesis report for scp
-Sun Oct  7 20:14:13 2018
+Sun Oct  7 20:59:13 2018
 Quartus Prime Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
 
 
@@ -111,16 +111,16 @@ refer to the applicable agreement for further details.
 +-------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                  ;
 +---------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status     ; Successful - Sun Oct  7 20:14:13 2018       ;
+; Analysis & Synthesis Status     ; Successful - Sun Oct  7 20:59:13 2018       ;
 ; Quartus Prime Version           ; 17.1.0 Build 590 10/25/2017 SJ Lite Edition ;
 ; Revision Name                   ; scp                                         ;
 ; Top-level Entity Name           ; scp                                         ;
 ; Family                          ; Cyclone V                                   ;
 ; Logic utilization (in ALMs)     ; N/A                                         ;
-; Total registers                 ; 878                                         ;
+; Total registers                 ; 894                                         ;
 ; Total pins                      ; 24                                          ;
 ; Total virtual pins              ; 0                                           ;
-; Total block memory bits         ; 1,688,576                                   ;
+; Total block memory bits         ; 1,690,624                                   ;
 ; Total DSP Blocks                ; 1                                           ;
 ; Total HSSI RX PCSs              ; 0                                           ;
 ; Total HSSI PMA RX Deserializers ; 0                                           ;
@@ -298,6 +298,8 @@ refer to the applicable agreement for further details.
 ; IO/sd/sdCtrlInt.v                ; yes             ; User Verilog HDL File                  ; /home/edward/scp/quartus/IO/sd/sdCtrlInt.v                                             ;         ;
 ; int/int_handler.v                ; yes             ; User Verilog HDL File                  ; /home/edward/scp/quartus/int/int_handler.v                                             ;         ;
 ; int/int_manager.v                ; yes             ; User Verilog HDL File                  ; /home/edward/scp/quartus/int/int_manager.v                                             ;         ;
+; regs/pc_cpy.v                    ; yes             ; User Verilog HDL File                  ; /home/edward/scp/quartus/regs/pc_cpy.v                                                 ;         ;
+; mux/ab_io_in_mux.v               ; yes             ; User Verilog HDL File                  ; /home/edward/scp/quartus/mux/ab_io_in_mux.v                                            ;         ;
 ; altsyncram.tdf                   ; yes             ; Megafunction                           ; /home/edward/intelFPGA_lite/17.1/quartus/libraries/megafunctions/altsyncram.tdf        ;         ;
 ; stratix_ram_block.inc            ; yes             ; Megafunction                           ; /home/edward/intelFPGA_lite/17.1/quartus/libraries/megafunctions/stratix_ram_block.inc ;         ;
 ; lpm_mux.inc                      ; yes             ; Megafunction                           ; /home/edward/intelFPGA_lite/17.1/quartus/libraries/megafunctions/lpm_mux.inc           ;         ;
@@ -332,20 +334,20 @@ refer to the applicable agreement for further details.
 +---------------------------------------------+--------------------------------------------------------------------+
 ; Resource                                    ; Usage                                                              ;
 +---------------------------------------------+--------------------------------------------------------------------+
-; Estimate of Logic utilization (ALMs needed) ; 1149                                                               ;
+; Estimate of Logic utilization (ALMs needed) ; 1166                                                               ;
 ;                                             ;                                                                    ;
-; Combinational ALUT usage for logic          ; 1661                                                               ;
-;     -- 7 input functions                    ; 49                                                                 ;
-;     -- 6 input functions                    ; 497                                                                ;
-;     -- 5 input functions                    ; 317                                                                ;
-;     -- 4 input functions                    ; 183                                                                ;
-;     -- <=3 input functions                  ; 615                                                                ;
+; Combinational ALUT usage for logic          ; 1682                                                               ;
+;     -- 7 input functions                    ; 46                                                                 ;
+;     -- 6 input functions                    ; 512                                                                ;
+;     -- 5 input functions                    ; 324                                                                ;
+;     -- 4 input functions                    ; 180                                                                ;
+;     -- <=3 input functions                  ; 620                                                                ;
 ;                                             ;                                                                    ;
-; Dedicated logic registers                   ; 878                                                                ;
+; Dedicated logic registers                   ; 894                                                                ;
 ;                                             ;                                                                    ;
 ; I/O pins                                    ; 24                                                                 ;
 ; Total MLAB memory bits                      ; 0                                                                  ;
-; Total block memory bits                     ; 1688576                                                            ;
+; Total block memory bits                     ; 1690624                                                            ;
 ;                                             ;                                                                    ;
 ; Total DSP Blocks                            ; 1                                                                  ;
 ;                                             ;                                                                    ;
@@ -353,9 +355,9 @@ refer to the applicable agreement for further details.
 ;     -- PLLs                                 ; 6                                                                  ;
 ;                                             ;                                                                    ;
 ; Maximum fan-out node                        ; pll:inst9|pll_0002:pll_inst|altera_pll:altera_pll_i|outclk_wire[1] ;
-; Maximum fan-out                             ; 563                                                                ;
-; Total fan-out                               ; 18180                                                              ;
-; Average fan-out                             ; 6.16                                                               ;
+; Maximum fan-out                             ; 565                                                                ;
+; Total fan-out                               ; 18361                                                              ;
+; Average fan-out                             ; 6.14                                                               ;
 +---------------------------------------------+--------------------------------------------------------------------+
 
 
@@ -364,17 +366,18 @@ refer to the applicable agreement for further details.
 +----------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+-------------------------------------------------------------------------------------------------------------------------+------------------------+--------------+
 ; Compilation Hierarchy Node                   ; Combinational ALUTs ; Dedicated Logic Registers ; Block Memory Bits ; DSP Blocks ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                                     ; Entity Name            ; Library Name ;
 +----------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+-------------------------------------------------------------------------------------------------------------------------+------------------------+--------------+
-; |scp                                         ; 1661 (30)           ; 878 (0)                   ; 1688576           ; 1          ; 24   ; 0            ; |scp                                                                                                                    ; scp                    ; work         ;
-;    |ab_bus_in_mux:inst15|                    ; 119 (119)           ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ab_bus_in_mux:inst15                                                                                               ; ab_bus_in_mux          ; work         ;
+; |scp                                         ; 1682 (1)            ; 894 (0)                   ; 1690624           ; 1          ; 24   ; 0            ; |scp                                                                                                                    ; scp                    ; work         ;
+;    |ab_bus_in_mux:inst15|                    ; 132 (132)           ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ab_bus_in_mux:inst15                                                                                               ; ab_bus_in_mux          ; work         ;
 ;    |ab_bus_out_mux:inst13|                   ; 16 (16)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ab_bus_out_mux:inst13                                                                                              ; ab_bus_out_mux         ; work         ;
-;    |alu:inst1|                               ; 256 (256)           ; 16 (16)                   ; 0                 ; 1          ; 0    ; 0            ; |scp|alu:inst1                                                                                                          ; alu                    ; work         ;
+;    |ab_io_in_mux:inst31|                     ; 32 (32)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ab_io_in_mux:inst31                                                                                                ; ab_io_in_mux           ; work         ;
+;    |alu:inst1|                               ; 254 (254)           ; 16 (16)                   ; 0                 ; 1          ; 0    ; 0            ; |scp|alu:inst1                                                                                                          ; alu                    ; work         ;
 ;    |cond:inst16|                             ; 8 (8)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|cond:inst16                                                                                                        ; cond                   ; work         ;
 ;    |decode_addr_mux:inst30|                  ; 58 (58)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|decode_addr_mux:inst30                                                                                             ; decode_addr_mux        ; work         ;
-;    |general_reg:A_REG|                       ; 35 (35)             ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|general_reg:A_REG                                                                                                  ; general_reg            ; work         ;
-;    |general_reg:B_REG|                       ; 35 (35)             ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|general_reg:B_REG                                                                                                  ; general_reg            ; work         ;
+;    |general_reg:A_REG|                       ; 38 (38)             ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|general_reg:A_REG                                                                                                  ; general_reg            ; work         ;
+;    |general_reg:B_REG|                       ; 39 (39)             ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|general_reg:B_REG                                                                                                  ; general_reg            ; work         ;
 ;    |int_handler:inst8|                       ; 10 (10)             ; 10 (10)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|int_handler:inst8                                                                                                  ; int_handler            ; work         ;
 ;    |int_manager:inst26|                      ; 1 (1)               ; 1 (1)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|int_manager:inst26                                                                                                 ; int_manager            ; work         ;
-;    |io_port:inst22|                          ; 3 (3)               ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|io_port:inst22                                                                                                     ; io_port                ; work         ;
+;    |io_port:inst22|                          ; 2 (2)               ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|io_port:inst22                                                                                                     ; io_port                ; work         ;
 ;    |io_regs:inst21|                          ; 1 (1)               ; 24 (24)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|io_regs:inst21                                                                                                     ; io_regs                ; work         ;
 ;    |mar_mux:inst6|                           ; 16 (16)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|mar_mux:inst6                                                                                                      ; mar_mux                ; work         ;
 ;    |mdr_in_byte_select:inst14|               ; 18 (18)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|mdr_in_byte_select:inst14                                                                                          ; mdr_in_byte_select     ; work         ;
@@ -385,12 +388,13 @@ refer to the applicable agreement for further details.
 ;       |page_table_mega:inst|                 ; 0 (0)               ; 0 (0)                     ; 12288             ; 0          ; 0    ; 0            ; |scp|mmu:inst24|page_table_mega:inst                                                                                    ; page_table_mega        ; work         ;
 ;          |altsyncram:altsyncram_component|   ; 0 (0)               ; 0 (0)                     ; 12288             ; 0          ; 0    ; 0            ; |scp|mmu:inst24|page_table_mega:inst|altsyncram:altsyncram_component                                                    ; altsyncram             ; work         ;
 ;             |altsyncram_nlr2:auto_generated| ; 0 (0)               ; 0 (0)                     ; 12288             ; 0          ; 0    ; 0            ; |scp|mmu:inst24|page_table_mega:inst|altsyncram:altsyncram_component|altsyncram_nlr2:auto_generated                     ; altsyncram_nlr2        ; work         ;
+;    |pc_cpy:inst7|                            ; 0 (0)               ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|pc_cpy:inst7                                                                                                       ; pc_cpy                 ; work         ;
 ;    |pc_reg:inst3|                            ; 36 (36)             ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|pc_reg:inst3                                                                                                       ; pc_reg                 ; work         ;
 ;    |pll:inst9|                               ; 0 (0)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|pll:inst9                                                                                                          ; pll                    ; pll          ;
 ;       |pll_0002:pll_inst|                    ; 0 (0)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|pll:inst9|pll_0002:pll_inst                                                                                        ; pll_0002               ; pll          ;
 ;          |altera_pll:altera_pll_i|           ; 0 (0)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|pll:inst9|pll_0002:pll_inst|altera_pll:altera_pll_i                                                                ; altera_pll             ; work         ;
-;    |ps2_io:inst11|                           ; 113 (0)             ; 111 (0)                   ; 2048              ; 0          ; 0    ; 0            ; |scp|ps2_io:inst11                                                                                                      ; ps2_io                 ; work         ;
-;       |io_port:instp1|                       ; 2 (2)               ; 1 (1)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ps2_io:inst11|io_port:instp1                                                                                       ; io_port                ; work         ;
+;    |ps2_io:inst11|                           ; 114 (0)             ; 111 (0)                   ; 2048              ; 0          ; 0    ; 0            ; |scp|ps2_io:inst11                                                                                                      ; ps2_io                 ; work         ;
+;       |io_port:instp1|                       ; 3 (3)               ; 1 (1)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ps2_io:inst11|io_port:instp1                                                                                       ; io_port                ; work         ;
 ;       |io_port:instp2|                       ; 1 (1)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ps2_io:inst11|io_port:instp2                                                                                       ; io_port                ; work         ;
 ;       |ps2_fifo:instp3|                      ; 28 (28)             ; 41 (41)                   ; 2048              ; 0          ; 0    ; 0            ; |scp|ps2_io:inst11|ps2_fifo:instp3                                                                                      ; ps2_fifo               ; work         ;
 ;          |altsyncram:mem_rtl_0|              ; 0 (0)               ; 0 (0)                     ; 2048              ; 0          ; 0    ; 0            ; |scp|ps2_io:inst11|ps2_fifo:instp3|altsyncram:mem_rtl_0                                                                 ; altsyncram             ; work         ;
@@ -407,14 +411,14 @@ refer to the applicable agreement for further details.
 ;             |decode_m2a:rden_decode_b|       ; 16 (16)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|decode_m2a:rden_decode_b               ; decode_m2a             ; work         ;
 ;             |decode_tma:decode2|             ; 16 (16)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|decode_tma:decode2                     ; decode_tma             ; work         ;
 ;             |mux_dhb:mux4|                   ; 40 (40)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|mux_dhb:mux4                           ; mux_dhb                ; work         ;
-;    |rom_mega:DECODE_ROM|                     ; 0 (0)               ; 0 (0)                     ; 58368             ; 0          ; 0    ; 0            ; |scp|rom_mega:DECODE_ROM                                                                                                ; rom_mega               ; work         ;
-;       |altsyncram:altsyncram_component|      ; 0 (0)               ; 0 (0)                     ; 58368             ; 0          ; 0    ; 0            ; |scp|rom_mega:DECODE_ROM|altsyncram:altsyncram_component                                                                ; altsyncram             ; work         ;
-;          |altsyncram_nkh1:auto_generated|    ; 0 (0)               ; 0 (0)                     ; 58368             ; 0          ; 0    ; 0            ; |scp|rom_mega:DECODE_ROM|altsyncram:altsyncram_component|altsyncram_nkh1:auto_generated                                 ; altsyncram_nkh1        ; work         ;
-;    |sd_io:inst27|                            ; 342 (0)             ; 279 (0)                   ; 8192              ; 0          ; 0    ; 0            ; |scp|sd_io:inst27                                                                                                       ; sd_io                  ; work         ;
+;    |rom_mega:DECODE_ROM|                     ; 0 (0)               ; 0 (0)                     ; 60416             ; 0          ; 0    ; 0            ; |scp|rom_mega:DECODE_ROM                                                                                                ; rom_mega               ; work         ;
+;       |altsyncram:altsyncram_component|      ; 0 (0)               ; 0 (0)                     ; 60416             ; 0          ; 0    ; 0            ; |scp|rom_mega:DECODE_ROM|altsyncram:altsyncram_component                                                                ; altsyncram             ; work         ;
+;          |altsyncram_nkh1:auto_generated|    ; 0 (0)               ; 0 (0)                     ; 60416             ; 0          ; 0    ; 0            ; |scp|rom_mega:DECODE_ROM|altsyncram:altsyncram_component|altsyncram_nkh1:auto_generated                                 ; altsyncram_nkh1        ; work         ;
+;    |sd_io:inst27|                            ; 340 (0)             ; 279 (0)                   ; 8192              ; 0          ; 0    ; 0            ; |scp|sd_io:inst27                                                                                                       ; sd_io                  ; work         ;
 ;       |SdCardCtrl:sdinst|                    ; 242 (242)           ; 142 (142)                 ; 0                 ; 0          ; 0    ; 0            ; |scp|sd_io:inst27|SdCardCtrl:sdinst                                                                                     ; SdCardCtrl             ; work         ;
 ;       |io_port:sdinst1|                      ; 2 (2)               ; 1 (1)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|sd_io:inst27|io_port:sdinst1                                                                                       ; io_port                ; work         ;
-;       |io_port:sdinst2|                      ; 4 (4)               ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|sd_io:inst27|io_port:sdinst2                                                                                       ; io_port                ; work         ;
-;       |io_port:sdinst3|                      ; 3 (3)               ; 1 (1)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|sd_io:inst27|io_port:sdinst3                                                                                       ; io_port                ; work         ;
+;       |io_port:sdinst2|                      ; 3 (3)               ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|sd_io:inst27|io_port:sdinst2                                                                                       ; io_port                ; work         ;
+;       |io_port:sdinst3|                      ; 2 (2)               ; 1 (1)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|sd_io:inst27|io_port:sdinst3                                                                                       ; io_port                ; work         ;
 ;       |io_port:sdinst4|                      ; 3 (3)               ; 1 (1)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|sd_io:inst27|io_port:sdinst4                                                                                       ; io_port                ; work         ;
 ;       |io_port:sdinst5|                      ; 1 (1)               ; 9 (9)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|sd_io:inst27|io_port:sdinst5                                                                                       ; io_port                ; work         ;
 ;       |io_port:sdinst8|                      ; 3 (3)               ; 1 (1)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|sd_io:inst27|io_port:sdinst8                                                                                       ; io_port                ; work         ;
@@ -426,11 +430,11 @@ refer to the applicable agreement for further details.
 ;    |sound_io:inst12|                         ; 50 (0)              ; 36 (0)                    ; 0                 ; 0          ; 0    ; 0            ; |scp|sound_io:inst12                                                                                                    ; sound_io               ; work         ;
 ;       |io_port:inst|                         ; 2 (2)               ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|sound_io:inst12|io_port:inst                                                                                       ; io_port                ; work         ;
 ;       |sound_gen:inst1|                      ; 48 (48)             ; 20 (20)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|sound_io:inst12|sound_gen:inst1                                                                                    ; sound_gen              ; work         ;
-;    |sp_adder:inst19|                         ; 18 (18)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|sp_adder:inst19                                                                                                    ; sp_adder               ; work         ;
+;    |sp_adder:inst19|                         ; 21 (21)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|sp_adder:inst19                                                                                                    ; sp_adder               ; work         ;
 ;    |sp_reg:inst18|                           ; 49 (49)             ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|sp_reg:inst18                                                                                                      ; sp_reg                 ; work         ;
 ;    |sys_privilage_reg:inst25|                ; 1 (1)               ; 1 (1)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|sys_privilage_reg:inst25                                                                                           ; sys_privilage_reg      ; work         ;
-;    |uart_io:inst10|                          ; 106 (0)             ; 118 (0)                   ; 2048              ; 0          ; 0    ; 0            ; |scp|uart_io:inst10                                                                                                     ; uart_io                ; work         ;
-;       |io_port:inst03|                       ; 2 (2)               ; 1 (1)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|uart_io:inst10|io_port:inst03                                                                                      ; io_port                ; work         ;
+;    |uart_io:inst10|                          ; 105 (0)             ; 118 (0)                   ; 2048              ; 0          ; 0    ; 0            ; |scp|uart_io:inst10                                                                                                     ; uart_io                ; work         ;
+;       |io_port:inst03|                       ; 1 (1)               ; 1 (1)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|uart_io:inst10|io_port:inst03                                                                                      ; io_port                ; work         ;
 ;       |io_port:inst04|                       ; 1 (1)               ; 17 (17)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|uart_io:inst10|io_port:inst04                                                                                      ; io_port                ; work         ;
 ;       |io_port:inst05|                       ; 2 (2)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|uart_io:inst10|io_port:inst05                                                                                      ; io_port                ; work         ;
 ;       |uart:inst01|                          ; 72 (0)              ; 58 (0)                    ; 0                 ; 0          ; 0    ; 0            ; |scp|uart_io:inst10|uart:inst01                                                                                         ; uart                   ; work         ;
@@ -456,9 +460,9 @@ refer to the applicable agreement for further details.
 ;                |decode_dla:decode3|          ; 8 (8)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|gfx_mem:inst|altsyncram:altsyncram_component|altsyncram_trj2:auto_generated|decode_dla:decode3       ; decode_dla             ; work         ;
 ;                |mux_tfb:mux5|                ; 4 (4)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|gfx_mem:inst|altsyncram:altsyncram_component|altsyncram_trj2:auto_generated|mux_tfb:mux5             ; mux_tfb                ; work         ;
 ;       |io_port:inst1|                        ; 1 (1)               ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|io_port:inst1                                                                                        ; io_port                ; work         ;
-;       |io_port:inst2|                        ; 2 (2)               ; 9 (9)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|io_port:inst2                                                                                        ; io_port                ; work         ;
+;       |io_port:inst2|                        ; 1 (1)               ; 9 (9)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|io_port:inst2                                                                                        ; io_port                ; work         ;
 ;       |io_port:instv3|                       ; 1 (1)               ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|io_port:instv3                                                                                       ; io_port                ; work         ;
-;       |io_port:instv4|                       ; 1 (1)               ; 9 (9)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|io_port:instv4                                                                                       ; io_port                ; work         ;
+;       |io_port:instv4|                       ; 2 (2)               ; 9 (9)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|io_port:instv4                                                                                       ; io_port                ; work         ;
 ;       |text_gen:instv1|                      ; 88 (88)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|text_gen:instv1                                                                                      ; text_gen               ; work         ;
 ;    |vga_pll:inst|                            ; 0 (0)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_pll:inst                                                                                                       ; vga_pll                ; vga_pll      ;
 ;       |vga_pll_0002:vga_pll_inst|            ; 0 (0)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_pll:inst|vga_pll_0002:vga_pll_inst                                                                             ; vga_pll_0002           ; vga_pll      ;
@@ -675,12 +679,12 @@ Encoding Type:  One-Hot
 +----------------------------------------------+-------+
 ; Statistic                                    ; Value ;
 +----------------------------------------------+-------+
-; Total registers                              ; 878   ;
+; Total registers                              ; 894   ;
 ; Number of registers using Synchronous Clear  ; 188   ;
 ; Number of registers using Synchronous Load   ; 131   ;
 ; Number of registers using Asynchronous Clear ; 0     ;
 ; Number of registers using Asynchronous Load  ; 0     ;
-; Number of registers using Clock Enable       ; 565   ;
+; Number of registers using Clock Enable       ; 581   ;
 ; Number of registers using Preset             ; 0     ;
 +----------------------------------------------+-------+
 
@@ -869,8 +873,8 @@ Encoding Type:  One-Hot
 ; 17:1               ; 2 bits    ; 22 LEs        ; 8 LEs                ; 14 LEs                 ; No         ; |scp|sd_io:inst27|SdCardCtrl:sdinst|state_v                                                                        ;
 ; 3:1                ; 14 bits   ; 28 LEs        ; 14 LEs               ; 14 LEs                 ; No         ; |scp|alu:inst1|Add0                                                                                                ;
 ; 3:1                ; 14 bits   ; 28 LEs        ; 14 LEs               ; 14 LEs                 ; No         ; |scp|alu:inst1|Add0                                                                                                ;
-; 22:1               ; 7 bits    ; 98 LEs        ; 98 LEs               ; 0 LEs                  ; No         ; |scp|ab_bus_in_mux:inst15|out[11]                                                                                  ;
-; 32:1               ; 6 bits    ; 126 LEs       ; 126 LEs              ; 0 LEs                  ; No         ; |scp|ab_bus_in_mux:inst15|out[6]                                                                                   ;
+; 23:1               ; 7 bits    ; 105 LEs       ; 105 LEs              ; 0 LEs                  ; No         ; |scp|ab_bus_in_mux:inst15|out[12]                                                                                  ;
+; 33:1               ; 6 bits    ; 132 LEs       ; 132 LEs              ; 0 LEs                  ; No         ; |scp|ab_bus_in_mux:inst15|out[2]                                                                                   ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+--------------------------------------------------------------------------------------------------------------------+
 
 
@@ -2538,41 +2542,41 @@ Note: In order to hide this table in the UI and the text report file, please set
 +-----------------------+-----------------------------+
 ; Type                  ; Count                       ;
 +-----------------------+-----------------------------+
-; arriav_ff             ; 878                         ;
-;     ENA               ; 359                         ;
+; arriav_ff             ; 894                         ;
+;     ENA               ; 375                         ;
 ;     ENA SCLR          ; 96                          ;
 ;     ENA SCLR SLD      ; 19                          ;
 ;     ENA SLD           ; 91                          ;
 ;     SCLR              ; 73                          ;
 ;     SLD               ; 21                          ;
 ;     plain             ; 219                         ;
-; arriav_lcell_comb     ; 1665                        ;
+; arriav_lcell_comb     ; 1686                        ;
 ;     arith             ; 363                         ;
 ;         1 data inputs ; 238                         ;
 ;         2 data inputs ; 97                          ;
 ;         3 data inputs ; 12                          ;
 ;         4 data inputs ; 14                          ;
 ;         5 data inputs ; 2                           ;
-;     extend            ; 49                          ;
-;         7 data inputs ; 49                          ;
-;     normal            ; 1227                        ;
+;     extend            ; 46                          ;
+;         7 data inputs ; 46                          ;
+;     normal            ; 1251                        ;
 ;         0 data inputs ; 1                           ;
 ;         1 data inputs ; 11                          ;
-;         2 data inputs ; 90                          ;
-;         3 data inputs ; 144                         ;
-;         4 data inputs ; 169                         ;
-;         5 data inputs ; 315                         ;
-;         6 data inputs ; 497                         ;
+;         2 data inputs ; 86                          ;
+;         3 data inputs ; 153                         ;
+;         4 data inputs ; 166                         ;
+;         5 data inputs ; 322                         ;
+;         6 data inputs ; 512                         ;
 ;     shared            ; 26                          ;
 ;         2 data inputs ; 18                          ;
 ;         3 data inputs ; 8                           ;
 ; arriav_mac            ; 1                           ;
 ; boundary_port         ; 24                          ;
 ; generic_pll           ; 6                           ;
-; stratixv_ram_block    ; 359                         ;
+; stratixv_ram_block    ; 361                         ;
 ;                       ;                             ;
 ; Max LUT depth         ; 9.00                        ;
-; Average LUT depth     ; 3.22                        ;
+; Average LUT depth     ; 3.21                        ;
 +-----------------------+-----------------------------+
 
 
@@ -2581,7 +2585,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------+--------------+
 ; Partition Name ; Elapsed Time ;
 +----------------+--------------+
-; Top            ; 00:00:11     ;
+; Top            ; 00:00:10     ;
 +----------------+--------------+
 
 
@@ -2591,7 +2595,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
-    Info: Processing started: Sun Oct  7 20:13:38 2018
+    Info: Processing started: Sun Oct  7 20:58:38 2018
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off scp -c scp
 Info (20032): Parallel compilation is enabled and will use up to 2 processors
 Info (12021): Found 5 design units, including 1 entities, in source file IO/sd/SDCard.vhd
@@ -2742,6 +2746,11 @@ Info (12021): Found 1 design units, including 1 entities, in source file int/bre
     Info (12023): Found entity 1: break_addr File: /home/edward/scp/quartus/int/break_addr.v Line: 1
 Info (12021): Found 1 design units, including 1 entities, in source file int/int_manager.v
     Info (12023): Found entity 1: int_manager File: /home/edward/scp/quartus/int/int_manager.v Line: 1
+Warning (12019): Can't analyze file -- file Verilog1.v is missing
+Info (12021): Found 1 design units, including 1 entities, in source file regs/pc_cpy.v
+    Info (12023): Found entity 1: pc_cpy File: /home/edward/scp/quartus/regs/pc_cpy.v Line: 3
+Info (12021): Found 1 design units, including 1 entities, in source file mux/ab_io_in_mux.v
+    Info (12023): Found entity 1: ab_io_in_mux File: /home/edward/scp/quartus/mux/ab_io_in_mux.v Line: 3
 Info (12127): Elaborating entity "scp" for the top level hierarchy
 Info (12128): Elaborating entity "vga_io" for hierarchy "vga_io:inst23"
 Info (12128): Elaborating entity "VGA_controller" for hierarchy "vga_io:inst23|VGA_controller:instv6"
@@ -3024,6 +3033,7 @@ Info (12128): Elaborating entity "general_reg" for hierarchy "general_reg:A_REG"
 Warning (10230): Verilog HDL assignment warning at general_reg.v(28): truncated value with size 32 to match size of target (16) File: /home/edward/scp/quartus/regs/general_reg.v Line: 28
 Warning (10230): Verilog HDL assignment warning at general_reg.v(31): truncated value with size 32 to match size of target (16) File: /home/edward/scp/quartus/regs/general_reg.v Line: 31
 Info (12128): Elaborating entity "ab_bus_in_mux" for hierarchy "ab_bus_in_mux:inst15"
+Info (12128): Elaborating entity "ab_io_in_mux" for hierarchy "ab_io_in_mux:inst31"
 Info (12128): Elaborating entity "io_port" for hierarchy "io_port:inst22"
 Info (12128): Elaborating entity "uart_io" for hierarchy "uart_io:inst10"
 Info (12128): Elaborating entity "uart" for hierarchy "uart_io:inst10|uart:inst01"
@@ -3056,6 +3066,14 @@ Info (12128): Elaborating entity "io_port" for hierarchy "sd_io:inst27|io_port:s
 Info (12128): Elaborating entity "io_port" for hierarchy "sd_io:inst27|io_port:sdinst8"
 Info (12128): Elaborating entity "real_sd_addr" for hierarchy "sd_io:inst27|real_sd_addr:inst"
 Info (12128): Elaborating entity "io_port" for hierarchy "sd_io:inst27|io_port:sdinst2"
+Info (12128): Elaborating entity "pc_cpy" for hierarchy "pc_cpy:inst7"
+Info (12128): Elaborating entity "pc_reg" for hierarchy "pc_reg:inst3"
+Warning (10230): Verilog HDL assignment warning at pc_reg.v(22): truncated value with size 32 to match size of target (16) File: /home/edward/scp/quartus/regs/pc_reg.v Line: 22
+Warning (10230): Verilog HDL assignment warning at pc_reg.v(25): truncated value with size 32 to match size of target (16) File: /home/edward/scp/quartus/regs/pc_reg.v Line: 25
+Info (12128): Elaborating entity "cond" for hierarchy "cond:inst16"
+Warning (10230): Verilog HDL assignment warning at cond.v(15): truncated value with size 32 to match size of target (1) File: /home/edward/scp/quartus/regs/cond.v Line: 15
+Warning (10230): Verilog HDL assignment warning at cond.v(17): truncated value with size 32 to match size of target (1) File: /home/edward/scp/quartus/regs/cond.v Line: 17
+Warning (10230): Verilog HDL assignment warning at cond.v(18): truncated value with size 32 to match size of target (1) File: /home/edward/scp/quartus/regs/cond.v Line: 18
 Info (12128): Elaborating entity "mdr_out_byte_shift_reg" for hierarchy "mdr_out_byte_shift_reg:inst2"
 Warning (10230): Verilog HDL assignment warning at mdr_out_byte_shift_reg.v(19): truncated value with size 32 to match size of target (16) File: /home/edward/scp/quartus/ram/mdr_out_byte_shift_reg.v Line: 19
 Info (12128): Elaborating entity "ram_mega" for hierarchy "ram_mega:RAM"
@@ -3141,13 +3159,6 @@ Info (12128): Elaborating entity "mmu_addr_add" for hierarchy "mmu:inst24|mmu_ad
 Info (12128): Elaborating entity "real_ptb" for hierarchy "mmu:inst24|real_ptb:minst1"
 Info (12128): Elaborating entity "sys_privilage_reg" for hierarchy "sys_privilage_reg:inst25"
 Info (12128): Elaborating entity "mar_mux" for hierarchy "mar_mux:inst6"
-Info (12128): Elaborating entity "pc_reg" for hierarchy "pc_reg:inst3"
-Warning (10230): Verilog HDL assignment warning at pc_reg.v(22): truncated value with size 32 to match size of target (16) File: /home/edward/scp/quartus/regs/pc_reg.v Line: 22
-Warning (10230): Verilog HDL assignment warning at pc_reg.v(25): truncated value with size 32 to match size of target (16) File: /home/edward/scp/quartus/regs/pc_reg.v Line: 25
-Info (12128): Elaborating entity "cond" for hierarchy "cond:inst16"
-Warning (10230): Verilog HDL assignment warning at cond.v(15): truncated value with size 32 to match size of target (1) File: /home/edward/scp/quartus/regs/cond.v Line: 15
-Warning (10230): Verilog HDL assignment warning at cond.v(17): truncated value with size 32 to match size of target (1) File: /home/edward/scp/quartus/regs/cond.v Line: 17
-Warning (10230): Verilog HDL assignment warning at cond.v(18): truncated value with size 32 to match size of target (1) File: /home/edward/scp/quartus/regs/cond.v Line: 18
 Info (12128): Elaborating entity "sp_reg" for hierarchy "sp_reg:inst18"
 Warning (10230): Verilog HDL assignment warning at sp_reg.v(20): truncated value with size 32 to match size of target (16) File: /home/edward/scp/quartus/regs/sp_reg.v Line: 20
 Warning (10230): Verilog HDL assignment warning at sp_reg.v(23): truncated value with size 32 to match size of target (16) File: /home/edward/scp/quartus/regs/sp_reg.v Line: 23
@@ -3161,30 +3172,28 @@ Warning (10230): Verilog HDL assignment warning at alu.v(39): truncated value wi
 Warning (14284): Synthesized away the following node(s):
     Warning (14285): Synthesized away the following RAM node(s):
         Warning (14320): Synthesized away node "mmu:inst24|page_table_mega:inst|altsyncram:altsyncram_component|altsyncram_nlr2:auto_generated|q_a[6]" File: /home/edward/scp/quartus/db/altsyncram_nlr2.tdf Line: 250
-        Warning (14320): Synthesized away node "rom_mega:DECODE_ROM|altsyncram:altsyncram_component|altsyncram_nkh1:auto_generated|q_a[57]" File: /home/edward/scp/quartus/db/altsyncram_nkh1.tdf Line: 1231
-        Warning (14320): Synthesized away node "rom_mega:DECODE_ROM|altsyncram:altsyncram_component|altsyncram_nkh1:auto_generated|q_a[58]" File: /home/edward/scp/quartus/db/altsyncram_nkh1.tdf Line: 1252
         Warning (14320): Synthesized away node "rom_mega:DECODE_ROM|altsyncram:altsyncram_component|altsyncram_nkh1:auto_generated|q_a[59]" File: /home/edward/scp/quartus/db/altsyncram_nkh1.tdf Line: 1273
 Warning (276020): Inferred RAM node "sd_io:inst27|sdCtrlInt:sdinst7|data_rd_mem_rtl_0" from synchronous design logic.  Pass-through logic has been added to match the read-during-write behavior of the original design.
 Warning (276020): Inferred RAM node "sd_io:inst27|sdCtrlInt:sdinst7|data_wr_mem_rtl_0" from synchronous design logic.  Pass-through logic has been added to match the read-during-write behavior of the original design.
 Warning (276020): Inferred RAM node "uart_io:inst10|uartRecFIFO:inst02|mem_rtl_0" from synchronous design logic.  Pass-through logic has been added to match the read-during-write behavior of the original design.
 Warning (276020): Inferred RAM node "ps2_io:inst11|ps2_fifo:instp3|mem_rtl_0" from synchronous design logic.  Pass-through logic has been added to match the read-during-write behavior of the original design.
 Warning (13046): Tri-state node(s) do not directly drive top-level pin(s)
-    Warning (13048): Converted tri-state node feeding "ab_bus_in_mux:inst15|out" into a selector File: /home/edward/scp/quartus/mux/ab_bus_in_mux.v Line: 9
-    Warning (13048): Converted tri-state node feeding "ab_bus_in_mux:inst15|out" into a selector File: /home/edward/scp/quartus/mux/ab_bus_in_mux.v Line: 9
-    Warning (13048): Converted tri-state node feeding "ab_bus_in_mux:inst15|out" into a selector File: /home/edward/scp/quartus/mux/ab_bus_in_mux.v Line: 9
-    Warning (13048): Converted tri-state node feeding "ab_bus_in_mux:inst15|out" into a selector File: /home/edward/scp/quartus/mux/ab_bus_in_mux.v Line: 9
-    Warning (13048): Converted tri-state node feeding "ab_bus_in_mux:inst15|out" into a selector File: /home/edward/scp/quartus/mux/ab_bus_in_mux.v Line: 9
-    Warning (13048): Converted tri-state node feeding "ab_bus_in_mux:inst15|out" into a selector File: /home/edward/scp/quartus/mux/ab_bus_in_mux.v Line: 9
-    Warning (13048): Converted tri-state node feeding "ab_bus_in_mux:inst15|out" into a selector File: /home/edward/scp/quartus/mux/ab_bus_in_mux.v Line: 9
-    Warning (13048): Converted tri-state node feeding "ab_bus_in_mux:inst15|out" into a selector File: /home/edward/scp/quartus/mux/ab_bus_in_mux.v Line: 9
-    Warning (13048): Converted tri-state node feeding "ab_bus_in_mux:inst15|out" into a selector File: /home/edward/scp/quartus/mux/ab_bus_in_mux.v Line: 9
-    Warning (13048): Converted tri-state node feeding "ab_bus_in_mux:inst15|out" into a selector File: /home/edward/scp/quartus/mux/ab_bus_in_mux.v Line: 9
-    Warning (13048): Converted tri-state node feeding "ab_bus_in_mux:inst15|out" into a selector File: /home/edward/scp/quartus/mux/ab_bus_in_mux.v Line: 9
-    Warning (13048): Converted tri-state node feeding "ab_bus_in_mux:inst15|out" into a selector File: /home/edward/scp/quartus/mux/ab_bus_in_mux.v Line: 9
-    Warning (13048): Converted tri-state node feeding "ab_bus_in_mux:inst15|out" into a selector File: /home/edward/scp/quartus/mux/ab_bus_in_mux.v Line: 9
-    Warning (13048): Converted tri-state node feeding "ab_bus_in_mux:inst15|out" into a selector File: /home/edward/scp/quartus/mux/ab_bus_in_mux.v Line: 9
-    Warning (13048): Converted tri-state node feeding "ab_bus_in_mux:inst15|out" into a selector File: /home/edward/scp/quartus/mux/ab_bus_in_mux.v Line: 9
-    Warning (13048): Converted tri-state node feeding "ab_bus_in_mux:inst15|out" into a selector File: /home/edward/scp/quartus/mux/ab_bus_in_mux.v Line: 9
+    Warning (13048): Converted tri-state node feeding "ab_io_in_mux:inst31|out[15]" into a selector File: /home/edward/scp/quartus/mux/ab_io_in_mux.v Line: 8
+    Warning (13048): Converted tri-state node feeding "ab_io_in_mux:inst31|out[14]" into a selector File: /home/edward/scp/quartus/mux/ab_io_in_mux.v Line: 8
+    Warning (13048): Converted tri-state node feeding "ab_io_in_mux:inst31|out[13]" into a selector File: /home/edward/scp/quartus/mux/ab_io_in_mux.v Line: 8
+    Warning (13048): Converted tri-state node feeding "ab_io_in_mux:inst31|out[12]" into a selector File: /home/edward/scp/quartus/mux/ab_io_in_mux.v Line: 8
+    Warning (13048): Converted tri-state node feeding "ab_io_in_mux:inst31|out[11]" into a selector File: /home/edward/scp/quartus/mux/ab_io_in_mux.v Line: 8
+    Warning (13048): Converted tri-state node feeding "ab_io_in_mux:inst31|out[10]" into a selector File: /home/edward/scp/quartus/mux/ab_io_in_mux.v Line: 8
+    Warning (13048): Converted tri-state node feeding "ab_io_in_mux:inst31|out[9]" into a selector File: /home/edward/scp/quartus/mux/ab_io_in_mux.v Line: 8
+    Warning (13048): Converted tri-state node feeding "ab_io_in_mux:inst31|out[8]" into a selector File: /home/edward/scp/quartus/mux/ab_io_in_mux.v Line: 8
+    Warning (13048): Converted tri-state node feeding "ab_io_in_mux:inst31|out[7]" into a selector File: /home/edward/scp/quartus/mux/ab_io_in_mux.v Line: 8
+    Warning (13048): Converted tri-state node feeding "ab_io_in_mux:inst31|out[6]" into a selector File: /home/edward/scp/quartus/mux/ab_io_in_mux.v Line: 8
+    Warning (13048): Converted tri-state node feeding "ab_io_in_mux:inst31|out[5]" into a selector File: /home/edward/scp/quartus/mux/ab_io_in_mux.v Line: 8
+    Warning (13048): Converted tri-state node feeding "ab_io_in_mux:inst31|out[4]" into a selector File: /home/edward/scp/quartus/mux/ab_io_in_mux.v Line: 8
+    Warning (13048): Converted tri-state node feeding "ab_io_in_mux:inst31|out[3]" into a selector File: /home/edward/scp/quartus/mux/ab_io_in_mux.v Line: 8
+    Warning (13048): Converted tri-state node feeding "ab_io_in_mux:inst31|out[2]" into a selector File: /home/edward/scp/quartus/mux/ab_io_in_mux.v Line: 8
+    Warning (13048): Converted tri-state node feeding "ab_io_in_mux:inst31|out[1]" into a selector File: /home/edward/scp/quartus/mux/ab_io_in_mux.v Line: 8
+    Warning (13048): Converted tri-state node feeding "ab_io_in_mux:inst31|out[0]" into a selector File: /home/edward/scp/quartus/mux/ab_io_in_mux.v Line: 8
 Info (19000): Inferred 4 megafunctions from design logic
     Info (276029): Inferred altsyncram megafunction from the following design logic: "sd_io:inst27|sdCtrlInt:sdinst7|data_rd_mem_rtl_0" 
         Info (286033): Parameter OPERATION_MODE set to DUAL_PORT
@@ -3319,17 +3328,17 @@ Warning: RST port on the PLL is not properly connected on instance vga_pll:inst|
     Info: Must be connected
 Warning: RST port on the PLL is not properly connected on instance pll:inst9|pll_0002:pll_inst|altera_pll:altera_pll_i|general[2].gpll. The reset port on the PLL should be connected. If the PLL loses lock for any reason, you might need to manually reset the PLL in order to re-establish lock to the reference clock. File: /home/edward/intelFPGA_lite/17.1/quartus/libraries/megafunctions/altera_pll.v Line: 748
     Info: Must be connected
-Info (21057): Implemented 2504 device resources after synthesis - the final resource count might be different
+Info (21057): Implemented 2543 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 7 input pins
     Info (21059): Implemented 17 output pins
-    Info (21061): Implemented 2114 logic cells
-    Info (21064): Implemented 359 RAM segments
+    Info (21061): Implemented 2151 logic cells
+    Info (21064): Implemented 361 RAM segments
     Info (21065): Implemented 6 PLLs
     Info (21062): Implemented 1 DSP elements
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 69 warnings
-    Info: Peak virtual memory: 1132 megabytes
-    Info: Processing ended: Sun Oct  7 20:14:14 2018
-    Info: Elapsed time: 00:00:36
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 68 warnings
+    Info: Peak virtual memory: 1143 megabytes
+    Info: Processing ended: Sun Oct  7 20:59:13 2018
+    Info: Elapsed time: 00:00:35
     Info: Total CPU time (on all processors): 00:01:00
 
 
