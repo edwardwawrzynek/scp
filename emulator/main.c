@@ -43,11 +43,16 @@ void dump_failure_buffers(){
     int addr;
     addr = debug_failure_addr;
     while(addr < DEBUG_FAILURE_BUFFERS){
-        printf(debug_failure_buffers[addr++]);
+        if(debug_failure_buffers[addr]){
+            printf(debug_failure_buffers[addr++]);
+        }
     }
     addr = 0;
     while(addr < debug_failure_addr){
-        printf(debug_failure_buffers[addr++]);
+        printf("%u, %u\n", addr, debug_failure_addr);
+        if(debug_failure_buffers[addr]){
+            printf(debug_failure_buffers[addr++]);
+        }
     }
 }
 
@@ -463,6 +468,7 @@ uint8_t cpu_cycle(struct cpu * cpu){
         cpu->reg_sp = val16;
         //set priv_lv
         cpu->reg_priv = 1;
+        pc_inc = 0;
         break;
 
     case BSPA:
@@ -505,10 +511,12 @@ uint8_t cpu_cycle(struct cpu * cpu){
         break;
 
     default:
+        if(DEBUG_FAILURE){
+            dump_failure_buffers();
+        }
         if(WARNINGS){
             printf("Warning: Unrecognized opcode: 0x%x\nAt addr: %u\n", opcode, cpu->reg_pc);
         }
-        dump_failure_buffers();
         break;
     }
     //increment the pc to the next instruction
