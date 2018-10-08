@@ -64,6 +64,8 @@ struct cpu {
     uint16_t reg_b;
     //Program Counter
     uint16_t reg_pc;
+    //Copied program counter (from interupts)
+    uint16_t reg_pc_cpy;
     //Stack pointer
     uint16_t reg_sp;
     //Machine privilage level (0=sys, 1=usr)
@@ -480,6 +482,10 @@ uint8_t cpu_cycle(struct cpu * cpu){
     case BSPL:
         cpu->reg_a = cpu->reg_sp + val8;
         cpu->reg_a = cpu_read_mem(cpu, cpu->reg_a) + (cpu_read_mem(cpu, cpu->reg_a+1) << 8);
+        break;
+
+    case CPCA:
+        cpu->reg_a = cpu->reg_pc_cpy;
         break;
 
     //scpemu debugging
