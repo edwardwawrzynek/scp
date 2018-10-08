@@ -26,8 +26,30 @@ uint8_t print_speed = 0;
 uint8_t WARNINGS = 1;
 
 uint8_t DEBUG = 0;
+uint8_t DEBUG_FAILURE = 0;
+//temporary printing buffer
+char debug_failure_write_out_buf[200];
+int debug_failure_write_out_addr;
+//list of malloc'd buffers containing outputs
+#define DEBUG_FAILURE_BUFFERS 50
+char * debug_failure_buffers[50];
+int debug_failure_addr;
+
 
 unsigned long EVENT_CHECK_FREQ = 100000;
+
+//dump the saved messages
+void dump_failure_buffers(){
+    int addr;
+    addr = debug_failure_addr;
+    while(addr < DEBUG_FAILURE_BUFFERS){
+        printf(debug_failure_buffers[addr++]);
+    }
+    addr = 0;
+    while(addr < debug_failure_addr){
+        printf(debug_failure_buffers[addr++]);
+    }
+}
 
 
 //cpu state structure
@@ -144,6 +166,28 @@ uint8_t cpu_cycle(struct cpu * cpu){
         }
         printf("\n");
         printf("A: 0x%x, B: 0x%x, PC: 0x%x, SP: 0x%x, PTB: 0x%x, priv_lv: %u\n", cpu->reg_a, cpu->reg_b, cpu->reg_pc, cpu->reg_sp, cpu->reg_ptb, cpu->reg_priv);
+    }
+    if(DEBUG_FAILURE){
+        debug_failure_write_out_addr=0;
+        debug_failure_write_out_addr += sprintf(debug_failure_write_out_buf, "-----------------\nAddr: 0x%x, opcode: 0x%x, val8: 0x%x, val16: 0x%x,\n", cpu->reg_pc, opcode, val8, val16);
+        debug_failure_write_out_addr += sprintf(debug_failure_write_out_buf + debug_failure_write_out_addr, "dasm: %s", cmds + (opcode*5));
+        if(CMD_LENS[opcode]){
+            debug_failure_write_out_addr += sprintf(debug_failure_write_out_buf + debug_failure_write_out_addr, " 0x%x (#%i)", CMD_LENS[opcode] == 1 ? val8 : val16, CMD_LENS[opcode] == 1 ? (int16_t)val8 : (int16_t)val16);
+        }
+        debug_failure_write_out_addr += sprintf(debug_failure_write_out_buf + debug_failure_write_out_addr, "\n");
+        debug_failure_write_out_addr += sprintf(debug_failure_write_out_buf + debug_failure_write_out_addr, "A: 0x%x, B: 0x%x, PC: 0x%x, SP: 0x%x, PTB: 0x%x, priv_lv: %u\n", cpu->reg_a, cpu->reg_b, cpu->reg_pc, cpu->reg_sp, cpu->reg_ptb, cpu->reg_priv);
+        //write buffer
+        debug_failure_addr++;
+        if(debug_failure_addr >= DEBUG_FAILURE_BUFFERS){
+            debug_failure_addr = 0;
+        }
+        if(debug_failure_buffers[debug_failure_addr]){
+            free(debug_failure_buffers[debug_failure_addr]);
+        }
+        //malloc mem and copy
+        debug_failure_buffers[debug_failure_addr] = malloc(strlen(debug_failure_write_out_buf)+1);
+        strcpy(debug_failure_buffers[debug_failure_addr], debug_failure_write_out_buf);
+
     }
     //giant switch for opcodes (seperate out?)
     switch(opcode){
@@ -447,9 +491,9 @@ uint8_t cpu_cycle(struct cpu * cpu){
                 for(uint16_t i = 0; i < 32; ++i){
                     printf("%02x|", cpu->mmu_table[(p*32) + i]);
                 }
-                printf("\n");    
+                printf("\n");
             }
-            
+
         }
         cpu->reg_pc++;
         break;
@@ -462,8 +506,9 @@ uint8_t cpu_cycle(struct cpu * cpu){
 
     default:
         if(WARNINGS){
-            printf("Warning: Unrecognized opcode: 0x%x\n", opcode);
+            printf("Warning: Unrecognized opcode: 0x%x\nAt addr: %u\n", opcode, cpu->reg_pc);
         }
+        dump_failure_buffers();
         break;
     }
     //increment the pc to the next instruction
@@ -488,7 +533,14 @@ void cpu_run(struct cpu * cpu){
 }
 
 void usage(){
-    printf("Usage: scpemu [options] [bin file] [disk file] [serial port file]\nOptions:\n-n\t\t:don't throttle the emulator\n-w (speed)\t:throttle the emulator to speed in mhz\n-d\t\t:print debugging information on each instruction executed\n-w\t\t:don't print warnings\n-s\t\t:print the speed the emulator is operating at\n");
+    printf("Usage: scpemu [options] [bin file] [disk file] [serial port file]\n\
+            Options:\n\
+            -n\t\t:don't throttle the emulator\n\
+            -w (speed)\t:throttle the emulator to speed in mhz\n\
+            -d\t\t:print debugging information on each instruction executed\n\
+            -w\t\t:don't print warnings\n\
+            -s\t\t:print the speed the emulator is operating at\n\
+            -f\t\t:print debug information on failure\n");
 }
 
 int main(int argc, char ** argv){
@@ -521,6 +573,10 @@ int main(int argc, char ** argv){
             break;
         case 's':
             print_speed = 1;
+            argv_off++;
+            break;
+        case 'f':
+            DEBUG_FAILURE = 1;
             argv_off++;
             break;
         default:
