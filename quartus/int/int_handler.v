@@ -50,33 +50,46 @@ reg req [0:5];
 reg [2:0] cur_req;
 
 /* past positions */
+reg pirq0;
+reg pirq1;
+reg pirq2;
+reg pirq3;
+reg pirq4;
+reg pirq5;
 
 always @ (posedge clk) begin
 	/* check for request, and set req lines if so */
-	if (irq0) begin
+	if (irq0 && !pirq0) begin
 		req[0] <= 1;
 		ack0 <= 0;
 	end
-	if (irq1) begin
+	if (irq1 && !pirq1) begin
 		req[1] <= 1;
 		ack1 <= 0;
 	end
-	if (irq2) begin
+	if (irq2 && !pirq2) begin
 		req[2] <= 1;
 		ack2 <= 0;
 	end
-	if (irq3) begin
+	if (irq3 && !pirq3) begin
 		req[3] <= 1;
 		ack3 <= 0;
 	end
-	if (irq4) begin
+	if (irq4 && !pirq4) begin
 		req[4] <= 1;
 		ack4 <= 0;
 	end
-	if (irq5) begin
+	if (irq5 && !pirq5) begin
 		req[5] <= 1;
 		ack5 <= 0;
 	end
+	/* set past positions */
+	pirq0 <= irq0;
+	pirq1 <= irq1;
+	pirq2 <= irq2;
+	pirq3 <= irq3;
+	pirq4 <= irq4;
+	pirq5 <= irq5;
 	/* if we can make an interupt and have a request pending, make it */
 	if (priv_lv) begin
 		if (req[0]) begin

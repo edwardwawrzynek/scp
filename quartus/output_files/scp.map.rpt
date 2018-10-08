@@ -1,5 +1,5 @@
 Analysis & Synthesis report for scp
-Sun Oct  7 19:44:09 2018
+Sun Oct  7 20:14:13 2018
 Quartus Prime Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
 
 
@@ -111,13 +111,13 @@ refer to the applicable agreement for further details.
 +-------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                  ;
 +---------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status     ; Successful - Sun Oct  7 19:44:09 2018       ;
+; Analysis & Synthesis Status     ; Successful - Sun Oct  7 20:14:13 2018       ;
 ; Quartus Prime Version           ; 17.1.0 Build 590 10/25/2017 SJ Lite Edition ;
 ; Revision Name                   ; scp                                         ;
 ; Top-level Entity Name           ; scp                                         ;
 ; Family                          ; Cyclone V                                   ;
 ; Logic utilization (in ALMs)     ; N/A                                         ;
-; Total registers                 ; 876                                         ;
+; Total registers                 ; 878                                         ;
 ; Total pins                      ; 24                                          ;
 ; Total virtual pins              ; 0                                           ;
 ; Total block memory bits         ; 1,688,576                                   ;
@@ -332,16 +332,16 @@ refer to the applicable agreement for further details.
 +---------------------------------------------+--------------------------------------------------------------------+
 ; Resource                                    ; Usage                                                              ;
 +---------------------------------------------+--------------------------------------------------------------------+
-; Estimate of Logic utilization (ALMs needed) ; 1147                                                               ;
+; Estimate of Logic utilization (ALMs needed) ; 1149                                                               ;
 ;                                             ;                                                                    ;
-; Combinational ALUT usage for logic          ; 1660                                                               ;
+; Combinational ALUT usage for logic          ; 1661                                                               ;
 ;     -- 7 input functions                    ; 49                                                                 ;
-;     -- 6 input functions                    ; 495                                                                ;
-;     -- 5 input functions                    ; 319                                                                ;
-;     -- 4 input functions                    ; 181                                                                ;
-;     -- <=3 input functions                  ; 616                                                                ;
+;     -- 6 input functions                    ; 497                                                                ;
+;     -- 5 input functions                    ; 317                                                                ;
+;     -- 4 input functions                    ; 183                                                                ;
+;     -- <=3 input functions                  ; 615                                                                ;
 ;                                             ;                                                                    ;
-; Dedicated logic registers                   ; 876                                                                ;
+; Dedicated logic registers                   ; 878                                                                ;
 ;                                             ;                                                                    ;
 ; I/O pins                                    ; 24                                                                 ;
 ; Total MLAB memory bits                      ; 0                                                                  ;
@@ -354,7 +354,7 @@ refer to the applicable agreement for further details.
 ;                                             ;                                                                    ;
 ; Maximum fan-out node                        ; pll:inst9|pll_0002:pll_inst|altera_pll:altera_pll_i|outclk_wire[1] ;
 ; Maximum fan-out                             ; 563                                                                ;
-; Total fan-out                               ; 18171                                                              ;
+; Total fan-out                               ; 18180                                                              ;
 ; Average fan-out                             ; 6.16                                                               ;
 +---------------------------------------------+--------------------------------------------------------------------+
 
@@ -364,7 +364,7 @@ refer to the applicable agreement for further details.
 +----------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+-------------------------------------------------------------------------------------------------------------------------+------------------------+--------------+
 ; Compilation Hierarchy Node                   ; Combinational ALUTs ; Dedicated Logic Registers ; Block Memory Bits ; DSP Blocks ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                                     ; Entity Name            ; Library Name ;
 +----------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+-------------------------------------------------------------------------------------------------------------------------+------------------------+--------------+
-; |scp                                         ; 1660 (30)           ; 876 (0)                   ; 1688576           ; 1          ; 24   ; 0            ; |scp                                                                                                                    ; scp                    ; work         ;
+; |scp                                         ; 1661 (30)           ; 878 (0)                   ; 1688576           ; 1          ; 24   ; 0            ; |scp                                                                                                                    ; scp                    ; work         ;
 ;    |ab_bus_in_mux:inst15|                    ; 119 (119)           ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ab_bus_in_mux:inst15                                                                                               ; ab_bus_in_mux          ; work         ;
 ;    |ab_bus_out_mux:inst13|                   ; 16 (16)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ab_bus_out_mux:inst13                                                                                              ; ab_bus_out_mux         ; work         ;
 ;    |alu:inst1|                               ; 256 (256)           ; 16 (16)                   ; 0                 ; 1          ; 0    ; 0            ; |scp|alu:inst1                                                                                                          ; alu                    ; work         ;
@@ -372,7 +372,7 @@ refer to the applicable agreement for further details.
 ;    |decode_addr_mux:inst30|                  ; 58 (58)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|decode_addr_mux:inst30                                                                                             ; decode_addr_mux        ; work         ;
 ;    |general_reg:A_REG|                       ; 35 (35)             ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|general_reg:A_REG                                                                                                  ; general_reg            ; work         ;
 ;    |general_reg:B_REG|                       ; 35 (35)             ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|general_reg:B_REG                                                                                                  ; general_reg            ; work         ;
-;    |int_handler:inst8|                       ; 9 (9)               ; 8 (8)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|int_handler:inst8                                                                                                  ; int_handler            ; work         ;
+;    |int_handler:inst8|                       ; 10 (10)             ; 10 (10)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|int_handler:inst8                                                                                                  ; int_handler            ; work         ;
 ;    |int_manager:inst26|                      ; 1 (1)               ; 1 (1)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|int_manager:inst26                                                                                                 ; int_manager            ; work         ;
 ;    |io_port:inst22|                          ; 3 (3)               ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|io_port:inst22                                                                                                     ; io_port                ; work         ;
 ;    |io_regs:inst21|                          ; 1 (1)               ; 24 (24)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|io_regs:inst21                                                                                                     ; io_regs                ; work         ;
@@ -626,6 +626,10 @@ Encoding Type:  One-Hot
 +------------------------------------------------------------+----------------------------------------------------------------+
 ; Register name                                              ; Reason for Removal                                             ;
 +------------------------------------------------------------+----------------------------------------------------------------+
+; int_handler:inst8|pirq2                                    ; Lost fanout                                                    ;
+; int_handler:inst8|pirq3                                    ; Lost fanout                                                    ;
+; int_handler:inst8|pirq4                                    ; Lost fanout                                                    ;
+; int_handler:inst8|pirq5                                    ; Lost fanout                                                    ;
 ; sd_io:inst27|SdCardCtrl:sdinst|addr_v[0..31]               ; Lost fanout                                                    ;
 ; sd_io:inst27|SdCardCtrl:sdinst|clkDivider_v[2,4]           ; Stuck at GND due to stuck port data_in                         ;
 ; ps2_io:inst11|ps2_to_ascii:instp4|cur[7]                   ; Stuck at GND due to stuck port data_in                         ;
@@ -652,7 +656,7 @@ Encoding Type:  One-Hot
 ; sd_io:inst27|SdCardCtrl:sdinst|rtnState_v.TX_BITS          ; Merged with sd_io:inst27|SdCardCtrl:sdinst|rtnState_v.DESELECT ;
 ; sd_io:inst27|SdCardCtrl:sdinst|rtnState_v.DESELECT         ; Stuck at GND due to stuck port data_in                         ;
 ; sd_io:inst27|SdCardCtrl:sdinst|tx_v[0]                     ; Stuck at VCC due to stuck port data_in                         ;
-; Total Number of Removed Registers = 92                     ;                                                                ;
+; Total Number of Removed Registers = 96                     ;                                                                ;
 +------------------------------------------------------------+----------------------------------------------------------------+
 
 
@@ -671,7 +675,7 @@ Encoding Type:  One-Hot
 +----------------------------------------------+-------+
 ; Statistic                                    ; Value ;
 +----------------------------------------------+-------+
-; Total registers                              ; 876   ;
+; Total registers                              ; 878   ;
 ; Number of registers using Synchronous Clear  ; 188   ;
 ; Number of registers using Synchronous Load   ; 131   ;
 ; Number of registers using Asynchronous Clear ; 0     ;
@@ -2534,15 +2538,15 @@ Note: In order to hide this table in the UI and the text report file, please set
 +-----------------------+-----------------------------+
 ; Type                  ; Count                       ;
 +-----------------------+-----------------------------+
-; arriav_ff             ; 876                         ;
+; arriav_ff             ; 878                         ;
 ;     ENA               ; 359                         ;
 ;     ENA SCLR          ; 96                          ;
 ;     ENA SCLR SLD      ; 19                          ;
 ;     ENA SLD           ; 91                          ;
 ;     SCLR              ; 73                          ;
 ;     SLD               ; 21                          ;
-;     plain             ; 217                         ;
-; arriav_lcell_comb     ; 1664                        ;
+;     plain             ; 219                         ;
+; arriav_lcell_comb     ; 1665                        ;
 ;     arith             ; 363                         ;
 ;         1 data inputs ; 238                         ;
 ;         2 data inputs ; 97                          ;
@@ -2551,14 +2555,14 @@ Note: In order to hide this table in the UI and the text report file, please set
 ;         5 data inputs ; 2                           ;
 ;     extend            ; 49                          ;
 ;         7 data inputs ; 49                          ;
-;     normal            ; 1226                        ;
+;     normal            ; 1227                        ;
 ;         0 data inputs ; 1                           ;
-;         1 data inputs ; 10                          ;
+;         1 data inputs ; 11                          ;
 ;         2 data inputs ; 90                          ;
-;         3 data inputs ; 146                         ;
-;         4 data inputs ; 167                         ;
-;         5 data inputs ; 317                         ;
-;         6 data inputs ; 495                         ;
+;         3 data inputs ; 144                         ;
+;         4 data inputs ; 169                         ;
+;         5 data inputs ; 315                         ;
+;         6 data inputs ; 497                         ;
 ;     shared            ; 26                          ;
 ;         2 data inputs ; 18                          ;
 ;         3 data inputs ; 8                           ;
@@ -2587,7 +2591,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
-    Info: Processing started: Sun Oct  7 19:43:32 2018
+    Info: Processing started: Sun Oct  7 20:13:38 2018
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off scp -c scp
 Info (20032): Parallel compilation is enabled and will use up to 2 processors
 Info (12021): Found 5 design units, including 1 entities, in source file IO/sd/SDCard.vhd
@@ -3003,7 +3007,7 @@ Info (12128): Elaborating entity "decode_addr_mux" for hierarchy "decode_addr_mu
 Warning (10230): Verilog HDL assignment warning at decode_addr_mux.v(15): truncated value with size 32 to match size of target (10) File: /home/edward/scp/quartus/mux/decode_addr_mux.v Line: 15
 Info (12128): Elaborating entity "int_manager" for hierarchy "int_manager:inst26"
 Info (12128): Elaborating entity "int_handler" for hierarchy "int_handler:inst8"
-Warning (10230): Verilog HDL assignment warning at int_handler.v(99): truncated value with size 32 to match size of target (1) File: /home/edward/scp/quartus/int/int_handler.v Line: 99
+Warning (10230): Verilog HDL assignment warning at int_handler.v(114): truncated value with size 32 to match size of target (1) File: /home/edward/scp/quartus/int/int_handler.v Line: 114
 Info (12128): Elaborating entity "ps2_io" for hierarchy "ps2_io:inst11"
 Info (12128): Elaborating entity "ps2_to_ascii" for hierarchy "ps2_io:inst11|ps2_to_ascii:instp4"
 Warning (10230): Verilog HDL assignment warning at ps2_to_ascii.v(46): truncated value with size 32 to match size of target (1) File: /home/edward/scp/quartus/IO/ps2/ps2_to_ascii.v Line: 46
@@ -3299,7 +3303,7 @@ Info (12133): Instantiated megafunction "uart_io:inst10|uartRecFIFO:inst02|altsy
 Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_93k1.tdf
     Info (12023): Found entity 1: altsyncram_93k1 File: /home/edward/scp/quartus/db/altsyncram_93k1.tdf Line: 27
 Info (286030): Timing-Driven Synthesis is running
-Info (17049): 53 registers lost all their fanouts during netlist optimizations.
+Info (17049): 57 registers lost all their fanouts during netlist optimizations.
 Info (144001): Generated suppressed messages file /home/edward/scp/quartus/output_files/scp.map.smsg
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 10 node(s), including 0 DDIO, 6 PLL, 0 transceiver and 0 LCELL
@@ -3315,18 +3319,18 @@ Warning: RST port on the PLL is not properly connected on instance vga_pll:inst|
     Info: Must be connected
 Warning: RST port on the PLL is not properly connected on instance pll:inst9|pll_0002:pll_inst|altera_pll:altera_pll_i|general[2].gpll. The reset port on the PLL should be connected. If the PLL loses lock for any reason, you might need to manually reset the PLL in order to re-establish lock to the reference clock. File: /home/edward/intelFPGA_lite/17.1/quartus/libraries/megafunctions/altera_pll.v Line: 748
     Info: Must be connected
-Info (21057): Implemented 2502 device resources after synthesis - the final resource count might be different
+Info (21057): Implemented 2504 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 7 input pins
     Info (21059): Implemented 17 output pins
-    Info (21061): Implemented 2112 logic cells
+    Info (21061): Implemented 2114 logic cells
     Info (21064): Implemented 359 RAM segments
     Info (21065): Implemented 6 PLLs
     Info (21062): Implemented 1 DSP elements
 Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 69 warnings
-    Info: Peak virtual memory: 1128 megabytes
-    Info: Processing ended: Sun Oct  7 19:44:09 2018
-    Info: Elapsed time: 00:00:37
-    Info: Total CPU time (on all processors): 00:01:02
+    Info: Peak virtual memory: 1132 megabytes
+    Info: Processing ended: Sun Oct  7 20:14:14 2018
+    Info: Elapsed time: 00:00:36
+    Info: Total CPU time (on all processors): 00:01:00
 
 
 +------------------------------------------+
