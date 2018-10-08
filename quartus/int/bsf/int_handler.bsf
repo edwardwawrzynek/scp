@@ -20,101 +20,153 @@ refer to the applicable agreement for further details.
 */
 (header "symbol" (version "1.1"))
 (symbol
-	(rect 16 16 232 256)
+	(rect 16 16 200 192)
 	(text "int_handler" (rect 5 0 47 12)(font "Arial" ))
-	(text "inst" (rect 8 224 20 236)(font "Arial" ))
+	(text "inst" (rect 8 160 20 172)(font "Arial" ))
 	(port
 		(pt 0 32)
 		(input)
-		(text "clk" (rect 0 0 10 12)(font "Arial" ))
-		(text "clk" (rect 21 27 31 39)(font "Arial" ))
+		(text "irq0" (rect 0 0 14 12)(font "Arial" ))
+		(text "irq0" (rect 21 27 35 39)(font "Arial" ))
 		(line (pt 0 32)(pt 16 32)(line_width 1))
 	)
 	(port
 		(pt 0 48)
 		(input)
-		(text "priv_lv" (rect 0 0 28 12)(font "Arial" ))
-		(text "priv_lv" (rect 21 43 49 55)(font "Arial" ))
+		(text "irq1" (rect 0 0 12 12)(font "Arial" ))
+		(text "irq1" (rect 21 43 33 55)(font "Arial" ))
 		(line (pt 0 48)(pt 16 48)(line_width 1))
 	)
 	(port
 		(pt 0 64)
 		(input)
-		(text "int0" (rect 0 0 12 12)(font "Arial" ))
-		(text "int0" (rect 21 59 33 71)(font "Arial" ))
+		(text "irq2" (rect 0 0 14 12)(font "Arial" ))
+		(text "irq2" (rect 21 59 35 71)(font "Arial" ))
 		(line (pt 0 64)(pt 16 64)(line_width 1))
 	)
 	(port
 		(pt 0 80)
 		(input)
-		(text "int1" (rect 0 0 11 12)(font "Arial" ))
-		(text "int1" (rect 21 75 32 87)(font "Arial" ))
+		(text "irq3" (rect 0 0 14 12)(font "Arial" ))
+		(text "irq3" (rect 21 75 35 87)(font "Arial" ))
 		(line (pt 0 80)(pt 16 80)(line_width 1))
 	)
 	(port
 		(pt 0 96)
 		(input)
-		(text "int2" (rect 0 0 12 12)(font "Arial" ))
-		(text "int2" (rect 21 91 33 103)(font "Arial" ))
+		(text "irq4" (rect 0 0 15 12)(font "Arial" ))
+		(text "irq4" (rect 21 91 36 103)(font "Arial" ))
 		(line (pt 0 96)(pt 16 96)(line_width 1))
 	)
 	(port
 		(pt 0 112)
 		(input)
-		(text "int3" (rect 0 0 12 12)(font "Arial" ))
-		(text "int3" (rect 21 107 33 119)(font "Arial" ))
+		(text "irq5" (rect 0 0 14 12)(font "Arial" ))
+		(text "irq5" (rect 21 107 35 119)(font "Arial" ))
 		(line (pt 0 112)(pt 16 112)(line_width 1))
 	)
 	(port
 		(pt 0 128)
 		(input)
-		(text "int0_vec[15..0]" (rect 0 0 57 12)(font "Arial" ))
-		(text "int0_vec[15..0]" (rect 21 123 78 135)(font "Arial" ))
-		(line (pt 0 128)(pt 16 128)(line_width 3))
+		(text "clk" (rect 0 0 10 12)(font "Arial" ))
+		(text "clk" (rect 21 123 31 135)(font "Arial" ))
+		(line (pt 0 128)(pt 16 128)(line_width 1))
 	)
 	(port
 		(pt 0 144)
 		(input)
-		(text "int1_vec[15..0]" (rect 0 0 56 12)(font "Arial" ))
-		(text "int1_vec[15..0]" (rect 21 139 77 151)(font "Arial" ))
-		(line (pt 0 144)(pt 16 144)(line_width 3))
+		(text "priv_lv" (rect 0 0 28 12)(font "Arial" ))
+		(text "priv_lv" (rect 21 139 49 151)(font "Arial" ))
+		(line (pt 0 144)(pt 16 144)(line_width 1))
 	)
 	(port
-		(pt 0 160)
-		(input)
-		(text "int2_vec[15..0]" (rect 0 0 57 12)(font "Arial" ))
-		(text "int2_vec[15..0]" (rect 21 155 78 167)(font "Arial" ))
-		(line (pt 0 160)(pt 16 160)(line_width 3))
-	)
-	(port
-		(pt 0 176)
-		(input)
-		(text "int3_vec[15..0]" (rect 0 0 57 12)(font "Arial" ))
-		(text "int3_vec[15..0]" (rect 21 171 78 183)(font "Arial" ))
-		(line (pt 0 176)(pt 16 176)(line_width 3))
-	)
-	(port
-		(pt 0 192)
-		(input)
-		(text "int_ack" (rect 0 0 28 12)(font "Arial" ))
-		(text "int_ack" (rect 21 187 49 199)(font "Arial" ))
-		(line (pt 0 192)(pt 16 192)(line_width 1))
-	)
-	(port
-		(pt 216 32)
+		(pt 184 32)
 		(output)
-		(text "do_int" (rect 0 0 23 12)(font "Arial" ))
-		(text "do_int" (rect 172 27 195 39)(font "Arial" ))
-		(line (pt 216 32)(pt 200 32)(line_width 1))
+		(text "ack0" (rect 0 0 18 12)(font "Arial" ))
+		(text "ack0" (rect 145 27 163 39)(font "Arial" ))
+		(line (pt 184 32)(pt 168 32)(line_width 1))
 	)
 	(port
-		(pt 216 48)
+		(pt 184 48)
+		(output)
+		(text "ack1" (rect 0 0 17 12)(font "Arial" ))
+		(text "ack1" (rect 146 43 163 55)(font "Arial" ))
+		(line (pt 184 48)(pt 168 48)(line_width 1))
+	)
+	(port
+		(pt 184 64)
+		(output)
+		(text "ack2" (rect 0 0 18 12)(font "Arial" ))
+		(text "ack2" (rect 145 59 163 71)(font "Arial" ))
+		(line (pt 184 64)(pt 168 64)(line_width 1))
+	)
+	(port
+		(pt 184 80)
+		(output)
+		(text "ack3" (rect 0 0 18 12)(font "Arial" ))
+		(text "ack3" (rect 145 75 163 87)(font "Arial" ))
+		(line (pt 184 80)(pt 168 80)(line_width 1))
+	)
+	(port
+		(pt 184 96)
+		(output)
+		(text "ack4" (rect 0 0 20 12)(font "Arial" ))
+		(text "ack4" (rect 143 91 163 103)(font "Arial" ))
+		(line (pt 184 96)(pt 168 96)(line_width 1))
+	)
+	(port
+		(pt 184 112)
+		(output)
+		(text "ack5" (rect 0 0 18 12)(font "Arial" ))
+		(text "ack5" (rect 145 107 163 119)(font "Arial" ))
+		(line (pt 184 112)(pt 168 112)(line_width 1))
+	)
+	(port
+		(pt 184 128)
+		(output)
+		(text "manager_irq" (rect 0 0 50 12)(font "Arial" ))
+		(text "manager_irq" (rect 113 123 163 135)(font "Arial" ))
+		(line (pt 184 128)(pt 168 128)(line_width 1))
+	)
+	(port
+		(pt 184 144)
 		(output)
 		(text "int_addr[15..0]" (rect 0 0 55 12)(font "Arial" ))
-		(text "int_addr[15..0]" (rect 140 43 195 55)(font "Arial" ))
-		(line (pt 216 48)(pt 200 48)(line_width 3))
+		(text "int_addr[15..0]" (rect 108 139 163 151)(font "Arial" ))
+		(line (pt 184 144)(pt 168 144)(line_width 3))
 	)
+	(parameter
+		"IRQ0_ADDR"
+		"0000000000010000"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"IRQ1_ADDR"
+		"0000000000010100"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"IRQ2_ADDR"
+		"0000000000011000"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"IRQ3_ADDR"
+		"0000000000011100"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"IRQ4_ADDR"
+		"0000000000100000"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"IRQ5_ADDR"
+		"0000000000100100"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
 	(drawing
-		(rectangle (rect 16 16 200 224)(line_width 1))
+		(rectangle (rect 16 16 168 160)(line_width 1))
 	)
+	(annotation_block (parameter)(rect 200 -64 300 16))
 )

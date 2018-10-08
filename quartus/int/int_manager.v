@@ -6,10 +6,7 @@ module int_manager(
 	output reg do_int
 );
 
-reg p_irq;
-
 always @ (posedge clk) begin
-	p_irq <= irq;
 	if(irq && (!do_int) && priv_lv) begin
 		do_int <= 1;
 	end
