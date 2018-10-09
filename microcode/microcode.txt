@@ -347,7 +347,11 @@ $ktou_6:ktou_6:SP_JUST_MDR,SP_ADD_WE,DECODE_NEXT=$ktou_7
 //load next instruction
 $ktou_7:ktou_7:PRIV_WE,PRIV_LV=1,DECODE_NEXT=jmp_end
 
+//move the pc saved in pc_cpy to a
+74:cpca:BUS_IN_SEL=3,AB_IO_IN_SEL=1,A_BUS_WE,PC_INC,NEW_INSTR
+
+//interupt secuence
 1023:int:PRIV_WE,PRIV_LV=0,DECODE_NEXT=$int_2
-$int_2:int_2:PRIV_WE,PRIV_LV=0,DECODE_NEXT=$int_3
+$int_2:int_2:PC_CPY_WE,PRIV_WE,PRIV_LV=0,DECODE_NEXT=$int_3
 $int_3:int_3:PRIV_WE,PRIV_LV=0,PC_INT_WE,DECODE_NEXT=$int_4
 $int_4:int_4:PC_INC,NEW_INSTR

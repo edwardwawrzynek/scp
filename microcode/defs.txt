@@ -40,3 +40,5 @@
 54: PC_INT_WE - write the int addr into the pc
 55: SP_JUST_MDR - don't add sp to sp_add bus
 56: IO_ADDR_MDR_WE - write mdr into io_addr bus
+57: PC_CPY_WE - write the pc into the pc_cpy reg
+58: AB_IO_IN_SEL - select which io signal goes into BUS_IN_SEL 0=io, 1=pc_cpy
