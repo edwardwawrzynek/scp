@@ -20,18 +20,27 @@
 	input irq4,
 	input irq5,
 	/* interupt acknowledges (1 if no interupt pending, 0 if one is) */
-	output reg ack0=1,
-	output reg ack1=1,
-	output reg ack2=1,
-	output reg ack3=1,
-	output reg ack4=1,
-	output reg ack5=1,
+	output reg ack0,
+	output reg ack1,
+	output reg ack2,
+	output reg ack3,
+	output reg ack4,
+	output reg ack5,
 	/* interupt hardware lines */
 	input clk,
 	input priv_lv,
 	output reg manager_irq,
 	output reg [15:0] int_addr
 );
+
+initial begin
+	ack0 = 1'b1;
+	ack1 = 1'b1;
+	ack2 = 1'b1;
+	ack3 = 1'b1;
+	ack4 = 1'b1;
+	ack5 = 1'b1;
+end
 
 /* addr for each of the ints */
 parameter IRQ0_ADDR = 16'h10;

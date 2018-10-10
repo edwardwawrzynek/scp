@@ -108,6 +108,18 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to PS2_CLK
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to PS2_DATA
 set_location_assignment PIN_AG28 -to SPEAKER
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to SPEAKER
+set_location_assignment PIN_V12 -to SD_CARD_CS
+set_location_assignment PIN_AF7 -to SD_CARD_MOSI
+set_location_assignment PIN_W12 -to SD_CARD_SCLK
+set_location_assignment PIN_AF8 -to SD_CARD_MISO
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to SD_CARD_CS
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to SD_CARD_MISO
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to SD_CARD_MOSI
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to SD_CARD_SCLK
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to CLOCK_50
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to CLOCK_50_2
+set_global_assignment -name VERILOG_FILE int/int_timer.v
+set_global_assignment -name VERILOG_FILE timer.v
 set_global_assignment -name VHDL_FILE IO/sd/SDCard.vhd
 set_global_assignment -name VERILOG_FILE IO/vga/text_gen.v
 set_global_assignment -name BDF_FILE IO/prgm_rom/prgm_rom_io.bdf
@@ -178,16 +190,6 @@ set_global_assignment -name MIF_FILE IO/vga/gfx_init.mif
 set_global_assignment -name VERILOG_FILE IO/sound/sound_gen.v
 set_global_assignment -name BDF_FILE IO/sound/sound_io.bdf
 set_global_assignment -name VERILOG_FILE regs/ptb_reg.v
-set_location_assignment PIN_V12 -to SD_CARD_CS
-set_location_assignment PIN_AF7 -to SD_CARD_MOSI
-set_location_assignment PIN_W12 -to SD_CARD_SCLK
-set_location_assignment PIN_AF8 -to SD_CARD_MISO
-set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to SD_CARD_CS
-set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to SD_CARD_MISO
-set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to SD_CARD_MOSI
-set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to SD_CARD_SCLK
-set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to CLOCK_50
-set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to CLOCK_50_2
 set_global_assignment -name VERILOG_FILE IO/sd/sd_is_error.v
 set_global_assignment -name BDF_FILE IO/sd/sd_io.bdf
 set_global_assignment -name VERILOG_FILE IO/sd/real_sd_addr.v
