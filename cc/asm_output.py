@@ -1,4 +1,4 @@
-from typing import Type, Union
+import typing
 
 #A class that describes a single assembly cmd, be it a comment, label, or cmd
 class _AsmCmd:
@@ -20,21 +20,21 @@ class _AsmCmd:
     self.is_val_arg = False
 
   @staticmethod
-  def from_comment(comment: str):
+  def from_comment(comment: str) -> '_AsmCmd':
     res = _AsmCmd()
     res.is_comment = True
     res.comment = comment
     return res
 
   @staticmethod
-  def from_label(label: str):
+  def from_label(label: str) -> '_AsmCmd':
     res = _AsmCmd()
     res.is_label = True
     res.label = label
     return res
 
   @staticmethod
-  def from_cmd_label(cmd: str, arg: str):
+  def from_cmd_label(cmd: str, arg: str) -> '_AsmCmd':
     res = _AsmCmd()
     res.is_cmd = True
     res.cmd = cmd
@@ -43,7 +43,7 @@ class _AsmCmd:
     return res
 
   @staticmethod
-  def from_cmd_val(cmd: str, arg: int):
+  def from_cmd_val(cmd: str, arg: int) -> '_AsmCmd':
     res = _AsmCmd()
     res.is_cmd = True
     res.cmd = cmd
@@ -84,14 +84,14 @@ class AsmOutput:
     else:
       self.lines.append(_AsmCmd.from_label(label))
 
-  def cmd(self, cmd: str, arg: Union[str, int] = "", is_mod: bool = False) -> None:
+  def cmd(self, cmd: str, arg: typing.Union[str, int] = "", is_mod: bool = False) -> None:
     if type(arg) == int:
-      self.lines.append(_AsmCmd.from_cmd_val(cmd, arg))
+      self.lines.append(_AsmCmd.from_cmd_val(cmd, int(arg)))
     else:
       if is_mod:
-        self.lines.append(_AsmCmd.from_cmd_label(cmd, "$"+arg))
+        self.lines.append(_AsmCmd.from_cmd_label(cmd, "$"+str(arg)))
       else:
-        self.lines.append(_AsmCmd.from_cmd_label(cmd, arg))
+        self.lines.append(_AsmCmd.from_cmd_label(cmd, str(arg)))
 
   def print_labels(self) -> None:
     for l in self.lines:
