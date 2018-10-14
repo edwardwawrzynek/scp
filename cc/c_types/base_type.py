@@ -1,5 +1,6 @@
 import typing
 from defs import Defs
+from regs import Reg, RegEnum
 
 #a class that describes a variable's type, and functions associated with that type
 class BaseCType:
@@ -28,3 +29,13 @@ class BaseCType:
   def get_stack_size(self) -> int:
     #usually storage size, but chars are passed as ints, and some things like functions can't be passed on the stack
     return 0
+
+  #-- code generation --
+
+  #given the addr of the value in reg addr, load the value into reg dst (addr and dst may be the same reg)
+  def gen_load_from_addr(self, comp: 'CompilerInst', addr: 'Reg', dst: 'Reg') -> None:
+    comp.asm.comment("BaseType load")
+
+  #given the addr of the value in reg addr and the value in reg src, store value (addr and dst are different regs)
+  def gen_store_from_addr(self, comp: 'CompilerInst', addr: 'Reg', src: 'Reg') -> None:
+    comp.asm.comment("BaseType store")

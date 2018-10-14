@@ -1,6 +1,7 @@
 import typing
 from defs import Defs
 from c_types.base_type import BaseCType
+from regs import Reg, RegEnum
 
 #struct or union types
 class StructCType(BaseCType):
@@ -51,3 +52,17 @@ class StructCType(BaseCType):
   def get_stack_size(self) -> int:
     #structs can be passed on stack
     return self.size
+
+  def gen_load_from_addr(self, comp: 'CompilerInst', addr: 'Reg', dst: 'Reg') -> None:
+    #structs are loaded as their addr - only do something if addr and dst are different
+    if addr.reg_id == RegEnum.A_REG and dst.reg_id == RegEnum.B_REG:
+      comp.asm.cmd("mvab")
+    elif addr.reg_id == RegEnum.B_REG and dst.reg_id == RegEnum.A_REG:
+      comp.asm.cmd("mvba")
+    pass
+
+  def gen_store_from_addr(self, comp: 'CompilerInst', addr: 'Reg', src: 'Reg') -> None:
+    assert addr.reg_id != src.reg_id, "Addr and src regs have to be different"
+    #memcpy the struct in dst to the struct in addr
+    comp.asm.comment("Struct memcpy not implemented")
+    comp.asm.cmd("nimp")

@@ -27,3 +27,10 @@ class CompilerInst:
 
 
 comp = CompilerInst()
+
+PointerCType().new(IntCType().new(1,True)).gen_store_from_addr(comp, comp.b_reg, comp.a_reg)
+
+IntCType().new(2, True).gen_load_from_addr(comp, comp.a_reg, comp.a_reg)
+ArrayCType().new(IntCType().new(1,True),10).gen_load_from_addr(comp, comp.a_reg, comp.b_reg)
+
+comp.asm.print_asm()
