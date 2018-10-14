@@ -7,6 +7,9 @@ from c_types.ptr_type import PointerCType
 from c_types.array_type import ArrayCType
 from c_types.struct_type import StructCType
 from c_types.void_type import VoidCType
+
+from c_types.type_gen import CTypeGenerator
+
 from regs import Reg, RegEnum
 
 #a compiler instance - there will probably only be one anyway
