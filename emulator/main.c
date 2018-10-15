@@ -19,7 +19,7 @@ uint8_t limit_speed = 1;
 double speed_limit = 35.0;
 //print the speed
 uint8_t print_speed = 0;
-
+struct cpu cpu_inst;
 //io subsystem
 #include "io.c"
 
@@ -37,6 +37,8 @@ int debug_failure_addr;
 
 
 unsigned long EVENT_CHECK_FREQ = 100000;
+
+#define INT_CHECK_FREQ 4096
 
 //dump the saved messages
 void dump_failure_buffers(){
@@ -70,6 +72,8 @@ struct cpu {
     uint16_t reg_sp;
     //Machine privilage level (0=sys, 1=usr)
     uint8_t reg_priv;
+    //Interupr requests
+    uint8_t int_req[6];
     //MMU memory map (higest bit is ignored on each entry)
     /* mmu layout
      * -- Virtual Memory Addr to Physical --
@@ -88,7 +92,7 @@ struct cpu {
 };
 
 //main cpu
-struct cpu c;
+
 //window
 SDL_Window *window;
 SDL_Surface *windowSurface;
@@ -149,6 +153,44 @@ void cpu_init(struct cpu * cpu){
     for(uint16_t i = 0; i < 32; i++){
         cpu->mmu_table[i] = i;
     }
+}
+
+//perform an interupt on the cpu
+//tiggers irq lines 0-5, selected by irq_num
+void cpu_int(struct cpu * cpu, uint8_t irq_num){
+    if(irq_num > 5){
+        printf("scpemu error: no such interupt line: irq%u\n", irq_num);
+        return;
+    }
+    //mark interupt as requested
+    cpu->int_req[irq_num] = 1;
+    //check interupts
+    cpu_check_ints(cpu);
+}
+
+//check interupts on the cpu, performing them if needed and possible
+void cpu_check_ints(struct cpu * cpu){
+    uint16_t int_addr;
+    uint8_t i;
+    //check priv_lv is usr
+    if(!cpu->reg_priv){
+        return;
+    }
+    for(i = 0; i < 6; ++i){
+        if(cpu->int_req[i]){
+            cpu->int_req[i] = 0;
+            //raise priv_lv to sys
+            cpu->reg_priv = 0;
+            //calculate interupt addr
+            int_addr = 0x10 + i*0x4;
+            //save pc to pc_cpy
+            cpu->reg_pc_cpy = cpu->reg_pc+1;
+            //set pc to int addr
+            cpu->reg_pc = int_addr;
+        }
+    }
+
+
 }
 
 //run a cpu cycle, returning the number of cpu cycles the instruction took
@@ -541,6 +583,9 @@ void cpu_run(struct cpu * cpu){
         cyc = 0;
         for(i = 0; i < EVENT_CHECK_FREQ; ++i){
             cyc += cpu_cycle(cpu);
+            if(!(i % INT_CHECK_FREQ)){
+                io_check_timer_int(cpu);
+            }
         }
         sdl_check_events(cyc);
     }
@@ -607,7 +652,7 @@ int main(int argc, char ** argv){
     }
     init_sdl(argv[1+argv_off]);
     io_init(argv[2+argv_off], argv[3+argv_off]);
-    cpu_init(&c);
-    cpu_init_mem(&c, argv[1+argv_off]);
-    cpu_run(&c);
+    cpu_init(&cpu_inst);
+    cpu_init_mem(&cpu_inst, argv[1+argv_off]);
+    cpu_run(&cpu_inst);
 }

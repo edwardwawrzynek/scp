@@ -70,7 +70,9 @@ uint8_t io_serial_mem[256];
 uint8_t io_serial_read;
 uint8_t io_serial_write;
 
-
+//timer int subsytem
+uint16_t int_countdown;
+uint8_t do_int;
 
 //graphics functions
 void init_sdl(char * window_name){
@@ -330,8 +332,24 @@ void io_out(uint8_t port, uint16_t val){
             io_serial_read++;
             break;
 
+        //timer int
+        case 255:
+            do_int = 1;
+            int_countdown = val;
+
         default:
         break;
+    }
+}
+
+//check the timer interupt
+void io_check_timer_int(struct cpu * cpu){
+    if(do_int){
+        int_countdown--;
+    }
+    if(int_countdown == 0 && do_int){
+        do_int = 0;
+        cpu_int(cpu, 2);
     }
 }
 
