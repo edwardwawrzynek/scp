@@ -14,6 +14,8 @@ from regs import Reg, RegEnum
 
 from struct_decl import StructDeclaration
 
+import pycparser as pyc
+
 #a compiler instance - there will probably only be one anyway
 class CompilerInst:
   def __init__(self):
@@ -30,12 +32,8 @@ class CompilerInst:
     else:
       return self.a_reg
 
-
-comp = CompilerInst()
-
-PointerCType().new(IntCType().new(1,True)).gen_store_from_addr(comp, comp.b_reg, comp.a_reg)
-
-IntCType().new(2, True).gen_load_from_addr(comp, comp.a_reg, comp.a_reg)
-ArrayCType().new(IntCType().new(1,True),10).gen_load_from_addr(comp, comp.a_reg, comp.b_reg)
-
-comp.asm.print_asm()
+ast = pyc.parse_file("test.c")
+ast.ext[5].type.show(nodenames = True)
+StructDeclaration.add_struct_type(ast.ext[3].type)
+StructDeclaration.add_struct_type(ast.ext[4].type)
+print(vars(CTypeGenerator.gen_type(ast.ext[5].type).field_types[2].ptr_type))

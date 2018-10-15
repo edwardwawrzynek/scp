@@ -5,9 +5,11 @@ union un {
     int a;
     char * b;
     char c [3];
-    long a;
 };
 struct sa {
-    int a;
+    int ab;
     char * arr[10];
+    struct sa * b;
 };
+
+struct sa var_sa;

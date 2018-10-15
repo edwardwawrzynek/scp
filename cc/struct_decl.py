@@ -4,7 +4,7 @@ import pycparser as pyc
 
 from defs import Defs
 from c_types.struct_type import StructCType
-from c_types.type_gen import CTypeGenerator
+import c_types.type_gen
 
 class StructDeclaration:
     #global struct table of StructDeclarations
@@ -35,8 +35,12 @@ class StructDeclaration:
         field_names = []
         field_types = []
         for field in struct_decl.decls:
+            #check that a name in a struct isn't specified twice
+            if field.name in field_names:
+                Defs.error("Member Field Name " + field.name + " used more than once in " + ("union " if decl_type == pyc.c_ast.Union else "struct ") + struct_decl.name + " declaration")
+
             field_names.append(field.name)
-            field_types.append(CTypeGenerator.gen_type(field.type))
+            field_types.append(c_types.type_gen.CTypeGenerator.gen_type(field.type))
 
         res_type.new(field_names, field_types, True if decl_type == pyc.c_ast.Union else False)
 

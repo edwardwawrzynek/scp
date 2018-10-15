@@ -10,6 +10,8 @@ from c_types.array_type import ArrayCType
 from c_types.struct_type import StructCType
 from c_types.void_type import VoidCType
 
+from struct_decl import StructDeclaration
+
 #generate a type from a pycparser type def
 class CTypeGenerator:
   def __init__(self):
@@ -17,7 +19,7 @@ class CTypeGenerator:
 
   #generate a type
   @staticmethod
-  def gen_type(pyc_type: typing.Union[pyc.c_ast.TypeDecl, pyc.c_ast.PtrDecl, pyc.c_ast.ArrayDecl, pyc.c_ast.FuncDecl, pyc.c_ast.Typename, pyc.c_ast.IdentifierType]) -> 'BaseCType':
+  def gen_type(pyc_type: typing.Union[pyc.c_ast.TypeDecl, pyc.c_ast.PtrDecl, pyc.c_ast.ArrayDecl, pyc.c_ast.FuncDecl, pyc.c_ast.Typename, pyc.c_ast.IdentifierType, pyc.c_ast.Struct, pyc.c_ast.Union]) -> 'BaseCType':
     decltype = type(pyc_type)
 
     if decltype == pyc.c_ast.TypeDecl:
@@ -34,6 +36,14 @@ class CTypeGenerator:
     if decltype == pyc.c_ast.ArrayDecl:
       #array
       return ArrayCType().new(CTypeGenerator.gen_type(pyc_type.type), int(pyc_type.dim.value))
+
+    if decltype == pyc.c_ast.Struct:
+      #a struct type
+      return StructDeclaration.get_struct_type(pyc_type.name, False)
+
+    if decltype == pyc.c_ast.Union:
+      #a union type
+      return StructDeclaration.get_struct_type(pyc_type.name, True)
 
   @staticmethod
   def get_from_identifier_type(basic_type: pyc.c_ast.IdentifierType):
