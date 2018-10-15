@@ -12,6 +12,8 @@ from c_types.type_gen import CTypeGenerator
 
 from regs import Reg, RegEnum
 
+from struct_decl import StructDeclaration
+
 #a compiler instance - there will probably only be one anyway
 class CompilerInst:
   def __init__(self):

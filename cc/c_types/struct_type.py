@@ -33,7 +33,7 @@ class StructCType(BaseCType):
     for f in self.field_types:
       #union
       if self.pack_tight:
-        self.field_offsets.append(0)
+        self.field_offset.append(0)
         if f.get_storage_size() > offset:
           offset = f.get_storage_size()
       #struct

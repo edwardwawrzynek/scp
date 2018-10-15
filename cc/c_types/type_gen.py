@@ -1,7 +1,5 @@
 import typing
 
-from pprint import pprint
-
 import pycparser as pyc
 
 from defs import Defs
@@ -59,9 +57,3 @@ class CTypeGenerator:
     #a void type
     if "void" in types:
       return VoidCType().new()
-
-
-
-ast = pyc.parse_file("test.c")
-ast.ext[4].type.show(nodenames = True)
-pprint(vars( CTypeGenerator.gen_type(ast.ext[4].type)))
