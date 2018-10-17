@@ -38,10 +38,13 @@ class StructDeclaration:
         for field in struct_decl.decls:
             #check that a name in a struct isn't specified twice
             if field.name in field_names:
-                Defs.error("Member Field Name " + field.name + " used more than once in " + ("union " if decl_type == pyc.c_ast.Union else "struct ") + struct_decl.name + " declaration")
+                Defs.error("Member field Name " + field.name + " used more than once in " + ("union " if decl_type == pyc.c_ast.Union else "struct ") + struct_decl.name + " declaration")
 
             field_names.append(field.name)
             field_types.append(c_types.type_gen.CTypeGenerator.gen_type(field.type))
+            #check that the struct doesn't contain an element of the same struct type
+            if field_types[-1] == res_type:
+                Defs.error(("union " if decl_type == pyc.c_ast.Union else "struct ") + struct_decl.name + " contains a member field " + field.name + " of its own type")
 
         res_type.new(field_names, field_types, True if decl_type == pyc.c_ast.Union else False)
         return res_type
