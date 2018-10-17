@@ -45,6 +45,8 @@ class CTypeGenerator:
       #a union type
       return StructDeclaration.get_struct_type(pyc_type.name, True)
 
+    raise AssertionError("No type could be converted for pyc type" + str(pyc_type))
+
   @staticmethod
   def get_from_identifier_type(basic_type: pyc.c_ast.IdentifierType):
     #TODO: check typedefs here

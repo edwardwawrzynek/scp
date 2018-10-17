@@ -73,3 +73,29 @@ class IntCType(BaseCType):
     elif src.reg_id == RegEnum.B_REG:
       res += "b"
     comp.asm.cmd(res)
+
+  #cast to an int - sign extensions may be needed
+  def cast_to_int(self, comp: 'CompilerInst', reg: Reg, tar_type: 'BaseCType') -> None:
+    #if this type is signed and we are casting to a larger type, sign extend
+    if self.signed and tar_type.size > self.size:
+      #32 bit sign extend
+      if tar_type.size > 2:
+        comp.asm.comment("Sign extend to 32 bits")
+        comp.asm.cmd("nimp")
+      #16 bit sign extend
+      if tar_type.size == 2:
+        if reg.reg_id == RegEnum.A_REG:
+          comp.asm.cmd("asex")
+        else:
+          comp.asm.comment("Sign extend b register 16 bit")
+          comp.asm.cmd("nimp")
+
+  #cats to pointer - sign extends needed if char
+  def cast_to_pointer(self, comp: 'CompilerInst', reg: Reg, tar_type: 'BaseCType') -> None:
+    if self.signed and self.size < Defs.POINTER_SIZE:
+      #signed extend to 16 bit pointer
+      if reg.reg_id == RegEnum.A_REG:
+        comp.asm.cmd("asex")
+      else:
+        comp.asm.comment("Sign extend b register 16 bit")
+        comp.asm.cmd("nimp")

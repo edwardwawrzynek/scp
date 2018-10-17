@@ -5,12 +5,13 @@ import pycparser as pyc
 from defs import Defs
 from c_types.struct_type import StructCType
 import c_types.type_gen
+from c_types.base_type import BaseCType
 
 class StructDeclaration:
     #global struct table of StructDeclarations
-    struct_table: 'StructDeclaration' = []
+    struct_table: typing.List['StructDeclaration'] = []
     #union table
-    union_table: 'StructDeclaration' = []
+    union_table: typing.List['StructDeclaration'] = []
 
     def __init__(self, name: str, struct_type: StructCType) -> None:
         self.name = name
@@ -32,8 +33,8 @@ class StructDeclaration:
             StructDeclaration.union_table.append(
                 StructDeclaration(struct_decl.name, res_type) )
 
-        field_names = []
-        field_types = []
+        field_names: typing.List[str] = []
+        field_types: typing.List['BaseCType'] = []
         for field in struct_decl.decls:
             #check that a name in a struct isn't specified twice
             if field.name in field_names:
@@ -43,8 +44,10 @@ class StructDeclaration:
             field_types.append(c_types.type_gen.CTypeGenerator.gen_type(field.type))
 
         res_type.new(field_names, field_types, True if decl_type == pyc.c_ast.Union else False)
+        return res_type
 
     #get the struct type from a struct name
+    @staticmethod
     def get_struct_type(name: str, is_union: bool) -> StructCType:
         #get which table to search
         decls = StructDeclaration.union_table if is_union else StructDeclaration.struct_table
