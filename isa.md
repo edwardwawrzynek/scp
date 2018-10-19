@@ -135,3 +135,64 @@ ld.r.pb/pbs/pw dst src off
   <td>address offset</td>
 </tr>
 </table>
+
+## Store Instructions
+
+### st.r.(mb/mbs/mw)
+Store a value from a register into memory.
+```
+st.r.mb/mbs/mw src mem
+; (mem) = src
+```
+<table>
+<tr>
+  <th>f<th>e<th>d<th>c<th>b<th>a<th>9<th>8<th>7<th>6<th>5<th>4<th>3<th>2<th>1<th>0<th>val16
+</tr>
+<tr>
+  <td colspan=6>opcode</td>
+  <td colspan=1>b/w</td>
+  <td colspan=1>-</td>
+  <td colspan=4>----</td>
+  <td colspan=4>src reg</td>
+  <td>memory address</td>
+</tr>
+</table>
+
+### st.r.(pb/pbs/pw)
+Store a value from a register into the memory addr pointed to by a register.
+```
+st.r.pb/pbs/pw src dst
+; (dst) = src
+```
+<table>
+<tr>
+  <th>f<th>e<th>d<th>c<th>b<th>a<th>9<th>8<th>7<th>6<th>5<th>4<th>3<th>2<th>1<th>0
+</tr>
+<tr>
+  <td colspan=6>opcode</td>
+  <td colspan=1>b/w</td>
+  <td colspan=1>-</td>
+  <td colspan=4>dst reg</td>
+  <td colspan=4>src reg</td>
+</tr>
+</table>
+
+### st.r.(pb/pbs/pw) + off
+Store a value from a register into the memory addr pointed to by a register plus an offset.
+```
+st.r.pb/pbs/pw src dst off
+; (dst + off) = src
+```
+<table>
+<tr>
+  <th>f<th>e<th>d<th>c<th>b<th>a<th>9<th>8<th>7<th>6<th>5<th>4<th>3<th>2<th>1<th>0<th>val16
+</tr>
+<tr>
+  <td colspan=6>opcode</td>
+  <td colspan=1>b/w</td>
+  <td colspan=1>-</td>
+  <td colspan=4>dst reg</td>
+  <td colspan=4>src reg</td>
+  <td>address offset</td>
+</tr>
+</table>
