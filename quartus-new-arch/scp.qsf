@@ -62,4 +62,66 @@ set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 set_global_assignment -name VERILOG_FILE mem/mmu.v
+set_global_assignment -name MIF_FILE startup/mmu.mif
+set_global_assignment -name VERILOG_FILE reg/regfile.v
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
+set_location_assignment PIN_H5 -to SW[3]
+set_location_assignment PIN_H6 -to SW[2]
+set_location_assignment PIN_L9 -to SW[1]
+set_location_assignment PIN_L10 -to SW[0]
+set_location_assignment PIN_AH17 -to KEY[0]
+set_location_assignment PIN_AH16 -to KEY[1]
+set_location_assignment PIN_W15 -to LED[0]
+set_location_assignment PIN_AA24 -to LED[1]
+set_location_assignment PIN_V16 -to LED[2]
+set_location_assignment PIN_V15 -to LED[3]
+set_location_assignment PIN_AF26 -to LED[4]
+set_location_assignment PIN_AE26 -to LED[5]
+set_location_assignment PIN_Y16 -to LED[6]
+set_location_assignment PIN_AA23 -to LED[7]
+set_location_assignment PIN_V11 -to CLOCK_50
+set_location_assignment PIN_AE19 -to VGA_COL_B[1]
+set_location_assignment PIN_AG23 -to VGA_COL_B[0]
+set_location_assignment PIN_AF22 -to VGA_COL_G[2]
+set_location_assignment PIN_AC22 -to VGA_COL_G[1]
+set_location_assignment PIN_AE24 -to VGA_COL_G[0]
+set_location_assignment PIN_AA18 -to VGA_COL_R[2]
+set_location_assignment PIN_AD23 -to VGA_COL_R[1]
+set_location_assignment PIN_AG21 -to VGA_COL_R[0]
+set_location_assignment PIN_AH27 -to VGA_SYNC_H
+set_location_assignment PIN_Y15 -to VGA_SYNC_V
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to VGA_COL_B[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to VGA_COL_B[0]
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to VGA_COL_B
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to VGA_COL_G[2]
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to VGA_COL_G[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to VGA_COL_G[0]
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to VGA_COL_G
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to VGA_COL_R[2]
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to VGA_COL_R[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to VGA_COL_R[0]
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to VGA_COL_R
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to VGA_SYNC_H
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to VGA_SYNC_V
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to KEY[1]
+set_location_assignment PIN_E11 -to CLOCK_50_2
+set_location_assignment PIN_AG19 -to SERIAL_RX
+set_location_assignment PIN_AF20 -to SERIAL_TX
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to SERIAL_RX
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to SERIAL_TX
+set_location_assignment PIN_AC23 -to PS2_CLK
+set_location_assignment PIN_AA19 -to PS2_DATA
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to PS2_CLK
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to PS2_DATA
+set_location_assignment PIN_AG28 -to SPEAKER
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to SPEAKER
+set_location_assignment PIN_V12 -to SD_CARD_CS
+set_location_assignment PIN_AF7 -to SD_CARD_MOSI
+set_location_assignment PIN_W12 -to SD_CARD_SCLK
+set_location_assignment PIN_AF8 -to SD_CARD_MISO
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to SD_CARD_CS
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to SD_CARD_MISO
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to SD_CARD_MOSI
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to SD_CARD_SCLK
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to CLOCK_50
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to CLOCK_50_2
