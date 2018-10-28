@@ -12,16 +12,16 @@ module mmu(
 	input priv_lv,
 	//output addr in 18 bit addr space
 	output [17:0] addr_out
-);
-
-//page table
-reg [7:0] page_table [4095:0]; /* synthesis ram_init_file = "startup/mmu.mif" */; 
+); 
 
 //addr in table
 reg [11:0] page_addr;
 
 //output entry
 wire [7:0] page_entry;
+
+//page table
+reg [7:0] page_table [4095:0]; /* synthesis ram_init_file = "startup/mmu.mif" */ 
 
 //read mem
 assign page_entry = page_table[page_addr];

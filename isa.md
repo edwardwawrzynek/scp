@@ -17,6 +17,7 @@ The following conventions are used in asm commands and encodings.
 * `off` - an addressing offset (stored in word after instruction)
 * `c` - a condition code (see below)
 * `sp` - a register used as a stack pointer
+
 ### Registers
 Registers are the program counter (pc), flags register (f), and registers r0-rf. By convention only, r0 is used as the stack pointer and r1 as the frame pointer. The hardware can use any register as a stack pointer, or have multiple stacks.
 
@@ -66,6 +67,9 @@ A conditional is a three bit value. It is or'd with the flags register, so multi
 * `s/u` - signedness of the value. 0=unsigned, 1=signed
 * `b/w` - width of the value. 0=word, 1=byte
 
+### PC Relative Instructions
+All instructions that deal with immediate addresses are pc-relative. `ld.r.m`
+
 ## Move Instructions
 ### mov.r.r
 Copy one register to another.
@@ -73,9 +77,10 @@ Copy one register to another.
 mov.r.r dst src
 ; dst = src
 ```
+
 <table>
 <tr>
-  <th>f<th>e<th>d<th>c<th>b<th>a<th>9<th>8<th>7<th>6<th>5<th>4<th>3<th>2<th>1<th>0
+<th>f<th>e<th>d<th>c<th>b<th>a<th>9<th>8<th>7<th>6<th>5<th>4<th>3<th>2<th>1<th>0
 </tr>
 <tr>
   <td colspan=4>opcode</td>
@@ -92,9 +97,10 @@ Perform an alu operation on two registers, and stores the result in the first re
 alu.r.r op dst src
 ; dst = dst op src
 ```
+
 <table>
 <tr>
-  <th>f<th>e<th>d<th>c<th>b<th>a<th>9<th>8<th>7<th>6<th>5<th>4<th>3<th>2<th>1<th>0
+<th>f<th>e<th>d<th>c<th>b<th>a<th>9<th>8<th>7<th>6<th>5<th>4<th>3<th>2<th>1<th>0
 </tr>
 <tr>
   <td colspan=4>opcode</td>
@@ -110,9 +116,10 @@ Perform an alu operation on a register and an immediate, and stores the result i
 alu.r.r op dst imd
 ; dst = dst op imd
 ```
+
 <table>
 <tr>
-  <th>f<th>e<th>d<th>c<th>b<th>a<th>9<th>8<th>7<th>6<th>5<th>4<th>3<th>2<th>1<th>0<th>val16
+<th>f<th>e<th>d<th>c<th>b<th>a<th>9<th>8<th>7<th>6<th>5<th>4<th>3<th>2<th>1<th>0<th>val16
 </tr>
 <tr>
   <td colspan=4>opcode</td>
@@ -129,9 +136,10 @@ Compare two registers, and set alu flags based on comparison.
 cmp.r.f reg1 reg2
 ; flags = reg1 cmp reg2
 ```
+
 <table>
 <tr>
-  <th>f<th>e<th>d<th>c<th>b<th>a<th>9<th>8<th>7<th>6<th>5<th>4<th>3<th>2<th>1<th>0
+<th>f<th>e<th>d<th>c<th>b<th>a<th>9<th>8<th>7<th>6<th>5<th>4<th>3<th>2<th>1<th>0
 </tr>
 <tr>
   <td colspan=4>opcode</td>
@@ -149,9 +157,10 @@ Load an immediate into a register.
 ld.r.i dst imd
 ; dst = imd
 ```
+
 <table>
 <tr>
-  <th>f<th>e<th>d<th>c<th>b<th>a<th>9<th>8<th>7<th>6<th>5<th>4<th>3<th>2<th>1<th>0<th>val16
+<th>f<th>e<th>d<th>c<th>b<th>a<th>9<th>8<th>7<th>6<th>5<th>4<th>3<th>2<th>1<th>0<th>val16
 </tr>
 <tr>
   <td colspan=8>opcode</td>
@@ -167,9 +176,10 @@ Load a value from memory into a register, sign extend if needed.
 ld.r.mb/mbs/mw dst mem
 ; dst = (mem)
 ```
+
 <table>
 <tr>
-  <th>f<th>e<th>d<th>c<th>b<th>a<th>9<th>8<th>7<th>6<th>5<th>4<th>3<th>2<th>1<th>0<th>val16
+<th>f<th>e<th>d<th>c<th>b<th>a<th>9<th>8<th>7<th>6<th>5<th>4<th>3<th>2<th>1<th>0<th>val16
 </tr>
 <tr>
   <td colspan=6>opcode</td>
@@ -187,9 +197,10 @@ Load a value pointed to by a register into a register, sign extend if needed.
 ld.r.pb/pbs/pw dst src
 ; dst = (src)
 ```
+
 <table>
 <tr>
-  <th>f<th>e<th>d<th>c<th>b<th>a<th>9<th>8<th>7<th>6<th>5<th>4<th>3<th>2<th>1<th>0
+<th>f<th>e<th>d<th>c<th>b<th>a<th>9<th>8<th>7<th>6<th>5<th>4<th>3<th>2<th>1<th>0
 </tr>
 <tr>
   <td colspan=6>opcode</td>
@@ -206,9 +217,10 @@ Load a value pointed to by a register plus offset into a register, sign extend i
 ld.r.pb/pbs/pw dst src off
 ; dst = (src + off)
 ```
+
 <table>
 <tr>
-  <th>f<th>e<th>d<th>c<th>b<th>a<th>9<th>8<th>7<th>6<th>5<th>4<th>3<th>2<th>1<th>0<th>val16
+<th>f<th>e<th>d<th>c<th>b<th>a<th>9<th>8<th>7<th>6<th>5<th>4<th>3<th>2<th>1<th>0<th>val16
 </tr>
 <tr>
   <td colspan=6>opcode</td>
@@ -228,9 +240,10 @@ Store a value from a register into memory.
 st.r.mb/mbs/mw src mem
 ; (mem) = src
 ```
+
 <table>
 <tr>
-  <th>f<th>e<th>d<th>c<th>b<th>a<th>9<th>8<th>7<th>6<th>5<th>4<th>3<th>2<th>1<th>0<th>val16
+<th>f<th>e<th>d<th>c<th>b<th>a<th>9<th>8<th>7<th>6<th>5<th>4<th>3<th>2<th>1<th>0<th>val16
 </tr>
 <tr>
   <td colspan=6>opcode</td>
@@ -248,9 +261,10 @@ Store a value from a register into the memory addr pointed to by a register.
 st.r.pb/pbs/pw src dst
 ; (dst) = src
 ```
+
 <table>
 <tr>
-  <th>f<th>e<th>d<th>c<th>b<th>a<th>9<th>8<th>7<th>6<th>5<th>4<th>3<th>2<th>1<th>0
+<th>f<th>e<th>d<th>c<th>b<th>a<th>9<th>8<th>7<th>6<th>5<th>4<th>3<th>2<th>1<th>0
 </tr>
 <tr>
   <td colspan=6>opcode</td>
@@ -267,9 +281,10 @@ Store a value from a register into the memory addr pointed to by a register plus
 st.r.pb/pbs/pw src dst off
 ; (dst + off) = src
 ```
+
 <table>
 <tr>
-  <th>f<th>e<th>d<th>c<th>b<th>a<th>9<th>8<th>7<th>6<th>5<th>4<th>3<th>2<th>1<th>0<th>val16
+<th>f<th>e<th>d<th>c<th>b<th>a<th>9<th>8<th>7<th>6<th>5<th>4<th>3<th>2<th>1<th>0<th>val16
 </tr>
 <tr>
   <td colspan=6>opcode</td>
@@ -289,9 +304,10 @@ jmp.c.i cond addr
 ; if flags | cond then pc = addr
 ```
 Note - an unconditional jump can be performed by using `0b111` as the condition code.
+
 <table>
 <tr>
-  <th>f<th>e<th>d<th>c<th>b<th>a<th>9<th>8<th>7<th>6<th>5<th>4<th>3<th>2<th>1<th>0<th>val16
+<th>f<th>e<th>d<th>c<th>b<th>a<th>9<th>8<th>7<th>6<th>5<th>4<th>3<th>2<th>1<th>0<th>val16
 </tr>
 <tr>
   <td colspan=6>opcode</td>
@@ -309,9 +325,10 @@ jmp.c.r cond reg
 ; if flags | cond then pc = reg
 ```
 Note - an unconditional jump can be performed by using `0b111` as the condition code.
+
 <table>
 <tr>
-  <th>f<th>e<th>d<th>c<th>b<th>a<th>9<th>8<th>7<th>6<th>5<th>4<th>3<th>2<th>1<th>0
+<th>f<th>e<th>d<th>c<th>b<th>a<th>9<th>8<th>7<th>6<th>5<th>4<th>3<th>2<th>1<th>0
 </tr>
 <tr>
   <td colspan=6>opcode</td>
@@ -330,9 +347,10 @@ push.r.sp reg sp
 ; sp = sp - 2
 ```
 Note - The register used as a stack pointer must be aligned on word boundries.
+
 <table>
 <tr>
-  <th>f<th>e<th>d<th>c<th>b<th>a<th>9<th>8<th>7<th>6<th>5<th>4<th>3<th>2<th>1<th>0
+<th>f<th>e<th>d<th>c<th>b<th>a<th>9<th>8<th>7<th>6<th>5<th>4<th>3<th>2<th>1<th>0
 </tr>
 <tr>
   <td colspan=6>opcode</td>
@@ -352,9 +370,10 @@ pop.r.sp reg sp
 Note - The register used as a stack pointer must be aligned on word boundries.
 
 TODO: figure out how both the reg write back and sp writeback can happen in one cycle.
+
 <table>
 <tr>
-  <th>f<th>e<th>d<th>c<th>b<th>a<th>9<th>8<th>7<th>6<th>5<th>4<th>3<th>2<th>1<th>0
+<th>f<th>e<th>d<th>c<th>b<th>a<th>9<th>8<th>7<th>6<th>5<th>4<th>3<th>2<th>1<th>0
 </tr>
 <tr>
   <td colspan=6>opcode</td>
@@ -372,9 +391,10 @@ call.i.sp sp imd
 ; sp = sp - 2
 ; pc = imd
 ```
+
 <table>
 <tr>
-  <th>f<th>e<th>d<th>c<th>b<th>a<th>9<th>8<th>7<th>6<th>5<th>4<th>3<th>2<th>1<th>0<th>val16
+<th>f<th>e<th>d<th>c<th>b<th>a<th>9<th>8<th>7<th>6<th>5<th>4<th>3<th>2<th>1<th>0<th>val16
 </tr>
 <tr>
   <td colspan=6>opcode</td>
@@ -412,3 +432,9 @@ Three stages: EX (Execute), MEM (Memory Access), RW (Register Writeback)
 Memory Access|Instr Register Word 1|Memory Instruction|Instr Register Word 2
 Alu|Offset Add|Alu instructions|-
 Register Write|-|sp increment/deincrement|Main Write Back
+
+### Clocks
+
+CLK0 - Earlier Clock - MMU clk, alu op, reg write back
+
+CLK1 - Delayed Clock - RAM clk, microcode clk

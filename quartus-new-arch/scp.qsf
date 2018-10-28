@@ -50,7 +50,6 @@ set_global_assignment -name EDA_SIMULATION_TOOL "ModelSim-Altera (Verilog)"
 set_global_assignment -name EDA_TIME_SCALE "1 ps" -section_id eda_simulation
 set_global_assignment -name EDA_OUTPUT_DATA_FORMAT "VERILOG HDL" -section_id eda_simulation
 set_global_assignment -name BSF_FILE mem/ram.bsf
-set_global_assignment -name VERILOG_FILE mem/ram.v
 set_global_assignment -name BDF_FILE scp.bdf
 set_global_assignment -name QIP_FILE mem/ram.qip
 set_global_assignment -name MIF_FILE startup/mem_init.mif
@@ -64,7 +63,6 @@ set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 set_global_assignment -name VERILOG_FILE mem/mmu.v
 set_global_assignment -name MIF_FILE startup/mmu.mif
 set_global_assignment -name VERILOG_FILE reg/regfile.v
-set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
 set_location_assignment PIN_H5 -to SW[3]
 set_location_assignment PIN_H6 -to SW[2]
 set_location_assignment PIN_L9 -to SW[1]
@@ -125,3 +123,9 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to SD_CARD_MOSI
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to SD_CARD_SCLK
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to CLOCK_50
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to CLOCK_50_2
+set_global_assignment -name QIP_FILE pll.qip
+set_global_assignment -name SIP_FILE pll.sip
+set_global_assignment -name TIMEQUEST_MULTICORNER_ANALYSIS ON
+set_global_assignment -name SMART_RECOMPILE ON
+set_global_assignment -name SDC_FILE scp.sdc
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
