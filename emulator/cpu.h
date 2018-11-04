@@ -17,6 +17,11 @@ class CPU {
     /* the machine's memory - some will be device mapped memory*/
     uint8_t mem[262144];
 
+    /* the instruction register - the last loaded instruction */
+    uint16_t instr_reg;
+    /* the imeddiate register - last loaded immediate */
+    uint16_t imd_reg;
+
     private:
     /* get the real physical addr in memory from a 16bit addr */
     uint32_t hard_addr(uint16_t addr);
@@ -31,6 +36,12 @@ class CPU {
     uint16_t alu(uint8_t opcode, uint16_t a, uint16_t b);
     /* comoare a and b, and set flags appropriatley */
     void alu_cmp(uint16_t a, uint16_t b);
+
+    /* execute an instruction */
+    void execute(uint16_t instr, uint16_t imd);
+
+    /* run a single cpu instruction cycle */
+    void run_instr();
 
     public:
     /* init the machine to startup state (not counting memory) */

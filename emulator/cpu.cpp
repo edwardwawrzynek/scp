@@ -21,6 +21,11 @@ void CPU::reset() {
     /* set to 1 - at least 1 bit in flags will always be on after compares,
         and unconditional jumps rely on this - so it has to be true at startup */
     flags = 1;
+    /* reset instr regs */
+    instr_reg = 0;
+    imd_reg = 0;
+
+    /* clear page table, and set up memory for first process */
     for(int i = 0; i < 4096; i++) {
         if(i < 32){
             page_table[i] = i;
@@ -157,4 +162,34 @@ void CPU::read_file(const char * path){
     } while (! file.eof());
 
     file.close();
+}
+
+/**
+ * execute and instruction given the immediate following it. This should only be called by run_instr. */
+void CPU::execute(uint16_t instr, uint16_t imd) {
+    /* load opcode (6 bits) */
+    uint8_t opcode = instr >> 10;
+    /* load byte/word and signed/unsigned bits used in ld and st */
+    uint8_t is_byte = (instr >> 9) & 1;
+    uint8_t is_signed = (instr >> 8) & 1;
+    /* load regs encoded in instruction. The reg encoded in bits 3:0 is the primary reg (the one that can get written to), and the reg at 7:4 is the secondary reg (can't be written to, unless being used as a sp, in which case it can be inc'd/dec'd) */
+    uint8_t reg_prim = instr & 0b1111;
+    uint8_t reg_secd = (instr >> 4) & 0b1111;
+    /* load the alu op out of alu instructions */
+    uint8_t alu_op = (instr >> 8) & 0b1111;
+    /* load the five bit condition code for conditional instructions */
+    uint8_t cond_code = (instr >> 4) * 0b11111;
+}
+
+/**
+ * run the next cpu instruction */
+void CPU::run_instr() {
+    /* execute */
+    execute(instr_reg, imd_reg);
+
+    /* set instr and imd reg */
+    instr_reg = read_word(pc);
+    imd_reg = read_word(pc + 2);
+    /* increment program counter */
+    pc = pc + 2;
 }
