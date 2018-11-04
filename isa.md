@@ -16,7 +16,6 @@ The following conventions are used in asm commands and encodings.
   * `pw` - a word in memory
 * `off` - an addressing offset (stored in word after instruction)
 * `ra` - a pc relative adress to be converted to a non pc-relative adress (for loading pointer initial values)
-* `
 * `c` - a condition code (see below)
 * `sp` - a register used as a stack pointer
 
@@ -45,6 +44,28 @@ rc|ec low |GPR
 rd|ec high|GPR
 re|ee low |GPR
 rf|ee high|GPR
+
+### ALU ops
+There are 16 possible alu operations, stored as 4-bit alu opcodes. They are:
+```
+0 - | (bitwise or)
+1 - ^ (bitwise xor)
+2 - & (bitwise and)
+3 - << (left shift)
+4 - >> (unsigned right shift)
+5 - >>> (signed right shift)
+6 - + (addition)
+7 - - (subtraction)
+8 - * (multiplication)
+9 - ~ (bitwise complement) (of first operand)
+a - - (unary minus) (of first operand)
+b -
+c -
+d -
+e -
+f -
+
+```
 
 ### Condition Codes
 Condition codes in the flag register are set by the `cmp` instruction. They are three bit values, encoded as follows:
