@@ -53,7 +53,7 @@ There are 16 possible alu operations, stored as 4-bit alu opcodes. They are:
 2 - & (bitwise and)
 3 - << (left shift)
 4 - >> (unsigned right shift)
-5 - >>> (signed right shift)
+5 - >> (signed right shift)
 6 - + (addition)
 7 - - (subtraction)
 8 - * (multiplication)
@@ -70,11 +70,11 @@ f -
 ### Condition Codes
 Condition codes in the flag register are set by the `cmp` instruction. They are three bit values, encoded as follows:
 
-|2|1|0
-|-|-|-
-|greater than|less than|equal to
+4|3|2|1|0
+-|-|-|-|-
+signed greater than|signed less than|unsigned greater than|unsigned less than|equal to
 
-A conditional is a three bit value. It is or'd with the flags register, so multiple conditions can be combined. Thus, the following are all the posibilities:
+A conditional is a five bit value. It is or'd with the flags register, so multiple conditions can be combined. Thus, the following are all the posibilities for unsigned numbers:
 ```
 000 - false
 001 - ==

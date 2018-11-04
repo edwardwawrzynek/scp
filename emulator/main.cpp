@@ -6,7 +6,7 @@
 /* cpu functions */
 
 /**
- * reset the cpu's reg, priv_lv, pc, ptb, and page_table
+ * reset the cpu's reg, priv_lv, pc, ptb, flags reg, and page_table
  * don't touch memory */
 void CPU::reset() {
     for(int i = 0; i < 16; i++){
@@ -15,6 +15,7 @@ void CPU::reset() {
     pc = 0;
     priv_lv = 0;
     ptb = 0;
+    flags = 0;
     for(int i = 0; i < 4096; i++){
         page_table[i] = 0;
     }
@@ -76,4 +77,48 @@ void CPU::write_word(uint16_t addr, uint16_t val){
     /* write */
     mem[addr] = val & 0x00ff;
     mem[addr + 1] = val >> 8;
+}
+
+/**
+ * run the alu on two numbers
+ * perform the operation specified by opcode
+ * undefined opcodes return a */
+uint16_t CPU::alu(uint8_t opcode, uint16_t a, uint16_t b) {
+    switch(opcode){
+        case 0: return a | b;
+        case 1: return a ^ b;
+        case 2: return a & b;
+        case 3: return a << b;
+        case 4: return (uint16_t)a >> (uint16_t)b;
+        case 5: return (int16_t)a >> (int16_t)b;
+        case 6: return a + b;
+        case 7: return a - b;
+        case 8: return a * b;
+        case 9: return ~a;
+        case 10: return -a;
+        default: return a;
+    }
+}
+
+/**
+ * Run the alu compare, and set flags based on the result */
+void CPU::alu_cmp(uint16_t a, uint16_t b) {
+    /* clear flags */
+    flags = 0;
+    /* set each bit */
+    if(a == b) {
+        flags |= 0b00001;
+    }
+    if((uint16_t)a < (uint16_t)b) {
+        flags |= 0b00010;
+    }
+    if((uint16_t)a > (uint16_t)b) {
+        flags |= 0b00100;
+    }
+    if((int16_t)a < (int16_t)b) {
+        flags |= 0b01000;
+    }
+    if((int16_t)a > (int16_t)b) {
+        flags |= 0b10000;
+    }
 }

@@ -9,6 +9,8 @@ class CPU {
     uint8_t priv_lv;
     /* page table base reg*/
     uint16_t ptb;
+    /* flags reg */
+    uint8_t flags;
     /* the memory managment unit page table
         128 pages (256k memory) * 32 pages (64k) per process */
     uint8_t page_table[4096];
@@ -18,6 +20,11 @@ class CPU {
     private:
     /* get the real physical addr in memory from a 16bit addr */
     uint32_t hard_addr(uint16_t addr);
+
+    /* preform an alu operation on two operands */
+    uint16_t alu(uint8_t opcode, uint16_t a, uint16_t b);
+    /* comoare a and b, and set flags appropriatley */
+    void alu_cmp(uint16_t a, uint16_t b);
 
     public:
     /* init the machine to startup state (not counting memory) */
