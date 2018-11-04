@@ -6,15 +6,17 @@ The following conventions are used in asm commands and encodings.
 * `r` - register (dst register generally encoded in last nibble of instruction)
   * `f` - the alu flags register (not one fo the general purpose registers)
 * `i` - immediate constants (encoded in word after instruction)
-* `m` - a fixed location in memory
+* `m` - a fixed location in memory (pc relative)
   * `mb` - an unsigned byte in memory
   * `mbs` - a signed byte in memory
   * `mw` - a word in memory (signed or unsigned, no sign extension needed)
-* `p` - a memory location pointed to by a register
+* `p` - a memory location pointed to by a register (not pc relative)
   * `pb` - an unsigned byte in memory
   * `pbs` - a signed byte in memory
   * `pw` - a word in memory
 * `off` - an addressing offset (stored in word after instruction)
+* `ra` - a pc relative adress to be converted to a non pc-relative adress (for loading pointer initial values)
+* `
 * `c` - a condition code (see below)
 * `sp` - a register used as a stack pointer
 
@@ -68,7 +70,24 @@ A conditional is a three bit value. It is or'd with the flags register, so multi
 * `b/w` - width of the value. 0=word, 1=byte
 
 ### PC Relative Instructions
-All instructions that deal with immediate addresses are pc-relative. `ld.r.m`
+All instructions that deal with immediate addresses are pc-relative. Pointer loads are not pc relative - real adresses for initilizing pointers should be loaded with `ld.r.
+
+## Nop Instructions
+### nop
+Do nothing
+```
+nop
+; nothing
+```
+<table>
+<tr>
+<th>f<th>e<th>d<th>c<th>b<th>a<th>9<th>8<th>7<th>6<th>5<th>4<th>3<th>2<th>1<th>0
+</tr>
+<tr>
+  <td colspan=6>opcode</td>
+  <td colspan=10>----</td>
+</tr>
+</table>
 
 ## Move Instructions
 ### mov.r.r
@@ -174,7 +193,7 @@ ld.r.i dst imd
 Load a value from memory into a register, sign extend if needed.
 ```
 ld.r.mb/mbs/mw dst mem
-; dst = (mem)
+; dst = (pc + mem)
 ```
 
 <table>
@@ -232,13 +251,32 @@ ld.r.pb/pbs/pw dst src off
 </tr>
 </table>
 
+### ld.r.ra
+Load a not pc-relative adress from a pc-relative adress immediate into a register.
+```
+ld.r.ra dst addr
+; dst = pc + addr
+```
+
+<table>
+<tr>
+<th>f<th>e<th>d<th>c<th>b<th>a<th>9<th>8<th>7<th>6<th>5<th>4<th>3<th>2<th>1<th>0<th>val16
+</tr>
+<tr>
+  <td colspan=6>opcode</td>
+  <td colspan=6>-----</td>
+  <td colspan=4>dst reg</td>
+  <td>address</td>
+</tr>
+</table>
+
 ## Store Instructions
 
 ### st.r.(mb/mbs/mw)
 Store a value from a register into memory.
 ```
 st.r.mb/mbs/mw src mem
-; (mem) = src
+; (pc + mem) = src
 ```
 
 <table>
@@ -338,7 +376,7 @@ Note - an unconditional jump can be performed by using `0b111` as the condition 
 </tr>
 </table>
 
-### Stack instructions
+## Stack instructions
 ### push.r.sp
 Push a register onto a stack.
 ```
@@ -368,8 +406,6 @@ pop.r.sp reg sp
 ; sp = sp + 2
 ```
 Note - The register used as a stack pointer must be aligned on word boundries.
-
-TODO: figure out how both the reg write back and sp writeback can happen in one cycle.
 
 <table>
 <tr>
