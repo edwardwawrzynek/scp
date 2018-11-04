@@ -1,3 +1,3 @@
 all: scpemu
-scpemu: main.c opcodes.c io.c
-	gcc -Wall -O3 -o scpemu main.c -lSDL2 -lserialport
+scpemu: main.cpp
+	g++ -std=c++11 -o scpemu -Wall main.cpp
