@@ -117,6 +117,7 @@ Instr | opocde
 `pop.r.sp`              | 010110
 `call.j.sp`             | 010111
 `call.r.sp`             | 011000
+`ret.n.sp`              | 011001
 
 ## Nop Instructions
 ### nop
@@ -387,7 +388,7 @@ Perform a conditional jump to a fixed addr.
 jmp.c.j cond addr
 ; if flags | cond then pc = pc + addr
 ```
-Note - an unconditional jump can be performed by using `0b111` as the condition code.
+Note - an unconditional jump can be performed by using `0b11111` as the condition code.
 
 <table>
 <tr>
@@ -395,8 +396,8 @@ Note - an unconditional jump can be performed by using `0b111` as the condition 
 </tr>
 <tr>
   <td colspan=6>opcode</td>
-  <td colspan=3>---</td>
-  <td colspan=3>cond</td>
+  <td colspan=1>---</td>
+  <td colspan=5>cond</td>
   <td colspan=4>---</td>
   <td>address</td>
 </tr>
@@ -408,7 +409,7 @@ Perform a conditional jump to a non pc-relative addr in a register.
 jmp.c.r cond reg
 ; if flags | cond then pc = reg
 ```
-Note - an unconditional jump can be performed by using `0b111` as the condition code.
+Note - an unconditional jump can be performed by using `0b11111` as the condition code.
 
 <table>
 <tr>
@@ -416,8 +417,8 @@ Note - an unconditional jump can be performed by using `0b111` as the condition 
 </tr>
 <tr>
   <td colspan=6>opcode</td>
-  <td colspan=3>---</td>
-  <td colspan=3>cond</td>
+  <td colspan=1>---</td>
+  <td colspan=5>cond</td>
   <td colspan=4>reg</td>
 </tr>
 </table>
@@ -427,8 +428,8 @@ Note - an unconditional jump can be performed by using `0b111` as the condition 
 Push a register onto a stack.
 ```
 push.r.sp reg sp
-; (sp - 2) = reg
 ; sp = sp - 2
+; (sp) = reg
 ```
 Note - The register used as a stack pointer must be aligned on word boundries.
 
@@ -439,8 +440,8 @@ Note - The register used as a stack pointer must be aligned on word boundries.
 <tr>
   <td colspan=6>opcode</td>
   <td colspan=2>---</td>
-  <td colspan=4>reg</td>
   <td colspan=4>sp</td>
+  <td colspan=4>reg</td>
 </tr>
 </table>
 
@@ -448,8 +449,8 @@ Note - The register used as a stack pointer must be aligned on word boundries.
 Pop a value off a stack into a register.
 ```
 pop.r.sp reg sp
-; reg = (sp)
 ; sp = sp + 2
+; reg = (sp - 2)
 ```
 Note - The register used as a stack pointer must be aligned on word boundries.
 
@@ -460,8 +461,8 @@ Note - The register used as a stack pointer must be aligned on word boundries.
 <tr>
   <td colspan=6>opcode</td>
   <td colspan=2>---</td>
-  <td colspan=4>reg</td>
   <td colspan=4>sp</td>
+  <td colspan=4>reg</td>
 </tr>
 </table>
 
@@ -469,8 +470,8 @@ Note - The register used as a stack pointer must be aligned on word boundries.
 Perform a function call to a pc relative adress.
 ```
 call.i.sp sp addr
-; (sp - 2) = pc
 ; sp = sp - 2
+; (sp) = pc
 ; pc = pc + addr
 ```
 
@@ -480,8 +481,9 @@ call.i.sp sp addr
 </tr>
 <tr>
   <td colspan=6>opcode</td>
-  <td colspan=6>---</td>
+  <td colspan=2>---</td>
   <td colspan=4>sp</td>
+  <td colspan=4>---</td>
   <td>function address</td>
 </tr>
 </table>
@@ -490,8 +492,8 @@ call.i.sp sp addr
 Perform a function call to a non pc-relative address in a register.
 ```
 call.r.sp reg sp
-; (sp - 2) = pc
 ; sp = sp - 2
+; (sp) = pc
 ; pc = reg
 ```
 <table>
@@ -501,8 +503,27 @@ call.r.sp reg sp
 <tr>
   <td colspan=6>opcode</td>
   <td colspan=2>---</td>
-  <td colspan=4>reg</td>
   <td colspan=4>sp</td>
+  <td colspan=4>reg</td>
+</tr>
+</table>
+
+### ret.n.sp
+Return from a function call, given a return adress on the top of the stack.
+```
+ret.n.sp sp
+; sp = sp + 2
+; pc = (sp - 2)
+```
+<table>
+<tr>
+  <th>f<th>e<th>d<th>c<th>b<th>a<th>9<th>8<th>7<th>6<th>5<th>4<th>3<th>2<th>1<th>0
+</tr>
+<tr>
+  <td colspan=6>opcode</td>
+  <td colspan=2>---</td>
+  <td colspan=4>sp</td>
+  <td colspan=4>---</td>
 </tr>
 </table>
 
