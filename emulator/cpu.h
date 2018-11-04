@@ -20,6 +20,12 @@ class CPU {
     private:
     /* get the real physical addr in memory from a 16bit addr */
     uint32_t hard_addr(uint16_t addr);
+    /* read from memory */
+    uint8_t read_byte(uint16_t addr);
+    uint16_t read_word(uint16_t addr);
+    /* write to memory */
+    void write_byte(uint16_t addr, uint8_t val);
+    void write_word(uint16_t addr, uint16_t val);
 
     /* preform an alu operation on two operands */
     uint16_t alu(uint8_t opcode, uint16_t a, uint16_t b);
@@ -29,10 +35,6 @@ class CPU {
     public:
     /* init the machine to startup state (not counting memory) */
     void reset();
-    /* read from memory */
-    uint8_t read_byte(uint16_t addr);
-    uint16_t read_word(uint16_t addr);
-    /* write to memory */
-    void write_byte(uint16_t addr, uint8_t val);
-    void write_word(uint16_t addr, uint16_t val);
+    /* read a binary file into memory */
+    void read_file(const char * path);
 };

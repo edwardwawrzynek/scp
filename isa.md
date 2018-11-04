@@ -68,7 +68,7 @@ f -
 ```
 
 ### Condition Codes
-Condition codes in the flag register are set by the `cmp` instruction. They are three bit values, encoded as follows:
+Condition codes in the flag register are set by the `cmp` instruction. They are five bit values, encoded as follows:
 
 4|3|2|1|0
 -|-|-|-|-
@@ -85,6 +85,7 @@ A conditional is a five bit value. It is or'd with the flags register, so multip
 110 - !=
 111 - true
 ```
+NOTE: the flags register starts with the value 1 loaded so that an uncoditional jump always works.
 
 ### Encoding Shorthands
 * `s/u` - signedness of the value. 0=unsigned, 1=signed
