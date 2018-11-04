@@ -3,6 +3,7 @@
 ## Conventions
 The following conventions are used in asm commands and encodings.
 ### Types
+* `n` - none type (no dst or src)
 * `r` - register (dst register generally encoded in last nibble of instruction)
   * `f` - the alu flags register (not one fo the general purpose registers)
 * `i` - immediate constants (encoded in word after instruction)
@@ -15,6 +16,7 @@ The following conventions are used in asm commands and encodings.
   * `pbs` - a signed byte in memory
   * `pw` - a word in memory
 * `off` - an addressing offset (stored in word after instruction)
+* `j` - a pc-relative jump adress
 * `ra` - a pc relative adress to be converted to a non pc-relative adress (for loading pointer initial values)
 * `c` - a condition code (see below)
 * `sp` - a register used as a stack pointer
@@ -64,7 +66,6 @@ c -
 d -
 e -
 f -
-
 ```
 
 ### Condition Codes
@@ -93,6 +94,29 @@ NOTE: the flags register starts with the value 1 loaded so that an uncoditional 
 
 ### PC Relative Instructions
 All instructions that deal with immediate addresses are pc-relative. Pointer loads are not pc relative - real adresses for initilizing pointers should be loaded with `ld.r.
+
+### Opcode Encodings
+Instr | opocde
+-|-
+`nop.n.n`               | 000000
+`mov.r.r`               | 000001
+`cmp.r.f`               | 000010
+`ld.r.a`                | 000011
+`alu.r.r`               | 0001__
+`alu.r.i`               | 0010__
+`ld.r.i`                | 001100
+`ld.r.(mb/mbs/mw)`      | 001101
+`ld.r.(pb/pbs/pw)`      | 001110
+`ld.r.(pb/pbs/pw).off`  | 001111
+`st.r.(mb/mbs/mw)`      | 010000
+`st.r.(pb/pbs/pw)`      | 010001
+`st.r.(pb/pbs/pw).off`  | 010010
+`jmp.c.j`               | 010011
+`jmp.c.r`               | 010100
+`push.r.sp`             | 010101
+`pop.r.sp`              | 010110
+`call.j.sp`             | 010111
+`call.r.sp`             | 011000
 
 ## Nop Instructions
 ### nop
@@ -124,8 +148,8 @@ mov.r.r dst src
 <th>f<th>e<th>d<th>c<th>b<th>a<th>9<th>8<th>7<th>6<th>5<th>4<th>3<th>2<th>1<th>0
 </tr>
 <tr>
-  <td colspan=4>opcode</td>
-  <td colspan=4>----</td>
+  <td colspan=6>opcode</td>
+  <td colspan=2>----</td>
   <td colspan=4>srcreg </td>
   <td colspan=4>dst reg</td>
 </tr>
@@ -183,8 +207,8 @@ cmp.r.f reg1 reg2
 <th>f<th>e<th>d<th>c<th>b<th>a<th>9<th>8<th>7<th>6<th>5<th>4<th>3<th>2<th>1<th>0
 </tr>
 <tr>
-  <td colspan=4>opcode</td>
-  <td colspan=4>----</td>
+  <td colspan=6>opcode</td>
+  <td colspan=2>----</td>
   <td colspan=4>reg2</td>
   <td colspan=4>reg1</td>
 </tr>
@@ -204,8 +228,8 @@ ld.r.i dst imd
 <th>f<th>e<th>d<th>c<th>b<th>a<th>9<th>8<th>7<th>6<th>5<th>4<th>3<th>2<th>1<th>0<th>val16
 </tr>
 <tr>
-  <td colspan=8>opcode</td>
-  <td colspan=4>----</td>
+  <td colspan=6>opcode</td>
+  <td colspan=6>----</td>
   <td colspan=4>dst reg</td>
   <td>immediate value</td>
 </tr>
@@ -252,10 +276,10 @@ ld.r.pb/pbs/pw dst src
 </tr>
 </table>
 
-### ld.r.(pb/pbs/pw) + off
+### ld.r.(pb/pbs/pw).off
 Load a value pointed to by a register plus offset into a register, sign extend if needed.
 ```
-ld.r.pb/pbs/pw dst src off
+ld.r.pb/pbs/pw.off dst src off
 ; dst = (src + off)
 ```
 
@@ -335,10 +359,10 @@ st.r.pb/pbs/pw src dst
 </tr>
 </table>
 
-### st.r.(pb/pbs/pw) + off
+### st.r.(pb/pbs/pw).off
 Store a value from a register into the memory addr pointed to by a register plus an offset.
 ```
-st.r.pb/pbs/pw src dst off
+st.r.pb/pbs/pw.off src dst off
 ; (dst + off) = src
 ```
 
@@ -357,11 +381,11 @@ st.r.pb/pbs/pw src dst off
 </table>
 
 ## Jump Instructions
-### jmp.c.i
+### jmp.c.j
 Perform a conditional jump to a fixed addr.
 ```
-jmp.c.i cond addr
-; if flags | cond then pc = addr
+jmp.c.j cond addr
+; if flags | cond then pc = pc + addr
 ```
 Note - an unconditional jump can be performed by using `0b111` as the condition code.
 
@@ -379,7 +403,7 @@ Note - an unconditional jump can be performed by using `0b111` as the condition 
 </table>
 
 ### jmp.c.r
-Perform a conditional jump to an addr in a register.
+Perform a conditional jump to a non pc-relative addr in a register.
 ```
 jmp.c.r cond reg
 ; if flags | cond then pc = reg
@@ -441,13 +465,13 @@ Note - The register used as a stack pointer must be aligned on word boundries.
 </tr>
 </table>
 
-### call.i.sp
-Perform a function call to a fixed addr.
+### call.j.sp
+Perform a function call to a pc relative adress.
 ```
-call.i.sp sp imd
+call.i.sp sp addr
 ; (sp - 2) = pc
 ; sp = sp - 2
-; pc = imd
+; pc = pc + addr
 ```
 
 <table>
@@ -463,7 +487,7 @@ call.i.sp sp imd
 </table>
 
 ### call.r.sp
-Perform a function call to an address in a register.
+Perform a function call to a non pc-relative address in a register.
 ```
 call.r.sp reg sp
 ; (sp - 2) = pc
