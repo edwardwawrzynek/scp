@@ -15,4 +15,9 @@ int main(int argc, char ** argv){
     }
     cpu.reset();
     cpu.read_file(argv[1]);
+    cpu.run_instr();
+    cpu.run_instr();
+    cpu.run_instr();
+    cpu.run_instr();
+    cout << cpu.regs[0];
 }

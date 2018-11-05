@@ -1,6 +1,7 @@
 #include <cstdint>
 
 class CPU {
+    public:
     /* regfile */
     uint16_t regs[16];
     /* program counter */
@@ -40,12 +41,12 @@ class CPU {
     /* execute an instruction */
     void execute(uint16_t instr, uint16_t imd);
 
-    /* run a single cpu instruction cycle */
-    void run_instr();
 
     public:
     /* init the machine to startup state (not counting memory) */
     void reset();
     /* read a binary file into memory */
     void read_file(const char * path);
+    /* run a single cpu instruction cycle */
+    void run_instr();
 };

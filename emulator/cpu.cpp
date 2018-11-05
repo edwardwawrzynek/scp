@@ -4,6 +4,7 @@
 #include <cstdint>
 
 #include "cpu.h"
+#include "opcodes.h"
 
 /* cpu functions */
 
@@ -172,13 +173,34 @@ void CPU::execute(uint16_t instr, uint16_t imd) {
     /* load byte/word and signed/unsigned bits used in ld and st */
     uint8_t is_byte = (instr >> 9) & 1;
     uint8_t is_signed = (instr >> 8) & 1;
-    /* load regs encoded in instruction. The reg encoded in bits 3:0 is the primary reg (the one that can get written to), and the reg at 7:4 is the secondary reg (can't be written to, unless being used as a sp, in which case it can be inc'd/dec'd) */
+    /* load regs encoded in instruction. The reg encoded in bits 3:0 is the primary reg (the one that can get written to), and the reg at 7:4 is the secondary reg (can't be written to, unless being used as a sp, in which case it can be inc'd/dec'd). */
     uint8_t reg_prim = instr & 0b1111;
     uint8_t reg_secd = (instr >> 4) & 0b1111;
     /* load the alu op out of alu instructions */
     uint8_t alu_op = (instr >> 8) & 0b1111;
     /* load the five bit condition code for conditional instructions */
     uint8_t cond_code = (instr >> 4) * 0b11111;
+    /* actually execute */
+    switch(opcode) {
+        case NOP_N_N: /* nop.n.n - no operation*/
+            break;
+
+        case MOV_R_R: /* mov.r.r copy reg to reg */
+            regs[reg_prim] = regs[reg_secd];
+            break;
+
+        case ALU_R_R0: /* alu.r.r - run alu */
+        case ALU_R_R1:
+        case ALU_R_R2:
+        case ALU_R_R3:
+            regs[reg_prim] = alu(alu_op, regs[reg_prim], regs[reg_secd]);
+            break;
+
+        default:
+            /* unimplemented */
+            std::cerr << "Unimplemented Op: " << std::hex << opcode;
+            break;
+    }
 }
 
 /**
