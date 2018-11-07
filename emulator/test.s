@@ -2,6 +2,6 @@
 
     ;More comments
   ; More Comments
-    mov.r.r r0 rf
-    alu.r.i op+ r1 #123
+;    mov.r.r r0 rf
+    alu.r.i add r1 #123
 ; Comment

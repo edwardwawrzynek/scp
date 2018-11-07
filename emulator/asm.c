@@ -35,6 +35,10 @@ struct instr instructions[] = {
       "000000--22221111" }
 };
 
+/* alu op names */
+
+char * alu_ops[16] = {"bor", "bxor", "band", "lsh", "ursh", "srsh", "add", "sub", "mul", "bneg", "neg"};
+
 #define num_instructions sizeof(instructions)/sizeof(struct instr)
 
 char line[LINE_SIZE];
@@ -196,10 +200,49 @@ uint16_t arg_to_bin(enum arg_type type, uint16_t addr) {
                 error("argument expected to be of reg type");
             }
             return hex2int(line[lptr++]);
+
         case alu:
             /* lookup operation */
+            for(int op = 0; op < 16; op++){
+                /* don't check undefined ops */
+                if(alu_ops[op] == NULL){
+                    break;
+                }
+                int i = 0;
+                int match = 1;
+
+                while(line[i+lptr] != ' '){
+                    if(line[i+lptr] != alu_ops[op][i]){
+                        match = 0;
+                        break;
+                    }
+                    i++;
+                }
+                if(match) {
+                    /* move lptr to end of argument */
+                    lptr += i;
+                    return op;
+                }
+            }
+            error("no such alu operation");
 
         case cnst:
+            /* make sure the constant starts with a # */
+            if(line[lptr++] != '#'){
+                error("argument expected to be of constant type (starting with #)");
+            }
+            int past_lptr = lptr;
+            uint16_t res = 0;
+
+            /* set space to null to use atoi */
+            while(!is_whitespace(line[lptr]) && line[lptr] != '\0'){lptr++;};
+            line[lptr] = '\0';
+
+            res = atoi(line + past_lptr);
+
+            /* reset null */
+            line[lptr] = ' ';
+            return res;
 
         case label:
 
