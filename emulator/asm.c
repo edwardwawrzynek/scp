@@ -20,17 +20,20 @@ struct instr {
     uint8_t opcode;
     enum arg_type types[10];
     char * encoding;
+    /* which field to use as immeidate - 0=no immediate (opcode can't be immediate) */
+    uint8_t imd_field;
 };
 
+/* IMPORTANT: 4 bit opcodes have to be specified as four bit - don't include blank bits for unused */
 struct instr instructions[] = {
-  { "nop.n.n", 0b000000, {},              /* nop.n.n */
+  { "nop.n.n", 0b000000, {end_arg},                /* nop.n.n */
       "000000----------" },
   { "mov.r.r", 0b000001, {reg, reg, end_arg},      /* mov.r.r dst src */
       "000000--22221111" },
-  { "alu.r.r", 0b000100, {alu, reg, reg, end_arg}, /* alu.r.r op dst src */
+  { "alu.r.r", 0b0001  , {alu, reg, reg, end_arg}, /* alu.r.r op dst src */
       "0000111133332222" },
-  { "alu.r.i", 0b001000, {alu, reg, cnst, end_arg},/* alu.r.i op dst imd */
-      "00001111----2222 3333333333333333" },
+  { "alu.r.i", 0b0010  , {alu, reg, cnst, end_arg},/* alu.r.i op dst imd */
+      "00001111----2222", 3 },
   { "cmp.r.f", 0b000010, {reg, reg, end_arg},      /* cmp.r.f reg1 reg2 */
       "000000--22221111" }
 };
@@ -46,6 +49,8 @@ int lptr;
 
 /* input file */
 FILE * in_file;
+/* output file */
+FILE * out_file;
 
 struct label {
     char name[LABEL_SIZE];
@@ -77,6 +82,17 @@ void error(char * msg){
     printf("^\n");
 
     exit(1);
+}
+
+/**
+ * output a value - either one bit, or a little endian two byte value */
+void output_byte(uint8_t val){
+    fputc(val, out_file);
+}
+
+void output_word(uint16_t word){
+    fputc(word & 0x00ff, out_file);
+    fputc(word >> 8, out_file);
 }
 
 /**
@@ -141,8 +157,9 @@ void blanks(){
 
 /**
  * read a line from a file into the line buffer
- * reset lptr */
-void read_line() {
+ * reset lptr
+ * return 0 on success, 1 on eof*/
+uint8_t read_line() {
     char c;
     lptr = 0;
     do {
@@ -154,16 +171,26 @@ void read_line() {
         line[lptr++] = c;
     } while (c != '\0');
     lptr = 0;
+
+    return feof(in_file);
 }
 
 /**
- * read in lines until a non-whitespace, non-comment line is read */
-void read_good_line(){
+ * read in lines until a non-whitespace, non-comment line is read
+ * returns 1 on eof*/
+uint8_t read_good_line(){
     do {
-        read_line();
+        if(read_line()){
+            /* check that the line has nothing on it */
+            blanks();
+            if(line[lptr] == '\0'){
+                return 1;
+            }
+        }
         blanks();
         /* read next line if this line was a comment or just whitespace */
     } while (line[lptr] == ';' || line[lptr] == '\0');
+    return 0;
 }
 
 /**
@@ -251,6 +278,7 @@ uint16_t arg_to_bin(enum arg_type type, uint16_t addr) {
     }
 }
 
+
 /**
  * given an asm command currently in the buffer, encode it */
 void encode_instr() {
@@ -259,10 +287,11 @@ void encode_instr() {
     char cmd[CMD_NAME_SIZE];
     struct instr * instr;
 
+    /* resulting values for each arg - 0 is opcode, 1 is first arg, etc */
+    uint16_t values[11];
+
     /* resulting instruction encoding */
     uint16_t instr_res = 0;
-    /* resulting immediate encoding */
-    uint16_t imd_res = 0;
 
     /* the opcode to use */
     uint8_t opcode;
@@ -283,32 +312,72 @@ void encode_instr() {
 
     /* get opcode */
     opcode = instr->opcode;
+    /* set opcode in values */
+    values[0] = opcode;
 
     /* go through each arg */
     i = 0;
     while(instr->types[i] != end_arg){
         blanks();
-        printf("%u\n", arg_to_bin(instr->types[i], 0));
+        if(line[lptr] == '\0'){
+            error("not enough arguments provided");
+        }
+        values[i+1] = arg_to_bin(instr->types[i], 0);
         i++;
+    }
+    /* encode args */
+
+    /* go backwards through arg encoding */
+    i = strlen(instr->encoding)-1;
+    while(i >= 0){
+        /* get the value index to use */
+        uint8_t value_index = hex2int(instr->encoding[i]);
+
+        /* OR in the bit, and shift the instr right */
+        instr_res >>= 1;
+        /* OR in a zero if the bit is set as - */
+        if(instr->encoding[i] != '-'){
+            instr_res |= (values[value_index] & 1) << 15;
+        }
+        /* shift the value to the next bit */
+        values[value_index] >>= 1;
+
+        i--;
+    }
+
+    /* write out */
+    output_word(instr_res);
+
+    /* write out immediate */
+    if(instr->imd_field){
+        output_word(values[instr->imd_field]);
     }
 
 
 }
 
 int main(int argc, char **argv){
-    if(argc != 2){
-        printf("Usage: scpasm [in.s]\n");
+    if(argc != 3){
+        printf("Usage: scpasm [out.bin] [in.s]\n");
         exit(1);
     }
 
-    in_file = fopen(argv[1], "r");
+    out_file = fopen(argv[1], "w");
+    in_file = fopen(argv[2], "r");
 
     if(in_file == NULL){
         printf("Open Failure\n");
         exit(1);
     }
-    read_good_line();
-    encode_instr();
+    while(1){
+        if(read_good_line()){
+            break;
+        }
+        encode_instr();
+    }
+
+    fclose(out_file);
+    fclose(in_file);
 
 
 }

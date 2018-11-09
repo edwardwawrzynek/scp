@@ -196,9 +196,17 @@ void CPU::execute(uint16_t instr, uint16_t imd) {
             regs[reg_prim] = alu(alu_op, regs[reg_prim], regs[reg_secd]);
             break;
 
+        case ALU_R_I0: /* alu.r.i - run alu immediate */
+        case ALU_R_I1:
+        case ALU_R_I2:
+        case ALU_R_I3:
+            regs[reg_prim] = alu(alu_op, regs[reg_prim], imd);
+            pc += 2;
+            break;
+
         default:
             /* unimplemented */
-            std::cerr << "Unimplemented Op: " << std::hex << opcode;
+            std::cerr << "Unimplemented Op: " << std::hex << opcode << "\nIn instruction: " << instr << "\n";
             break;
     }
 }

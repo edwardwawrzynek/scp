@@ -19,5 +19,5 @@ int main(int argc, char ** argv){
     cpu.run_instr();
     cpu.run_instr();
     cpu.run_instr();
-    cout << cpu.regs[0];
+    cout << "Reg 0:\n" << cpu.regs[0] << "\n";
 }
