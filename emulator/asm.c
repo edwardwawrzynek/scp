@@ -35,7 +35,11 @@ struct instr instructions[] = {
   { "alu.r.i", 0b0010  , {alu, reg, cnst, end_arg},/* alu.r.i op dst imd */
       "00001111----2222", 3 },
   { "cmp.r.f", 0b000010, {reg, reg, end_arg},      /* cmp.r.f reg1 reg2 */
-      "000000--22221111" }
+      "000000--22221111" },
+  { "ld.r.i",  0b001100, {reg, cnst, end_arg},     /* ld.r.i reg imd */
+      "000000------1111", 2},
+  { "ld.r.mw", 0b00110100, {reg, label, end_arg},  /* ld.r.mw reg mem */
+      "00000000----1111", 2},
 };
 
 /* alu op names */
@@ -51,6 +55,9 @@ int lptr;
 FILE * in_file;
 /* output file */
 FILE * out_file;
+
+/* current module */
+uint16_t global_module = 0;
 
 struct label {
     char name[LABEL_SIZE];
@@ -156,6 +163,12 @@ void blanks(){
 }
 
 /**
+ * reset the position in the input file */
+void reset_file(){
+    fseek(in_file, 0, SEEK_SET);
+}
+
+/**
  * read a line from a file into the line buffer
  * reset lptr
  * return 0 on success, 1 on eof*/
@@ -258,43 +271,45 @@ uint16_t arg_to_bin(enum arg_type type, uint16_t addr) {
             if(line[lptr++] != '#'){
                 error("argument expected to be of constant type (starting with #)");
             }
-            int past_lptr = lptr;
+            int past_lptr_cnst = lptr;
             uint16_t res = 0;
 
             /* set space to null to use atoi */
             while(!is_whitespace(line[lptr]) && line[lptr] != '\0'){lptr++;};
             line[lptr] = '\0';
 
-            res = atoi(line + past_lptr);
+            res = atoi(line + past_lptr_cnst);
 
             /* reset null */
             line[lptr] = ' ';
             return res;
 
-        case label:
+        case label: ;
+            /* check */
+            int past_lptr_label = lptr;
+
+            /* set space to null to use atoi */
+            while(!is_whitespace(line[lptr]) && line[lptr] != '\0'){lptr++;};
+            line[lptr] = '\0';
+
+            struct label * label = find_label(line + past_lptr_label, global_module);
+            uint16_t real_addr = label->addr;
+
+            /* reset null */
+            line[lptr] = ' ';
+            /* position independent */
+            return real_addr-addr;
 
         default:
             return 0;
     }
 }
 
-
-/**
- * given an asm command currently in the buffer, encode it */
-void encode_instr() {
+/** return a pointer to an instruction entry for the op currently in line */
+struct instr * get_instr_line(){
     int i;
-
     char cmd[CMD_NAME_SIZE];
     struct instr * instr;
-
-    /* resulting values for each arg - 0 is opcode, 1 is first arg, etc */
-    uint16_t values[11];
-
-    /* resulting instruction encoding */
-    uint16_t instr_res = 0;
-
-    /* the opcode to use */
-    uint8_t opcode;
 
     blanks();
     /* copy in name */
@@ -310,6 +325,28 @@ void encode_instr() {
         error("no such instruction");
     }
 
+    return instr;
+}
+
+/**
+ * given an asm command currently in the buffer, encode it
+ * return number of bytes written */
+uint16_t encode_instr(uint16_t addr) {
+    int i;
+
+    struct instr * instr;
+
+    /* resulting values for each arg - 0 is opcode, 1 is first arg, etc */
+    uint16_t values[11];
+
+    /* resulting instruction encoding */
+    uint16_t instr_res = 0;
+
+    /* the opcode to use */
+    uint8_t opcode;
+
+    instr = get_instr_line();
+
     /* get opcode */
     opcode = instr->opcode;
     /* set opcode in values */
@@ -322,7 +359,7 @@ void encode_instr() {
         if(line[lptr] == '\0'){
             error("not enough arguments provided");
         }
-        values[i+1] = arg_to_bin(instr->types[i], 0);
+        values[i+1] = arg_to_bin(instr->types[i], addr);
         i++;
     }
     /* encode args */
@@ -351,9 +388,84 @@ void encode_instr() {
     /* write out immediate */
     if(instr->imd_field){
         output_word(values[instr->imd_field]);
+        return 4;
     }
 
+    return 2;
+}
 
+/**
+ * return the label (really a pointer to line) if the line is a label, NULL otherwise */
+char * is_label(){
+    if(!is_whitespace(line[0])){
+        char * end = strchr(line, ':');
+        if(!end){
+            error("label must end in :");
+        }
+        *end = '\0';
+        return line;
+    }
+    return NULL;
+}
+
+/**
+ * get the size of the directive in line */
+uint16_t dir_size(){
+    return 0;
+}
+
+/**
+ * get the size of the command in line */
+uint16_t cmd_size(){
+    struct instr * instr;
+
+    instr = get_instr_line();
+
+    /* if the cmd takes an immediate, 4 bytes, 2 otherwise */
+    return instr->imd_field ? 4 : 2;
+}
+
+/**
+ * run the first pass, return the number of bytes */
+uint16_t first_pass(){
+    uint16_t addr = 0;
+    /* module number */
+    global_module = 0;
+
+    reset_file();
+
+    while(!read_good_line()) {
+        /* handle labels */
+        char * label = is_label();
+        if(label){
+            add_label(label, global_module, addr);
+        } else {
+            addr += cmd_size();
+        }
+    }
+
+    return addr;
+}
+
+/**
+ * run the second pass, writing out bytes
+ * returns number of bytes written (to make sure it is consistent with first_pass) */
+uint16_t second_pass(){
+    uint16_t addr = 0;
+    /* module number */
+    global_module = 0;
+
+    reset_file();
+
+    while(!read_good_line()) {
+        /* handle labels */
+        char * label = is_label();
+        if(!label){
+            addr += encode_instr(addr);
+        }
+    }
+
+    return addr;
 }
 
 int main(int argc, char **argv){
@@ -369,11 +481,12 @@ int main(int argc, char **argv){
         printf("Open Failure\n");
         exit(1);
     }
-    while(1){
-        if(read_good_line()){
-            break;
-        }
-        encode_instr();
+
+    uint16_t first_res = first_pass();
+    uint16_t second_res = second_pass();
+
+    if(first_res != second_res){
+        error("Number of bytes written and calculated don't match");
     }
 
     fclose(out_file);

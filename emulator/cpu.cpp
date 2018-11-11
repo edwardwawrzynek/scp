@@ -204,6 +204,13 @@ void CPU::execute(uint16_t instr, uint16_t imd) {
             pc += 2;
             break;
 
+        case LD_R_I: /* ld.r.i - load an immediate value into a register */
+            regs[reg_prim] = imd;
+            pc += 2;
+            break;
+
+        case LD_R_M: /* ld.r.mb/mbs/mw - load a value from a pc-relative address, sign extending if needed */
+
         default:
             /* unimplemented */
             std::cerr << "Unimplemented Op: " << std::hex << opcode << "\nIn instruction: " << instr << "\n";

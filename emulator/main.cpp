@@ -15,9 +15,9 @@ int main(int argc, char ** argv){
     }
     cpu.reset();
     cpu.read_file(argv[1]);
-    cpu.run_instr();
-    cpu.run_instr();
-    cpu.run_instr();
-    cpu.run_instr();
-    cout << "Reg 0:\n" << cpu.regs[0] << "\n";
+    while(true){
+        std::cin.ignore();
+        cpu.run_instr();
+        std::cout << cpu.regs[0];
+    }
 }
