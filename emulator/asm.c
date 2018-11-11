@@ -135,7 +135,7 @@ struct label * add_label(char * name, int16_t module, uint16_t addr){
 /**
  * look for a label with the given name and module number, and return it
  * a -1 module number will only search in the global namespace
- * returns NULL if none is found */
+ * errors if none found */
 struct label * find_label(char * name, int16_t module) {
 
     for(unsigned int i = 0; i < labels_cur; i++){
@@ -146,6 +146,8 @@ struct label * find_label(char * name, int16_t module) {
             }
         }
     }
+
+    error("no such label");
 
     return NULL;
 }
@@ -159,7 +161,7 @@ uint8_t is_whitespace(char c){
 /**
  * skip to next non blank file in line */
 void blanks(){
-    while(is_whitespace(line[lptr])) {lptr++;};
+    while(is_whitespace(line[lptr]) && line[lptr] != '\0') {lptr++;};
 }
 
 /**
@@ -314,7 +316,7 @@ struct instr * get_instr_line(){
     blanks();
     /* copy in name */
     i = 0;
-    while(line[lptr] != ' '){
+    while(!is_whitespace(line[lptr])){
         cmd[i++] = line[lptr++];
     }
     cmd[i] = '\0';
@@ -395,6 +397,136 @@ uint16_t encode_instr(uint16_t addr) {
 }
 
 /**
+ * skip the current arg */
+void skip_arg(){
+    while(!is_whitespace(line[lptr])){lptr++;}
+    blanks();
+}
+
+/**
+ * set the witespace after the current arg to a null, set lptr to after the null, and return the current arg */
+char * get_arg(){
+    blanks();
+    char * arg = line + lptr;
+    while(!is_whitespace(line[lptr]) && line[lptr] != '\0'){lptr++;}
+    line[lptr++] = '\0';
+    blanks();
+    return arg;
+}
+
+/**
+ * given an asembler directive in line, output it (and return the number of bytes written) */
+uint16_t encode_dir(uint16_t addr){
+    int i;
+    char cmd[CMD_NAME_SIZE];
+
+    blanks();
+    /* copy in name */
+    i = 0;
+    while(!is_whitespace(line[lptr])){
+        cmd[i++] = line[lptr++];
+    }
+    cmd[i] = '\0';
+
+    if(!strcmp(cmd, ".module")){
+        global_module++;
+        return 0;
+    } else if(!strcmp(cmd, ".global")){
+        return 0;
+    } else if(!strcmp(cmd, ".set_label")){
+        return 0;
+    } else if(!strcmp(cmd, ".db")){
+        char * val_name = get_arg();
+        if(*val_name != '#'){
+            error("directive requires constant value");
+        }
+        uint16_t val = atoi(val_name+1);
+        output_byte(val);
+        return 1;
+    } else if(!strcmp(cmd, ".dw")){
+        char * val_name = get_arg();
+        if(*val_name != '#'){
+            error("directive requires constant value");
+        }
+        uint16_t val = atoi(val_name+1);
+        output_word(val);
+        return 2;
+    } else if(!strcmp(cmd, ".align")){
+        if(addr & 1){
+            output_byte(0);
+            return 1;
+        }
+        return 0;
+    } else if(!strcmp(cmd, ".ds")){
+        char * val_name = get_arg();
+        if(*val_name != '#'){
+            error("directive requires constant value");
+        }
+        uint16_t val = atoi(val_name+1);
+        for(int i = 0; i < val; i++){
+            output_byte(0);
+        }
+        return val;
+    }
+
+    error("no such directive");
+    return 0;
+}
+
+/**
+ * get the size of the directive in line */
+uint16_t dir_size(uint16_t addr){
+    int i;
+    char cmd[CMD_NAME_SIZE];
+
+    blanks();
+    /* copy in name */
+    i = 0;
+    while(!is_whitespace(line[lptr])){
+        cmd[i++] = line[lptr++];
+    }
+    cmd[i] = '\0';
+
+    if(!strcmp(cmd, ".module")){
+        global_module++;
+        return 0;
+    } else if(!strcmp(cmd, ".global")){
+        /* add global label */
+        skip_arg();
+        /* get label entry */
+        struct label * label = find_label(get_arg(), global_module);
+        label->module = -1;
+        return 0;
+    } else if(!strcmp(cmd, ".set_label")){
+        skip_arg();
+        char * name = get_arg();
+        char * addr_name = get_arg();
+        if(*addr_name != '#'){
+            error("directive requires constant value");
+        }
+        uint16_t addr = atoi(addr_name+1);
+        add_label(name, -1, addr);
+        return 0;
+    } else if(!strcmp(cmd, ".db")){
+        return 1;
+    } else if(!strcmp(cmd, ".dw")){
+        return 2;
+    } else if(!strcmp(cmd, ".align")){
+        return addr & 1;
+    } else if(!strcmp(cmd, ".ds")){
+        char * val_name = get_arg();
+        if(*val_name != '#'){
+            error("directive requires constant value");
+        }
+        uint16_t val = atoi(val_name+1);
+        return val;
+    }
+
+    error("no such directive");
+    return 0;
+}
+
+/**
  * return the label (really a pointer to line) if the line is a label, NULL otherwise */
 char * is_label(){
     if(!is_whitespace(line[0])){
@@ -408,15 +540,10 @@ char * is_label(){
     return NULL;
 }
 
-/**
- * get the size of the directive in line */
-uint16_t dir_size(){
-    return 0;
-}
 
 /**
  * get the size of the command in line */
-uint16_t cmd_size(){
+uint16_t cmd_size(uint16_t addr){
     struct instr * instr;
 
     instr = get_instr_line();
@@ -440,7 +567,13 @@ uint16_t first_pass(){
         if(label){
             add_label(label, global_module, addr);
         } else {
-            addr += cmd_size();
+            blanks();
+            /* check if it is a directive */
+            if(line[lptr] == '.'){
+                addr += dir_size(addr);
+            } else{
+                addr += cmd_size(addr);
+            }
         }
     }
 
@@ -461,7 +594,11 @@ uint16_t second_pass(){
         /* handle labels */
         char * label = is_label();
         if(!label){
-            addr += encode_instr(addr);
+            if(line[lptr] == '.'){
+                addr += encode_dir(addr);
+            } else{
+                addr += encode_instr(addr);
+            }
         }
     }
 
