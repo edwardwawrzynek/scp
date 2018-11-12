@@ -1,10 +1,17 @@
 ;   This is a test program
-    .set_label start #8
-    .module
-    alu.r.r bneg r1 r1
-    alu.r.i add r2 #23
-    mov.r.r r0 r2
-    ld.r.mw r1 start
-    .db #123
-    .align
-    .dw #65535
+    ld.r.mw r0 start
+
+    ld.r.i r1 #6547
+    ld.r.ra r2 start
+
+    ld.r.i r3 #2
+    alu.r.r sub r2 r3
+
+    st.r.pw.off r1 r2 #2
+
+    ld.r.mw r0 start
+
+    .ds #100
+
+start:
+    .dw #345

@@ -140,6 +140,12 @@ void CPU::alu_cmp(uint16_t a, uint16_t b) {
 }
 
 /**
+ * sign extend the value */
+uint16_t CPU::sign_extend(uint16_t val){
+    return (val & 0b10000000) ? (0xff00 | val) : (0x00ff & val);
+}
+
+/**
  * read a binary file into the machine's memory */
 void CPU::read_file(const char * path){
     std::ifstream file;
@@ -180,6 +186,10 @@ void CPU::execute(uint16_t instr, uint16_t imd) {
     uint8_t alu_op = (instr >> 8) & 0b1111;
     /* load the five bit condition code for conditional instructions */
     uint8_t cond_code = (instr >> 4) * 0b11111;
+
+    /* scratch space */
+    uint16_t val;
+
     /* actually execute */
     switch(opcode) {
         case NOP_N_N: /* nop.n.n - no operation*/
@@ -210,6 +220,91 @@ void CPU::execute(uint16_t instr, uint16_t imd) {
             break;
 
         case LD_R_M: /* ld.r.mb/mbs/mw - load a value from a pc-relative address, sign extending if needed */
+
+            /* load from memory */
+            if(is_byte){
+                val = read_byte(pc+imd);
+            } else {
+                val = read_word(pc+imd);
+            }
+            /* sign extend */
+            if(is_signed){
+                val = sign_extend(val);
+            }
+
+            regs[reg_prim] = val;
+            pc += 2;
+
+            break;
+
+        case LD_R_P: /* ld.r.pb/pbs/pw - load a value pointed to be a register into memory - not pc relative */
+
+            /* load from memory */
+            if(is_byte){
+                val = read_byte(regs[reg_secd]);
+            } else {
+                val = read_word(regs[reg_secd]);
+            }
+            /* sign extend */
+            if(is_signed){
+                val = sign_extend(val);
+            }
+
+            regs[reg_prim] = val;
+
+            break;
+
+        case LD_R_P_OF: /* ld.r.pb/pbs/pw.off - load a value pointed to be a register into memory plus an offset - not pc relative */
+
+            /* load from memory */
+            if(is_byte){
+                val = read_byte(regs[reg_secd] + imd);
+            } else {
+                val = read_word(regs[reg_secd] + imd);
+            }
+            /* sign extend */
+            if(is_signed){
+                val = sign_extend(val);
+            }
+
+            regs[reg_prim] = val;
+            pc += 2;
+
+            break;
+
+        case LD_R_RA: /* ld.r.ra - load the real address from a pc-relative addr */
+            regs[reg_prim] = pc + imd;
+            break;
+
+        case ST_R_M: /* st.r.mb/mw - store a reg in a pc-relative addr */
+            /* store to memory */
+            if(is_byte){
+                write_byte(pc+imd, regs[reg_prim]);
+            } else {
+                write_word(pc+imd, regs[reg_prim]);
+            }
+            pc += 2;
+            break;
+
+        case ST_R_P: /* st.r.pb/pw - store a reg in a non pc-relative addr pointed to be a reg */
+            /* store to memory */
+            if(is_byte){
+                write_byte(regs[reg_secd], regs[reg_prim]);
+            } else {
+                write_word(regs[reg_secd], regs[reg_prim]);
+            }
+            break;
+
+        case ST_R_P_OF: /* st.r.pb/pw.off - store a reg in a non pc-relative addr pointed to be a reg plus an offset*/
+            /* store to memory */
+            if(is_byte){
+                write_byte(regs[reg_secd] + imd, regs[reg_prim]);
+            } else {
+                write_word(regs[reg_secd] + imd, regs[reg_prim]);
+            }
+            pc += 2;
+            break;
+
 
         default:
             /* unimplemented */

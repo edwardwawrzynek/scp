@@ -93,7 +93,9 @@ NOTE: the flags register starts with the value 1 loaded so that an uncoditional 
 * `b/w` - width of the value. 0=word, 1=byte
 
 ### PC Relative Instructions
-All instructions that deal with immediate addresses are pc-relative. Pointer loads are not pc relative - real adresses for initilizing pointers should be loaded with `ld.r.
+All instructions that deal with immediate addresses are pc-relative. Pointer loads are not pc relative - real adresses for initilizing pointers should be loaded with `ld.r.ra`.
+
+PC relative addresses are found by taking the address of (inst_addr + mem_addr + 2), where instr_addr is the address where the first word of the instruction is written, and mem_addr is the pc-relative addr. The +2 is because the pc will already be incremented past the instruction by the time it executes.
 
 ### Opcode Encodings
 Instr | opocde
@@ -101,16 +103,16 @@ Instr | opocde
 `nop.n.n`               | 000000
 `mov.r.r`               | 000001
 `cmp.r.f`               | 000010
-`ld.r.a`                | 000011
+`ld.r.ra`                | 000011
 `alu.r.r`               | 0001__
 `alu.r.i`               | 0010__
 `ld.r.i`                | 001100
 `ld.r.(mb/mbs/mw)`      | 001101
 `ld.r.(pb/pbs/pw)`      | 001110
 `ld.r.(pb/pbs/pw).off`  | 001111
-`st.r.(mb/mbs/mw)`      | 010000
-`st.r.(pb/pbs/pw)`      | 010001
-`st.r.(pb/pbs/pw).off`  | 010010
+`st.r.(mb/mw)`          | 010000
+`st.r.(pb/pw)`          | 010001
+`st.r.(pb/pw).off`      | 010010
 `jmp.c.j`               | 010011
 `jmp.c.r`               | 010100
 `push.r.sp`             | 010101
@@ -319,7 +321,7 @@ ld.r.ra dst addr
 
 ## Store Instructions
 
-### st.r.(mb/mbs/mw)
+### st.r.(mb/mw)
 Store a value from a register into memory.
 ```
 st.r.mb/mbs/mw src mem
@@ -340,12 +342,14 @@ st.r.mb/mbs/mw src mem
 </tr>
 </table>
 
-### st.r.(pb/pbs/pw)
+### st.r.(pb/pw)
 Store a value from a register into the memory addr pointed to by a register.
 ```
 st.r.pb/pbs/pw src dst
 ; (dst) = src
 ```
+
+NOTE: st.r.m and st.r.p instructions lack bs modes because there is no point in doing an inverse sign extend - the high byte isn't stored anyway
 
 <table>
 <tr>
@@ -360,7 +364,7 @@ st.r.pb/pbs/pw src dst
 </tr>
 </table>
 
-### st.r.(pb/pbs/pw).off
+### st.r.(pb/pw).off
 Store a value from a register into the memory addr pointed to by a register plus an offset.
 ```
 st.r.pb/pbs/pw.off src dst off

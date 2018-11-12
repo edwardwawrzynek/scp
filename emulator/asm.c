@@ -30,16 +30,57 @@ struct instr instructions[] = {
       "000000----------" },
   { "mov.r.r", 0b000001, {reg, reg, end_arg},      /* mov.r.r dst src */
       "000000--22221111" },
+
   { "alu.r.r", 0b0001  , {alu, reg, reg, end_arg}, /* alu.r.r op dst src */
       "0000111133332222" },
   { "alu.r.i", 0b0010  , {alu, reg, cnst, end_arg},/* alu.r.i op dst imd */
       "00001111----2222", 3 },
+
   { "cmp.r.f", 0b000010, {reg, reg, end_arg},      /* cmp.r.f reg1 reg2 */
       "000000--22221111" },
+
   { "ld.r.i",  0b001100, {reg, cnst, end_arg},     /* ld.r.i reg imd */
       "000000------1111", 2},
+
   { "ld.r.mw", 0b00110100, {reg, label, end_arg},  /* ld.r.mw reg mem */
       "00000000----1111", 2},
+  { "ld.r.mb", 0b00110110, {reg, label, end_arg},  /* ld.r.mb reg mem */
+      "00000000----1111", 2},
+  { "ld.r.mbs", 0b00110111, {reg, label, end_arg},  /* ld.r.mbs reg mem */
+      "00000000----1111", 2},
+
+  { "ld.r.pw", 0b00111000, {reg, reg, end_arg},  /* ld.r.pw dst src */
+      "0000000022221111"},
+  { "ld.r.pb", 0b00111010, {reg, reg, end_arg},  /* ld.r.pb dst src */
+      "0000000022221111"},
+  { "ld.r.pbs", 0b00111011, {reg, reg, end_arg},  /* ld.r.pbs dst src */
+      "0000000022221111"},
+
+  { "ld.r.pw.off", 0b00111100, {reg, reg, cnst, end_arg},  /* ld.r.pw.off dst src off */
+      "0000000022221111", 3},
+  { "ld.r.pb.off", 0b00111110, {reg, reg, cnst, end_arg},  /* ld.r.pb.off dst src off */
+      "0000000022221111", 3},
+  { "ld.r.pbs.off", 0b00111111, {reg, reg, cnst, end_arg},  /* ld.r.pbs.off dst src off */
+      "0000000022221111", 3},
+
+  { "ld.r.ra", 0b000011, {reg, label, end_arg},  /* ld.r.ra dst addr */
+      "000000------1111", 2},
+
+  { "st.r.mw", 0b01000000, {reg, label, end_arg},  /* st.r.mw reg mem */
+      "00000000----1111", 2},
+  { "st.r.mb", 0b01000010, {reg, label, end_arg},  /* st.r.mb reg mem */
+      "00000000----1111", 2},
+
+  { "st.r.pw", 0b01000100, {reg, reg, end_arg},  /* st.r.pw src dst */
+      "0000000022221111"},
+  { "st.r.pb", 0b01000110, {reg, reg, end_arg},  /* st.r.pb src dst */
+      "0000000022221111"},
+
+  { "st.r.pw.off", 0b01001000, {reg, reg, cnst, end_arg},  /* st.r.pw.off src dst off */
+      "0000000022221111", 3},
+  { "st.r.pb.off", 0b01001010, {reg, reg, cnst, end_arg},  /* st.r.pb src dst off */
+      "0000000022221111", 3},
+
 };
 
 /* alu op names */
@@ -300,7 +341,7 @@ uint16_t arg_to_bin(enum arg_type type, uint16_t addr) {
             /* reset null */
             line[lptr] = ' ';
             /* position independent */
-            return real_addr-addr;
+            return real_addr-addr-2;
 
         default:
             return 0;

@@ -35,8 +35,10 @@ class CPU {
 
     /* preform an alu operation on two operands */
     uint16_t alu(uint8_t opcode, uint16_t a, uint16_t b);
-    /* comoare a and b, and set flags appropriatley */
+    /* compare a and b, and set flags appropriatley */
     void alu_cmp(uint16_t a, uint16_t b);
+    /* sign extend a value */
+    uint16_t sign_extend(uint16_t val);
 
     /* execute an instruction */
     void execute(uint16_t instr, uint16_t imd);

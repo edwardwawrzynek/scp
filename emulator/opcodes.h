@@ -1,7 +1,7 @@
 #define NOP_N_N   0b000000
 #define MOV_R_R   0b000001
 #define CMP_R_F   0b000010
-#define LD_R_A    0b000011
+#define LD_R_RA    0b000011
 
 #define ALU_R_R0  0b000100
 #define ALU_R_R1  0b000101
