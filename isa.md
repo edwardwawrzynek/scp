@@ -400,7 +400,7 @@ Note - an unconditional jump can be performed by using `0b11111` as the conditio
 </tr>
 <tr>
   <td colspan=6>opcode</td>
-  <td colspan=1>---</td>
+  <td colspan=1>-</td>
   <td colspan=5>cond</td>
   <td colspan=4>---</td>
   <td>address</td>
@@ -421,7 +421,7 @@ Note - an unconditional jump can be performed by using `0b11111` as the conditio
 </tr>
 <tr>
   <td colspan=6>opcode</td>
-  <td colspan=1>---</td>
+  <td colspan=1>-</td>
   <td colspan=5>cond</td>
   <td colspan=4>reg</td>
 </tr>
@@ -475,7 +475,7 @@ Perform a function call to a pc relative adress.
 ```
 call.i.sp sp addr
 ; sp = sp - 2
-; (sp) = pc
+; (sp) = pc + 2
 ; pc = pc + addr
 ```
 

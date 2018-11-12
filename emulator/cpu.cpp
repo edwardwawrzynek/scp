@@ -185,7 +185,7 @@ void CPU::execute(uint16_t instr, uint16_t imd) {
     /* load the alu op out of alu instructions */
     uint8_t alu_op = (instr >> 8) & 0b1111;
     /* load the five bit condition code for conditional instructions */
-    uint8_t cond_code = (instr >> 4) * 0b11111;
+    uint8_t cond_code = (instr >> 4) & 0b11111;
 
     /* scratch space */
     uint16_t val;
@@ -195,8 +195,12 @@ void CPU::execute(uint16_t instr, uint16_t imd) {
         case NOP_N_N: /* nop.n.n - no operation*/
             break;
 
-        case MOV_R_R: /* mov.r.r copy reg to reg */
+        case MOV_R_R: /* mov.r.r - copy reg to reg */
             regs[reg_prim] = regs[reg_secd];
+            break;
+
+        case CMP_R_F: /* cmp.r.f - compare regs and set flags reg */
+            alu_cmp(regs[reg_prim], regs[reg_secd]);
             break;
 
         case ALU_R_R0: /* alu.r.r - run alu */
@@ -274,6 +278,7 @@ void CPU::execute(uint16_t instr, uint16_t imd) {
 
         case LD_R_RA: /* ld.r.ra - load the real address from a pc-relative addr */
             regs[reg_prim] = pc + imd;
+            pc += 2;
             break;
 
         case ST_R_M: /* st.r.mb/mw - store a reg in a pc-relative addr */
@@ -305,6 +310,68 @@ void CPU::execute(uint16_t instr, uint16_t imd) {
             pc += 2;
             break;
 
+        case JMP_C_J: /* jmp.c.j cond addr - do a conditional pc-relative jump */
+
+            /* compare the condition code to flags reg */
+            if(cond_code & flags){
+                pc = pc + imd;
+            } else {
+                pc += 2;
+            }
+            break;
+
+        case JMP_C_R: /* jmp.c.r - do a conditional jump to a non pc relative address in a register */
+
+            /* compare the condition code to flags reg */
+            if(cond_code & flags){
+                pc = regs[reg_prim];
+            }
+
+            break;
+
+        case PUSH_R_SP: /* push.r.sp - push a reg onto a stack */
+
+            /* adjust stack pointer */
+            regs[reg_secd] -= 2;
+
+            /* write */
+            write_word(regs[reg_secd], regs[reg_prim]);
+
+            break;
+
+        case POP_R_SP: /* pop.r.sp - pop a value off the stack into a reg */
+
+            /* adjust stack pointer */
+            regs[reg_secd] += 2;
+
+            /* read from stack (-2 is because stack adjust happens first in pipeline) */
+            regs[reg_prim] = read_word(regs[reg_secd]-2);
+            break;
+
+        case CALL_J_SP: /* call.j.sp sp addr - call a pc-relative address */
+            /* adjust stack pointer */
+            regs[reg_secd] -= 2;
+            /* write pc - (with pc adjusted over immediate) */
+            write_word(regs[reg_secd], pc + 2);
+            /* set pc */
+            pc = pc + imd;
+            break;
+
+        case CALL_R_SP: /* call.r.sp sp addr - call a non pc-relative address in a reg*/
+            /* adjust stack pointer */
+            regs[reg_secd] -= 2;
+            /* write pc */
+            write_word(regs[reg_secd], pc);
+            /* set pc */
+            pc = pc + regs[reg_prim];
+            break;
+
+        case RET_N_SP: /* ret.n.sp - return from a subroutine */
+            /* adjust stack pointer */
+            regs[reg_secd] += 2;
+            /* read pc from stack */
+            pc = read_word(regs[reg_secd] - 2);
+            break;
 
         default:
             /* unimplemented */

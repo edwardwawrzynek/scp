@@ -13,7 +13,7 @@
 /* max space, including null, for a cmd opcode */
 #define CMD_NAME_SIZE 17
 
-enum arg_type {reg, alu, cnst, label, end_arg};
+enum arg_type {end_arg, reg, alu, cnst, label, cond};
 
 struct instr {
     char * name;
@@ -80,6 +80,25 @@ struct instr instructions[] = {
       "0000000022221111", 3},
   { "st.r.pb.off", 0b01001010, {reg, reg, cnst, end_arg},  /* st.r.pb src dst off */
       "0000000022221111", 3},
+
+  { "jmp.c.j", 0b010011, {cond, label, end_arg}, /* jmp.c.j cond addr */
+      "000000-11111----", 2},
+  { "jmp.c.r", 0b010100, {cond, reg, end_arg}, /* jmp.c.r cond reg */
+      "000000-111112222"},
+
+  { "push.r.sp", 0b010101, {reg, reg, end_arg}, /* push.r.sp reg sp */
+      "000000--22221111"},
+  { "pop.r.sp", 0b010110, {reg, reg, end_arg}, /* pop.r.sp reg sp */
+      "000000--22221111"},
+
+  { "call.j.sp", 0b010111, {reg, label, end_arg}, /* call.j.sp sp addr */
+      "000000--1111----", 2},
+  { "call.r.sp", 0b011000, {reg, reg, end_arg}, /* call.j.sp reg sp */
+      "000000--22221111"},
+
+  { "ret.n.sp", 0b011001, {reg, end_arg}, /* ret.n.sp sp */
+      "000000--1111----"},
+
 
 };
 
@@ -272,6 +291,24 @@ int hex2int(char ch)
 }
 
 /**
+ * skip the current arg */
+void skip_arg(){
+    while(!is_whitespace(line[lptr])){lptr++;}
+    blanks();
+}
+
+/**
+ * set the witespace after the current arg to a null, set lptr to after the null, and return the current arg */
+char * get_arg(){
+    blanks();
+    char * arg = line + lptr;
+    while(!is_whitespace(line[lptr]) && line[lptr] != '\0'){lptr++;}
+    line[lptr++] = '\0';
+    blanks();
+    return arg;
+}
+
+/**
  * given an argument at line + lptr and its expected type, convert it to a binary representation
  * addr is the current address that the value will be written to - used for pc relative addresses
  * this may error if the arg format doesn't match the */
@@ -317,31 +354,59 @@ uint16_t arg_to_bin(enum arg_type type, uint16_t addr) {
             int past_lptr_cnst = lptr;
             uint16_t res = 0;
 
-            /* set space to null to use atoi */
-            while(!is_whitespace(line[lptr]) && line[lptr] != '\0'){lptr++;};
-            line[lptr] = '\0';
+            get_arg();
 
             res = atoi(line + past_lptr_cnst);
 
             /* reset null */
-            line[lptr] = ' ';
+            line[lptr-1] = ' ';
             return res;
 
         case label: ;
             /* check */
             int past_lptr_label = lptr;
 
-            /* set space to null to use atoi */
-            while(!is_whitespace(line[lptr]) && line[lptr] != '\0'){lptr++;};
-            line[lptr] = '\0';
+            get_arg();
 
             struct label * label = find_label(line + past_lptr_label, global_module);
             uint16_t real_addr = label->addr;
 
             /* reset null */
-            line[lptr] = ' ';
+            line[lptr-1] = ' ';
             /* position independent */
             return real_addr-addr-2;
+
+        case cond:;
+            /* condition codes are composed as a combination of chars:
+            e - equal to bit(0)
+            l - unsigned less than bit(1)
+            g - unsigned greater than bit(2)
+            L - signed less than bit(3)
+            G - signed greather than bit(4)
+            */
+            char * code = get_arg();
+
+            /* resulting code */
+            uint8_t cond_code = 0;
+
+            /* check for each char */
+            if(strchr(code, 'e')){
+                cond_code |= 0b1;
+            }
+            if(strchr(code, 'l')){
+                cond_code |= 0b10;
+            }
+            if(strchr(code, 'g')){
+                cond_code |= 0b100;
+            }
+            if(strchr(code, 'L')){
+                cond_code |= 0b1000;
+            }
+            if(strchr(code, 'G')){
+                cond_code |= 0b10000;
+            }
+
+            return cond_code;
 
         default:
             return 0;
@@ -435,24 +500,6 @@ uint16_t encode_instr(uint16_t addr) {
     }
 
     return 2;
-}
-
-/**
- * skip the current arg */
-void skip_arg(){
-    while(!is_whitespace(line[lptr])){lptr++;}
-    blanks();
-}
-
-/**
- * set the witespace after the current arg to a null, set lptr to after the null, and return the current arg */
-char * get_arg(){
-    blanks();
-    char * arg = line + lptr;
-    while(!is_whitespace(line[lptr]) && line[lptr] != '\0'){lptr++;}
-    line[lptr++] = '\0';
-    blanks();
-    return arg;
 }
 
 /**

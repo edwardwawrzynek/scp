@@ -18,6 +18,6 @@ int main(int argc, char ** argv){
     while(true){
         std::cin.ignore();
         cpu.run_instr();
-        std::cout << cpu.regs[0];
+        std::cout << cpu.regs[0] << " PC: " << cpu.pc;
     }
 }
