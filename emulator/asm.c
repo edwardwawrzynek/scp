@@ -317,7 +317,16 @@ uint16_t arg_to_bin(enum arg_type type, uint16_t addr) {
         case reg:
             /* strip off leading r */
             if(line[lptr++] != 'r'){
-                error("argument expected to be of reg type");
+                /* allow sp and fp as reg names */
+                if(line[lptr-1] == 's' && line[lptr] == 'p'){
+                    lptr++;
+                    return 0xf;
+                } else if(line[lptr-1] == 'f' && line[lptr] == 'p'){
+                    lptr++;
+                    return 0xe;
+                } else {
+                    error("argument expected to be of reg type");
+                }
             }
             return hex2int(line[lptr++]);
 

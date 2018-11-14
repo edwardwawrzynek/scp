@@ -30,10 +30,10 @@ Register Usage Conventions:
 
 Reg|Extended|VBCC Usage
 -|-|-
-r0|e0 low |SP
-r1|e0 high|FP
-r2|e2 low |Backend Tmp
-r3|e2 high|Backend Tmp
+r0|e0 low |GPR
+r1|e0 high|GPR
+r2|e2 low |GPR
+r3|e2 high|GPR
 r4|e4 low |GPR
 r5|e4 high|GPR
 r6|e6 low |GPR
@@ -42,10 +42,10 @@ r8|e8 low |GPR
 r9|e8 high|GPR
 ra|ea low |GPR
 rb|ea high|GPR
-rc|ec low |GPR
-rd|ec high|GPR
-re|ee low |GPR
-rf|ee high|GPR
+rc|ec low |Backend Temp
+rd|ec high|Backend Temp
+re|ee low |FP
+rf|ee high|SP
 
 ### ALU ops
 There are 16 possible alu operations, stored as 4-bit alu opcodes. They are:
