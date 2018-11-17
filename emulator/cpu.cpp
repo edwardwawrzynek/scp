@@ -373,6 +373,11 @@ void CPU::execute(uint16_t instr, uint16_t imd) {
             pc = read_word(regs[reg_secd] - 2);
             break;
 
+        case OUT_R_P: /* out.r.p - write to an io subsystem */
+            /* io port is encoded in immediate */
+
+            break;
+
         default:
             /* unimplemented */
             std::cerr << "Unimplemented Op: " << std::hex << opcode << "\nIn instruction: " << instr << "\n";

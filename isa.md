@@ -20,6 +20,8 @@ The following conventions are used in asm commands and encodings.
 * `ra` - a pc relative adress to be converted to a non pc-relative adress (for loading pointer initial values)
 * `c` - a condition code (see below)
 * `sp` - a register used as a stack pointer
+* `p` - an io port number
+* `i` - an interrupt vector entry (one of 16 ints)
 
 ### Registers
 Registers are the program counter (pc), flags register (f), and registers r0-rf. By convention only, r0 is used as the stack pointer and r1 as the frame pointer. The hardware can use any register as a stack pointer, or have multiple stacks.
@@ -97,6 +99,17 @@ All instructions that deal with immediate addresses are pc-relative. Pointer loa
 
 PC relative addresses are found by taking the address of (inst_addr + mem_addr + 2), where instr_addr is the address where the first word of the instruction is written, and mem_addr is the pc-relative addr. The +2 is because the pc will already be incremented past the instruction by the time it executes.
 
+### Instruction System
+SCP has 16 interrupt priority levels, ranging from int0 (highest priority) to intf (lowest priority).
+
+SCP has two privilage levels, 0 (system privilage), and 1 (user privilage). Interrupts can only occur in user privilage. An interrupts raises the privilage level to system privilage, and jumps to the interrupt vector. Because the privilage was raised to system, the page table base register is not used for page table calculations. This means that the interrupt vector that is jumped to will be in the system memory (ptb 0).
+
+If an interrupt occurs and scp is in system privilage, the interrupts will wait till the privilage level goes back to user to take effect.
+
+NOTE: because inetrupts can only occur in user privilage and interrupts switch privilage to system priority, interrupts can't be interrupted by higher priority interrupts. Thus, interrupt priority only comes into play if there are two inetrupts waiting to happen at the same time.
+
+Interrupts can be triggered by an external event, or by the `int.i.n` instruction. An interrupt is the only way to raise the privilage level from user privilage, and are used for system calls, etc. The interrupt instruction can trigger any interrupt, even if it is also wired to an external device.
+
 ### Opcode Encodings
 Instr | opocde
 -|-
@@ -120,6 +133,9 @@ Instr | opocde
 `call.j.sp`             | 010111
 `call.r.sp`             | 011000
 `ret.n.sp`              | 011001
+`out.r.p`               | 011010
+`in.r.p`                | 011011
+`int.i.n`               | 011100
 
 ## Nop Instructions
 ### nop
@@ -528,6 +544,64 @@ ret.n.sp sp
   <td colspan=2>---</td>
   <td colspan=4>sp</td>
   <td colspan=4>---</td>
+</tr>
+</table>
+
+## IO Instructions
+
+### out.r.p
+Output a register to the specified io port number.
+```
+out.r.p reg port_num
+; io[port_num] = reg
+```
+<table>
+<tr>
+  <th>f<th>e<th>d<th>c<th>b<th>a<th>9<th>8<th>7<th>6<th>5<th>4<th>3<th>2<th>1<th>0<th>val16
+</tr>
+<tr>
+  <td colspan=6>opcode</td>
+  <td colspan=6>---</td>
+  <td colspan=4>reg</td>
+  <td colspan=1>port_num</td>
+</tr>
+</table>
+
+### in.r.p
+Read a value from the specified io port into a register.
+```
+in.r.p reg port_num
+; reg = io[port_num]
+```
+<table>
+<tr>
+  <th>f<th>e<th>d<th>c<th>b<th>a<th>9<th>8<th>7<th>6<th>5<th>4<th>3<th>2<th>1<th>0<th>val16
+</tr>
+<tr>
+  <td colspan=6>opcode</td>
+  <td colspan=6>---</td>
+  <td colspan=4>reg</td>
+  <td colspan=1>port_num</td>
+</tr>
+</table>
+
+## Interrupt Instructions
+### int.i.n
+Perform an interrupt to the specified interrupt vector.
+```
+int.i.n vector
+; pc_cpy = pc
+; pc = int_vectors[vector]
+; priv_lv = 0
+```
+<table>
+<tr>
+  <th>f<th>e<th>d<th>c<th>b<th>a<th>9<th>8<th>7<th>6<th>5<th>4<th>3<th>2<th>1<th>0
+</tr>
+<tr>
+  <td colspan=6>opcode</td>
+  <td colspan=6>---</td>
+  <td colspan=4>vector</td>
 </tr>
 </table>
 

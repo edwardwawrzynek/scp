@@ -30,3 +30,8 @@
 
 #define CALL_R_SP 0b011000
 #define RET_N_SP  0b011001
+
+#define OUT_R_P    0b011010
+#define IN_R_P   0b011011
+
+#define INT_I_N   0b011100
