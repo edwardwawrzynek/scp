@@ -1,4 +1,5 @@
 #include <cstdint>
+#include "io/io.h"
 
 class CPU {
     public:
@@ -23,6 +24,9 @@ class CPU {
     /* the imeddiate register - last loaded immediate */
     uint16_t imd_reg;
 
+    /* the machine's io subsystem */
+    IO io;
+
     private:
     /* get the real physical addr in memory from a 16bit addr */
     uint32_t hard_addr(uint16_t addr);
@@ -45,8 +49,10 @@ class CPU {
 
 
     public:
-    /* init the machine to startup state (not counting memory) */
+    /* init the machine to startup state (not counting memory), or io */
     void reset();
+    /* start up the machine's io */
+    void init_io(char * serial_port);
     /* read a binary file into memory */
     void read_file(const char * path);
     /* run a single cpu instruction cycle */

@@ -37,6 +37,13 @@ void CPU::reset() {
 }
 
 /**
+ * start the machine's io subsytem
+ * just calls io.init */
+void CPU::init_io(char * serial_port){
+    io.init(serial_port);
+}
+
+/**
  * calculate the physical addr from a 16 bit addr
  * basically just does a page lookup */
 uint32_t CPU::hard_addr(uint16_t addr) {

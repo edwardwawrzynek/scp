@@ -171,7 +171,7 @@ void title(FILE *f)
     done=1;
     emit(f,"\t.file\t\"%s\"\n",inname);
   }
-} 
+}
 
 static void emit_obj(FILE *f,struct obj *p,int t)
 /*  Gibt Objekt auf Bildschirm aus                      */
@@ -484,7 +484,7 @@ static void function_bottom(FILE *f,struct Var *v,long offset)
     }else{
       emit(f,"\t.type\t%s%ld,@function\n",labprefix,zm2l(v->offset));
       emit(f,"\t.size\t%s%ld,.-%s%ld\n",labprefix,zm2l(v->offset),labprefix,zm2l(v->offset));
-    }    
+    }
 }
 static int compare_objects(struct obj *o1,struct obj *o2)
 {
@@ -516,7 +516,7 @@ static int get_reg(FILE *f,struct IC *p,int type)
        &&(!(p->q1.flags&REG)||p->q1.reg!=i)
        &&(!(p->q2.flags&REG)||p->q2.reg!=i)
        &&(!(p->z.flags&REG)||p->z.reg!=i) ){
-      
+
       if(p->code==PUSH||p->code==CALL){
 	emit(f,"\tmovl\t%s,%ld(%s)\n",regnames[i],loff-4-stackoffset,regnames[sp]);
       }else{
@@ -746,7 +746,7 @@ int regok(int r,int t,int mode)
       if(ISFLOAT(t)) return 1;
         else                  return 0;
     }
-    if(r==axdx||r==sidi) 
+    if(r==axdx||r==sidi)
       return t==LLONG;
     if(t==CHAR&&(r==si||r==di||r==bp)) return 0;
     if(t<=BLONG) return 1;
@@ -788,7 +788,7 @@ int must_convert(int o,int t,int const_expr)
   if(of!=tf) return 1;
   if(of) op=LETYPE(op);
   if(tf) tp=LETYPE(tp);
-    
+
   if(tp==POINTER&&op==POINTER) return 0;
   if((t&UNSIGNED)&&(o&UNSIGNED)&&zmeqto(sizetab[tp],sizetab[op])) return 0;
   if((tp==INT&&op==LONG)||(tp==LONG&&op==INT)) return 0;
@@ -1121,7 +1121,7 @@ void gen_code(FILE *f,struct IC *p,struct Var *v,zmax offset)
             if((to&NU)==(UNSIGNED|LONG)||(to&NU)==POINTER) to=(UNSIGNED|INT);
 	    if((to&NQ)==LLONG){
 	      int useqreg=0;
-	      if(isreg(z)) 
+	      if(isreg(z))
 		reg=p->z.reg;
 	      else if(isreg(q1)&&reg_pair(p->q1.reg,&rp)&&regok(rp.r1,t,0))
 		reg=useqreg=rp.r1;
@@ -1801,7 +1801,7 @@ pric2(stdout,p);
 		}
 	      }
 	    }
-	      
+
 	    if(isreg(z)&&(p->q2.flags&REG)&&p->q2.reg==p->z.reg){
 	      if(c==ADD||c==AND||c==OR||c==XOR){
 		struct obj tmp;
@@ -1839,7 +1839,7 @@ pric2(stdout,p);
       emit(f,"%s%d:\n",labprefix,++label);
       dwarf2_function(f,v,label);
       if(f) section=-1;
-    }          
+    }
 }
 
 int shortcut(int code,int typ)
@@ -1964,7 +1964,7 @@ void eval_const(union atyps *p,int t)
   vshort=zm2zs(vmax);
   vint=zm2zi(vmax);
   vlong=zm2zl(vmax);
-  vllong=zm2zll(vmax); 
+  vllong=zm2zll(vmax);
 }
 void printval(FILE *f,union atyps *p,int t)
 /*  Gibt atyps aus.                                     */
@@ -2016,7 +2016,7 @@ void emitval(FILE *f,union atyps *p,int t)
   if(t==(UNSIGNED|MAXINT)){emitzum(f,p->vumax);}
   /*FIXME*/
   if(t==POINTER){vumax=zul2zum(p->vulong);emitzum(f,vumax);}
-} 
+}
 
 void conv_typ(struct Typ *p)
 /* Erzeugt extended types in einem Typ. */

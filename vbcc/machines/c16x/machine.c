@@ -307,11 +307,11 @@ static void callee_push(long usr,long sys)
 static void push(long usr,long sys)
 {
   usrstackoffset-=usr;
-  if(usrstackoffset<usrmaxpushed) 
+  if(usrstackoffset<usrmaxpushed)
     usrmaxpushed=usrstackoffset;
   if(-usrmaxpushed>usrstack) usrstack=-usrmaxpushed;
   sysstackoffset-=sys;
-  if(sysstackoffset<sysmaxpushed) 
+  if(sysstackoffset<sysmaxpushed)
     sysmaxpushed=sysstackoffset;
   if(-sysmaxpushed>sysstack) sysstack=-sysmaxpushed;
 }
@@ -406,7 +406,7 @@ static void emit_obj(FILE *f,struct obj *p,int t)
       else emit(f,"[%s]",regnames[sp]);
     }else{
       if(!isseg&&!ISFUNC(p->v->vtyp->flags)){
-        if(ISFAR(p->v)) 
+        if(ISFAR(p->v))
           emit(f,"SOF ");
         else
           emit(f,"DPPX:");
@@ -500,9 +500,9 @@ static void function_top(FILE *f,struct Var *v,long offset)
     if(v->storage_class==EXTERN){
       if((v->flags&(INLINEFUNC|INLINEEXT))!=INLINEFUNC)
 	emit(f,"\t.global\t%s%s\n",idprefix,v->identifier);
-      emit(f,"\t.align\t1\n%s%s:\n",idprefix,v->identifier); 
+      emit(f,"\t.align\t1\n%s%s:\n",idprefix,v->identifier);
     }else{
-      emit(f,"\t.align\t1\n%s%ld:\n",labprefix,zm2l(v->offset));  
+      emit(f,"\t.align\t1\n%s%ld:\n",labprefix,zm2l(v->offset));
     }
   }
   if(v->vattr&&(tmp=strstr(v->vattr,"rbank("))){
@@ -811,7 +811,7 @@ static void peephole(struct IC *p)
 	}
 	if(c2==FREEREG||(p2->z.flags&(REG|DREFOBJ))==REG){
 	  int m;
-	  if(c2==FREEREG) 
+	  if(c2==FREEREG)
 	    m=p2->q1.reg;
 	  else
 	    m=p2->z.reg;
@@ -844,7 +844,7 @@ static void peephole(struct IC *p)
 	  continue;
 	}
       }
-    }      
+    }
   }
 }
 
@@ -1028,7 +1028,7 @@ static void move(FILE *f,struct obj *q,int qr,struct obj *z,int zr,int t)
     }else{
       emit(f,"\tmov%s\t%s,",x_t[t&NQ],(t==CHAR?bregnames[zr]:regnames[zr]));
       if(qr&&t==CHAR)
-	emit(f,"%s",bregnames[qr]); 
+	emit(f,"%s",bregnames[qr]);
       else if(!q->am&&(q->flags&(REG|DREFOBJ))==(REG|DREFOBJ)&&reg_pair(q->reg,&rp))
 	emit(f,"[%s]",regnames[rp.SOF]);
       else
@@ -1044,7 +1044,7 @@ static void move(FILE *f,struct obj *q,int qr,struct obj *z,int zr,int t)
       if(qr>16)
 	emit(f,"\texts\t%s,#2\n",regnames[rp.SEG]);
       else
-	emit(f,"\texts\t%s,#1\n",regnames[rp.SEG]);      
+	emit(f,"\texts\t%s,#1\n",regnames[rp.SEG]);
     }else if((z->flags&DREFOBJ)&&reg_pair(z->reg,&rp)){
       l=rp.SOF;
       if(qr>16)
@@ -1138,7 +1138,7 @@ static int get_reg(FILE *f,struct IC *p)
 }
 
 static void save_result(FILE *f,int r,struct IC *p,int t)
-/*  Saves result in register r to object o. May use tp or ti. */ 
+/*  Saves result in register r to object o. May use tp or ti. */
 {
   if((p->z.flags&(REG|DREFOBJ))==DREFOBJ){
     BSET(regs_modified,tp);
@@ -1229,7 +1229,7 @@ static int lib_larith(FILE *f,struct IC *p)
   if(!p->q2.am&&(p->q2.flags&DREFOBJ)){
     if(!(p->q2.flags&(REG))){
       if(ISLWORD(p->q2.dtyp)){
-	BSET(regs_modified,ti); 
+	BSET(regs_modified,ti);
 	BSET(regs_modified,ti2);
 	tmp3=ti2;tmp4=ti;ti2_used=1;
 	p->q2.flags&=~DREFOBJ;
@@ -1244,10 +1244,10 @@ static int lib_larith(FILE *f,struct IC *p)
 	p->q2.flags=(REG|DREFOBJ);
       }
     }
-  }  
+  }
   /* ti/ti2 must be r10/r11 */
   tmp3=ti;tmp4=ti2;ti2_used=1;
-  BSET(regs_modified,ti); 
+  BSET(regs_modified,ti);
   BSET(regs_modified,ti2);
   move(f,&p->q2,0,0,MTMP2,q2typ(p));
   if(c==MULT)
@@ -1274,7 +1274,7 @@ static int lib_larith(FILE *f,struct IC *p)
   if(r4p){
     emit(f,"\tmov\t%s,[%s+]\n",regnames[r4],regnames[sp]);
     pop(2,0);
-  }  
+  }
   return 1;
 }
 
@@ -1350,8 +1350,8 @@ int init_cg(void)
     }else{
       regsize[i]=l2zm(4L);regtype[i]=&ltyp;
     }
-  }	
-  
+  }
+
   /*  Initialize the min/max-settings. Note that the types of the     */
   /*  host system may be different from the target system and you may */
   /*  only use the smallest maximum values ANSI guarantees if you     */
@@ -1509,7 +1509,7 @@ int reg_pair(int r,struct rpair *p)
     case 23: p->r1=13;p->r2=14;break;
     case 24: p->r1=4;p->r2=5;break;
     case 25: p->r1=3;p->r2=4;break;
-	
+
     /* pseudos */
     case MTMP1: p->r1=tmp1;p->r2=tmp2;break;
     case MTMP2: p->r1=tmp3;p->r2=tmp4;break;
@@ -1609,7 +1609,7 @@ void gen_ds(FILE *f,zmax size,struct Typ *t)
       emit(f,"%ld\n",zm2l(size));
     else
       emit(f,"\t.space\t%ld\n",zm2l(size));
-    newobj=0; 
+    newobj=0;
   }
 }
 
@@ -1754,7 +1754,7 @@ void gen_var_head(FILE *f,struct Var *v)
 	      emit(f,sec_end);
 	    strcpy(sec_end,ebits);
 	    emit(f,bitsname);
-	    section=BITS;	  
+	    section=BITS;
 	  }
 	}else{
 	  if(v->clist&&(!constflag||(g_flags[3]&USEDFLAG))){
@@ -1837,7 +1837,7 @@ void gen_dc(FILE *f,int t,struct const_list *p)
 {
   if(ISPOINTER(t)){
     if(p->tree)
-      emit(f,"\t%s\t",TASKING?dct[t&NQ]:vdct[t&NQ]); 
+      emit(f,"\t%s\t",TASKING?dct[t&NQ]:vdct[t&NQ]);
     if(ISLWORD(t))
       t=UNSIGNED|LONG;
     else
@@ -2013,7 +2013,7 @@ void gen_code(FILE *f,struct IC *p,struct Var *v,zmax offset)
 	sscanf(rs+8,"%i,%i",&rn,&rb);
 	if(rn<=255) rn=0xf000+2*rn;
 	emit(f,"\t.sfr\t%s,%d,%d\n",p->z.v->identifier,rn,rb);
-      }      
+      }
     }
 
     c=p->code;t=p->typf;
@@ -2069,7 +2069,7 @@ void gen_code(FILE *f,struct IC *p,struct Var *v,zmax offset)
 	emit(f,"\tjmpr\tcc_%s,%s%d\n",ccs[c-BEQ],labprefix,t);
       cc=0;continue;
     }
-    if(c>BNE&&c<BRA){      
+    if(c>BNE&&c<BRA){
       if(p->ext.flags==EXT_IC_BTST||lastcomp==BIT) ierror(0);
       if(lastcomp&UNSIGNED) emit(f,"\tjmpr\tcc_u%s,%s%d\n",ccs[c-BEQ],labprefix,t);
       else              emit(f,"\tjmpr\tcc_s%s,%s%d\n",ccs[c-BEQ],labprefix,t);
@@ -2083,7 +2083,7 @@ void gen_code(FILE *f,struct IC *p,struct Var *v,zmax offset)
       move(f,0,p->q1.reg,&p->z,0,SHORT);
       cc=&p->z;cc_t=SHORT;continue;
     }
-    
+
     if((t&NQ)==DOUBLE) {pric2(stdout,p);ierror(0);}
     if((t&NQ)==BIT){
       cc=0;
@@ -2190,7 +2190,7 @@ void gen_code(FILE *f,struct IC *p,struct Var *v,zmax offset)
       p->q2.flags=KONST;
       eval_const(&gval,MAXINT);
       insert_const(&p->q2.val,t);
-    } 
+    }
     if(c==COMPARE&&isconst(q1)){
       struct IC *p2;
       o=p->q1;p->q1=p->q2;p->q2=o;
@@ -2260,12 +2260,12 @@ pric2(stdout,p);
 	cc=&p->z;cc_t=NPOINTER;
       }else{
 	cc=0;
-      }      
+      }
     }
     /* try to avoid z==q2 */
     if((c==ADD||c==AND||c==OR||c==XOR||(c==ADDI2P&&!short_add))&&compare_objects(&p->q2,&p->z)){
       o=p->q1;p->q1=p->q2;p->q2=o;
-    }    
+    }
     /* DREFOBJs nach q2, um evtl. op reg,[ri] zu nutzen */
     if(c==ADD||c==MULT||c==OR||c==AND||c==XOR){
       if(isreg(q2)&&scratchreg(p->q2.reg,p)){
@@ -2375,7 +2375,7 @@ pric2(stdout,p);
 	    emit(f,".%ld\n",l-1);
 	    cc=0;continue;
 	  }else if((c==ADD||c==SUB||c==ADDI2P||c==SUBIFP)&&zumeqto(vumax,ul2zum(1UL))){
-	    if(c==ADD) c=SUB; 
+	    if(c==ADD) c=SUB;
 	    else if(c==SUB) c=ADD;
 	    else if(c==ADDI2P) c=SUBIFP;
 	    else c=ADDI2P;
@@ -2638,7 +2638,7 @@ pric2(stdout,p);
 	      else emit_obj(f,&p->q1,to);
 	      emit(f,"\n");
 	      emit(f,"\tmovb%c\t%s,%s\n",(to&UNSIGNED)?'z':'s',regnames[reg],bregnames[tp]);
-	    }	    
+	    }
 	  }
 	  save_result(f,reg,p,t);
 	  continue;
@@ -2968,10 +2968,10 @@ pric2(stdout,p);
 	  emit(f,"\tmov\t%s,%s\n",regnames[ti2],regnames[sp]);
 	  if(voff(&p->z))
 	    emit(f,"\tadd\t%s,#%ld\n",regnames[ti2],voff(&p->z));
-	}	
+	}
 	if(alq==0&&alz==0){
 	  if(optspeed){
-	    if((size/8)>1){ 
+	    if((size/8)>1){
 	      BSET(regs_modified,tp);
 	      emit(f,"\tmov\t%s,#%lu\n",regnames[tp],size/8);
 	      emit(f,"%s%d:\n",labprefix,++label);
@@ -2980,28 +2980,28 @@ pric2(stdout,p);
 	      emit(f,"\tmov\t[%s],[%s+]\n",regnames[rz],regnames[rq]);
 	      emit(f,"\tadd\t%s,#2\n",regnames[rz]);
 	      emit(f,"\tmov\t[%s],[%s+]\n",regnames[rz],regnames[rq]);
-	      emit(f,"\tadd\t%s,#2\n",regnames[rz]);	    
+	      emit(f,"\tadd\t%s,#2\n",regnames[rz]);
 	      emit(f,"\tmov\t[%s],[%s+]\n",regnames[rz],regnames[rq]);
 	      emit(f,"\tadd\t%s,#2\n",regnames[rz]);
 	      emit(f,"\tmov\t[%s],[%s+]\n",regnames[rz],regnames[rq]);
-	      emit(f,"\tadd\t%s,#2\n",regnames[rz]);	    
+	      emit(f,"\tadd\t%s,#2\n",regnames[rz]);
 	    }
 	    if((size/8)>1){
 	      emit(f,"\tsub\t%s,#1\n",regnames[tp]);
-	      emit(f,"\tjmpr\tcc_nz,%s%d\n",labprefix,label);	      
+	      emit(f,"\tjmpr\tcc_nz,%s%d\n",labprefix,label);
 	    }
 	    size&=7;
 	    if(size>=4){
 	      emit(f,"\tmov\t[%s],[%s+]\n",regnames[rz],regnames[rq]);
 	      emit(f,"\tadd\t%s,#2\n",regnames[rz]);
 	      emit(f,"\tmov\t[%s],[%s+]\n",regnames[rz],regnames[rq]);
-	      if(size>4) emit(f,"\tadd\t%s,#2\n",regnames[rz]);	      
+	      if(size>4) emit(f,"\tadd\t%s,#2\n",regnames[rz]);
 	    }
 	    size&=3;
 	    if(size>=2){
 	      emit(f,"\tmov\t[%s],[%s+]\n",regnames[rz],regnames[rq]);
 	      if(size>2) emit(f,"\tadd\t%s,#2\n",regnames[rz]);
-	    }	      
+	    }
 	    if(size&1)
 	      if(size&1) emit(f,"\tmovb\t[%s],[%s]\n",regnames[rz],regnames[rq]);
 	  }else{
@@ -3038,14 +3038,14 @@ pric2(stdout,p);
 	emit_obj(f,&p->z,t);emit(f,",");
 	emit_obj(f,&p->q1,t);emit(f,"\n");
 	cc=&p->z;cc_t=t;continue;
-      } 
+      }
       /* mov [rx]/reg,mem */
       if(!ISLWORD(t)&&(issfr(z)||(p->z.flags&(REG|DREFOBJ))==(REG|DREFOBJ))&&(p->q1.flags&(REG|DREFOBJ|VAR))==VAR&&!p->z.am&&(p->q1.v->storage_class==STATIC||p->q1.v->storage_class==EXTERN)){
 	emit(f,"\tmov%s\t",(t&NQ)==CHAR?"b":"");
 	emit_obj(f,&p->z,t);emit(f,",");
 	emit_obj(f,&p->q1,t);emit(f,"\n");
 	cc=&p->z;cc_t=t;continue;
-      }     
+      }
       /* mov reg,op */
       if(issfr(z)&&(p->q1.flags&KONST)){
 	emit(f,"\tmov%s\t",(t&NQ)==CHAR?"b":"");
@@ -3126,7 +3126,7 @@ pric2(stdout,p);
       emit(f,"\tmov\tMDL,%s\n",regnames[reg]);
       move(f,&p->q2,0,0,reg,t);
       emit(f,"\tdiv%s\t%s\n",(t&UNSIGNED)?"u":"",regnames[reg]);
-      if(c==MOD) 
+      if(c==MOD)
 	emit(f,"\tmov\t%s,MDH\n",regnames[reg]);
       else
 	emit(f,"\tmov\t%s,MDL\n",regnames[reg]);
@@ -3149,7 +3149,7 @@ pric2(stdout,p);
       if(ISLWORD(t)&&c==MULT) ierror(0);
       if(ISLWORD(t)&&(c==LSHIFT||c==RSHIFT)){
 /* rfi: we now handle constant value greater than 16 in const shift generation
-	if(isconst(q2))	
+	if(isconst(q2))
 	  eval_const(&p->q2.val,q2typ(p));
 	if(!isconst(q2)||zmleq(l2zm(16L),vmax)){
 */
@@ -3238,7 +3238,7 @@ pric2(stdout,p);
 	  if(!short_add) emit(f,"\t%s\t%s,%s\n",s,regnames[rp.r2],regnames[qp.r2]);
 	}else{
 	  emit(f,"\t%s%s\t%s,%s\n",s,x_t[t&NQ],(t&NQ)==CHAR?bregnames[reg]:regnames[reg],(t&NQ)==CHAR?bregnames[p->q2.reg]:regnames[p->q2.reg]);
-	}	    
+	}
       }else if(p->q2.am){
 	if(reg_pair(p->q2.am->base,&rp)){
 	  int seg=rp.SEG;
@@ -3532,7 +3532,7 @@ void insert_const(union atyps *p,int t)
   if(t==LONG) {p->vlong=vlong;return;}
   if(t==LLONG) {p->vllong=vllong;return;}
   if(t==MAXINT) {p->vmax=vmax;return;}
-  if(t==(UNSIGNED|BIT)) {if(zumeqto(zuc2zum(vuchar),ul2zum(0UL))) p->vuchar=zum2zuc(ul2zum(0UL)); else p->vuchar=zum2zuc(ul2zum(1UL));return;}  
+  if(t==(UNSIGNED|BIT)) {if(zumeqto(zuc2zum(vuchar),ul2zum(0UL))) p->vuchar=zum2zuc(ul2zum(0UL)); else p->vuchar=zum2zuc(ul2zum(1UL));return;}
   if(t==(UNSIGNED|CHAR)) {p->vuchar=vuchar;return;}
   if(t==(UNSIGNED|SHORT)) {p->vushort=vushort;return;}
   if(t==(UNSIGNED|INT)) {p->vuint=vuint;return;}

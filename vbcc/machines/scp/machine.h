@@ -1,4 +1,7 @@
-/* SCP Backend for VBCC */
+/* VBCC Backend for Small C Processor
+ * In Progress - Doesn't Work
+ * Edward Wawrzynek 2018
+*/
 
 /** register usage by backend:
  * r0: non-scratch register (we have to save/restore it)
@@ -70,7 +73,7 @@ struct AddressingMode{
 #define MAXR 16
 
 /*  Number of commandline-options the code-generator accepts.       */
-#define MAXGF 20
+#define MAXGF 0
 
 /*  If this is set to zero vbcc will not generate ICs where the     */
 /*  target operand is the same as the 2nd source operand.           */
@@ -80,7 +83,7 @@ struct AddressingMode{
 
 /*  This specifies the smallest integer type that can be added to a */
 /*  pointer.                                                        */
-#define MINADDI2P INT
+#define MINADDI2P CHAR
 
 /*  If the bytes of an integer are ordered most significant byte    */
 /*  byte first and then decreasing set BIGENDIAN to 1.              */
@@ -101,37 +104,35 @@ struct AddressingMode{
 /*  with length known at compile-time will be inlined using an      */
 /*  ASSIGN-IC if the size is less or equal to INLINEMEMCPY.         */
 /*  The type used for the ASSIGN-IC will be UNSIGNED|CHAR.          */
-#define INLINEMEMCPY 1024
 
-/*  Parameters are sometimes passed in registers without __reg.     */
-#define HAVE_REGPARMS 1
+/* TODO: see if assign will be able to handle this anyway */
+#define INLINEMEMCPY 0
 
 /*  Parameters on the stack should be pushed in order rather than   */
 /*  in reverse order.                                               */
-#define ORDERED_PUSH FIXED_SP
+/* Use right to left passing */
+#define ORDERED_PUSH 0
+/* it appears this needs to be undefined to make it work */
+#undef ORDERED_PUSH
 
-/*  Structure for reg_parm().                                       */
+/*  Parameters are sometimes passed in registers without __reg.     */
+
+/* TODO: Implement this */
+#undef HAVE_REGPARMS
+/*  Structure for reg_parm(). */
+/*
 struct reg_handle{
     unsigned long gregs;
     unsigned long fregs;
 };
+*/
 
-/*  We have some target-specific variable attributes.               */
-#define HAVE_TARGET_ATTRIBUTES
+/* we do not need register-pairs
+TODO: use this for ints*/
+#undef HAVE_REGPAIRS
 
-/* We have target-specific pragmas */
-#define HAVE_TARGET_PRAGMAS
-
-/*  We keep track of all registers modified by a function.          */
-#define HAVE_REGS_MODIFIED 1
-
-/* We have a implement our own cost-functions to adapt
-   register-allocation */
-#define HAVE_TARGET_RALLOC 1
-#define cost_move_reg(x,y) 1
-#define cost_load_reg(x,y) 2
-#define cost_save_reg(x,y) 2
-#define cost_pushpop_reg(x) 3
+/* use int (16 bits) as size_t */
+#define HAVE_INT_SIZET 1
 
 /* size of buffer for asm-output, this can be used to do
    peephole-optimizations of the generated assembly-output */
@@ -142,6 +143,19 @@ struct reg_handle{
 /*  We have no asm_peephole to optimize assembly-output */
 #define HAVE_TARGET_PEEPHOLE 0
 
+/*  We don't have target-specific variable attributes.               */
+#undef HAVE_TARGET_ATTRIBUTES
+
+/* We don't have target-specific pragmas */
+#undef HAVE_TARGET_PRAGMAS
+
+/*  We keep track of all registers modified by a function.
+    TODO: is this needed? */
+#undef HAVE_REGS_MODIFIED
+
+/* We don't have context-sensative register allocation - out isa is orthagonal enough to not need it */
+#undef HAVE_TARGET_RALLOC
+
 /* we do not have a mark_eff_ics function, this is used to prevent
    optimizations on code which can already be implemented by efficient
    assembly */
@@ -150,17 +164,16 @@ struct reg_handle{
 /* we only need the standard data types (no bit-types, different pointers
    etc.) */
 #undef HAVE_EXT_TYPES
+
+/* Not needed ? */
 #undef HAVE_TGT_PRINTVAL
 
 /* we do not need extra elements in the IC */
 #undef HAVE_EXT_IC
 
-/* we do not use unsigned int as size_t (but unsigned long, the default) */
-#undef HAVE_INT_SIZET
+/* TODO: support variable length arrays */
 
-/* we do not need register-pairs */
-#undef HAVE_REGPAIRS
-
+/* TODO: libcalls for floats, div, int32, etc */
 
 /* do not create CONVERT ICs from integers smaller than int to floats */
 #define MIN_INT_TO_FLOAT_TYPE INT

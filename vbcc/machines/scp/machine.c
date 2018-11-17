@@ -1,17 +1,6 @@
-/*  Example backend for vbcc, it models a generic 32bit RISC or CISC
-    CPU.
-
-    Configurable at build-time are:
-    - number of (32bit) general-purpose-registers
-    - number of (64bit) floating-point-registers
-    - number of (8bit) condition-code-registers
-    - mechanism for stack-arguments (moving ot fixed sp)
-
-    It allows to select as run-time-options:
-    - two- or three-address code
-    - memory operands or load-store-architecture
-    - number of register-arguments
-    - number of caller-save-registers
+/* VBCC Backend for Small C Processor
+ * In Progress - Doesn't Work
+ * Edward Wawrzynek 2018
 */
 
 #include "supp.h"
@@ -29,17 +18,11 @@ char cg_copyright[]="VBCC Small C Processor - Edward Wawrzynek 2018\nBackend is 
     STRINGFLAG: a string can be specified
     FUNCFLAG: a function will be called
     apart from FUNCFLAG, all other versions can only be specified once */
-int g_flags[MAXGF]={0,0,
-		    VALFLAG,VALFLAG,VALFLAG,
-		    0,0,
-		    VALFLAG,VALFLAG,0};
+int g_flags[MAXGF]={};
 
 /* the flag-name, do not use names beginning with l, L, I, D or U, because
    they collide with the frontend */
-char *g_flags_name[MAXGF]={"three-addr","load-store",
-			   "volatile-gprs","volatile-fprs","volatile-ccrs",
-			   "imm-ind","gpr-ind",
-			   "gpr-args","fpr-args","use-commons"};
+char *g_flags_name[MAXGF]={};
 
 /* the results of parsing the command-line-flags will be stored here */
 union ppi g_flags_val[MAXGF];
@@ -84,27 +67,11 @@ int regscratch[MAXR+1];
    one with the highest priority will be used */
 int reg_prio[MAXR+1];
 
-/* an empty reg-handle representing initial state */
-struct reg_handle empty_reg_handle={0,0};
-
-/* Names of target-specific variable attributes.                */
-char *g_attr_name[]={"__interrupt",0};
 
 
 /****************************************/
 /*  Private data and functions.         */
 /****************************************/
-
-#define THREE_ADDR (g_flags[0]&USEDFLAG)
-#define LOAD_STORE (g_flags[1]&USEDFLAG)
-#define VOL_GPRS   ((g_flags[2]&USEDFLAG)?g_flags_val[2].l:NUM_GPRS/2)
-#define VOL_FPRS   ((g_flags[3]&USEDFLAG)?g_flags_val[3].l:NUM_FPRS/2)
-#define VOL_CCRS   ((g_flags[4]&USEDFLAG)?g_flags_val[4].l:NUM_CCRS/2)
-#define IMM_IND    ((g_flags[5]&USEDFLAG)?1:0)
-#define GPR_IND    ((g_flags[6]&USEDFLAG)?2:0)
-#define GPR_ARGS   ((g_flags[7]&USEDFLAG)?g_flags_val[7].l:0)
-#define FPR_ARGS   ((g_flags[8]&USEDFLAG)?g_flags_val[8].l:0)
-#define USE_COMMONS (g_flags[9]&USEDFLAG)
 
 
 /* alignment of basic data-types, used to initialize align[] */
@@ -771,11 +738,13 @@ void gen_ds(FILE *f,zmax size,struct Typ *t)
 /*  This function has to create <size> bytes of storage */
 /*  initialized with zero.                              */
 {
-  if(newobj&&section!=SPECIAL)
+  /*if(newobj&&section!=SPECIAL)
     emit(f,"%ld\n",zm2l(size));
   else
     emit(f,"\t.space\t%ld\n",zm2l(size));
-  newobj=0;
+  newobj=0;*/
+
+  emit(f, "\t.ds\t%ld", zm2l(size));
 }
 
 void gen_align(FILE *f,zmax align)
@@ -1107,6 +1076,7 @@ int shortcut(int code,int typ)
   return 0;
 }
 
+/*
 int reg_parm(struct reg_handle *m, struct Typ *t,int vararg,struct Typ *d)
 {
   int f;
@@ -1124,7 +1094,7 @@ int reg_parm(struct reg_handle *m, struct Typ *t,int vararg,struct Typ *d)
       return FIRST_FPR+2+m->fregs++;
   }
   return 0;
-}
+}*/
 
 int handle_pragma(const char *s)
 {

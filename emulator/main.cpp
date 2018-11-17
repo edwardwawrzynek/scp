@@ -9,12 +9,13 @@ using namespace std;
 CPU cpu;
 
 int main(int argc, char ** argv){
-    if(argc < 2){
-        std::cerr << "Usage: scpemu [bin file]\n";
+    if(argc < 3){
+        std::cerr << "Usage: scpemu [bin file] [serial port]\n";
         exit(1);
     }
     cpu.reset();
     cpu.read_file(argv[1]);
+    cpu.init_io(argv[2]);
     while(true){
         std::cin.ignore();
         cpu.run_instr();
