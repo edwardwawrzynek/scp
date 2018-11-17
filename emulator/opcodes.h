@@ -1,7 +1,7 @@
 #define NOP_N_N   0b000000
 #define MOV_R_R   0b000001
 #define CMP_R_F   0b000010
-#define LD_R_RA    0b000011
+#define LD_R_RA   0b000011
 
 #define ALU_R_R0  0b000100
 #define ALU_R_R1  0b000101
@@ -31,7 +31,7 @@
 #define CALL_R_SP 0b011000
 #define RET_N_SP  0b011001
 
-#define OUT_R_P    0b011010
-#define IN_R_P   0b011011
+#define OUT_R_P   0b011010
+#define IN_R_P    0b011011
 
 #define INT_I_N   0b011100

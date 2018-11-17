@@ -99,7 +99,10 @@ struct instr instructions[] = {
   { "ret.n.sp", 0b011001, {reg, end_arg}, /* ret.n.sp sp */
       "000000--1111----"},
 
-
+  { "out.r.p",  0b011010, {reg, cnst, end_arg}, /* out.r.p reg port */
+      "000000------1111", 2},
+  { "in.r.p",  0b011011, {reg, cnst, end_arg}, /* in.r.p reg port */
+      "000000------1111", 2},
 };
 
 /* alu op names */

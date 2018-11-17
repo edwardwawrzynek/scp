@@ -69,6 +69,8 @@ uint16_t SerialIO::io_read(uint8_t port){
             /* these ports don't do anything on read */
             break;
     }
+
+    return 0;
 }
 
 void SerialIO::io_write(uint8_t port, uint16_t val){

@@ -17,8 +17,8 @@ int main(int argc, char ** argv){
     cpu.read_file(argv[1]);
     cpu.init_io(argv[2]);
     while(true){
-        std::cin.ignore();
+        //std::cin.ignore();
         cpu.run_instr();
-        std::cout << cpu.regs[0] << " PC: " << cpu.pc;
+        //std::cout << cpu.regs[0] << " PC: " << cpu.pc;
     }
 }

@@ -380,9 +380,14 @@ void CPU::execute(uint16_t instr, uint16_t imd) {
             pc = read_word(regs[reg_secd] - 2);
             break;
 
-        case OUT_R_P: /* out.r.p - write to an io subsystem */
-            /* io port is encoded in immediate */
+        case OUT_R_P: /* out.r.p - write to an io port */
+            /* port number is in immediate */
+            io.io_write(imd, regs[reg_prim]);
+            break;
 
+        case IN_R_P: /* in.r.p - read from an io port */
+            /* port number is in immediate */
+            regs[reg_prim] = io.io_read(imd);
             break;
 
         default:
