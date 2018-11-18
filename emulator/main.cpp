@@ -3,6 +3,8 @@
 
 #include "cpu.h"
 
+#define SCREEN_UPDATE_FREQ 1000000
+
 using namespace std;
 
 /* main cpu object */
@@ -22,7 +24,7 @@ int main(int argc, char ** argv){
         cpu.run_instr();
         //std::cout << cpu.regs[0] << " PC: " << cpu.pc;
         count++;
-        if(count > 100000){
+        if(count > SCREEN_UPDATE_FREQ){
             count = 0;
             cpu.update_io();
         }

@@ -248,7 +248,6 @@ void GfxIO::update(){
 /**
  * handle io reads and writes to gfx subsytem */
 uint16_t GfxIO::io_read(uint8_t port){
-  update();
 
   switch(port){
     case _key_in_waiting_port:
@@ -266,7 +265,6 @@ uint16_t GfxIO::io_read(uint8_t port){
 }
 
 void GfxIO::io_write(uint8_t port, uint16_t val){
-    update();
 
   switch(port){
     case _key_next_port:
