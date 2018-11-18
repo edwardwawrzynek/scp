@@ -23,7 +23,7 @@ class GfxIO {
   /* keyboard memory */
   uint8_t key_read_addr;
   uint8_t key_write_addr;
-  uint8_t key_mem[256];
+  uint16_t key_mem[256];
 
   /* convert from 8 bit to 32 bit color */
   uint32_t conv_color(uint8_t color);

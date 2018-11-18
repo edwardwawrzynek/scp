@@ -12,9 +12,9 @@ void GfxIO::reset(){
   key_read_addr = 0;
   key_write_addr = 0;
 
-  memset(txt_mem, 0, 2048);
-  memset(gfx_mem, 0, 65536);
-  memset(key_mem, 0, 256);
+  memset(txt_mem, 0, 2048*sizeof(uint8_t));
+  memset(gfx_mem, 0, 65536*sizeof(uint8_t));
+  memset(key_mem, 0, 256*sizeof(uint16_t));
 }
 
 /**
@@ -135,6 +135,7 @@ uint16_t GfxIO::get_keycode(SDL_Keycode key, uint8_t release){
   uint16_t res;
   res = key;
   switch(key){
+    /* arrow keys */
     case 1073741904:
         res = 28;
         break;
@@ -147,14 +148,73 @@ uint16_t GfxIO::get_keycode(SDL_Keycode key, uint8_t release){
     case 1073741905:
         res = 31;
         break;
+    /* shift */
     case 1073742049:
         res = 16;
         break;
+    /* return */
     case 13:
         res = 10;
         break;
+    /* page up and down */
+    case 1073741899:
+      res = 33;
+      break;
+    case 1073741902:
+      res = 34;
+      break;
+    /* function keys */
+    /*f1*/
+    case 1073741882:
+      res = 11;
+      break;
+    /*f2*/
+    case 1073741883:
+      res = 12;
+      break;
+    /*f3*/
+    case 1073741884:
+      res = 13;
+      break;
+    /*f4*/
+    case 1073741885:
+      res = 14;
+      break;
+    /*f5*/
+    case 1073741886:
+      res = 15;
+      break;
+    /*f6*/
+    case 1073741887:
+      res = 19;
+      break;
+    /*f7*/
+    case 1073741888:
+      res = 20;
+      break;
+    /*f8*/
+    case 1073741889:
+      res = 21;
+      break;
+    /*f9*/
+    case 1073741890:
+      res = 22;
+      break;
+    /*f10*/
+    case 1073741891:
+      res = 23;
+      break;
+    /*f11*/
+    case 1073741892:
+      res = 24;
+      break;
+    /*f12*/
+    case 1073741893:
+      res = 25;
+      break;
+
     default:
-    break;
+      break;
   }
   res = release ? 0x100 + res : res;
   return res;
