@@ -13,7 +13,6 @@
 
 #define _gfx_addr_port 9
 #define _gfx_data_port 10
-#define _gfx_screen_en_port 12
 
 #define _sound_freq_port 11
 

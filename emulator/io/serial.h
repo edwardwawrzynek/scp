@@ -25,6 +25,9 @@ class SerialIO {
     void update();
 
     public:
+    /* reset state */
+    void reset();
+
     /* perform an io read or write - only handles serial ports*/
     uint16_t io_read(uint8_t port);
     void io_write(uint8_t port, uint16_t val);

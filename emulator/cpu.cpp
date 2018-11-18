@@ -44,6 +44,12 @@ void CPU::init_io(char * serial_port){
 }
 
 /**
+ * update io - calls io.update */
+void CPU::update_io(){
+    io.update();
+}
+
+/**
  * calculate the physical addr from a 16 bit addr
  * basically just does a page lookup */
 uint32_t CPU::hard_addr(uint16_t addr) {

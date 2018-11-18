@@ -16,9 +16,15 @@ int main(int argc, char ** argv){
     cpu.reset();
     cpu.read_file(argv[1]);
     cpu.init_io(argv[2]);
+    long long count = 0;
     while(true){
         //std::cin.ignore();
         cpu.run_instr();
         //std::cout << cpu.regs[0] << " PC: " << cpu.pc;
+        count++;
+        if(count > 100000){
+            count = 0;
+            cpu.update_io();
+        }
     }
 }

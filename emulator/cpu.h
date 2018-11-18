@@ -53,6 +53,8 @@ class CPU {
     void reset();
     /* start up the machine's io */
     void init_io(char * serial_port);
+    /* update the machine's io */
+    void update_io();
     /* read a binary file into memory */
     void read_file(const char * path);
     /* run a single cpu instruction cycle */

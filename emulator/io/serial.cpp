@@ -1,7 +1,17 @@
 #include <iostream>
+#include <string.h>
 
 #include "serial.h"
 #include "ports.h"
+
+
+/**
+ * reset the subsytem's state */
+void SerialIO::reset(){
+  read_pos = 0;
+  write_pos = 0;
+  memset(buf, 0, 256);
+}
 
 /**
  * open a serial port */
