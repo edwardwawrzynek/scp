@@ -25,7 +25,7 @@ signed char *have;
 
 #define CHAR 1
 #define UCHAR 2
-#define SHORT 3 
+#define SHORT 3
 #define USHORT 4
 #define INT 5
 #define UINT 6
@@ -126,7 +126,7 @@ char *yndefault(char *spec,int yn)
   return none;
 }
 
-    
+
 int askyn(char *def)
 {
   char in[8];
@@ -154,7 +154,7 @@ int tst(int type,char *spec)
 {
   int i,j;
   for(i=0;i<dtcnt;i++){
-    if(strstr(spec,dts[i].spec)){ 
+    if(strstr(spec,dts[i].spec)){
       if(have[i]==-2) continue;
       if(have[i]>=0){
 /* 	printf("auto: %s == %s\n",dts[i].spec,nt[have[i]]); */
@@ -207,7 +207,7 @@ int tst(int type,char *spec)
   }
   return 0;
 }
-    
+
 char *castfrom(int type)
 {
   if(cnv[type]>=0){
@@ -227,7 +227,7 @@ char *castto(int type)
   }else{
     return "";
   }
-} 
+}
 void gen_cast(char *name,int from,int to)
 {
   fprintf(hout,"#define %s(x) %s((%s)%s(x))\n",name,castto(to),nt[to],castfrom(from));
@@ -235,15 +235,15 @@ void gen_cast(char *name,int from,int to)
 void gen_2op(char *name,char *op,int type)
 {
   fprintf(hout,"#define %s(a,b) %s(%s(a)%s%s(b))\n",name,castto(type),castfrom(type),op,castfrom(type));
-} 
+}
 void gen_1op(char *name,char *op,int type)
 {
   fprintf(hout,"#define %s(a) %s(%s%s(a))\n",name,castto(type),op,castfrom(type));
-} 
+}
 void gen_cmp(char *name,char *op,int type)
 {
   fprintf(hout,"#define %s(a,b) (%s(a)%s%s(b))\n",name,castfrom(type),op,castfrom(type));
-} 
+}
 int main(int argc,char **argv)
 {
   char type[128],spec[128];
@@ -333,7 +333,7 @@ int main(int argc,char **argv)
   gen_cast("zum2zld",ULLONG,LDOUBLE);
   gen_cast("zp2zum",POINTER,ULLONG);
   gen_cast("zum2zp",ULLONG,POINTER);
- 
+
   fprintf(hout,"#define l2zm(x) %s((%s)(x))\n",castto(LLONG),nt[LLONG]);
   fprintf(hout,"#define ul2zum(x) %s((%s)(x))\n",castto(ULLONG),nt[ULLONG]);
   fprintf(hout,"#define d2zld(x) %s((%s)(x))\n",castto(LDOUBLE),nt[LDOUBLE]);
@@ -383,12 +383,6 @@ int main(int argc,char **argv)
   fclose(fin);
   fclose(hout);
   fclose(cout);
-  free(have);  
+  free(have);
   return 0;
 }
-
-
-
-
-
-

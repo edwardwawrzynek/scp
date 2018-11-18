@@ -30,11 +30,14 @@ union ppi g_flags_val[MAXGF];
 /*  Alignment-requirements for all types in bytes.              */
 zmax align[MAX_TYPE+1];
 
-/*  Alignment that is sufficient for every object.              */
+/*  Alignment that is sufficient for every object. (2) */
 zmax maxalign;
 
-/*  CHAR_BIT for the target machine.                            */
+/*  CHAR_BIT for the target machine. (8) */
 zmax char_bit;
+
+/* stack alignment (2) */
+zmax stackalign;
 
 /*  sizes of the basic types (in bytes) */
 zmax sizetab[MAX_TYPE+1];
@@ -74,10 +77,29 @@ int reg_prio[MAXR+1];
 /****************************************/
 
 
+/** Sizes and alignment:
+ * typename   | size  | aligment
+ * char       | 1     | 1
+ * short      | 2     | 2
+ * int        | 2     | 2
+ * long       | 4     | 2
+ * long long  | 0(n/a)| 1(n/a)
+ * float      | 4     | 2
+ * double     | 4     | 2
+ * long double| 4     | 2
+ * void       | 0(n/a)| 1(n/a)
+ * pointer    | 2     | 2
+ * array      | 0(n/a)| 1(n/a)
+ * struct     | 0(n/a)| 1(n/a)
+ * union      | 0(n/a)| 1(n/a)
+ * enum       | 2     | 2
+ * funkt      | 0(n/a)| 1
+ * NOTE: doubles are the same as floats (technical standard compliance) */
+
 /* alignment of basic data-types, used to initialize align[] */
-static long malign[MAX_TYPE+1]=  {1,1,2,4,4,4,4,8,8,1,4,1,1,1,4,1};
+static long malign[MAX_TYPE+1]=  {1,1,2,2,2,1,2,2,2,1,2,1,1,1,2,1};
 /* sizes of basic data-types, used to initialize sizetab[] */
-static long msizetab[MAX_TYPE+1]={1,1,2,4,4,8,4,8,8,0,4,0,0,0,4,0};
+static long msizetab[MAX_TYPE+1]={0,1,2,2,4,0,4,4,4,0,2,0,0,0,2,0};
 
 /* used to initialize regtyp[] */
 static struct Typ ltyp={LONG},ldbl={DOUBLE},lchar={CHAR};
@@ -545,9 +567,9 @@ int init_cg(void)
   int i;
   /*  Initialize some values which cannot be statically initialized   */
   /*  because they are stored in the target's arithmetic.             */
-  maxalign=l2zm(8L);
+  maxalign=l2zm(2L);
   char_bit=l2zm(8L);
-  stackalign=l2zm(4);
+  stackalign=l2zm(2L);
 
   for(i=0;i<=MAX_TYPE;i++){
     sizetab[i]=l2zm(msizetab[i]);

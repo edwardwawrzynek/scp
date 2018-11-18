@@ -14,4 +14,3 @@
 "S64BULE","S64BUBE","dtswap64f.c","dtswap64t.c",8,
 "S32BIEEELE","S32BIEEEBE","dtswap32f.c","dtswap32t.c",4,
 "S64BIEEELE","S64BIEEEBE","dtswap64f.c","dtswap64t.c",8,
-

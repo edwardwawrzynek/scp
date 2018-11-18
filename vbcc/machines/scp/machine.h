@@ -8,18 +8,20 @@
  * r1: non-scratch register (we have to save/restore it)
  * r2: non-scratch register (we have to save/restore it)
  * r3: non-scratch register (we have to save/restore it)
- * r4: non-scratch register (we have to save/restore it)
- * r5: non-scratch register (we have to save/restore it)
+ * r4: scratch register (vbcc saves this for us)
+ * r5: scratch register (vbcc saves this for us)
  * r6: scratch register (vbcc saves this for us)
  * r7: scratch register (vbcc saves this for us)
- * r8: scratch register (vbcc saves this for us)
- * r9: scratch register (vbcc saves this for us)
- * ra: scratch register (vbcc saves this for us)
- * rb: Function Return Value
- * rc: Backend Temp1
- * rd: Backend Temp 2
+ * r8: Function Return Value (low reg)
+ * r9: Function Return Value (high reg)
+ * ra: Backend Temp 1 (low reg)
+ * rb: Backend Temp 1 (high reg)
+ * rc: Backend Temp 2 (low reg)
+ * rd: Backend Temp 2 (high reg)
  * re: Frame Pointer
  * rf: Stack Pointer
+ *
+ * NOTE: we might be able to return int32's as a pointer, and only need one return reg
 **/
 
 /** stack layout used by backend (top is high addr, bottom low addr - stack grows downwards)

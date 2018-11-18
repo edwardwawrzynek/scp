@@ -4,7 +4,7 @@
 "S8BU", "standard unsigned 8bit byte",
 
 /* signed 8bit byte */
-"S8BS", "standard 2-complement 8bit byte", 
+"S8BS", "standard 2-complement 8bit byte",
 
 /* typical unsigned integers, big-endian */
 "S16BUBE", "standard 8bit-byte-based unsigned 16bit word, big-endian",
@@ -33,4 +33,3 @@
 /* typical IEEE-floats, little-endian */
 "S32BIEEELE", "standard 8bit-byte-based 32bit IEEE floating-point, little-endian",
 "S64BIEEELE", "standard 8bit-byte-based 64bit IEEE floating-point, little-endian",
-
