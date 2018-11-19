@@ -55,7 +55,7 @@ char *regnames[MAXR+1];
 /*  The Size of each register in bytes.                         */
 zmax regsize[MAXR+1];
 
-/*  a type which can store each register. */
+/*  a type which can store each register. (all ints) */
 struct Typ *regtype[MAXR+1];
 
 /*  regsa[reg]!=0 if a certain register is allocated and should */
@@ -102,17 +102,17 @@ static long malign[MAX_TYPE+1]=  {1,1,2,2,2,1,2,2,2,1,2,1,1,1,2,1};
 static long msizetab[MAX_TYPE+1]={0,1,2,2,4,0,4,4,4,0,2,0,0,0,2,0};
 
 /* used to initialize regtyp[] */
-static struct Typ ltyp={LONG},ldbl={DOUBLE},lchar={CHAR};
+static struct Typ ityp={INT};
 
 /* macros defined by the backend */
-static char *marray[]={"__section(x)=__vattr(\"section(\"#x\")\")",
-		       "__GENERIC__",
+static char *marray[]={
+		       "__SCP__",
 		       0};
 
 /* special registers */
-static int sp;                     /*  Stackpointer                        */
-static int t1,t2,t3;               /*  temporary gprs */
-static int f1,f2,f3;               /*  temporary fprs */
+static int sp, fp; /* stack and frame pointer */
+static int tmp1, tmp2, tmp1_h, tmp2_h; /* temporary registers */
+static int ret_reg, ret_reg_h; /* return reg */
 
 #define dt(t) (((t)&UNSIGNED)?udt[(t)&NQ]:sdt[(t)&NQ])
 static char *sdt[MAX_TYPE+1]={"??","c","s","i","l","ll","f","d","ld","v","p"};
@@ -571,32 +571,109 @@ int init_cg(void)
   char_bit=l2zm(8L);
   stackalign=l2zm(2L);
 
+  /* create sizetab and align */
   for(i=0;i<=MAX_TYPE;i++){
     sizetab[i]=l2zm(msizetab[i]);
     align[i]=l2zm(malign[i]);
   }
 
-  regnames[0]="noreg";
-  for(i=FIRST_GPR;i<=LAST_GPR;i++){
-    regnames[i]=mymalloc(10);
-    sprintf(regnames[i],"gpr%d",i-FIRST_GPR);
-    regsize[i]=l2zm(4L);
-    regtype[i]=&ltyp;
-  }
-  for(i=FIRST_FPR;i<=LAST_FPR;i++){
-    regnames[i]=mymalloc(10);
-    sprintf(regnames[i],"fpr%d",i-FIRST_FPR);
-    regsize[i]=l2zm(8L);
-    regtype[i]=&ldbl;
-  }
-  for(i=FIRST_CCR;i<=LAST_CCR;i++){
-    regnames[i]=mymalloc(10);
-    sprintf(regnames[i],"ccr%d",i-FIRST_CCR);
-    regsize[i]=l2zm(1L);
-    regtype[i]=&lchar;
+  /*  Reserve a few registers for use by the code-generator (these variables are just placeholders for easy access in backend)     */
+  /*  This is not optimal but simple.  */
+  /* they are their reg number +1 so we can call regnames[sp], etc */
+  sp=0xf + 1;
+  fp=0xe + 1;
+  tmp1=0xa + 1;
+  tmp1_h=0xb + 1;
+  tmp2=0xc + 1;
+  tmp2_h=0xd + 1;
+  ret_reg=0x8 + 1;
+  ret_reg_h=0x9 + 1;
+
+  /* init registers */
+  regnames[0] = "noreg"; /* na */
+  regscratch[0] = 0;
+  regsa[0] = 1;
+
+  /* non scratch registers usable by vbcc */
+  regnames[1] = "r0";
+  regscratch[1] = 0;
+  regsa[1] = 0;
+
+  regnames[2] = "r1";
+  regscratch[2] = 0;
+  regsa[2] = 0;
+
+  regnames[3] = "r2";
+  regscratch[3] = 0;
+  regsa[3] = 0;
+
+  regnames[4] = "r3";
+  regscratch[4] = 0;
+  regsa[4] = 0;
+
+  /* scratch registers usable by vbcc */
+  regnames[5] = "r4";
+  regscratch[5] = 1;
+  regsa[5] = 0;
+
+  regnames[6] = "r5";
+  regscratch[6] = 1;
+  regsa[6] = 0;
+
+  regnames[7] = "r6";
+  regscratch[7] = 1;
+  regsa[7] = 0;
+
+  regnames[8] = "r7";
+  regscratch[8] = 1;
+  regsa[8] = 0;
+
+  /* function return extended reg */
+  regnames[9] = "r8";
+  regscratch[9] = 0;
+  regsa[9] = 1;
+
+  regnames[10] = "r9";
+  regscratch[10] = 0;
+  regsa[10] = 1;
+
+  /* backend temp 1 extended reg */
+  regnames[11] = "ra";
+  regscratch[11] = 0;
+  regsa[11] = 1;
+
+  regnames[12] = "rb";
+  regscratch[12] = 0;
+  regsa[12] = 1;
+
+  /* backend temp 2 extended reg */
+  regnames[13] = "rc";
+  regscratch[13] = 0;
+  regsa[13] = 1;
+
+  regnames[14] = "rd";
+  regscratch[14] = 0;
+  regsa[14] = 1;
+
+  /* Frame Pointer */
+  regnames[15] = "fp";
+  regscratch[15] = 0;
+  regsa[15] = 1;
+
+  /* Stack Pointer */
+  regnames[16] = "sp";
+  regscratch[16] = 0;
+  regsa[16] = 1;
+
+  /* all regs are 2 bytes, and can be stored as an int */
+  for(i = 1; i < 17; i++){
+    regsize[i] = l2zm(2L);
+    regtype[i] = &ityp;
   }
 
-  /*  Use multiple ccs.   */
+  /* isa is completely orthagonal, so no need to set reg_prio */
+
+  /*  Don't use multiple ccs.   */
   multiple_ccs=0;
 
   /*  Initialize the min/max-settings. Note that the types of the     */
@@ -607,43 +684,25 @@ int init_cg(void)
   /*  be unable to represent -2147483648 on the host system.          */
   t_min[CHAR]=l2zm(-128L);
   t_min[SHORT]=l2zm(-32768L);
-  t_min[INT]=zmsub(l2zm(-2147483647L),l2zm(1L));
-  t_min[LONG]=t_min(INT);
-  t_min[LLONG]=zmlshift(l2zm(1L),l2zm(63L));
-  t_min[MAXINT]=t_min(LLONG);
+  t_min[INT]=l2zm(-32768L);
+  t_min[LONG]=zmsub(l2zm(-2147483647L),l2zm(1L));
+  t_min[LLONG]=0;
+  t_min[MAXINT]=t_min(LONG);
+
   t_max[CHAR]=ul2zum(127L);
   t_max[SHORT]=ul2zum(32767UL);
-  t_max[INT]=ul2zum(2147483647UL);
-  t_max[LONG]=t_max(INT);
-  t_max[LLONG]=zumrshift(zumkompl(ul2zum(0UL)),ul2zum(1UL));
-  t_max[MAXINT]=t_max(LLONG);
+  t_max[INT]=ul2zum(32767UL);
+  t_max[LONG]=ul2zum(2147483647UL);
+  t_max[LLONG]=0;
+  t_max[MAXINT]=t_max(LONG);
+
   tu_max[CHAR]=ul2zum(255UL);
   tu_max[SHORT]=ul2zum(65535UL);
-  tu_max[INT]=ul2zum(4294967295UL);
-  tu_max[LONG]=t_max(UNSIGNED|INT);
-  tu_max[LLONG]=zumkompl(ul2zum(0UL));
-  tu_max[MAXINT]=t_max(UNSIGNED|LLONG);
+  tu_max[INT]=ul2zum(65535UL);
+  tu_max[LONG]=ul2zum(4294967295UL);
+  tu_max[LLONG]=0;
+  tu_max[MAXINT]=t_max(UNSIGNED|LONG);
 
-  /*  Reserve a few registers for use by the code-generator.      */
-  /*  This is not optimal but simple.                             */
-  sp=FIRST_GPR;
-  t1=FIRST_GPR+1;
-  t2=FIRST_GPR+2;
-  f1=FIRST_FPR;
-  f2=FIRST_FPR+1;
-  regsa[t1]=regsa[t2]=1;
-  regsa[f1]=regsa[f2]=1;
-  regsa[sp]=1;
-  regscratch[t1]=regscratch[t2]=0;
-  regscratch[f1]=regscratch[f2]=0;
-  regscratch[sp]=0;
-
-  for(i=FIRST_GPR;i<=LAST_GPR-VOL_GPRS;i++)
-    regscratch[i]=1;
-  for(i=FIRST_FPR;i<=LAST_FPR-VOL_FPRS;i++)
-    regscratch[i]=1;
-  for(i=FIRST_CCR;i<=LAST_CCR-VOL_CCRS;i++)
-    regscratch[i]=1;
 
   target_macros=marray;
 
