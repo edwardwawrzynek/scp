@@ -42,43 +42,49 @@ struct instr instructions[] = {
   { "ld.r.i",  0b001100, {reg, cnst, end_arg},     /* ld.r.i reg imd */
     "000000------1111", 2},
 
-  { "ld.r.mw", 0b00110100, {reg, label, end_arg},  /* ld.r.mw reg mem */
+  { "ld.r.m.w", 0b00110100, {reg, label, end_arg},  /* ld.r.m.w reg mem */
     "00000000----1111", 2},
-  { "ld.r.mb", 0b00110110, {reg, label, end_arg},  /* ld.r.mb reg mem */
+  { "ld.r.m.b", 0b00110110, {reg, label, end_arg},  /* ld.r.m.b reg mem */
     "00000000----1111", 2},
-  { "ld.r.mbs", 0b00110111, {reg, label, end_arg},  /* ld.r.mbs reg mem */
+  { "ld.r.m.bs", 0b00110111, {reg, label, end_arg},  /* ld.r.m.bs reg mem */
     "00000000----1111", 2},
 
-  { "ld.r.pw", 0b00111000, {reg, reg, end_arg},  /* ld.r.pw dst src */
+  { "ld.r.p.w", 0b00111000, {reg, reg, end_arg},  /* ld.r.pw dst src */
     "0000000022221111"},
-  { "ld.r.pb", 0b00111010, {reg, reg, end_arg},  /* ld.r.pb dst src */
+  { "ld.r.p.b", 0b00111010, {reg, reg, end_arg},  /* ld.r.p.b dst src */
     "0000000022221111"},
-  { "ld.r.pbs", 0b00111011, {reg, reg, end_arg},  /* ld.r.pbs dst src */
+  { "ld.r.p.bs", 0b00111011, {reg, reg, end_arg},  /* ld.r.p.bs dst src*/
     "0000000022221111"},
 
-  { "ld.r.pw.off", 0b00111100, {reg, reg, cnst, end_arg},  /* ld.r.pw.off dst src off */
+  { "ld.r.p.off.w", 0b00111100, {reg, reg, cnst, end_arg},  /* ld.r.p.off.w dst src off */
     "0000000022221111", 3},
-  { "ld.r.pb.off", 0b00111110, {reg, reg, cnst, end_arg},  /* ld.r.pb.off dst src off */
+  { "ld.r.p.off.b", 0b00111110, {reg, reg, cnst, end_arg},  /* ld.r.off.p.b dst src off */
     "0000000022221111", 3},
-  { "ld.r.pbs.off", 0b00111111, {reg, reg, cnst, end_arg},  /* ld.r.pbs.off dst src off */
+  { "ld.r.p.off.bs", 0b00111111, {reg, reg, cnst, end_arg},  /* ld.r.p.off.bs dst src off */
     "0000000022221111", 3},
 
   { "ld.r.ra", 0b000011, {reg, label, end_arg},  /* ld.r.ra dst addr */
     "000000------1111", 2},
 
-  { "st.r.mw", 0b01000000, {reg, label, end_arg},  /* st.r.mw reg mem */
+  { "st.r.m.w", 0b01000000, {reg, label, end_arg},  /* st.r.m.w reg mem */
     "00000000----1111", 2},
-  { "st.r.mb", 0b01000010, {reg, label, end_arg},  /* st.r.mb reg mem */
+  { "st.r.m.b", 0b01000010, {reg, label, end_arg},  /* st.r.m.b reg mem */
+    "00000000----1111", 2},
+  { "st.r.m.bs", 0b01000010, {reg, label, end_arg},  /* st.r.m.bs reg mem (alias for st.r.m.b) */
     "00000000----1111", 2},
 
-  { "st.r.pw", 0b01000100, {reg, reg, end_arg},  /* st.r.pw src dst */
+  { "st.r.p.w", 0b01000100, {reg, reg, end_arg},  /* st.r.p.w src dst */
     "0000000022221111"},
-  { "st.r.pb", 0b01000110, {reg, reg, end_arg},  /* st.r.pb src dst */
+  { "st.r.p.b", 0b01000110, {reg, reg, end_arg},  /* st.r.p.b src dst */
+    "0000000022221111"},
+  { "st.r.p.bs", 0b01000110, {reg, reg, end_arg},  /* st.r.p.bs src dst (alias for st.r.p.b) */
     "0000000022221111"},
 
-  { "st.r.pw.off", 0b01001000, {reg, reg, cnst, end_arg},  /* st.r.pw.off src dst off */
+  { "st.r.p.off.w", 0b01001000, {reg, reg, cnst, end_arg},  /* st.r.p.off.w src dst off */
     "0000000022221111", 3},
-  { "st.r.pb.off", 0b01001010, {reg, reg, cnst, end_arg},  /* st.r.pb src dst off */
+  { "st.r.p.off.b", 0b01001010, {reg, reg, cnst, end_arg},  /* st.r.p.off.b src dst off */
+    "0000000022221111", 3},
+  { "st.r.p.off.bs", 0b01001010, {reg, reg, cnst, end_arg},  /* st.r.p.off.bs src dst off (alias for st.r.p.off.bs) */
     "0000000022221111", 3},
 
   { "jmp.c.j", 0b010011, {cond, label, end_arg}, /* jmp.c.j cond addr */

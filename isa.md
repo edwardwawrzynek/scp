@@ -111,21 +111,21 @@ NOTE: because inetrupts can only occur in user privilage and interrupts switch p
 Interrupts can be triggered by an external event, or by the `int.i.n` instruction. An interrupt is the only way to raise the privilage level from user privilage, and are used for system calls, etc. The interrupt instruction can trigger any interrupt, even if it is also wired to an external device.
 
 ### Opcode Encodings
-Instr | opocde
+Instr | opcode
 -|-
 `nop.n.n`               | 000000
 `mov.r.r`               | 000001
 `cmp.r.f`               | 000010
-`ld.r.ra`                | 000011
+`ld.r.ra`               | 000011
 `alu.r.r`               | 0001__
 `alu.r.i`               | 0010__
 `ld.r.i`                | 001100
-`ld.r.(mb/mbs/mw)`      | 001101
-`ld.r.(pb/pbs/pw)`      | 001110
-`ld.r.(pb/pbs/pw).off`  | 001111
-`st.r.(mb/mw)`          | 010000
-`st.r.(pb/pw)`          | 010001
-`st.r.(pb/pw).off`      | 010010
+`ld.r.m.(b/bs/w)`       | 001101
+`ld.r.p.(b/bs/w)`       | 001110
+`ld.r.p.off.(b/bs/w)`   | 001111
+`st.r.m.(b/bs/w)`       | 010000
+`st.r.p.(b/bs/w)`       | 010001
+`st.r.p.off.(b/bs/w)`   | 010010
 `jmp.c.j`               | 010011
 `jmp.c.r`               | 010100
 `push.r.sp`             | 010101
@@ -254,10 +254,10 @@ ld.r.i dst imd
 </tr>
 </table>
 
-### ld.r.(mb/mbs/mw)
+### ld.r.m.(b/bs/w)
 Load a value from memory into a register, sign extend if needed.
 ```
-ld.r.mb/mbs/mw dst mem
+ld.r.m.b/bs/w dst mem
 ; dst = (pc + mem)
 ```
 
@@ -275,10 +275,10 @@ ld.r.mb/mbs/mw dst mem
 </tr>
 </table>
 
-### ld.r.(pb/pbs/pw)
+### ld.r.p.(b/bs/w)
 Load a value pointed to by a register into a register, sign extend if needed.
 ```
-ld.r.pb/pbs/pw dst src
+ld.r.p.b/bs/w dst src
 ; dst = (src)
 ```
 
@@ -295,10 +295,10 @@ ld.r.pb/pbs/pw dst src
 </tr>
 </table>
 
-### ld.r.(pb/pbs/pw).off
+### ld.r.p.off.(b/bs/w)
 Load a value pointed to by a register plus offset into a register, sign extend if needed.
 ```
-ld.r.pb/pbs/pw.off dst src off
+ld.r.p.off.b/bs/w dst src off
 ; dst = (src + off)
 ```
 
@@ -337,10 +337,12 @@ ld.r.ra dst addr
 
 ## Store Instructions
 
-### st.r.(mb/mw)
+NOTE: Store instructions with b and bs modes do the same thing, as we can't un sign extend
+
+### st.r.m.(b/bs/w)
 Store a value from a register into memory.
 ```
-st.r.mb/mbs/mw src mem
+st.r.m.b/bs/w src mem
 ; (pc + mem) = src
 ```
 
@@ -358,14 +360,12 @@ st.r.mb/mbs/mw src mem
 </tr>
 </table>
 
-### st.r.(pb/pw)
+### st.r.p.(b/bs/w)
 Store a value from a register into the memory addr pointed to by a register.
 ```
-st.r.pb/pbs/pw src dst
+st.r.p.b/bs/w src dst
 ; (dst) = src
 ```
-
-NOTE: st.r.m and st.r.p instructions lack bs modes because there is no point in doing an inverse sign extend - the high byte isn't stored anyway
 
 <table>
 <tr>
@@ -380,10 +380,10 @@ NOTE: st.r.m and st.r.p instructions lack bs modes because there is no point in 
 </tr>
 </table>
 
-### st.r.(pb/pw).off
+### st.r.p.off.(b/bs/w)
 Store a value from a register into the memory addr pointed to by a register plus an offset.
 ```
-st.r.pb/pbs/pw.off src dst off
+st.r.p.p.off.b/bs/w src dst off
 ; (dst + off) = src
 ```
 
