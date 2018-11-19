@@ -140,7 +140,7 @@ zumax tu_max[MAX_TYPE+1];
 /* Names of all the registers.
  * We can have 16 local variables per routine. Var 0 is always the C stack
  * pointer, xp. All the others can be used by the compiler. xp doesn't actually
- * appear in the register map, so we get 15 main registers. 
+ * appear in the register map, so we get 15 main registers.
  */
 
 char* regnames[] = {
@@ -164,7 +164,7 @@ struct Typ* regtype[] = {
 	NULL,
 	&ityp,	&ityp,	&ityp,	&ityp,	&ityp,	&ityp,	&ityp,	&ityp,
 	&ityp,	&ityp,	&ityp,	&ityp,	&ityp,	&ityp};
-	
+
 /* These registers are those dedicated for use by the backend. These ones will
  * not be used by the code generator. */
 
@@ -285,7 +285,7 @@ struct fixup {
 };
 
 static struct fixup* fixuplist = NULL;
-	
+
 /* 32-bit values are stored in a constant pool, for simplicity. It's kept track
  * of in this linked list. */
 
@@ -485,7 +485,7 @@ static void dump_ic(FILE* fp, struct IC* ic)
 		fprintf(fp, "print \"");
 	else
 		fprintf(fp, "! ");
-	
+
 	switch (ic->code)
 	{
 		case ASSIGN:		p = "ASSIGN";		break;
@@ -557,7 +557,7 @@ static void dump_ic(FILE* fp, struct IC* ic)
 			fprintf(fp, "%d", ic->typf);
 			goto epilogue;
 	}
-	
+
 	dump_obj(fp, &ic->q1, ic->typf);
 	fprintf(fp, " ");
 	dump_obj(fp, &ic->q2, ic->typf);
@@ -726,7 +726,7 @@ void gen_var_head(FILE* fp, struct Var* var)
 	    !(var->flags & DEFINED) &&
 	    !(var->flags & TENTATIVE))
 		return;
-	
+
 	reflower(fp);
 	virgin = -1;
 	switch (var->storage_class)
@@ -741,7 +741,7 @@ void gen_var_head(FILE* fp, struct Var* var)
 			currentvar.val.identifier = strdup(var->identifier);
 			currentvar.offset = 0;
 			break;
-			
+
 		case STATIC:
 			fprintf(fp, "Array STATIC_%s_%ld ->\n",
 				modulename, var->offset);
@@ -781,7 +781,7 @@ void gen_dc(FILE *fp, int typf, struct const_list *p)
 				xbyte(p->val.vint, 0));
 			currentvar.offset += 2;
 			break;
-				
+
 		case LONG:
 			fprintf(fp, " (%d) (%d) (%d) (%d)\n",
 				xbyte(p->val.vlong, 3),
@@ -916,7 +916,7 @@ static void write_reg(FILE* fp, struct obj* obj, int typf, int reg)
 
 	if (flags == KONST)
 		ierror(0);
-		
+
 	/* Dereference? */
 
 	if (flags & DREFOBJ)
@@ -1081,7 +1081,7 @@ static void read_reg(FILE* fp, struct obj* obj, int typf, int reg)
 
 	if (flags & DREFOBJ)
 		goto dereference;
-	
+
 	/* Constant? */
 
 	if (flags == KONST)
@@ -1223,7 +1223,7 @@ dereference:
 	/* Fetch the value to dereference. */
 	obj->flags &= ~DREFOBJ;
 	read_reg(fp, obj, POINTER, 0);
-		
+
 	if (flags & DREFOBJ)
 	{
 		switch (typf & NQ)
@@ -1288,7 +1288,7 @@ static void push_value(FILE* fp, struct obj* obj, int typf, struct zop* op)
 		op->val.constant = addconstant(obj->val.vlong);
 		return;
 	}
-	
+
 	if (flags == REG)
 	{
 		debugemit(fp, "! zop reg %d\n", obj->reg);
@@ -1342,7 +1342,7 @@ static void push_value(FILE* fp, struct obj* obj, int typf, struct zop* op)
 		}
 		return;
 	}
-	
+
 	read_reg(fp, obj, typf, 0);
 	op->type = ZOP_STACK;
 }
@@ -1567,7 +1567,7 @@ static void move_value(FILE* fp, struct obj* q1o, struct obj* zo, int typf)
 	}
 	fin_zop(fp, zo, typf, &z);
 }
-	
+
 /* Copy a 32-bit value from one obj to another. */
 
 static void move_long_value(FILE* fp, struct obj* q1, struct obj* z, int typf)
@@ -1576,7 +1576,7 @@ static void move_long_value(FILE* fp, struct obj* q1, struct obj* z, int typf)
 		(KONST|REG|VAR|DREFOBJ|VARADR);
 	struct zop q1z;
 	struct zop zz;
-	
+
 	if (flags == KONST)
 	{
 		int hi = xword(q1->val.vlong, 1);
@@ -1614,7 +1614,7 @@ void gen_code(FILE* fp, struct IC *ic, struct Var* func, zmax stackframe)
 	int code, typf; // ...of the IC under consideration
 
     int c,t,lastcomp=0,reg;
-	    
+
     	function = func;
 
 	/* r0..r5 are always used for parameter passing. */
@@ -1662,7 +1662,7 @@ void gen_code(FILE* fp, struct IC *ic, struct Var* func, zmax stackframe)
 		else
 			fprintf(fp, "print \"_%s^\";\n", func->identifier);
 	}
-	
+
 	/* Adjust stack for locals. */
 
 	if (stackframe)
@@ -1670,7 +1670,7 @@ void gen_code(FILE* fp, struct IC *ic, struct Var* func, zmax stackframe)
 	//if (stackoffset)
 	//	fprintf(fp, "\txp = xp - %ld\n", stackframe);
 
-    
+
     	/* Iterate through all ICs. */
 
 	for (; dump_ic(fp, ic), ic; ic=ic->next)
@@ -1865,7 +1865,7 @@ void gen_code(FILE* fp, struct IC *ic, struct Var* func, zmax stackframe)
 				/* INFORM BUG! */
 				/* The @not opcode doesn't work. We have to use a
 				 * wrapper function instead. */
-				
+
 				push_value(fp, &ic->q1, typf, &q1);
 				pop_value(fp, &ic->z, typf, &z);
 				fprintf(fp, "\t@call_2s __not ");
@@ -2107,7 +2107,7 @@ void gen_code(FILE* fp, struct IC *ic, struct Var* func, zmax stackframe)
 							case LSHIFT:
 								fprintf(fp, "lsl");
 								break;
-								
+
 							case RSHIFT:
 								if (typf & UNSIGNED)
 									fprintf(fp, "lsr");
@@ -2153,7 +2153,7 @@ void gen_code(FILE* fp, struct IC *ic, struct Var* func, zmax stackframe)
 						fprintf(fp, ";\n");
 						fin_zop(fp, &ic->z, typf, &z);
 						break;
-					
+
 					case LONG:
 						push_value(fp, &ic->q1, INT, &q1);
 						push_addrof(fp, &ic->z, typf, &z);
@@ -2191,7 +2191,7 @@ void gen_code(FILE* fp, struct IC *ic, struct Var* func, zmax stackframe)
 						}
 						fin_zop(fp, &ic->z, typf, &z);
 						break;
-					
+
 					case LONG:
 						push_value(fp, &ic->q1, UNSIGNED|CHAR, &q1);
 						push_addrof(fp, &ic->z, typf, &z);
@@ -2201,7 +2201,7 @@ void gen_code(FILE* fp, struct IC *ic, struct Var* func, zmax stackframe)
 						emit_zop(fp, &q1);
 						fprintf(fp, ";\n");
 						break;
-						
+
 					default:
 						ierror(0);
 				}
@@ -2251,7 +2251,7 @@ void gen_code(FILE* fp, struct IC *ic, struct Var* func, zmax stackframe)
 						emit_zop(fp, &q1);
 						fprintf(fp, ";\n");
 						break;
-					
+
 					default:
 						ierror(typf);
 				}
@@ -2299,7 +2299,7 @@ void gen_code(FILE* fp, struct IC *ic, struct Var* func, zmax stackframe)
 						fprintf(fp, ") << 8 >> 8;\n");
 						break;
 #endif
-					
+
 					default:
 						printf("%X\n", typf);
 						ierror(0);
@@ -2332,7 +2332,7 @@ void gen_code(FILE* fp, struct IC *ic, struct Var* func, zmax stackframe)
 						fprintf(fp, ";\n");
 						fin_zop(fp, &ic->z, typf, &z);
 						break;
-					
+
 					default:
 						ierror(typf & NQ);
 				}
@@ -2533,7 +2533,7 @@ void gen_code(FILE* fp, struct IC *ic, struct Var* func, zmax stackframe)
 				else
 				{
 					/* No; so emit a call. */
-				
+
 					push_value(fp, &ic->q1, typf, &q1);
 					fprintf(fp, "\t@call_vs2 ");
 					emit_zop(fp, &q1);
@@ -2558,7 +2558,7 @@ void gen_code(FILE* fp, struct IC *ic, struct Var* func, zmax stackframe)
 			default:
 				ierror(code);
 		}
-						
+
 	}
 
 	/* We really ought to tidy the stack up; but there's no need, because
@@ -2566,7 +2566,7 @@ void gen_code(FILE* fp, struct IC *ic, struct Var* func, zmax stackframe)
 
     	//if (stackframe)
 	//	fprintf(fp, "\t@add xp %ld -> xp;\n", stackframe);
-	
+
 	fprintf(fp, "\t@ret r0;\n");
 	fprintf(fp, "]\n");
 
@@ -2583,7 +2583,7 @@ int shortcut(int code, int typ)
 static int addconstant(zmax value)
 {
 	struct constant* c;
-	
+
 	/* Check to see if the constant's already in the pool. */
 
 	c = constantlist;
@@ -2595,7 +2595,7 @@ static int addconstant(zmax value)
 	}
 
 	/* It's not; add it. */
-	
+
 	c = malloc(sizeof(struct constant));
 	c->next = constantlist;
 	c->id = constantnum++;
@@ -2710,7 +2710,7 @@ int reg_pair(int r,struct rpair *p)
 /* elements.                                            */
 {
   return 0;
-}                                                                               
+}
 void init_db(FILE *f)
 {
 }

@@ -7,6 +7,9 @@
 
 static char FILE_[]=__FILE__;
 
+/* hack to get to compile */
+#define THREE_ADDR 0
+
 /*  Public data that MUST be there.                             */
 
 /* Name and copyright. */
@@ -198,33 +201,6 @@ static long real_offset(struct obj *o)
   return off;
 }
 
-/*  Initializes an addressing-mode structure and returns a pointer to
-    that object. Will not survive a second call! */
-static struct obj *cam(int flags,int base,long offset)
-{
-  static struct obj obj;
-  static struct AddressingMode am;
-  obj.am=&am;
-  am.flags=flags;
-  am.base=base;
-  am.offset=offset;
-  return &obj;
-}
-
-/* changes to a special section, used for __section() */
-static int special_section(FILE *f,struct Var *v)
-{
-  char *sec;
-  if(!v->vattr) return 0;
-  sec=strstr(v->vattr,"section(");
-  if(!sec) return 0;
-  sec+=strlen("section(");
-  emit(f,"\t.section\t");
-  while(*sec&&*sec!=')') emit_char(f,*sec++);
-  emit(f,"\n");
-  if(f) section=SPECIAL;
-  return 1;
-}
 
 /* generate code to load the address of a variable into register r */
 static void load_address(FILE *f,int r,struct obj *o,int type)
@@ -317,22 +293,22 @@ static struct IC *preload(FILE *f,struct IC *p)
     zreg=p->z.reg;
   }else{
     if(ISFLOAT(ztyp(p)))
-      zreg=f1;
+      zreg=tmp1;
     else
-      zreg=t1;
+      zreg=tmp1;
   }
 
   if((p->q1.flags&(DREFOBJ|REG))==DREFOBJ&&!p->q1.am){
     p->q1.flags&=~DREFOBJ;
-    load_reg(f,t1,&p->q1,q1typ(p));
-    p->q1.reg=t1;
+    load_reg(f,tmp1,&p->q1,q1typ(p));
+    p->q1.reg=tmp1;
     p->q1.flags|=(REG|DREFOBJ);
   }
-  if(p->q1.flags&&LOAD_STORE&&!isreg(q1)){
+  if(p->q1.flags&&!isreg(q1)){
     if(ISFLOAT(q1typ(p)))
-      q1reg=f1;
+      q1reg=tmp1;
     else
-      q1reg=t1;
+      q1reg=tmp1;
     load_reg(f,q1reg,&p->q1,q1typ(p));
     p->q1.reg=q1reg;
     p->q1.flags=REG;
@@ -340,15 +316,15 @@ static struct IC *preload(FILE *f,struct IC *p)
 
   if((p->q2.flags&(DREFOBJ|REG))==DREFOBJ&&!p->q2.am){
     p->q2.flags&=~DREFOBJ;
-    load_reg(f,t1,&p->q2,q2typ(p));
-    p->q2.reg=t1;
+    load_reg(f,tmp1,&p->q2,q2typ(p));
+    p->q2.reg=tmp1;
     p->q2.flags|=(REG|DREFOBJ);
   }
-  if(p->q2.flags&&LOAD_STORE&&!isreg(q2)){
+  if(p->q2.flags&&!isreg(q2)){
     if(ISFLOAT(q2typ(p)))
-      q2reg=f2;
+      q2reg=tmp2;
     else
-      q2reg=t2;
+      q2reg=tmp2;
     load_reg(f,q2reg,&p->q2,q2typ(p));
     p->q2.reg=q2reg;
     p->q2.flags=REG;
@@ -361,8 +337,8 @@ void save_result(FILE *f,struct IC *p)
 {
   if((p->z.flags&(REG|DREFOBJ))==DREFOBJ&&!p->z.am){
     p->z.flags&=~DREFOBJ;
-    load_reg(f,t2,&p->z,POINTER);
-    p->z.reg=t2;
+    load_reg(f,tmp2,&p->z,POINTER);
+    p->z.reg=tmp2;
     p->z.flags|=(REG|DREFOBJ);
   }
   if(isreg(z)){
@@ -376,11 +352,6 @@ void save_result(FILE *f,struct IC *p)
 /* prints an object */
 static void emit_obj(FILE *f,struct obj *p,int t)
 {
-  if(p->am){
-    if(p->am->flags&GPR_IND) emit(f,"(%s,%s)",regnames[p->am->offset],regnames[p->am->base]);
-    if(p->am->flags&IMM_IND) emit(f,"(%ld,%s)",p->am->offset,regnames[p->am->base]);
-    return;
-  }
   if((p->flags&(KONST|DREFOBJ))==(KONST|DREFOBJ)){
     emitval(f,&p->val,p->dtyp&NU);
     return;
@@ -406,143 +377,10 @@ static void emit_obj(FILE *f,struct obj *p,int t)
   if(p->flags&DREFOBJ) emit(f,")");
 }
 
-/*  Test if there is a sequence of FREEREGs containing FREEREG reg.
-    Used by peephole. */
-static int exists_freereg(struct IC *p,int reg)
-{
-  while(p&&(p->code==FREEREG||p->code==ALLOCREG)){
-    if(p->code==FREEREG&&p->q1.reg==reg) return 1;
-    p=p->next;
-  }
-  return 0;
-}
-
-/* search for possible addressing-modes */
-static void peephole(struct IC *p)
-{
-  int c,c2,r;struct IC *p2;struct AddressingMode *am;
-
-  for(;p;p=p->next){
-    c=p->code;
-    if(c!=FREEREG&&c!=ALLOCREG&&(c!=SETRETURN||!isreg(q1)||p->q1.reg!=p->z.reg)) exit_label=0;
-    if(c==LABEL) exit_label=p->typf;
-
-    /* Try const(reg) */
-    if(IMM_IND&&(c==ADDI2P||c==SUBIFP)&&isreg(z)&&(p->q2.flags&(KONST|DREFOBJ))==KONST){
-      int base;zmax of;struct obj *o;
-      eval_const(&p->q2.val,p->typf);
-      if(c==SUBIFP) of=zmsub(l2zm(0L),vmax); else of=vmax;
-      if(1/*zmleq(l2zm(-32768L),vmax)&&zmleq(vmax,l2zm(32767L))*/){
-	r=p->z.reg;
-	if(isreg(q1)) base=p->q1.reg; else base=r;
-	o=0;
-	for(p2=p->next;p2;p2=p2->next){
-	  c2=p2->code;
-	  if(c2==CALL||c2==LABEL||(c2>=BEQ&&c2<=BRA)) break;
-	  if(c2!=FREEREG&&(p2->q1.flags&(REG|DREFOBJ))==REG&&p2->q1.reg==r) break;
-	  if(c2!=FREEREG&&(p2->q2.flags&(REG|DREFOBJ))==REG&&p2->q2.reg==r) break;
-	  if(c2!=CALL&&(c2<LABEL||c2>BRA)/*&&c2!=ADDRESS*/){
-	    if(!p2->q1.am&&(p2->q1.flags&(REG|DREFOBJ))==(REG|DREFOBJ)&&p2->q1.reg==r){
-	      if(o) break;
-	      o=&p2->q1;
-	    }
-	    if(!p2->q2.am&&(p2->q2.flags&(REG|DREFOBJ))==(REG|DREFOBJ)&&p2->q2.reg==r){
-	      if(o) break;
-	      o=&p2->q2;
-	    }
-	    if(!p2->z.am&&(p2->z.flags&(REG|DREFOBJ))==(REG|DREFOBJ)&&p2->z.reg==r){
-	      if(o) break;
-	      o=&p2->z;
-	    }
-	  }
-	  if(c2==FREEREG||(p2->z.flags&(REG|DREFOBJ))==REG){
-	    int m;
-	    if(c2==FREEREG)
-	      m=p2->q1.reg;
-	    else
-	      m=p2->z.reg;
-	    if(m==r){
-	      if(o){
-		o->am=am=mymalloc(sizeof(*am));
-		am->flags=IMM_IND;
-		am->base=base;
-		am->offset=zm2l(of);
-		if(isreg(q1)){
-		  p->code=c=NOP;p->q1.flags=p->q2.flags=p->z.flags=0;
-		}else{
-		  p->code=c=ASSIGN;p->q2.flags=0;
-		  p->typf=p->typf2;p->q2.val.vmax=sizetab[p->typf2&NQ];
-		}
-	      }
-	      break;
-	    }
-	    if(c2!=FREEREG&&m==base) break;
-	    continue;
-	  }
-        }
-      }
-    }
-    /* Try reg,reg */
-    if(GPR_IND&&c==ADDI2P&&isreg(q2)&&isreg(z)&&(isreg(q1)||p->q2.reg!=p->z.reg)){
-      int base,idx;struct obj *o;
-      r=p->z.reg;idx=p->q2.reg;
-      if(isreg(q1)) base=p->q1.reg; else base=r;
-      o=0;
-      for(p2=p->next;p2;p2=p2->next){
-        c2=p2->code;
-        if(c2==CALL||c2==LABEL||(c2>=BEQ&&c2<=BRA)) break;
-        if(c2!=FREEREG&&(p2->q1.flags&(REG|DREFOBJ))==REG&&p2->q1.reg==r) break;
-        if(c2!=FREEREG&&(p2->q2.flags&(REG|DREFOBJ))==REG&&p2->q2.reg==r) break;
-        if((p2->z.flags&(REG|DREFOBJ))==REG&&p2->z.reg==idx&&idx!=r) break;
-
-        if(c2!=CALL&&(c2<LABEL||c2>BRA)/*&&c2!=ADDRESS*/){
-          if(!p2->q1.am&&(p2->q1.flags&(REG|DREFOBJ))==(REG|DREFOBJ)&&p2->q1.reg==r){
-            if(o||(q1typ(p2)&NQ)==LLONG) break;
-            o=&p2->q1;
-          }
-          if(!p2->q2.am&&(p2->q2.flags&(REG|DREFOBJ))==(REG|DREFOBJ)&&p2->q2.reg==r){
-            if(o||(q2typ(p2)&NQ)==LLONG) break;
-            o=&p2->q2;
-          }
-          if(!p2->z.am&&(p2->z.flags&(REG|DREFOBJ))==(REG|DREFOBJ)&&p2->z.reg==r){
-            if(o||(ztyp(p2)&NQ)==LLONG) break;
-            o=&p2->z;
-          }
-        }
-        if(c2==FREEREG||(p2->z.flags&(REG|DREFOBJ))==REG){
-          int m;
-          if(c2==FREEREG)
-            m=p2->q1.reg;
-          else
-            m=p2->z.reg;
-          if(m==r){
-            if(o){
-              o->am=am=mymalloc(sizeof(*am));
-              am->flags=GPR_IND;
-              am->base=base;
-              am->offset=idx;
-	      if(isreg(q1)){
-		p->code=c=NOP;p->q1.flags=p->q2.flags=p->z.flags=0;
-	      }else{
-		p->code=c=ASSIGN;p->q2.flags=0;
-		p->typf=p->typf2;p->q2.val.vmax=sizetab[p->typf2&NQ];
-	      }
-            }
-            break;
-          }
-          if(c2!=FREEREG&&m==base) break;
-          continue;
-        }
-      }
-    }
-  }
-}
-
 /* generates the function entry code */
 static void function_top(FILE *f,struct Var *v,long offset)
 {
   rsavesize=0;
-  if(!special_section(f,v)&&section!=CODE){emit(f,codename);if(f) section=CODE;}
   if(v->storage_class==EXTERN){
     if((v->flags&(INLINEFUNC|INLINEEXT))!=INLINEFUNC)
       emit(f,"\t.global\t%s%s\n",idprefix,v->identifier);
@@ -710,24 +548,29 @@ int init_cg(void)
   return 1;
 }
 
-void init_db(FILE *f)
-{
-}
-
 int freturn(struct Typ *t)
 /*  Returns the register in which variables of type t are returned. */
 /*  If the value cannot be returned in a register returns 0.        */
 /*  A pointer MUST be returned in a register. The code-generator    */
 /*  has to simulate a pseudo register if necessary.                 */
 {
-  if(ISFLOAT(t->flags))
-    return FIRST_FPR+2;
+  /* floats and 32 bits will in theory be returned in extended ret_reg, for now keep as pointer
+  TODO: should they be returned as a pointer anyway? (one more reg free) */
+  if(ISFLOAT(t->flags)){
+    return 0;
+  }
   if(ISSTRUCT(t->flags)||ISUNION(t->flags))
     return 0;
-  if(zmleq(szof(t),l2zm(4L)))
-    return FIRST_GPR+3;
-  else
-    return 0;
+  /* return everything less than or equal to two bytes in ret_reg */
+  if(zmleq(szof(t),l2zm(2L))){
+      return ret_reg;
+  }
+  /* make sure pointers are returned in ret_reg (they should be anyway, as <= 2 bytes) */
+  if(ISPOINTER(t->flags)){
+    return ret_reg;
+  }
+
+  return 0;
 }
 
 int reg_pair(int r,struct rpair *p)
@@ -739,43 +582,29 @@ int reg_pair(int r,struct rpair *p)
   return 0;
 }
 
-/* estimate the cost-saving if object o from IC p is placed in
-   register r */
-int cost_savings(struct IC *p,int r,struct obj *o)
-{
-  int c=p->code;
-  if(o->flags&VKONST){
-    if(!LOAD_STORE)
-      return 0;
-    if(o==&p->q1&&p->code==ASSIGN&&(p->z.flags&DREFOBJ))
-      return 4;
-    else
-      return 2;
-  }
-  if(o->flags&DREFOBJ)
-    return 4;
-  if(c==SETRETURN&&r==p->z.reg&&!(o->flags&DREFOBJ)) return 3;
-  if(c==GETRETURN&&r==p->q1.reg&&!(o->flags&DREFOBJ)) return 3;
-  return 2;
-}
-
 int regok(int r,int t,int mode)
 /*  Returns 0 if register r cannot store variables of   */
 /*  type t. If t==POINTER and mode!=0 then it returns   */
 /*  non-zero only if the register can store a pointer   */
 /*  and dereference a pointer to mode.                  */
 {
-  if(r==0)
+  /* don't do anything with noreg */
+  if(r==0){
     return 0;
+  }
   t&=NQ;
-  if(t==0&&r>=FIRST_CCR&&r<=LAST_CCR)
+  /* we can store two byte or less ints in any reg */
+  if(t>=CHAR && t <= INT){
     return 1;
-  if(ISFLOAT(t)&&r>=FIRST_FPR&&r<=LAST_FPR)
+  }
+  /* we can store pointers in any reg */
+  if(ISPOINTER(t)){
     return 1;
-  if(t==POINTER&&r>=FIRST_GPR&&r<=LAST_GPR)
-    return 1;
-  if(t>=CHAR&&t<=LONG&&r>=FIRST_GPR&&r<=LAST_GPR)
-    return 1;
+  }
+  /* TODO: implement extended regs to allow storing 32 bit values in regs */
+  if(ISFLOAT(t)){
+    return 0;
+  }
   return 0;
 }
 
@@ -792,11 +621,7 @@ int dangerous_IC(struct IC *p)
 /*      - division/modulo                               */
 /*      - overflow on signed integer/floats             */
 {
-  int c=p->code;
-  if((p->q1.flags&DREFOBJ)||(p->q2.flags&DREFOBJ)||(p->z.flags&DREFOBJ))
-    return 1;
-  if((c==DIV||c==MOD)&&!isconst(q2))
-    return 1;
+  /* scp doesn't have exceptions (yet) */
   return 0;
 }
 
@@ -808,31 +633,36 @@ int must_convert(int o,int t,int const_expr)
 /*  the same registers.                                 */
 {
   int op=o&NQ,tp=t&NQ;
-  if((op==INT||op==LONG||op==POINTER)&&(tp==INT||tp==LONG||tp==POINTER))
+  /* ints and pointers are both 2 bytes */
+  if((op==INT||op==SHORT||op==POINTER)&&(tp==INT||tp==SHORT||tp==POINTER)){
     return 0;
-  if(op==DOUBLE&&tp==LDOUBLE) return 0;
-  if(op==LDOUBLE&&tp==DOUBLE) return 0;
+  }
+  /* all floats have the same representation */
+  if(ISFLOAT(op)&&ISFLOAT(tp)) return 0;
+
+  /* TODO: do we need conversions on char -> int or vice versa? */
   return 1;
+}
+
+int shortcut(int code,int typ)
+{
+  return 0;
 }
 
 void gen_ds(FILE *f,zmax size,struct Typ *t)
 /*  This function has to create <size> bytes of storage */
 /*  initialized with zero.                              */
 {
-  /*if(newobj&&section!=SPECIAL)
-    emit(f,"%ld\n",zm2l(size));
-  else
-    emit(f,"\t.space\t%ld\n",zm2l(size));
-  newobj=0;*/
-
-  emit(f, "\t.ds\t%ld", zm2l(size));
+  emit(f, "\t.ds\t%ld\n", zm2l(size));
 }
 
 void gen_align(FILE *f,zmax align)
 /*  This function has to make sure the next data is     */
 /*  aligned to multiples of <align> bytes.              */
 {
-  if(zm2l(align)>1) emit(f,"\t.align\t2\n");
+  /* TODO: allow alignments more than two bytes (not needed by backend - does frontend need it?) */
+  if(zm2l(align)==2) emit(f,"\t.align\n");
+  if(zm2l(align)>2) printf("Can't generate align more than two bytes\n");
 }
 
 void gen_var_head(FILE *f,struct Var *v)
@@ -840,7 +670,7 @@ void gen_var_head(FILE *f,struct Var *v)
 /*  definition, i.e. the label and information for      */
 /*  linkage etc.                                        */
 {
-  int constflag;char *sec;
+  /*int constflag;char *sec;
   if(v->clist) constflag=is_const(v->vtyp);
   if(v->storage_class==STATIC){
     if(ISFUNC(v->vtyp->flags)) return;
@@ -871,7 +701,28 @@ void gen_var_head(FILE *f,struct Var *v)
         emit(f,"\t.global\t%s%s\n\t.%scomm\t%s%s,",idprefix,v->identifier,(USE_COMMONS?"":"l"),idprefix,v->identifier);
       newobj=1;
     }
+  }*/
+  /* TODO: figure out what all of this does */
+
+  if(v->storage_class == STATIC){
+    if(ISFUNC(v->vtyp->flags)) return;
+    /* TODO: test for new section creation here */
+
+    /* TODO: do we need to check v->clist ? */
+    gen_align(f,falign(v->vtyp));
+    emit(f,"%s%ld:\n",labprefix,zm2l(v->offset));
   }
+  if(v->storage_class == EXTERN){
+    /* We only want to emit records for genuinely defined variables. For
+	   * some reason, TENTATIVE is defined for some of this.
+     * TODO: is this needed?*/
+    if(v->flags&(DEFINED|TENTATIVE)){
+      gen_align(f,falign(v->vtyp));
+      emit(f,"%s%ld:\n",labprefix,zm2l(v->offset));
+    }
+    emit(f, "\t.global\t%s\n", v->identifier);
+  }
+
 }
 
 void gen_dc(FILE *f,int t,struct const_list *p)
@@ -912,7 +763,7 @@ void gen_code(FILE *f,struct IC *p,struct Var *v,zmax offset)
   int c,t,i;
   struct IC *m;
   argsize=0;
-  if(DEBUG&1) printf("gen_code()\n");
+
   for(c=1;c<=MAXR;c++) regs[c]=regsa[c];
   maxpushed=0;
 
@@ -951,7 +802,6 @@ void gen_code(FILE *f,struct IC *p,struct Var *v,zmax offset)
     if(c==CALL&&argsize<zm2l(m->q2.val.vmax)) argsize=zm2l(m->q2.val.vmax);
 #endif
   }
-  peephole(p);
 
   for(c=1;c<=MAXR;c++){
     if(regsa[c]||regused[c]){
@@ -1081,7 +931,7 @@ void gen_code(FILE *f,struct IC *p,struct Var *v,zmax offset)
 	emit(f,"\tpush.%s\t",dt(t));
 	emit_obj(f,&p->q1,t);
 	emit(f,"\n");
-	push(zm2l(p->q2.val.vmax));
+	//push(zm2l(p->q2.val.vmax));
 #endif
 	continue;
       }
@@ -1152,11 +1002,6 @@ void gen_code(FILE *f,struct IC *p,struct Var *v,zmax offset)
   emit(f,"# stacksize=%lu%s\n",zum2ul(stack),stack_valid?"":"+??");
 }
 
-int shortcut(int code,int typ)
-{
-  return 0;
-}
-
 /*
 int reg_parm(struct reg_handle *m, struct Typ *t,int vararg,struct Typ *d)
 {
@@ -1182,8 +1027,16 @@ int handle_pragma(const char *s)
 }
 void cleanup_cg(FILE *f)
 {
+  printf("Exiting SCP Backend\n");
+  /* write a comment at the end of asm output noting the end */
+  if(f != NULL){
+    fprintf(f, ";\tEnd of VBCC SCP generated section\n");
+  }
+}
+
+void init_db(FILE *f)
+{
 }
 void cleanup_db(FILE *f)
 {
-  if(f) section=-1;
 }

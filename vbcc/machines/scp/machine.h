@@ -152,7 +152,7 @@ TODO: use this for ints*/
 #undef HAVE_TARGET_PRAGMAS
 
 /*  We keep track of all registers modified by a function.
-    TODO: is this needed? */
+    TODO: is this needed? - it may help with getting alu op targets to be the same as first arg */
 #undef HAVE_REGS_MODIFIED
 
 /* We don't have context-sensative register allocation - out isa is orthagonal enough to not need it */
