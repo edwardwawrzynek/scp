@@ -104,6 +104,11 @@ static long malign[MAX_TYPE+1]=  {1,1,2,2,2,1,2,2,2,1,2,1,1,1,2,1};
 /* sizes of basic data-types, used to initialize sizetab[] */
 static long msizetab[MAX_TYPE+1]={0,1,2,2,4,0,4,4,4,0,2,0,0,0,2,0};
 
+/* names of types used in some (.dc, etc) encodings */
+#define dt(t) (((t)&UNSIGNED)?udt[(t)&NQ]:sdt[(t)&NQ])
+static char *sdt[MAX_TYPE+1]={"??","bs","w","w","l","-","l","l","l","v","w"};
+static char *udt[MAX_TYPE+1]={"??","b","w","w","l","-","l","l","l","v","w"};
+
 /* used to initialize regtyp[] */
 static struct Typ ityp={INT};
 
@@ -117,9 +122,6 @@ static int sp, fp; /* stack and frame pointer */
 static int tmp1, tmp2, tmp1_h, tmp2_h; /* temporary registers */
 static int ret_reg, ret_reg_h; /* return reg */
 
-#define dt(t) (((t)&UNSIGNED)?udt[(t)&NQ]:sdt[(t)&NQ])
-static char *sdt[MAX_TYPE+1]={"??","c","s","i","l","ll","f","d","ld","v","p"};
-static char *udt[MAX_TYPE+1]={"??","uc","us","ui","ul","ull","f","d","ld","v","p"};
 
 /* sections */
 #define DATA 0

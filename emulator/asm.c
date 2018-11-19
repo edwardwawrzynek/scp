@@ -535,7 +535,7 @@ uint16_t encode_dir(uint16_t addr){
     return 0;
   } else if(!strcmp(cmd, ".set_label")){
     return 0;
-  } else if(!strcmp(cmd, ".db")){
+  } else if(!strcmp(cmd, ".dc.b") || !strcmp(cmd, ".dc.bs")){
     char * val_name = get_arg();
     if(*val_name != '#'){
       error("directive requires constant value");
@@ -543,7 +543,7 @@ uint16_t encode_dir(uint16_t addr){
     uint16_t val = atoi(val_name+1);
     output_byte(val);
     return 1;
-  } else if(!strcmp(cmd, ".dw")){
+  } else if(!strcmp(cmd, ".dc.w")){
     char * val_name = get_arg();
     if(*val_name != '#'){
       error("directive requires constant value");
@@ -551,6 +551,15 @@ uint16_t encode_dir(uint16_t addr){
     uint16_t val = atoi(val_name+1);
     output_word(val);
     return 2;
+  } else if(!strcmp(cmd, ".dc.l")){
+    char * val_name = get_arg();
+    if(*val_name != '#'){
+      error("directive requires constant value");
+    }
+    uint32_t val = atoi(val_name+1);
+    output_word(val&0xffff);
+    output_word(val>>16);
+    return 4;
   } else if(!strcmp(cmd, ".align")){
     if(addr & 1){
       output_byte(0);
@@ -607,10 +616,12 @@ uint16_t dir_size(uint16_t addr){
     uint16_t addr = atoi(addr_name+1);
     add_label(name, -1, addr);
     return 0;
-  } else if(!strcmp(cmd, ".db")){
+  } else if(!strcmp(cmd, ".dc.b") || !strcmp(cmd, ".dc.bs")){
     return 1;
-  } else if(!strcmp(cmd, ".dw")){
+  } else if(!strcmp(cmd, ".dc.w")){
     return 2;
+  } else if(!strcmp(cmd, ".dc.l")){
+    return 4;
   } else if(!strcmp(cmd, ".align")){
     return addr & 1;
   } else if(!strcmp(cmd, ".ds")){
