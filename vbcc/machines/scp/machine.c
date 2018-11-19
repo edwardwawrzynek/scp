@@ -653,7 +653,7 @@ void gen_ds(FILE *f,zmax size,struct Typ *t)
 /*  This function has to create <size> bytes of storage */
 /*  initialized with zero.                              */
 {
-  emit(f, "\t.ds\t%ld\n", zm2l(size));
+  emit(f, "\t.ds\t#%ld\n", zm2l(size));
 }
 
 void gen_align(FILE *f,zmax align)
@@ -670,57 +670,28 @@ void gen_var_head(FILE *f,struct Var *v)
 /*  definition, i.e. the label and information for      */
 /*  linkage etc.                                        */
 {
-  /*int constflag;char *sec;
-  if(v->clist) constflag=is_const(v->vtyp);
-  if(v->storage_class==STATIC){
-    if(ISFUNC(v->vtyp->flags)) return;
-    if(!special_section(f,v)){
-      if(v->clist&&(!constflag||(g_flags[2]&USEDFLAG))&&section!=DATA){emit(f,dataname);if(f) section=DATA;}
-      if(v->clist&&constflag&&!(g_flags[2]&USEDFLAG)&&section!=RODATA){emit(f,rodataname);if(f) section=RODATA;}
-      if(!v->clist&&section!=BSS){emit(f,bssname);if(f) section=BSS;}
-    }
-    if(v->clist||section==SPECIAL){
-      gen_align(f,falign(v->vtyp));
-      emit(f,"%s%ld:\n",labprefix,zm2l(v->offset));
-    }else
-      emit(f,"\t.lcomm\t%s%ld,",labprefix,zm2l(v->offset));
-    newobj=1;
-  }
-  if(v->storage_class==EXTERN){
-    emit(f,"\t.globl\t%s%s\n",idprefix,v->identifier);
-    if(v->flags&(DEFINED|TENTATIVE)){
-      if(!special_section(f,v)){
-	if(v->clist&&(!constflag||(g_flags[2]&USEDFLAG))&&section!=DATA){emit(f,dataname);if(f) section=DATA;}
-	if(v->clist&&constflag&&!(g_flags[2]&USEDFLAG)&&section!=RODATA){emit(f,rodataname);if(f) section=RODATA;}
-	if(!v->clist&&section!=BSS){emit(f,bssname);if(f) section=BSS;}
-      }
-      if(v->clist||section==SPECIAL){
-	gen_align(f,falign(v->vtyp));
-        emit(f,"%s%s:\n",idprefix,v->identifier);
-      }else
-        emit(f,"\t.global\t%s%s\n\t.%scomm\t%s%s,",idprefix,v->identifier,(USE_COMMONS?"":"l"),idprefix,v->identifier);
-      newobj=1;
-    }
-  }*/
-  /* TODO: figure out what all of this does */
+  emit(f, ";\tvar: %s\n", v->identifier);
 
   if(v->storage_class == STATIC){
     if(ISFUNC(v->vtyp->flags)) return;
     /* TODO: test for new section creation here */
 
     /* TODO: do we need to check v->clist ? */
-    gen_align(f,falign(v->vtyp));
     emit(f,"%s%ld:\n",labprefix,zm2l(v->offset));
+    gen_align(f,falign(v->vtyp));
   }
   if(v->storage_class == EXTERN){
     /* We only want to emit records for genuinely defined variables. For
 	   * some reason, TENTATIVE is defined for some of this.
      * TODO: is this needed?*/
     if(v->flags&(DEFINED|TENTATIVE)){
+      emit(f,"%s%s:\n",idprefix,v->identifier);
+      emit(f, "\t.global\t%s%s\n", idprefix, v->identifier);
       gen_align(f,falign(v->vtyp));
-      emit(f,"%s%ld:\n",labprefix,zm2l(v->offset));
+    } else{
+      /* this seems to be extern variables */
+      emit(f, "\t.extern\t%s%s\n", idprefix, v->identifier);
     }
-    emit(f, "\t.global\t%s\n", v->identifier);
   }
 
 }
@@ -1030,7 +1001,7 @@ void cleanup_cg(FILE *f)
   printf("Exiting SCP Backend\n");
   /* write a comment at the end of asm output noting the end */
   if(f != NULL){
-    fprintf(f, ";\tEnd of VBCC SCP generated section\n");
+    emit(f, ";\tEnd of VBCC SCP generated section\n");
   }
 }
 
