@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 /* max line length - including newline */
 #define LINE_SIZE 81
@@ -326,13 +327,10 @@ uint16_t arg_to_bin(enum arg_type type, uint16_t addr) {
     case reg:
       /* strip off leading r */
       if(line[lptr++] != 'r'){
-        /* allow sp and fp as reg names */
+        /* allow sp as reg names */
         if(line[lptr-1] == 's' && line[lptr] == 'p'){
           lptr++;
           return 0xf;
-        } else if(line[lptr-1] == 'f' && line[lptr] == 'p'){
-          lptr++;
-          return 0xe;
         } else {
           error("argument expected to be of reg type");
         }
@@ -349,7 +347,7 @@ uint16_t arg_to_bin(enum arg_type type, uint16_t addr) {
         int i = 0;
         int match = 1;
 
-        while(line[i+lptr] != ' '){
+        while(!is_whitespace(line[i+lptr])){
           if(line[i+lptr] != alu_ops[op][i]){
             match = 0;
             break;
@@ -365,20 +363,34 @@ uint16_t arg_to_bin(enum arg_type type, uint16_t addr) {
       error("no such alu operation");
 
     case cnst:
-      /* make sure the constant starts with a # */
-      if(line[lptr++] != '#'){
-        error("argument expected to be of constant type (starting with #)");
+      /* check if it is a constant or an adress */
+      if(isdigit(line[lptr])){
+        int past_lptr_cnst = lptr;
+        uint16_t res = 0;
+
+        get_arg();
+
+        res = atoi(line + past_lptr_cnst);
+
+        /* reset null */
+        line[lptr-1] = ' ';
+        return res;
+      } else{
+        /* get address of label, and warn that this will generate a non relocatable (until we get a better output format) */
+       int past_lptr_label = lptr;
+
+        get_arg();
+
+        struct label * label = find_label(line + past_lptr_label, global_module);
+        uint16_t real_addr = label->addr;
+
+        printf("scpasm: Warning: binary is non relocatable because of the use of an address in a static initilization\n");
+
+        /* reset null */
+        line[lptr-1] = ' ';
+        /* not independent (b/c it will be loaded as pointer) */
+        return real_addr;
       }
-      int past_lptr_cnst = lptr;
-      uint16_t res = 0;
-
-      get_arg();
-
-      res = atoi(line + past_lptr_cnst);
-
-      /* reset null */
-      line[lptr-1] = ' ';
-      return res;
 
     case label: ;
       /* check */
@@ -543,26 +555,17 @@ uint16_t encode_dir(uint16_t addr){
     return 0;
   } else if(!strcmp(cmd, ".dc.b") || !strcmp(cmd, ".dc.bs")){
     char * val_name = get_arg();
-    if(*val_name != '#'){
-      error("directive requires constant value");
-    }
-    uint16_t val = atoi(val_name+1);
+    uint16_t val = atoi(val_name);
     output_byte(val);
     return 1;
   } else if(!strcmp(cmd, ".dc.w")){
     char * val_name = get_arg();
-    if(*val_name != '#'){
-      error("directive requires constant value");
-    }
-    uint16_t val = atoi(val_name+1);
+    uint16_t val = atoi(val_name);
     output_word(val);
     return 2;
   } else if(!strcmp(cmd, ".dc.l")){
     char * val_name = get_arg();
-    if(*val_name != '#'){
-      error("directive requires constant value");
-    }
-    uint32_t val = atoi(val_name+1);
+    uint32_t val = atoi(val_name);
     output_word(val&0xffff);
     output_word(val>>16);
     return 4;
@@ -574,17 +577,14 @@ uint16_t encode_dir(uint16_t addr){
     return 0;
   } else if(!strcmp(cmd, ".ds")){
     char * val_name = get_arg();
-    if(*val_name != '#'){
-      error("directive requires constant value");
-    }
-    uint16_t val = atoi(val_name+1);
+    uint16_t val = atoi(val_name);
     for(int i = 0; i < val; i++){
       output_byte(0);
     }
     return val;
   }
 
-  error("no such directive");
+  error("no such directive b");
   return 0;
 }
 
@@ -616,10 +616,7 @@ uint16_t dir_size(uint16_t addr){
     skip_arg();
     char * name = get_arg();
     char * addr_name = get_arg();
-    if(*addr_name != '#'){
-      error("directive requires constant value");
-    }
-    uint16_t addr = atoi(addr_name+1);
+    uint16_t addr = atoi(addr_name);
     add_label(name, -1, addr);
     return 0;
   } else if(!strcmp(cmd, ".dc.b") || !strcmp(cmd, ".dc.bs")){
@@ -632,10 +629,7 @@ uint16_t dir_size(uint16_t addr){
     return addr & 1;
   } else if(!strcmp(cmd, ".ds")){
     char * val_name = get_arg();
-    if(*val_name != '#'){
-      error("directive requires constant value");
-    }
-    uint16_t val = atoi(val_name+1);
+    uint16_t val = atoi(val_name);
     return val;
   }
 
