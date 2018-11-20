@@ -12,13 +12,13 @@
  * r5: scratch register (vbcc saves this for us)
  * r6: scratch register (vbcc saves this for us)
  * r7: scratch register (vbcc saves this for us)
- * r8: Function Return Value (low reg)
- * r9: Function Return Value (high reg)
+ * r8: scratch register (vbcc saves this for us)
+ * r9: scratch register (vbcc saves this for us)
  * ra: Backend Temp 1 (low reg)
  * rb: Backend Temp 1 (high reg)
  * rc: Backend Temp 2 (low reg)
  * rd: Backend Temp 2 (high reg)
- * re: Frame Pointer
+ * re: Function Return Register (32 bit values are returned as pointers)
  * rf: Stack Pointer
  *
  * NOTE: we might be able to return int32's as a pointer, and only need one return reg
@@ -48,22 +48,13 @@ The stack layout is the following (SP and FP show where they are after the prolo
  * ---LOW_ADDR---
 **/
 
-/** function prologue and epilogue:
- * push.r.sp FP SP  ; Push FP from pervious function
- * mov.r.r   FP SP  ; Init new FP (points to push'd old FP)
- * ;    Function Body, modifying SP
- * ;    Local variables are accessed based on FP
- * ;    So, local1 is FP-#1, local2 FP-#3, etc
- * mov.r.r   SP FP  ; Restore SP (points to push'd old FP)
- * pop.r.sp  FP SP  ; Pop old FP off stack
- * ret.n.sp SP      ; Return - because of pop, SP points to ret addr
+/**
+ * we don't have a frame pointer, and instead just keep track of what we have pushed
  *
- * calling a function: (assuming two arguments in r0 and r1)
- * NOTE: arguments are pushed right to left
- * push.r.sp r1 SP
- * push.r.sp r0 SP
- * call.j.sp SP function
- * alu.r.i add SP #4
+ * function prolouge:
+ *
+ *
+ *
  */
 #include "dt.h"
 

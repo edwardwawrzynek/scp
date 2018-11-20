@@ -4,11 +4,13 @@
 */
 
 #include "supp.h"
+#include <stdarg.h>
 
 static char FILE_[]=__FILE__;
 
-/* hack to get to compile */
-#define THREE_ADDR 0
+/* enables debug information */
+#define DEBUG
+/* #undef DEBUG */
 
 /*  Public data that MUST be there.                             */
 
@@ -73,12 +75,9 @@ int regscratch[MAXR+1];
    one with the highest priority will be used */
 int reg_prio[MAXR+1];
 
-
-
 /****************************************/
 /*  Private data and functions.         */
 /****************************************/
-
 
 /** Sizes and alignment:
  * typename   | size  | aligment
@@ -120,281 +119,122 @@ static char *marray[]={
 /* special registers */
 static int sp, fp; /* stack and frame pointer */
 static int tmp1, tmp2, tmp1_h, tmp2_h; /* temporary registers */
-static int ret_reg, ret_reg_h; /* return reg */
+static int ret_reg;
 
+/* print debug information if DEBUG is enables, else do nothing */
+#ifdef DEBUG
+  void debug(const char *format, ...){
+    va_list args;
+    va_start(args, format);
+    vprintf(format, args);
+    va_end(args);
+}
+#endif
+#ifndef DEBUG
+  static inline void debug(const char * format, ...){}
+#endif
 
-/* sections */
-#define DATA 0
-#define BSS 1
-#define CODE 2
-#define RODATA 3
-#define SPECIAL 4
+/* debugging routines */
 
-static long stack;
-static int stack_valid;
-static int section=-1,newobj;
-static char *codename="\t.text\n",
-  *dataname="\t.data\n",
-  *bssname="",
-  *rodataname="\t.section\t.rodata\n";
+/* print out a variable (val if drom an obj) */
+void debug_var(struct Var *v, zmax val){
+  debug("\tvar: %s\n", v->identifier);
+  if(isauto(v->storage_class)){
+    debug("\t\tauto %s: local offset %i, offset: %i\n", v->offset > 0 ? "local" : "argument", v->offset, val);
+  }
+  if(isextern(v->storage_class)){
+    debug("\t\textern _%s + %i: offset %i\n", v->identifier, val, v->offset);
+  }
+  if(isstatic(v->storage_class)){
+    debug("\t\tstatic l%s + %i: offset %i\n", v->identifier, val, v->offset);
+  }
+}
 
-/* return-instruction */
-static char *ret;
-
-/* label at the end of the function (if any) */
-static int exit_label;
+/* print out an object */
+void debug_obj(struct obj *o){
+  if(o->flags == 0){
+    debug("no obj\n");
+    return;
+  }
+  debug("obj of type: ");
+  if(o->flags & KONST){
+    debug("KONST ");
+  }
+  if(o->flags & VAR){
+    debug("VAR ");
+  }
+  if(o->flags & DREFOBJ){
+    debug("DREFOBJ ");
+  }
+  if(o->flags & REG){
+    debug("REG ");
+  }
+  if(o->flags & VARADR){
+    debug("VARADR ");
+  }
+  debug("\n");
+  if(o->flags & DREFOBJ){
+    debug("\tdereference of:\n");
+  }
+  if(o->flags & REG){
+    debug("\tin register %s\n", regnames[o->reg]);
+  }
+  if(o->flags & VARADR){
+    debug("\taddress of:\n");
+  }
+  if(o->flags & KONST){
+    debug("\tconstant: %i\n", o->val.vmax);
+  } else {
+    debug_var(o->v, o->val.vmax);
+  }
+}
 
 /* assembly-prefixes for labels and external identifiers */
 static char *labprefix="l",*idprefix="_";
 
-#if FIXED_SP
-/* variables to calculate the size and partitioning of the stack-frame
-   in the case of FIXED_SP */
-static long frameoffset,pushed,maxpushed,framesize;
-#else
-/* variables to keep track of the current stack-offset in the case of
-   a moving stack-pointer */
-static long notpopped,dontpop,stackoffset,maxpushed;
-#endif
-
-static long localsize,rsavesize,argsize;
-
-static void emit_obj(FILE *f,struct obj *p,int t);
-
-/* calculate the actual current offset of an object relativ to the
-   stack-pointer; we use a layout like this:
+/* stack layout:
    ------------------------------------------------
    | arguments to this function                   |
    ------------------------------------------------
-   | return-address [size=4]                      |
+   | return-address [size=2]                      |
    ------------------------------------------------
-   | caller-save registers [size=rsavesize]       |
+   | push'd regs from prologue [size=pushsize]    |
    ------------------------------------------------
    | local variables [size=localsize]             |
    ------------------------------------------------
-   | arguments to called functions [size=argsize] |
+   | other push'd stuff [size=stackoffset]        |
    ------------------------------------------------
-   All sizes will be aligned as necessary.
-   In the case of FIXED_SP, the stack-pointer will be adjusted at
-   function-entry to leave enough space for the arguments and have it
-   aligned to 16 bytes. Therefore, when calling a function, the
-   stack-pointer is always aligned to 16 bytes.
-   For a moving stack-pointer, the stack-pointer will usually point
-   to the bottom of the area for local variables, but will move while
-   arguments are put on the stack.
-
-   This is just an example layout. Other layouts are also possible.
 */
+/* size of locals (in bytes) */
+static long localsize;
+/* size of regs pushed (in bytes) */
+static long pushsize;
+/* size of otherthings pushed (for any other reason) */
+static long stackoffset;
 
+/* get the real offset from the frame pointer for a variable on the stack */
+/* off is negative if the object is a function argument, positive for locals */
 static long real_offset(struct obj *o)
 {
   long off=zm2l(o->v->offset);
   if(off<0){
     /* function parameter */
-    off=localsize+rsavesize+4-off-zm2l(maxalign);
+    off=localsize + pushsize + 2 - off -zm2l(maxalign);
   }
+  /* we don't have to do anything special for locals */
 
-#if FIXED_SP
-  off+=argsize;
-#else
-  off+=stackoffset;
-#endif
+  /* add offset added by stackoffset */
+  off += stackoffset;
+
+  /* add offset in object (structs, etc) */
   off+=zm2l(o->val.vmax);
+
   return off;
 }
 
 
-/* generate code to load the address of a variable into register r */
-static void load_address(FILE *f,int r,struct obj *o,int type)
-/*  Generates code to load the address of a variable into register r.   */
-{
-  if(!(o->flags&VAR)) ierror(0);
-  if(o->v->storage_class==AUTO||o->v->storage_class==REGISTER){
-    long off=real_offset(o);
-    if(THREE_ADDR){
-      emit(f,"\tadd.%s\t%s,%s,%ld\n",dt(POINTER),regnames[r],regnames[sp],off);
-    }else{
-      emit(f,"\tmov.%s\t%s,%s\n",dt(POINTER),regnames[r],regnames[sp]);
-      if(off)
-	emit(f,"\tadd.%s\t%s,%ld\n",dt(POINTER),regnames[r],off);
-    }
-  }else{
-    emit(f,"\tmov.%s\t%s,",dt(POINTER),regnames[r]);
-    emit_obj(f,o,type);
-    emit(f,"\n");
-  }
-}
-/* Generates code to load a memory object into register r. tmp is a
-   general purpose register which may be used. tmp can be r. */
-static void load_reg(FILE *f,int r,struct obj *o,int type)
-{
-  type&=NU;
-  if(o->flags&VARADR){
-    load_address(f,r,o,POINTER);
-  }else{
-    if((o->flags&(REG|DREFOBJ))==REG&&o->reg==r)
-      return;
-    emit(f,"\tmov.%s\t%s,",dt(type),regnames[r]);
-    emit_obj(f,o,type);
-    emit(f,"\n");
-  }
-}
-
-/*  Generates code to store register r into memory object o. */
-static void store_reg(FILE *f,int r,struct obj *o,int type)
-{
-  type&=NQ;
-  emit(f,"\tmov.%s\t",dt(type));
-  emit_obj(f,o,type);
-  emit(f,",%s\n",regnames[r]);
-}
-
-/*  Yields log2(x)+1 or 0. */
-static long pof2(zumax x)
-{
-  zumax p;int ln=1;
-  p=ul2zum(1L);
-  while(ln<=32&&zumleq(p,x)){
-    if(zumeqto(x,p)) return ln;
-    ln++;p=zumadd(p,p);
-  }
-  return 0;
-}
-
-static struct IC *preload(FILE *,struct IC *);
-
-static void function_top(FILE *,struct Var *,long);
-static void function_bottom(FILE *f,struct Var *,long);
-
 #define isreg(x) ((p->x.flags&(REG|DREFOBJ))==REG)
 #define isconst(x) ((p->x.flags&(KONST|DREFOBJ))==KONST)
-
-static int q1reg,q2reg,zreg;
-
-static char *ccs[]={"eq","ne","lt","ge","le","gt",""};
-static char *logicals[]={"or","xor","and"};
-static char *arithmetics[]={"slw","srw","add","sub","mullw","divw","mod"};
-
-/* Does some pre-processing like fetching operands from memory to
-   registers etc. */
-static struct IC *preload(FILE *f,struct IC *p)
-{
-  int r;
-
-  if(isreg(q1))
-    q1reg=p->q1.reg;
-  else
-    q1reg=0;
-
-  if(isreg(q2))
-    q2reg=p->q2.reg;
-  else
-    q2reg=0;
-
-  if(isreg(z)){
-    zreg=p->z.reg;
-  }else{
-    if(ISFLOAT(ztyp(p)))
-      zreg=tmp1;
-    else
-      zreg=tmp1;
-  }
-
-  if((p->q1.flags&(DREFOBJ|REG))==DREFOBJ&&!p->q1.am){
-    p->q1.flags&=~DREFOBJ;
-    load_reg(f,tmp1,&p->q1,q1typ(p));
-    p->q1.reg=tmp1;
-    p->q1.flags|=(REG|DREFOBJ);
-  }
-  if(p->q1.flags&&!isreg(q1)){
-    if(ISFLOAT(q1typ(p)))
-      q1reg=tmp1;
-    else
-      q1reg=tmp1;
-    load_reg(f,q1reg,&p->q1,q1typ(p));
-    p->q1.reg=q1reg;
-    p->q1.flags=REG;
-  }
-
-  if((p->q2.flags&(DREFOBJ|REG))==DREFOBJ&&!p->q2.am){
-    p->q2.flags&=~DREFOBJ;
-    load_reg(f,tmp1,&p->q2,q2typ(p));
-    p->q2.reg=tmp1;
-    p->q2.flags|=(REG|DREFOBJ);
-  }
-  if(p->q2.flags&&!isreg(q2)){
-    if(ISFLOAT(q2typ(p)))
-      q2reg=tmp2;
-    else
-      q2reg=tmp2;
-    load_reg(f,q2reg,&p->q2,q2typ(p));
-    p->q2.reg=q2reg;
-    p->q2.flags=REG;
-  }
-  return p;
-}
-
-/* save the result (in zreg) into p->z */
-void save_result(FILE *f,struct IC *p)
-{
-  if((p->z.flags&(REG|DREFOBJ))==DREFOBJ&&!p->z.am){
-    p->z.flags&=~DREFOBJ;
-    load_reg(f,tmp2,&p->z,POINTER);
-    p->z.reg=tmp2;
-    p->z.flags|=(REG|DREFOBJ);
-  }
-  if(isreg(z)){
-    if(p->z.reg!=zreg)
-      emit(f,"\tmov.%s\t%s,%s\n",dt(ztyp(p)),regnames[p->z.reg],regnames[zreg]);
-  }else{
-    store_reg(f,zreg,&p->z,ztyp(p));
-  }
-}
-
-/* prints an object */
-static void emit_obj(FILE *f,struct obj *p,int t)
-{
-  if((p->flags&(KONST|DREFOBJ))==(KONST|DREFOBJ)){
-    emitval(f,&p->val,p->dtyp&NU);
-    return;
-  }
-  if(p->flags&DREFOBJ) emit(f,"(");
-  if(p->flags&REG){
-    emit(f,"%s",regnames[p->reg]);
-  }else if(p->flags&VAR) {
-    if(p->v->storage_class==AUTO||p->v->storage_class==REGISTER)
-      emit(f,"%ld(%s)",real_offset(p),regnames[sp]);
-    else{
-      if(!zmeqto(l2zm(0L),p->val.vmax)){emitval(f,&p->val,LONG);emit(f,"+");}
-      if(p->v->storage_class==STATIC){
-        emit(f,"%s%ld",labprefix,zm2l(p->v->offset));
-      }else{
-        emit(f,"%s%s",idprefix,p->v->identifier);
-      }
-    }
-  }
-  if(p->flags&KONST){
-    emitval(f,&p->val,t&NU);
-  }
-  if(p->flags&DREFOBJ) emit(f,")");
-}
-
-/* generates the function entry code */
-static void function_top(FILE *f,struct Var *v,long offset)
-{
-  rsavesize=0;
-  if(v->storage_class==EXTERN){
-    if((v->flags&(INLINEFUNC|INLINEEXT))!=INLINEFUNC)
-      emit(f,"\t.global\t%s%s\n",idprefix,v->identifier);
-    emit(f,"%s%s:\n",idprefix,v->identifier);
-  }else
-    emit(f,"%s%ld:\n",labprefix,zm2l(v->offset));
-}
-/* generates the function exit code */
-static void function_bottom(FILE *f,struct Var *v,long offset)
-{
-  emit(f,ret);
-}
 
 /****************************************/
 /*  End of private data and functions.  */
@@ -421,13 +261,11 @@ int init_cg(void)
   /*  This is not optimal but simple.  */
   /* they are their reg number +1 so we can call regnames[sp], etc */
   sp=0xf + 1;
-  fp=0xe + 1;
   tmp1=0xa + 1;
   tmp1_h=0xb + 1;
   tmp2=0xc + 1;
   tmp2_h=0xd + 1;
-  ret_reg=0x8 + 1;
-  ret_reg_h=0x9 + 1;
+  ret_reg=0xe + 1;
 
   /* init registers */
   regnames[0] = "noreg"; /* na */
@@ -468,14 +306,13 @@ int init_cg(void)
   regscratch[8] = 1;
   regsa[8] = 0;
 
-  /* function return extended reg */
   regnames[9] = "r8";
-  regscratch[9] = 0;
-  regsa[9] = 1;
+  regscratch[9] = 1;
+  regsa[9] = 0;
 
   regnames[10] = "r9";
-  regscratch[10] = 0;
-  regsa[10] = 1;
+  regscratch[10] = 1;
+  regsa[10] = 0;
 
   /* backend temp 1 extended reg */
   regnames[11] = "ra";
@@ -495,8 +332,8 @@ int init_cg(void)
   regscratch[14] = 0;
   regsa[14] = 1;
 
-  /* Frame Pointer */
-  regnames[15] = "fp";
+  /* Return Register (32 bits returned as pointer) */
+  regnames[15] = "re";
   regscratch[15] = 0;
   regsa[15] = 1;
 
@@ -556,8 +393,7 @@ int freturn(struct Typ *t)
 /*  A pointer MUST be returned in a register. The code-generator    */
 /*  has to simulate a pseudo register if necessary.                 */
 {
-  /* floats and 32 bits will in theory be returned in extended ret_reg, for now keep as pointer
-  TODO: should they be returned as a pointer anyway? (one more reg free) */
+  /* floats and 32 bits are returned using the implicit pointer argument system */
   if(ISFLOAT(t->flags)){
     return 0;
   }
@@ -567,7 +403,7 @@ int freturn(struct Typ *t)
   if(zmleq(szof(t),l2zm(2L))){
       return ret_reg;
   }
-  /* make sure pointers are returned in ret_reg (they should be anyway, as <= 2 bytes) */
+  /* make sure pointers are returned in ret_reg (they should be anyway, as they are <= 2 bytes) */
   if(ISPOINTER(t->flags)){
     return ret_reg;
   }
@@ -655,7 +491,7 @@ void gen_ds(FILE *f,zmax size,struct Typ *t)
 /*  This function has to create <size> bytes of storage */
 /*  initialized with zero.                              */
 {
-  emit(f, "\t.ds\t#%ld\n", zm2l(size));
+  emit(f, "\t.ds\t%ld\n", zm2l(size));
 }
 
 void gen_align(FILE *f,zmax align)
@@ -702,23 +538,23 @@ void gen_dc(FILE *f,int t,struct const_list *p)
 /*  This function has to create static storage          */
 /*  initialized with const-list p.                      */
 {
-  emit(f,"\tdc.%s\t",dt(t&NQ));
+  emit(f,"\t.dc.%s\t",dt(t&NQ));
   if(!p->tree){
     if(ISFLOAT(t)){
-      /*  auch wieder nicht sehr schoen und IEEE noetig   */
+      /*  emit single precision IEEE format (same as host, very hacky)
+        TODO: make sure this is properly emitted for doubles (same as floats on target, but not host) */
       unsigned char *ip;
       ip=(unsigned char *)&p->val.vdouble;
       emit(f,"0x%02x%02x%02x%02x",ip[0],ip[1],ip[2],ip[3]);
-      if((t&NQ)!=FLOAT){
-	emit(f,",0x%02x%02x%02x%02x",ip[4],ip[5],ip[6],ip[7]);
-      }
     }else{
       emitval(f,&p->val,t&NU);
     }
   }else{
-    emit_obj(f,&p->tree->o,t&NU);
+    /* TODO: what does this mean ? */
+    /* emit_obj(f,&p->tree->o,t&NU); */
+    printf("Need to implement proper print_obj\n");
   }
-  emit(f,"\n");newobj=0;
+  emit(f,"\n");
 }
 
 
@@ -733,267 +569,136 @@ void gen_dc(FILE *f,int t,struct const_list *p)
 void gen_code(FILE *f,struct IC *p,struct Var *v,zmax offset)
 /*  The main code-generation.                                           */
 {
-  int c,t,i;
-  struct IC *m;
-  argsize=0;
+  emit(f, ";\tLocal size: %i\n", offset);
+  debug("gen_code called, localsize: %u\n", offset);
 
-  for(c=1;c<=MAXR;c++) regs[c]=regsa[c];
-  maxpushed=0;
+  /* check if the code uses a non scratch reg */
+  struct IC *ps = p;
+  for(;ps;ps=ps->next){
 
-  /*FIXME*/
-  ret="\trts\n";
-
-  for(m=p;m;m=m->next){
-    c=m->code;t=m->typf&NU;
-    if(c==ALLOCREG) {regs[m->q1.reg]=1;continue;}
-    if(c==FREEREG) {regs[m->q1.reg]=0;continue;}
-
-    /* convert MULT/DIV/MOD with powers of two */
-    if((t&NQ)<=LONG&&(m->q2.flags&(KONST|DREFOBJ))==KONST&&(t&NQ)<=LONG&&(c==MULT||((c==DIV||c==MOD)&&(t&UNSIGNED)))){
-      eval_const(&m->q2.val,t);
-      i=pof2(vmax);
-      if(i){
-        if(c==MOD){
-          vmax=zmsub(vmax,l2zm(1L));
-          m->code=AND;
-        }else{
-          vmax=l2zm(i-1);
-          if(c==DIV) m->code=RSHIFT; else m->code=LSHIFT;
-        }
-        c=m->code;
-	gval.vmax=vmax;
-	eval_const(&gval,MAXINT);
-	if(c==AND){
-	  insert_const(&m->q2.val,t);
-	}else{
-	  insert_const(&m->q2.val,INT);
-	  p->typf2=INT;
-	}
-      }
-    }
-#if FIXED_SP
-    if(c==CALL&&argsize<zm2l(m->q2.val.vmax)) argsize=zm2l(m->q2.val.vmax);
-#endif
   }
-
-  for(c=1;c<=MAXR;c++){
-    if(regsa[c]||regused[c]){
-      BSET(regs_modified,c);
-    }
-  }
-
-  localsize=(zm2l(offset)+3)/4*4;
-#if FIXED_SP
-  /*FIXME: adjust localsize to get an aligned stack-frame */
-#endif
-
-  function_top(f,v,localsize);
-
-#if FIXED_SP
-  pushed=0;
-#endif
-
+  /* go through each IC, and emit code */
   for(;p;p=p->next){
-    c=p->code;t=p->typf;
-    if(c==NOP) {p->z.flags=0;continue;}
-    if(c==ALLOCREG) {regs[p->q1.reg]=1;continue;}
-    if(c==FREEREG) {regs[p->q1.reg]=0;continue;}
-    if(c==LABEL) {emit(f,"%s%d:\n",labprefix,t);continue;}
-    if(c==BRA){
-      if(0/*t==exit_label&&framesize==0*/)
-	emit(f,ret);
-      else
-	emit(f,"\tb\t%s%d\n",labprefix,t);
-      continue;
-    }
-    if(c>=BEQ&&c<BRA){
-      emit(f,"\tb%s\t",ccs[c-BEQ]);
-      if(isreg(q1)){
-	emit_obj(f,&p->q1,0);
-	emit(f,",");
-      }
-      emit(f,"%s%d\n",labprefix,t);
-      continue;
-    }
-    if(c==MOVETOREG){
-      load_reg(f,p->z.reg,&p->q1,regtype[p->z.reg]->flags);
-      continue;
-    }
-    if(c==MOVEFROMREG){
-      store_reg(f,p->z.reg,&p->q1,regtype[p->z.reg]->flags);
-      continue;
-    }
-    if((c==ASSIGN||c==PUSH)&&((t&NQ)>POINTER||((t&NQ)==CHAR&&zm2l(p->q2.val.vmax)!=1))){
-      ierror(0);
-    }
-    p=preload(f,p);
-    c=p->code;
-    if(c==SUBPFP) c=SUB;
-    if(c==ADDI2P) c=ADD;
-    if(c==SUBIFP) c=SUB;
-    if(c==CONVERT){
-      if(ISFLOAT(q1typ(p))||ISFLOAT(ztyp(p))) ierror(0);
-      if(sizetab[q1typ(p)&NQ]<sizetab[ztyp(p)&NQ]){
-	if(q1typ(p)&UNSIGNED)
-	  emit(f,"\tzext.%s\t%s\n",dt(q1typ(p)),regnames[zreg]);
-	else
-	  emit(f,"\tsext.%s\t%s\n",dt(q1typ(p)),regnames[zreg]);
-      }
-      save_result(f,p);
-      continue;
-    }
-    if(c==KOMPLEMENT){
-      load_reg(f,zreg,&p->q1,t);
-      emit(f,"\tcpl.%s\t%s\n",dt(t),regnames[zreg]);
-      save_result(f,p);
-      continue;
-    }
-    if(c==SETRETURN){
-      load_reg(f,p->z.reg,&p->q1,t);
-      BSET(regs_modified,p->z.reg);
-      continue;
-    }
-    if(c==GETRETURN){
-      if(p->q1.reg){
-        zreg=p->q1.reg;
-	save_result(f,p);
-      }else
-        p->z.flags=0;
-      continue;
-    }
-    if(c==CALL){
-      int reg;
-      /*FIXME*/
-#if 0
-      if(stack_valid&&(p->q1.flags&(VAR|DREFOBJ))==VAR&&p->q1.v->fi&&(p->q1.v->fi->flags&ALL_STACK)){
-	if(framesize+zum2ul(p->q1.v->fi->stack1)>stack)
-	  stack=framesize+zum2ul(p->q1.v->fi->stack1);
-      }else
-	stack_valid=0;
-#endif
-      if((p->q1.flags&(VAR|DREFOBJ))==VAR&&p->q1.v->fi&&p->q1.v->fi->inline_asm){
-        emit_inline_asm(f,p->q1.v->fi->inline_asm);
-      }else{
-	emit(f,"\tcall\t");
-	emit_obj(f,&p->q1,t);
-	emit(f,"\n");
-      }
-      /*FIXME*/
-#if FIXED_SP
-      pushed-=zm2l(p->q2.val.vmax);
-#endif
-      if((p->q1.flags&(VAR|DREFOBJ))==VAR&&p->q1.v->fi&&(p->q1.v->fi->flags&ALL_REGS)){
-	bvunite(regs_modified,p->q1.v->fi->regs_modified,RSIZE);
-      }else{
-	int i;
-	for(i=1;i<=MAXR;i++){
-	  if(regscratch[i]) BSET(regs_modified,i);
-	}
-      }
-      continue;
-    }
-    if(c==ASSIGN||c==PUSH){
-      if(t==0) ierror(0);
-      if(c==PUSH){
-#if FIXED_SP
-	emit(f,"\tmov.%s\t%ld(%s),",dt(t),pushed,regnames[sp]);
-	emit_obj(f,&p->q1,t);
-	emit(f,"\n");
-	pushed+=zm2l(p->q2.val.vmax);
-#else
-	emit(f,"\tpush.%s\t",dt(t));
-	emit_obj(f,&p->q1,t);
-	emit(f,"\n");
-	//push(zm2l(p->q2.val.vmax));
-#endif
-	continue;
-      }
-      if(c==ASSIGN){
-	load_reg(f,zreg,&p->q1,t);
-	save_result(f,p);
-      }
-      continue;
-    }
-    if(c==ADDRESS){
-      load_address(f,zreg,&p->q1,POINTER);
-      save_result(f,p);
-      continue;
-    }
-    if(c==MINUS){
-      load_reg(f,zreg,&p->q1,t);
-      emit(f,"\tneg.%s\t%s\n",dt(t),regnames[zreg]);
-      save_result(f,p);
-      continue;
-    }
-    if(c==TEST){
-      emit(f,"\ttst.%s\t",dt(t));
-      if(multiple_ccs)
-	emit(f,"%s,",regnames[zreg]);
-      emit_obj(f,&p->q1,t);
-      emit(f,"\n");
-      if(multiple_ccs)
-	save_result(f,p);
-      continue;
-    }
-    if(c==COMPARE){
-      emit(f,"\tcmp.%s\t",dt(t));
-      if(multiple_ccs)
-	emit(f,"%s,",regnames[zreg]);
-      emit_obj(f,&p->q1,t);
-      emit(f,",");
-      emit_obj(f,&p->q2,t);
-      emit(f,"\n");
-      if(multiple_ccs)
-	save_result(f,p);
-      continue;
-    }
-    if((c>=OR&&c<=AND)||(c>=LSHIFT&&c<=MOD)){
-      if(!THREE_ADDR)
-	load_reg(f,zreg,&p->q1,t);
-      if(c>=OR&&c<=AND)
-	emit(f,"\t%s.%s\t%s,",logicals[c-OR],dt(t),regnames[zreg]);
-      else
-	emit(f,"\t%s.%s\t%s,",arithmetics[c-LSHIFT],dt(t),regnames[zreg]);
-      if(THREE_ADDR){
-	emit_obj(f,&p->q1,t);
-	emit(f,",");
-      }
-      emit_obj(f,&p->q2,t);
-      emit(f,"\n");
-      save_result(f,p);
-      continue;
-    }
-    pric2(stdout,p);
-    ierror(0);
-  }
-  function_bottom(f,v,localsize);
-  if(stack_valid){
-    if(!v->fi) v->fi=new_fi();
-    v->fi->flags|=ALL_STACK;
-    v->fi->stack1=stack;
-  }
-  emit(f,"# stacksize=%lu%s\n",zum2ul(stack),stack_valid?"":"+??");
-}
+    debug("------------------------------\n");
+    /* switch for each different IC */
+    switch(p->code){
+      case ASSIGN:
+        debug("ASSIGN\n");
 
-/*
-int reg_parm(struct reg_handle *m, struct Typ *t,int vararg,struct Typ *d)
-{
-  int f;
-  f=t->flags&NQ;
-  if(f<=LONG||f==POINTER){
-    if(m->gregs>=GPR_ARGS)
-      return 0;
-    else
-      return FIRST_GPR+3+m->gregs++;
+        break;
+      /* alu ops */
+      case OR:
+      case XOR:
+      case AND:
+      case LSHIFT:
+      case RSHIFT:
+      case ADD:
+      case SUB:
+      case MULT:
+      case DIV:
+      case MOD:
+      case KOMPLEMENT:
+      case MINUS:
+        /* TODO: call a general arithmetic routine */
+        break;
+
+      case ADDRESS:
+        debug("ADDRESS\n");
+
+        break;
+
+      case CALL:
+        debug("CALL\n");
+
+        break;
+
+      case CONVERT:
+        debug("CONVERT\n");
+
+        break;
+      case ALLOCREG:
+        debug("ALLOCREG\n");
+
+        break;
+      case FREEREG:
+        debug("FREEREG\n");
+
+        break;
+      case COMPARE:
+        debug("COMPARE\n");
+
+        break;
+      case TEST:
+        debug("TEST\n");
+
+        break;
+      case LABEL:
+        debug("LABEL: %u\n", p->typf);
+
+        break;
+      /* conditional branches or unconditional branches */
+      case BEQ:
+      case BNE:
+      case BLT:
+      case BGE:
+      case BLE:
+      case BGT:
+      case BRA:
+        /* call a general conditional branch emitter */
+        break;
+
+      case PUSH:
+        debug("PUSH\n");
+
+        break;
+      case ADDI2P:
+        debug("ADDI2P\n");
+
+        break;
+      case SUBIFP:
+        debug("SUBIFP\n");
+
+        break;
+      case SUBPFP:
+        debug("SUBPFP\n");
+
+        break;
+      case GETRETURN:
+        debug("GETRETURN\n");
+
+        break;
+      case SETRETURN:
+        debug("SETRETURN\n");
+
+        break;
+      case MOVEFROMREG:
+        debug("MOVEFROMREG\n");
+
+        break;
+      case MOVETOREG:
+        debug("MOVETOREG\n");
+
+        break;
+      case NOP:
+        debug("NOP\n");
+        break;
+
+      default:
+        printf("No such IC\n");
+        ierror(0);
+        break;
+    }
+    /* print args and target */
+    debug("operand 1:\n");
+    debug_obj(&(p->q1));
+    debug("operand 2:\n");
+    debug_obj(&(p->q2));
+    debug("target:\n");
+    debug_obj(&(p->z));
+
   }
-  if(ISFLOAT(f)){
-    if(m->fregs>=FPR_ARGS)
-      return 0;
-    else
-      return FIRST_FPR+2+m->fregs++;
-  }
-  return 0;
-}*/
+
+}
 
 int handle_pragma(const char *s)
 {
