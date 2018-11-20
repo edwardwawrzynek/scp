@@ -488,8 +488,6 @@ static int source_reg(FILE *f, struct obj *o, int real_type, int tmp){
   }
 }
 
-
-
 /**
  * handle an arithmetic IC
  * p is the IC */
@@ -965,8 +963,20 @@ void gen_code(FILE *f,struct IC *p,struct Var *v,zmax offset)
     /* switch for each different IC */
     switch(p->code){
       case ASSIGN:
-        debug("ASSIGN\n");
+        debug("ASSIGN: size: %u\n", opsize(p));
+        /* move q1 to z */
 
+        /* TODO: do assigns with structs and arrays using memcpy */
+        if(q1typ(p) > POINTER){
+          printf("Memcpy assign not implemented\n");
+          ierror(0);
+        }
+        /* get reg to load into */
+        reg1 = source_reg(f, &(p->q1), q1typ(p), tmp1);
+        /* load */
+        load_into_reg(f, &(p->q1), q1typ(p), reg1);
+        /* store */
+        store_from_reg(f, &(p->z), q1typ(p), reg1, tmp2);
         break;
       /* alu ops */
       case OR:
@@ -1054,11 +1064,23 @@ void gen_code(FILE *f,struct IC *p,struct Var *v,zmax offset)
         break;
       case GETRETURN:
         debug("GETRETURN\n");
-
+        /* load the from reg q1.reg into z */
+        /* q1.reg should be ret_reg */
+        if(p->q1.reg != ret_reg){
+          /* TODO: this happens when returning a struct - nothing has to be done? (looks like it from reading other backends) */
+        } else {
+          store_from_reg(f, &(p->z), ztyp(p), ret_reg, tmp1);
+        }
+        break;
         break;
       case SETRETURN:
         debug("SETRETURN\n");
-
+        /* load the value into reg z.reg */
+        /* z.reg should be ret_reg */
+        if(p->z.reg != ret_reg){
+          ierror(0);
+        }
+        load_into_reg(f, &(p->q1), q1typ(p), ret_reg);
         break;
       case MOVEFROMREG:
         debug("MOVEFROMREG\n");
