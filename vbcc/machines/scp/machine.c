@@ -439,15 +439,14 @@ static void store_from_reg(FILE *f, struct obj *o, int real_type, int reg, int t
   /* clear all but unsigned from type */
   real_type &= NU;
   int typ = real_type;
-
   /* handle cases that can be made more efficient */
-  if(o->flags & REG && !(o->flags & DREFOBJ)){
+  if((o->flags & REG) && !(o->flags & DREFOBJ)){
     /* move regs if they are different */
     if(reg != o->reg){
       emit(f, "\tmov.r.r %s %s\n", regnames[o->reg], regnames[reg]);
     }
 
-  } else if(o->flags & VAR == VAR){
+  } else if((o->flags & VAR) == VAR){
     if(isextern(o->v->storage_class)){
       emit(f, "\tst.r.m.%s %s %s%s +%li\n", dt(typ), regnames[reg], idprefix, o->v->identifier, o->val.vmax);
     }
@@ -497,23 +496,33 @@ static int source_reg(FILE *f, struct obj *o, int real_type, int tmp){
 static void arithmetic(FILE *f, struct IC *p){
   /* source and target regs (reg1 and regt have to match) */
   int reg1, reg2, regt;
+  /* if true, q2 is konst, so use alu.r.i instead of alu.r.r */
+  int q2_konst = 0;
+  if((p->q2.flags & KONST) == KONST){
+    q2_konst = 1;
+  }
   /* get reg1 and reg2, loading them into tmp1 and tmp2 if needed */
   reg1 = source_reg(f, &(p->q1), q1typ(p), tmp1);
   reg2 = source_reg(f, &(p->q2), q2typ(p), tmp2);
   /* get target reg, which may be tmp1 if needed */
   regt = source_reg(f, &(p->z), ztyp(p), tmp1);
-  /* if reg1 and regt don't match, use regt as both (regt will probably be tmp1, but, if not, this gets rid of a mov) */
-  /* TODO: use swap_IC to potentially resolve this */
+  /* if reg1 and regt don't match, use regt as both */
   if(reg1 != regt){
     reg1 = regt;
     regt = regt;
   }
   /* load args */
   load_into_reg(f, &(p->q1), q1typ(p), reg1);
-  load_into_reg(f, &(p->q2), q2typ(p), reg2);
+  if(!q2_konst){
+    load_into_reg(f, &(p->q2), q2typ(p), reg2);
+  }
 
   /* emit start of alu instruction */
-  emit(f, "\talu.r.r ");
+  if(q2_konst){
+    emit(f, "\talu.r.i ");
+  } else {
+    emit(f, "\talu.r.r ");
+  }
   /* emit alu name for each operation */
   switch(p->code){
     case OR:
@@ -577,7 +586,11 @@ static void arithmetic(FILE *f, struct IC *p){
       break;
   }
   /* finish alu instruction */
-  emit(f, " %s %s\n", regnames[reg1], regnames[reg2]);
+  if(!q2_konst){
+    emit(f, " %s %s\n", regnames[reg1], regnames[reg2]);
+  } else {
+    emit(f, " %s %li\n", regnames[reg1], p->q2.val.vmax);
+  }
   /* store result, using tmp2 if needed (result may be in tmp1) */
   store_from_reg(f, &(p->z), ztyp(p), regt, tmp2);
 }
