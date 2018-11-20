@@ -103,11 +103,6 @@ static long malign[MAX_TYPE+1]=  {1,1,2,2,2,1,2,2,2,1,2,1,1,1,2,1};
 /* sizes of basic data-types, used to initialize sizetab[] */
 static long msizetab[MAX_TYPE+1]={0,1,2,2,4,0,4,4,4,0,2,0,0,0,2,0};
 
-/* names of types used in some (.dc, etc) encodings */
-#define dt(t) (((t)&UNSIGNED)?udt[(t)&NQ]:sdt[(t)&NQ])
-static char *sdt[MAX_TYPE+1]={"??","bs","w","w","l","-","l","l","l","v","w"};
-static char *udt[MAX_TYPE+1]={"??","b","w","w","l","-","l","l","l","v","w"};
-
 /* used to initialize regtyp[] */
 static struct Typ ityp={INT};
 
@@ -140,13 +135,13 @@ static int ret_reg;
 void debug_var(struct Var *v, zmax val){
   debug("\tvar: %s\n", v->identifier);
   if(isauto(v->storage_class)){
-    debug("\t\tauto %s: local offset %i, offset: %i\n", v->offset > 0 ? "local" : "argument", v->offset, val);
+    debug("\t\tauto %s: local offset %li, offset: %li\n", v->offset > 0 ? "local" : "argument", v->offset, val);
   }
   if(isextern(v->storage_class)){
-    debug("\t\textern _%s + %i\n", v->identifier, val);
+    debug("\t\textern _%s + %li\n", v->identifier, val);
   }
   if(isstatic(v->storage_class)){
-    debug("\t\tstatic l%u + %i\n", v->offset, val);
+    debug("\t\tstatic l%u + %li\n", v->offset, val);
   }
 }
 
@@ -183,8 +178,8 @@ void debug_obj(struct obj *o){
     debug("\taddress of:\n");
   }
   if(o->flags & KONST){
-    debug("\tconstant: %i\n", o->val.vmax);
-  } else {
+    debug("\tconstant: %li\n", o->val.vmax);
+  } else if(!(o->flags & REG)){
     debug_var(o->v, o->val.vmax);
   }
 }
@@ -212,9 +207,9 @@ static long pushsize;
 /* size of otherthings pushed (for any other reason) */
 static long stackoffset;
 
-/* get the real offset from the frame pointer for a variable on the stack */
+/* get the real offset from the stack pointer for a variable on the stack */
 /* off is negative if the object is a function argument, positive for locals */
-static long real_offset(struct obj *o)
+static long real_stack_offset(struct obj *o)
 {
   long off=zm2l(o->v->offset);
   if(off<0){
@@ -232,11 +227,7 @@ static long real_offset(struct obj *o)
   return off;
 }
 
-
-#define isreg(x) ((p->x.flags&(REG|DREFOBJ))==REG)
-#define isconst(x) ((p->x.flags&(KONST|DREFOBJ))==KONST)
-
-/* generates the function entry code */
+/* generates the function entry code, and reset pushsize and stackoffset */
 static void function_top(FILE *f,struct Var *v,long offset)
 {
   emit(f, ";\tFunction %s\n;\tlocalsize: %u\n", v->identifier, offset);
@@ -245,14 +236,141 @@ static void function_top(FILE *f,struct Var *v,long offset)
     if((v->flags&(INLINEFUNC|INLINEEXT))!=INLINEFUNC){
       emit(f,"\t.global\t%s%s\n",idprefix,v->identifier);
     }
-  }else
+  }else{
     emit(f,"%s%ld:\n",labprefix,zm2l(v->offset));
+  }
+  pushsize = 0;
+  stackoffset = 0;
 }
+
 /* generates the function exit code */
 static void function_bottom(FILE *f,struct Var *v,long offset)
 {
   emit(f,"\tret.n.sp\tsp\n");
   emit(f, ";\tEnd of function %s\n", v->identifier);
+}
+
+/* push/pop a register (effects stackoffset) */
+static void push_reg(FILE *f, int reg){
+  stackoffset += 2;
+  emit(f, "\tpush.r.sp %s sp\n", regnames[reg]);
+}
+static void pop_reg(FILE *f, int reg){
+  stackoffset -= 2;
+  emit(f, "\tpop.r.sp %s sp\n", regnames[reg]);
+}
+
+/* push/pop a reg in function prolouge and epilouge, effecting pushsize */
+static void pushsize_push_reg(FILE *f, int reg){
+  pushsize += 2;
+  emit(f, "\tpush.r.sp %s sp\n", regnames[reg]);
+}
+
+static void pushsize_pop_reg(FILE *f, int reg){
+  pushsize -= 2;
+  emit(f, "\tpop.r.sp %s sp\n", regnames[reg]);
+}
+
+/* make room for locals, and set localsize */
+static void make_locals(FILE *f, long size){
+  localsize = size;
+  /* only emit sub if we need to make space */
+  if(size){
+    emit(f, "\talu.r.i sub sp %li\n", size);
+  }
+
+}
+
+/* modify the stack pointer */
+static void mod_stack(FILE *f, long change){
+  stackoffset += change;
+  if(change){
+    emit(f, "\talu.r.i add sp %li\n", change);
+  }
+}
+
+/* remove room made for locals and stackoffset */
+static void remove_locals_and_stack(FILE *f){
+  int s = stackoffset + localsize;
+  /* only emit add if we need to */
+  if(s){
+    emit(f, "\talu.r.i add sp %s\n", s);
+  }
+  stackoffset = 0;
+  localsize = 0;
+}
+
+/* loading and storing routines */
+
+/* names of types used in some (.dc, etc) encodings */
+#define dt(t) (((t)&UNSIGNED)?udt[(t)&NQ]:sdt[(t)&NQ])
+static char *sdt[MAX_TYPE+1]={"??","bs","w","w","l","-","l","l","l","-","w"};
+static char *udt[MAX_TYPE+1]={"??","b","w","w","l","-","l","l","l","-","w"};
+
+#define isreg(x) ((p->x.flags&(REG|DREFOBJ))==REG)
+#define isconst(x) ((p->x.flags&(KONST|DREFOBJ))==KONST)
+
+/**
+ * load an object into a register
+ * a temporary value may be loaded into the object before the final value is loaded
+ * f is the file output stream
+ * o is the object
+ * typ is the type (from q1typ, q2typ, or ztyp) of the object
+ * reg is the reg to load into */
+static void load_into_reg(FILE *f, struct obj *o, int typ, int reg){
+
+  /* clear all but unsigned from type */
+  typ &= NU;
+
+  /* make sure we have something */
+  if(!o->flags){
+    ierror(0);
+  }
+
+  /* load into reg, then apply drefobj if nessesary */
+  if(o->flags & REG){
+    if(o->reg != reg){
+      emit(f, "\tmov.r.r %s %s\n", regnames[reg], regnames[o->reg]);
+    }
+  } else if (o->flags & KONST){
+    emit(f, "\tld.r.i %s %li\n", regnames[reg], o->val.vmax);
+  } else if (o->flags & VAR){
+    /* storage class of the variable */
+    int sc = o->v->storage_class;
+    /* check if we are loading address of a var */
+    if(o->flags & VARADR){
+      /* should only be used with static or external variables */
+      if(isextern(sc)){
+        emit(f, "\tld.r.i %s %s%s +%li\n", regnames[reg], idprefix, o->v->identifier, o->val.vmax);
+      }
+      if(isstatic(sc)){
+        emit(f, "\tld.r.i %s %s%i +%li\n", regnames[reg], idprefix, o->v->offset, o->val.vmax);
+        }
+    } else {
+      /* handle externs and static */
+      if(isextern(sc)){
+        emit(f, "\tld.r.m.%s %s %s%s +%li\n", dt(typ), regnames[reg], idprefix, o->v->identifier, o->val.vmax);
+      }
+      if(isstatic(sc)){
+        emit(f, "\tld.r.m.%s %s %s%i +%li\n", dt(typ), regnames[reg], labprefix, o->v->offset, o->val.vmax);
+      }
+      /* handle automatic variables */
+      if(isauto(sc)){
+        /* get offset */
+        long off = real_stack_offset(o);
+        /* emit with an offset if we need to */
+        if(off){
+          emit(f, "\tld.r.p.off.%s %s sp %li\n", dt(typ), regnames[reg], off);
+        } else {
+          emit(f, "\tld.r.p.%s %s sp\n", dt(typ), regnames[reg]);
+        }
+      }
+    }
+  }
+  /* apply drefobj */
+  if (o->flags & DREFOBJ){
+    emit(f, "\tld.r.p.%s %s %s\n", dt(typ), regnames[reg], regnames[reg]);
+  }
 }
 
 /****************************************/
@@ -588,16 +706,35 @@ void gen_dc(FILE *f,int t,struct const_list *p)
 void gen_code(FILE *f,struct IC *p,struct Var *v,zmax offset)
 /*  The main code-generation.                                           */
 {
+  /* which registers are to be pushed in prolouge and poped in epilouge */
+  int regspushed[MAXR+1];
+  memset(regspushed, 0, (MAXR+1)*sizeof(int));
+
   debug("gen_code()\n");
 
-  /* emit function label */
+  /* emit function label (resets stackoffset and push size) */
   function_top(f, v, offset);
+  /* make space for locals (and set localsize) */
+  make_locals(f, offset);
 
-  /* check if the code uses a non scratch reg */
+  /* check if the code uses a non scratch reg, and add it to regspushed */
   struct IC *ps = p;
   for(;ps;ps=ps->next){
 
   }
+
+  /* set backend regs to be pushed */
+  /* TODO: do we need to push backend regs ? */
+  regspushed[tmp1] = regspushed[tmp1_h] = regspushed[tmp2] = regspushed[tmp2_h] = 1;
+
+  /* push all registers that we need to */
+  for(int i = 1; i < MAXR+1; i++){
+    if(regspushed[i]){
+      pushsize_push_reg(f, i);
+    }
+  }
+
+  emit(f, ";\tBegin function body\n");
   /* go through each IC, and emit code */
   for(;p;p=p->next){
     debug("------------------------------\n");
@@ -720,6 +857,13 @@ void gen_code(FILE *f,struct IC *p,struct Var *v,zmax offset)
 
   }
   /* emit function epilouge */
+  emit(f,";\tEnd function body\n");
+  /* pop all registers that we need to (done in reverse order)*/
+  for(int i = MAXR; i > 0; i--){
+    if(regspushed[i]){
+      pushsize_pop_reg(f, i);
+    }
+  }
 
   /* return */
   function_bottom(f, v, offset);
