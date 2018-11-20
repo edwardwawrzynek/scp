@@ -442,8 +442,10 @@ static void store_from_reg(FILE *f, struct obj *o, int real_type, int reg, int t
 
   /* handle cases that can be made more efficient */
   if(o->flags & REG && !(o->flags & DREFOBJ)){
-    /* move regs */
-    emit(f, "\tmov.r.r %s %s\n", regnames[o->reg], regnames[reg]);
+    /* move regs if they are different */
+    if(reg != o->reg){
+      emit(f, "\tmov.r.r %s %s\n", regnames[o->reg], regnames[reg]);
+    }
 
   } else if(o->flags & VAR == VAR){
     if(isextern(o->v->storage_class)){
@@ -470,6 +472,22 @@ static void store_from_reg(FILE *f, struct obj *o, int real_type, int reg, int t
   }
 }
 
+/**
+ * given a source object, get the register to put the result into
+ * o is the object
+ * real_type is the type of the object (not used)
+ * tmp is a temporary reg that can be used as the source
+ * returns the reg to put the result into */
+static int source_reg(FILE *f, struct obj *o, int real_type, int tmp){
+  /* if the source is a reg (not drefrenced), target that */
+  if(o->flags & REG && !(o->flags & DREFOBJ)){
+    return o->reg;
+  }
+  /* otherwise, put in tmp */
+  else{
+    return tmp;
+  }
+}
 
 /****************************************/
 /*  End of private data and functions.  */
@@ -807,6 +825,8 @@ void gen_code(FILE *f,struct IC *p,struct Var *v,zmax offset)
   /* which registers are to be pushed in prolouge and poped in epilouge */
   int regspushed[MAXR+1];
   memset(regspushed, 0, (MAXR+1)*sizeof(int));
+  /* general reg variables */
+  int reg1, reg2;
 
   debug("gen_code()\n");
 
@@ -860,7 +880,12 @@ void gen_code(FILE *f,struct IC *p,struct Var *v,zmax offset)
 
       case ADDRESS:
         debug("ADDRESS\n");
-
+        /* find reg to use */
+        reg1 = source_reg(f, &(p->z), ztyp(p), tmp1);
+        /* load address */
+        load_address(f, &(p->q1), q1typ(p), reg1);
+        /* and store */
+        store_from_reg(f, &(p->z), ztyp(p), reg1, tmp2);
         break;
 
       case CALL:
