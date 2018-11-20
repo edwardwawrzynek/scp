@@ -403,8 +403,27 @@ uint16_t arg_to_bin(enum arg_type type, uint16_t addr) {
 
       /* reset null */
       line[lptr-1] = ' ';
+      /* check if there is an offset to add */
+      int offset = 0;
+      int mode = 0; /* 0=add, 1=sub */
+      switch(line[lptr]){
+        case '-':
+          mode = 1;
+        case '+':
+          offset = atoi(get_arg());
+
+          /* reset null */
+          line[lptr-1] = ' ';
+
+          if(mode == 1){
+            offset = -offset;
+          }
+          break;
+        default:
+          break;
+      }
       /* position independent */
-      return real_addr-addr-2;
+      return real_addr-addr-2+offset;
 
     case cond:;
       /* condition codes are composed as a combination of chars:
