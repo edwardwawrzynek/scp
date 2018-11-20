@@ -489,6 +489,99 @@ static int source_reg(FILE *f, struct obj *o, int real_type, int tmp){
   }
 }
 
+
+
+/**
+ * handle an arithmetic IC
+ * p is the IC */
+static void arithmetic(FILE *f, struct IC *p){
+  /* source and target regs (reg1 and regt have to match) */
+  int reg1, reg2, regt;
+  /* get reg1 and reg2, loading them into tmp1 and tmp2 if needed */
+  reg1 = source_reg(f, &(p->q1), q1typ(p), tmp1);
+  reg2 = source_reg(f, &(p->q2), q2typ(p), tmp2);
+  /* get target reg, which may be tmp1 if needed */
+  regt = source_reg(f, &(p->z), ztyp(p), tmp1);
+  /* if reg1 and regt don't match, use regt as both (regt will probably be tmp1, but, if not, this gets rid of a mov) */
+  /* TODO: use swap_IC to potentially resolve this */
+  if(reg1 != regt){
+    reg1 = regt;
+    regt = regt;
+  }
+  /* load args */
+  load_into_reg(f, &(p->q1), q1typ(p), reg1);
+  load_into_reg(f, &(p->q2), q2typ(p), reg2);
+
+  /* emit start of alu instruction */
+  emit(f, "\talu.r.r ");
+  /* emit alu name for each operation */
+  switch(p->code){
+    case OR:
+      debug("OR\n");
+      emit(f, "bor");
+      break;
+    case XOR:
+      debug("XOR\n");
+      emit(f, "bxor");
+      break;
+    case AND:
+      debug("AND\n");
+      emit(f, "band");
+      break;
+    case LSHIFT:
+      debug("LSHIFT\n");
+      emit(f, "lsh");
+      break;
+    case RSHIFT:
+      /* we need to check if it is a signed or unsigned shift */
+      debug("RSHIFT\n");
+      if(q1typ(p) & UNSIGNED){
+        emit(f, "ursh");
+      } else {
+        emit(f, "srsh");
+      }
+      break;
+    case ADD:
+      debug("ADD\n");
+      emit(f, "add");
+      break;
+    case SUB:
+      debug("SUB\n");
+      emit(f, "sub");
+      break;
+    case MULT:
+      debug("MULT\n");
+      emit(f, "mul");
+      break;
+    case DIV:
+      debug("DIV\n");
+      /* not implemented */
+      /* needs to check sign */
+      printf("DIV not implemented\n");
+      ierror(0);
+      break;
+    case MOD:
+      debug("MOD\n");
+      /* not implemented */
+      /* needs to check sign */
+      printf("MOD not implemented\n");
+      ierror(0);
+      break;
+    case KOMPLEMENT:
+      debug("KOMPLEMENT\n");
+      emit(f, "bneg");
+      break;
+    case MINUS:
+      debug("MINUS\n");
+      emit(f, "neg");
+      break;
+  }
+  /* finish alu instruction */
+  emit(f, " %s %s\n", regnames[reg1], regnames[reg2]);
+  /* store result, using tmp2 if needed (result may be in tmp1) */
+  store_from_reg(f, &(p->z), ztyp(p), regt, tmp2);
+}
+
 /****************************************/
 /*  End of private data and functions.  */
 /****************************************/
@@ -875,7 +968,8 @@ void gen_code(FILE *f,struct IC *p,struct Var *v,zmax offset)
       case MOD:
       case KOMPLEMENT:
       case MINUS:
-        /* TODO: call a general arithmetic routine */
+        /* handles all of the arithemtic operations */
+        arithmetic(f, p);
         break;
 
       case ADDRESS:
