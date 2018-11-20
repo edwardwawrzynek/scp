@@ -312,15 +312,22 @@ static char *udt[MAX_TYPE+1]={"??","b","w","w","l","-","l","l","l","-","w"};
 
 /**
  * load an object into a register
- * a temporary value may be loaded into the object before the final value is loaded
+ * doesn't use any other registers
  * f is the file output stream
  * o is the object
- * typ is the type (from q1typ, q2typ, or ztyp) of the object
+ * real_type is the type (from q1typ, q2typ, or ztyp) of the object
  * reg is the reg to load into */
-static void load_into_reg(FILE *f, struct obj *o, int typ, int reg){
+static void load_into_reg(FILE *f, struct obj *o, int real_type, int reg){
 
   /* clear all but unsigned from type */
-  typ &= NU;
+  real_type &= NU;
+
+  int typ = real_type;
+
+  /* if it is a dereference, load it as a pointer */
+  if(o->flags & DREFOBJ){
+    typ = POINTER;
+  }
 
   /* make sure we have something */
   if(!o->flags){
@@ -328,6 +335,7 @@ static void load_into_reg(FILE *f, struct obj *o, int typ, int reg){
   }
 
   /* load into reg, then apply drefobj if nessesary */
+  /* TODO: add special case with REG|DREFOBJ - doesn't need the move before hand, we can just use old reg as source */
   if(o->flags & REG){
     if(o->reg != reg){
       emit(f, "\tmov.r.r %s %s\n", regnames[reg], regnames[o->reg]);
@@ -335,27 +343,25 @@ static void load_into_reg(FILE *f, struct obj *o, int typ, int reg){
   } else if (o->flags & KONST){
     emit(f, "\tld.r.i %s %li\n", regnames[reg], o->val.vmax);
   } else if (o->flags & VAR){
-    /* storage class of the variable */
-    int sc = o->v->storage_class;
     /* check if we are loading address of a var */
     if(o->flags & VARADR){
       /* should only be used with static or external variables */
-      if(isextern(sc)){
+      if(isextern(o->v->storage_class)){
         emit(f, "\tld.r.i %s %s%s +%li\n", regnames[reg], idprefix, o->v->identifier, o->val.vmax);
       }
-      if(isstatic(sc)){
+      if(isstatic(o->v->storage_class)){
         emit(f, "\tld.r.i %s %s%i +%li\n", regnames[reg], idprefix, o->v->offset, o->val.vmax);
         }
     } else {
       /* handle externs and static */
-      if(isextern(sc)){
+      if(isextern(o->v->storage_class)){
         emit(f, "\tld.r.m.%s %s %s%s +%li\n", dt(typ), regnames[reg], idprefix, o->v->identifier, o->val.vmax);
       }
-      if(isstatic(sc)){
+      if(isstatic(o->v->storage_class)){
         emit(f, "\tld.r.m.%s %s %s%i +%li\n", dt(typ), regnames[reg], labprefix, o->v->offset, o->val.vmax);
       }
       /* handle automatic variables */
-      if(isauto(sc)){
+      if(isauto(o->v->storage_class)){
         /* get offset */
         long off = real_stack_offset(o);
         /* emit with an offset if we need to */
@@ -369,8 +375,56 @@ static void load_into_reg(FILE *f, struct obj *o, int typ, int reg){
   }
   /* apply drefobj */
   if (o->flags & DREFOBJ){
-    emit(f, "\tld.r.p.%s %s %s\n", dt(typ), regnames[reg], regnames[reg]);
+    /* use a pointer object */
+    emit(f, "\tld.r.p.%s %s %s\n", dt(real_type), regnames[reg], regnames[reg]);
   }
+}
+
+/**
+ * load the address of an object into a register
+ * doesn't use any other registers
+ * f is the file output stream
+ * o is the object
+ * typ is the type (from q1typ, q2typ, or ztyp) of the object
+ * reg is the reg to load into */
+static void load_address(FILE *f, struct obj *o, int typ, int reg){
+
+  /* if the object is a derefrence, we can just load it without the derefrence */
+  if(o->flags & DREFOBJ){
+    /* clear DREFOBJ */
+    o->flags &= ~0b100000;
+    load_address(f, o, POINTER, reg);
+  } else if (o->flags & KONST){
+    /* can't take addr of a constant */
+    ierror(0);
+  } else if (o->flags & VARADR){
+    /* can't take address of address */
+    ierror(0);
+  } else if (o->flags & VAR){
+    /* we have to take the address of a non derefrenced, non VARADR variable */
+    /* handle externs and static */
+      if(isextern(o->v->storage_class)){
+        emit(f, "\tld.r.ra %s %s%s +%li\n", regnames[reg], idprefix, o->v->identifier, o->val.vmax);
+      }
+      if(isstatic(o->v->storage_class)){
+        emit(f, "\tld.r.ra %s %s%i +%li\n", regnames[reg], labprefix, o->v->offset, o->val.vmax);
+      }
+      /* handle automatic variables */
+      if(isauto(o->v->storage_class)){
+        /* get offset */
+        long off = real_stack_offset(o);
+        /* move sp to reg and odd offset */
+        emit(f, "\tmov.r.r %s sp\n", regnames[reg]);
+        if(off){
+          emit(f, "\talu.r.i add %s %li\n", regnames[reg], off);
+        }
+      }
+
+  } else {
+    /* can't load address of whatever this is */
+    ierror(0);
+  }
+
 }
 
 /****************************************/
@@ -848,11 +902,11 @@ void gen_code(FILE *f,struct IC *p,struct Var *v,zmax offset)
         break;
     }
     /* print args and target */
-    debug("operand 1:\n");
+    debug("operand 1: typ: %u\n", q1typ(p));
     debug_obj(&(p->q1));
-    debug("operand 2:\n");
+    debug("operand 2: typ: %u\n", q2typ(p));
     debug_obj(&(p->q2));
-    debug("target:\n");
+    debug("target: type %u\n", ztyp(p));
     debug_obj(&(p->z));
 
   }
