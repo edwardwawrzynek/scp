@@ -143,10 +143,10 @@ void debug_var(struct Var *v, zmax val){
     debug("\t\tauto %s: local offset %i, offset: %i\n", v->offset > 0 ? "local" : "argument", v->offset, val);
   }
   if(isextern(v->storage_class)){
-    debug("\t\textern _%s + %i: offset %i\n", v->identifier, val, v->offset);
+    debug("\t\textern _%s + %i\n", v->identifier, val);
   }
   if(isstatic(v->storage_class)){
-    debug("\t\tstatic l%s + %i: offset %i\n", v->identifier, val, v->offset);
+    debug("\t\tstatic l%u + %i\n", v->offset, val);
   }
 }
 
@@ -235,6 +235,25 @@ static long real_offset(struct obj *o)
 
 #define isreg(x) ((p->x.flags&(REG|DREFOBJ))==REG)
 #define isconst(x) ((p->x.flags&(KONST|DREFOBJ))==KONST)
+
+/* generates the function entry code */
+static void function_top(FILE *f,struct Var *v,long offset)
+{
+  emit(f, ";\tFunction %s\n;\tlocalsize: %u\n", v->identifier, offset);
+  if(v->storage_class==EXTERN){
+    emit(f,"%s%s:\n",idprefix,v->identifier);
+    if((v->flags&(INLINEFUNC|INLINEEXT))!=INLINEFUNC){
+      emit(f,"\t.global\t%s%s\n",idprefix,v->identifier);
+    }
+  }else
+    emit(f,"%s%ld:\n",labprefix,zm2l(v->offset));
+}
+/* generates the function exit code */
+static void function_bottom(FILE *f,struct Var *v,long offset)
+{
+  emit(f,"\tret.n.sp\tsp\n");
+  emit(f, ";\tEnd of function %s\n", v->identifier);
+}
 
 /****************************************/
 /*  End of private data and functions.  */
@@ -569,8 +588,10 @@ void gen_dc(FILE *f,int t,struct const_list *p)
 void gen_code(FILE *f,struct IC *p,struct Var *v,zmax offset)
 /*  The main code-generation.                                           */
 {
-  emit(f, ";\tLocal size: %i\n", offset);
-  debug("gen_code called, localsize: %u\n", offset);
+  debug("gen_code()\n");
+
+  /* emit function label */
+  function_top(f, v, offset);
 
   /* check if the code uses a non scratch reg */
   struct IC *ps = p;
@@ -634,7 +655,8 @@ void gen_code(FILE *f,struct IC *p,struct Var *v,zmax offset)
         break;
       case LABEL:
         debug("LABEL: %u\n", p->typf);
-
+        /* use labprefix */
+        emit(f, "%s%i:\n", labprefix, p->typf);
         break;
       /* conditional branches or unconditional branches */
       case BEQ:
@@ -697,6 +719,10 @@ void gen_code(FILE *f,struct IC *p,struct Var *v,zmax offset)
     debug_obj(&(p->z));
 
   }
+  /* emit function epilouge */
+
+  /* return */
+  function_bottom(f, v, offset);
 
 }
 
