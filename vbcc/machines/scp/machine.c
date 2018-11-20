@@ -246,7 +246,7 @@ static void function_top(FILE *f,struct Var *v,long offset)
 /* generates the function exit code */
 static void function_bottom(FILE *f,struct Var *v,long offset)
 {
-  emit(f,"\tret.n.sp\tsp\n");
+  emit(f,"\tret.n.sp sp\n");
   emit(f, ";\tEnd of function %s\n", v->identifier);
 }
 
@@ -489,6 +489,19 @@ static int source_reg(FILE *f, struct obj *o, int real_type, int tmp){
 }
 
 /**
+ * load an object into a, and return that register (combination of source_reg and load_into_reg)
+ * o is the object
+ * real_type is the type
+ * tmp is a temporary reg that can be used
+ * returns reg that it was loaded into */
+static int load_obj(FILE *f, struct obj *o, int real_type, int tmp){
+  int reg = source_reg(f, o, real_type, tmp);
+  load_into_reg(f, o, real_type, reg);
+
+  return reg;
+}
+
+/**
  * handle an arithmetic IC
  * p is the IC */
 static void arithmetic(FILE *f, struct IC *p){
@@ -591,6 +604,80 @@ static void arithmetic(FILE *f, struct IC *p){
   }
   /* store result, using tmp2 if needed (result may be in tmp1) */
   store_from_reg(f, &(p->z), ztyp(p), regt, tmp2);
+}
+
+/* signed-ness of last comparison (1=signed, 0=unsigned) */
+static int compare_signed = 1;
+
+/* handle a compare instruction */
+static void compare(FILE *f, struct IC *p){
+  /* load both args */
+  int reg1 = load_obj(f, &(p->q1), q1typ(p), tmp1);
+  int reg2 = load_obj(f, &(p->q2), q2typ(p), tmp2);
+  emit(f, "\tcmp.r.f %s %s\n", regnames[reg1], regnames[reg2]);
+  /* set sign */
+  if((q1typ(p)&UNSIGNED) || (q2typ(p)&UNSIGNED)){
+    compare_signed = 0;
+  } else {
+    compare_signed = 1;
+  }
+}
+
+/* handle a branch instruction */
+static void branch(FILE *f, struct IC *p){
+  /* emit start */
+  emit(f, "\tjmp.c.j ");
+  /* emit proper condition code */
+  switch(p->code){
+    case BEQ:
+      debug("BEQ\n");
+      /* signedness doesn't matter */
+      emit(f, "e");
+      break;
+    case BNE:
+      debug("BNE\n");
+      /* signedness doesn't matter */
+      emit(f, "GLgl");
+      break;
+    case BLT:
+      debug("BLT\n");
+      if(compare_signed){
+        emit(f, "L");
+      } else {
+        emit(f, "l");
+      }
+      break;
+    case BGE:
+      debug("BGE\n");
+      if(compare_signed){
+        emit(f, "Ge");
+      } else {
+        emit(f, "ge");
+      }
+      break;
+    case BLE:
+      debug("BLE\n");
+      if(compare_signed){
+        emit(f, "Le");
+      } else {
+        emit(f, "le");
+      }
+      break;
+    case BGT:
+      debug("BGT\n");
+      if(compare_signed){
+        emit(f, "G");
+      } else {
+        emit(f, "g");
+      }
+      break;
+    case BRA:
+      debug("BRA\n");
+      /* signedness doesn't matter */
+      emit(f, "LGlge");
+      break;
+  }
+  emit(f, " %s%i\n", labprefix, p->typf);
 }
 
 /****************************************/
@@ -1024,7 +1111,7 @@ void gen_code(FILE *f,struct IC *p,struct Var *v,zmax offset)
         break;
       case COMPARE:
         debug("COMPARE\n");
-
+        compare(f, p);
         break;
       case TEST:
         debug("TEST\n");
@@ -1043,7 +1130,7 @@ void gen_code(FILE *f,struct IC *p,struct Var *v,zmax offset)
       case BLE:
       case BGT:
       case BRA:
-        /* call a general conditional branch emitter */
+        branch(f, p);
         break;
 
       case PUSH:
