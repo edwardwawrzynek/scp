@@ -385,15 +385,17 @@ static void load_into_reg(FILE *f, struct obj *o, int real_type, int reg){
  * doesn't use any other registers
  * f is the file output stream
  * o is the object
- * typ is the type (from q1typ, q2typ, or ztyp) of the object
- * reg is the reg to load into */
-static void load_address(FILE *f, struct obj *o, int typ, int reg){
+ * real_type is the type (from q1typ, q2typ, or ztyp) of the object (not used)
+ * reg is the reg to load the address into */
+static void load_address(FILE *f, struct obj *o, int real_type, int reg){
+
+  /* type doesn't matter, as we are loading an address (always a pointer) */
 
   /* if the object is a derefrence, we can just load it without the derefrence */
   if(o->flags & DREFOBJ){
     /* clear DREFOBJ */
     o->flags &= ~0b100000;
-    load_address(f, o, POINTER, reg);
+    load_into_reg(f, o, POINTER, reg);
   } else if (o->flags & KONST){
     /* can't take addr of a constant */
     ierror(0);
@@ -424,8 +426,50 @@ static void load_address(FILE *f, struct obj *o, int typ, int reg){
     /* can't load address of whatever this is */
     ierror(0);
   }
-
 }
+
+/**
+ * store the value in a register into an object
+ * f is the file output stream
+ * o is the object
+ * real_type is the type (from q1typ, q2typ, or ztyp) of the object
+ * reg is the reg to load into
+ * tmp is a reg that can be used as a temporary */
+static void store_from_reg(FILE *f, struct obj *o, int real_type, int reg, int tmp){
+  /* clear all but unsigned from type */
+  real_type &= NU;
+  int typ = real_type;
+
+  /* handle cases that can be made more efficient */
+  if(o->flags & REG && !(o->flags & DREFOBJ)){
+    /* move regs */
+    emit(f, "\tmov.r.r %s %s\n", regnames[o->reg], regnames[reg]);
+
+  } else if(o->flags & VAR == VAR){
+    if(isextern(o->v->storage_class)){
+      emit(f, "\tst.r.m.%s %s %s%s +%li\n", dt(typ), regnames[reg], idprefix, o->v->identifier, o->val.vmax);
+    }
+    if(isstatic(o->v->storage_class)){
+      emit(f, "\tst.r.m.%s %s %s%i +%li\n", dt(typ), regnames[reg], labprefix, o->v->offset, o->val.vmax);
+    }
+    /* handle automatic variables */
+    if(isauto(o->v->storage_class)){
+      /* get offset */
+      long off = real_stack_offset(o);
+      /* emit with an offset if we need to */
+      if(off){
+        emit(f, "\tst.r.p.off.%s %s sp %li\n", dt(typ), regnames[reg], off);
+      } else {
+        emit(f, "\tst.r.p.%s %s sp\n", dt(typ), regnames[reg]);
+      }
+    }
+  } else {
+    /* load address into tmp, and store value in reg at address pointed to be tmp */
+    load_address(f, o, typ, tmp);
+    emit(f, "\tst.r.p.%s %s %s\n", dt(typ), regnames[reg], regnames[tmp]);
+  }
+}
+
 
 /****************************************/
 /*  End of private data and functions.  */
