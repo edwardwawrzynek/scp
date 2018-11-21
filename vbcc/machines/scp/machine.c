@@ -623,6 +623,24 @@ static void compare(FILE *f, struct IC *p){
   }
 }
 
+/* handle a test instruction (same as comparing to 0) */
+static void test(FILE *f, struct IC *p){
+  /* load arg */
+  int reg1 = load_obj(f, &(p->q1), q1typ(p), tmp1);
+  int reg2 = tmp2;
+  /* load 0 into tmp2 */
+  emit(f, "\tld.r.i %s %li\n", regnames[tmp2], 0);
+  /* compare */
+  emit(f, "\tcmp.r.f %s %s\n", regnames[reg1], regnames[reg2]);
+  /* set sign */
+  if((q1typ(p)&UNSIGNED) || (q2typ(p)&UNSIGNED)){
+    compare_signed = 0;
+  } else {
+    compare_signed = 1;
+  }
+
+}
+
 /* handle a branch instruction */
 static void branch(FILE *f, struct IC *p){
   /* emit start */
@@ -1054,7 +1072,7 @@ void gen_code(FILE *f,struct IC *p,struct Var *v,zmax offset)
         /* move q1 to z */
 
         /* TODO: do assigns with structs and arrays using memcpy */
-        if(q1typ(p) > POINTER){
+        if((q1typ(p)&NQ) > POINTER){
           printf("Memcpy assign not implemented\n");
           ierror(0);
         }
@@ -1115,7 +1133,7 @@ void gen_code(FILE *f,struct IC *p,struct Var *v,zmax offset)
         break;
       case TEST:
         debug("TEST\n");
-
+        test(f, p);
         break;
       case LABEL:
         debug("LABEL: %u\n", p->typf);
