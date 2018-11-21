@@ -350,7 +350,7 @@ static void load_into_reg(FILE *f, struct obj *o, int real_type, int reg){
         emit(f, "\tld.r.i %s %s%s +%li\n", regnames[reg], idprefix, o->v->identifier, o->val.vmax);
       }
       if(isstatic(o->v->storage_class)){
-        emit(f, "\tld.r.i %s %s%i +%li\n", regnames[reg], idprefix, o->v->offset, o->val.vmax);
+        emit(f, "\tld.r.i %s %s%i +%li\n", regnames[reg], labprefix, o->v->offset, o->val.vmax);
         }
     } else {
       /* handle externs and static */
@@ -472,7 +472,7 @@ static void store_from_reg(FILE *f, struct obj *o, int real_type, int reg, int t
 }
 
 /**
- * given a source object, get the register to put the result into
+ * given an object, see if we can load/store it from a reg
  * o is the object
  * real_type is the type of the object (not used)
  * tmp is a temporary reg that can be used as the source
@@ -489,7 +489,8 @@ static int source_reg(FILE *f, struct obj *o, int real_type, int tmp){
 }
 
 /**
- * load an object into a, and return that register (combination of source_reg and load_into_reg)
+ * load an object into a reg, and return that register (combination of source_reg and load_into_reg)
+ * if the object is already in a reg, use that, else load it into a tmp
  * o is the object
  * real_type is the type
  * tmp is a temporary reg that can be used
@@ -505,23 +506,18 @@ static int load_obj(FILE *f, struct obj *o, int real_type, int tmp){
  * handle an arithmetic IC
  * p is the IC */
 static void arithmetic(FILE *f, struct IC *p){
-  /* source and target regs (reg1 and regt have to match) */
-  int reg1, reg2, regt;
+  /* source regs (reg1 will also be target) */
+  int reg1, reg2;
   /* if true, q2 is konst, so use alu.r.i instead of alu.r.r */
   int q2_konst = 0;
   if((p->q2.flags & KONST) == KONST){
     q2_konst = 1;
   }
-  /* get reg1 and reg2, loading them into tmp1 and tmp2 if needed */
-  reg1 = source_reg(f, &(p->q1), q1typ(p), tmp1);
+  /* get reg1 and reg2, loading them into tmp1 and tmp2 if needed
+    try to load reg1 into z reg if we can*/
+  reg1 = source_reg(f, &(p->z), ztyp(p), tmp1);
   reg2 = source_reg(f, &(p->q2), q2typ(p), tmp2);
-  /* get target reg, which may be tmp1 if needed */
-  regt = source_reg(f, &(p->z), ztyp(p), tmp1);
-  /* if reg1 and regt don't match, use regt as both */
-  if(reg1 != regt){
-    reg1 = regt;
-    regt = regt;
-  }
+
   /* load args */
   load_into_reg(f, &(p->q1), q1typ(p), reg1);
   if(!q2_konst){
@@ -603,7 +599,7 @@ static void arithmetic(FILE *f, struct IC *p){
     emit(f, " %s %li\n", regnames[reg1], p->q2.val.vmax);
   }
   /* store result, using tmp2 if needed (result may be in tmp1) */
-  store_from_reg(f, &(p->z), ztyp(p), regt, tmp2);
+  store_from_reg(f, &(p->z), ztyp(p), reg1, tmp2);
 }
 
 /* signed-ness of last comparison (1=signed, 0=unsigned) */
@@ -1077,7 +1073,7 @@ void gen_code(FILE *f,struct IC *p,struct Var *v,zmax offset)
           ierror(0);
         }
         /* get reg to load into */
-        reg1 = source_reg(f, &(p->q1), q1typ(p), tmp1);
+        reg1 = source_reg(f, &(p->z), ztyp(p), tmp1);
         /* load */
         load_into_reg(f, &(p->q1), q1typ(p), reg1);
         /* store */
@@ -1112,7 +1108,23 @@ void gen_code(FILE *f,struct IC *p,struct Var *v,zmax offset)
 
       case CALL:
         debug("CALL\n");
-
+        /* check if it is a call to a static or extern location */
+        if((p->q1.flags & VAR) == VAR){
+          if(isextern(p->q1.v->storage_class)){
+            emit(f, "\tcall.j.sp sp %s%s\n", idprefix, p->q1.v->identifier);
+          }
+          if(isstatic(p->q1.v->storage_class)){
+            emit(f, "\tcall.j.sp sp %s%li\n", labprefix, p->q1.v->offset);
+          }
+        } else {
+          /* load address of object into a reg, and call it */
+          reg1 = source_reg(f, &(p->q1), q1typ(p), tmp1);
+          load_address(f, &(p->q1), q1typ(p), reg1);
+          /* call */
+          emit(f, "\tcall.r.sp %s sp\n", regnames[reg1]);
+        }
+        /* add number of bytes pushed to sp */
+        mod_stack(f, p->q2.val.vmax);
         break;
 
       case CONVERT:
