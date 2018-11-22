@@ -20,9 +20,9 @@ int main(int argc, char ** argv){
     cpu.init_io(argv[2]);
     long long count = 0;
     while(true){
-        //std::cin.ignore();
+        std::cin.ignore();
         cpu.run_instr();
-        //std::cout << cpu.regs[0] << " PC: " << cpu.pc;
+        std::cout << cpu.regs[14] << "\n";
         count++;
         if(count > SCREEN_UPDATE_FREQ){
             count = 0;

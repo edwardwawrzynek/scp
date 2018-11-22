@@ -629,7 +629,7 @@ static void test(FILE *f, struct IC *p){
   /* compare */
   emit(f, "\tcmp.r.f %s %s\n", regnames[reg1], regnames[reg2]);
   /* set sign */
-  if((q1typ(p)&UNSIGNED) || (q2typ(p)&UNSIGNED)){
+  if((q1typ(p)&UNSIGNED)){
     compare_signed = 0;
   } else {
     compare_signed = 1;
