@@ -11,26 +11,29 @@
 #define LABEL_SIZE 33
 /* number of labels to alloc per each expansion */
 #define REALLOC_AMOUNT 64
-
-/* max space, including null, for a cmd opcode */
-#define CMD_NAME_SIZE 17
-
 /* maximum number of files that can be open */
 #define MAX_FILES 50
+/* maximum number of args to any instruction */
+#define MAX_ARGS 10
+
+/* max length (with null) of an instruction argument */
+#define ARG_LEN 33
+#define CMD_NAME_SIZE 17
 
 enum arg_type {end_arg, reg, alu, cnst, label, cond};
 
-struct instr {
+/* describes the encoding of an instruction */
+struct instr_encoding {
   char * name;
   uint8_t opcode;
-  enum arg_type types[10];
+  enum arg_type types[MAX_ARGS];
   char * encoding;
-  /* which field to use as immeidate - 0=no immediate (opcode can't be immediate) */
+  /* which field to use as immediate - 0=no immediate (opcode can't be immediate) */
   uint8_t imd_field;
 };
 
 /* IMPORTANT: 4 bit opcodes have to be specified as four bit - don't include blank bits for unused */
-struct instr instructions[] = {
+struct instr_encoding instructions[] = {
   { "nop.n.n", 0b000000, {end_arg},                /* nop.n.n */
     "000000----------" },
   { "mov.r.r", 0b000001, {reg, reg, end_arg},      /* mov.r.r dst src */
@@ -117,10 +120,36 @@ struct instr instructions[] = {
 };
 
 /* alu op names */
-
 char * alu_ops[16] = {"bor", "bxor", "band", "lsh", "ursh", "srsh", "add", "sub", "mul", "bneg", "neg"};
 
-#define num_instructions sizeof(instructions)/sizeof(struct instr)
+#define num_instructions sizeof(instructions)/sizeof(struct instr_encoding)
+
+/* an argument to a struct instr */
+struct arg {
+  /* if the arg is used */
+  uint8_t in_use;
+  /* the arg (not including offsets) */
+  char str[ARG_LEN];
+  /* the arg's value (calculated by atoi - for labels, etc, this is zero) */
+  uint16_t val;
+  /* if arg could be a reg, this is the reg number (0-15) */
+  uint8_t is_reg;
+  uint8_t reg;
+  /* the offset (calculated from +x) */
+  uint16_t offset;
+};
+
+/* a struct representing an instruction from the asm */
+struct instr {
+  /* name */
+  char name[CMD_NAME_SIZE];
+  /* if true, instruction is a label (name holds the name of the label) */
+  uint8_t is_label;
+  /* if true, instruction is directive (name holds name WITH . in it) */
+  uint8_t is_dir;
+  /* arguments */
+  struct arg args[MAX_ARGS];
+};
 
 char line[LINE_SIZE];
 int lptr;
@@ -137,7 +166,7 @@ uint16_t global_module = 0;
 
 struct label {
   char name[LABEL_SIZE];
-  /* module number, or -1 for no a global label */
+  /* module number, or -1 for not a global label */
   int16_t module;
   /* the address of the label */
   uint16_t addr;
@@ -153,7 +182,7 @@ unsigned int labels_cur = 0;
 /**
  * Raise an error */
 void error(char * msg){
-  printf("scp asm: Error:\n%s\nAt:\n%s\n", msg, line);
+  printf("scpasm: Error:\n%s\nAt:\n%s\n", msg, line);
   /* print carrot at lptr position */
   for(int i = 0; i < lptr; i++){
     if(line[i] == '\t'){
@@ -274,7 +303,6 @@ void blanks(){
 }
 
 
-
 /**
  * read a line from a file into the line buffer
  * reset lptr
@@ -317,7 +345,7 @@ uint8_t read_good_line(){
 
 /**
  * find the instruction entry that matches the given cmd name, or return NULL if not a valid instruction */
-struct instr * get_instr_entry(char * name) {
+struct instr_encoding * get_instr_entry(char * name) {
   for(unsigned int i = 0; i < num_instructions; i++){
     if(!strcmp(instructions[i].name, name)) {
       return instructions + i;
@@ -338,443 +366,82 @@ int hex2int(char ch)
 }
 
 /**
- * skip the current arg */
-void skip_arg(){
-  while(!is_whitespace(line[lptr])){lptr++;}
-  blanks();
-}
-
-/**
- * set the witespace after the current arg to a null, set lptr to after the null, and return the current arg */
-char * get_arg(){
-  blanks();
-  char * arg = line + lptr;
-  while(!is_whitespace(line[lptr]) && line[lptr] != '\0'){lptr++;}
-  line[lptr++] = '\0';
-  blanks();
-  return arg;
-}
-
-/**
- * given an argument at line + lptr and its expected type, convert it to a binary representation
- * addr is the current address that the value will be written to - used for pc relative addresses
- * this may error if the arg format doesn't match the */
-uint16_t arg_to_bin(enum arg_type type, uint16_t addr) {
-  switch(type) {
-    case reg:
-      /* strip off leading r */
-      if(line[lptr++] != 'r'){
-        /* allow sp as reg names */
-        if(line[lptr-1] == 's' && line[lptr] == 'p'){
-          lptr++;
-          return 0xf;
-        } else {
-          error("argument expected to be of reg type");
-        }
-      }
-      return hex2int(line[lptr++]);
-
-    case alu:
-      /* lookup operation */
-      for(int op = 0; op < 16; op++){
-        /* don't check undefined ops */
-        if(alu_ops[op] == NULL){
-          break;
-        }
-        int i = 0;
-        int match = 1;
-
-        while(!is_whitespace(line[i+lptr])){
-          if(line[i+lptr] != alu_ops[op][i]){
-            match = 0;
-            break;
-          }
-          i++;
-        }
-        if(match) {
-          /* move lptr to end of argument */
-          lptr += i;
-          return op;
-        }
-      }
-      error("no such alu operation");
-
-    case cnst:
-      /* check if it is a constant or an adress */
-      if(isdigit(line[lptr])){
-        int past_lptr_cnst = lptr;
-        uint16_t res = 0;
-
-        get_arg();
-
-        res = atoi(line + past_lptr_cnst);
-
-        /* reset null */
-        line[lptr-1] = ' ';
-        return res;
-      } else{
-        /* get address of label, and warn that this will generate a non relocatable (until we get a better output format) */
-       int past_lptr_label = lptr;
-
-        get_arg();
-
-        struct label * label = find_label(line + past_lptr_label, global_module);
-        uint16_t real_addr = label->addr;
-
-        printf("scpasm: Warning: binary is non relocatable because of the use of an address in a static initilization\n");
-
-        /* reset null */
-        line[lptr-1] = ' ';
-        /* not independent (b/c it will be loaded as pointer) */
-        return real_addr;
-      }
-
-    case label: ;
-      /* check */
-      int past_lptr_label = lptr;
-
-      get_arg();
-
-      struct label * label = find_label(line + past_lptr_label, global_module);
-      uint16_t real_addr = label->addr;
-
-      /* reset null */
-      line[lptr-1] = ' ';
-      /* check if there is an offset to add */
-      int offset = 0;
-      int mode = 0; /* 0=add, 1=sub */
-      switch(line[lptr]){
-        case '-':
-          mode = 1;
-        case '+':
-          offset = atoi(get_arg());
-
-          /* reset null */
-          line[lptr-1] = ' ';
-
-          if(mode == 1){
-            offset = -offset;
-          }
-          break;
-        default:
-          break;
-      }
-      /* position independent */
-      return real_addr-addr-2+offset;
-
-    case cond:;
-      /* condition codes are composed as a combination of chars:
-      e - equal to bit(0)
-      l - unsigned less than bit(1)
-      g - unsigned greater than bit(2)
-      L - signed less than bit(3)
-      G - signed greather than bit(4)
-      */
-      char * code = get_arg();
-
-      /* resulting code */
-      uint8_t cond_code = 0;
-
-      /* check for each char */
-      if(strchr(code, 'e')){
-        cond_code |= 0b1;
-      }
-      if(strchr(code, 'l')){
-        cond_code |= 0b10;
-      }
-      if(strchr(code, 'g')){
-        cond_code |= 0b100;
-      }
-      if(strchr(code, 'L')){
-        cond_code |= 0b1000;
-      }
-      if(strchr(code, 'G')){
-        cond_code |= 0b10000;
-      }
-
-      return cond_code;
-
-    default:
-        return 0;
+ * utiltiy function to read in a space seperated arg into buf from the current lptr position */
+void read_in_arg(char * buf){
+  while(!is_whitespace(line[lptr]) && line[lptr]){
+    *(buf++) = line[lptr];
+    lptr++;
   }
 }
 
-/** return a pointer to an instruction entry for the op currently in line */
-struct instr * get_instr_line(){
-  int i;
-  char cmd[CMD_NAME_SIZE];
-  struct instr * instr;
-
-  blanks();
-  /* copy in name */
-  i = 0;
-  while(!is_whitespace(line[lptr])){
-    cmd[i++] = line[lptr++];
-  }
-  cmd[i] = '\0';
-
-  /* find instr encoding entry */
-  instr = get_instr_entry(cmd);
-  if(instr == NULL) {
-    error("no such instruction");
-  }
-
-  return instr;
-}
-
 /**
- * given an asm command currently in the buffer, encode it
- * return number of bytes written */
-uint16_t encode_instr(uint16_t addr) {
-  int i;
-
-  struct instr * instr;
-
-  /* resulting values for each arg - 0 is opcode, 1 is first arg, etc */
-  uint16_t values[11];
-
-  /* resulting instruction encoding */
-  uint16_t instr_res = 0;
-
-  /* the opcode to use */
-  uint8_t opcode;
-
-  instr = get_instr_line();
-
-  /* get opcode */
-  opcode = instr->opcode;
-  /* set opcode in values */
-  values[0] = opcode;
-
-  /* go through each arg */
-  i = 0;
-  while(instr->types[i] != end_arg){
+ * read the current line into a struct instr */
+void line_into_instr(struct instr * instr){
+  /* clear instruction */
+  memset(instr, 0, sizeof(struct instr));
+  /* reset line */
+  lptr = 0;
+  /* check for label */
+  if(!is_whitespace(line[lptr])){
+    instr->is_label = 1;
+    while(line[lptr] != ':'){
+      /* make sure we have a : before end of label */
+      if(is_whitespace(line[lptr]) || (!line[lptr])){
+        error(": needed after label\n");
+      }
+      instr->name[lptr] = line[lptr];
+      lptr++;
+    }
+    /* set null */
+    instr->name[lptr] = '\0';
+  } else {
+    instr->is_label = 0;
+    /* read in command name */
     blanks();
-    if(line[lptr] == '\0'){
-      error("not enough arguments provided");
+    read_in_arg(instr->name);
+    /* set is_dir */
+    if(instr->name[0] == '.'){
+      instr->is_dir = 1;
     }
-    values[i+1] = arg_to_bin(instr->types[i], addr);
-    i++;
-  }
-  /* encode args */
-
-  /* go backwards through arg encoding */
-  i = strlen(instr->encoding)-1;
-  while(i >= 0){
-    /* get the value index to use */
-    uint8_t value_index = hex2int(instr->encoding[i]);
-
-    /* OR in the bit, and shift the instr right */
-    instr_res >>= 1;
-    /* OR in a zero if the bit is set as - */
-    if(instr->encoding[i] != '-'){
-      instr_res |= (values[value_index] & 1) << 15;
-    }
-    /* shift the value to the next bit */
-    values[value_index] >>= 1;
-
-    i--;
-  }
-
-  /* write out */
-  output_word(instr_res);
-
-  /* write out immediate */
-  if(instr->imd_field){
-    output_word(values[instr->imd_field]);
-    return 4;
-  }
-
-  return 2;
-}
-
-/**
- * given an asembler directive in line, output it (and return the number of bytes written) */
-uint16_t encode_dir(uint16_t addr){
-  int i;
-  char cmd[CMD_NAME_SIZE];
-
-  blanks();
-  /* copy in name */
-  i = 0;
-  while(!is_whitespace(line[lptr])){
-    cmd[i++] = line[lptr++];
-  }
-  cmd[i] = '\0';
-
-  if(!strcmp(cmd, ".module")){
-    global_module++;
-    return 0;
-  } else if(!strcmp(cmd, ".global")){
-    return 0;
-  } else if(!strcmp(cmd, ".set_label")){
-    return 0;
-  } else if(!strcmp(cmd, ".dc.b") || !strcmp(cmd, ".dc.bs")){
-    char * val_name = get_arg();
-    uint16_t val = atoi(val_name);
-    output_byte(val);
-    return 1;
-  } else if(!strcmp(cmd, ".dc.w")){
-    char * val_name = get_arg();
-    uint16_t val = atoi(val_name);
-    output_word(val);
-    return 2;
-  } else if(!strcmp(cmd, ".dc.l")){
-    char * val_name = get_arg();
-    uint32_t val = atoi(val_name);
-    output_word(val&0xffff);
-    output_word(val>>16);
-    return 4;
-  } else if(!strcmp(cmd, ".align")){
-    if(addr & 1){
-      output_byte(0);
-      return 1;
-    }
-    return 0;
-  } else if(!strcmp(cmd, ".ds")){
-    char * val_name = get_arg();
-    uint16_t val = atoi(val_name);
-    for(int i = 0; i < val; i++){
-      output_byte(0);
-    }
-    return val;
-  }
-
-  error("no such directive b");
-  return 0;
-}
-
-/**
- * get the size of the directive in line */
-uint16_t dir_size(uint16_t addr){
-  int i;
-  char cmd[CMD_NAME_SIZE];
-
-  blanks();
-  /* copy in name */
-  i = 0;
-  while(!is_whitespace(line[lptr])){
-      cmd[i++] = line[lptr++];
-  }
-  cmd[i] = '\0';
-
-  if(!strcmp(cmd, ".module")){
-    global_module++;
-    return 0;
-  } else if(!strcmp(cmd, ".global")){
-    /* add global label */
-    skip_arg();
-    /* get label entry */
-    struct label * label = find_label(get_arg(), global_module);
-    label->module = -1;
-    return 0;
-  } else if(!strcmp(cmd, ".set_label")){
-    skip_arg();
-    char * name = get_arg();
-    char * addr_name = get_arg();
-    uint16_t addr = atoi(addr_name);
-    add_label(name, -1, addr);
-    return 0;
-  } else if(!strcmp(cmd, ".dc.b") || !strcmp(cmd, ".dc.bs")){
-    return 1;
-  } else if(!strcmp(cmd, ".dc.w")){
-    return 2;
-  } else if(!strcmp(cmd, ".dc.l")){
-    return 4;
-  } else if(!strcmp(cmd, ".align")){
-    return addr & 1;
-  } else if(!strcmp(cmd, ".ds")){
-    char * val_name = get_arg();
-    uint16_t val = atoi(val_name);
-    return val;
-  }
-
-  error("no such directive");
-  return 0;
-}
-
-/**
- * return the label (really a pointer to line) if the line is a label, NULL otherwise */
-char * is_label(){
-  if(!is_whitespace(line[0])){
-    char * end = strchr(line, ':');
-    if(!end){
-      error("label must end in :");
-    }
-    *end = '\0';
-    return line;
-  }
-  return NULL;
-}
-
-
-/**
- * get the size of the command in line */
-uint16_t cmd_size(uint16_t addr){
-  struct instr * instr;
-
-  instr = get_instr_line();
-
-  /* if the cmd takes an immediate, 4 bytes, 2 otherwise */
-  return instr->imd_field ? 4 : 2;
-}
-
-/**
- * run the first pass, return the number of bytes */
-uint16_t first_pass(){
-  uint16_t addr = 0;
-  /* module number */
-  global_module = 0;
-
-  reset_file();
-
-  while(!read_good_line()) {
-    /* handle labels */
-    char * label = is_label();
-    if(label){
-      add_label(label, global_module, addr);
-    } else {
-      blanks();
-      /* check if it is a directive */
-      if(line[lptr] == '.'){
-        addr += dir_size(addr);
-      } else{
-        addr += cmd_size(addr);
+    int arg = 0;
+    /* read in args */
+    while(blanks(), line[lptr]){
+      instr->args[arg].in_use = 1;
+      read_in_arg(instr->args[arg].str);
+      /* handle offsets */
+      int i = 0;
+      while(instr->args[arg].str[i]){
+        if(instr->args[arg].str[i] == '+'){
+          /* seperate offset by null */
+          instr->args[arg].str[i] = '\0';
+          instr->args[arg].offset = atoi(instr->args[arg].str + i + 1);
+          break;
+        }
+        i++;
       }
-    }
-  }
-
-  return addr;
-}
-
-/**
- * run the second pass, writing out bytes
- * returns number of bytes written (to make sure it is consistent with first_pass) */
-uint16_t second_pass(){
-  uint16_t addr = 0;
-  /* module number */
-  global_module = 0;
-
-  reset_file();
-
-  while(!read_good_line()) {
-    /* handle labels */
-    char * label = is_label();
-    if(!label){
-      if(line[lptr] == '.'){
-        addr += encode_dir(addr);
-      } else{
-        addr += encode_instr(addr);
+      /* set val */
+      instr->args[arg].val = atoi(instr->args[arg].str);
+      /* if we can, set reg */
+      if(instr->args[arg].str[0] == 'r' && !instr->args[arg].str[2]){
+        instr->args[arg].is_reg = 1;
+        instr->args[arg].reg = hex2int(instr->args[arg].str[1]);
+      } else if(instr->args[arg].str[0] == 's' && instr->args[arg].str[1] == 'p' && !instr->args[arg].str[2]){
+        instr->args[arg].is_reg = 1;
+        instr->args[arg].reg = 15;
       }
+      arg++;
     }
+
   }
 
-  return addr;
 }
+
 
 void usage(){
   printf("Usage: scpasm [options] files\nOptions:\n-o\tout\t:set output binary\n");
 }
+
+  struct instr in;
 
 int main(int argc, char *argv[]){
   char * outfile = "a.out";
@@ -810,39 +477,15 @@ int main(int argc, char *argv[]){
   }
 
   /* run asm */
-  uint16_t first_res = first_pass();
-  uint16_t second_res = second_pass();
-
-  if(first_res != second_res){
-    error("Number of bytes written and calculated don't match");
+  while(!read_good_line()){
+    line_into_instr(&in);
+    printf("Name: %s, is_label: %u, is_dir: %u\n", in.name, in.is_label, in.is_dir);
+    int a = 0;
+    while(in.args[a].in_use){
+      printf("\tArg: %s, Val: %u, Offset: %u, Reg: %u\n", in.args[a].str, in.args[a].val, in.args[a].offset, in.args[a].reg);
+      a++;
+    }
   }
 
   fclose(out_file);
 }
-
-/*
-int main(int argc, char **argv){
-  if(argc != 3){
-    printf("Usage: scpasm [out.bin] [in.s]\n");
-    exit(1);
-  }
-
-  out_file = fopen(argv[1], "w");
-  in_file = fopen(argv[2], "r");
-
-  if(in_file == NULL){
-    printf("Open Failure\n");
-    exit(1);
-  }
-
-  uint16_t first_res = first_pass();
-  uint16_t second_res = second_pass();
-
-  if(first_res != second_res){
-    error("Number of bytes written and calculated don't match");
-  }
-
-  fclose(out_file);
-  fclose(in_file);
-}
-*/
