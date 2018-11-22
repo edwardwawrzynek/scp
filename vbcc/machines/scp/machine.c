@@ -231,6 +231,8 @@ static long real_stack_offset(struct obj *o)
 static void function_top(FILE *f,struct Var *v,long offset)
 {
   emit(f, ";\tFunction %s\n;\tlocalsize: %u\n", v->identifier, offset);
+  /* put in text section */
+  emit(f, "\t.text\n");
   if(v->storage_class==EXTERN){
     emit(f,"%s%s:\n",idprefix,v->identifier);
     if((v->flags&(INLINEFUNC|INLINEEXT))!=INLINEFUNC){
@@ -966,20 +968,35 @@ void gen_var_head(FILE *f,struct Var *v)
 /*  definition, i.e. the label and information for      */
 /*  linkage etc.                                        */
 {
+  int constflag = 0;
+  if(v->clist){
+    constflag=is_const(v->vtyp);
+  }
   emit(f, ";\tvar: %s\n", v->identifier);
+
+  /* emit section information */
+  if((v->clist&&(!constflag))){
+    emit(f, "\t.data\n");
+  }
+  if((v->clist) && constflag){
+    emit(f, "\t.rodata\n");
+  }
+  if(!(v->clist) && (!constflag)){
+    emit(f, "\t.bss\n");
+  }
+  if(!(v->clist) && constflag){
+    /* read only bss (just goes in .rodata - let the assembler figure that one out) */
+    emit(f, "\t.robss\n");
+  }
 
   if(v->storage_class == STATIC){
     if(ISFUNC(v->vtyp->flags)) return;
-    /* TODO: test for new section creation here */
-
-    /* TODO: do we need to check v->clist ? */
     emit(f,"%s%ld:\n",labprefix,zm2l(v->offset));
     gen_align(f,falign(v->vtyp));
   }
   if(v->storage_class == EXTERN){
     /* We only want to emit records for genuinely defined variables. For
-	   * some reason, TENTATIVE is defined for some of this.
-     * TODO: is this needed?*/
+	   * some reason, TENTATIVE is defined for some of this */
     if(v->flags&(DEFINED|TENTATIVE)){
       emit(f,"%s%s:\n",idprefix,v->identifier);
       emit(f, "\t.global\t%s%s\n", idprefix, v->identifier);
