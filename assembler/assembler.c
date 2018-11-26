@@ -149,6 +149,10 @@ struct arg {
 struct instr {
   /* name */
   char name[CMD_NAME_SIZE];
+  /* the opcode of the instruction, or -1 if the instruction isn't a direct asm instr */
+  int opcode;
+  /* encoding entry, or NULL if not a direct asm instr */
+  struct instr_encoding *encoding;
   /* if true, instruction is a label (name holds the name of the label) */
   uint8_t is_label;
   /* if true, instruction is directive (name holds name WITH . in it) */
@@ -188,16 +192,7 @@ unsigned int labels_cur = 0;
 /**
  * Raise an error */
 void error(char * msg){
-  printf("scpasm: Error:\n%s\nAt:\n%s\n", msg, line);
-  /* print carrot at lptr position */
-  for(int i = 0; i < lptr; i++){
-    if(line[i] == '\t'){
-      printf("\t");
-    } else {
-      printf(" ");
-    }
-  }
-  printf("^\n");
+  printf("\nscpasm: error:\n%s\nAt:\n%s\n", msg, line);
 
   exit(1);
 }
@@ -385,6 +380,8 @@ void read_in_arg(char * buf){
 void line_into_instr(struct instr * instr){
   /* clear instruction */
   memset(instr, 0, sizeof(struct instr));
+  /* reset opcode */
+  instr->opcode = -1;
   /* reset line */
   lptr = 0;
   /* check for label */
@@ -408,6 +405,11 @@ void line_into_instr(struct instr * instr){
     /* set is_dir */
     if(instr->name[0] == '.'){
       instr->is_dir = 1;
+    } else {
+      /* set opcode */
+      /* TODO: allow macro expansion */
+      instr->encoding = get_instr_entry(instr->name);
+      instr->opcode = instr->encoding->opcode;
     }
     int arg_num = 0;
     /* read in args */
@@ -478,6 +480,52 @@ void line_into_instr(struct instr * instr){
   }
 }
 
+/**
+ * check that an instr has been passed the proper number and type of arguments
+ * does no checking if opcode == -1
+ * doesn't check labels
+ * errors if instr hasn't been passed proper args */
+void check_instr(struct instr *instr){
+  /* shortcut for encodign */
+  struct instr_encoding *en = instr->encoding;
+  if(instr->opcode >= 0 && en){
+    uint8_t arg_i = 0;
+    while(en->types[arg_i] != end_arg){
+      if(!instr->args[arg_i].in_use){
+        error("incorrect number of args passed");
+      }
+      switch(en->types[arg_i]){
+        case reg:
+          if(!instr->args[arg_i].is_reg){
+            error("incorrect arg type: reg required");
+          }
+          break;
+        case alu:
+          if(!instr->args[arg_i].is_alu){
+            error("incorrect arg type: alu required");
+          }
+          break;
+        case cnst:
+          break;
+        case label:
+          break;
+        case cond:
+          if(!instr->args[arg_i].is_cond){
+            error("incorrect arg type: cond required");
+          }
+          break;
+        default:
+          break;
+      }
+      /* make sure types are correct */
+      arg_i++;
+    }
+    /* check if to many args were passed */
+    if(instr->args[arg_i].in_use){
+      error("incorrect number of args passed");
+    }
+  }
+}
 
 void usage(){
   printf("Usage: scpasm [options] files\nOptions:\n-o\tout\t:set output binary\n");
@@ -521,7 +569,8 @@ int main(int argc, char *argv[]){
   /* run asm */
   while(!read_good_line()){
     line_into_instr(&in);
-    printf("Name: %s, is_label: %u, is_dir: %u\n", in.name, in.is_label, in.is_dir);
+    check_instr(&in);
+    printf("Name: %s, Opcode: %i, is_label: %u, is_dir: %u\n", in.name, in.opcode, in.is_label, in.is_dir);
     int a = 0;
     while(in.args[a].in_use){
       printf("\tArg: %s, Val: %u, Offset: %u, is_reg: %u reg: %u, is_alu: %u alu: %u, is_cond: %u cond: %u\n", in.args[a].str, in.args[a].val, in.args[a].offset, in.args[a].is_reg, in.args[a].reg,  in.args[a].is_alu, in.args[a].alu_op, in.args[a].is_cond, in.args[a].cond_code);
