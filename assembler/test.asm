@@ -54,5 +54,5 @@ l3:
 l1:
 	.align
 	.dc.w	1
-	.ds	8
+	.ds	8+2
 ;	End of VBCC SCP generated section

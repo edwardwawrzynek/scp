@@ -135,6 +135,12 @@ struct arg {
   /* if arg could be a reg, this is the reg number (0-15) */
   uint8_t is_reg;
   uint8_t reg;
+  /* if the arg could be an alu, this is the alu op number */
+  uint8_t is_alu;
+  uint8_t alu_op;
+  /* if the arg could be a condition code, this is the code */
+  uint8_t is_cond;
+  uint8_t cond_code;
   /* the offset (calculated from +x) */
   uint16_t offset;
 };
@@ -403,37 +409,73 @@ void line_into_instr(struct instr * instr){
     if(instr->name[0] == '.'){
       instr->is_dir = 1;
     }
-    int arg = 0;
+    int arg_num = 0;
     /* read in args */
     while(blanks(), line[lptr]){
-      instr->args[arg].in_use = 1;
-      read_in_arg(instr->args[arg].str);
+      /* the arg currently being handled */
+      struct arg *arg;
+      arg = &(instr->args[arg_num]);
+      arg->in_use = 1;
+      read_in_arg(arg->str);
       /* handle offsets */
       int i = 0;
-      while(instr->args[arg].str[i]){
-        if(instr->args[arg].str[i] == '+'){
+      while(arg->str[i]){
+        if(arg->str[i] == '+'){
           /* seperate offset by null */
-          instr->args[arg].str[i] = '\0';
-          instr->args[arg].offset = atoi(instr->args[arg].str + i + 1);
+          arg->str[i] = '\0';
+          arg->offset = atoi(arg->str + i + 1);
           break;
         }
         i++;
       }
       /* set val */
-      instr->args[arg].val = atoi(instr->args[arg].str);
+      arg->val = atoi(arg->str);
       /* if we can, set reg */
-      if(instr->args[arg].str[0] == 'r' && !instr->args[arg].str[2]){
-        instr->args[arg].is_reg = 1;
-        instr->args[arg].reg = hex2int(instr->args[arg].str[1]);
-      } else if(instr->args[arg].str[0] == 's' && instr->args[arg].str[1] == 'p' && !instr->args[arg].str[2]){
-        instr->args[arg].is_reg = 1;
-        instr->args[arg].reg = 15;
+      if(arg->str[0] == 'r' && !arg->str[2]){
+        arg->is_reg = 1;
+        arg->reg = hex2int(arg->str[1]);
+      } else if(arg->str[0] == 's' && arg->str[1] == 'p' && !arg->str[2]){
+        arg->is_reg = 1;
+        arg->reg = 15;
       }
-      arg++;
+      /* if we can, set alu */
+      for(uint8_t alu_op = 0; alu_ops[alu_op]; alu_op++){
+        if(!strcmp(alu_ops[alu_op], arg->str)){
+          arg->is_alu = 1;
+          arg->alu_op = alu_op;
+          break;
+        }
+      }
+      /* set condition code if the arg contains nothing but condition chars and _ */
+      arg->is_cond = 1;
+      for(char *c = arg->str; *c && arg->is_cond; c++){
+        switch(*c){
+          case 'e':
+            arg->cond_code |= 0b00001;
+            break;
+          case 'l':
+            arg->cond_code |= 0b00010;
+            break;
+          case 'g':
+            arg->cond_code |= 0b00100;
+            break;
+          case 'L':
+            arg->cond_code |= 0b01000;
+            break;
+          case 'G':
+            arg->cond_code |= 0b10000;
+            break;
+          case '_':
+            break;
+          default:
+            arg->is_cond = 0;
+            arg->cond_code = 0;
+            break;
+        }
+      }
+      arg_num++;
     }
-
   }
-
 }
 
 
@@ -482,7 +524,7 @@ int main(int argc, char *argv[]){
     printf("Name: %s, is_label: %u, is_dir: %u\n", in.name, in.is_label, in.is_dir);
     int a = 0;
     while(in.args[a].in_use){
-      printf("\tArg: %s, Val: %u, Offset: %u, Reg: %u\n", in.args[a].str, in.args[a].val, in.args[a].offset, in.args[a].reg);
+      printf("\tArg: %s, Val: %u, Offset: %u, is_reg: %u reg: %u, is_alu: %u alu: %u, is_cond: %u cond: %u\n", in.args[a].str, in.args[a].val, in.args[a].offset, in.args[a].is_reg, in.args[a].reg,  in.args[a].is_alu, in.args[a].alu_op, in.args[a].is_cond, in.args[a].cond_code);
       a++;
     }
   }
