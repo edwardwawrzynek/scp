@@ -162,7 +162,7 @@ void obj_read_header(struct obj_file *obj){
   /* read blank */
   _obj_read_val(obj->file, 4);
   /* read in segs */
-  uint32_t offset = 0;
+  uint32_t offset = _OBJ_HEADER_SIZE;
   uint32_t tmp;
   for(int i = 0; i < 4; i++){
     /* TODO: check that the offsets and sizes are valid when we init the obj_segs struct */
@@ -207,7 +207,7 @@ void obj_read_header(struct obj_file *obj){
  * symbols are the number of symbols, NOT the size of the tables
  * segments sizes are in bytes (including the meta-bytes) */
 void obj_create_header(struct obj_file *obj, uint32_t seg0, uint32_t seg1, uint32_t seg2, uint32_t seg3, uint32_t defined_symbols, uint32_t extern_symbols){
-  uint32_t offset = 0;
+  uint32_t offset = _OBJ_HEADER_SIZE;
 
   for(int i = 0; i < 4; i++){
     obj->segs.segs[i].offset = offset;
