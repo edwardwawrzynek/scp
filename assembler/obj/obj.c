@@ -1,95 +1,4 @@
-/* Common code for dealing with scp's object code format */
-
-/* General Notes:
-4 segments (only 2 used for now - read only (text+rodata), and data (data+bss))
-Two symbol tables per file:
-- Table of symbols defined in file
-- Table of symbols with external linkage */
-
-/*
-Obj Format:
-The file follows this layout:
-1. Header
-2. Segment 0
-3. Segment 1
-4. Segment 2
-5. Segment 3
-6. Segment 4
-7. Defined Symbol Table
-8. External Symbol Table
-
-The segments and tables have to be arranged in this order, as we check if we have reached the end of a section based on the start of the next. The header could potentially specify an inccorect layout
-
-*** Header format: ***
-size| Description
-4   | Magic Number-SOF (SCP Object File) followed by null
-4   | Unused
-4   | Offset of segment 0 in file
-4   | Size of segment 0 in file
-4   | Offset of segment 1 in file
-4   | Size of segment 1 in file
-4   | Offset of segment 2 in file
-4   | Size of segment 2 in file
-4   | Offset of segment 3 in file
-4   | Size of segment 3 in file
-4   | Offset of defined symbol table
-4   | Size of defined symbol table
-4   | Offset of external symbol table
-4   | Size of external symbol table
-
-NOTE: all offsets are from the start of the file, including the 32 byte header
-
-
-*** Table Formats ***
-Both tables use the same format (in external table, additional entries beyond the name are blank)
-Size            |Description
-_OBJ_SYMBOL_SIZE|The symbol's name, including null
-1               |Which segment the symbol is in (defined symbol table only)
-2               |The symbol's offset in its segment (defined symbol table only)
-*/
-
-#include <stdio.h>
-#include <stdint.h>
-#include <stdlib.h>
-
-/* Magic Number (a uint32_t - Really SOF followed by null in ascii (stored little endian)) */
-#define _OBJ_MAGIC_NUMBER (uint32_t)('S' + ('O' << 8) + ('F' << 16))
-
-/* Size, including nulls, of symbol names (defined and external) - all symbol names will take up this much space
-* Note: if we change this, all object files will have to be regenerated */
-#define _OBJ_SYMBOL_SIZE 64
-/* Symbol table entries */
-struct obj_symbol_entry {
-  char name[_OBJ_SYMBOL_SIZE];
-  uint8_t seg;
-  uint16_t offset;
-};
-
-/* Header size in bytes (this is fixed unless we change header format) */
-#define _OBJ_HEADER_SIZE 56
-
-/* describes a segment of the file */
-struct obj_seg {
-  uint32_t offset;
-  uint32_t size;
-};
-
-/* describes the segments of the obj file */
-struct obj_segs {
-  /* four code and data segments */
-  struct obj_seg segs[4];
-  /* symbol tables */
-  struct obj_seg defined_table;
-  struct obj_seg extern_table;
-};
-
-/* an object code file object - passed to obj_ methods */
-struct obj_file {
-  /* the file being written to */
-  FILE *file;
-  /* header information */
-  struct obj_segs segs;
-};
+#include "obj.h"
 
 /**
  * error */
@@ -135,7 +44,6 @@ void obj_write_header(struct obj_file *obj){
   _obj_write_val(obj->file, 0, 4);
   /* write out segs */
   for(int i = 0; i < 4; i++){
-    /* TODO: check that the offsets and sizes are valid when we init the obj_segs struct */
     _obj_write_val(obj->file, obj->segs.segs[i].offset, 4);
     _obj_write_val(obj->file, obj->segs.segs[i].size, 4);
   }
@@ -165,7 +73,6 @@ void obj_read_header(struct obj_file *obj){
   uint32_t offset = _OBJ_HEADER_SIZE;
   uint32_t tmp;
   for(int i = 0; i < 4; i++){
-    /* TODO: check that the offsets and sizes are valid when we init the obj_segs struct */
     tmp = _obj_read_val(obj->file, 4);
     /* check that the segment is in the right place */
     if(offset != tmp){
@@ -220,12 +127,116 @@ void obj_create_header(struct obj_file *obj, uint32_t seg0, uint32_t seg1, uint3
     }
   }
   obj->segs.defined_table.offset = offset;
-  obj->segs.defined_table.size = defined_symbols * sizeof(struct obj_symbol_entry);
-  offset += defined_symbols * sizeof(struct obj_symbol_entry);
+  obj->segs.defined_table.size = defined_symbols * _OBJ_SYMBOL_ENTRY_SIZE;
+  offset += defined_symbols * _OBJ_SYMBOL_ENTRY_SIZE;
 
   obj->segs.extern_table.offset = offset;
-  obj->segs.extern_table.size = extern_symbols * sizeof(struct obj_symbol_entry);
-  offset += extern_symbols * sizeof(struct obj_symbol_entry);
+  obj->segs.extern_table.size = extern_symbols * _OBJ_SYMBOL_ENTRY_SIZE;
+  offset += extern_symbols * _OBJ_SYMBOL_ENTRY_SIZE;
+}
+
+/* write a symbol entry object to addr in obj's file */
+static void _obj_write_symbol(struct obj_file *obj, struct obj_symbol_entry *sym, uint32_t addr){
+  fseek(obj->file, addr, SEEK_SET);
+  /* write name */
+  uint8_t hit_null = 0;
+  for(uint8_t i = 0; i < _OBJ_SYMBOL_SIZE; i++){
+    if(!sym->name[i]){
+      hit_null = 1;
+    }
+    if(!hit_null){
+      _obj_write_val(obj->file, sym->name[i], 1);
+    } else {
+      _obj_write_val(obj->file, 0, 1);
+    }
+  }
+  if(!hit_null){
+    printf("\nName: %s\n", sym->name);
+    _obj_error("Above symbol name is too long\n");
+  }
+  /* write offset */
+  _obj_write_val(obj->file, sym->offset, 2);
+  /* write seg */
+  _obj_write_val(obj->file, sym->seg, 1);
+}
+
+/* read in a symbol entry from an addr in an obj's file */
+static void _obj_read_symbol(struct obj_file *obj, struct obj_symbol_entry *sym, uint32_t addr){
+  fseek(obj->file, addr, SEEK_SET);
+  /* read in name */
+  for(uint8_t i = 0; i < _OBJ_SYMBOL_SIZE; i++){
+    sym->name[i] = _obj_read_val(obj->file, 1);
+  }
+  /* read in offset */
+  sym->offset = _obj_read_val(obj->file, 2);
+  /* read in seg number */
+  sym->seg = _obj_read_val(obj->file, 1);
+}
+
+/* write a symbol to the defined symbol table */
+void obj_write_defined(struct obj_file *obj, char *name, uint8_t seg, uint16_t off){
+  uint32_t addr = obj->segs.defined_table.offset + (obj->defined_write_pos * _OBJ_SYMBOL_ENTRY_SIZE);
+  /* construct obj_symbol_entry */
+  struct obj_symbol_entry sym;
+  strcpy(sym.name, name);
+  sym.seg = seg;
+  sym.offset = off;
+  _obj_write_symbol(obj, &sym, addr);
+
+  obj->defined_write_pos++;
+}
+
+/* write a symbol to the extern symbol table */
+void obj_write_extern(struct obj_file *obj, char *name){
+    uint32_t addr = obj->segs.extern_table.offset + (obj->extern_write_pos * _OBJ_SYMBOL_ENTRY_SIZE);
+  /* construct obj_symbol_entry */
+  struct obj_symbol_entry sym;
+  strcpy(sym.name, name);
+  sym.seg = -1;
+  sym.offset = -1;
+  _obj_write_symbol(obj, &sym, addr);
+
+  obj->extern_write_pos++;
+}
+
+/* read in the whole defined symbol table into a malloc'd array, and return it */
+struct obj_symbol_entry * obj_get_defined(struct obj_file *obj){
+  struct obj_symbol_entry *res;
+  uint32_t num_elms = obj->segs.defined_table.size/_OBJ_SYMBOL_ENTRY_SIZE;
+  uint32_t size = num_elms * sizeof(struct obj_symbol_entry);
+  res = malloc(size);
+
+  for(uint32_t i = 0; i < num_elms; i++){
+    _obj_read_symbol(obj, &res[i], obj->segs.defined_table.offset + (i*_OBJ_SYMBOL_ENTRY_SIZE) );
+  }
+
+  return res;
+}
+
+/* read in the whole extern symbol table into a malloc'd array, and return it */
+struct obj_symbol_entry * obj_get_extern(struct obj_file *obj){
+  struct obj_symbol_entry *res;
+  uint32_t num_elms = obj->segs.extern_table.size/_OBJ_SYMBOL_ENTRY_SIZE;
+  uint32_t size = num_elms * sizeof(struct obj_symbol_entry);
+  res = malloc(size);
+
+  for(uint32_t i = 0; i < num_elms; i++){
+    _obj_read_symbol(obj, &res[i], obj->segs.extern_table.offset + (i*_OBJ_SYMBOL_ENTRY_SIZE) );
+  }
+
+  return res;
+}
+
+/* find a symbol by name in a defined symbols array, and return it's address. return NULL otherwise */
+struct obj_symbol_entry * obj_find_defined_symbol(struct obj_file *obj, char*name, struct obj_symbol_entry *syms){
+  uint32_t num_elms = obj->segs.defined_table.size / _OBJ_SYMBOL_ENTRY_SIZE;
+
+  for(uint32_t i = 0; i < num_elms; i++){
+    if(!strcmp(name, syms[i].name)){
+      return &syms[i];
+    }
+  }
+  return NULL;
 }
 
 void write(){
@@ -234,18 +245,30 @@ void write(){
   obj_create_header(&o, 10, 20, 30, 40, 5, 6);
 
   obj_write_header(&o);
+
+  obj_write_defined(&o, "test.name.entry.entry", 2, 65534);
+  obj_write_defined(&o, "test.name.entry.1", 4, 6553);
+  obj_write_extern(&o, "extern.name.1");
 }
 
 void read(){
   struct obj_file o;
   o.file = fopen("out.txt", "r");
   obj_read_header(&o);
+
+  struct obj_symbol_entry *s = obj_get_defined(&o);
+
+  struct obj_symbol_entry *sym = obj_find_defined_symbol(&o, "test.name.entry.1", s);
+
+  printf("seg: %u, Offset: %u\n", sym->seg, sym->offset);
 }
 
 int main(int argc, char **argv){
   if(argc > 1){
+    printf("Writing\n");
     write();
   } else {
+    printf("Reading\n");
     read();
   }
 }
