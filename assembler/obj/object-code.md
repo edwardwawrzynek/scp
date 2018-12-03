@@ -7,14 +7,17 @@
 - Segments must be relocatable independently of each other
   - Symbols and offsets must say which segments they are offsets in
 - Must be able to staticaly link with external symbols
-- Mabye use a byte before each data byte (or word) saying what it represents
+- Mabye use a byte before each data byte saying what it represents
   - Format?:
+
+- One byte per byte of real data
 
 0|1|2|3|4|5|6|7
 -|-|-|-|-|-|-|-
-size|is_const|is_extern_symbol|seg_num(high)|seg_num(low)|is_pc_relative|
+size|is_2nd_byte|is_const|is_extern_symbol|seg_num(high)|seg_num(low)|is_pc_relative|
 
 * size: if the byte marks a byte or word entry
+* is_2nd_byte: if the byte is the 2nd byte of a word
 * is_const: if true, just write the entry as it is (the rest of the entries assume is_const is false). if false, size has to be a word (offsets and symbols are always 2 bytes)
 * is_extern_symbol: if the entry is a reference to an entry in a the external symbol table instead of an offset - seg num is irrelevant in this case
 * seg_num: which segment the entry points to (ex: for an offset, this marks which segment this is an offset in)

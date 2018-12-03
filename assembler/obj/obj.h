@@ -98,4 +98,24 @@ struct obj_file {
   uint32_t defined_write_pos;
   /* current write pos in extern symbol table */
   uint32_t extern_write_pos;
+  /* current sgment being written (and/or read from?) */
+  uint8_t cur_seg;
+  /* current position (in byte offset) in each segment */
+  uint32_t segs_pos[4];
 };
+
+/**
+ * object info byte bits */
+
+/* if the byte is part of a word instead of a single word (OBJ_IS_2ND_BYTE will be set on the 2nd byte of the word) */
+#define OBJ_IS_WORD 0b1
+/* if the byte is the 2nd byte */
+#define OBJ_IS_2ND_BYTE 0b10
+/* if the word (can only be a word) is a symbol (if OBJ_IS_EXTERN, it is in the external table, otherwise, it is an offset in OBJ_SEG_NUM) instead of constant */
+#define OBJ_IS_SYMBOL 0b100
+/* if the symbol is an entry in the extern symbol table */
+#define OBJ_IS_EXTERN 0b1000
+/* the segment number of the symbol (if IS_SYMBOL && !IS_EXTERN) */
+#define OBJ_SEG_NUM 0b110000
+/* if the entry (if IS_SYMBOL) is a pc-relative address (pc relative to the address of the symbol being written - b/c pc is inc'd to be immediate while instr is executing) */
+#define OBJ_IS_PC_RELATIVE 0b1000000

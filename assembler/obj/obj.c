@@ -110,19 +110,34 @@ void obj_read_header(struct obj_file *obj){
 }
 
 /**
+ * clear values in an obj_file that need to be reset on init */
+void obj_init(struct obj_file *obj){
+  obj->file = NULL;
+  obj->defined_write_pos = 0;
+  obj->extern_write_pos = 0;
+  obj->cur_seg = 0;
+
+  obj->segs_pos[0] = 0;
+  obj->segs_pos[1] = 0;
+  obj->segs_pos[2] = 0;
+  obj->segs_pos[3] = 0;
+
+}
+
+/**
  * create the header in an obj_segs object given the sizes of eahc segment and number of defined and extern symbols
  * symbols are the number of symbols, NOT the size of the tables
- * segments sizes are in bytes (including the meta-bytes) */
+ * segments sizes are in bytes (NOT including the meta-bytes) */
 void obj_create_header(struct obj_file *obj, uint32_t seg0, uint32_t seg1, uint32_t seg2, uint32_t seg3, uint32_t defined_symbols, uint32_t extern_symbols){
   uint32_t offset = _OBJ_HEADER_SIZE;
 
   for(int i = 0; i < 4; i++){
     obj->segs.segs[i].offset = offset;
     switch(i){
-      case 0: obj->segs.segs[i].size = seg0; offset += seg0; break;
-      case 1: obj->segs.segs[i].size = seg1; offset += seg1; break;
-      case 2: obj->segs.segs[i].size = seg2; offset += seg2; break;
-      case 3: obj->segs.segs[i].size = seg3; offset += seg3; break;
+      case 0: obj->segs.segs[i].size = seg0 * 2; offset += seg0 * 2; break;
+      case 1: obj->segs.segs[i].size = seg1 * 2; offset += seg1 * 2; break;
+      case 2: obj->segs.segs[i].size = seg2 * 2; offset += seg2 * 2; break;
+      case 3: obj->segs.segs[i].size = seg3 * 2; offset += seg3 * 2; break;
       default: break;
     }
   }
@@ -133,6 +148,7 @@ void obj_create_header(struct obj_file *obj, uint32_t seg0, uint32_t seg1, uint3
   obj->segs.extern_table.offset = offset;
   obj->segs.extern_table.size = extern_symbols * _OBJ_SYMBOL_ENTRY_SIZE;
   offset += extern_symbols * _OBJ_SYMBOL_ENTRY_SIZE;
+
 }
 
 /* write a symbol entry object to addr in obj's file */
@@ -239,20 +255,89 @@ struct obj_symbol_entry * obj_find_defined_symbol(struct obj_file *obj, char*nam
   return NULL;
 }
 
+/* set the current segment being written to */
+void obj_set_seg(struct obj_file *obj, uint8_t seg){
+  obj->cur_seg  = seg;
+}
+
+/* write just a plain byte to the current segment */
+static void _obj_write(struct obj_file *obj, uint8_t val){
+  if(obj->segs_pos[obj->cur_seg] >= obj->segs.segs[obj->cur_seg].size){
+    _obj_error("seg size overrun");
+  }
+  fseek(obj->file, obj->segs.segs[obj->cur_seg].offset + obj->segs_pos[obj->cur_seg], SEEK_SET);
+  obj->segs_pos[obj->cur_seg]++;
+  fputc(val, obj->file);
+}
+
+/* write a constant byte (+meta byte) to the current segment */
+void obj_write_const_byte(struct obj_file *o, uint8_t val){
+  /* no flags needed */
+  _obj_write(o, 0);
+  _obj_write(o, val);
+}
+/* write a constant word (+meta bytes) to the current segment */
+void obj_write_const_word(struct obj_file *o, uint16_t val){
+  _obj_write(o, OBJ_IS_WORD);
+  _obj_write(o, val & 0xff);
+
+  _obj_write(o, OBJ_IS_WORD | OBJ_IS_2ND_BYTE);
+  _obj_write(o, val >> 8);
+}
+
+/* write an offset to the current segment
+  offset is offset in segment
+  seg is segment offset is in
+  pc_rel is true if the offset should be pc-relative */
+void obj_write_offset(struct obj_file *o, uint16_t offset, uint8_t seg, uint8_t pc_rel){
+  uint8_t flags = OBJ_IS_WORD | OBJ_IS_SYMBOL;
+  flags |= pc_rel ? OBJ_IS_PC_RELATIVE : 0;
+  flags |= (seg & 0b11) << 4;
+
+  _obj_write(o, flags);
+  _obj_write(o, offset & 0xff);
+
+  _obj_write(o, flags | OBJ_IS_2ND_BYTE);
+  _obj_write(o, offset >> 8);
+}
+
+/* write an external symbol to the current segment
+   index is the extrn's index in the extern table
+   pc_rel is true if the resulting offset should be pc-relative */
+void obj_write_extern_offset(struct obj_file *o, uint16_t index, uint8_t pc_rel){
+  uint8_t flags = OBJ_IS_WORD | OBJ_IS_SYMBOL | OBJ_IS_EXTERN;
+  flags |= pc_rel ? OBJ_IS_PC_RELATIVE : 0;
+
+  _obj_write(o, flags);
+  _obj_write(o, index & 0xff);
+
+  _obj_write(o, flags | OBJ_IS_2ND_BYTE);
+  _obj_write(o, index >> 8);
+}
+
 void write(){
   struct obj_file o;
+  obj_init(&o);
+
   o.file = fopen("out.txt", "w");
+
   obj_create_header(&o, 10, 20, 30, 40, 5, 6);
 
   obj_write_header(&o);
 
-  obj_write_defined(&o, "test.name.entry.entry", 2, 65534);
+  obj_write_defined(&o, "test.name.entry", 2, 65534);
   obj_write_defined(&o, "test.name.entry.1", 4, 6553);
   obj_write_extern(&o, "extern.name.1");
+
+  obj_set_seg(&o, 0);
+  for(int i = 0; i < 5; i++){
+    obj_write_const_word(&o, 132);
+  }
 }
 
 void read(){
   struct obj_file o;
+  obj_init(&o);
   o.file = fopen("out.txt", "r");
   obj_read_header(&o);
 
