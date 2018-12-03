@@ -7,6 +7,8 @@
 
 #include "object.h"
 #include "obj.h"
+#include "cmds.h"
+#include "labels.h"
 
 void usage(){
   printf("Usage: scpasm [options] files\
@@ -14,6 +16,8 @@ void usage(){
         \n-o\tout.o\t\t:set output binary\
         \n-d\tdebug.txt\t:output debugging info in debug.txt\n");
 }
+
+void run_asm(void);
 
 struct instr in;
 
@@ -62,17 +66,36 @@ int main(int argc, char *argv[]){
     exit(1);
   }
 
-  /* run asm */
+  run_asm();
+
+  fclose(out.file);
+}
+
+/* run all the things required for assembly */
+void run_asm(){
+  /* first pass */
   while(!read_good_line()){
     line_into_instr(&in);
     check_instr(&in);
-    printf("Name: %s, Opcode: %i, is_label: %u, is_dir: %u\n", in.name, in.opcode, in.is_label, in.is_dir);
-    int a = 0;
-    while(in.args[a].in_use){
-      printf("\tArg: %s, Val: %u, Offset: %u, is_reg: %u reg: %u, is_alu: %u alu: %u, is_cond: %u cond: %u\n", in.args[a].str, in.args[a].val, in.args[a].offset, in.args[a].is_reg, in.args[a].reg,  in.args[a].is_alu, in.args[a].alu_op, in.args[a].is_cond, in.args[a].cond_code);
-      a++;
-    }
+    first_pass(&in);
   }
+  /* create the header */
+  uint16_t external = 0;
+  uint16_t defined = 0;
+  labels_get_num(&defined, &external);
+  obj_create_header(&out, seg_pos[0], seg_pos[1], seg_pos[2], seg_pos[3], defined, external);
+  obj_write_header(&out);
 
-  fclose(out.file);
+  /* write out labels */
+  labels_write_out(&out);
+
+  /* reset for second pass */
+  reset_segs_and_module();
+  reset_file();
+  /* second pass */
+  while(!read_good_line()){
+    line_into_instr(&in);
+    check_instr(&in);
+    second_pass(&in);
+  }
 }

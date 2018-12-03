@@ -77,7 +77,7 @@ extern uint8_t do_debug;
 /* label desription */
 struct label {
   char name[LABEL_SIZE];
-  /* module number, or -1 for not a global label */
+  /* module number, or -1 for a global label */
   int16_t module;
   /* the segment the label is in, or -1 for extern */
   int8_t seg;

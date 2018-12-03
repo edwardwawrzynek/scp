@@ -3,12 +3,34 @@
 #include <string.h>
 #include <stdlib.h>
 
+#include "object.h"
+#include "obj.h"
+
 /* the array of labels - malloc'd*/
 struct label * labels;
 /* number of labels alloc'd */
 unsigned int labels_allocd = 0;
 /* current label number */
 unsigned int labels_cur = 0;
+
+/* current segment being written to */
+uint8_t cur_seg = 0;
+/* addresses in each seg */
+uint16_t seg_pos[4];
+
+/* current module */
+uint16_t cur_module = 0;
+
+/**
+ * reset position in all segments */
+void reset_segs_and_module(){
+  seg_pos[0] = 0;
+  seg_pos[1] = 0;
+  seg_pos[2] = 0;
+  seg_pos[3] = 0;
+  cur_seg = 0;
+  cur_module = 0;
+}
 
 /**
  * expand the labels array by REALLOC_AMOUNT */
@@ -25,7 +47,7 @@ void expand_labels(){
 
 /**
  * add a new label to the labels array - return it */
-struct label * add_label(char * name, int16_t module, uint16_t addr){
+struct label * add_label(char * name, int16_t module, uint16_t addr, int8_t seg){
   struct label * entry;
   /* realloc if needed */
   if(labels_cur >= labels_allocd) {
@@ -36,6 +58,7 @@ struct label * add_label(char * name, int16_t module, uint16_t addr){
   strcpy(entry->name, name);
   entry->module = module;
   entry->addr = addr;
+  entry->seg = seg;
 
   return entry;
 }
@@ -58,4 +81,30 @@ struct label * find_label(char * name, int16_t module) {
   error("no such label");
 
   return NULL;
+}
+
+/**
+ * count the number of global defined labels, and the number of extern labels */
+void labels_get_num(uint16_t *defined, uint16_t *external){
+  for(unsigned int i = 0; i < labels_cur; i++){
+    if(labels[i].seg == -1){
+      (*external)++;
+    } else if(labels[i].module == -1){
+      (*defined)++;
+    }
+  }
+}
+
+/* write out the labels to the object file */
+void labels_write_out(struct obj_file *o){
+  for(unsigned int i = 0; i < labels_cur; i++){
+    /* extern symbol */
+    if(labels[i].seg == -1){
+      obj_write_extern(o, labels[i].name);
+    }
+    /* defined symbol */
+    else if(labels[i].module == -1){
+      obj_write_defined(o, labels[i].name, labels[i].seg, labels[i].addr);
+    }
+  }
 }
