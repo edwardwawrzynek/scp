@@ -8,6 +8,11 @@
 /* describes the encoding of an instruction */
 enum arg_type {end_arg, reg, alu, cnst, label, cond};
 
+/* directive types */
+enum dir_type {dc_b, dc_bs, dc_w, dc_l, ds, align, module, global, external, text, data, rodata, bss, robss};
+/* directive names */
+extern char * dir_names[MAX_DIRS];
+
 struct instr_encoding {
   char * name;
   uint8_t opcode;
@@ -52,6 +57,8 @@ struct instr {
   uint8_t is_label;
   /* if true, instruction is directive (name holds name WITH . in it) */
   uint8_t is_dir;
+    /* the type of the directive - only matters if is_dir is set */
+  enum dir_type dir_type;
   /* arguments */
   struct arg args[MAX_ARGS];
 };
@@ -61,7 +68,7 @@ extern char line[LINE_SIZE];
 extern int lptr;
 
 extern char * alu_ops[16];
-struct instr_encoding instructions[64];
+struct instr_encoding instructions[MAX_CMDS];
 
 /* debug file */
 extern FILE * debug_file;
@@ -72,6 +79,8 @@ struct label {
   char name[LABEL_SIZE];
   /* module number, or -1 for not a global label */
   int16_t module;
+  /* the segment the label is in, or -1 for extern */
+  int8_t seg;
   /* the address of the label */
   uint16_t addr;
 };

@@ -1,15 +1,15 @@
-DEPS = asm.h defs.h 
+DEPS = asm.h defs.h
 
-OBJS = encodings.o labels.o io.o decode.o main.o obj.o
+OBJS = encodings.o labels.o io.o decode.o main.o obj.o encode.o cmds.o
 
 %.o: %.c $(DEPS)
 	makeheaders $<
-	$(CC) -Wall -c -o $@ $< $(CFLAGS)
+	$(CC) -g -Wall -c -o $@ $< $(CFLAGS)
 
 all: scpasm
 
 scpasm: $(OBJS)
-	$(CC) -Wall -o ../bin/scpasm $(OBJS)
+	$(CC) -g -Wall -o ../bin/scpasm $(OBJS)
 
 clean:
 	rm -f $(OBJS)

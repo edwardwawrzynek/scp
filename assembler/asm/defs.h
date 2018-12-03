@@ -15,4 +15,9 @@
 #define ARG_LEN 33
 /* max length of an instruction name */
 #define CMD_NAME_SIZE 17
+
+/* max number of asm commands - only changed during dev */
+#define MAX_CMDS 64
+/* max number of directives - only changed during dev*/
+#define MAX_DIRS 64
 #endif

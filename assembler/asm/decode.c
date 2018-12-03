@@ -59,14 +59,28 @@ uint8_t read_good_line(){
 }
 
 /**
- * find the instruction entry that matches the given cmd name, or return NULL if not a valid instruction */
+ * find the instruction entry that matches the given cmd name, or error if not a valid instruction */
 struct instr_encoding * get_instr_entry(char * name) {
-  for(unsigned int i = 0; i < num_instructions; i++){
+  for(unsigned int i = 0; instructions[i].name; i++){
     if(!strcmp(instructions[i].name, name)) {
       return instructions + i;
     }
   }
+  error("No such command");
   return NULL;
+}
+
+/**
+ * get the dir_type for a directive name
+ */
+enum dir_type get_dir_type(char *name){
+  for(unsigned int i = 0; dir_names[i]; i++){
+    if(!strcmp(dir_names[i], name)){
+      return (enum dir_type)i;
+    }
+  }
+  error("No such directive");
+  return 0;
 }
 
 int hex2int(char ch)
@@ -119,6 +133,8 @@ void line_into_instr(struct instr * instr){
     /* set is_dir */
     if(instr->name[0] == '.'){
       instr->is_dir = 1;
+      /* set directive */
+      instr->dir_type = get_dir_type(instr->name);
     } else {
       /* set opcode */
       /* TODO: allow macro expansion */

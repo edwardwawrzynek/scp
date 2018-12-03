@@ -15,7 +15,7 @@ void usage(){
         \n-d\tdebug.txt\t:output debugging info in debug.txt\n");
 }
 
-  struct instr in;
+struct instr in;
 
 int main(int argc, char *argv[]){
   char * outfile = "a.out";
