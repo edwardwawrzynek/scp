@@ -1,4 +1,4 @@
-#include "obj.h"
+#include "object.h"
 
 /**
  * error */
@@ -313,47 +313,4 @@ void obj_write_extern_offset(struct obj_file *o, uint16_t index, uint8_t pc_rel)
 
   _obj_write(o, flags | OBJ_IS_2ND_BYTE);
   _obj_write(o, index >> 8);
-}
-
-void write(){
-  struct obj_file o;
-  obj_init(&o);
-
-  o.file = fopen("out.txt", "w");
-
-  obj_create_header(&o, 10, 20, 30, 40, 5, 6);
-
-  obj_write_header(&o);
-
-  obj_write_defined(&o, "test.name.entry", 2, 65534);
-  obj_write_defined(&o, "test.name.entry.1", 4, 6553);
-  obj_write_extern(&o, "extern.name.1");
-
-  obj_set_seg(&o, 0);
-  for(int i = 0; i < 5; i++){
-    obj_write_const_word(&o, 132);
-  }
-}
-
-void read(){
-  struct obj_file o;
-  obj_init(&o);
-  o.file = fopen("out.txt", "r");
-  obj_read_header(&o);
-
-  struct obj_symbol_entry *s = obj_get_defined(&o);
-
-  struct obj_symbol_entry *sym = obj_find_defined_symbol(&o, "test.name.entry.1", s);
-
-  printf("seg: %u, Offset: %u\n", sym->seg, sym->offset);
-}
-
-int main(int argc, char **argv){
-  if(argc > 1){
-    printf("Writing\n");
-    write();
-  } else {
-    printf("Reading\n");
-    read();
-  }
 }

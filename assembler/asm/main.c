@@ -5,6 +5,9 @@
 #include "io.h"
 #include "decode.h"
 
+#include "object.h"
+#include "obj.h"
+
 void usage(){
   printf("Usage: scpasm [options] files\
         \nOptions:\
@@ -44,8 +47,11 @@ int main(int argc, char *argv[]){
       exit(1);
     }
   }
+  /* init output object */
+  obj_init(&out);
   /* open output file */
-  out_file = fopen(outfile, "w");
+  out.file = fopen(outfile, "w");
+
   /* open debug file */
   if(do_debug){
     debug_file = fopen(debugfile, "w");
@@ -68,5 +74,5 @@ int main(int argc, char *argv[]){
     }
   }
 
-  fclose(out_file);
+  fclose(out.file);
 }

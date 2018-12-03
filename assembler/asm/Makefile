@@ -1,6 +1,6 @@
-DEPS = asm.h defs.h
+DEPS = asm.h defs.h 
 
-OBJS = encodings.o labels.o io.o decode.o main.o
+OBJS = encodings.o labels.o io.o decode.o main.o obj.o
 
 %.o: %.c $(DEPS)
 	makeheaders $<

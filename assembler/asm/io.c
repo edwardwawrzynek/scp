@@ -1,6 +1,7 @@
 #include "asm.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include "object.h"
 
 /* currently read in line */
 char line[LINE_SIZE];
@@ -11,7 +12,7 @@ FILE * in_files[MAX_FILES];
 /* current input file */
 int cur_in_file = 0;
 /* output file */
-FILE * out_file;
+struct obj_file out;
 
 /* debug file */
 FILE * debug_file;
@@ -56,15 +57,4 @@ void reset_file(){
     i++;
   }
   cur_in_file = 0;
-}
-
-/**
- * output a value - either one bit, or a little endian two byte value */
-void output_byte(uint8_t val){
-  fputc(val, out_file);
-}
-
-void output_word(uint16_t word){
-  fputc(word & 0x00ff, out_file);
-  fputc(word >> 8, out_file);
 }
