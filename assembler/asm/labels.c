@@ -84,11 +84,14 @@ struct label * find_label(char * name, int16_t module) {
 }
 
 /**
- * count the number of global defined labels, and the number of extern labels */
+ * count the number of global defined labels, and the number of extern labels
+ * also set the extern_index of external labels */
 void labels_get_num(uint16_t *defined, uint16_t *external){
+  uint16_t extern_i = 0;
   for(unsigned int i = 0; i < labels_cur; i++){
     if(labels[i].seg == -1){
       (*external)++;
+      labels[i].extern_index = extern_i++;
     } else if(labels[i].module == -1){
       (*defined)++;
     }
@@ -100,7 +103,7 @@ void labels_write_out(struct obj_file *o){
   for(unsigned int i = 0; i < labels_cur; i++){
     /* extern symbol */
     if(labels[i].seg == -1){
-      obj_write_extern(o, labels[i].name);
+      obj_write_extern(o, labels[i].name, 0);
     }
     /* defined symbol */
     else if(labels[i].module == -1){

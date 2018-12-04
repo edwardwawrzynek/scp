@@ -31,6 +31,7 @@ struct arg {
   /* the arg (not including offsets) */
   char str[ARG_LEN];
   /* the arg's value (calculated by atoi - for labels, etc, this is zero) */
+  /* TODO: allow use of int32 here for dc.l */
   uint16_t val;
   /* if arg could be a reg, this is the reg number (0-15) */
   uint8_t is_reg;
@@ -83,6 +84,8 @@ struct label {
   int8_t seg;
   /* the address of the label */
   uint16_t addr;
+  /* the index in the external table - only if the label is an external label */
+  uint16_t extern_index;
 };
 
 #endif

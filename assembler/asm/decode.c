@@ -150,6 +150,7 @@ void line_into_instr(struct instr * instr){
       arg->in_use = 1;
       read_in_arg(arg->str);
       /* handle offsets */
+      arg->offset = 0;
       int i = 0;
       while(arg->str[i]){
         if(arg->str[i] == '+'){
@@ -160,8 +161,8 @@ void line_into_instr(struct instr * instr){
         }
         i++;
       }
-      /* set val */
-      arg->val = atoi(arg->str);
+      /* set val - and add offset*/
+      arg->val = atoi(arg->str) + arg->offset;
       /* if we can, set reg */
       if(arg->str[0] == 'r' && !arg->str[2]){
         arg->is_reg = 1;
