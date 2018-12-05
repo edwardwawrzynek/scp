@@ -5,6 +5,8 @@
 #include "io.h"
 #include "decode.h"
 
+void second_pass(struct instr *i);
+
 /* Functions to figure out size of commands, and get their output */
 
 /* run the first pass on a directive, adding any labels that need to be added, change module number, and return number of bytes used by the directive */
@@ -141,7 +143,6 @@ uint16_t dir_second_pass(struct instr *i){
 
 /* output a label immediate */
 void write_label_imd(struct arg *arg){
-    printf("Name: %s\n", arg->str);
     /* find entry in symbol table */
     struct label *lab = find_label(arg->str, cur_module);
     if(!lab){

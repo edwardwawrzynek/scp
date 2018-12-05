@@ -151,6 +151,15 @@ void obj_create_header(struct obj_file *obj, uint32_t seg0, uint32_t seg1, uint3
 
 }
 
+/* expand the extern table in a obj_file, and write the changes to the header to disk - used when externs need offsets */
+void obj_expand_extern(struct obj_file *obj, uint32_t extern_symbols){
+  obj->segs.extern_table.size = extern_symbols * _OBJ_SYMBOL_ENTRY_SIZE;
+  /* seek to the right spot
+     TODO: make sure this is always the right spot*/
+  fseek(obj->file, 13*4, SEEK_SET);
+  _obj_write_val(obj->file, obj->segs.extern_table.size, 4);
+}
+
 /* write a symbol entry object to addr in obj's file */
 static void _obj_write_symbol(struct obj_file *obj, struct obj_symbol_entry *sym, uint32_t addr){
   fseek(obj->file, addr, SEEK_SET);
@@ -202,17 +211,18 @@ void obj_write_defined(struct obj_file *obj, char *name, uint8_t seg, uint16_t o
   obj->defined_write_pos++;
 }
 
-/* write a symbol to the extern symbol table */
-void obj_write_extern(struct obj_file *obj, char *name){
+/* write a symbol to the extern symbol table - with an offset from that symbol (usually zero)
+  return index of that symbol */
+uint32_t obj_write_extern(struct obj_file *obj, char *name, uint16_t off){
     uint32_t addr = obj->segs.extern_table.offset + (obj->extern_write_pos * _OBJ_SYMBOL_ENTRY_SIZE);
   /* construct obj_symbol_entry */
   struct obj_symbol_entry sym;
   strcpy(sym.name, name);
   sym.seg = -1;
-  sym.offset = -1;
+  sym.offset = off;
   _obj_write_symbol(obj, &sym, addr);
 
-  obj->extern_write_pos++;
+  return obj->extern_write_pos++;
 }
 
 /* read in the whole defined symbol table into a malloc'd array, and return it */

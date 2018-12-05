@@ -44,7 +44,7 @@ NOTE: all offsets are from the start of the file, including the 32 byte header
 Both tables use the same format (in external table, additional entries beyond the name are blank)
 Size            |Description
 _OBJ_SYMBOL_SIZE|The symbol's name, including null
-2               |The symbol's offset in its segment (defined symbol table only)
+2               |The symbol's offset in its segment (defined symbol table only for offset in sgement. If this is non zero in the extern table, it is the offset off of the external symbol's position)
 1               |Which segment the symbol is in (defined symbol table only)
 */
 
