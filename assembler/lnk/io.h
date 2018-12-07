@@ -1,4 +1,6 @@
 /* This file was automatically generated.  Do not edit! */
+void write_word(uint16_t val);
+void write_byte(uint8_t val);
 void set_seg(uint8_t seg);
 void create_segs(uint8_t do_head,uint8_t do_pages);
 void read_seg_size();
@@ -11,4 +13,5 @@ void raw_output_byte(uint8_t val);
 void read_in_headers();
 void error(char *msg);
 extern FILE *out_file;
+extern int cur_in_obj;
 extern struct obj_file in_objs[MAX_FILES];

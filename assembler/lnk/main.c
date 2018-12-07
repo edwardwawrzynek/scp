@@ -6,6 +6,7 @@
 #include "object.h"
 #include "obj.h"
 #include "io.h"
+#include "symbols.h"
 
 /**
  * scplnk produces a directly loadable binary with or without -r - see segs.c */
@@ -76,4 +77,18 @@ void run_lnk(){
   read_in_headers();
   read_seg_size();
   create_segs(do_head, do_pages);
+
+  symbol_read_in_tables();
+
+  obj_set_seg(&in_objs[0], 0);
+  uint16_t data;
+  uint8_t is_byte, flags;
+  if(obj_read_data(&in_objs[0], &data, &flags, &is_byte) == -1){
+    printf("Overflow\n");
+  }
+  printf("Data: %u, Flags: %u, Is_word: %u\n", data, flags, is_byte);
+  if(obj_read_data(&in_objs[0], &data, &flags, &is_byte) == -1){
+    printf("Overflow\n");
+  }
+  printf("Data: %u, Flags: %u, Is_word: %u\n", data, flags, is_byte);
 }

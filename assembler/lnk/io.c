@@ -9,6 +9,9 @@
 /* Input object files */
 struct obj_file in_objs[MAX_FILES];
 
+/* current input file being read */
+int cur_in_obj;
+
 /* Output binary */
 FILE *out_file;
 
@@ -83,7 +86,7 @@ void create_segs(uint8_t do_head, uint8_t do_pages){
         }
     }
 
-    /* write a head if needed */
+    /* write a header if needed */
     if(do_head){
         fseek(out_file, 0, SEEK_SET);
         for(int s = 0; s < 4; s++){
@@ -109,4 +112,20 @@ void create_segs(uint8_t do_head, uint8_t do_pages){
 void set_seg(uint8_t seg){
     cur_seg = seg;
     fseek(out_file, seg_start[cur_seg] + seg_pos[cur_seg], SEEK_SET);
+}
+
+/* write out a byte or word in the current header, advancing positioning, etc */
+void write_byte(uint8_t val){
+    if(seg_pos[cur_seg] >= seg_size[cur_seg]){
+        error("wrote over segment size");
+    }
+    raw_output_byte(val);
+    seg_pos[cur_seg]++;
+}
+void write_word(uint16_t val){
+    if(seg_pos[cur_seg] >= seg_size[cur_seg]){
+        error("wrote over segment size");
+    }
+    raw_output_word(val);
+    seg_pos[cur_seg] += 2;
 }
