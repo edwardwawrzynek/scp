@@ -6,7 +6,6 @@
 #include "object.h"
 #include "obj.h"
 #include "io.h"
-#include "segs.h"
 
 /**
  * scplnk produces a directly loadable binary with or without -r - see segs.c */

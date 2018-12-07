@@ -5,7 +5,6 @@ _main:
     ld.r.m.w r0 _var2
 
     .extern _var2
-
     .data
 
 _var1:
