@@ -80,15 +80,5 @@ void run_lnk(){
 
   symbol_read_in_tables();
 
-  obj_set_seg(&in_objs[0], 0);
-  uint16_t data;
-  uint8_t is_byte, flags;
-  if(obj_read_data(&in_objs[0], &data, &flags, &is_byte) == -1){
-    printf("Overflow\n");
-  }
-  printf("Data: %u, Flags: %u, Is_word: %u\n", data, flags, is_byte);
-  if(obj_read_data(&in_objs[0], &data, &flags, &is_byte) == -1){
-    printf("Overflow\n");
-  }
-  printf("Data: %u, Flags: %u, Is_word: %u\n", data, flags, is_byte);
+  main_pass();
 }

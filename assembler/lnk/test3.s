@@ -56,4 +56,3 @@ l1:
 	.dc.w	1
 	.ds	8+2
 ;	End of VBCC SCP generated section
-	alu.r.r sub r1 r3

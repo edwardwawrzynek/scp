@@ -1,4 +1,7 @@
 ;   Test
     .text
-    .dc.b   134
-;    .dc.w   2345
+    ld.r.m.w r0 label
+    .data
+label:
+    .text
+    nop.n.n

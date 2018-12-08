@@ -114,7 +114,7 @@ void set_seg(uint8_t seg){
     fseek(out_file, seg_start[cur_seg] + seg_pos[cur_seg], SEEK_SET);
 }
 
-/* write out a byte or word in the current header, advancing positioning, etc */
+/* write out a byte or word in the current seg, advancing positioning, etc */
 void write_byte(uint8_t val){
     if(seg_pos[cur_seg] >= seg_size[cur_seg]){
         error("wrote over segment size");
@@ -122,6 +122,7 @@ void write_byte(uint8_t val){
     raw_output_byte(val);
     seg_pos[cur_seg]++;
 }
+
 void write_word(uint16_t val){
     if(seg_pos[cur_seg] >= seg_size[cur_seg]){
         error("wrote over segment size");
