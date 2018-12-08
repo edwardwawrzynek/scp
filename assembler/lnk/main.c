@@ -75,7 +75,7 @@ int main(int argc, char *argv[]){
 
 void run_lnk(){
   read_in_headers();
-  read_seg_size();
+  //read_seg_size();
   create_segs(do_head, do_pages);
 
   symbol_read_in_tables();

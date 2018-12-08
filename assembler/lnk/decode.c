@@ -29,7 +29,14 @@ int decode_data(int i, uint8_t seg){
     else {
         /* handle extern symbols */
         if(flags & OBJ_IS_EXTERN){
+            uint8_t is_pc_relative = (flags & OBJ_IS_PC_RELATIVE);
 
+            uint16_t real_addr = extern_get_addr(i, data);
+            /* adjust for pc relative offsets */
+            if(is_pc_relative){
+                real_addr -= seg_pos[cur_seg] + seg_start[cur_seg];
+            }
+            write_word(real_addr);
         }
         /* symbol is in current file */
         else {
@@ -37,6 +44,10 @@ int decode_data(int i, uint8_t seg){
             uint8_t is_pc_relative = (flags & OBJ_IS_PC_RELATIVE);
 
             uint16_t real_addr = seg_start[seg_num] + data;
+            /* check that real_addr is actually in seg */
+            if(!( real_addr >= seg_start[seg_num] && real_addr <= seg_start[seg_num] + seg_size[seg_num])){
+                error("symbol resolves to address outside of declared segment");
+            }
             /* adjust for pc relative offsets */
             if(is_pc_relative){
                 real_addr -= seg_pos[cur_seg] + seg_start[cur_seg];

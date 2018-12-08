@@ -47,20 +47,13 @@ uint16_t seg_size[4];
 /* the start of each segment in memory (in bytes) */
 uint16_t seg_start[4];
 
+/* the offset of each file's segments */
+uint16_t in_segs_start[MAX_FILES][4];
+
 /* current seg being written to */
 uint8_t cur_seg;
 /* current write location in each seg (offset in seg) */
 uint16_t seg_pos[4];
-
-/* read from the headers, and set the size of each segment */
-void read_seg_size(){
-    for(int i = 0; in_objs[i].file; i++){
-        for(int s = 0; s < 4; s++){
-            /* divide by two b/c sizes in header includes meta-bytes */
-            seg_size[s] += in_objs[i].segs.segs[s].size / 2;
-        }
-    }
-}
 
 /* create the segment layout, and write the header if requested
    the header contains the start page (5 bits) and number of pages (5 bits) for each segment
@@ -77,7 +70,17 @@ void create_segs(uint8_t do_head, uint8_t do_pages){
 
     for(int s = 0; s < 4; s++){
         seg_start[s] = offset;
-        offset += seg_size[s];
+        /* offset += seg_size[s]; */
+        for(int i = 0; in_objs[i].file; i++){
+            /* divide by two b/c sizes in header includes meta-bytes */
+            uint16_t size = in_objs[i].segs.segs[s].size / 2;
+            /* sum total seg_size */
+            seg_size[s] += size;
+            /* set in file specific segment starts (needed for extern lookups) */
+            in_segs_start[i][s] = offset;
+            /* add to offset */
+            offset += size;
+        }
         /* always align */
         if(offset & 1){offset++;}
         /* align on page boundries */
@@ -85,6 +88,7 @@ void create_segs(uint8_t do_head, uint8_t do_pages){
             while(offset & (PAGE_SIZE-1)){offset++;}
         }
     }
+
 
     /* write a header if needed */
     if(do_head){
