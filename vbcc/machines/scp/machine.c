@@ -349,18 +349,18 @@ static void load_into_reg(FILE *f, struct obj *o, int real_type, int reg){
     if(o->flags & VARADR){
       /* should only be used with static or external variables */
       if(isextern(o->v->storage_class)){
-        emit(f, "\tld.r.i %s %s%s +%li\n", regnames[reg], idprefix, o->v->identifier, o->val.vmax);
+        emit(f, "\tld.r.i %s %s%s+%li\n", regnames[reg], idprefix, o->v->identifier, o->val.vmax);
       }
       if(isstatic(o->v->storage_class)){
-        emit(f, "\tld.r.i %s %s%i +%li\n", regnames[reg], labprefix, o->v->offset, o->val.vmax);
+        emit(f, "\tld.r.i %s %s%i+%li\n", regnames[reg], labprefix, o->v->offset, o->val.vmax);
         }
     } else {
       /* handle externs and static */
       if(isextern(o->v->storage_class)){
-        emit(f, "\tld.r.m.%s %s %s%s +%li\n", dt(typ), regnames[reg], idprefix, o->v->identifier, o->val.vmax);
+        emit(f, "\tld.r.m.%s %s %s%s+%li\n", dt(typ), regnames[reg], idprefix, o->v->identifier, o->val.vmax);
       }
       if(isstatic(o->v->storage_class)){
-        emit(f, "\tld.r.m.%s %s %s%i +%li\n", dt(typ), regnames[reg], labprefix, o->v->offset, o->val.vmax);
+        emit(f, "\tld.r.m.%s %s %s%i+%li\n", dt(typ), regnames[reg], labprefix, o->v->offset, o->val.vmax);
       }
       /* handle automatic variables */
       if(isauto(o->v->storage_class)){
@@ -408,10 +408,10 @@ static void load_address(FILE *f, struct obj *o, int real_type, int reg){
     /* we have to take the address of a non derefrenced, non VARADR variable */
     /* handle externs and static */
       if(isextern(o->v->storage_class)){
-        emit(f, "\tld.r.ra %s %s%s +%li\n", regnames[reg], idprefix, o->v->identifier, o->val.vmax);
+        emit(f, "\tld.r.ra %s %s%s+%li\n", regnames[reg], idprefix, o->v->identifier, o->val.vmax);
       }
       if(isstatic(o->v->storage_class)){
-        emit(f, "\tld.r.ra %s %s%i +%li\n", regnames[reg], labprefix, o->v->offset, o->val.vmax);
+        emit(f, "\tld.r.ra %s %s%i+%li\n", regnames[reg], labprefix, o->v->offset, o->val.vmax);
       }
       /* handle automatic variables */
       if(isauto(o->v->storage_class)){
@@ -450,10 +450,10 @@ static void store_from_reg(FILE *f, struct obj *o, int real_type, int reg, int t
 
   } else if((o->flags & VAR) == VAR){
     if(isextern(o->v->storage_class)){
-      emit(f, "\tst.r.m.%s %s %s%s +%li\n", dt(typ), regnames[reg], idprefix, o->v->identifier, o->val.vmax);
+      emit(f, "\tst.r.m.%s %s %s%s+%li\n", dt(typ), regnames[reg], idprefix, o->v->identifier, o->val.vmax);
     }
     if(isstatic(o->v->storage_class)){
-      emit(f, "\tst.r.m.%s %s %s%i +%li\n", dt(typ), regnames[reg], labprefix, o->v->offset, o->val.vmax);
+      emit(f, "\tst.r.m.%s %s %s%i+%li\n", dt(typ), regnames[reg], labprefix, o->v->offset, o->val.vmax);
     }
     /* handle automatic variables */
     if(isauto(o->v->storage_class)){
