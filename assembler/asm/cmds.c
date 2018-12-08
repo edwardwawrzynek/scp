@@ -83,6 +83,11 @@ void first_pass(struct instr *i){
     }
 }
 
+/* align at the end of first pass */
+void first_pass_align(){
+    seg_pos[cur_seg] += seg_pos[cur_seg] & 1;
+}
+
 /* run the second pass of a directive - return bytes*/
 uint16_t dir_second_pass(struct instr *i){
     switch(i->dir_type){

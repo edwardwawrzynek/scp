@@ -1,4 +1,6 @@
 /* This file was automatically generated.  Do not edit! */
+int obj_read_data(struct obj_file *obj,uint16_t *data,uint8_t *flag,uint8_t *is_word);
+int obj_read_byte(struct obj_file *obj,uint8_t *byte,uint8_t *flag);
 void obj_write_extern_offset(struct obj_file *o,uint16_t index,uint8_t pc_rel);
 void obj_write_offset(struct obj_file *o,uint16_t offset,uint8_t seg,uint8_t pc_rel);
 void obj_write_const_word(struct obj_file *o,uint16_t val);

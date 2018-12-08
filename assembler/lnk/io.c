@@ -131,6 +131,10 @@ void write_word(uint16_t val){
     if(seg_pos[cur_seg] >= seg_size[cur_seg]){
         error("wrote over segment size");
     }
+    /* make sure we are aligned */
+    if(seg_pos[cur_seg] & 1){
+        printf("scplnk: warning: outputting an unaligned word\n");
+    }
     raw_output_word(val);
     seg_pos[cur_seg] += 2;
 }

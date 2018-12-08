@@ -7,6 +7,7 @@
 #include "obj.h"
 #include "io.h"
 #include "symbols.h"
+#include "decode.h"
 
 /**
  * scplnk produces a directly loadable binary with or without -r - see segs.c */

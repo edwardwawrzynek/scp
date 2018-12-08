@@ -79,6 +79,7 @@ void run_asm(){
     check_instr(&in);
     first_pass(&in);
   }
+  first_pass_align();
   /* create the header */
   uint16_t external = 0;
   uint16_t defined = 0;

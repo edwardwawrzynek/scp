@@ -324,3 +324,57 @@ void obj_write_extern_offset(struct obj_file *o, uint16_t index, uint8_t pc_rel)
   _obj_write(o, flags | OBJ_IS_2ND_BYTE);
   _obj_write(o, index >> 8);
 }
+
+/* read in a byte, or return EOF if end of seg/file */
+static int _obj_read_byte(struct obj_file *obj){
+  if(obj->segs_pos[obj->cur_seg] >= obj->segs.segs[obj->cur_seg].size){
+    return -1;
+  }
+  fseek(obj->file, obj->segs.segs[obj->cur_seg].offset + obj->segs_pos[obj->cur_seg], SEEK_SET);
+  obj->segs_pos[obj->cur_seg]++;
+  return fgetc(obj->file);
+}
+
+/* read in a flag byte and a value byte, (return -1 if we hit the end of the current seg) */
+int obj_read_byte(struct obj_file *obj, uint8_t *byte, uint8_t *flag){
+  int flag_in, byte_in;
+  flag_in = _obj_read_byte(obj);
+  byte_in = _obj_read_byte(obj);
+  if(flag_in == -1 || byte_in == -1){
+    return -1;
+  }
+
+  *flag = flag_in;
+  *byte = byte_in;
+  return 0;
+}
+
+/* read in a word or byte (depending on flags), and set flags recv'd (return -1 if we hit the end of the seg) */
+int obj_read_data(struct obj_file *obj, uint16_t *data, uint8_t *flag, uint8_t *is_word){
+  uint8_t flag0, flag1, byte0, byte1;
+
+  if(obj_read_byte(obj, &byte0, &flag0) == -1){
+    return -1;
+  }
+  if(flag0 & OBJ_IS_WORD){
+    *is_word = 1;
+  } else {
+    *is_word = 0;
+    *data = byte0;
+    *flag = flag0;
+    return 0;
+  }
+
+  if(obj_read_byte(obj, &byte1, &flag1) == -1){
+    _obj_error("Expected a second byte in word");
+    return -1;
+  }
+  if(!(flag1 & OBJ_IS_2ND_BYTE)){
+    _obj_error("Second byte in word isn't marked as such");
+  }
+  *data = byte0 + (byte1 << 8);
+  *flag = flag0;
+
+  return 0;
+
+}
