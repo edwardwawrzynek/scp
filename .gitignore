@@ -25,7 +25,7 @@ greybox_tmp/
 *.pyc
 .mypy_cache
 __pycache___
-#Hide compiled smallC files
+#Hide compiled files
 *.o
 #Hide compiled smallC binaries
 /smallC/scc8080
@@ -35,3 +35,6 @@ __pycache___
 /assembler/scplnk
 #Hide vscode stuff
 .vscode
+
+#Hide binaries
+*/bin/*
