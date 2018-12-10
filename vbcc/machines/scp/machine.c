@@ -1231,7 +1231,7 @@ void gen_code(FILE *f,struct IC *p,struct Var *v,zmax offset)
           /* load */
           load_into_reg(f, &(p->q1), q1typ(p), reg1);
           /* gen push */
-          emit(f, "\tpush.r.sp %s sp\n", regnames[reg1]);
+          push_reg(f, reg1);
         }
 
         break;
