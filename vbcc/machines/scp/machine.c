@@ -230,7 +230,6 @@ static long real_stack_offset(struct obj *o)
 /* generates the function entry code, and reset pushsize and stackoffset */
 static void function_top(FILE *f,struct Var *v,long offset)
 {
-  emit(f, ";\tFunction %s\n;\tlocalsize: %u\n", v->identifier, offset);
   /* put in text section */
   emit(f, "\t.text\n");
   if(v->storage_class==EXTERN){
@@ -249,7 +248,6 @@ static void function_top(FILE *f,struct Var *v,long offset)
 static void function_bottom(FILE *f,struct Var *v,long offset)
 {
   emit(f,"\tret.n.sp sp\n");
-  emit(f, ";\tEnd of function %s\n", v->identifier);
 }
 
 /* push/pop a register (effects stackoffset) */
@@ -528,25 +526,25 @@ static int load_obj(FILE *f, struct obj *o, int real_type, int tmp){
 }
 
 /**
- * handle an arithmetic IC
- * p is the IC */
-static void arithmetic(FILE *f, struct IC *p){
+ * handle an arithmetic instruction
+ * called from arithmetic */
+static void do_arithmetic(FILE *f, struct obj * q1, struct obj * q2, struct obj * z, int op, int q1type, int q2type, int ztype, zmax val){
   /* source regs (reg1 will also be target) */
   int reg1, reg2;
   /* if true, q2 is konst, so use alu.r.i instead of alu.r.r */
   int q2_konst = 0;
-  if((p->q2.flags & KONST) == KONST){
+  if((q2->flags & KONST) == KONST){
     q2_konst = 1;
   }
   /* get reg1 and reg2, loading them into tmp1 and tmp2 if needed
     try to load reg1 into z reg if we can*/
-  reg1 = source_reg(f, &(p->z), ztyp(p), tmp1);
-  reg2 = source_reg(f, &(p->q2), q2typ(p), tmp2);
+  reg1 = source_reg(f, z, ztype, tmp1);
+  reg2 = source_reg(f, q2, q2type, tmp2);
 
   /* load args */
-  load_into_reg(f, &(p->q1), q1typ(p), reg1);
+  load_into_reg(f, q1, q1type, reg1);
   if(!q2_konst){
-    load_into_reg(f, &(p->q2), q2typ(p), reg2);
+    load_into_reg(f, q2, q2type, reg2);
   }
 
   /* emit start of alu instruction */
@@ -556,7 +554,7 @@ static void arithmetic(FILE *f, struct IC *p){
     emit(f, "\talu.r.r ");
   }
   /* emit alu name for each operation */
-  switch(p->code){
+  switch(op){
     case OR:
       debug("OR\n");
       emit(f, "bor");
@@ -576,7 +574,7 @@ static void arithmetic(FILE *f, struct IC *p){
     case RSHIFT:
       /* we need to check if it is a signed or unsigned shift */
       debug("RSHIFT\n");
-      if(q1typ(p) & UNSIGNED){
+      if(q1type & UNSIGNED){
         emit(f, "ursh");
       } else {
         emit(f, "srsh");
@@ -621,11 +619,17 @@ static void arithmetic(FILE *f, struct IC *p){
   if(!q2_konst){
     emit(f, " %s %s\n", regnames[reg1], regnames[reg2]);
   } else {
-    emit(f, " %s %li\n", regnames[reg1], p->q2.val.vmax);
+    emit(f, " %s %li\n", regnames[reg1], val);
   }
   /* store result, using tmp2 if needed (result may be in tmp1) */
-  store_from_reg(f, &(p->z), ztyp(p), reg1, tmp2);
+  store_from_reg(f, z, ztype, reg1, tmp2);
 }
+
+static void arithmetic(FILE *f, struct IC *p){
+  do_arithmetic(f, &(p->q1), &(p->q2), &(p->z), p->code, q1typ(p), q2typ(p), ztyp(p), p->q2.val.vmax);
+}
+
+
 
 /* signed-ness of last comparison (1=signed, 0=unsigned) */
 static int compare_signed = 1;
@@ -996,7 +1000,6 @@ void gen_var_head(FILE *f,struct Var *v)
   if(v->clist){
     constflag=is_const(v->vtyp);
   }
-  emit(f, ";\tvar: %s\n", v->identifier);
 
   /* emit section information */
   if((v->clist&&(!constflag))){
@@ -1089,7 +1092,7 @@ void gen_code(FILE *f,struct IC *p,struct Var *v,zmax offset)
 
   /* set backend regs to be pushed */
   /* TODO: do we need to push backend regs ? */
-  //regspushed[tmp1] = regspushed[tmp1_h] = regspushed[tmp2] = regspushed[tmp2_h] = 1;
+  regspushed[tmp1] = regspushed[tmp1_h] = regspushed[tmp2] = regspushed[tmp2_h] = 1;
 
   /* push all registers that we need to */
   for(int i = 1; i < MAXR+1; i++){
@@ -1098,7 +1101,6 @@ void gen_code(FILE *f,struct IC *p,struct Var *v,zmax offset)
     }
   }
 
-  emit(f, ";\tBegin function body\n");
   /* go through each IC, and emit code */
   for(;p;p=p->next){
     debug("------------------------------\n");
@@ -1238,6 +1240,16 @@ void gen_code(FILE *f,struct IC *p,struct Var *v,zmax offset)
       case ADDI2P:
         debug("ADDI2P\n");
 
+        /* get regs to load into */
+        reg1 = source_reg(f, &(p->z), ztyp(p), tmp1);
+        reg2 = source_reg(f, &(p->q2), q2typ(p), tmp2);
+
+        /* load */
+        load_into_reg(f, &(p->q1), q1typ(p), reg1);
+        load_into_reg(f, &(p->q2), q2typ(p), reg2);
+
+
+
         break;
       case SUBIFP:
         debug("SUBIFP\n");
@@ -1294,7 +1306,6 @@ void gen_code(FILE *f,struct IC *p,struct Var *v,zmax offset)
 
   }
   /* emit function epilouge */
-  emit(f,";\tEnd function body\n");
   /* pop all registers that we need to (done in reverse order)*/
   for(int i = MAXR; i > 0; i--){
     if(regspushed[i]){
@@ -1312,11 +1323,6 @@ int handle_pragma(const char *s)
 }
 void cleanup_cg(FILE *f)
 {
-  printf("Exiting SCP Backend\n");
-  /* write a comment at the end of asm output noting the end */
-  if(f != NULL){
-    emit(f, ";\tEnd of VBCC SCP generated section\n");
-  }
 }
 
 void init_db(FILE *f)
