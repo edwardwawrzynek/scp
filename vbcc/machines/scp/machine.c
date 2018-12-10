@@ -1,5 +1,5 @@
 /* VBCC Backend for Small C Processor
- * In Progress - Doesn't Work
+ * In Progress - Doesn't Work Fully
  * Edward Wawrzynek 2018
 */
 
@@ -491,6 +491,29 @@ static int source_reg(FILE *f, struct obj *o, int real_type, int tmp){
 }
 
 /**
+ * given a source object, (and the destination object (only used for picking reg)),
+ * see if we can load the source into a reg that if efficient, or return the tmp reg
+ * src is the object being loaded
+ * dst is the object being loaded into (just used for reg - doesn't actual load into it)
+ * real_type is the type of the object (not used)
+ * tmp is a temporary reg that can be used as the source
+ * returns the reg to put the result into */
+static int find_reg_to_load(FILE *f, struct obj *src, struct obj *dst, int real_type, int tmp){
+  /* if the destination is a reg, load to that */
+  if(dst->flags & REG && !(dst->flags & DREFOBJ)){
+    return dst->reg;
+  }
+  /* if the object is in a reg, keep it there */
+  if(src->flags & REG && !(src->flags & DREFOBJ)){
+    return src->reg;
+  }
+  /* otherwise, put in tmp */
+  else{
+    return tmp;
+  }
+}
+
+/**
  * load an object into a reg, and return that register (combination of source_reg and load_into_reg)
  * if the object is already in a reg, use that, else load it into a tmp
  * o is the object
@@ -932,7 +955,8 @@ int must_convert(int o,int t,int const_expr)
 {
   int op=o&NQ,tp=t&NQ;
   /* ints and pointers are both 2 bytes */
-  if((op==INT||op==SHORT||op==POINTER)&&(tp==INT||tp==SHORT||tp==POINTER)){
+  /* TODO: do we need to convert bytes? (they should get sign extended at load) */
+  if((op==INT||op==SHORT||op==POINTER||op==CHAR)&&(tp==INT||tp==SHORT||tp==POINTER||tp==CHAR)){
     return 0;
   }
   /* all floats have the same representation */
@@ -1065,7 +1089,7 @@ void gen_code(FILE *f,struct IC *p,struct Var *v,zmax offset)
 
   /* set backend regs to be pushed */
   /* TODO: do we need to push backend regs ? */
-  regspushed[tmp1] = regspushed[tmp1_h] = regspushed[tmp2] = regspushed[tmp2_h] = 1;
+  //regspushed[tmp1] = regspushed[tmp1_h] = regspushed[tmp2] = regspushed[tmp2_h] = 1;
 
   /* push all registers that we need to */
   for(int i = 1; i < MAXR+1; i++){
@@ -1090,7 +1114,7 @@ void gen_code(FILE *f,struct IC *p,struct Var *v,zmax offset)
           ierror(0);
         }
         /* get reg to load into */
-        reg1 = source_reg(f, &(p->z), ztyp(p), tmp1);
+        reg1 = find_reg_to_load(f, &(p->q1), &(p->z), ztyp(p), tmp1);
         /* load */
         load_into_reg(f, &(p->q1), q1typ(p), reg1);
         /* store */
@@ -1146,6 +1170,20 @@ void gen_code(FILE *f,struct IC *p,struct Var *v,zmax offset)
 
       case CONVERT:
         debug("CONVERT\n");
+        /* move q1 to z */
+
+        /* get reg to load into */
+        reg1 = find_reg_to_load(f, &(p->q1), &(p->z), ztyp(p), tmp1);
+        /* load */
+        load_into_reg(f, &(p->q1), q1typ(p), reg1);
+        /* TODO: handle floating point, and do sign extends for ints to words */
+        if( ((q1typ(p)&NQ) > INT && (q1typ(p)&NQ != POINTER)) || ((q2typ(p)&NQ) > INT && (q2typ(p)&NQ != POINTER))){
+          printf("Can't do conversions from long types now\n");
+          ierror(0);
+        }
+        /* store */
+        store_from_reg(f, &(p->z), q1typ(p), reg1, tmp2);
+        break;
 
         break;
       case ALLOCREG:
@@ -1181,7 +1219,20 @@ void gen_code(FILE *f,struct IC *p,struct Var *v,zmax offset)
         break;
 
       case PUSH:
-        debug("PUSH\n");
+        debug("PUSH: Size: %u (Push Size: %u)\n", opsize(p), pushsize(p));
+
+        /* TODO: do pushes with structs and arrays using memcpy */
+        if((q1typ(p)&NQ) > POINTER){
+          printf("Memcpy push not implemented\n");
+          ierror(0);
+        } else {
+          /* get reg to load into */
+          int reg1 = source_reg(f, &(p->q1), q1typ(p), tmp1);
+          /* load */
+          load_into_reg(f, &(p->q1), q1typ(p), reg1);
+          /* gen push */
+          emit(f, "\tpush.r.sp %s sp\n", regnames[reg1]);
+        }
 
         break;
       case ADDI2P:

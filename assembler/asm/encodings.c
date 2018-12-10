@@ -84,6 +84,9 @@ struct instr_encoding instructions[] = {
     "000000------1111", 2},
   { "in.r.p",  0b011011, {reg, cnst, end_arg}, /* in.r.p reg port */
     "000000------1111", 2},
+
+  { "hlt.n.n",  0b111111, {end_arg},  /* hlt.n.n */
+    "000000----------"},
 };
 
 /* alu op names */

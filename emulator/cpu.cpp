@@ -396,6 +396,11 @@ void CPU::execute(uint16_t instr, uint16_t imd) {
             regs[reg_prim] = io.io_read(imd);
             break;
 
+        case HLT_N_N: /* hlt.n.n - stop the machine */
+            std::cout << "scp stopped by hlt.n.n instruction\n";
+            exit(0);
+            break;
+
         default:
             /* unimplemented */
             std::cerr << "Unimplemented Op: " << std::hex << opcode << "\nIn instruction: " << instr << "\n";

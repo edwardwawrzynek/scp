@@ -10,6 +10,15 @@ using namespace std;
 /* main cpu object */
 CPU cpu;
 
+/* print out debug information */
+void debug(CPU *cpu){
+    std::cout << "\n---\nPC: " << cpu->pc << "\n";
+    std::cout << "Regs:\n";
+    for(int i = 0; i < 16; i++){
+        std::cout << i << ":" << cpu->regs[i] << "\n";
+    }
+}
+
 int main(int argc, char ** argv){
     if(argc < 3){
         std::cerr << "Usage: scpemu [bin file] [serial port]\n";
@@ -20,7 +29,7 @@ int main(int argc, char ** argv){
     cpu.init_io(argv[2]);
     long long count = 0;
     while(true){
-        std::cin.ignore();
+        debug(&cpu);
         cpu.run_instr();
         std::cout << cpu.regs[14] << "\n";
         count++;

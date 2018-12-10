@@ -35,3 +35,5 @@
 #define IN_R_P    0b011011
 
 #define INT_I_N   0b011100
+
+#define HLT_N_N   0b111111
