@@ -294,7 +294,7 @@ static void remove_locals_and_stack(FILE *f){
   int s = stackoffset + localsize;
   /* only emit add if we need to */
   if(s){
-    emit(f, "\talu.r.i add sp %s\n", s);
+    emit(f, "\talu.r.i add sp %i\n", s);
   }
   stackoffset = 0;
   localsize = 0;
@@ -1306,13 +1306,14 @@ void gen_code(FILE *f,struct IC *p,struct Var *v,zmax offset)
 
   }
   /* emit function epilouge */
+  /* remove stack and locals */
+  remove_locals_and_stack(f);
   /* pop all registers that we need to (done in reverse order)*/
   for(int i = MAXR; i > 0; i--){
     if(regspushed[i]){
       pushsize_pop_reg(f, i);
     }
   }
-
   /* return */
   function_bottom(f, v, offset);
 
