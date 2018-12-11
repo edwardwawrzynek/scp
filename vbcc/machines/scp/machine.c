@@ -135,13 +135,13 @@ static int ret_reg;
 void debug_var(struct Var *v, zmax val){
   debug("\tvar: %s\n", v->identifier);
   if(isauto(v->storage_class)){
-    debug("\t\tauto %s: local offset %li, offset: %li\n", v->offset > 0 ? "local" : "argument", v->offset, val);
+    debug("\t\tauto %s: local offset %i, offset: %i\n", v->offset > 0 ? "local" : "argument", v->offset, val);
   }
   if(isextern(v->storage_class)){
-    debug("\t\textern _%s + %li\n", v->identifier, val);
+    debug("\t\textern _%s + %i\n", v->identifier, val);
   }
   if(isstatic(v->storage_class)){
-    debug("\t\tstatic l%u + %li\n", v->offset, val);
+    debug("\t\tstatic l%u + %i\n", v->offset, val);
   }
 }
 
@@ -178,7 +178,7 @@ void debug_obj(struct obj *o){
     debug("\taddress of:\n");
   }
   if(o->flags & KONST){
-    debug("\tconstant: %li\n", o->val.vmax);
+    debug("\tconstant: %i\n", o->val.vmax);
   } else if(!(o->flags & REG)){
     debug_var(o->v, o->val.vmax);
   }
@@ -276,7 +276,7 @@ static void make_locals(FILE *f, long size){
   localsize = size;
   /* only emit sub if we need to make space */
   if(size){
-    emit(f, "\talu.r.i sub sp %li\n", size);
+    emit(f, "\talu.r.i sub sp %i\n", size);
   }
 
 }
@@ -285,7 +285,7 @@ static void make_locals(FILE *f, long size){
 static void mod_stack(FILE *f, long change){
   stackoffset += change;
   if(change){
-    emit(f, "\talu.r.i add sp %li\n", change);
+    emit(f, "\talu.r.i add sp %i\n", change);
   }
 }
 
@@ -341,24 +341,24 @@ static void load_into_reg(FILE *f, struct obj *o, int real_type, int reg){
       emit(f, "\tmov.r.r %s %s\n", regnames[reg], regnames[o->reg]);
     }
   } else if (o->flags & KONST){
-    emit(f, "\tld.r.i %s %li\n", regnames[reg], o->val.vmax);
+    emit(f, "\tld.r.i %s %i\n", regnames[reg], o->val.vmax);
   } else if (o->flags & VAR){
     /* check if we are loading address of a var */
     if(o->flags & VARADR){
       /* should only be used with static or external variables */
       if(isextern(o->v->storage_class)){
-        emit(f, "\tld.r.i %s %s%s+%li\n", regnames[reg], idprefix, o->v->identifier, o->val.vmax);
+        emit(f, "\tld.r.i %s %s%s+%i\n", regnames[reg], idprefix, o->v->identifier, o->val.vmax);
       }
       if(isstatic(o->v->storage_class)){
-        emit(f, "\tld.r.i %s %s%i+%li\n", regnames[reg], labprefix, o->v->offset, o->val.vmax);
+        emit(f, "\tld.r.i %s %s%i+%i\n", regnames[reg], labprefix, o->v->offset, o->val.vmax);
         }
     } else {
       /* handle externs and static */
       if(isextern(o->v->storage_class)){
-        emit(f, "\tld.r.m.%s %s %s%s+%li\n", dt(typ), regnames[reg], idprefix, o->v->identifier, o->val.vmax);
+        emit(f, "\tld.r.m.%s %s %s%s+%i\n", dt(typ), regnames[reg], idprefix, o->v->identifier, o->val.vmax);
       }
       if(isstatic(o->v->storage_class)){
-        emit(f, "\tld.r.m.%s %s %s%i+%li\n", dt(typ), regnames[reg], labprefix, o->v->offset, o->val.vmax);
+        emit(f, "\tld.r.m.%s %s %s%i+%i\n", dt(typ), regnames[reg], labprefix, o->v->offset, o->val.vmax);
       }
       /* handle automatic variables */
       if(isauto(o->v->storage_class)){
@@ -366,7 +366,7 @@ static void load_into_reg(FILE *f, struct obj *o, int real_type, int reg){
         long off = real_stack_offset(o);
         /* emit with an offset if we need to */
         if(off){
-          emit(f, "\tld.r.p.off.%s %s sp %li\n", dt(typ), regnames[reg], off);
+          emit(f, "\tld.r.p.off.%s %s sp %i\n", dt(typ), regnames[reg], off);
         } else {
           emit(f, "\tld.r.p.%s %s sp\n", dt(typ), regnames[reg]);
         }
@@ -406,10 +406,10 @@ static void load_address(FILE *f, struct obj *o, int real_type, int reg){
     /* we have to take the address of a non derefrenced, non VARADR variable */
     /* handle externs and static */
       if(isextern(o->v->storage_class)){
-        emit(f, "\tld.r.ra %s %s%s+%li\n", regnames[reg], idprefix, o->v->identifier, o->val.vmax);
+        emit(f, "\tld.r.ra %s %s%s+%i\n", regnames[reg], idprefix, o->v->identifier, o->val.vmax);
       }
       if(isstatic(o->v->storage_class)){
-        emit(f, "\tld.r.ra %s %s%i+%li\n", regnames[reg], labprefix, o->v->offset, o->val.vmax);
+        emit(f, "\tld.r.ra %s %s%i+%i\n", regnames[reg], labprefix, o->v->offset, o->val.vmax);
       }
       /* handle automatic variables */
       if(isauto(o->v->storage_class)){
@@ -418,7 +418,7 @@ static void load_address(FILE *f, struct obj *o, int real_type, int reg){
         /* move sp to reg and odd offset */
         emit(f, "\tmov.r.r %s sp\n", regnames[reg]);
         if(off){
-          emit(f, "\talu.r.i add %s %li\n", regnames[reg], off);
+          emit(f, "\talu.r.i add %s %i\n", regnames[reg], off);
         }
       }
 
@@ -446,12 +446,12 @@ static void store_from_reg(FILE *f, struct obj *o, int real_type, int reg, int t
       emit(f, "\tmov.r.r %s %s\n", regnames[o->reg], regnames[reg]);
     }
 
-  } else if((o->flags & VAR) == VAR){
+  } else if((o->flags & (VAR|DREFOBJ) == VAR)){
     if(isextern(o->v->storage_class)){
-      emit(f, "\tst.r.m.%s %s %s%s+%li\n", dt(typ), regnames[reg], idprefix, o->v->identifier, o->val.vmax);
+      emit(f, "\tst.r.m.%s %s %s%s+%i\n", dt(typ), regnames[reg], idprefix, o->v->identifier, o->val.vmax);
     }
     if(isstatic(o->v->storage_class)){
-      emit(f, "\tst.r.m.%s %s %s%i+%li\n", dt(typ), regnames[reg], labprefix, o->v->offset, o->val.vmax);
+      emit(f, "\tst.r.m.%s %s %s%i+%i\n", dt(typ), regnames[reg], labprefix, o->v->offset, o->val.vmax);
     }
     /* handle automatic variables */
     if(isauto(o->v->storage_class)){
@@ -459,7 +459,7 @@ static void store_from_reg(FILE *f, struct obj *o, int real_type, int reg, int t
       long off = real_stack_offset(o);
       /* emit with an offset if we need to */
       if(off){
-        emit(f, "\tst.r.p.off.%s %s sp %li\n", dt(typ), regnames[reg], off);
+        emit(f, "\tst.r.p.off.%s %s sp %i\n", dt(typ), regnames[reg], off);
       } else {
         emit(f, "\tst.r.p.%s %s sp\n", dt(typ), regnames[reg]);
       }
@@ -619,7 +619,7 @@ static void do_arithmetic(FILE *f, struct obj * q1, struct obj * q2, struct obj 
   if(!q2_konst){
     emit(f, " %s %s\n", regnames[reg1], regnames[reg2]);
   } else {
-    emit(f, " %s %li\n", regnames[reg1], q2->val.vmax);
+    emit(f, " %s %i\n", regnames[reg1], q2->val.vmax);
   }
   /* store result, using tmp2 if needed (result may be in tmp1) */
   store_from_reg(f, z, ztype, reg1, tmp2);
@@ -654,7 +654,7 @@ static void test(FILE *f, struct IC *p){
   int reg1 = load_obj(f, &(p->q1), q1typ(p), tmp1);
   int reg2 = tmp2;
   /* load 0 into tmp2 */
-  emit(f, "\tld.r.i %s %li\n", regnames[tmp2], 0);
+  emit(f, "\tld.r.i %s %i\n", regnames[tmp2], 0);
   /* compare */
   emit(f, "\tcmp.r.f %s %s\n", regnames[reg1], regnames[reg2]);
   /* set sign */
@@ -959,14 +959,13 @@ int must_convert(int o,int t,int const_expr)
 {
   int op=o&NQ,tp=t&NQ;
   /* ints and pointers are both 2 bytes */
-  /* TODO: do we need to convert bytes? (they should get sign extended at load) */
-  if((op==INT||op==SHORT||op==POINTER||op==CHAR)&&(tp==INT||tp==SHORT||tp==POINTER||tp==CHAR)){
+  /* We need converts from chars to ints, or else char loads may try to load wors from memory */
+  if((op==INT||op==SHORT||op==POINTER)&&(tp==INT||tp==SHORT||tp==POINTER)){
     return 0;
   }
   /* all floats have the same representation */
   if(ISFLOAT(op)&&ISFLOAT(tp)) return 0;
 
-  /* TODO: do we need conversions on char -> int or vice versa? */
   return 1;
 }
 
@@ -1092,7 +1091,7 @@ void gen_code(FILE *f,struct IC *p,struct Var *v,zmax offset)
 
   /* set backend regs to be pushed */
   /* TODO: do we need to push backend regs ? */
-  regspushed[tmp1] = regspushed[tmp1_h] = regspushed[tmp2] = regspushed[tmp2_h] = 1;
+  //regspushed[tmp1] = regspushed[tmp1_h] = regspushed[tmp2] = regspushed[tmp2_h] = 1;
 
   /* push all registers that we need to */
   for(int i = 1; i < MAXR+1; i++){
@@ -1151,13 +1150,17 @@ void gen_code(FILE *f,struct IC *p,struct Var *v,zmax offset)
 
       case CALL:
         debug("CALL\n");
+        /* check for inline assembly */
+        if((p->q1.flags & (VAR|DREFOBJ)) == VAR && p->q1.v->fi && p->q1.v->fi->inline_asm){
+          emit_inline_asm(f,p->q1.v->fi->inline_asm);
+        }
         /* check if it is a call to a static or extern location */
-        if((p->q1.flags & VAR) == VAR){
+        else if((p->q1.flags & (VAR|DREFOBJ) == VAR)){
           if(isextern(p->q1.v->storage_class)){
             emit(f, "\tcall.j.sp sp %s%s\n", idprefix, p->q1.v->identifier);
           }
           if(isstatic(p->q1.v->storage_class)){
-            emit(f, "\tcall.j.sp sp %s%li\n", labprefix, p->q1.v->offset);
+            emit(f, "\tcall.j.sp sp %s%i\n", labprefix, p->q1.v->offset);
           }
         } else {
           /* load address of object into a reg, and call it */
