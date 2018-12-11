@@ -528,7 +528,7 @@ static int load_obj(FILE *f, struct obj *o, int real_type, int tmp){
 /**
  * handle an arithmetic instruction
  * called from arithmetic */
-static void do_arithmetic(FILE *f, struct obj * q1, struct obj * q2, struct obj * z, int op, int q1type, int q2type, int ztype, zmax val){
+static void do_arithmetic(FILE *f, struct obj * q1, struct obj * q2, struct obj * z, int op, int q1type, int q2type, int ztype){
   /* source regs (reg1 will also be target) */
   int reg1, reg2;
   /* if true, q2 is konst, so use alu.r.i instead of alu.r.r */
@@ -619,14 +619,14 @@ static void do_arithmetic(FILE *f, struct obj * q1, struct obj * q2, struct obj 
   if(!q2_konst){
     emit(f, " %s %s\n", regnames[reg1], regnames[reg2]);
   } else {
-    emit(f, " %s %li\n", regnames[reg1], val);
+    emit(f, " %s %li\n", regnames[reg1], q2->val.vmax);
   }
   /* store result, using tmp2 if needed (result may be in tmp1) */
   store_from_reg(f, z, ztype, reg1, tmp2);
 }
 
 static void arithmetic(FILE *f, struct IC *p){
-  do_arithmetic(f, &(p->q1), &(p->q2), &(p->z), p->code, q1typ(p), q2typ(p), ztyp(p), p->q2.val.vmax);
+  do_arithmetic(f, &(p->q1), &(p->q2), &(p->z), p->code, q1typ(p), q2typ(p), ztyp(p));
 }
 
 
@@ -1239,24 +1239,19 @@ void gen_code(FILE *f,struct IC *p,struct Var *v,zmax offset)
         break;
       case ADDI2P:
         debug("ADDI2P\n");
-
-        /* get regs to load into */
-        reg1 = source_reg(f, &(p->z), ztyp(p), tmp1);
-        reg2 = source_reg(f, &(p->q2), q2typ(p), tmp2);
-
-        /* load */
-        load_into_reg(f, &(p->q1), q1typ(p), reg1);
-        load_into_reg(f, &(p->q2), q2typ(p), reg2);
-
-
-
+        /* just an addition */
+        do_arithmetic(f, &(p->q1), &(p->q2), &(p->z), ADD, q1typ(p), q2typ(p), ztyp(p));
         break;
       case SUBIFP:
         debug("SUBIFP\n");
+        /* just a subtraction */
+        do_arithmetic(f, &(p->q1), &(p->q2), &(p->z), SUB, q1typ(p), q2typ(p), ztyp(p));
 
         break;
       case SUBPFP:
         debug("SUBPFP\n");
+        /* just a subtraction */
+        do_arithmetic(f, &(p->q1), &(p->q2), &(p->z), SUB, q1typ(p), q2typ(p), ztyp(p));
 
         break;
       case GETRETURN:
@@ -1279,12 +1274,18 @@ void gen_code(FILE *f,struct IC *p,struct Var *v,zmax offset)
         }
         load_into_reg(f, &(p->q1), q1typ(p), ret_reg);
         break;
+
+      /* TODO: are MOVEFROMREG and MOVETOREG correct ? */
       case MOVEFROMREG:
         debug("MOVEFROMREG\n");
+
+        store_from_reg(f, &(p->z), ztyp(p), p->q1.reg, tmp2);
 
         break;
       case MOVETOREG:
         debug("MOVETOREG\n");
+
+        load_into_reg(f, &(p->q1), q1typ(p), p->z.reg);
 
         break;
       case NOP:
