@@ -329,7 +329,7 @@ static void load_into_reg(FILE *f, struct obj *o, int real_type, int reg){
     typ = POINTER;
   }
 
-  /* make sure we have something */
+  /* make sure we have something to load */
   if(!o->flags){
     ierror(0);
   }
@@ -446,7 +446,7 @@ static void store_from_reg(FILE *f, struct obj *o, int real_type, int reg, int t
       emit(f, "\tmov.r.r %s %s\n", regnames[o->reg], regnames[reg]);
     }
 
-  } else if((o->flags & (VAR|DREFOBJ) == VAR)){
+  } else if(((o->flags & VAR) == VAR)){
     if(isextern(o->v->storage_class)){
       emit(f, "\tst.r.m.%s %s %s%s+%i\n", dt(typ), regnames[reg], idprefix, o->v->identifier, o->val.vmax);
     }
@@ -526,6 +526,18 @@ static int load_obj(FILE *f, struct obj *o, int real_type, int tmp){
 }
 
 /**
+ * return 1 if an arithmetic instruction is single operand, 0 otherwise */
+static int is_single_operand(int code){
+  switch(code){
+    case MINUS:
+    case KOMPLEMENT:
+      return 1;
+    default:
+      return 0;
+  }
+}
+
+/**
  * handle an arithmetic instruction
  * called from arithmetic */
 static void do_arithmetic(FILE *f, struct obj * q1, struct obj * q2, struct obj * z, int op, int q1type, int q2type, int ztype){
@@ -533,17 +545,22 @@ static void do_arithmetic(FILE *f, struct obj * q1, struct obj * q2, struct obj 
   int reg1, reg2;
   /* if true, q2 is konst, so use alu.r.i instead of alu.r.r */
   int q2_konst = 0;
+  /* if there is only a single operand, and we can ignore the second */
+  int single_op = is_single_operand(op);
+
   if((q2->flags & KONST) == KONST){
     q2_konst = 1;
   }
   /* get reg1 and reg2, loading them into tmp1 and tmp2 if needed
     try to load reg1 into z reg if we can*/
   reg1 = source_reg(f, z, ztype, tmp1);
-  reg2 = source_reg(f, q2, q2type, tmp2);
+  if(!single_op){
+    reg2 = source_reg(f, q2, q2type, tmp2);
+  }
 
   /* load args */
   load_into_reg(f, q1, q1type, reg1);
-  if(!q2_konst){
+  if((!q2_konst) && (!single_op)){
     load_into_reg(f, q2, q2type, reg2);
   }
 
@@ -617,7 +634,12 @@ static void do_arithmetic(FILE *f, struct obj * q1, struct obj * q2, struct obj 
   }
   /* finish alu instruction */
   if(!q2_konst){
-    emit(f, " %s %s\n", regnames[reg1], regnames[reg2]);
+    if(single_op){
+      /* use tmp1 as second arg - it doesn't matter anyway */
+      emit(f, " %s %s\n", regnames[reg1], regnames[tmp1]);
+    } else {
+      emit(f, " %s %s\n", regnames[reg1], regnames[reg2]);
+    }
   } else {
     emit(f, " %s %i\n", regnames[reg1], q2->val.vmax);
   }
@@ -1155,7 +1177,7 @@ void gen_code(FILE *f,struct IC *p,struct Var *v,zmax offset)
           emit_inline_asm(f,p->q1.v->fi->inline_asm);
         }
         /* check if it is a call to a static or extern location */
-        else if((p->q1.flags & (VAR|DREFOBJ) == VAR)){
+        else if(((p->q1.flags & VAR) == VAR)){
           if(isextern(p->q1.v->storage_class)){
             emit(f, "\tcall.j.sp sp %s%s\n", idprefix, p->q1.v->identifier);
           }
@@ -1187,7 +1209,7 @@ void gen_code(FILE *f,struct IC *p,struct Var *v,zmax offset)
           ierror(0);
         }
         /* store */
-        store_from_reg(f, &(p->z), q1typ(p), reg1, tmp2);
+        store_from_reg(f, &(p->z), ztyp(p), reg1, tmp2);
         break;
 
         break;
@@ -1328,6 +1350,8 @@ int handle_pragma(const char *s)
 }
 void cleanup_cg(FILE *f)
 {
+  /* output ending module to make sure multiple asms compiled togeather don't overlap on local labels */
+  emit(f, ";\tEnd of VBCC generated section\n\t.module\n\n");
 }
 
 void init_db(FILE *f)
