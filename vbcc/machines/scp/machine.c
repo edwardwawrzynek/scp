@@ -9,7 +9,7 @@
 static char FILE_[]=__FILE__;
 
 /* enables debug information */
-//#define DEBUG
+#define DEBUG
 /* #undef DEBUG */
 
 /*  Public data that MUST be there.                             */
@@ -283,7 +283,7 @@ static void make_locals(FILE *f, long size){
 
 /* modify the stack pointer */
 static void mod_stack(FILE *f, long change){
-  stackoffset += change;
+  stackoffset -= change;
   if(change){
     emit(f, "\talu.r.i add sp %i\n", change);
   }
@@ -347,10 +347,10 @@ static void load_into_reg(FILE *f, struct obj *o, int real_type, int reg){
     if(o->flags & VARADR){
       /* should only be used with static or external variables */
       if(isextern(o->v->storage_class)){
-        emit(f, "\tld.r.i %s %s%s+%i\n", regnames[reg], idprefix, o->v->identifier, o->val.vmax);
+        emit(f, "\tld.r.ra %s %s%s+%i\n", regnames[reg], idprefix, o->v->identifier, o->val.vmax);
       }
       if(isstatic(o->v->storage_class)){
-        emit(f, "\tld.r.i %s %s%i+%i\n", regnames[reg], labprefix, o->v->offset, o->val.vmax);
+        emit(f, "\tld.r.ra %s %s%i+%i\n", regnames[reg], labprefix, o->v->offset, o->val.vmax);
         }
     } else {
       /* handle externs and static */
@@ -1048,7 +1048,8 @@ void gen_var_head(FILE *f,struct Var *v)
   if(v->clist){
     constflag=is_const(v->vtyp);
   }
-
+  /* blank space to make clear new variables */
+  emit(f, "\n");
   /* emit section information */
   if((v->clist&&(!constflag))){
     emit(f, "\t.data\n");
@@ -1220,6 +1221,8 @@ void gen_code(FILE *f,struct IC *p,struct Var *v,zmax offset)
         }
         /* add number of bytes pushed to sp */
         mod_stack(f, p->q2.val.vmax);
+        /* clear stack size */
+
         break;
 
       case CONVERT:
