@@ -9,7 +9,7 @@
 static char FILE_[]=__FILE__;
 
 /* enables debug information */
-#define DEBUG
+//#define DEBUG
 /* #undef DEBUG */
 
 /*  Public data that MUST be there.                             */
@@ -868,6 +868,7 @@ int init_cg(void)
   /*  want to be portable.                                            */
   /*  That's the reason for the subtraction in t_min[INT]. Long could */
   /*  be unable to represent -2147483648 on the host system.          */
+  /*t_min[UNSIGNED|CHAR]=t_min[UNSIGNED|SHORT]=t_min[UNSIGNED|INT]=t_min[UNSIGNED|LONG]=l2zm(0L);
   t_min[CHAR]=l2zm(-128L);
   t_min[SHORT]=l2zm(-32768L);
   t_min[INT]=l2zm(-32768L);
@@ -887,6 +888,32 @@ int init_cg(void)
   tu_max[INT]=ul2zum(65535UL);
   tu_max[LONG]=ul2zum(4294967295UL);
   tu_max[LLONG]=0;
+  tu_max[MAXINT]=t_max(UNSIGNED|LONG);
+
+  t_max[UNSIGNED|CHAR]=ul2zum(255UL);
+  t_max[UNSIGNED|SHORT]=ul2zum(65535UL);
+  t_max[UNSIGNED|INT]=t_max[UNSIGNED|SHORT];
+  t_max[UNSIGNED|LONG]=ul2zum(4294967295UL);*/
+
+  t_min[CHAR]=l2zm(-128L);
+  t_min[SHORT]=l2zm(-32768L);
+  t_min[INT]=t_min(SHORT);
+  t_min[LONG]=zmsub(l2zm(-2147483647L),l2zm(1L));
+  t_min[LLONG]=t_min(LONG);
+  t_min[MAXINT]=t_min(LONG);
+
+  t_max[CHAR]=ul2zum(127L);
+  t_max[SHORT]=ul2zum(32767UL);
+  t_max[INT]=t_max(SHORT);
+  t_max[LONG]=ul2zum(2147483647UL);
+  t_max[LLONG]=t_max(LONG);
+  t_max[MAXINT]=t_max(LONG);
+
+  tu_max[CHAR]=ul2zum(255UL);
+  tu_max[SHORT]=ul2zum(65535UL);
+  tu_max[INT]=t_max(UNSIGNED|SHORT);
+  tu_max[LONG]=ul2zum(4294967295UL);
+  tu_max[LLONG]=t_max(UNSIGNED|LONG);
   tu_max[MAXINT]=t_max(UNSIGNED|LONG);
 
 

@@ -131,7 +131,7 @@ void title(FILE *f)
     done=1;
     emit(f,"\t.file\t\"%s\"\n",inname);
   }
-} 
+}
 
 static void probj2(FILE *f,struct obj *p,int t)
 /*  Gibt Objekt auf Bildschirm aus			*/
@@ -313,9 +313,9 @@ static void emitdebugline (FILE *f, int line)
       {
 	/*
 	  Tell GDB that a new line starts here.
-	  
+
 	  Format: 68,0,<line>,<offset>
-	  
+
 	  <line> is the current line number
 	  <offset> is the offset to the current function.
 	  */
@@ -384,15 +384,15 @@ static void begin_file (FILE *f, char *name)
 		 t|UNSIGNED, INT,
 		 zul2ul(t_min[t|UNSIGNED]),zul2ul(t_max[t|UNSIGNED]), N_LSYM);
       }
- 
+
     fprintf (f, ".stabs \"float:t%d=r%d;%ld;0;\",%d,0,0,0\n",
 	     FLOAT,INT,zl2l(sizetab[FLOAT]),N_LSYM);
     fprintf (f, ".stabs \"double:t%d=r%d;%ld;0;\",%d,0,0,0\n",
 	     DOUBLE,INT,zl2l(sizetab[DOUBLE]),N_LSYM);
     fprintf (f, ".stabs \"void:t%d=r%d\",%d,0,0,0\n",
 	     VOID,VOID,N_LSYM);
-	     
- 
+
+
     /*
       fprintf (f, ".stabs \"char:t2=r2;0;127;\",128,0,0,0\n");
       fprintf (f, ".stabs \"int:t1=r1;-2147483648;2147483647;\",128,0,0,0\n");
@@ -406,7 +406,7 @@ static void begin_file (FILE *f, char *name)
 static void debug_print_stab_type (FILE *f, struct Typ *typ)
 {
   int t = typ->flags & NU;
-  
+
   if (t <= VOID)
     fprintf (f, "%d", t);
   else if (t == ARRAY || t == POINTER)
@@ -433,9 +433,9 @@ static void function_top(FILE *f,struct Var *v,long offset)
     if(g_flags[8]&USEDFLAG){ /*vb*/
       fprintf (f, "\t.align\t16\n");
       /* Tell GDB that a new function starts here.
-	 
+
 	 Format: "<name>:F<type>",36,0,<line>,<symname>
-	 
+
 	 <name> Is the name of the function
 	 <type> is the return type (only the number as defined above, ie.
 	        if int is t1, then this is 1).
@@ -448,7 +448,7 @@ static void function_top(FILE *f,struct Var *v,long offset)
       fprintf (f, ".stabs \"%s:F", v->identifier);
       debug_print_stab_type (f, v->vtyp->next);
       fprintf (f, "\",%d,0,%d,%s%s\n", N_FUN, fline, idprefix,v->identifier);
-  
+
       p=v->vtyp->exact;
       for (i=0; i<p->count; i++)
 	{
@@ -501,7 +501,7 @@ static void function_bottom(FILE *f,struct Var *v,long offset)
 	}
     }
     fprintf(f,"\tret\n");
-    
+
     if(g_flags[8]&USEDFLAG){
       fprintf (f, "%sfe%d:\n\t.size\t%s,%sfe%d-%s%s\n", labprefix, local_debug_func_count, v->identifier, labprefix, local_debug_func_count, idprefix,v->identifier);
       /* Tell GDB the real size of the function */
