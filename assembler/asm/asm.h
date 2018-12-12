@@ -33,6 +33,8 @@ struct arg {
   /* the arg's value (calculated by atoi - for labels, etc, this is zero) */
   /* TODO: allow use of int32 here for dc.l */
   uint16_t val;
+  /* if the arg could be a val (starts with digit) */
+  uint8_t is_val;
   /* if arg could be a reg, this is the reg number (0-15) */
   uint8_t is_reg;
   uint8_t reg;

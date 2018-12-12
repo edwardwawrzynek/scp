@@ -2,6 +2,7 @@
 #include "io.h"
 #include <string.h>
 #include <stdlib.h>
+#include <ctype.h>
 
 /* functions to support the decoding of instructions */
 
@@ -163,6 +164,10 @@ void line_into_instr(struct instr * instr){
       }
       /* set val - and add offset*/
       arg->val = atoi(arg->str) + arg->offset;
+      /* check if it could be a val */
+      if(isdigit(*(arg->str)) || *(arg->str) == '-'){
+        arg->is_val = 1;
+      }
       /* if we can, set reg */
       if(arg->str[0] == 'r' && !arg->str[2]){
         arg->is_reg = 1;

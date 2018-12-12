@@ -43,7 +43,7 @@ int decode_data(int i, uint8_t seg){
             uint8_t seg_num = (flags & OBJ_SEG_NUM) >> 4;
             uint8_t is_pc_relative = (flags & OBJ_IS_PC_RELATIVE);
 
-            uint16_t real_addr = seg_start[seg_num] + data + in_segs_start[i][seg_num];
+            uint16_t real_addr = data + in_segs_start[i][seg_num];
             /* check that real_addr is actually in seg */
             if(!( real_addr >= seg_start[seg_num] && real_addr <= seg_start[seg_num] + seg_size[seg_num])){
                 error("symbol resolves to address outside of declared segment");

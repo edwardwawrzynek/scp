@@ -185,6 +185,9 @@ uint16_t type_get_value(struct arg *arg, enum arg_type typ){
             }
             return arg->alu_op;
         case cnst:
+            if(!arg->is_val){
+                error("Arg has to be a value\n");
+            }
             return arg->val;
         case cond:
             if(!arg->is_cond){
