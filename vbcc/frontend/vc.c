@@ -61,6 +61,7 @@ int MAXCLEN=32000;
 #define VERBOSE 256
 #define VERYVERBOSE 128
 #define KEEPSCRATCH 64
+#define SMALLEXE 32768
 
 #define PPSRC 1
 #define CCSRC 2
@@ -71,7 +72,7 @@ int MAXCLEN=32000;
 char *vbccenv;
 char empty[]="";
 /*  Namen der einzelnen Phasen  */
-char *ppname=empty,*ccname=empty,*asname=empty,*ldname=empty,*l2name=empty;
+char *ppname=empty,*ccname=empty,*asname=empty,*ldname=empty,*l2name=empty,*l3name=empty;
 char *rmname=empty,*scname=empty;
 /*  dasselbe fuer VERBOSE   */
 char *ppv=empty,*ccv=empty,*asv=empty,*ldv=empty,*l2v=empty;
@@ -300,7 +301,7 @@ static int typ(char *fp)
       FILE *f;
       if(f=fopen(fp,"r")){
         if(fgetc(f)==0&&fgetc(f)=='V'&&fgetc(f)=='B'&&fgetc(f)=='C'&&fgetc(f)=='C'){
-          fclose(f);     
+          fclose(f);
           return CCSRC;
         }
         fclose(f);
@@ -400,6 +401,7 @@ int main(int argc,char *argv[])
         if(!strncmp(parm,"-as=",4)){asname=parm+4;*parm=0;}
         if(!strncmp(parm,"-ld=",4)){ldname=parm+4;*parm=0;}
         if(!strncmp(parm,"-l2=",4)){l2name=parm+4;*parm=0;}
+        if(!strncmp(parm,"-l3=",4)){l3name=parm+4;*parm=0;}
         if(!strncmp(parm,"-rm=",4)){rmname=parm+4;*parm=0;}
         if(!strncmp(parm,"-ppv=",5)){ppv=parm+5;*parm=0;}
         if(!strncmp(parm,"-ccv=",5)){ccv=parm+5;*parm=0;}
@@ -421,6 +423,7 @@ int main(int argc,char *argv[])
         if(!strcmp(parm,"-k")) {flags|=KEEPSCRATCH;*parm=0;}
         if(!strcmp(parm,"-vv")) {flags|=VERBOSE|VERYVERBOSE;*parm=0;}
         if(!strcmp(parm,"-nostdlib")) {flags|=NOSTDLIB;*parm=0;}
+        if(!strcmp(parm,"-rawbin")) {flags|=SMALLEXE;*parm=0;}
         if(parm[0] == ';') {*parm=0;}
         if(!strncmp(parm,"-O",2)){
           static int had_opt;
@@ -434,7 +437,7 @@ int main(int argc,char *argv[])
           else if(parm[2]=='2') {opt=1023;flags|=SCHEDULER;}
           else if(parm[2]=='3') {opt=~0;flags|=(SCHEDULER|CROSSMODULE);}
           else if(parm[2]>='4'&&parm[2]<='9') {opt=~0;flags|=(SCHEDULER|WPO);}
-          
+
           else if(parm[2]=='=') opt=atoi(&parm[3]);
           *parm=0;
         }
@@ -501,6 +504,7 @@ int main(int argc,char *argv[])
       rmname=rmv;l2name=l2v;scname=scv;
     }
     if(flags&NOSTDLIB){ldname=l2name;}
+    if(flags&SMALLEXE){ldname=l3name;}
     /*  Nummer sicher...    */
     len+=strlen(ppname)+strlen(ccname)+strlen(asname)+
          strlen(rmname)+strlen(scname)+strlen(userlibs)+NAMEBUF+100;

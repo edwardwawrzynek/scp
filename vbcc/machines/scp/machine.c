@@ -10,7 +10,7 @@ static char FILE_[]=__FILE__;
 
 /* enables debug information */
 #define DEBUG
-/* #undef DEBUG */
+#undef DEBUG
 
 /*  Public data that MUST be there.                             */
 
