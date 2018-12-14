@@ -103,7 +103,7 @@ int obj_out_decode_data(int i, uint8_t seg){
             /* see if we can resolve the symbol with a symbol defined in this table */
             struct obj_symbol_entry *match = find_extern(i, data, &file);
             struct obj_symbol_entry *entry = &(extern_tables[i][data]);
-            if(entry == NULL){
+            if(match == NULL){
                 /* just write out index in table - wasn't defined in thsi table */
                 obj_write_extern_offset(&out_obj, data + extern_start[i], is_pc_relative);
             } else {
