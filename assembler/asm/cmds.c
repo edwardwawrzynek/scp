@@ -85,7 +85,10 @@ void first_pass(struct instr *i){
 
 /* align at the end of first pass */
 void first_pass_align(){
-    seg_pos[cur_seg] += seg_pos[cur_seg] & 1;
+    seg_pos[0] += seg_pos[0] & 1;
+    seg_pos[1] += seg_pos[1] & 1;
+    seg_pos[2] += seg_pos[2] & 1;
+    seg_pos[3] += seg_pos[3] & 1;
 }
 
 /* run the second pass of a directive - return bytes*/
