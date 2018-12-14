@@ -1,1 +1,1 @@
-/home/edward/scp/assembler/asm/../obj/obj.c
+/home/edward/scp/binutils/obj/obj.c

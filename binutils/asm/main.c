@@ -13,8 +13,8 @@
 void usage(){
   printf("Usage: scpasm [options] files\
         \nOptions:\
-        \n-o\tout.o\t\t:set output binary\
-        \n-d\tdebug.txt\t:output debugging info in debug.txt\n");
+        \n-o\tout.o\t:set output binary\
+        \n-d\tdebug\t:output debugging info in debug\n");
 }
 
 void run_asm(void);

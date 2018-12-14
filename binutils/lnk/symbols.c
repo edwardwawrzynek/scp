@@ -28,27 +28,43 @@ void symbol_read_in_tables(){
     }
 }
 
-/* get the real address of a symbol defined in an external table of the i'th file */
-uint16_t extern_get_addr(int i, uint16_t index){
+/* find the entry of an external symbol in the defined symbol tables, and return it if found, NULL otherwise. Looks for the index'th entry of the i'th file's external table
+    set file to which file's defined table it was found in */
+struct obj_symbol_entry * find_extern(int i, uint16_t index, int *file){
     struct obj_symbol_entry *entry = &(extern_tables[i][index]);
 
-    uint16_t addr;
-
     /* look through all the tables */
-    for(int i = 0; in_objs[i].file; i++){
+    for(int f = 0; in_objs[f].file; f++){
         /* look through all entries */
-        for(int n = 0; n < defined_size[i]; n++){
-            if(!strcmp(entry->name, defined_tables[i][n].name)){
-                struct obj_symbol_entry *match = &defined_tables[i][n];
-                addr = in_segs_start[i][match->seg] + match->offset;
-                /* add offset in extern table */
-                addr += entry->offset;
-                return addr;
+        for(int n = 0; n < defined_size[f]; n++){
+            if(!strcmp(entry->name, defined_tables[f][n].name)){
+                struct obj_symbol_entry *match = &defined_tables[f][n];
+                *file = f;
+                return match;
             }
         }
     }
 
-    /* no symbol found - error */
-    printf("scplnk: error:\nundefined reference to '%s'\n", entry->name);
-    exit(1);
+    *file = -1;
+    return NULL;
+}
+
+/* get the real address of a symbol defined in an external table of the i'th file */
+uint16_t extern_get_addr(int i, uint16_t index){
+    struct obj_symbol_entry *entry = &(extern_tables[i][index]);
+    uint16_t addr;
+    int file;
+
+    struct obj_symbol_entry *match = find_extern(i, index, &file);
+
+    if(!match){
+        /* no symbol found - error */
+        printf("scplnk: error:\nundefined reference to '%s'\n", entry->name);
+        exit(1);
+    }
+
+    addr = in_segs_start[file][match->seg] + match->offset;
+    /* add offset in extern table */
+    addr += entry->offset;
+    return addr;
 }

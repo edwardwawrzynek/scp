@@ -15,11 +15,12 @@
 void usage(){
   printf("Usage: scplnk [options] files\
         \nOptions:\
-        \n-o\tout.o\t\t:set output binary\
-        \n-r\t\t\t:don't write out a layout header\
-        \n-p\t\t\t:don't arrange the segs on pages boundries\
-        \n-l\tname\t\t:link with a file libname.o in the dirs specified by -L\
-        \n-L\tdir\t\t:set dir to be part of the search path used by -l\
+        \n-o\tout.o\t:set output binary\
+        \n-r\t\t:don't write out a layout header\
+        \n-p\t\t:don't arrange the segs on pages boundries\
+        \n-l\tname\t:link with a file libname.o in the dirs specified by -L\
+        \n-L\tdir\t:set dir to be part of the search path used by -l\
+        \n-O\t\t:force the output to be an obj file, no matter output extension\
         \n");
 }
 
@@ -43,7 +44,7 @@ int main(int argc, char *argv[]){
   char * outfile = "out.bin";
   int opt;
   /* read options */
-  while((opt = getopt(argc, argv, "o:rpl:L:")) != -1) {
+  while((opt = getopt(argc, argv, "o:rpl:L:O")) != -1) {
     switch(opt){
       case 'o':
         outfile = optarg;
@@ -62,6 +63,9 @@ int main(int argc, char *argv[]){
         lib_path[lib_path_index] = optarg;
         lib_path_index++;
         break;
+      case 'O':
+        do_out_obj = 1;
+        break;
       case '?':
         usage();
         exit(1);
@@ -69,6 +73,12 @@ int main(int argc, char *argv[]){
         exit(1);
     }
   }
+  /* decide if we need to output an object file based on output file suffix */
+  char * outend = outfile + strlen(outfile);
+  if(outend[-2] == '.' && outend[-1] == 'o'){
+    do_out_obj = 1;
+  }
+
   /* open all source files */
   int i = 0;
   for(; optind < argc; optind++){
@@ -109,19 +119,42 @@ int main(int argc, char *argv[]){
     exit(1);
   }
 
-  /* open output file */
-  out_file = fopen(outfile, "w");
+  /* init out obj if we need it, otherwise bin file */
+  if(do_out_obj){
+    obj_init(&out_obj);
+    out_obj.file = fopen(outfile, "w");
+  } else {
+    out_file = fopen(outfile, "w");
+  }
 
   run_lnk();
 
 }
 
-void run_lnk(){
+/* output a binary file */
+void run_lnk_bin(){
   read_in_headers();
-  //read_seg_size();
-  create_segs(do_head, do_pages);
+  bin_create_segs(do_head, do_pages);
 
   symbol_read_in_tables();
 
-  main_pass();
+  bin_main_pass();
+}
+
+/* output an obj file - a bit simpler */
+void run_lnk_obj(){
+  read_in_headers();
+
+  obj_out_create_segs();
+
+  symbol_read_in_tables();
+}
+
+/* run the linker */
+void run_lnk(){
+  if(do_out_obj){
+    run_lnk_obj();
+  } else {
+    run_lnk_bin();
+  }
 }

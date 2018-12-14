@@ -15,6 +15,12 @@ int cur_in_obj;
 /* Output binary */
 FILE *out_file;
 
+/* output object */
+struct obj_file out_obj;
+
+/* if true, output object file instead of binary */
+int do_out_obj = 0;
+
 /**
  * Raise an error */
 void error(char * msg){
@@ -60,7 +66,7 @@ uint16_t seg_pos[4];
    the headers uses nop.n.n instructions to do this, as only the six but opcode is check - we can put what ever we want in the rest. Four nop.n.n (eight bytes) are used, each having an entry of 10 bits behind it. The low five bits are the start page of the segment, the high five the number of pages
    if the header is created, it should be loaded into memory with the rest of the program - scplnk accounts for the offset
    do_pages is whether to arrange segments on page boundries or not. If not, they are arranged on word boundries */
-void create_segs(uint8_t do_head, uint8_t do_pages){
+void bin_create_segs(uint8_t do_head, uint8_t do_pages){
     uint16_t offset = 0;
 
     /* make space for header */
@@ -112,8 +118,42 @@ void create_segs(uint8_t do_head, uint8_t do_pages){
 
 }
 
+/* create the segment layout for obj output. Read in each seg size, sum them, and set in_seg_start properly. Also sum the size of the defined and extern symbol table
+    don't care about do_header or page alignment - that only matters when it is linked again into executable */
+void obj_out_create_segs(){
+    uint32_t offset;
+
+    for(int s = 0; s < 4; s++){
+        seg_start[s] = 0;
+        offset = 0;
+
+        for(int i = 0; in_objs[i].file; i++){
+            /* divide by two b/c sizes in header includes meta-bytes */
+            uint16_t size = in_objs[i].segs.segs[s].size;
+            /* sum total seg_size */
+            seg_size[s] += size;
+            /* set in file specific segment starts (needed for extern lookups) */
+            in_segs_start[i][s] = offset / 2;
+            /* add to offset */
+            offset += size;
+        }
+    }
+
+    /* sum defined and external table sizes
+    NOTE: we write out all extern refrences, even if they aren't refrenced anymore (to keep things simple) */
+    uint32_t defined_size = 0, extern_size = 0;
+    for(int i = 0; in_objs[i].file; i++){
+        defined_size += in_objs[i].segs.defined_table.size;
+        extern_size += in_objs[i].segs.extern_table.size;
+    }
+
+    /* create and write header */
+    obj_create_header(&out_obj, seg_size[0] /2 , seg_size[1] / 2, seg_size[2] / 2, seg_size[3] / 2, defined_size / _OBJ_SYMBOL_ENTRY_SIZE, extern_size / _OBJ_SYMBOL_ENTRY_SIZE);
+    obj_write_header(&out_obj);
+}
+
 /* set the current segment being written to - seeks to the proper location */
-void set_seg(uint8_t seg){
+void bin_set_seg(uint8_t seg){
     cur_seg = seg;
     fseek(out_file, seg_start[cur_seg] + seg_pos[cur_seg], SEEK_SET);
 }

@@ -6,7 +6,7 @@
 
 /* read in a piece of data from the i'th file and seg'th segment in in_objs, and output it
    return 1 if end of segment reached, 0 otherwise */
-int decode_data(int i, uint8_t seg){
+int bin_decode_data(int i, uint8_t seg){
     uint16_t data;
     uint8_t flags, is_word;
     /* read in data */
@@ -59,15 +59,15 @@ int decode_data(int i, uint8_t seg){
 }
 
 /* run the main pass of the linker */
-void main_pass(){
+void bin_main_pass(){
     /* read through each file */
     for(int i = 0; in_objs[i].file; i++){
         /* Go through each seg */
         for(int s = 0; s < 4; s++){
             /* set seg */
             obj_set_seg(&in_objs[i], s);
-            set_seg(s);
-            while(!decode_data(i, s));
+            bin_set_seg(s);
+            while(!bin_decode_data(i, s));
         }
 
     }

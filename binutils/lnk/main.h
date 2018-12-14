@@ -1,4 +1,6 @@
 /* This file was automatically generated.  Do not edit! */
+void run_lnk_obj();
+void run_lnk_bin();
 int main(int argc,char *argv[]);
 extern char lib_buf[256];
 extern int lib_path_index;
