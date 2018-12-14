@@ -80,6 +80,8 @@ void run_asm(){
     first_pass(&in);
   }
   first_pass_align();
+  /* remove externs defined for labels that exist */
+  remove_defined_externs();
   /* create the header */
   uint16_t external = 0;
   uint16_t defined = 0;

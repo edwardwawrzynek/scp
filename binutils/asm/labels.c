@@ -59,6 +59,7 @@ struct label * add_label(char * name, int16_t module, uint16_t addr, int8_t seg)
   entry->module = module;
   entry->addr = addr;
   entry->seg = seg;
+  entry->in_use = 1;
 
   return entry;
 }
@@ -67,13 +68,18 @@ struct label * add_label(char * name, int16_t module, uint16_t addr, int8_t seg)
  * look for a label with the given name and module number, and return it
  * a -1 module number will only search in the global namespace
  * errors if none found */
-struct label * find_label(char * name, int16_t module) {
+struct label * find_label(char * name, int16_t module, uint8_t no_extern) {
 
   for(unsigned int i = 0; i < labels_cur; i++){
+    if(!labels[i].in_use){
+      continue;
+    }
     /* match name and module, or ignore module if global */
     if(!strcmp(name, labels[i].name)){
       if(labels[i].module == module || labels[i].module == -1){
-        return labels + i;
+        if(!(no_extern && labels[i].seg == -1)){
+          return labels + i;
+        }
       }
     }
   }
@@ -89,6 +95,9 @@ struct label * find_label(char * name, int16_t module) {
 void labels_get_num(uint16_t *defined, uint16_t *external){
   uint16_t extern_i = 0;
   for(unsigned int i = 0; i < labels_cur; i++){
+    if(!labels[i].in_use){
+      continue;
+    }
     if(labels[i].seg == -1){
       (*external)++;
       labels[i].extern_index = extern_i++;
@@ -101,6 +110,9 @@ void labels_get_num(uint16_t *defined, uint16_t *external){
 /* write out the labels to the object file */
 void labels_write_out(struct obj_file *o){
   for(unsigned int i = 0; i < labels_cur; i++){
+    if(!labels[i].in_use){
+      continue;
+    }
     /* extern symbol */
     if(labels[i].seg == -1){
       obj_write_extern(o, labels[i].name, 0);
@@ -108,6 +120,18 @@ void labels_write_out(struct obj_file *o){
     /* defined symbol */
     else if(labels[i].module == -1){
       obj_write_defined(o, labels[i].name, labels[i].seg, labels[i].addr);
+    }
+  }
+}
+
+/* remove extern labels that were defined */
+void remove_defined_externs(){
+  for(unsigned int i = i; i < labels_cur; i++){
+    if(labels[i].seg == -1){
+      struct label *entry = find_label(labels[i].name, labels[i].module, 1);
+      if(entry){
+        labels[i].in_use = 0;
+      }
     }
   }
 }

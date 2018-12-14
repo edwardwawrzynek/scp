@@ -88,6 +88,8 @@ struct label {
   uint16_t addr;
   /* the index in the external table - only if the label is an external label */
   uint16_t extern_index;
+  /* if the label is in use - only used to remove redundant labels */
+  uint8_t in_use;
 };
 
 #endif

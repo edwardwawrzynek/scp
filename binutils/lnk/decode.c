@@ -99,8 +99,17 @@ int obj_out_decode_data(int i, uint8_t seg){
         if(flags & OBJ_IS_EXTERN){
             uint8_t is_pc_relative = (flags & OBJ_IS_PC_RELATIVE);
 
-            /* just write out index in table - will be looked up anyway when linked to executable */
-            obj_write_extern_offset(&out_obj, data + extern_start[i], is_pc_relative);
+            int file;
+            /* see if we can resolve the symbol with a symbol defined in this table */
+            struct obj_symbol_entry *match = find_extern(i, data, &file);
+            struct obj_symbol_entry *entry = &(extern_tables[i][data]);
+            if(entry == NULL){
+                /* just write out index in table - wasn't defined in thsi table */
+                obj_write_extern_offset(&out_obj, data + extern_start[i], is_pc_relative);
+            } else {
+                obj_write_offset(&out_obj, match->offset + entry->offset + in_segs_start[file][match->seg], match->seg, is_pc_relative);
+            }
+
         }
         /* symbol is in current file */
         else {

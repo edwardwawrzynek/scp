@@ -28,14 +28,13 @@ uint16_t dir_first_pass(struct instr *i){
             cur_module++;
             return 0;
         case global:;
-            struct label *l = find_label(i->args[0].str, cur_module);
+            struct label *l = find_label(i->args[0].str, cur_module, 1);
             if(!l){
                 error("No such label\n");
             }
             l->module = -1;
             return 0;
         case external:
-            /* TODO: should we only be adding the extern in the current module */
             add_label(i->args[0].str, -1, 0, -1);
             return 0;
 
@@ -152,7 +151,7 @@ uint16_t dir_second_pass(struct instr *i){
 /* output a label immediate */
 void write_label_imd(struct arg *arg){
     /* find entry in symbol table */
-    struct label *lab = find_label(arg->str, cur_module);
+    struct label *lab = find_label(arg->str, cur_module, 0);
     if(!lab){
         error("No such label\n");
     }
