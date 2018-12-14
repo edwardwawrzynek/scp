@@ -97,10 +97,17 @@ int obj_out_decode_data(int i, uint8_t seg){
     else {
         /* handle extern symbols */
         if(flags & OBJ_IS_EXTERN){
+            uint8_t is_pc_relative = (flags & OBJ_IS_PC_RELATIVE);
 
+            /* just write out index in table - will be looked up anyway when linked to executable */
+            obj_write_extern_offset(&out_obj, data + extern_start[i], is_pc_relative);
         }
         /* symbol is in current file */
         else {
+            uint8_t seg_num = (flags & OBJ_SEG_NUM) >> 4;
+            uint8_t is_pc_relative = (flags & OBJ_IS_PC_RELATIVE);
+
+            obj_write_offset(&out_obj, data + in_segs_start[i][seg_num], seg_num, is_pc_relative);
 
         }
     }

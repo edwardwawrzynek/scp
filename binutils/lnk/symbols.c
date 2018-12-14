@@ -68,3 +68,15 @@ uint16_t extern_get_addr(int i, uint16_t index){
     addr += entry->offset;
     return addr;
 }
+
+/* write out the defined and extern symbol tables (only for obj output) */
+void obj_out_write_symbols(){
+    for(int i = 0; in_objs[i].file; i++){
+        for(int d = 0; d < in_objs[i].segs.defined_table.size / _OBJ_SYMBOL_ENTRY_SIZE; d++){
+            obj_write_defined(&out_obj, defined_tables[i][d].name, defined_tables[i][d].seg, defined_tables[i][d].offset + in_segs_start[i][defined_tables[i][d].seg]);
+        }
+        for(int d = 0; d < in_objs[i].segs.extern_table.size / _OBJ_SYMBOL_ENTRY_SIZE; d++){
+            obj_write_extern(&out_obj, extern_tables[i][d].name, extern_tables[i][d].offset);
+        }
+    }
+}

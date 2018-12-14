@@ -150,6 +150,8 @@ void run_lnk_obj(){
   symbol_read_in_tables();
 
   obj_out_main_pass();
+
+  obj_out_write_symbols();
 }
 
 /* run the linker */

@@ -61,6 +61,10 @@ uint8_t cur_seg;
 /* current write location in each seg (offset in seg) */
 uint16_t seg_pos[4];
 
+/* start of each file in symbol tables (only for obj output) */
+uint16_t defined_start[MAX_FILES];
+uint16_t extern_start[MAX_FILES];
+
 /* create the segment layout, and write the header if requested
    the header contains the start page (5 bits) and number of pages (5 bits) for each segment
    the headers uses nop.n.n instructions to do this, as only the six but opcode is check - we can put what ever we want in the rest. Four nop.n.n (eight bytes) are used, each having an entry of 10 bits behind it. The low five bits are the start page of the segment, the high five the number of pages
@@ -143,7 +147,10 @@ void obj_out_create_segs(){
     NOTE: we write out all extern refrences, even if they aren't refrenced anymore (to keep things simple) */
     uint32_t defined_size = 0, extern_size = 0;
     for(int i = 0; in_objs[i].file; i++){
+        defined_start[i] = defined_size / _OBJ_SYMBOL_ENTRY_SIZE;
         defined_size += in_objs[i].segs.defined_table.size;
+
+        extern_start[i] = extern_size / _OBJ_SYMBOL_ENTRY_SIZE;
         extern_size += in_objs[i].segs.extern_table.size;
     }
 
