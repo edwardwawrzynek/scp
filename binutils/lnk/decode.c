@@ -72,3 +72,52 @@ void bin_main_pass(){
 
     }
 }
+
+/* handle a piece of data from the input files, and do obj output on it */
+int obj_out_decode_data(int i, uint8_t seg){
+    uint16_t data;
+    uint8_t flags, is_word;
+    /* read in data */
+    if(obj_read_data(&in_objs[i], &data, &flags, &is_word) == -1){
+        return 1;
+    }
+    /* handle single bytes */
+    if(!is_word){
+        if(flags & OBJ_IS_SYMBOL){
+            error("single byte addresses aren't allowed");
+        }
+        obj_write_const_byte(&out_obj, data&0xff);
+    }
+    /* handle constant words */
+    else if(!(flags & OBJ_IS_SYMBOL)){
+        obj_write_const_word(&out_obj, data);
+
+    }
+    /* handle symbols */
+    else {
+        /* handle extern symbols */
+        if(flags & OBJ_IS_EXTERN){
+
+        }
+        /* symbol is in current file */
+        else {
+
+        }
+    }
+    return 0;
+}
+
+/* run the main pass of the linker for obj output */
+void obj_out_main_pass(){
+    /* read through each file */
+    for(int i = 0; in_objs[i].file; i++){
+        /* Go through each seg */
+        for(int s = 0; s < 4; s++){
+            /* set seg */
+            obj_set_seg(&in_objs[i], s);
+            obj_set_seg(&out_obj, s);
+            while(!obj_out_decode_data(i, s));
+        }
+
+    }
+}

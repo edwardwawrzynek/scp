@@ -148,6 +148,8 @@ void run_lnk_obj(){
   obj_out_create_segs();
 
   symbol_read_in_tables();
+
+  obj_out_main_pass();
 }
 
 /* run the linker */
