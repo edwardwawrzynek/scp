@@ -256,6 +256,9 @@ uint16_t GfxIO::io_read(uint8_t port){
     case _key_data_in_port:
       return key_mem[key_read_addr];
 
+    case _text_data_port:
+      return txt_mem[txt_mem_addr];
+
     default:
       /* these ports don't do anything on read */
       break;
