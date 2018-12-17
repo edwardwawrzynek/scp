@@ -61,7 +61,7 @@ int MAXCLEN=32000;
 #define VERBOSE 256
 #define VERYVERBOSE 128
 #define KEEPSCRATCH 64
-#define SMALLEXE 32768
+#define RAWBIN 32768
 
 #define PPSRC 1
 #define CCSRC 2
@@ -140,6 +140,18 @@ char *tmpnam(char *p)
   return p;
 }
 #endif
+
+static int strend(const char *s, const char *t)
+{
+    size_t ls = strlen(s); // find length of s
+    size_t lt = strlen(t); // find length of t
+    if (ls >= lt)  // check if t can fit in s
+    {
+        // point s to where t should start and compare the strings from there
+        return (0 == memcmp(t, s + (ls - lt), lt));
+    }
+    return 0; // t was longer than s
+}
 
 static void free_namelist(struct NameList *p)
 {
@@ -423,7 +435,7 @@ int main(int argc,char *argv[])
         if(!strcmp(parm,"-k")) {flags|=KEEPSCRATCH;*parm=0;}
         if(!strcmp(parm,"-vv")) {flags|=VERBOSE|VERYVERBOSE;*parm=0;}
         if(!strcmp(parm,"-nostdlib")) {flags|=NOSTDLIB;*parm=0;}
-        if(!strcmp(parm,"-rawbin")) {flags|=SMALLEXE;*parm=0;}
+        if(!strcmp(parm,"-rawbin")) {flags|=RAWBIN;*parm=0;}
         if(parm[0] == ';') {*parm=0;}
         if(!strncmp(parm,"-O",2)){
           static int had_opt;
@@ -449,6 +461,11 @@ int main(int argc,char *argv[])
             destname=parm+3;
             flags|=OUTPUTSET;*parm=0;continue;
         }
+        /* if the destination ends in .o, don't link with stdlib */
+        if(strend(destname, ".o")){
+            flags|=NOSTDLIB;
+        }
+        if(destname)
         if(parm[0]=='-'&&parm[1]=='l'){
             size_t l=strlen(userlibs);
             if((l+strlen(parm)-2+strlen(ul)+1)>=USERLIBS){puts("Userlibs too long");exit(EXIT_FAILURE);}
@@ -504,7 +521,7 @@ int main(int argc,char *argv[])
       rmname=rmv;l2name=l2v;scname=scv;
     }
     if(flags&NOSTDLIB){ldname=l2name;}
-    if(flags&SMALLEXE){ldname=l3name;}
+    if(flags&RAWBIN){ldname=l3name;}
     /*  Nummer sicher...    */
     len+=strlen(ppname)+strlen(ccname)+strlen(asname)+
          strlen(rmname)+strlen(scname)+strlen(userlibs)+NAMEBUF+100;
