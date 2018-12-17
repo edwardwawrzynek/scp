@@ -24,29 +24,10 @@
  * NOTE: we might be able to return int32's as a pointer, and only need one return reg
 **/
 
-/** stack layout used by backend (top is high addr, bottom low addr - stack grows downwards)
- * For this function:
-int f(int arg1, char arg2){
-    char local1;
-    int local2;
-
-    ...
- }
-The stack layout is the following (SP and FP show where they are after the prologue):
- * ---HIGH ADDR---
- * arg1         (high byte)
- * arg1         (low byte)
- * ---          (args are passed as a min 2 bytes)
- * arg2         (only byte)
- * return_addr  (high byte)(from call command)
- * return_addr  (low byte)
- * saved_fp     (high byte)(from function prologue)
- * saved_fp     (low byte)      <- FP
- * local1       (only byte)
- * local2       (high byte)
- * local2       (low byte)      <- SP
- * ---LOW_ADDR---
-**/
+/**
+ * c runtime support functions used
+ * __crtudiv - unsigned divide
+ * __crtsdiv - signed divide */
 
 /**
  * we don't have a frame pointer, and instead just keep track of what we have pushed

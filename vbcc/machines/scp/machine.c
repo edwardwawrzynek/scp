@@ -565,10 +565,12 @@ static void do_arithmetic(FILE *f, struct obj * q1, struct obj * q2, struct obj 
   }
 
   /* emit start of alu instruction */
-  if(q2_konst){
-    emit(f, "\talu.r.i ");
-  } else {
-    emit(f, "\talu.r.r ");
+  if(op != DIV && op != MOD){
+    if(q2_konst){
+      emit(f, "\talu.r.i ");
+    } else {
+      emit(f, "\talu.r.r ");
+    }
   }
   /* emit alu name for each operation */
   switch(op){
@@ -611,10 +613,20 @@ static void do_arithmetic(FILE *f, struct obj * q1, struct obj * q2, struct obj 
       break;
     case DIV:
       debug("DIV\n");
-      /* not implemented */
-      /* needs to check sign */
-      printf("DIV not implemented\n");
-      ierror(0);
+      /* TODO: IMPORTANT check signdness properly */
+      if(q2_konst){
+        load_into_reg(f, q2, q2type, reg2);
+        push_reg(f, reg2);
+      } else {
+        push_reg(f, reg2);
+      }
+      push_reg(f, reg1);
+      if(q1type & UNSIGNED){
+        emit(f, "\t.extern %s__crtudiv\n\tcall.j.sp sp %s__crtudiv\n", idprefix, idprefix);
+      } else {
+        emit(f, "\t.extern %s__crtsdiv\n\tcall.j.sp sp %s__crtsdiv\n", idprefix, idprefix);
+      }
+      emit(f, "\talu.r.i add sp 2\n\tmov.r.r %s re\n", regnames[reg1]);
       break;
     case MOD:
       debug("MOD\n");
@@ -633,15 +645,17 @@ static void do_arithmetic(FILE *f, struct obj * q1, struct obj * q2, struct obj 
       break;
   }
   /* finish alu instruction */
-  if(!q2_konst){
-    if(single_op){
-      /* use tmp1 as second arg - it doesn't matter anyway */
-      emit(f, " %s %s\n", regnames[reg1], regnames[tmp1]);
+  if(op != DIV && op != MOD){
+    if(!q2_konst){
+      if(single_op){
+        /* use tmp1 as second arg - it doesn't matter anyway */
+        emit(f, " %s %s\n", regnames[reg1], regnames[tmp1]);
+      } else {
+        emit(f, " %s %s\n", regnames[reg1], regnames[reg2]);
+      }
     } else {
-      emit(f, " %s %s\n", regnames[reg1], regnames[reg2]);
+      emit(f, " %s %i\n", regnames[reg1], q2->val.vmax);
     }
-  } else {
-    emit(f, " %s %i\n", regnames[reg1], q2->val.vmax);
   }
   /* store result, using tmp2 if needed (result may be in tmp1) */
   store_from_reg(f, z, ztype, reg1, tmp2);
