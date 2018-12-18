@@ -8,7 +8,7 @@ unsigned int __crtudiv(unsigned int num, unsigned int den){
     /* quotient and remainder */
     int q = 0, r = 0;
 
-    for(int i = num - 1; i != -1; i--){
+    for(int i = 15; i != -1; i--){
         r <<= 1;
         r |= ((num >> i) & 1);
         if(r >= den){

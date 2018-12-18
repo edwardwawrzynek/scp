@@ -147,7 +147,8 @@ TODO: use this for ints*/
 
 /* TODO: support variable length arrays */
 
-/* TODO: libcalls for floats, div, int32, etc */
+/* libcalls are used for division, 32 bit ints, and floats */
+#define HAVE_LIBCALLS 1
 
 /* do not create CONVERT ICs from integers smaller than int to floats */
 #define MIN_INT_TO_FLOAT_TYPE INT

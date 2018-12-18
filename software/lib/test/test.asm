@@ -195,14 +195,12 @@ _main:
 	push.r.sp r0 sp
 	push.r.sp r1 sp
 	alu.r.i sub sp 2
-	ld.r.i r1 291
-	mov.r.r r0 r1
-	ld.r.i rc 3
-	push.r.sp rc sp
-	push.r.sp r0 sp
-	.extern ___crtudiv
-	call.j.sp sp ___crtudiv
-	alu.r.i add sp 2
+	ld.r.i r1 306
+	ld.r.i ra 3
+	push.r.sp ra sp
+	push.r.sp r1 sp
+	call.j.sp sp ____crtudiv
+	alu.r.i add sp 4
 	mov.r.r r0 re
 	push.r.sp r0 sp
 	call.j.sp sp _putchar
@@ -216,10 +214,13 @@ l67:
 l69:
 	ld.r.i re 0
 l65:
-	alu.r.i add sp 6
+	alu.r.i add sp 2
 	pop.r.sp r1 sp
 	pop.r.sp r0 sp
 	ret.n.sp sp
+
+	.bss
+	.extern	____crtudiv
 
 	.bss
 	.extern	__inp_6

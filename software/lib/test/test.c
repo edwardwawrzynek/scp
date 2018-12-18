@@ -63,9 +63,9 @@ unsigned int __crtudiv(unsigned int, unsigned int);
 int main(){
     unsigned int a;
 
-    a = 'a' * 3;
+    a = 'f' * 3;
 
-    putchar(__crtudiv(a, 3));
+    putchar(a/3);
     putchar('a');
 
     while(1){};

@@ -300,6 +300,10 @@ static void remove_locals_and_stack(FILE *f){
   localsize = 0;
 }
 
+/* libcalls used */
+char * libcall_udiv = "__crtudiv"; /* unsigned int division */
+char * libcall_sdiv = "__crtsdiv"; /* signed int division */
+
 /* loading and storing routines */
 
 /* names of types used in some (.dc, etc) encodings */
@@ -377,6 +381,8 @@ static void load_into_reg(FILE *f, struct obj *o, int real_type, int reg){
   if (o->flags & DREFOBJ){
     /* use a pointer object */
     emit(f, "\tld.r.p.%s %s %s\n", dt(real_type), regnames[reg], regnames[reg]);
+    o->flags = 5;
+    int a;
   }
 }
 
@@ -565,13 +571,12 @@ static void do_arithmetic(FILE *f, struct obj * q1, struct obj * q2, struct obj 
   }
 
   /* emit start of alu instruction */
-  if(op != DIV && op != MOD){
-    if(q2_konst){
-      emit(f, "\talu.r.i ");
-    } else {
-      emit(f, "\talu.r.r ");
-    }
+  if(q2_konst){
+    emit(f, "\talu.r.i ");
+  } else {
+    emit(f, "\talu.r.r ");
   }
+
   /* emit alu name for each operation */
   switch(op){
     case OR:
@@ -613,20 +618,8 @@ static void do_arithmetic(FILE *f, struct obj * q1, struct obj * q2, struct obj 
       break;
     case DIV:
       debug("DIV\n");
-      /* TODO: IMPORTANT check signdness properly */
-      if(q2_konst){
-        load_into_reg(f, q2, q2type, reg2);
-        push_reg(f, reg2);
-      } else {
-        push_reg(f, reg2);
-      }
-      push_reg(f, reg1);
-      if(q1type & UNSIGNED){
-        emit(f, "\t.extern %s__crtudiv\n\tcall.j.sp sp %s__crtudiv\n", idprefix, idprefix);
-      } else {
-        emit(f, "\t.extern %s__crtsdiv\n\tcall.j.sp sp %s__crtsdiv\n", idprefix, idprefix);
-      }
-      emit(f, "\talu.r.i add sp 2\n\tmov.r.r %s re\n", regnames[reg1]);
+      /* uses libcall */
+      ierror(0);
       break;
     case MOD:
       debug("MOD\n");
@@ -645,17 +638,15 @@ static void do_arithmetic(FILE *f, struct obj * q1, struct obj * q2, struct obj 
       break;
   }
   /* finish alu instruction */
-  if(op != DIV && op != MOD){
-    if(!q2_konst){
-      if(single_op){
-        /* use tmp1 as second arg - it doesn't matter anyway */
-        emit(f, " %s %s\n", regnames[reg1], regnames[tmp1]);
-      } else {
-        emit(f, " %s %s\n", regnames[reg1], regnames[reg2]);
-      }
+  if(!q2_konst){
+    if(single_op){
+      /* use tmp1 as second arg - it doesn't matter anyway */
+      emit(f, " %s %s\n", regnames[reg1], regnames[tmp1]);
     } else {
-      emit(f, " %s %i\n", regnames[reg1], q2->val.vmax);
+      emit(f, " %s %s\n", regnames[reg1], regnames[reg2]);
     }
+  } else {
+    emit(f, " %s %i\n", regnames[reg1], q2->val.vmax);
   }
   /* store result, using tmp2 if needed (result may be in tmp1) */
   store_from_reg(f, z, ztype, reg1, tmp2);
@@ -882,32 +873,6 @@ int init_cg(void)
   /*  want to be portable.                                            */
   /*  That's the reason for the subtraction in t_min[INT]. Long could */
   /*  be unable to represent -2147483648 on the host system.          */
-  /*t_min[UNSIGNED|CHAR]=t_min[UNSIGNED|SHORT]=t_min[UNSIGNED|INT]=t_min[UNSIGNED|LONG]=l2zm(0L);
-  t_min[CHAR]=l2zm(-128L);
-  t_min[SHORT]=l2zm(-32768L);
-  t_min[INT]=l2zm(-32768L);
-  t_min[LONG]=zmsub(l2zm(-2147483647L),l2zm(1L));
-  t_min[LLONG]=0;
-  t_min[MAXINT]=t_min(LONG);
-
-  t_max[CHAR]=ul2zum(127L);
-  t_max[SHORT]=ul2zum(32767UL);
-  t_max[INT]=ul2zum(32767UL);
-  t_max[LONG]=ul2zum(2147483647UL);
-  t_max[LLONG]=0;
-  t_max[MAXINT]=t_max(LONG);
-
-  tu_max[CHAR]=ul2zum(255UL);
-  tu_max[SHORT]=ul2zum(65535UL);
-  tu_max[INT]=ul2zum(65535UL);
-  tu_max[LONG]=ul2zum(4294967295UL);
-  tu_max[LLONG]=0;
-  tu_max[MAXINT]=t_max(UNSIGNED|LONG);
-
-  t_max[UNSIGNED|CHAR]=ul2zum(255UL);
-  t_max[UNSIGNED|SHORT]=ul2zum(65535UL);
-  t_max[UNSIGNED|INT]=t_max[UNSIGNED|SHORT];
-  t_max[UNSIGNED|LONG]=ul2zum(4294967295UL);*/
 
   t_min[CHAR]=l2zm(-128L);
   t_min[SHORT]=l2zm(-32768L);
@@ -932,6 +897,10 @@ int init_cg(void)
 
 
   target_macros=marray;
+
+  /* init libcalls */
+  declare_builtin(libcall_sdiv, INT, INT, 0, INT, 0, 0, NULL);
+  declare_builtin(libcall_udiv, INT|UNSIGNED, INT|UNSIGNED, 0, INT|UNSIGNED, 0, 0, NULL);
 
 
   return 1;
@@ -1115,11 +1084,21 @@ void gen_dc(FILE *f,int t,struct const_list *p)
       emitval(f,&p->val,t&NU);
     }
   }else{
-    /* TODO: what does this mean ? */
+    /* TODO: used for address of in static initilizations */
     /* emit_obj(f,&p->tree->o,t&NU); */
     printf("Need to implement proper print_obj\n");
   }
   emit(f,"\n");
+}
+
+/* decide if we need to use a libcall for the IC */
+char * use_libcall(int code, int t1, int t2){
+  /* int divide */
+  if(code == DIV){
+    return t1 & UNSIGNED ? libcall_udiv : libcall_sdiv;
+  }
+
+  return 0;
 }
 
 
