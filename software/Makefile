@@ -8,4 +8,4 @@ subdirs: $(SUBDIRS)
 $(SUBDIRS):
 	$(MAKE) -C $@
 
-all: $(SUBDIRS)
+all: subdirs

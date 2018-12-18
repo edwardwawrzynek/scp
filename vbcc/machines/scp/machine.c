@@ -381,8 +381,6 @@ static void load_into_reg(FILE *f, struct obj *o, int real_type, int reg){
   if (o->flags & DREFOBJ){
     /* use a pointer object */
     emit(f, "\tld.r.p.%s %s %s\n", dt(real_type), regnames[reg], regnames[reg]);
-    o->flags = 5;
-    int a;
   }
 }
 
