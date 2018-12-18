@@ -8,10 +8,6 @@
 
 static char FILE_[]=__FILE__;
 
-/* enables debug information */
-#define DEBUG
-//#undef DEBUG
-
 /*  Public data that MUST be there.                             */
 
 /* Name and copyright. */
@@ -23,11 +19,11 @@ char cg_copyright[]="VBCC Small C Processor - Edward Wawrzynek 2018\nBackend is 
     STRINGFLAG: a string can be specified
     FUNCFLAG: a function will be called
     apart from FUNCFLAG, all other versions can only be specified once */
-int g_flags[MAXGF]={};
+int g_flags[MAXGF]={0};
 
 /* the flag-name, do not use names beginning with l, L, I, D or U, because
    they collide with the frontend */
-char *g_flags_name[MAXGF]={};
+char *g_flags_name[MAXGF]={"scpdebug"};
 
 /* the results of parsing the command-line-flags will be stored here */
 union ppi g_flags_val[MAXGF];
@@ -116,18 +112,15 @@ static int sp, fp; /* stack and frame pointer */
 static int tmp1, tmp2, tmp1_h, tmp2_h; /* temporary registers */
 static int ret_reg;
 
-/* print debug information if DEBUG is enables, else do nothing */
-#ifdef DEBUG
-  void debug(const char *format, ...){
+/* print debug information if -scpdebug is enabled, else do nothing */
+void debug(const char *format, ...){
+  if(g_flags[0] & USEDFLAG){
     va_list args;
     va_start(args, format);
     vprintf(format, args);
     va_end(args);
+  }
 }
-#endif
-#ifndef DEBUG
-  static inline void debug(const char * format, ...){}
-#endif
 
 /* debugging routines */
 
@@ -1137,9 +1130,6 @@ void gen_code(FILE *f,struct IC *p,struct Var *v,zmax offset)
       regspushed[i] = 1;
     }
   }
-
-  /* vbcc marks backend regs as used - they don't need to be pushed. clear them in regspushed */
-  regspushed[tmp1] = regspushed[tmp1_h] = regspushed[tmp2] = regspushed[tmp2_h] = regspushed[ret_reg] = regspushed[sp] = 0;
 
   /* push all registers that we need to */
   for(int i = 1; i < MAXR+1; i++){
