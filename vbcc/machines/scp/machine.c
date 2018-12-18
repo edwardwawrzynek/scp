@@ -1084,9 +1084,18 @@ void gen_dc(FILE *f,int t,struct const_list *p)
       emitval(f,&p->val,t&NU);
     }
   }else{
-    /* TODO: used for address of in static initilizations */
-    /* emit_obj(f,&p->tree->o,t&NU); */
-    printf("Need to implement proper print_obj\n");
+
+    if(p->tree->o.v->storage_class == STATIC){
+      emit(f,"%s%ld",labprefix, zm2l(p->tree->o.v->offset));
+      //gen_align(f,falign(v->vtyp));
+    }
+    if(p->tree->o.v->storage_class == EXTERN){
+      /* We only want to emit records for genuinely defined variables. For
+      * some reason, TENTATIVE is defined for some of this */
+      //if(v->flags&(DEFINED|TENTATIVE)){
+        emit(f,"%s%s",idprefix, p->tree->o.v->identifier);
+    }
+
   }
   emit(f,"\n");
 }

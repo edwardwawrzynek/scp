@@ -90,16 +90,76 @@ void first_pass_align(){
     seg_pos[3] += seg_pos[3] & 1;
 }
 
+/* interpret an asm command as type, and return its value (labels return 0) */
+uint16_t type_get_value(struct arg *arg, enum arg_type typ){
+    switch(typ){
+        case reg:
+            if(!arg->is_reg){
+                error("Arg has to be reg\n");
+            }
+            return arg->reg;
+        case alu:
+            if(!arg->is_alu){
+                error("Arg has to be alu\n");
+            }
+            return arg->alu_op;
+        case cnst:
+            if(!arg->is_val){
+                error("Arg has to be a value\n");
+            }
+            return arg->val;
+        case cond:
+            if(!arg->is_cond){
+                error("Arg has to be cond\n");
+            }
+            return arg->cond_code;
+        default:
+            /* labels are handled as immediates */
+            return 0;
+    }
+}
+
+/* output a label immediate */
+void write_label_imd(struct arg *arg, uint8_t pc_rel){
+    /* find entry in symbol table */
+    struct label *lab = find_label(arg->str, cur_module, 0);
+    if(!lab){
+        error("No such label\n");
+    }
+    /* handle defined labels */
+    if(lab->seg != -1){
+        obj_write_offset(&out, lab->addr + arg->offset, lab->seg, pc_rel);
+    }
+    /* handle externaly defined labels */
+    else {
+        /* if there is an offset, we need to add an external symbol table entry */
+        if(arg->offset){
+            obj_expand_extern(&out, (out.segs.extern_table.size / _OBJ_SYMBOL_ENTRY_SIZE) + pc_rel);
+            uint16_t ind = obj_write_extern(&out, lab->name, arg->offset);
+            obj_write_extern_offset(&out, ind, pc_rel);
+        } else {
+            obj_write_extern_offset(&out, lab->extern_index, pc_rel);
+        }
+
+    }
+}
+
 /* run the second pass of a directive - return bytes*/
 uint16_t dir_second_pass(struct instr *i){
     switch(i->dir_type){
         case dc_b:
         case dc_bs:
             /* write out byte */
-            obj_write_const_byte(&out, i->args[0].val);
+            obj_write_const_byte(&out, type_get_value(&(i->args[0]), cnst));
             return 1;
         case dc_w:
-            obj_write_const_word(&out, i->args[0].val);
+            /* handle address of labels */
+            if(!i->args[0].is_val){
+                /* write out, not pc relative */
+                write_label_imd(&(i->args[0]), 0);
+            } else {
+                obj_write_const_word(&out, type_get_value(&(i->args[0]), cnst));
+            }
             return 2;
         case dc_l:
             obj_write_const_word(&out, i->args[0].val & 0xffff);
@@ -148,60 +208,6 @@ uint16_t dir_second_pass(struct instr *i){
     return 0;
 }
 
-/* output a label immediate */
-void write_label_imd(struct arg *arg){
-    /* find entry in symbol table */
-    struct label *lab = find_label(arg->str, cur_module, 0);
-    if(!lab){
-        error("No such label\n");
-    }
-    /* handle defined labels */
-    if(lab->seg != -1){
-        obj_write_offset(&out, lab->addr + arg->offset, lab->seg, 1);
-    }
-    /* handle externaly defined labels */
-    else {
-        /* if there is an offset, we need to add an external symbol table entry */
-        if(arg->offset){
-            obj_expand_extern(&out, (out.segs.extern_table.size / _OBJ_SYMBOL_ENTRY_SIZE) + 1);
-            uint16_t ind = obj_write_extern(&out, lab->name, arg->offset);
-            obj_write_extern_offset(&out, ind, 1);
-        } else {
-            obj_write_extern_offset(&out, lab->extern_index, 1);
-        }
-
-    }
-}
-
-/* interpret an asm command as type, and return its value (labels return 0) */
-uint16_t type_get_value(struct arg *arg, enum arg_type typ){
-    switch(typ){
-        case reg:
-            if(!arg->is_reg){
-                error("Arg has to be reg\n");
-            }
-            return arg->reg;
-        case alu:
-            if(!arg->is_alu){
-                error("Arg has to be alu\n");
-            }
-            return arg->alu_op;
-        case cnst:
-            if(!arg->is_val){
-                error("Arg has to be a value\n");
-            }
-            return arg->val;
-        case cond:
-            if(!arg->is_cond){
-                error("Arg has to be cond\n");
-            }
-            return arg->cond_code;
-        default:
-            /* labels are handled as immediates */
-            return 0;
-    }
-}
-
 /* run the second pass on an asm instruction */
 uint16_t cmd_second_pass(struct instr *i){
     struct instr_encoding *en = i->encoding;
@@ -248,7 +254,7 @@ uint16_t cmd_second_pass(struct instr *i){
         }
         /* label immediate */
         else if(en->types[en->imd_field -1] == label){
-            write_label_imd(&(i->args[en->imd_field -1]));
+            write_label_imd(&(i->args[en->imd_field -1]), 1);
         }
         /* four bytes written */
         return 4;

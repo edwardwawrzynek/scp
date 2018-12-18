@@ -60,7 +60,7 @@ void puts(char *str){
 
 unsigned int __crtudiv(unsigned int, unsigned int);
 
-#define num "0123456789abcdef"
+        char *num = "0123456789abcdef";
 
 void hex(unsigned int i){
     putchar(num[(i>>12)&0xf]);
