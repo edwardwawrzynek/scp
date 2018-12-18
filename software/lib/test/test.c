@@ -60,13 +60,23 @@ void puts(char *str){
 
 unsigned int __crtudiv(unsigned int, unsigned int);
 
+#define num "0123456789abcdef"
+
+void hex(unsigned int i){
+    putchar(num[(i>>12)&0xf]);
+    putchar(num[(i>>8)&0xf]);
+    putchar(num[(i>>4)&0xf]);
+    putchar(num[(i)&0xf]);
+    putchar('\n');
+
+}
+
 int main(){
     unsigned int a;
 
-    a = 'f' * 3;
+    a = 0xff4 * 3;
 
-    putchar(a/3);
-    putchar('a');
+    hex(a/3);
 
     while(1){};
 

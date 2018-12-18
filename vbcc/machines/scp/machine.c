@@ -10,7 +10,7 @@ static char FILE_[]=__FILE__;
 
 /* enables debug information */
 #define DEBUG
-#undef DEBUG
+//#undef DEBUG
 
 /*  Public data that MUST be there.                             */
 
@@ -557,16 +557,21 @@ static void do_arithmetic(FILE *f, struct obj * q1, struct obj * q2, struct obj 
   }
   /* get reg1 and reg2, loading them into tmp1 and tmp2 if needed
     try to load reg1 into z reg if we can*/
+  /* TODO: IMPORTANT DOESN"T WORK - we need to check that if z and q2 regs match, we can't load q1 into it */
   reg1 = source_reg(f, z, ztype, tmp1);
   if(!single_op){
     reg2 = source_reg(f, q2, q2type, tmp2);
   }
+  /* check that reg1 and reg2 don't match */
+  if(reg1 == reg2){
+    reg2 = tmp2;
+  }
 
   /* load args */
-  load_into_reg(f, q1, q1type, reg1);
   if((!q2_konst) && (!single_op)){
     load_into_reg(f, q2, q2type, reg2);
   }
+  load_into_reg(f, q1, q1type, reg1);
 
   /* emit start of alu instruction */
   if(q2_konst){
@@ -651,6 +656,10 @@ static void do_arithmetic(FILE *f, struct obj * q1, struct obj * q2, struct obj 
 }
 
 static void arithmetic(FILE *f, struct IC *p){
+  /* if p->z and p->q2 regs are the same, attempt to switch them around */
+  if((p->z.flags & (REG|DREFOBJ)) == REG && (p->q2.flags & (REG|DREFOBJ)) == REG && p->z.reg == p->q2.reg){
+    switch_IC(p);
+  }
   do_arithmetic(f, &(p->q1), &(p->q2), &(p->z), p->code, q1typ(p), q2typ(p), ztyp(p));
 }
 
@@ -1124,7 +1133,7 @@ void gen_code(FILE *f,struct IC *p,struct Var *v,zmax offset)
 
   /* vbcc marks the regs that a function used that needs to be pushed in regused - push these */
   for(int i = 1; i < MAXR+1; i++){
-    if(regused[i]){
+    if(regused[i]{
       regspushed[i] = 1;
 
       /* check that the reg is actually used in the code somewhere other than a ALLOCREG or FREEREG */

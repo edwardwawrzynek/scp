@@ -11,4 +11,6 @@ $(SUBDIRS):
 vbcc: binutils
 	$(MAKE) -C vbcc bin/vc && $(MAKE) -C vbcc TARGET=scp bin/vbccscp
 
+software: vbcc binutils
+
 all: subdirs

@@ -190,37 +190,164 @@ l60:
 	pop.r.sp r0 sp
 	ret.n.sp sp
 	.text
+_hex:
+	.global	_hex
+	push.r.sp r0 sp
+	push.r.sp r1 sp
+	push.r.sp r2 sp
+	ld.r.p.off.w r2 sp 8
+	mov.r.r r0 r2
+	alu.r.i ursh r0 12
+	alu.r.i band r0 15
+	ld.r.ra r1 l67+0
+	alu.r.r add r1 r0
+	ld.r.p.bs r1 r1
+	push.r.sp r1 sp
+	call.j.sp sp _putchar
+	alu.r.i add sp 2
+	mov.r.r r0 r2
+	alu.r.i ursh r0 8
+	alu.r.i band r0 15
+	ld.r.ra r1 l68+0
+	alu.r.r add r1 r0
+	ld.r.p.bs r1 r1
+	push.r.sp r1 sp
+	call.j.sp sp _putchar
+	alu.r.i add sp 2
+	mov.r.r r0 r2
+	alu.r.i ursh r0 4
+	alu.r.i band r0 15
+	ld.r.ra r1 l69+0
+	alu.r.r add r1 r0
+	ld.r.p.bs r1 r1
+	push.r.sp r1 sp
+	call.j.sp sp _putchar
+	alu.r.i add sp 2
+	mov.r.r r0 r2
+	alu.r.i band r0 15
+	ld.r.ra r1 l70+0
+	alu.r.r add r1 r0
+	ld.r.p.bs r1 r1
+	push.r.sp r1 sp
+	call.j.sp sp _putchar
+	alu.r.i add sp 2
+	ld.r.i ra 10
+	push.r.sp ra sp
+	call.j.sp sp _putchar
+	alu.r.i add sp 2
+l65:
+	pop.r.sp r2 sp
+	pop.r.sp r1 sp
+	pop.r.sp r0 sp
+	ret.n.sp sp
+
+	.rodata
+l67:
+	.dc.bs	48
+	.dc.bs	49
+	.dc.bs	50
+	.dc.bs	51
+	.dc.bs	52
+	.dc.bs	53
+	.dc.bs	54
+	.dc.bs	55
+	.dc.bs	56
+	.dc.bs	57
+	.dc.bs	97
+	.dc.bs	98
+	.dc.bs	99
+	.dc.bs	100
+	.dc.bs	101
+	.dc.bs	102
+	.dc.bs	0
+
+	.rodata
+l68:
+	.dc.bs	48
+	.dc.bs	49
+	.dc.bs	50
+	.dc.bs	51
+	.dc.bs	52
+	.dc.bs	53
+	.dc.bs	54
+	.dc.bs	55
+	.dc.bs	56
+	.dc.bs	57
+	.dc.bs	97
+	.dc.bs	98
+	.dc.bs	99
+	.dc.bs	100
+	.dc.bs	101
+	.dc.bs	102
+	.dc.bs	0
+
+	.rodata
+l69:
+	.dc.bs	48
+	.dc.bs	49
+	.dc.bs	50
+	.dc.bs	51
+	.dc.bs	52
+	.dc.bs	53
+	.dc.bs	54
+	.dc.bs	55
+	.dc.bs	56
+	.dc.bs	57
+	.dc.bs	97
+	.dc.bs	98
+	.dc.bs	99
+	.dc.bs	100
+	.dc.bs	101
+	.dc.bs	102
+	.dc.bs	0
+
+	.rodata
+l70:
+	.dc.bs	48
+	.dc.bs	49
+	.dc.bs	50
+	.dc.bs	51
+	.dc.bs	52
+	.dc.bs	53
+	.dc.bs	54
+	.dc.bs	55
+	.dc.bs	56
+	.dc.bs	57
+	.dc.bs	97
+	.dc.bs	98
+	.dc.bs	99
+	.dc.bs	100
+	.dc.bs	101
+	.dc.bs	102
+	.dc.bs	0
+	.text
 _main:
 	.global	_main
 	push.r.sp r0 sp
 	push.r.sp r1 sp
 	alu.r.i sub sp 2
-	ld.r.i r1 306
+	ld.r.i r1 12252
 	ld.r.i ra 3
 	push.r.sp ra sp
 	push.r.sp r1 sp
-	call.j.sp sp ____crtudiv
+	call.j.sp sp ___crtudiv
 	alu.r.i add sp 4
 	mov.r.r r0 re
 	push.r.sp r0 sp
-	call.j.sp sp _putchar
+	call.j.sp sp _hex
 	alu.r.i add sp 2
-	ld.r.i ra 97
-	push.r.sp ra sp
-	call.j.sp sp _putchar
-	alu.r.i add sp 2
-l67:
-	jmp.c.j LGlge l67
-l69:
+l73:
+	jmp.c.j LGlge l73
+l75:
 	ld.r.i re 0
-l65:
+l71:
 	alu.r.i add sp 2
 	pop.r.sp r1 sp
 	pop.r.sp r0 sp
 	ret.n.sp sp
 
 	.bss
-	.extern	____crtudiv
+	.extern	___crtudiv
 
 	.bss
 	.extern	__inp_6
