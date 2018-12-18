@@ -1133,27 +1133,8 @@ void gen_code(FILE *f,struct IC *p,struct Var *v,zmax offset)
 
   /* vbcc marks the regs that a function used that needs to be pushed in regused - push these */
   for(int i = 1; i < MAXR+1; i++){
-    if(regused[i]{
+    if(regused[i] && !regscratch[i]&&!regsa[i]){
       regspushed[i] = 1;
-
-      /* check that the reg is actually used in the code somewhere other than a ALLOCREG or FREEREG */
-      struct IC *ps = p;
-      char used = 0;
-      for(;ps;ps=ps->next){
-        if(ps->code != ALLOCREG && ps->code != FREEREG){
-          if(ps->q1.reg == i || ps->q2.reg == i || ps->z.reg == i){
-            used = 1;
-            break;
-          }
-        }
-      }
-
-      if(!used){
-        regspushed[i] = 0;
-        if(i < tmp1){
-          debug("warning: VBCC marked reg %s in use, but backend didn't find it in use anywhere. It is not being used\n", regnames[i]);
-        }
-      }
     }
   }
 
