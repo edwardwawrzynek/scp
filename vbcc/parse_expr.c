@@ -90,7 +90,7 @@ np conditional_expression(void)
   np left,new;
   left=logical_or_expression();
   killsp();
-  if(ctok->type==QUEST){   
+  if(ctok->type==QUEST){
     next_token();killsp();
     new=new_node();
     new->flags=COND;
@@ -280,7 +280,7 @@ np shift_expression(void)
   killsp();
   while(ctok->type==LSH||ctok->type==RSH){
     if(ctok->type==LSH)
-      c=LSHIFT; 
+      c=LSHIFT;
     else
       c=RSHIFT;
     next_token();
@@ -323,8 +323,8 @@ np multiplicative_expression(void)
   left=cast_expression();
   killsp();
   while(ctok->type==STAR||ctok->type==SLASH||ctok->type==PCT){
-    if(ctok->type==STAR) c=MULT; 
-    else if(ctok->type==SLASH) c=DIV; 
+    if(ctok->type==STAR) c=MULT;
+    else if(ctok->type==SLASH) c=DIV;
     else c=MOD;
     next_token();killsp();
     right=cast_expression();
@@ -387,9 +387,9 @@ np unary_expression(void)
     if(strcmp("sizeof",ctok->name)&&strcmp("__typeof",ctok->name)&&strcmp("__alignof",ctok->name)&&strcmp("__offsetof",ctok->name)){
       return postfix_expression();
     }else{
-      if(*ctok->name=='s') 
-	op=SIZEOF; 
-      else if(ctok->name[2]=='a') 
+      if(*ctok->name=='s')
+	op=SIZEOF;
+      else if(ctok->name[2]=='a')
 	op=ALIGNOF;
       else if(ctok->name[2]=='t')
 	op=TYPEOF;
@@ -409,7 +409,7 @@ np unary_expression(void)
 	new->ntyp->flags=INT;
       new->right=0;
       new->left=0;
-      
+
       if(ctok->type==LPAR&&declaration(1)){
 	struct Typ *t;
 	next_token();killsp();
@@ -511,7 +511,7 @@ np unary_expression(void)
   }else if(ctok->type==T_MINUS){
     next_token();
     new->left=cast_expression();
-    new->flags=MINUS;    
+    new->flags=MINUS;
   }else if(ctok->type==PPLUS){
     next_token();
     new->left=unary_expression();
@@ -777,7 +777,7 @@ np string_expression(void)
 #ifdef HAVE_MISRA
 /* removed */
 #endif
-	} 
+	}
     for(BIGENDIAN?(l=string):(l=p);BIGENDIAN?(l<=p):(l>=string);BIGENDIAN?(l++):(l--)){
       /*  zm=zm<<CHAR_BIT+*p  */
       zm=zmlshift(zm,char_bit);
@@ -804,11 +804,11 @@ np constant_expression(void)
   new->sidefx=0;
   if(*s=='0'){
     s++;
-    if(*s=='x'||*s=='X'){s++;base=16;} else base=8;
+    if(*s=='x'||*s=='X'){s++;base=16;} else if(*s=='b'||*s=='B'){s++;base=2;} else base=8;
   }
   zbase=ul2zum(base);
-  if(*s>='0'&&*s<='9') t=*s-'0'; 
-  else if(*s>='a'&&*s<='f') t=*s-'a'+10; 
+  if(*s>='0'&&*s<='9') t=*s-'0';
+  else if(*s>='a'&&*s<='f') t=*s-'a'+10;
   else if(*s>='A'&&*s<='F') t=*s-'A'+10;
   else t=20;
   while(t<base){
@@ -817,13 +817,13 @@ np constant_expression(void)
       if(!c99&&!zumleq(value,zumdiv(zumsub(t_max(UNSIGNED|LONG),digit),zbase)))
 	warned=1;
       if(c99&&!zumleq(value,zumdiv(zumsub(t_max(UNSIGNED|LLONG),digit),zbase)))
-	warned=1;      
+	warned=1;
     }
     value=zumadd(zummult(value,zbase),digit);
     s++;
-    if(*s>='0'&&*s<='9') t=*s-'0'; 
-    else if(*s>='a'&&*s<='f') t=*s-'a'+10; 
-    else if(*s>='A'&&*s<='F') t=*s-'A'+10; 
+    if(*s>='0'&&*s<='9') t=*s-'0';
+    else if(*s>='a'&&*s<='f') t=*s-'a'+10;
+    else if(*s>='A'&&*s<='F') t=*s-'A'+10;
     else t=20;
   }
   while((!(tm&UNSIGNED)&&(*s=='u'||*s=='U'))||((tm&NQ)==0&&(*s=='l'||*s=='L'))){
@@ -867,7 +867,7 @@ np constant_expression(void)
 	      new->ntyp->flags=LONG;
 	    else
 	      new->ntyp->flags=UNSIGNED|LONG;
-	  }else{ 
+	  }else{
 	    if(zumleq(value,t_max(LONG)))
 	      new->ntyp->flags=LONG;
 	    else if(base!=10&&zumleq(value,t_max(UNSIGNED|LONG)))
@@ -879,7 +879,7 @@ np constant_expression(void)
 	  }
 	}
 	tm|=LONG;
-      }	
+      }
     }
     s++;
   }
@@ -912,7 +912,7 @@ np constant_expression(void)
         s++;
       }
       db=zldadd(db,zlddiv(zsum,zdiv));
-      
+
     }
     if(*s=='e'||*s=='E'){
       /*  Exponentialdarstellung  */
@@ -941,10 +941,10 @@ np constant_expression(void)
     if(warned) error(211);
     if(new->ntyp->flags==0){
       if(base==10){
-	if(zumleq(value,t_max(INT))) 
+	if(zumleq(value,t_max(INT)))
 	  new->ntyp->flags=INT;
 	else if(!c99||zumleq(value,t_max(LONG)))
-	  new->ntyp->flags=LONG; 
+	  new->ntyp->flags=LONG;
         else
 	  new->ntyp->flags=LLONG;
       }else{
@@ -952,8 +952,8 @@ np constant_expression(void)
 /* removed */
 #endif
 	if(zumleq(value,t_max(INT)))
-	  new->ntyp->flags=INT; 
-	else 
+	  new->ntyp->flags=INT;
+	else
 	  if(zumleq(value,t_max(UNSIGNED|INT)))
 	    new->ntyp->flags=UNSIGNED|INT;
 	else if(zumleq(value,t_max(LONG)))
@@ -969,7 +969,7 @@ np constant_expression(void)
   }
 
   if(*s) error(232);
-  
+
   if(new->ntyp->flags==FLOAT) new->val.vfloat=zld2zf(db);
   else if(new->ntyp->flags==DOUBLE) new->val.vdouble=zld2zd(db);
   else if(new->ntyp->flags==LDOUBLE) new->val.vldouble=db;
