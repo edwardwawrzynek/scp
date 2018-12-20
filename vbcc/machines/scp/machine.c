@@ -437,13 +437,20 @@ static void store_from_reg(FILE *f, struct obj *o, int real_type, int reg, int t
   real_type &= NU;
   int typ = real_type;
   /* handle cases that can be made more efficient */
-  if((o->flags & REG) && !(o->flags & DREFOBJ)){
+
+  /* storing into reg */
+  if((o->flags & (REG|DREFOBJ)) == REG){
     /* move regs if they are different */
     if(reg != o->reg){
       emit(f, "\tmov.r.r %s %s\n", regnames[o->reg], regnames[reg]);
     }
-
-  } else if(((o->flags & VAR) == VAR)){
+  }
+  /* storing into reg drefrence */
+  else if((o->flags & (REG|DREFOBJ)) == (REG|DREFOBJ)){
+    emit(f, "\tst.r.p.%s %s %s\n", dt(typ), regnames[reg], regnames[o->reg]);
+  }
+  /* storing into var */
+   else if(((o->flags & (VAR|DREFOBJ)) == VAR)){
     if(isextern(o->v->storage_class)){
       emit(f, "\tst.r.m.%s %s %s%s+%i\n", dt(typ), regnames[reg], idprefix, o->v->identifier, o->val.vmax);
     }

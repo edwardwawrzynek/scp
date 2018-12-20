@@ -20,6 +20,12 @@
 #include "__inp.h"
 
 /* io port definitions */
+#define _serial_data_in_port 1
+#define _serial_next_port 1
+#define _serial_in_waiting_port 2
+#define _serial_data_out_port 3
+#define _serial_tx_busy_port 4
+
 #define _key_in_waiting_port 8
 #define _key_data_in_port 7
 #define _key_next_port 7
