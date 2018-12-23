@@ -1135,9 +1135,11 @@ void gen_code(FILE *f,struct IC *p,struct Var *v,zmax offset)
   /* general reg variables */
   int reg1, reg2;
 
-  debug("gen_code()\n");
+  debug("gen_code() localsize: %u\n", offset);
 
   /* emit function label (resets stackoffset and push size) */
+  /* Align stack to be a multiple of two */
+  offset = ((offset+1)/2)*2;
   function_top(f, v, offset);
 
   /* vbcc marks the regs that a function used that needs to be pushed in regused - push these */

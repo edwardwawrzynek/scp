@@ -85,22 +85,15 @@ int _tty_close(int minor){
 }
 
 /* write - just call tty_putchar */
-//gen_write_from_putc(_tty_write, tty_putchar)
+gen_write_from_putc(_tty_write, tty_putchar)
 
 char *msg = "hello, world!";
 
-int _tty_write (int minor, uint8_t *buf, size_t bytes, uint16_t *eof){
-    int result;
-    size_t written = 0;
-    while(written != bytes && (result = tty_putchar(*buf)) != -1){
-        buf++; written++;
-    }
-    *eof = result != -1;
-    return written;
-}
-
 int main(){
-    uint16_t eof = 8;
+    uint8_t b;
+    uint16_t eof = 65347;
+    uint8_t a;
     _tty_write(0, msg, 13, &eof);
+    tty_putchar('0' + eof);
     while(1){};
 }
