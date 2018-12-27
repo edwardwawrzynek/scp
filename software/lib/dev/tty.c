@@ -38,7 +38,7 @@ static void tty_scroll(){
 }
 
 /* write out a char */
-static int tty_putchar(char c){
+static int tty_putc(char c){
 
     if(c == '\n'){
         if(tty.pos_x){
@@ -69,6 +69,18 @@ static int tty_putchar(char c){
     return 0;
 }
 
+/* read in a char from the txt input */
+int tty_getc(){
+    int inWaiting = inp(8);
+    if(inWaiting){
+        uint8_t res = inp(7);
+        outp(7, 1);
+        return res;
+    } else {
+        return -1;
+    }
+}
+
 /* open a tty - only allow openning a single tty */
 int _tty_open(int minor){
     if(minor)
@@ -84,16 +96,17 @@ int _tty_close(int minor){
     return 0;
 }
 
-/* write - just call tty_putchar */
-gen_write_from_putc(_tty_write, tty_putchar)
+/* write - just call tty_putc */
+gen_write_from_putc(_tty_write, tty_putc)
+
+gen_read_from_getc(_tty_read, tty_getc)
 
 char *msg = "hello, world!";
 
 int main(){
     uint8_t b;
-    uint16_t eof = 65347;
+    uint8_t eof = 65;
     uint8_t a;
     _tty_write(0, msg, 13, &eof);
-    tty_putchar('0' + eof);
     while(1){};
 }

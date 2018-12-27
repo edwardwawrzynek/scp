@@ -1214,12 +1214,15 @@ void gen_code(FILE *f,struct IC *p,struct Var *v,zmax offset)
           emit_inline_asm(f,p->q1.v->fi->inline_asm);
         }
         /* check if it is a call to a static or extern location */
-        else if(((p->q1.flags & VAR) == VAR)){
+        else if(((p->q1.flags & (VAR|DREFOBJ|REG)) == VAR)){
           if(isextern(p->q1.v->storage_class)){
             emit(f, "\tcall.j.sp sp %s%s\n", idprefix, p->q1.v->identifier);
           }
-          if(isstatic(p->q1.v->storage_class)){
+          else if(isstatic(p->q1.v->storage_class)){
             emit(f, "\tcall.j.sp sp %s%i\n", labprefix, p->q1.v->offset);
+          }
+          else {
+            ierror(0);
           }
         } else {
           /* load address of object into a reg, and call it */

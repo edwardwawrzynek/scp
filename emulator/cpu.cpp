@@ -376,7 +376,7 @@ void CPU::execute(uint16_t instr, uint16_t imd) {
             /* write pc */
             write_word(regs[reg_secd], pc);
             /* set pc */
-            pc = pc + regs[reg_prim];
+            pc = regs[reg_prim];
             break;
 
         case RET_N_SP: /* ret.n.sp - return from a subroutine */

@@ -37,4 +37,18 @@ int _dev_write(int minor, uint8_t *buf, size_t bytes, uint8_t *eof);
         return written;                                                         \
     }
 
+/** macro to generate read method given a getc, which returns -1 if the function should stop and set eof, otherwise it should return the read byte */
+#define gen_read_from_getc(read_func_name, getc)                                \
+    int read_func_name (int minor, uint8_t *buf, size_t bytes, uint8_t *eof){   \
+        int result;                                                             \
+        size_t read = 0;                                                        \
+        while(read != bytes && (result = getc()) != -1){                        \
+            *buf = result;                                                      \
+            buf++;                                                              \
+            read++;                                                             \
+        }                                                                       \
+        *eof = result == -1;                                                    \
+        return read;                                                            \
+    }
+
 /** TODO: allow drivers to just implement putc and getc and have read and write wrappers on top of that. Also ioctl */
