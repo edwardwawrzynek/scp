@@ -39,8 +39,8 @@ void CPU::reset() {
 /**
  * start the machine's io subsytem
  * just calls io.init */
-void CPU::init_io(char * serial_port){
-    io.init(serial_port);
+void CPU::init_io(bool serial_en, bool gfx_en, char * serial_port){
+    io.init(serial_en, gfx_en, serial_port);
 }
 
 /**

@@ -8,10 +8,13 @@ class IO{
   SerialIO io_serial;
   GfxIO io_gfx;
 
+  /* if the subsystems are in use or not */
+  bool do_serial;
+  bool do_gfx;
 
   public:
     /* init io subsystems */
-    void init(char * serial_port);
+    void init(bool do_serial, bool do_gfx, char * serial_port);
 
     /* update io subsytems - only needs to be called when a screen update is needed */
     void update();

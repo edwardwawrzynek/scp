@@ -1,6 +1,14 @@
 all: scpemu
 
-EMU_SRC=cpu.cpp main.cpp io/io.cpp io/serial.cpp io/gfx.cpp io/gfx_charset.cpp
+OBJS = cpu.o main.o io/io.o io/serial.o io/gfx.o io/gfx_charset.o
 
-scpemu: ${EMU_SRC}
-	g++ -O3 -std=c++11 -o scpemu -Wall ${EMU_SRC} -lserialport -lSDL2
+DEPS = cpu.h opcodes.h io/gfx.h io/io.h io/ports.h io/serial.h
+
+%.o: %.cpp $(DEPS)
+	g++ -std=c++11 -O3 -Wall -c -o $@ $<
+
+scpemu: $(OBJS)
+	g++ -O3 -std=c++11 -o scpemu -Wall $(OBJS) -lserialport -lSDL2
+
+clean:
+	rm -f $(OBJS)
