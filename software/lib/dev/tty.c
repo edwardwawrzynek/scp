@@ -138,13 +138,24 @@ char *msg = "hello, world!";
 
 char buf[200];
 
+char * nums = "01234567789abcdef";
+
+void hex(int a){
+    tty_putc(nums[(a>>12)&0xf]);
+    tty_putc(nums[(a>>8)&0xf]);
+    tty_putc(nums[(a>>4)&0xf]);
+    tty_putc(nums[(a)&0xf]);
+}
+
 void print_strings(int num, ...){
     va_list args;
+
 
     va_start(args, num);
     for(int i = 0; i < num; i++){
         char *msg = va_arg(args, char*);
         write(_tty_write, msg, strlen(msg));
+        //tty_putc('a');
     }
     va_end(args);
 }

@@ -9,7 +9,7 @@
 typedef unsigned char * va_list;
 
 /* +1 make sure that va_arg will properly align */
-#define va_start(ap, lastarg) ( (ap) = (va_list)(&(lastarg) + 1) )
+#define va_start(ap, lastarg) ( (ap) = (va_list)(&(lastarg)) + (sizeof(lastarg)<sizeof(int) ? sizeof(int):sizeof(lastarg) ))
 
 /* everything that is passed as an arg is at least aligned as an int */
 #define va_arg(ap, type) ((ap) += (sizeof(type)<sizeof(int)?sizeof(int):sizeof(type)), ((type *)(ap))[-1])
