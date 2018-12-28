@@ -1,3 +1,7 @@
+#ifndef __CTYPE_INCL
+
+#define __CTYPE_INCL 1
+
 int tolower(int c);
 int toupper(int c);
 int isspace(int c);
@@ -12,3 +16,5 @@ int isblank(int c);
 int isdigit(int c);
 int isalpha(int c);
 int isalnum(int c);
+
+#endif

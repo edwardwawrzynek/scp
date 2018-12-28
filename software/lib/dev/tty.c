@@ -9,6 +9,9 @@
 #include <inout.h>
 #include <stdint.h>
 
+#include <string.h>
+#include <stdarg.h>
+
 /* tty device structure */
 struct _tty_dev {
     /* x position */
@@ -135,14 +138,19 @@ char *msg = "hello, world!";
 
 char buf[200];
 
-int main(){
-    uint8_t b;
-    uint8_t eof = 65;
-    uint8_t a;
-    /*_tty_write(0, msg, 13, &eof);*/
-    write(_tty_write, "hello, world! This is a test", 28);
-    while(1){
-        read(_tty_read, buf, 1);
-        write(_tty_write, buf, 1);
+void print_strings(int num, ...){
+    va_list args;
+
+    va_start(args, num);
+    for(int i = 0; i < num; i++){
+        char *msg = va_arg(args, char*);
+        write(_tty_write, msg, strlen(msg));
     }
+    va_end(args);
+}
+
+int main(){
+
+    print_strings(4, "hello, world\n", "hi\n", "hello, testing 2 3 4 5 6 7 8 9", "hello---\n");
+    while(1){};
 }
