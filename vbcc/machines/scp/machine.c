@@ -297,6 +297,9 @@ static void remove_locals_and_stack(FILE *f){
 char * libcall_udiv = "__crtudiv"; /* unsigned int division */
 char * libcall_sdiv = "__crtsdiv"; /* signed int division */
 
+char * libcall_umod = "__crtumod"; /* unsigned int mod */
+char * libcall_smod = "__crtsmod"; /* signed int mod */
+
 /* loading and storing routines */
 
 /* names of types used in some (.dc, etc) encodings */
@@ -626,9 +629,7 @@ static void do_arithmetic(FILE *f, struct obj * q1, struct obj * q2, struct obj 
       break;
     case MOD:
       debug("MOD\n");
-      /* not implemented */
-      /* needs to check sign */
-      printf("MOD not implemented\n");
+      /* uses libcall */
       ierror(0);
       break;
     case KOMPLEMENT:
@@ -909,6 +910,9 @@ int init_cg(void)
   declare_builtin(libcall_sdiv, INT, INT, 0, INT, 0, 0, NULL);
   declare_builtin(libcall_udiv, INT|UNSIGNED, INT|UNSIGNED, 0, INT|UNSIGNED, 0, 0, NULL);
 
+  declare_builtin(libcall_smod, INT, INT, 0, INT, 0, 0, NULL);
+  declare_builtin(libcall_umod, INT|UNSIGNED, INT|UNSIGNED, 0, INT|UNSIGNED, 0, 0, NULL);
+
 
   return 1;
 }
@@ -1112,6 +1116,10 @@ char * use_libcall(int code, int t1, int t2){
   /* int divide */
   if(code == DIV){
     return t1 & UNSIGNED ? libcall_udiv : libcall_sdiv;
+  }
+  /* int mod */
+  if(code == MOD){
+    return t1 & UNSIGNED ? libcall_umod : libcall_smod;
   }
 
   return 0;

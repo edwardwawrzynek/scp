@@ -26,7 +26,7 @@ static void tty_scroll(){
     /* move text up */
     for(i = 0; i < 1920; i++){
         outp(5, i+80);
-        val = inp(6);
+        val = inp(_text_data_port);
         outp(5, i);
         outp(6, val);
     }
@@ -40,10 +40,24 @@ static void tty_scroll(){
 /* write out a char */
 static int tty_putc(char c){
 
+    if(tty.pos_x >= 80){
+        tty.pos_x = 0;
+        tty.pos_y++;
+    }
+    if(tty.pos_y >= 25){
+        tty_scroll();
+        tty.pos_y = 24;
+        tty.pos_x = 0;
+    }
+
     if(c == '\n'){
-        if(tty.pos_x){
+        tty.pos_x = 0;
+        tty.pos_y++;
+
+        if(tty.pos_y >= 25){
+            tty_scroll();
+            tty.pos_y = 24;
             tty.pos_x = 0;
-            tty.pos_y++;
         }
     } else if (c == '\t'){
         if(!(tty.pos_x & 0x7)){tty.pos_x++;}
@@ -52,15 +66,6 @@ static int tty_putc(char c){
         }
     }
     else {
-        if(tty.pos_x >= 80){
-            tty.pos_x = 0;
-            tty.pos_y++;
-        }
-        if(tty.pos_y >= 25){
-            tty_scroll();
-            tty.pos_y = 24;
-            tty.pos_x = 0;
-        }
         outp(5, (tty.pos_y * 80) + tty.pos_x);
         outp(6, c);
 
@@ -71,14 +76,18 @@ static int tty_putc(char c){
 
 /* read in a char from the txt input */
 int tty_getc(){
-    int inWaiting = inp(8);
+    int inWaiting = inp(_key_in_waiting_port);
     if(inWaiting){
-        uint8_t res = inp(7);
+        uint16_t res = inp(_key_data_in_port);
         outp(7, 1);
-        return res;
-    } else {
-        return -1;
+        /* check for release */
+        if(!(res & 0xff00)){
+            return res;
+        }
     }
+
+    /* not eof, just blocking */
+    return -2;
 }
 
 /* open a tty - only allow openning a single tty */
@@ -101,12 +110,39 @@ gen_write_from_putc(_tty_write, tty_putc)
 
 gen_read_from_getc(_tty_read, tty_getc)
 
+/* write wrapper */
+void write(int (*func)(int, uint8_t *, size_t, uint8_t *), char *msg, size_t bytes){
+    uint8_t eof;
+    func(0, msg, bytes, &eof);
+}
+
+/* read wrapper */
+void read(int (*func)(int, uint8_t *, size_t, uint8_t *), char *msg, size_t bytes){
+    uint8_t eof;
+    int size;
+
+    do{
+        size = func(0, msg, bytes, &eof);
+        if(eof){
+            return;
+        }
+        msg += size;
+        bytes -= size;
+    } while(bytes);
+}
+
 char *msg = "hello, world!";
+
+char buf[200];
 
 int main(){
     uint8_t b;
     uint8_t eof = 65;
     uint8_t a;
-    _tty_write(0, msg, 13, &eof);
-    while(1){};
+    /*_tty_write(0, msg, 13, &eof);*/
+    write(_tty_write, "hello, world! This is a test", 28);
+    while(1){
+        read(_tty_read, buf, 1);
+        write(_tty_write, buf, 1);
+    }
 }
