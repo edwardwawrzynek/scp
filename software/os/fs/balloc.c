@@ -16,7 +16,7 @@ uint16_t balloc_get_buf[129];
 /**
  * gets the first free block number (starts at superblk.first_blk)
  * returns (uint16_t) */
-balloc_alloc(){
+uint16_t balloc_alloc(){
     uint16_t index;
     uint16_t value;
     //Read in buffer to start
@@ -38,7 +38,7 @@ balloc_alloc(){
  * write out a list of blocks to disk, with the list terminated by a value of 0
  * returns (none) */
 
-balloc_put(uint16_t * blocks){
+void balloc_put(uint16_t * blocks){
     uint16_t blk_num, offset, lastpos;
     lastpos = *(blocks++);
     while(*blocks){
@@ -72,7 +72,7 @@ balloc_put(uint16_t * blocks){
  * being terminated by a 0. The list is kmalloc'd. num_blks is set
  * returns (uint16_t *) - pointer to the list */
 
-balloc_get(uint16_t first_blk, uint8_t * num_blks){
+uint16_t *balloc_get(uint16_t first_blk, uint8_t * num_blks){
     uint16_t i, res;
     i = 1;
     *balloc_get_buf = first_blk;
@@ -108,7 +108,7 @@ balloc_get(uint16_t first_blk, uint8_t * num_blks){
  * balloc_get and balloc_put
  * returns (none) */
 
-balloc_free(uint16_t blk){
+void balloc_free(uint16_t blk){
     uint16_t nxt;
     do{
         //Read block into buffer

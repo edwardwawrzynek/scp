@@ -1,10 +1,11 @@
 #include "include/io.h"
+#include "include/defs.h"
 //Basic disk operations
 
 /**
  * init the disk
  * returns (uint16_t) - 0 on sucess, error code on failure */
-disk_init(){
+uint16_t disk_init(){
     outp(_disk_reset_port, 0);
     outp(_disk_reset_port, 1);
     while(inp(_disk_busy_port));
@@ -14,17 +15,17 @@ disk_init(){
 /**
  * reads a block into the buffer at addr
  * returns (none) */
-disk_read(unsigned int blk, unsigned char * addr){
+void disk_read(unsigned int blk, unsigned char * addr){
     //Wait for disk to be done
     while(inp(_disk_busy_port));
-    
+
     //Set block addr
     outp(_disk_block_addr_port, blk);
-    
+
     //Start Read
     outp(_disk_data_in_rd_en_port, 1);
     outp(_disk_data_in_rd_en_port, 0);
-    
+
     //Wait for read to complete
     while(inp(_disk_busy_port));
     //Read data into buffer
@@ -37,13 +38,13 @@ disk_read(unsigned int blk, unsigned char * addr){
 
 /**
  * write a buffer at addr to the block at blk */
-disk_write(unsigned int blk, unsigned char * addr){
+void disk_write(unsigned int blk, unsigned char * addr){
     //Wait for disk to be done
     while(inp(_disk_busy_port));
-    
+
     //Set block addr
     outp(_disk_block_addr_port, blk);
-    
+
     //Write data to hardware buffer
     do{
         outp(_disk_data_out_port, *(addr++));

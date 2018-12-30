@@ -10,7 +10,7 @@ struct buffer_header buffer_table[BUFFER_TABLE_ENTRIES];
 /**
  * get an unused buffer table entry with a malloc'd buffer, and set its blk prop
  * returns (struct buffer_header*) */
-buffer_alloc(uint16_t blk){
+struct buffer_header *buffer_alloc(uint16_t blk){
     uint16_t i;
     //search table for free buffer
     for(i = 0; i < BUFFER_TABLE_ENTRIES; ++i){
@@ -32,7 +32,7 @@ buffer_alloc(uint16_t blk){
 /**
  * gets a buffer for a disk blk, returning a new one if none for that blk is active
  * returns (struct buffer_header*) */
-buffer_get(uint16_t blk){
+struct buffer_header * buffer_get(uint16_t blk){
     uint16_t i;
     for(i = 0; i < BUFFER_TABLE_ENTRIES; ++i){
         if(buffer_table[i].blk == blk && buffer_table[i].refs){
@@ -49,7 +49,7 @@ buffer_get(uint16_t blk){
  * releases a buffer, writing to disk if there are no active references to it
  * returns none */
 
-buffer_put(struct buffer_header * buf){
+void buffer_put(struct buffer_header * buf){
     //deincrement refs
     --buf->refs;
     //if no refs, write to disk and free buffer
@@ -64,7 +64,7 @@ buffer_put(struct buffer_header * buf){
  * flush all of the buffers in the table - for shutdown, etc
  * returns (none) */
 
-buffer_flush_all(){
+void buffer_flush_all(){
     uint16_t i;
     for(i = 0; i < BUFFER_TABLE_ENTRIES; ++i){
         if(buffer_table[i].refs){

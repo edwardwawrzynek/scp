@@ -1,4 +1,5 @@
 #include "include/stdint.h"
+#include "include/stddef.h"
 
 /* This file contains configurable OS definitions, and includes those that are
  * not configurable from other files */
@@ -25,11 +26,6 @@
 /* max time for a process to run (in 2^12 clk ticks) */
 #define SHED_MAX_TIME 100
 
-/* non configurable definitions */
-
-#ifndef NULL
-#define NULL 0
-#endif
 
 /* ---- File structures ---- */
 #include "include/fs.h"

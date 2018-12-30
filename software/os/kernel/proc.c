@@ -25,7 +25,7 @@ static uint16_t proc_begin_execute_reg_pc;
  * this is only called from kernel_init() - mmu_index tags aren't changed after init
  * returns (none) */
 
-proc_init_table(){
+void proc_init_table(){
     uint8_t i;
     for(i = 0; i < PROC_TABLE_ENTRIES; ++i){
         proc_table[i].mmu_index = i;
@@ -35,7 +35,7 @@ proc_init_table(){
 /* get an empty entry in the process table
  * returns (struct proc *) - the new entry, with in_use marked */
 
-proc_alloc(){
+struct proc *proc_alloc(){
     unsigned int i;
     for(i = 0; i < PROC_TABLE_ENTRIES; ++i){
         if(!proc_table[i].in_use){
@@ -48,7 +48,7 @@ proc_alloc(){
 /* get the process table entry for a specific pid
  * returns (struct proc *) - the entry, or NULL if there is no entry matching the pid */
 
-proc_get(pid_t pid){
+struct proc *proc_get(pid_t pid){
     unsigned int i;
     for(i = 0; i < PROC_TABLE_ENTRIES; ++i){
         if(proc_table[i].pid == pid && proc_table[i].in_use){
@@ -59,7 +59,7 @@ proc_get(pid_t pid){
 }
 
 /* write a proc's mmu map to the mmu_table */
-proc_write_mem_map(struct proc * proc){
+void proc_write_mem_map(struct proc * proc){
     mmu_proc_table_out(proc->mem_map, (proc->mmu_index) << PROC_MMU_SHIFT);
 }
 
@@ -67,7 +67,7 @@ proc_write_mem_map(struct proc * proc){
  * mark as in use, set pid, set parent to NULL, set state, and create a memory map,
  * allocating the pages with palloc_new() (marks them in page table)
  * returns (none) */
-proc_init_kernel_entry(){
+void proc_init_kernel_entry(){
     struct proc * entry;
     uint8_t page;
     //get first entry
@@ -95,7 +95,7 @@ proc_init_kernel_entry(){
  * takes a struct proc and inits mem_map from the proc_mem in the proc
  * returns (none) */
 
-proc_init_mem_map(struct proc * proc){
+void proc_init_mem_map(struct proc * proc){
     uint16_t addr, i;
     addr = 0;
     i = 0;
@@ -118,7 +118,7 @@ proc_init_mem_map(struct proc * proc){
  * doesn't init memory contents or memory layout
  * returns (struct proc *) the process entry */
 
-proc_new_entry(pid_t parent){
+struct proc * proc_new_entry(pid_t parent){
     struct proc * res;
     //get a new entry
     res = proc_alloc();
@@ -141,7 +141,7 @@ proc_new_entry(pid_t parent){
 
 /* load the memory, create a memory layout, and write the memory for a process from a binary
  * returns (uint16_t) - 0 on success, a true value on failure */
-proc_load_mem(struct proc * proc, struct file_entry * file){
+uint16_t proc_load_mem(struct proc * proc, struct file_entry * file){
     uint8_t * mapped_in;
     uint16_t addr, bytes_read;
     //get size, and set the number of pages appropriately
@@ -171,7 +171,7 @@ proc_load_mem(struct proc * proc, struct file_entry * file){
  * TODO: create other process resources here
  * returns (struct proc *) - the process, or NULL on failure */
 
-proc_create_new(pid_t parent, uint16_t inum){
+struct proc * proc_create_new(pid_t parent, uint16_t inum){
     struct proc * res;
     struct file_entry * file;
     res = proc_new_entry(parent);
@@ -196,7 +196,7 @@ proc_create_new(pid_t parent, uint16_t inum){
  * pass the real pc, not the one gotten from the interupt handler that is one byte to far
  * returns (none) */
 
-proc_set_cpu_state(struct proc * proc, uint16_t a, uint16_t b, uint16_t pc, uint16_t sp){
+void proc_set_cpu_state(struct proc * proc, uint16_t a, uint16_t b, uint16_t pc, uint16_t sp){
     proc->cpu_state.A_reg = a;
     proc->cpu_state.B_reg = b;
     proc->cpu_state.PC_reg = pc;
@@ -207,7 +207,7 @@ proc_set_cpu_state(struct proc * proc, uint16_t a, uint16_t b, uint16_t pc, uint
  * if the switch works, it doesn't return
  * returns if failure (likely because the proc isn't in a runnable state) */
 
-proc_begin_execute(struct proc * proc){
+void proc_begin_execute(struct proc * proc){
     //check that the proc can be run
     if(proc->state != PROC_STATE_RUNNABLE){
         return 1;
@@ -241,14 +241,13 @@ proc_begin_execute(struct proc * proc){
     //if execution reaches here, something has gone terribly wrong
     //the only way that could happen is if the kernel was run as a proc (which should be detected above)
 
-    //is it realy worth the few extra bytes fr this?
     panic(PANIC_CONTEXT_SWITCH_FAILURE);
 }
 
 /* release a process from the process table, clearing its memory and other resources
  * returns (none) */
 
-proc_put(struct proc * proc){
+void proc_put(struct proc * proc){
     //mark as not in_use
     proc->in_use = 0;
     //set state
@@ -264,7 +263,7 @@ proc_put(struct proc * proc){
 
 /* TODO: move this into palloc_free, and keep refs there */
 
-proc_put_memory(struct proc * proc){
+void proc_put_memory(struct proc * proc){
     unsigned int i;
     for(i = 0; i < PROC_MMU_PAGES; ++i){
         //only palloc release if the page had been allocd

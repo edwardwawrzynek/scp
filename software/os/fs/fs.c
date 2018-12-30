@@ -8,7 +8,7 @@ uint8_t fs_global_buf[DISK_BLK_SIZE];
 /* convert a filesystem path to an inode number, given a name and cwd inum
  * returns (uint16_t) the inum , or 0 if not found */
 
-fs_path_to_inum(uint8_t * name, uint16_t cwd){
+uint16_t fs_path_to_inum(uint8_t * name, uint16_t cwd){
     uint8_t *i;
     //If name starts with /, start searching at root
     if(*name == '/'){
@@ -35,14 +35,14 @@ fs_path_to_inum(uint8_t * name, uint16_t cwd){
 
 /* init the filesystem
  * returns (none) */
-fs_init(){
+void fs_init(){
     disk_init();
     superblock_read();
 }
 
 /* close the filesystem, writing everything to disk
  * returns (none) */
-fs_close(){
+void fs_close(){
     file_put_all();
     inode_put_all();
     buffer_flush_all();

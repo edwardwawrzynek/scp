@@ -13,7 +13,7 @@ struct file_entry file_table[FILE_TABLE_ENTRIES];
 /* get a free entry in the file table
  * returns (struct file_entry *) */
 
-file_alloc(){
+struct file_entry * file_alloc(){
     uint16_t i;
     for(i = 0; i < FILE_TABLE_ENTRIES; ++i){
         //no references to the entry
@@ -29,7 +29,7 @@ file_alloc(){
  * flags
  * returns (struct file_entry *) - the file entry, or NULL on failure */
 
-file_get(uint16_t inum, uint8_t mode){
+struct file_entry * file_get(uint16_t inum, uint8_t mode){
     struct file_entry * res;
     res = file_alloc();
     //Init refs
@@ -64,7 +64,7 @@ file_get(uint16_t inum, uint8_t mode){
  * free in the file table, if it no longer has refrences
  * returns (none) */
 
-file_put(struct file_entry * file){
+void file_put(struct file_entry * file){
     //decrease refs
     --file->refs;
     //remove if no longer referenced
@@ -79,7 +79,7 @@ file_put(struct file_entry * file){
 /* release all file pointers
  * returns (none) */
 
-file_put_all(){
+void file_put_all(){
     uint16_t i;
     for(i = 0; i < FILE_TABLE_ENTRIES; ++i){
         file_put(file_table + i);
@@ -89,7 +89,7 @@ file_put_all(){
 /* set the buffer for a file to the correct one for the pos
  * returns (none) */
 
-file_set_buf(struct file_entry * file){
+void file_set_buf(struct file_entry * file){
     uint16_t blk_i;
     blk_i = (file->pos) >> DISK_BLK_SIZE_EXP;
     while(blk_i >= file->ind->num_blks){
@@ -106,7 +106,7 @@ file_set_buf(struct file_entry * file){
 /* write bytes bytes from buf into the file file. write flag must be set
  * returns (uint16_t) - the number of bytes written*/
 
-file_write(struct file_entry * file, uint8_t * buffer, uint16_t bytes){
+uint16_t file_write(struct file_entry * file, uint8_t * buffer, uint16_t bytes){
     uint16_t bytes_c;
     bytes_c = bytes;
     if(!(file->mode & FILE_MODE_WRITE)){
@@ -129,7 +129,7 @@ file_write(struct file_entry * file, uint8_t * buffer, uint16_t bytes){
 /* reads bytes bytes into buf fom the file file. only reads to end of file.
  * returns (uint16_t) - the number of bytes read*/
 
-file_read(struct file_entry * file, uint8_t * buffer, uint16_t bytes){
+uint16_t file_read(struct file_entry * file, uint8_t * buffer, uint16_t bytes){
     uint16_t bytes_c;
     bytes_c = bytes;
     if(!(file->mode & FILE_MODE_READ)){
@@ -154,7 +154,7 @@ file_read(struct file_entry * file, uint8_t * buffer, uint16_t bytes){
  * offset from cur pos, 3-offset from end.
  * returns (uint16_t) the new position */
 
-file_seek(struct file_entry * file, int16_t offset, uint8_t mode){
+uint16_t file_seek(struct file_entry * file, int16_t offset, uint8_t mode){
     switch(mode){
     case SEEK_CUR:
         file->pos += offset;
@@ -174,6 +174,6 @@ file_seek(struct file_entry * file, int16_t offset, uint8_t mode){
 /* return the position in the file
  * returns (uint16_t) */
 
-file_tell(struct file_entry * file){
+uint16_t file_tell(struct file_entry * file){
     return file->pos;
 }

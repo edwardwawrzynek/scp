@@ -25,14 +25,14 @@ static uint16_t int_handler_reg_pc;
  * sets sp to zero so that part of the kernel isn't overwritten by sp from proc */
 #define _int_begin_exec() _asm("    lwia    #0\n    masp\n")
 
-_int0_handler(){
+void _int0_handler(){
   _int_save_state();
   _int_begin_exec();
   proc_set_cpu_state(proc_current_proc, int_handler_reg_a, int_handler_reg_b, int_handler_reg_pc, int_handler_reg_sp);
   shed_shedule();
   printf("Something went wrong\n");
 }
-_int1_handler(){
+void _int1_handler(){
   _int_save_state();
   _int_begin_exec();
   proc_set_cpu_state(proc_current_proc, int_handler_reg_a, int_handler_reg_b, int_handler_reg_pc, int_handler_reg_sp);
@@ -40,29 +40,29 @@ _int1_handler(){
   printf("Something went wrong\n");
 }
 
-_int2_handler(){
+void _int2_handler(){
   _int_save_state();
   _int_begin_exec();
   proc_set_cpu_state(proc_current_proc, int_handler_reg_a, int_handler_reg_b, int_handler_reg_pc, int_handler_reg_sp);
   shed_shedule();
   printf("Something went wrong\n");
 }
-_int3_handler(){
+void _int3_handler(){
     printf("Int 3 triggered\n");
     switch_to_user();
     while(1){}
 }
-_int4_handler(){
+void _int4_handler(){
     printf("Int 4 triggered\n");
     switch_to_user();
     while(1){}
 }
-_int5_handler(){
+void _int5_handler(){
     printf("Int 5 triggered\n");
     switch_to_user();
     while(1){}
 }
 
-_int_reset_timer(uint16_t n){
+void _int_reset_timer(uint16_t n){
     outp(255, n);
 }

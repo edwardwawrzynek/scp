@@ -10,7 +10,7 @@ struct inode inode_table[INODE_TABLE_ENTRIES];
 /* alloc a free inode from the table - don't adjust refs
  * returns (struct inode *) */
 
-inode_alloc(){
+struct inode * inode_alloc(){
     uint16_t i;
     for(i = 0; i < INODE_TABLE_ENTRIES; ++i){
 #ifndef INODE_TABLE_KEEP_OPEN
@@ -41,7 +41,7 @@ inode_alloc(){
 /* load a disk_inode from disk into the inode pointer, in-core values are left
  * returns (none) */
 
-inode_load(struct inode * in, uint16_t inum){
+void inode_load(struct inode * in, uint16_t inum){
     uint16_t blk_num, offset;
     //don't load if inum is higher than number of inodes
     if(inum >= superblk.num_inodes){
@@ -59,7 +59,7 @@ inode_load(struct inode * in, uint16_t inum){
 /* write a disk_inode to disk - just copies values, no other processing
  * returns (none) */
 
-inode_write(struct inode * in, uint16_t inum){
+void inode_write(struct inode * in, uint16_t inum){
     uint16_t blk_num, offset;
     //don't load if inum is higher than number of inodes
     if(inum >= superblk.num_inodes){
@@ -80,7 +80,7 @@ inode_write(struct inode * in, uint16_t inum){
  * if nessesary, setting in-core values
  * returns (struct inode *) - the inode, or NULL on failure */
 
-inode_get(uint16_t inum){
+struct inode * inode_get(uint16_t inum){
     uint16_t i;
     struct inode * res;
     //check if it is already loaded
@@ -127,7 +127,7 @@ inode_get(uint16_t inum){
  * writes it to disk, and frees the in-core copy for future use
  * returns (none) */
 
-inode_put(struct inode * in){
+void inode_put(struct inode * in){
     //dec references
     --in->refs;
     //if the inode is no longer referenced, free it
@@ -142,7 +142,7 @@ inode_put(struct inode * in){
 /* releases an inode, regardless of its refs count - shouldn't be called directly
  * returns (none) */
 
-inode_force_put(struct inode * in){
+void inode_force_put(struct inode * in){
     //only write if the inode is referencing an inode other than the 0 inode
     //0 inode shouldn't be changed directly, and unloaded inodes have inum set to zero anyway
     if(in->inum){
@@ -156,7 +156,7 @@ inode_force_put(struct inode * in){
 /* release all inodes
  * returns none */
 
-inode_put_all(){
+void inode_put_all(){
     uint16_t i;
     for(i = 0; i < INODE_TABLE_ENTRIES; ++i){
         inode_force_put(inode_table+i);
@@ -167,7 +167,7 @@ inode_put_all(){
  * balloc_alloc() from returning the block twice.
  * returns (none) - the new blk number should be accessed through the blks list */
 
-inode_add_blk(struct inode * ind){
+void inode_add_blk(struct inode * ind){
     //The old size alloc'd
     uint16_t old_size;
     uint16_t *i;
@@ -192,7 +192,7 @@ inode_add_blk(struct inode * ind){
  * it a first starting block, and setting num_blks
  * returns (none) */
 
-inode_truncate(struct inode * ind){
+void inode_truncate(struct inode * ind){
     uint16_t blks[2];
     uint16_t *i;
     //set size
@@ -214,7 +214,7 @@ inode_truncate(struct inode * ind){
  * or other resources allocated to it
  * returns (uint16_t) - the inum of the new inode */
 
-inode_new(uint16_t dev_num, uint8_t flags){
+uint16_t inode_new(uint16_t dev_num, uint8_t flags){
     uint16_t i;
     struct inode ind;
     uint16_t blks[2];
@@ -253,7 +253,7 @@ inode_new(uint16_t dev_num, uint8_t flags){
  * regardless of if it is being used
  * returns (none) */
 
-inode_delete(uint16_t inum){
+void inode_delete(uint16_t inum){
     struct inode ind;
     //load inode
     inode_load(&ind, inum);

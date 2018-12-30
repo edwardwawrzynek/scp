@@ -9,7 +9,7 @@
  * name, along with its dev number and flags (almost always 0)
  * returns (uint16_t) - the inum of the new inode, or 0 if failure */
 
-dir_make_file(uint16_t dir_inum, uint8_t * name, uint16_t dev_num, uint8_t flags){
+uint16_t dir_make_file(uint16_t dir_inum, uint8_t * name, uint16_t dev_num, uint8_t flags){
     struct file_entry * dir;
     uint16_t entry_i;
     uint16_t new_inum;
@@ -55,7 +55,7 @@ dir_make_file(uint16_t dir_inum, uint8_t * name, uint16_t dev_num, uint8_t flags
  * name. creates . and .. entries, and sets INODE_FLAG_DIR.
  * returns (uint16_t) - the inum of the new directory, or 0 if failure */
 
-dir_make_dir(uint16_t dir_inum, uint8_t * name){
+uint16_t dir_make_dir(uint16_t dir_inum, uint8_t * name){
     uint16_t inum;
     struct file_entry * dir;
     inum = dir_make_file(dir_inum, name, 0, INODE_FLAG_DIR);
@@ -103,7 +103,7 @@ dir_make_dir(uint16_t dir_inum, uint8_t * name){
  * sets the entry's inode to zero, and decs its link count
  * returns (uint16_t) 0 for success, or a non-0 value on failure */
 
-dir_delete_file(uint16_t dir_inum, uint8_t *name){
+uint16_t dir_delete_file(uint16_t dir_inum, uint8_t *name){
     struct file_entry * dir;
     uint16_t inum;
     struct inode * ind;
@@ -157,7 +157,7 @@ dir_delete_file(uint16_t dir_inum, uint8_t *name){
  * is written to name.
  * returns (uint16_t) - 0 on failure, inum of file on success*/
 
-dir_next_entry(struct file_entry * file, uint8_t * name){
+uint16_t dir_next_entry(struct file_entry * file, uint8_t * name){
     uint16_t res;
     //Read
     do {
@@ -174,7 +174,7 @@ dir_next_entry(struct file_entry * file, uint8_t * name){
  * gets the inode number of an entry in the directory with dir_inum
  * returns (uint16_t) - the inum of the file, or 0 if not found, or other failure */
 
-dir_name_inum(uint16_t dir_inum, uint8_t *name){
+uint16_t dir_name_inum(uint16_t dir_inum, uint8_t *name){
     struct file_entry * dir;
     uint16_t res;
     dir = file_get(dir_inum, FILE_MODE_READ);

@@ -9,7 +9,7 @@
  * for now, this just goes to the next valid process after proc_current_proc and executes it
  * returns (none) - doesn't return (runs next proc instead) */
 
-shed_shedule(){
+void shed_shedule(){
   //proc_current_proc's index in process table
   uint16_t proc_index, i;
   proc_index = proc_current_proc->mmu_index;

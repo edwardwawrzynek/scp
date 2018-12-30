@@ -22,7 +22,7 @@
  * returns (nones)
  */
 
-mmu_proc_table_out(unsigned char * table, unsigned int offset){
+void mmu_proc_table_out(unsigned char * table, unsigned int offset){
     unsigned int i;
     for(i = 0; i < 32; ++i){
         offset+i;
@@ -48,7 +48,7 @@ mmu_proc_table_out(unsigned char * table, unsigned int offset){
 /* set a page table entry to a specific value
  * returns (none) */
 
-mmu_set_page(uint16_t page_addr, uint8_t value){
+void mmu_set_page(uint16_t page_addr, uint8_t value){
     page_addr;
     _asm("  aptb\n");
     value;
@@ -62,7 +62,7 @@ mmu_set_page(uint16_t page_addr, uint8_t value){
  * used in the boot process
  * returns (none) */
 
-mmu_init_clear_table(){
+void mmu_init_clear_table(){
     unsigned int i;
     for(i = 32; i < 2048; ++i){
         i;

@@ -13,7 +13,7 @@ char *arg2;
 char *arg3;
 
 #define DIGARR "0123456789abcdef"
-hexdump(unsigned char * mem, unsigned int n){
+void hexdump(unsigned char * mem, unsigned int n){
     unsigned char * dig;
     unsigned int i, j;
     unsigned char is_end;
@@ -38,7 +38,7 @@ hexdump(unsigned char * mem, unsigned int n){
     }
 }
 
-list_dir(struct file_entry * dir){
+void list_dir(struct file_entry * dir){
     uint16_t i;
     uint8_t name[14];
     i = dir_next_entry(dir, name);
@@ -49,7 +49,7 @@ list_dir(struct file_entry * dir){
 }
 
 
-debug(){
+void debug(){
     _asm("\n\
         .db #254\n\
         .db #1\n\
@@ -57,7 +57,7 @@ debug(){
 }
 
 //switch back to user mode in kernel to allow ints (just for testing/debug)
-switch_to_user(){
+void switch_to_user(){
     _asm("\n\
         lbia    #0\n\
         aptb\n\
@@ -66,7 +66,7 @@ switch_to_user(){
 }
 
 //switch to system mode in kernel (just for testing/debug)
-switch_to_sys(){
+void switch_to_sys(){
     _asm("\n\
         lbia    #0\n\
         aptb\n\
@@ -75,7 +75,7 @@ switch_to_sys(){
 }
 
 //load a file from the serial port
-serial_load(uint16_t cwd, char * file){
+void serial_load(uint16_t cwd, char * file){
     struct file_entry * f;
     uint16_t i;
     //buffer of bytes - bytes[0] is most recently recv'd
@@ -115,7 +115,7 @@ serial_load(uint16_t cwd, char * file){
 }
 
 //print the contents of a file
-file_print(uint16_t cwd, char * file){
+void file_print(uint16_t cwd, char * file){
     struct file_entry * f;
     uint16_t i;
     uint8_t ind;
@@ -131,7 +131,7 @@ file_print(uint16_t cwd, char * file){
     }
 }
 
-main(){
+int main(){
     struct file_entry * fin;
     struct proc * pproc;
     struct proc * pproc2;
@@ -235,7 +235,7 @@ main(){
 }
 
 #define EOL 10
-atoi(s) char s[];{
+int atoi(s) char s[];{
         int i,n,sign;
         for (i=0; (s[i] == ' ') | (s[i] == EOL) | (s[i] == '\t'); ++i);
         sign = 1;
@@ -249,7 +249,7 @@ atoi(s) char s[];{
         return (sign * n);
 
 }
-_isdigit(c) char c;{
+int _isdigit(c) char c;{
         if (c >= '0' & c <= '9')      return(1);
         else                            return(0);
         }

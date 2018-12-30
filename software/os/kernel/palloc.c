@@ -20,7 +20,7 @@ uint8_t palloc_page_in_use[MMU_NUM_PROCS];
 
 /* get a new page, and mark it as in use
  * returns (uint8_t) - the page addr, suitable for use in a mem_map array*/
-palloc_new(){
+uint8_t palloc_new(){
     unsigned int i;
     for(i = 0; i < MMU_NUM_PROCS; ++i){
         if(!palloc_page_in_use[i]){
@@ -33,6 +33,6 @@ palloc_new(){
 
 /* free a page, and mark it as free
  * returns (none) */
-palloc_free(uint8_t i){
+void palloc_free(uint8_t i){
     palloc_page_in_use[i & 0b01111111] = 0;
 }
