@@ -1,6 +1,15 @@
 all: ../bin/libc.o
 
-OBJS = bin/ctype.o bin/string.o
+SUBDIRS = ctype string stdlib
 
-../bin/libc.o: $(OBJS)
+.PHONY: subdirs $(SUBDIRS)
+
+subdirs: $(SUBDIRS)
+
+$(SUBDIRS):
+	$(MAKE) -C $@
+
+OBJS = bin/ctype.o bin/string.o bin/stdlib.o
+
+../bin/libc.o: $(OBJS) subdirs
 	vc -o ../bin/libc.o $(OBJS)

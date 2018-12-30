@@ -224,7 +224,7 @@ static long real_stack_offset(struct obj *o)
 static void function_top(FILE *f,struct Var *v,long offset)
 {
   /* put in text section */
-  emit(f, "\t.text\n");
+  emit(f, "\t.text\n\t.align\n");
   if(v->storage_class==EXTERN){
     emit(f,"%s%s:\n",idprefix,v->identifier);
     if((v->flags&(INLINEFUNC|INLINEEXT))!=INLINEFUNC){

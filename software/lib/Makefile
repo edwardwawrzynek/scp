@@ -1,4 +1,4 @@
-SUBDIRS = crt inout test
+SUBDIRS = crt inout test dev libc
 
 .PHONY: subdirs $(SUBDIRS)
 

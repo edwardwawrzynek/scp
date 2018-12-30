@@ -9,9 +9,6 @@
 #include <inout.h>
 #include <stdint.h>
 
-#include <string.h>
-#include <stdarg.h>
-
 /* tty device structure */
 struct _tty_dev {
     /* x position */
@@ -21,7 +18,7 @@ struct _tty_dev {
 };
 
 /* only one tty is supported right now - other ttys will probably need different drivers */
-struct _tty_dev tty;
+static struct _tty_dev tty;
 
 /* scroll the text on the screen */
 static void tty_scroll(){
@@ -78,7 +75,7 @@ static int tty_putc(char c){
 }
 
 /* read in a char from the txt input */
-int tty_getc(){
+static int tty_getc(){
     int inWaiting = inp(_key_in_waiting_port);
     if(inWaiting){
         uint16_t res = inp(_key_data_in_port);
@@ -108,60 +105,7 @@ int _tty_close(int minor){
     return 0;
 }
 
-/* write - just call tty_putc */
+/* generate read and write methods */
 gen_write_from_putc(_tty_write, tty_putc)
 
 gen_read_from_getc(_tty_read, tty_getc)
-
-/* write wrapper */
-void write(int (*func)(int, uint8_t *, size_t, uint8_t *), char *msg, size_t bytes){
-    uint8_t eof;
-    func(0, msg, bytes, &eof);
-}
-
-/* read wrapper */
-void read(int (*func)(int, uint8_t *, size_t, uint8_t *), char *msg, size_t bytes){
-    uint8_t eof;
-    int size;
-
-    do{
-        size = func(0, msg, bytes, &eof);
-        if(eof){
-            return;
-        }
-        msg += size;
-        bytes -= size;
-    } while(bytes);
-}
-
-char *msg = "hello, world!";
-
-char buf[200];
-
-char * nums = "01234567789abcdef";
-
-void hex(int a){
-    tty_putc(nums[(a>>12)&0xf]);
-    tty_putc(nums[(a>>8)&0xf]);
-    tty_putc(nums[(a>>4)&0xf]);
-    tty_putc(nums[(a)&0xf]);
-}
-
-void print_strings(int num, ...){
-    va_list args;
-
-
-    va_start(args, num);
-    for(int i = 0; i < num; i++){
-        char *msg = va_arg(args, char*);
-        write(_tty_write, msg, strlen(msg));
-        //tty_putc('a');
-    }
-    va_end(args);
-}
-
-int main(){
-
-    print_strings(4, "hello, world\n", "hi\n", "hello, testing 2 3 4 5 6 7 8 9", "hello---\n");
-    while(1){};
-}

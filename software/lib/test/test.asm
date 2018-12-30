@@ -18,7 +18,7 @@ _main:
 	call.j.sp sp _set
 	alu.r.i add sp 2
 	ld.r.p.w re sp
-l2:
+l3:
 	alu.r.i add sp 2
 	pop.r.sp r0 sp
 	ret.n.sp sp

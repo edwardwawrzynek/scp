@@ -9,20 +9,20 @@
 /** open a device with the given minor number, returning 0 on success and 1 on failure
   * driver has to handle alloc'ing any data structures it needs (drivers will probably just have a small static array and a limited number of devices, use malloc, or only support one device) */
 
-int _dev_open(int minor);
+/*  int _dev_open(int minor); */
 
 /** close the device with the given minor number,
  * return 0 on success, 1 on failure (should always succed) */
 
-int _dev_close(int minor);
+/*  int _dev_close(int minor);  */
 
 /** read from the device, returning the number of bytes read. If the returned value doesn't equal the requested number of bytes, set eof to explain why. If eof is true, end of file has been reached. If eof is false, then something is just blocking (waiting on keyboard, etc). Eof doesn't matter if number of bytes written equals number requested */
 
-int _dev_read(int minor, uint8_t *buf, size_t bytes, uint8_t *eof);
+/*  int _dev_read(int minor, uint8_t *buf, size_t bytes, uint8_t *eof); */
 
 /** write memory to the device, returning the number of bytes written. Set eof to if the end of file had been reached or not (not really useful for write, more for read. eof only matters if the retunr value doesn't match the number of bytes asked to be written) */
 
-int _dev_write(int minor, uint8_t *buf, size_t bytes, uint8_t *eof);
+/*  int _dev_write(int minor, uint8_t *buf, size_t bytes, uint8_t *eof); */
 
 /** macro to generate write method given a putc - putc should return -1 if the function should stop and set eof, -2 if it should stop and clear eof */
 #define gen_write_from_putc(write_func_name, putc)                              \
@@ -51,4 +51,12 @@ int _dev_write(int minor, uint8_t *buf, size_t bytes, uint8_t *eof);
         return read;                                                            \
     }
 
-/** TODO: allow drivers to just implement putc and getc and have read and write wrappers on top of that. Also ioctl */
+/* Device table entry */
+
+struct dev_entry {
+    int (*_open)(int minor);
+    int (*_close)(int minor);
+    int (*_read)(int minor, uint8_t *buf, size_t bytes, uint8_t *eof);
+    int (*_write)(int minor, uint8_t *buf, size_t bytes, uint8_t *eof);
+};
+
