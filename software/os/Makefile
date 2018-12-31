@@ -1,32 +1,26 @@
-ASSEMS =\
-	lib/getchar.s	lib/gets.s	lib/inout.s	lib/kmalloc.s	lib/printf.s	lib/printn.s	lib/putchar.s	lib/serial.s	lib/string.s\
-	fs/disk.s	fs/buffer.s	fs/balloc.s	fs/superblock.s	fs/inode.s	fs/file.s	fs/dir.s	fs/fs.s\
-	kernel/panic.s	kernel/mmu.s	kernel/palloc.s	kernel/proc.s	kernel/kernel.s	kernel/int_handler.s	kernel/shed.s
+DEPS = \
+dev/dev.h 	dev/devices.h 	dev/serial.h 	dev/tty.h	\
+lib/kstdio_layer/kstdio_layer.h
 
-HEADERS =\
-	lib/getchar.h	lib/gets.h	lib/inout.h	lib/kmalloc.h	lib/printf.h	lib/printn.h	lib/putchar.h	lib/serial.h	lib/string.h\
-	fs/disk.h	fs/buffer.h	fs/balloc.h	fs/superblock.h	fs/inode.h	fs/file.h	fs/dir.h	fs/fs.h\
-	kernel/panic.h	kernel/mmu.h	kernel/palloc.h	kernel/proc.h	kernel/kernel.h kernel/int_handler.h	kernel/shed.h
+OBJS = \
+dev/devices.o	dev/serial.o	dev/tty.o				\
+lib/kstdio_layer/kstdio_layer.o							\
+main_test.c
 
-INCL_HEADERS =\
-	lib/incl.h	fs/incl.h	kernel/incl.h
+CC = vc
 
-TOOLS = tools/*.s
+CFLAGS = -c99 -I.
+CFLAGS += -O3 -size
 
-MAIN = main_test.s
+CFLAGS += -linout
 
 all: a.out
 
-a.out: $(HEADERS) $(INCL_HEADERS) $(ASSEMS) $(MAIN)
-	scpc -v -l kernel/kernel_start.s -l ~/scp_software/lib/include/crun.s -a out.s -f kernel/brk_init.s -c $(ASSEMS) $(MAIN)
+%.o: %.c $(DEPS)
+	$(CC) -c -o $@ $< $(CFLAGS)
 
-$(ASSEMS) $(MAIN) $(TOOLS): %.s: %.c
-	scpc -X $<
+a.out: $(OBJS)
+	$(CC) -o a.out $(OBJS) $(CFLAGS)
 
-$(HEADERS): %.h: %.c
-	rm -f $@;\
-	makeheaders $<
-
-$(INCL_HEADERS): $(HEADERS)
-	rm -f $@;\
-	cat $$(echo $@ | cut -d "/" -f 1)/*.h > $@
+clean:
+	rm -f $(OBJS)

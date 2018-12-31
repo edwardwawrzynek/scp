@@ -24,7 +24,7 @@ int putchar(int c){
     return eof ? EOF : c;
 }
 
-static int raw_getchar(void){
+int getchar(void){
     uint8_t eof = 0;
     int c = 0;
     int written;
@@ -35,34 +35,6 @@ static int raw_getchar(void){
     return eof ? EOF : c;
 }
 
-static int getchar_shifted = 0;
-
-static char * shifted_charset = " !\"#$%&\"()*+<_>?)!@#$%^&*(::<+>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ{|}^_~ABCDEFGHIJKLMNOPQRSTUVWXYZ{|}~\\";
-
-int getchar(void){
-    char c = raw_getchar();
-
-    if(c == 16){
-        getchar_shifted = 1;
-        return getchar();
-    }
-    else if(c == (0x100 + 16)){
-        getchar_shifted = 0;
-        return getchar();
-    } else {
-        if(c & 0x100){
-            return getchar();
-        }
-        if(getchar_shifted){
-            return shifted_charset[c-32];
-        } else {
-            return c;
-        }
-
-    }
-
-}
-
 int puts(char *str){
     while((*str)) {
         if(putchar(*(str++)) == EOF){
@@ -70,5 +42,6 @@ int puts(char *str){
         }
     }
 
-    return 1;
+    /* newline */
+    return putchar('\n') == EOF ? EOF : 1;
 }
