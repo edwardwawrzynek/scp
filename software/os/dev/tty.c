@@ -6,7 +6,7 @@
 
 #include "dev.h"
 
-#include <inout.h>
+#include <lib/inout.h>
 #include <stdint.h>
 
 /* tty device structure */

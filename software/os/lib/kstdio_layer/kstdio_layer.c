@@ -31,7 +31,7 @@ int getchar(void){
     int c = 0;
     int written;
     do {
-        written = devices[cur_out_dev]._read(0, &c, 1, &eof);
+        written = devices[cur_out_dev]._read(0, (uint8_t*)&c, 1, &eof);
     } while((written != 1) && (!eof));
 
     return eof ? EOF : c;

@@ -1,24 +1,11 @@
-//a struct can't uses itself as a member (due to scc wierdness), so 2 fake header structs are defined
-struct _malloc_header_f1 {
-    unsigned int * prev;
-    unsigned int * next;
-    unsigned int size;
-    unsigned char free;
-};
+#include <lib/string.h>
 
-struct _malloc_header_f2 {
-    struct _malloc_header_f1 * prev;
-    struct _malloc_header_f1 * next;
-    unsigned int size;
-    unsigned char free;
-};
-
-//Real Header
+//Header before every malloc'd block of memory
 struct _malloc_header {
     //ptr to previous header
-    struct _malloc_header_f2 * prev;
+    struct _malloc_header * prev;
     //ptr to next header
-    struct _malloc_header_f2 * next;
+    struct _malloc_header * next;
     //size of the block in bytes - NOT including header
     unsigned int size;
     //whether the block is free or not
@@ -26,7 +13,7 @@ struct _malloc_header {
 };
 
 //pointer to end of data segment, will later be gotten by sbrk
-static unsigned char * brk;
+static unsigned char * brk = 0x8000;
 
 //pointer to first and last blocks(set when first block is created)
 static struct _malloc_header * _malloc_head;
@@ -34,7 +21,7 @@ static struct _malloc_header * _malloc_tail;
 
 
 //create a new block, link it to _prev_blk, and return a pointer to the start of the data area of the blk
-_malloc_new(unsigned int size, struct _malloc_header * prev_blk){
+static unsigned char * _malloc_new(unsigned int size, struct _malloc_header * prev_blk){
     struct _malloc_header header;
 
     header.free = 0;
@@ -44,20 +31,20 @@ _malloc_new(unsigned int size, struct _malloc_header * prev_blk){
     //memcpy header to memory
     memcpy(brk, &header, sizeof(struct _malloc_header));
     if(prev_blk){
-        prev_blk->next = brk;
+        prev_blk->next = (struct _malloc_header *) brk;
     } else {
         //set _malloc_head to be this block
-        _malloc_head = brk;
+        _malloc_head = (struct _malloc_header *) brk;
     }
     //set _malloc_tail
-    _malloc_tail = brk;
+    _malloc_tail = (struct _malloc_header *) brk;
     //increment brk the appropriate amount
     brk += sizeof(struct _malloc_header) + size;
     return brk - size;
 }
 
 //attempt to combine a free block with those before and after it if they are free
-_malloc_combine(struct _malloc_header * header){
+static void _malloc_combine(struct _malloc_header * header){
     if(header->next){
         if(header->next->free){
             //combine with the next block, using this block's header as the final result's header
@@ -75,7 +62,7 @@ _malloc_combine(struct _malloc_header * header){
 }
 
 
-kmalloc(unsigned int size){
+void * kmalloc(size_t size){
     struct _malloc_header new;
     struct _malloc_header *cur;
     unsigned char *loc;
@@ -88,7 +75,7 @@ kmalloc(unsigned int size){
             //Mark the block in use
             cur->free = 0;
             //set loc
-            loc = cur;
+            loc = (unsigned char *) cur;
             extra_space = cur->size - size;
             //If the block can be split and the second half have enough space for another header + at leats 1 byte of data, do so
             if(extra_space > sizeof(struct _malloc_header)){
@@ -105,11 +92,11 @@ kmalloc(unsigned int size){
                 //adjust the list to include the new block
                 //if there is is a block after the new one, set that, or, if not, set _malloc_tail
                 if(cur->next){
-                    cur->next->prev = new_loc;
+                    cur->next->prev = (struct _malloc_header *) new_loc;
                 } else {
-                    _malloc_tail = new_loc;
+                    _malloc_tail = (struct _malloc_header *) new_loc;
                 }
-                cur->next = new_loc;
+                cur->next = (struct _malloc_header *) new_loc;
             }
 
             return loc+sizeof(struct _malloc_header);
@@ -120,7 +107,7 @@ kmalloc(unsigned int size){
     return _malloc_new(size, _malloc_tail);
 }
 
-kcalloc(unsigned int nvals, unsigned int svals){
+void * kcalloc(unsigned int nvals, unsigned int svals){
     unsigned int size;
     unsigned char *ptr;
     unsigned char *ptr2;
@@ -133,20 +120,20 @@ kcalloc(unsigned int nvals, unsigned int svals){
     return ptr;
 }
 
-kfree(unsigned char *ptr){
+void kfree(unsigned char *ptr){
     struct _malloc_header * header;
     //Get the header for the blk
-    header = ptr - sizeof(struct _malloc_header);
+    header = ((struct _malloc_header *)ptr) - 1;
     //Mark as free
     header->free = 1;
     //Check if the block above or below is free, and, if so, combine with it
     _malloc_combine(header);
 }
 
-krealloc(unsigned char *ptr, unsigned int size){
+void * krealloc(unsigned char *ptr, size_t size){
     struct _malloc_header *header;
     unsigned char *res;
-    header = ptr - sizeof(struct _malloc_header);
+    header = ((struct _malloc_header *) ptr) - 1;
     res = kmalloc(size);
     memcpy(res, ptr, header->size);
     kfree(ptr);

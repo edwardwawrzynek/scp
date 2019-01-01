@@ -5,10 +5,6 @@ typedef unsigned int size_t;
 
 typedef unsigned int ptrdiff_t;
 
-#ifndef NULL
-
 #define NULL 0
-
-#endif
 
 #endif
