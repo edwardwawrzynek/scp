@@ -52,7 +52,7 @@ class CPU {
     /* init the machine to startup state (not counting memory), or io */
     void reset();
     /* start up the machine's io */
-    void init_io(bool serial_en, bool gfx_en, char * serial_port);
+    void init_io(bool serial_en, bool gfx_en, bool disk_en, char * serial_port, char * disk_file);
     /* update the machine's io */
     void update_io();
     /* read a binary file into memory */

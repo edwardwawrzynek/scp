@@ -57,4 +57,6 @@ class GfxIO {
     /* init the window */
     void init();
 
+    void close();
+
 };

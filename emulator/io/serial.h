@@ -35,4 +35,6 @@ class SerialIO {
     /* open the serial port with path file */
     void open(char * file);
 
+    void close();
+
 };

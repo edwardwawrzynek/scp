@@ -31,6 +31,12 @@ void SerialIO::open(char * file){
 }
 
 /**
+ * close the serial subsystem */
+void SerialIO::close(){
+    sp_close(serial_port);
+}
+
+/**
  * write a byte to the port */
 void SerialIO::write(char val){
     /* write out, don't block */

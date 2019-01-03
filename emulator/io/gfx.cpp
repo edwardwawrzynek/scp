@@ -295,3 +295,7 @@ void GfxIO::io_write(uint8_t port, uint16_t val){
         break;
   }
 }
+
+void GfxIO::close(){
+  /* Nothing to close */
+};
