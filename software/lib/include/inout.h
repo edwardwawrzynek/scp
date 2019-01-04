@@ -1,1 +1,1 @@
-/home/edward/scp_software/lib/inout/inout.h
+/home/edward/scp/software/lib/inout/inout.h

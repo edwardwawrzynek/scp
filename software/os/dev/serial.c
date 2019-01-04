@@ -21,7 +21,7 @@ static struct _serial_dev serial;
 static int serial_putc(char c){
     /* we can wait for uart to finish sending - it is pretty fast - we could return and just not set eof */
     while(inp(_serial_tx_busy_port));
-    outp(3, c);
+    outp(_serial_data_out_port, c);
     return 0;
 }
 
@@ -33,7 +33,7 @@ static int serial_getc(){
         return -2;
     }
     res = inp(_serial_data_in_port);
-    outp(1, 1);
+    outp(_serial_next_port, 1);
     return res;
 }
 

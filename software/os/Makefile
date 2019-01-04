@@ -5,14 +5,14 @@ dev/dev.h 	dev/devices.h 	dev/serial.h 	dev/tty.h	\
 lib/kstdio_layer/kstdio_layer.h							\
 lib/string/string.h										\
 lib/kmalloc/kmalloc.h									\
-lib/inout/inout.h										\
+lib/inout/inout.h lib/inout/__inoutp.h					\
 
 
 OBJS = \
 dev/devices.o	dev/serial.o	dev/tty.o				\
 lib/kstdio_layer/kstdio_layer.o							\
 lib/string/string.o										\
-lib/inout/inp.o											\
+lib/inout/inoutp.o										\
 lib/kmalloc/kmalloc.o									\
 main_test.o												\
 

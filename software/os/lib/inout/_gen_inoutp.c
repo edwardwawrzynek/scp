@@ -1,0 +1,1 @@
+/home/edward/scp/software/lib/inout/_gen_inoutp.c

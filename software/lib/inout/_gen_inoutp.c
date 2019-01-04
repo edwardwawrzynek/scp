@@ -50,7 +50,7 @@ struct port_name port_names[] = {
 
 int main(int argc, char ** argv){
     if(argc != 4){
-        printf("Usage: _gen_inpc inp.asm __inp.h max_port_num\n");
+        printf("Usage: _gen_inpc inoutp.asm __inoutp.h max_port_num\n");
         exit(1);
     }
     int max_port = atoi(argv[3]);
@@ -66,7 +66,7 @@ int main(int argc, char ** argv){
         exit(1);
     }
 
-    fprintf(out, ";\tAuto-generated inp definitions for scp\n\t.text\n");
+    fprintf(out, ";\tAuto-generated inp and outp definitions for scp\n\t.text\n\t.align\n");
 
     for(int i = 0; i <= max_port; i++){
         for(int p = 0; p < (sizeof(port_names)/sizeof(struct port_name)); p++){
@@ -78,6 +78,17 @@ int main(int argc, char ** argv){
 
         fprintf(out, "__inp_%u:\n\t.global __inp_%u\n\tin.r.p re %u\n\tret.n.sp sp\n", i, i, i);
         fprintf(outh, "int _inp_%u(void);\n", i);
+
+        for(int p = 0; p < (sizeof(port_names)/sizeof(struct port_name)); p++){
+            if(i == port_names[p].port){
+                fprintf(out, "__outp_%s:\n\t.global __outp_%s\n", port_names[p].name, port_names[p].name);
+                fprintf(outh, "void _outp_%s(__reg(\"ra\") int val);\n", port_names[p].name);
+            }
+        }
+
+        fprintf(out, "__outp_%u:\n\t.global __outp_%u\n\tout.r.p ra %u\n\tret.n.sp sp\n", i, i, i);
+        fprintf(outh, "void _outp_%u(__reg(\"ra\") int val);\n", i);
+
 
     }
 }

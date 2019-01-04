@@ -10,14 +10,16 @@
 
 /* io macros */
 
-#define outp(port, val) do{static void _tmp_outp(__reg("r0") int dval) = "\tout.r.p r0 " #port "\n";_tmp_outp(val);}while(0);
+//#define outp(port, val) do{static void _tmp_outp(__reg("r0") int dval) = "\tout.r.p r0 " #port "\n";_tmp_outp(val);}while(0);
+
+#define outp(port, val) _outp_ ##port(val)
 
 /* functions _inp_xx() have to be defined for this to work
     we can't use an inline asm because vbcc doesn't support returning from inline asm */
 #define inp(port) _inp_ ##port()
 
 /* inp declarations */
-#include "__inp.h"
+#include "__inoutp.h"
 
 /* io port definitions */
 #define _serial_data_in_port 1

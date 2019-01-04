@@ -1,1 +1,0 @@
-/home/edward/scp/software/lib/inout/__inp.h

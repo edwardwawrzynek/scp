@@ -27,13 +27,13 @@ static void tty_scroll(){
     for(i = 0; i < 1920; i++){
         outp(5, i+80);
         val = inp(_text_data_port);
-        outp(5, i);
-        outp(6, val);
+        outp(_text_addr_port, i);
+        outp(_text_data_port, val);
     }
     /* clear last line */
     for(i = 1920; i < 2000; i++){
-        outp(5, i);
-        outp(6, '\0');
+        outp(_text_addr_port, i);
+        outp(_text_data_port, '\0');
     }
 }
 
@@ -66,8 +66,8 @@ static int tty_putc(char c){
         }
     }
     else {
-        outp(5, (tty.pos_y * 80) + tty.pos_x);
-        outp(6, c);
+        outp(_text_addr_port, (tty.pos_y * 80) + tty.pos_x);
+        outp(_text_data_port, c);
 
         tty.pos_x++;
     }
@@ -79,7 +79,7 @@ static int tty_getc_plain(){
     int inWaiting = inp(_key_in_waiting_port);
     if(inWaiting){
         uint16_t res = inp(_key_data_in_port);
-        outp(7, 1);
+        outp(_key_data_in_port, 1);
         /* return releases */
         return res;
     }
