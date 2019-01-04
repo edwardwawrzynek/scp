@@ -4,6 +4,8 @@
 #include "gfx.h"
 #include "ports.h"
 
+void clean_exit(void);
+
 /**
  * reset the subsystem state */
 void GfxIO::reset(){
@@ -234,7 +236,7 @@ void GfxIO::update(){
 
   while( SDL_PollEvent( &window_event ) ){
     if(window_event.type == SDL_QUIT){
-      exit(0);
+      clean_exit();
     }
     if(window_event.type == SDL_KEYDOWN){
       write_key(window_event.key.keysym.sym, 0);

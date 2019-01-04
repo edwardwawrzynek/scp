@@ -21,6 +21,12 @@ void debug(CPU *cpu){
     }
 }
 
+/* exit and close down io */
+void clean_exit(){
+    cpu.io.close();
+    exit(0);
+}
+
 void usage(){
     std::cerr << "Usage: scpemu [options] [bin file]\nOptions:\n-g\t\t:enable the gui\n-s [serial_dev]\t:enable serial output on serial_dev\n-d [disk_file]\t:enable disk io on disk_file\n";
     exit(1);

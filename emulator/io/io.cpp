@@ -81,3 +81,13 @@ void IO::io_write(uint8_t port, uint16_t val){
 
   std::cout << "Undefined port access, or subsystem not enabled\n";
 }
+
+/* close the io system */
+void IO::close(){
+  if(do_serial)
+    io_serial.close();
+  if(do_gfx)
+    io_gfx.close();
+  if(do_disk)
+    io_disk.close();
+}

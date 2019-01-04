@@ -6,6 +6,8 @@
 #include "cpu.h"
 #include "opcodes.h"
 
+void clean_exit(void);
+
 /* cpu functions */
 
 /**
@@ -169,7 +171,7 @@ void CPU::read_file(const char * path){
     file.open(path, std::ios::in | std::ios::binary);
     if(file.fail()) {
         std::cerr << "Error opening file: " << path << "\n";
-        exit(0);
+        exit(1);
     }
     /*read into memory */
     addr = 0;
@@ -399,7 +401,7 @@ void CPU::execute(uint16_t instr, uint16_t imd) {
         case HLT_N_N: /* hlt.n.n - stop the machine */
             std::cout << "scp stopped by hlt.n.n instruction\n";
             std::cout << "main returned: " << regs[0xe] << "\n";
-            exit(0);
+            clean_exit();
             break;
 
         default:
