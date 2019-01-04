@@ -9,7 +9,7 @@
 enum arg_type {end_arg, reg, alu, cnst, label, cond};
 
 /* directive types */
-enum dir_type {dc_b, dc_bs, dc_w, dc_l, ds, align, module, global, external, text, data, rodata, bss, robss};
+enum dir_type {dc_b, dc_bs, dc_w, dc_l, ds, align, module, global, external, text, data, rodata, bss, robss, define};
 /* directive names */
 extern char * dir_names[MAX_DIRS];
 
@@ -90,6 +90,14 @@ struct label {
   uint16_t extern_index;
   /* if the label is in use - only used to remove redundant labels */
   uint8_t in_use;
+};
+
+/* struct representing a define */
+struct def {
+  /* the name */
+  char name [CMD_NAME_SIZE];
+  /* defined value */
+  uint16_t val;
 };
 
 #endif

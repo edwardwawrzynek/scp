@@ -4,6 +4,7 @@
 #include "labels.h"
 #include "io.h"
 #include "decode.h"
+#include "defines.h"
 
 void second_pass(struct instr *i);
 
@@ -48,6 +49,11 @@ uint16_t dir_first_pass(struct instr *i){
         case data:
         case bss:
             cur_seg = 1;
+            return 0;
+
+        /* add a definition */
+        case define:
+            add_def(i->args[0].str, i->args[1].val);
             return 0;
 
         default:
@@ -199,6 +205,9 @@ uint16_t dir_second_pass(struct instr *i){
         case bss:
             cur_seg = 1;
             obj_set_seg(&out, cur_seg);
+            return 0;
+        case define:
+            /* nothing to do here */
             return 0;
 
         default:

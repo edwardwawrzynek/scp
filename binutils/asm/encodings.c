@@ -93,4 +93,4 @@ struct instr_encoding instructions[] = {
 char * alu_ops[16] = {"bor", "bxor", "band", "lsh", "ursh", "srsh", "add", "sub", "mul", "bneg", "neg"};
 
 /* directive names */
-char * dir_names[MAX_DIRS] = {".dc.b", ".dc.bs", ".dc.w", ".dc.l", ".ds", ".align", ".module", ".global", ".extern", ".text", ".data", ".rodata", ".bss", ".robss"};
+char * dir_names[MAX_DIRS] = {".dc.b", ".dc.bs", ".dc.w", ".dc.l", ".ds", ".align", ".module", ".global", ".extern", ".text", ".data", ".rodata", ".bss", ".robss", ".define"};

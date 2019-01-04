@@ -1,5 +1,6 @@
 #include "asm.h"
 #include "io.h"
+#include "defines.h"
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -168,6 +169,16 @@ void line_into_instr(struct instr * instr){
       if(isdigit(*(arg->str)) || *(arg->str) == '-'){
         arg->is_val = 1;
       }
+      /* check if it is defined as something */
+      else {
+        struct def * def = find_def(arg->str);
+        if(def != NULL){
+          arg->is_val = 1;
+          arg->val = def->val;
+        }
+      }
+
+
       /* if we can, set reg */
       if(arg->str[0] == 'r' && !arg->str[2]){
         arg->is_reg = 1;
