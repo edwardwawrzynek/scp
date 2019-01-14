@@ -1,6 +1,9 @@
 #include "include/defs.h"
-#include "fs/incl.h"
-#include "lib/incl.h"
+#include "fs/file.h"
+#include "fs/fs.h"
+#include "fs/inode.h"
+#include <lib/string.h>
+#include <lib/kstdio_layer.h>
 
 //This file contains routines for managing the directory structure
 
@@ -35,7 +38,7 @@ uint16_t dir_make_file(uint16_t dir_inum, uint8_t * name, uint16_t dev_num, uint
     //clear fs_global_buf
     memset(fs_global_buf, 0, DIR_ENTRY_SIZE);
     //set name
-    strcpy(fs_global_buf, name);
+    strncpy(fs_global_buf, name, 14);
     //set inode number in entry
     fs_global_buf[14] = new_inum&0xff;
     fs_global_buf[15] = new_inum>>8;
@@ -45,6 +48,7 @@ uint16_t dir_make_file(uint16_t dir_inum, uint8_t * name, uint16_t dev_num, uint
         file_put(dir);
         return 0;
     }
+
     file_put(dir);
     //new_inode already sets the links to 1
     return new_inum;
@@ -120,7 +124,7 @@ uint16_t dir_delete_file(uint16_t dir_inum, uint8_t *name){
             return 1;
         }
         //compare strings
-        if(!strcmp(name, fs_global_buf) && (fs_global_buf[14] || fs_global_buf[15])){
+        if(!strncmp(name, fs_global_buf, 14) && (fs_global_buf[14] || fs_global_buf[15])){
             break;
         }
     }
@@ -163,7 +167,7 @@ uint16_t dir_next_entry(struct file_entry * file, uint8_t * name){
     do {
         if(file_read(file, fs_global_buf, DIR_ENTRY_SIZE) != DIR_ENTRY_SIZE){
             return 0;
-        };
+        }
     } while (!(fs_global_buf[14] | fs_global_buf[15]));
     res = fs_global_buf[14] + (fs_global_buf[15]<<8);
     memcpy(name, fs_global_buf, 14);
@@ -183,7 +187,8 @@ uint16_t dir_name_inum(uint16_t dir_inum, uint8_t *name){
     }
     while(file_read(dir, fs_global_buf, DIR_ENTRY_SIZE) == DIR_ENTRY_SIZE){
         //don't return deleted files (would return 0 anyway, but this clarifies)
-        if(!strcmp(name, fs_global_buf) && (fs_global_buf[14] | fs_global_buf[15])){
+        if(!strncmp(name, fs_global_buf, 14) && (fs_global_buf[14] || fs_global_buf[15])){
+            printf("match\n");
             res = fs_global_buf[14] + (fs_global_buf[15]<<8);
             file_put(dir);
             return res;

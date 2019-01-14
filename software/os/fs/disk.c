@@ -1,5 +1,7 @@
 #include "include/io.h"
 #include "include/defs.h"
+
+#include <inout.h>
 //Basic disk operations
 
 /**

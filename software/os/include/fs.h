@@ -1,5 +1,8 @@
 #include "include/stdint.h"
 
+/**
+ * NOTE: if fs structs are changed, in any way, the appropriate code for reading and writing them will have to be changed in the respective files. They are no longer memcpy'd */
+
 //Number of bytes in a disk block
 #define DISK_BLK_SIZE 512
 #define DISK_BLK_SIZE_EXP 9
@@ -60,6 +63,9 @@ struct disk_inode {
     //if the inode is in use
     uint8_t in_use;
 };
+
+/* size of inode on disk */
+#define DISK_INODE_SIZE 8
 
 #define INODES_PER_BLK 64
 

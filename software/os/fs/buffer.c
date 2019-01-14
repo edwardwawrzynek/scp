@@ -1,6 +1,9 @@
 #include "include/defs.h"
-#include "fs/incl.h"
-#include "lib/incl.h"
+#include <lib/kmalloc.h>
+#include "fs/disk.h"
+
+#include <panic.h>
+#include "kernel/panic.h"
 
 //Disk buffer operations
 
@@ -38,7 +41,7 @@ struct buffer_header * buffer_get(uint16_t blk){
         if(buffer_table[i].blk == blk && buffer_table[i].refs){
             //inc refs
             ++buffer_table[i].refs;
-            return buffer_table + i;
+            return &buffer_table[i];
         }
     }
     //return a new one, as none with the block number are open

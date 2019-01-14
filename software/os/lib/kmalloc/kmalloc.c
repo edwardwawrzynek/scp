@@ -1,4 +1,5 @@
 #include <lib/string.h>
+#include <stddef.h>
 
 //Header before every malloc'd block of memory
 struct _malloc_header {
@@ -12,8 +13,10 @@ struct _malloc_header {
     unsigned char free;
 };
 
-//pointer to end of data segment, will later be gotten by sbrk
-static unsigned char * brk = 0x8000;
+extern char _BRK_END;
+
+//pointer to end of data segment (_BRK_END is defined in lib/brk_loc/end.asm)
+static unsigned char * brk = &_BRK_END;
 
 //pointer to first and last blocks(set when first block is created)
 static struct _malloc_header * _malloc_head;
@@ -107,8 +110,8 @@ void * kmalloc(size_t size){
     return _malloc_new(size, _malloc_tail);
 }
 
-void * kcalloc(unsigned int nvals, unsigned int svals){
-    unsigned int size;
+void * kcalloc(unsigned int nvals, size_t svals){
+    size_t size;
     unsigned char *ptr;
     unsigned char *ptr2;
     size = nvals*svals;
@@ -120,7 +123,7 @@ void * kcalloc(unsigned int nvals, unsigned int svals){
     return ptr;
 }
 
-void kfree(unsigned char *ptr){
+void kfree(void *ptr){
     struct _malloc_header * header;
     //Get the header for the blk
     header = ((struct _malloc_header *)ptr) - 1;
@@ -130,7 +133,7 @@ void kfree(unsigned char *ptr){
     _malloc_combine(header);
 }
 
-void * krealloc(unsigned char *ptr, size_t size){
+void * krealloc(void *ptr, size_t size){
     struct _malloc_header *header;
     unsigned char *res;
     header = ((struct _malloc_header *) ptr) - 1;

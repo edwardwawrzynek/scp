@@ -1,6 +1,8 @@
 #include "include/defs.h"
-#include "fs/incl.h"
-#include "lib/incl.h"
+#include "fs/buffer.h"
+#include "fs/inode.h"
+#include <panic.h>
+#include "kernel/panic.h"
 
 //TODO: handle devices with methods from dev table
 

@@ -1,6 +1,13 @@
 #include "include/defs.h"
-#include "fs/incl.h"
-#include "lib/incl.h"
+#include <lib/string.h>
+
+#include "fs/superblock.h"
+#include "fs/disk.h"
+#include "fs/buffer.h"
+#include "fs/inode.h"
+#include "fs/file.h"
+#include "fs/dir.h"
+#include <lib/kstdio_layer.h>
 
 //Just defines fs_global_buf
 uint8_t fs_global_buf[DISK_BLK_SIZE];
@@ -9,16 +16,17 @@ uint8_t fs_global_buf[DISK_BLK_SIZE];
  * returns (uint16_t) the inum , or 0 if not found */
 
 uint16_t fs_path_to_inum(uint8_t * name, uint16_t cwd){
+    //temporary value only to allow the while loop to run once - gets set after
     uint8_t *i;
     //If name starts with /, start searching at root
-    if(*name == '/'){
+    if(name[0] == '/'){
         ++name;
         cwd = 2;
     }
     //Loop
-    while(cwd && i){
+    while(cwd){
         //exit if a final slash has been hit, and already converted to a null
-        if(!*name){break;}
+        if(!name[0]){break;}
         //change / to a null character
         i = strchr(name, '/');
         if(i){
@@ -29,6 +37,9 @@ uint16_t fs_path_to_inum(uint8_t * name, uint16_t cwd){
         //update name to after /
         name = i+1;
         //if i is 0, meaning no more slashes were found, the the loop will exit
+        if(!i){
+            break;
+        }
     }
     return cwd;
 }

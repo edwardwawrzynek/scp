@@ -120,9 +120,12 @@ static int tty_getc(){
                 continue;
             }
             /* shift */
+            /* putc by default - TODO: make echo setable by ioctrl */
             if(tty_shifted){
+                tty_putc(shifted_charset[c-32]);
                 return shifted_charset[c-32];
             } else {
+                tty_putc(c);
                 return c;
             }
         }

@@ -1,7 +1,20 @@
 #include "include/defs.h"
-#include "fs/incl.h"
-#include "lib/incl.h"
+#include "fs/buffer.h"
+#include "fs/superblock.h"
+#include "fs/balloc.h"
+#include "fs/disk.h"
+#include "fs/fs.h"
 
+#include "fs/inode.h"
+
+#include <lib/kmalloc.h>
+
+#include <panic.h>
+#include "kernel/panic.h"
+
+#include <lib/util.h>
+#include <lib/kstdio_layer.h>
+#include <lib/string.h>
 //TODO: put last allocd inode in superblock for fast new inode alloc
 
 //Inode table
@@ -30,7 +43,7 @@ struct inode * inode_alloc(){
             if(inode_table[i].blks){
                 inode_force_put(inode_table + i);
             }
-            return inode_table+i;
+            return &inode_table[i];
         }
     }
 
@@ -49,11 +62,20 @@ void inode_load(struct inode * in, uint16_t inum){
     }
     //figure out what disk blk the inode is on
     blk_num = INODE_TABLE_ADDR + (inum>>INODES_PER_BLK_EXP);
-    offset = (inum & INODES_PER_BLK_MASK) * sizeof(struct disk_inode);
+    offset = (inum & INODES_PER_BLK_MASK) * DISK_INODE_SIZE;
     //read in block with inode
     disk_read(blk_num, fs_global_buf);
     //read in inode from blk
-    memcpy(in, fs_global_buf+offset, sizeof(struct disk_inode));
+    uint8_t *buf = fs_global_buf+offset;
+
+
+    in->links = _read_byte(&buf);
+    in->flags = _read_byte(&buf);
+    in->dev_num = _read_byte(&buf);
+    in->size = _read_word(&buf);
+    in->disk_blk = _read_word(&buf);
+    in->in_use = _read_byte(&buf);
+
 }
 
 /* write a disk_inode to disk - just copies values, no other processing
@@ -67,11 +89,19 @@ void inode_write(struct inode * in, uint16_t inum){
     }
     //figure out what disk blk the inode is on
     blk_num = INODE_TABLE_ADDR + (inum>>INODES_PER_BLK_EXP);
-    offset = (inum & INODES_PER_BLK_MASK) * sizeof(struct disk_inode);
+    offset = (inum & INODES_PER_BLK_MASK) * DISK_INODE_SIZE;
     //read in block with inode
     disk_read(blk_num, fs_global_buf);
     //copy inode to buffer
-    memcpy(fs_global_buf+offset, in, sizeof(struct disk_inode));
+    uint8_t *buf = fs_global_buf+offset;
+
+    _write_byte(&buf, in->links);
+    _write_byte(&buf, in->flags);
+    _write_byte(&buf, in->dev_num);
+    _write_word(&buf, in->size);
+    _write_word(&buf, in->disk_blk);
+    _write_byte(&buf, in->in_use);
+
     //write out
     disk_write(blk_num, fs_global_buf);
 }

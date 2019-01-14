@@ -9,9 +9,12 @@
 #include <lib/inout.h>
 #include <stdint.h>
 
+/* TODO: buffer incoming chars in software to allow for more than just 256 bytes in hardware buffer to be stored */
+
 /* serial device structure */
 struct _serial_dev {
-    /* nothing needed */
+    /* buffer will later be needed */
+    uint8_t __nothing;
 };
 
 /* only one serial interface is supported now - may change if we add multiple uarts */

@@ -154,8 +154,7 @@ void obj_create_header(struct obj_file *obj, uint32_t seg0, uint32_t seg1, uint3
 /* expand the extern table in a obj_file, and write the changes to the header to disk - used when externs need offsets */
 void obj_expand_extern(struct obj_file *obj, uint32_t extern_symbols){
   obj->segs.extern_table.size = extern_symbols * _OBJ_SYMBOL_ENTRY_SIZE;
-  /* seek to the right spot
-     TODO: make sure this is always the right spot*/
+  /* seek to the right spot in header */
   fseek(obj->file, 13*4, SEEK_SET);
   _obj_write_val(obj->file, obj->segs.extern_table.size, 4);
 }

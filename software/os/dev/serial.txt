@@ -1,0 +1,1091 @@
+gen_code() localsize: 2
+------------------------------
+LABEL: 5
+operand 1: typ: 5
+no obj
+operand 2: typ: 5
+no obj
+target: type 5
+no obj
+------------------------------
+LABEL: 6
+operand 1: typ: 6
+no obj
+operand 2: typ: 6
+no obj
+target: type 6
+no obj
+------------------------------
+CALL
+operand 1: typ: 15
+obj of type: VAR
+	var: _inp__serial_tx_busy_port
+		extern __inp__serial_tx_busy_port + 0
+operand 2: typ: 15
+no obj
+target: type 15
+no obj
+------------------------------
+ALLOCREG
+operand 1: typ: 0
+obj of type: REG
+	in register r0
+operand 2: typ: 0
+no obj
+target: type 0
+no obj
+------------------------------
+GETRETURN
+operand 1: typ: 3
+no obj
+operand 2: typ: 3
+no obj
+target: type 3
+obj of type: REG
+	in register r0
+------------------------------
+TEST
+operand 1: typ: 3
+obj of type: REG
+	in register r0
+operand 2: typ: 3
+no obj
+target: type 3
+no obj
+------------------------------
+FREEREG
+operand 1: typ: 0
+obj of type: REG
+	in register r0
+operand 2: typ: 0
+no obj
+target: type 0
+no obj
+------------------------------
+BNE
+operand 1: typ: 5
+no obj
+operand 2: typ: 5
+no obj
+target: type 5
+no obj
+------------------------------
+LABEL: 7
+operand 1: typ: 7
+no obj
+operand 2: typ: 7
+no obj
+target: type 7
+no obj
+------------------------------
+ALLOCREG
+operand 1: typ: 0
+obj of type: REG
+	in register r0
+operand 2: typ: 0
+no obj
+target: type 0
+no obj
+------------------------------
+CONVERT
+operand 1: typ: 1
+obj of type: VAR
+	var: c
+		auto argument: local offset -2, offset: 0
+operand 2: typ: 3
+no obj
+target: type 3
+obj of type: REG
+	in register r0
+------------------------------
+MOVEFROMREG
+operand 1: typ: 0
+obj of type: REG
+	in register ra
+operand 2: typ: 0
+no obj
+target: type 0
+obj of type: VAR
+	var:
+		auto argument: local offset 0, offset: 0
+------------------------------
+ASSIGN: size: 2
+operand 1: typ: 3
+obj of type: REG
+	in register r0
+operand 2: typ: 3
+no obj
+target: type 3
+obj of type: REG
+	in register ra
+------------------------------
+FREEREG
+operand 1: typ: 0
+obj of type: REG
+	in register r0
+operand 2: typ: 0
+no obj
+target: type 0
+no obj
+------------------------------
+CALL
+operand 1: typ: 15
+obj of type: VAR
+	var: _outp__serial_data_out_port
+		extern __outp__serial_data_out_port + 0
+operand 2: typ: 15
+no obj
+target: type 15
+no obj
+------------------------------
+MOVETOREG
+operand 1: typ: 0
+obj of type: VAR
+	var:
+		auto argument: local offset 0, offset: 0
+operand 2: typ: 0
+no obj
+target: type 0
+obj of type: REG
+	in register ra
+------------------------------
+SETRETURN
+operand 1: typ: 3
+obj of type: KONST
+	constant: 0
+operand 2: typ: 3
+no obj
+target: type 3
+no obj
+------------------------------
+LABEL: 3
+operand 1: typ: 3
+no obj
+operand 2: typ: 3
+no obj
+target: type 3
+no obj
+gen_code() localsize: 4
+------------------------------
+CALL
+operand 1: typ: 15
+obj of type: VAR
+	var: _inp__serial_in_waiting_port
+		extern __inp__serial_in_waiting_port + 0
+operand 2: typ: 15
+no obj
+target: type 15
+no obj
+------------------------------
+ALLOCREG
+operand 1: typ: 0
+obj of type: REG
+	in register r0
+operand 2: typ: 0
+no obj
+target: type 0
+no obj
+------------------------------
+GETRETURN
+operand 1: typ: 3
+no obj
+operand 2: typ: 3
+no obj
+target: type 3
+obj of type: REG
+	in register r0
+------------------------------
+TEST
+operand 1: typ: 3
+obj of type: REG
+	in register r0
+operand 2: typ: 3
+no obj
+target: type 3
+no obj
+------------------------------
+FREEREG
+operand 1: typ: 0
+obj of type: REG
+	in register r0
+operand 2: typ: 0
+no obj
+target: type 0
+no obj
+------------------------------
+BNE
+operand 1: typ: 12
+no obj
+operand 2: typ: 12
+no obj
+target: type 12
+no obj
+------------------------------
+LABEL: 11
+operand 1: typ: 11
+no obj
+operand 2: typ: 11
+no obj
+target: type 11
+no obj
+------------------------------
+SETRETURN
+operand 1: typ: 3
+obj of type: KONST
+	constant: -2
+operand 2: typ: 3
+no obj
+target: type 3
+no obj
+------------------------------
+BRA
+operand 1: typ: 9
+no obj
+operand 2: typ: 9
+no obj
+target: type 9
+no obj
+------------------------------
+LABEL: 12
+operand 1: typ: 12
+no obj
+operand 2: typ: 12
+no obj
+target: type 12
+no obj
+------------------------------
+CALL
+operand 1: typ: 15
+obj of type: VAR
+	var: _inp__serial_data_in_port
+		extern __inp__serial_data_in_port + 0
+operand 2: typ: 15
+no obj
+target: type 15
+no obj
+------------------------------
+ALLOCREG
+operand 1: typ: 0
+obj of type: REG
+	in register r0
+operand 2: typ: 0
+no obj
+target: type 0
+no obj
+------------------------------
+GETRETURN
+operand 1: typ: 3
+no obj
+operand 2: typ: 3
+no obj
+target: type 3
+obj of type: REG
+	in register r0
+------------------------------
+CONVERT
+operand 1: typ: 3
+obj of type: REG
+	in register r0
+operand 2: typ: 1
+no obj
+target: type 1
+obj of type: VAR
+	var: res
+		auto argument: local offset 0, offset: 0
+------------------------------
+FREEREG
+operand 1: typ: 0
+obj of type: REG
+	in register r0
+operand 2: typ: 0
+no obj
+target: type 0
+no obj
+------------------------------
+MOVEFROMREG
+operand 1: typ: 0
+obj of type: REG
+	in register ra
+operand 2: typ: 0
+no obj
+target: type 0
+obj of type: VAR
+	var:
+		auto local: local offset 2, offset: 0
+------------------------------
+ASSIGN: size: 2
+operand 1: typ: 3
+obj of type: KONST
+	constant: 1
+operand 2: typ: 3
+no obj
+target: type 3
+obj of type: REG
+	in register ra
+------------------------------
+CALL
+operand 1: typ: 15
+obj of type: VAR
+	var: _outp__serial_next_port
+		extern __outp__serial_next_port + 0
+operand 2: typ: 15
+no obj
+target: type 15
+no obj
+------------------------------
+MOVETOREG
+operand 1: typ: 0
+obj of type: VAR
+	var:
+		auto local: local offset 2, offset: 0
+operand 2: typ: 0
+no obj
+target: type 0
+obj of type: REG
+	in register ra
+------------------------------
+ALLOCREG
+operand 1: typ: 0
+obj of type: REG
+	in register r0
+operand 2: typ: 0
+no obj
+target: type 0
+no obj
+------------------------------
+CONVERT
+operand 1: typ: 1
+obj of type: VAR
+	var: res
+		auto argument: local offset 0, offset: 0
+operand 2: typ: 3
+no obj
+target: type 3
+obj of type: REG
+	in register r0
+------------------------------
+SETRETURN
+operand 1: typ: 3
+obj of type: REG
+	in register r0
+operand 2: typ: 3
+no obj
+target: type 3
+no obj
+------------------------------
+FREEREG
+operand 1: typ: 0
+obj of type: REG
+	in register r0
+operand 2: typ: 0
+no obj
+target: type 0
+no obj
+------------------------------
+LABEL: 9
+operand 1: typ: 9
+no obj
+operand 2: typ: 9
+no obj
+target: type 9
+no obj
+gen_code() localsize: 0
+Func Name: _serial_open
+------------------------------
+TEST
+operand 1: typ: 3
+obj of type: VAR
+	var: minor
+		auto argument: local offset -2, offset: 0
+operand 2: typ: 3
+no obj
+target: type 3
+no obj
+------------------------------
+BEQ
+operand 1: typ: 16
+no obj
+operand 2: typ: 16
+no obj
+target: type 16
+no obj
+------------------------------
+SETRETURN
+operand 1: typ: 3
+obj of type: KONST
+	constant: 1
+operand 2: typ: 3
+no obj
+target: type 3
+no obj
+------------------------------
+BRA
+operand 1: typ: 13
+no obj
+operand 2: typ: 13
+no obj
+target: type 13
+no obj
+------------------------------
+LABEL: 16
+operand 1: typ: 16
+no obj
+operand 2: typ: 16
+no obj
+target: type 16
+no obj
+------------------------------
+SETRETURN
+operand 1: typ: 3
+obj of type: KONST
+	constant: 0
+operand 2: typ: 3
+no obj
+target: type 3
+no obj
+------------------------------
+LABEL: 13
+operand 1: typ: 13
+no obj
+operand 2: typ: 13
+no obj
+target: type 13
+no obj
+gen_code() localsize: 0
+Func Name: _serial_close
+------------------------------
+SETRETURN
+operand 1: typ: 3
+obj of type: KONST
+	constant: 0
+operand 2: typ: 3
+no obj
+target: type 3
+no obj
+------------------------------
+LABEL: 17
+operand 1: typ: 17
+no obj
+operand 2: typ: 17
+no obj
+target: type 17
+no obj
+gen_code() localsize: 4
+Func Name: _serial_write
+------------------------------
+ASSIGN: size: 2
+operand 1: typ: 259
+obj of type: KONST
+	constant: 0
+operand 2: typ: 259
+no obj
+target: type 259
+obj of type: VAR
+	var: written
+		auto local: local offset 2, offset: 0
+------------------------------
+BRA
+operand 1: typ: 22
+no obj
+operand 2: typ: 22
+no obj
+target: type 22
+no obj
+------------------------------
+LABEL: 21
+operand 1: typ: 21
+no obj
+operand 2: typ: 21
+no obj
+target: type 21
+no obj
+------------------------------
+ADDI2P
+ADD
+operand 1: typ: 10
+obj of type: VAR
+	var: buf
+		auto argument: local offset -4, offset: 0
+operand 2: typ: 3
+obj of type: KONST
+	constant: 1
+target: type 10
+obj of type: VAR
+	var: buf
+		auto argument: local offset -4, offset: 0
+------------------------------
+ADD
+operand 1: typ: 259
+obj of type: VAR
+	var: written
+		auto local: local offset 2, offset: 0
+operand 2: typ: 259
+obj of type: KONST
+	constant: 1
+target: type 259
+obj of type: VAR
+	var: written
+		auto local: local offset 2, offset: 0
+------------------------------
+LABEL: 22
+operand 1: typ: 22
+no obj
+operand 2: typ: 22
+no obj
+target: type 22
+no obj
+------------------------------
+COMPARE
+operand 1: typ: 259
+obj of type: VAR
+	var: written
+		auto local: local offset 2, offset: 0
+operand 2: typ: 259
+obj of type: VAR
+	var: bytes
+		auto argument: local offset -6, offset: 0
+target: type 259
+no obj
+------------------------------
+BEQ
+operand 1: typ: 23
+no obj
+operand 2: typ: 23
+no obj
+target: type 23
+no obj
+------------------------------
+LABEL: 24
+operand 1: typ: 24
+no obj
+operand 2: typ: 24
+no obj
+target: type 24
+no obj
+------------------------------
+ALLOCREG
+operand 1: typ: 0
+obj of type: REG
+	in register r0
+operand 2: typ: 0
+no obj
+target: type 0
+no obj
+------------------------------
+CONVERT
+operand 1: typ: 257
+obj of type: VAR DREFOBJ
+	dereference of:
+	var: buf
+		auto argument: local offset -4, offset: 0
+operand 2: typ: 3
+no obj
+target: type 3
+obj of type: REG
+	in register r0
+------------------------------
+PUSH: Size: 2 (Push Size: 2)
+operand 1: typ: 3
+obj of type: REG
+	in register r0
+operand 2: typ: 3
+no obj
+target: type 3
+no obj
+------------------------------
+FREEREG
+operand 1: typ: 0
+obj of type: REG
+	in register r0
+operand 2: typ: 0
+no obj
+target: type 0
+no obj
+------------------------------
+CALL
+operand 1: typ: 15
+obj of type: VAR
+	var: serial_putc
+		static l2 + 0
+operand 2: typ: 15
+no obj
+target: type 15
+no obj
+------------------------------
+ALLOCREG
+operand 1: typ: 0
+obj of type: REG
+	in register r0
+operand 2: typ: 0
+no obj
+target: type 0
+no obj
+------------------------------
+GETRETURN
+operand 1: typ: 3
+no obj
+operand 2: typ: 3
+no obj
+target: type 3
+obj of type: VAR
+	var: result
+		auto argument: local offset 0, offset: 0
+------------------------------
+FREEREG
+operand 1: typ: 0
+obj of type: REG
+	in register r0
+operand 2: typ: 0
+no obj
+target: type 0
+no obj
+------------------------------
+COMPARE
+operand 1: typ: 3
+obj of type: VAR
+	var: result
+		auto argument: local offset 0, offset: 0
+operand 2: typ: 3
+obj of type: KONST
+	constant: 0
+target: type 3
+no obj
+------------------------------
+BGE
+operand 1: typ: 21
+no obj
+operand 2: typ: 21
+no obj
+target: type 21
+no obj
+------------------------------
+LABEL: 23
+operand 1: typ: 23
+no obj
+operand 2: typ: 23
+no obj
+target: type 23
+no obj
+------------------------------
+COMPARE
+operand 1: typ: 3
+obj of type: VAR
+	var: result
+		auto argument: local offset 0, offset: 0
+operand 2: typ: 3
+obj of type: KONST
+	constant: -1
+target: type 3
+no obj
+------------------------------
+BEQ
+operand 1: typ: 25
+no obj
+operand 2: typ: 25
+no obj
+target: type 25
+no obj
+------------------------------
+LABEL: 27
+operand 1: typ: 27
+no obj
+operand 2: typ: 27
+no obj
+target: type 27
+no obj
+------------------------------
+ALLOCREG
+operand 1: typ: 0
+obj of type: REG
+	in register r0
+operand 2: typ: 0
+no obj
+target: type 0
+no obj
+------------------------------
+ASSIGN: size: 2
+operand 1: typ: 3
+obj of type: KONST
+	constant: 0
+operand 2: typ: 3
+no obj
+target: type 3
+obj of type: REG
+	in register r0
+------------------------------
+BRA
+operand 1: typ: 26
+no obj
+operand 2: typ: 26
+no obj
+target: type 26
+no obj
+------------------------------
+LABEL: 25
+operand 1: typ: 25
+no obj
+operand 2: typ: 25
+no obj
+target: type 25
+no obj
+------------------------------
+ASSIGN: size: 2
+operand 1: typ: 3
+obj of type: KONST
+	constant: 1
+operand 2: typ: 3
+no obj
+target: type 3
+obj of type: REG
+	in register r0
+------------------------------
+LABEL: 26
+operand 1: typ: 26
+no obj
+operand 2: typ: 26
+no obj
+target: type 26
+no obj
+------------------------------
+CONVERT
+operand 1: typ: 3
+obj of type: REG
+	in register r0
+operand 2: typ: 257
+no obj
+target: type 257
+obj of type: VAR
+	var: eof
+		auto argument: local offset -8, offset: 0
+------------------------------
+FREEREG
+operand 1: typ: 0
+obj of type: REG
+	in register r0
+operand 2: typ: 0
+no obj
+target: type 0
+no obj
+------------------------------
+SETRETURN
+operand 1: typ: 3
+obj of type: VAR
+	var: written
+		auto local: local offset 2, offset: 0
+operand 2: typ: 3
+no obj
+target: type 3
+no obj
+------------------------------
+LABEL: 19
+operand 1: typ: 19
+no obj
+operand 2: typ: 19
+no obj
+target: type 19
+no obj
+gen_code() localsize: 4
+Func Name: _serial_read
+------------------------------
+ASSIGN: size: 2
+operand 1: typ: 259
+obj of type: KONST
+	constant: 0
+operand 2: typ: 259
+no obj
+target: type 259
+obj of type: VAR
+	var: read
+		auto local: local offset 2, offset: 0
+------------------------------
+BRA
+operand 1: typ: 31
+no obj
+operand 2: typ: 31
+no obj
+target: type 31
+no obj
+------------------------------
+LABEL: 30
+operand 1: typ: 30
+no obj
+operand 2: typ: 30
+no obj
+target: type 30
+no obj
+------------------------------
+ALLOCREG
+operand 1: typ: 0
+obj of type: REG
+	in register r0
+operand 2: typ: 0
+no obj
+target: type 0
+no obj
+------------------------------
+CONVERT
+operand 1: typ: 3
+obj of type: VAR
+	var: result
+		auto argument: local offset 0, offset: 0
+operand 2: typ: 257
+no obj
+target: type 257
+obj of type: VAR
+	var: buf
+		auto argument: local offset -4, offset: 0
+------------------------------
+FREEREG
+operand 1: typ: 0
+obj of type: REG
+	in register r0
+operand 2: typ: 0
+no obj
+target: type 0
+no obj
+------------------------------
+ADDI2P
+ADD
+operand 1: typ: 10
+obj of type: VAR
+	var: buf
+		auto argument: local offset -4, offset: 0
+operand 2: typ: 3
+obj of type: KONST
+	constant: 1
+target: type 10
+obj of type: VAR
+	var: buf
+		auto argument: local offset -4, offset: 0
+------------------------------
+ADD
+operand 1: typ: 259
+obj of type: VAR
+	var: read
+		auto local: local offset 2, offset: 0
+operand 2: typ: 259
+obj of type: KONST
+	constant: 1
+target: type 259
+obj of type: VAR
+	var: read
+		auto local: local offset 2, offset: 0
+------------------------------
+LABEL: 31
+operand 1: typ: 31
+no obj
+operand 2: typ: 31
+no obj
+target: type 31
+no obj
+------------------------------
+COMPARE
+operand 1: typ: 259
+obj of type: VAR
+	var: read
+		auto local: local offset 2, offset: 0
+operand 2: typ: 259
+obj of type: VAR
+	var: bytes
+		auto argument: local offset -6, offset: 0
+target: type 259
+no obj
+------------------------------
+BEQ
+operand 1: typ: 32
+no obj
+operand 2: typ: 32
+no obj
+target: type 32
+no obj
+------------------------------
+LABEL: 33
+operand 1: typ: 33
+no obj
+operand 2: typ: 33
+no obj
+target: type 33
+no obj
+------------------------------
+CALL
+operand 1: typ: 15
+obj of type: VAR
+	var: serial_getc
+		static l8 + 0
+operand 2: typ: 15
+no obj
+target: type 15
+no obj
+------------------------------
+ALLOCREG
+operand 1: typ: 0
+obj of type: REG
+	in register r0
+operand 2: typ: 0
+no obj
+target: type 0
+no obj
+------------------------------
+GETRETURN
+operand 1: typ: 3
+no obj
+operand 2: typ: 3
+no obj
+target: type 3
+obj of type: VAR
+	var: result
+		auto argument: local offset 0, offset: 0
+------------------------------
+FREEREG
+operand 1: typ: 0
+obj of type: REG
+	in register r0
+operand 2: typ: 0
+no obj
+target: type 0
+no obj
+------------------------------
+COMPARE
+operand 1: typ: 3
+obj of type: VAR
+	var: result
+		auto argument: local offset 0, offset: 0
+operand 2: typ: 3
+obj of type: KONST
+	constant: 0
+target: type 3
+no obj
+------------------------------
+BGE
+operand 1: typ: 30
+no obj
+operand 2: typ: 30
+no obj
+target: type 30
+no obj
+------------------------------
+LABEL: 32
+operand 1: typ: 32
+no obj
+operand 2: typ: 32
+no obj
+target: type 32
+no obj
+------------------------------
+COMPARE
+operand 1: typ: 3
+obj of type: VAR
+	var: result
+		auto argument: local offset 0, offset: 0
+operand 2: typ: 3
+obj of type: KONST
+	constant: -1
+target: type 3
+no obj
+------------------------------
+BEQ
+operand 1: typ: 34
+no obj
+operand 2: typ: 34
+no obj
+target: type 34
+no obj
+------------------------------
+LABEL: 36
+operand 1: typ: 36
+no obj
+operand 2: typ: 36
+no obj
+target: type 36
+no obj
+------------------------------
+ALLOCREG
+operand 1: typ: 0
+obj of type: REG
+	in register r0
+operand 2: typ: 0
+no obj
+target: type 0
+no obj
+------------------------------
+ASSIGN: size: 2
+operand 1: typ: 3
+obj of type: KONST
+	constant: 0
+operand 2: typ: 3
+no obj
+target: type 3
+obj of type: REG
+	in register r0
+------------------------------
+BRA
+operand 1: typ: 35
+no obj
+operand 2: typ: 35
+no obj
+target: type 35
+no obj
+------------------------------
+LABEL: 34
+operand 1: typ: 34
+no obj
+operand 2: typ: 34
+no obj
+target: type 34
+no obj
+------------------------------
+ASSIGN: size: 2
+operand 1: typ: 3
+obj of type: KONST
+	constant: 1
+operand 2: typ: 3
+no obj
+target: type 3
+obj of type: REG
+	in register r0
+------------------------------
+LABEL: 35
+operand 1: typ: 35
+no obj
+operand 2: typ: 35
+no obj
+target: type 35
+no obj
+------------------------------
+CONVERT
+operand 1: typ: 3
+obj of type: REG
+	in register r0
+operand 2: typ: 257
+no obj
+target: type 257
+obj of type: VAR
+	var: eof
+		auto argument: local offset -8, offset: 0
+------------------------------
+FREEREG
+operand 1: typ: 0
+obj of type: REG
+	in register r0
+operand 2: typ: 0
+no obj
+target: type 0
+no obj
+------------------------------
+SETRETURN
+operand 1: typ: 3
+obj of type: VAR
+	var: read
+		auto local: local offset 2, offset: 0
+operand 2: typ: 3
+no obj
+target: type 3
+no obj
+------------------------------
+LABEL: 28
+operand 1: typ: 28
+no obj
+operand 2: typ: 28
+no obj
+target: type 28
+no obj

@@ -65,6 +65,7 @@ char *gets(char *buf){
             return NULL;
         }
         if(c == '\n'){
+            *(buf++) = '\0';
             return res;
         }
         *(buf++) = c;

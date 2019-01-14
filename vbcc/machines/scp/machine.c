@@ -228,6 +228,7 @@ static void function_top(FILE *f,struct Var *v,long offset)
   if(v->storage_class==EXTERN){
     emit(f,"%s%s:\n",idprefix,v->identifier);
     if((v->flags&(INLINEFUNC|INLINEEXT))!=INLINEFUNC){
+      debug("Func Name: %s\n", v->identifier);
       emit(f,"\t.global\t%s%s\n",idprefix,v->identifier);
     }
   }else{

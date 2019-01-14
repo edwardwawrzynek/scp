@@ -5,6 +5,7 @@
 	.module CRT0
 
 	.text
+	.align
 _start:
 ;	TODO: setup argc and argv, init the standard library
 	call.j.sp sp _main
