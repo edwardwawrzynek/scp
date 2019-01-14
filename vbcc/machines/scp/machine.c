@@ -1355,13 +1355,13 @@ void gen_code(FILE *f,struct IC *p,struct Var *v,zmax offset)
       case MOVEFROMREG:
         debug("MOVEFROMREG\n");
 
-        store_from_reg(f, &(p->z), ztyp(p), p->q1.reg, tmp2);
+        store_from_reg(f, &(p->z), regsize[p->q1.reg] == 2 ? UNSIGNED|INT : UNSIGNED|LONG, p->q1.reg, tmp2);
 
         break;
       case MOVETOREG:
         debug("MOVETOREG\n");
 
-        load_into_reg(f, &(p->q1), q1typ(p), p->z.reg);
+        load_into_reg(f, &(p->q1), regsize[p->z.reg] == 2 ? UNSIGNED|INT : UNSIGNED|LONG, p->z.reg);
 
         break;
       case NOP:
