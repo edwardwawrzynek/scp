@@ -9,7 +9,7 @@ lib/inout/inout.h lib/inout/__inoutp.h					\
 lib/util/util.h											\
 fs/disk.h	fs/superblock.h	fs/buffer.h	fs/balloc.h		\
 fs/inode.h	fs/file.h	fs/dir.h	fs/fs.h				\
-kernel/panic.h											\
+kernel/panic.h	kernel/palloc.h							\
 
 
 OBJS = \
@@ -21,7 +21,7 @@ lib/kmalloc/kmalloc.o									\
 lib/util/util.o											\
 fs/disk.o	fs/superblock.o	fs/buffer.o	fs/balloc.o		\
 fs/inode.o	fs/file.o	fs/dir.o	fs/fs.o				\
-kernel/panic.o											\
+kernel/panic.o	kernel/palloc.o							\
 														\
 main_test.o	lib/brk_loc/end.o							\
 
@@ -29,7 +29,8 @@ main_test.o	lib/brk_loc/end.o							\
 CC = vc
 
 CFLAGS = -c99 -I./include -I.
-CFLAGS += -O0 -size
+#optimization levels above -O1 are buggy (vbcc, not backend, fault (bug with inode_new: setting ind.disk_blk is optimized to just set blks[0], despite addr of ind later being taken.))
+CFLAGS += -O1 -size
 
 
 #no need for the os to have a header or split segs on pages

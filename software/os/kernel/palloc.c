@@ -1,5 +1,6 @@
-#include "lib/incl.h"
 #include "include/defs.h"
+#include "kernel/panic.h"
+#include <panic.h>
 
 //Allocation functions
 
@@ -15,24 +16,42 @@
  *
  */
 
-//array of usage of each page
-uint8_t palloc_page_in_use[MMU_NUM_PROCS];
+//array of refs to each page
+uint8_t palloc_page_refs[MMU_NUM_PROCS];
 
 /* get a new page, and mark it as in use
  * returns (uint8_t) - the page addr, suitable for use in a mem_map array*/
 uint8_t palloc_new(){
     unsigned int i;
     for(i = 0; i < MMU_NUM_PROCS; ++i){
-        if(!palloc_page_in_use[i]){
-            palloc_page_in_use[i] = 1;
+        if(!palloc_page_refs[i]){
+            palloc_page_refs[i] = 1;
             return (i | 0b10000000);
         }
     }
     panic(PANIC_NO_MORE_PAGES);
 }
 
+/* increase the refs for a certain page
+ * returns (uint8_t) - the page addr, suitable for use in mem_map, and for deallocation by palloc_free */
+uint8_t palloc_add_ref(uint8_t page){
+    //clear bit mask if page was obtained from mmu tables or mem_map
+    page = page & 0b01111111;
+    if(!palloc_page_refs[page]){
+        panic(PANIC_PALLOC_ADD_REF_UNASIGNED_PAGE);
+    }
+    palloc_page_refs[page]++;
+
+    return page;
+}
+
 /* free a page, and mark it as free
  * returns (none) */
 void palloc_free(uint8_t i){
-    palloc_page_in_use[i & 0b01111111] = 0;
+    //clear bit mask
+    i = i  & 0b01111111;
+    if(!palloc_page_refs[i]){
+        panic(PANIC_PALLOC_FREE_UNASIGNED);
+    }
+    palloc_page_refs[i]--;
 }
