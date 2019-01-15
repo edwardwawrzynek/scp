@@ -31,7 +31,7 @@ void CPU::reset() {
     /* clear page table, and set up memory for first process */
     for(int i = 0; i < 4096; i++) {
         if(i < 32){
-            page_table[i] = i;
+            page_table[i] = 0b10000000 + i;
         } else {
             page_table[i] = 0;
         }
@@ -67,6 +67,11 @@ uint32_t CPU::hard_addr(uint16_t addr) {
     high_addr = addr >> 11;
 
     /* page lookup */
+    /* check fo unassigned mmu access */
+    if(!(page_table[high_addr + real_ptb] & 0b10000000)){
+        /* TODO: segfault interupt */
+        std::cout << "scpemu: warning: unassigned mmu access\n";
+    }
     res = (page_table[high_addr + real_ptb] & 0b01111111) << 11;
     res += low_addr;
 
@@ -396,6 +401,21 @@ void CPU::execute(uint16_t instr, uint16_t imd) {
         case IN_R_P: /* in.r.p - read from an io port */
             /* port number is in immediate */
             regs[reg_prim] = io.io_read(imd);
+            break;
+
+        case INT_I_N: /* software int - unimplemented */
+            std::cout << "scpemu: int.i.n unimplemented\n";
+            break;
+
+        case MMU_R_R: /* mmu.r.r - set page_table */
+            priv_lv = 0;
+            /* add ptb - in real imp, priv_lv is set to 1 during instruction to allow this
+             * shifting 11 accounts for page selection method in mmu*/
+            page_table[(regs[reg_secd] >> 11) + ptb] = regs[reg_prim];
+            break;
+
+        case PTB_R_N: /* ptb.r.n - set ptb */
+            ptb = regs[reg_prim];
             break;
 
         case HLT_N_N: /* hlt.n.n - stop the machine */

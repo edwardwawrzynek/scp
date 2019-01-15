@@ -14,7 +14,7 @@
 
 #define pid_t uint8_t
 
-#define MMU_NUM_PROCS 64
+#define MMU_NUM_PROCS 128
 #define MMU_PAGE_SIZE 2048
 #define MMU_PAGE_SIZE_SHIFT 11
 #define MMU_PAGE_SIZE_MASK 2047
@@ -23,7 +23,7 @@
 #define PROC_MMU_PAGES 32
 
 //a value for the mmu table that marks a page as not used
-//the top bit marks it as not used, rest being ones choosen to be distinct
+//the 0 in the high bit indicates unused, the rest is just recognizable in hex
 #define MMU_UNUSED 0b1111111
 
 /* Process State */
@@ -87,15 +87,15 @@ struct proc {
     struct proc_cpu_state cpu_state;
 
     //the memory table for the process - the proc's memory map starts at its index in the table << PROC_MMU_SHIFT
-    //a value > 0b10000000 indicates an assigned page (low 7 bytes being mmu entry), a zero unassigned
-    //-mmu entries are 7 bits, so high bit doesn't matter to mmu - in this, it marks assigned.
+    //a value > 0b10000000 indicates an assigned page (low 7 bytes being mmu entry + high bit indicating in use to mmu), a zero unassigned
+    //the high bit marks a page assigned to mmu and os
     uint8_t mem_map[PROC_MMU_PAGES];
     //the proc_mem struct for the process - keeps track of which pages are which
     struct proc_mem mem_struct;
 
     //pointers to file_entry in file_table
     //file descripter 0 coresponds to the 0 entry in this array, etc
-    unsigned int files[PROC_NUM_FILES];
+    struct file_entry *files[PROC_NUM_FILES];
 
     //this proc's mmu number (also its index in the proc_table) - THIS SHOULD NOT BE WRITTEN after proc_init_table
     uint8_t mmu_index;

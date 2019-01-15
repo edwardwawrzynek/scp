@@ -77,15 +77,12 @@ void file_print(uint16_t cwd, char * file){
     uint16_t i;
     uint8_t ind;
     uint16_t p;
-    printf("printing\n");
     i = fs_path_to_inum(file, cwd);
-    printf("Inum: %u\n", i);
     if(i == 0){
         printf("no such file: %s\n", file);
         return;
     }
     f = file_get(i, FILE_MODE_READ);
-    printf("File: %i\n", f);
     while(file_read(f, (uint8_t *)&p, 1) == 1){
         putchar(p);
     }

@@ -188,7 +188,6 @@ uint16_t dir_name_inum(uint16_t dir_inum, uint8_t *name){
     while(file_read(dir, fs_global_buf, DIR_ENTRY_SIZE) == DIR_ENTRY_SIZE){
         //don't return deleted files (would return 0 anyway, but this clarifies)
         if(!strncmp(name, fs_global_buf, 14) && (fs_global_buf[14] || fs_global_buf[15])){
-            printf("match\n");
             res = fs_global_buf[14] + (fs_global_buf[15]<<8);
             file_put(dir);
             return res;

@@ -136,6 +136,8 @@ Instr | opcode
 `out.r.p`               | 011010
 `in.r.p`                | 011011
 `int.i.n`               | 011100
+`mmu.r.r`               | 011101
+`ptb.r.n`               | 011110
 
 ## Nop Instructions
 ### nop
@@ -602,6 +604,44 @@ int.i.n vector
   <td colspan=6>opcode</td>
   <td colspan=6>---</td>
   <td colspan=4>vector</td>
+</tr>
+</table>
+
+## MMU Instructions
+### mmu.r.r
+Set the mmu entry pointed to by (reg2>>11) + ptb to the low byte of reg1.
+priv_lv must be sys(0) going into the instruction. It will be sys(0) coming out of it.
+```
+mmu.r.r reg1 reg2
+; priv_lv = 0
+; page_table[ptb + (reg2 >> 11)] = reg1;
+```
+<table>
+<tr>
+  <th>f<th>e<th>d<th>c<th>b<th>a<th>9<th>8<th>7<th>6<th>5<th>4<th>3<th>2<th>1<th>0
+</tr>
+<tr>
+  <td colspan=6>opcode</td>
+  <td colspan=2>---</td>
+  <td colspan=4>reg1</td>
+  <td colspan=4>reg2</td>
+</tr>
+</table>
+
+### ptb.r.n
+Set the ptb to the value in reg. priv_lv should be sys(0) going into instruction. Callin in sys(1) will cause a strange jump and likely crash.
+```
+ptb.r.n reg
+; ptb = reg
+```
+<table>
+<tr>
+  <th>f<th>e<th>d<th>c<th>b<th>a<th>9<th>8<th>7<th>6<th>5<th>4<th>3<th>2<th>1<th>0
+</tr>
+<tr>
+  <td colspan=6>opcode</td>
+  <td colspan=6>---</td>
+  <td colspan=4>reg</td>
 </tr>
 </table>
 

@@ -85,6 +85,15 @@ struct instr_encoding instructions[] = {
   { "in.r.p",  0b011011, {reg, cnst, end_arg}, /* in.r.p reg port */
     "000000------1111", 2},
 
+  { "int.i.n", 0b011100, {reg, end_arg}, /* int.i.n vector (pass vector as reg) */
+    "000000------1111"},
+
+  { "mmu.r.r", 0b011101, {reg, reg, end_arg}, /* mmu.r.r reg1 reg2 */
+    "000000--11112222"},
+
+  { "ptb.r.n", 0b011110, {reg, end_arg}, /* ptb.r.n */
+    "000000------1111"},
+
   { "hlt.n.n",  0b111111, {end_arg},  /* hlt.n.n */
     "000000----------"},
 };

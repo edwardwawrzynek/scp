@@ -36,4 +36,7 @@
 
 #define INT_I_N   0b011100
 
+#define MMU_R_R   0b011101
+#define PTB_R_N   0b011110
+
 #define HLT_N_N   0b111111
