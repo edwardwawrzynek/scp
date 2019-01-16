@@ -1,6 +1,5 @@
-#include "include/io.h"
-#include "lib/incl.h"
 #include "include/defs.h"
+#include "kernel/mmu_asm.h"
 
 /* mmu layout
  * -- Virtual Memory Addr to Physical --
@@ -22,41 +21,18 @@
  * returns (nones)
  */
 
-void mmu_proc_table_out(unsigned char * table, unsigned int offset){
-    unsigned int i;
+void mmu_proc_table_out(uint8_t * table, uint16_t offset){
+    uint16_t i;
     for(i = 0; i < 32; ++i){
-        offset+i;
-        _asm("\n\
-	        aptb\n\
-        ");
+
         if(table[i]&0b10000000){
-            table[i];
-            _asm("\n\
-	            lbib	#0\n\
-	            mmus\n\
-            ");
+            mmu_set_page(offset+i, table[i]);
         } else {
-            MMU_UNUSED;
-            _asm("\n\
-	            lbib	#0\n\
-	            mmus\n\
-            ");
+            mmu_set_page(offset+i, MMU_UNUSED);
         }
     }
 }
 
-/* set a page table entry to a specific value
- * returns (none) */
-
-void mmu_set_page(uint16_t page_addr, uint8_t value){
-    page_addr;
-    _asm("  aptb\n");
-    value;
-    _asm("\n\
-        lbib  #0\n\
-        mmus\n\
-        ");
-}
 
 /* init the values in all proc table entries except the kernel to be unassigned 0xff
  * used in the boot process
@@ -65,14 +41,6 @@ void mmu_set_page(uint16_t page_addr, uint8_t value){
 void mmu_init_clear_table(){
     unsigned int i;
     for(i = 32; i < 2048; ++i){
-        i;
-        _asm("\n\
-            aptb\n\
-        ");
-        MMU_UNUSED;
-        _asm("\n\
-            lbib    #0\n\
-            mmus\n\
-        ");
+        mmu_set_page(i, MMU_UNUSED);
     }
 }

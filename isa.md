@@ -629,7 +629,7 @@ mmu.r.r reg1 reg2
 </table>
 
 ### ptb.r.n
-Set the ptb to the value in reg. priv_lv should be sys(0) going into instruction. Callin in sys(1) will cause a strange jump and likely crash.
+Set the ptb to the value in reg. priv_lv should be sys(0) going into instruction. Calling in sys(1) will cause a strange jump and likely crash.
 ```
 ptb.r.n reg
 ; ptb = reg
