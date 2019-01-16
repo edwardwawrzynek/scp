@@ -175,7 +175,7 @@ int main(){
         switch(buf[0]){
         case 'e':
             fs_close();
-            _asm("\n\
+            __asm("\n\
                 .db #255\n\
                 ");
             break;

@@ -40,7 +40,7 @@ void mmu_proc_table_out(uint8_t * table, uint16_t offset){
 
 void mmu_init_clear_table(){
     unsigned int i;
-    for(i = 32; i < 2048; ++i){
+    for(i = 32; i < MMU_NUM_PROCS * PROC_MMU_PAGES; ++i){
         mmu_set_page(i, MMU_UNUSED);
     }
 }

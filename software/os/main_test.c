@@ -10,6 +10,8 @@
 #include "fs/file.h"
 #include "fs/dir.h"
 
+#include "kernel/mmu.h"
+
 #include <lib/util.h>
 
 char buf[256];
@@ -56,7 +58,8 @@ void list_dir(struct file_entry * dir){
 
 
 void debug(){
-
+    __asm("\tnop.n.n\n");
+    __asm("\t.dc.w 1\n");
 }
 
 //switch back to user mode in kernel to allow ints (just for testing/debug)
@@ -105,6 +108,7 @@ int main(){
 
     printf("Initing Kernel\n");
     fs_init();
+    mmu_init_clear_table();
     printf("Kernel Inited\n");
 
     switch_to_user();
@@ -124,7 +128,7 @@ int main(){
         case 'e':
             fs_close();
             printf("Saved file system\n");
-            while(1);
+            return 255;
 
             break;
         case 'l':
@@ -162,6 +166,11 @@ int main(){
             break;
         case 'p':
             file_print(cwd, arg);
+            break;
+
+        case 'x':
+            mmu_set_page(32, 0xff);
+            debug();
             break;
 
 

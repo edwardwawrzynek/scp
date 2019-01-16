@@ -1,5 +1,6 @@
 #include <fstream>
 #include <iostream>
+#include <iomanip>
 
 #include <cstdint>
 
@@ -213,6 +214,9 @@ void CPU::execute(uint16_t instr, uint16_t imd) {
     /* actually execute */
     switch(opcode) {
         case NOP_N_N: /* nop.n.n - no operation*/
+
+            /* if specific value are encoded in the nop, run debug outputs */
+            nop_debug(imd);
             break;
 
         case MOV_R_R: /* mov.r.r - copy reg to reg */
@@ -442,4 +446,20 @@ void CPU::run_instr() {
     imd_reg = read_word(pc + 2);
     /* increment program counter */
     pc = pc + 2;
+}
+
+/* do a nop debug */
+void CPU::nop_debug(uint16_t instr){
+    switch(instr){
+        case 1:
+            for(int i = 0; i < 4096; i++){
+                if(i % 32 == 0){
+                    printf("\nProc %02x|", i / 32);
+                }
+                printf("%02x ", page_table[i]);
+            }
+            break;
+        default:
+            break;
+    }
 }

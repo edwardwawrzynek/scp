@@ -612,7 +612,7 @@ int.i.n vector
 Set the mmu entry pointed to by (reg2>>11) + ptb to the low byte of reg1.
 priv_lv must be sys(0) going into the instruction. It will be sys(0) coming out of it.
 ```
-mmu.r.r reg1 reg2
+mmu.r.r reg2 reg1
 ; priv_lv = 0
 ; page_table[ptb + (reg2 >> 11)] = reg1;
 ```
@@ -623,8 +623,8 @@ mmu.r.r reg1 reg2
 <tr>
   <td colspan=6>opcode</td>
   <td colspan=2>---</td>
-  <td colspan=4>reg1</td>
   <td colspan=4>reg2</td>
+  <td colspan=4>reg1</td>
 </tr>
 </table>
 

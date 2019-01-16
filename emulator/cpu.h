@@ -47,6 +47,9 @@ class CPU {
     /* execute an instruction */
     void execute(uint16_t instr, uint16_t imd);
 
+    /* do a nop debug instr */
+    void nop_debug(uint16_t instr);
+
 
     public:
     /* init the machine to startup state (not counting memory), or io */
