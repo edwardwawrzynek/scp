@@ -22,6 +22,7 @@ The following conventions are used in asm commands and encodings.
 * `sp` - a register used as a stack pointer
 * `p` - an io port number
 * `i` - an interrupt vector entry (one of 16 ints)
+* `ipc` - the interrupt pc reg (pc copied to ipc reg on interupt)
 
 ### Registers
 Registers are the program counter (pc), flags register (f), and registers r0-rf. By convention only, r0 is used as the stack pointer and r1 as the frame pointer. The hardware can use any register as a stack pointer, or have multiple stacks.
@@ -138,6 +139,9 @@ Instr | opcode
 `int.i.n`               | 011100
 `mmu.r.r`               | 011101
 `ptb.r.n`               | 011110
+`reti.ipc.n`            | 011111
+`mov.r.ipc`             | 100000
+`mov.ipc.r`             | 100001
 
 ## Nop Instructions
 ### nop
@@ -604,6 +608,57 @@ int.i.n vector
   <td colspan=6>opcode</td>
   <td colspan=6>---</td>
   <td colspan=4>vector</td>
+</tr>
+</table>
+
+### reti.ipc.n
+Return from an interrupt. Copies ipc to pc, and sets priv_lv to 1 (usr).
+```
+reti.ipc.n
+; pc = ipc
+; priv_lv = 1
+```
+<table>
+<tr>
+  <th>f<th>e<th>d<th>c<th>b<th>a<th>9<th>8<th>7<th>6<th>5<th>4<th>3<th>2<th>1<th>0
+</tr>
+<tr>
+  <td colspan=6>opcode</td>
+  <td colspan=10>---</td>
+</tr>
+</table>
+
+### mov.r.ipc
+Copy the value in a register into the ipc reg.
+```
+mov.r.ipc reg
+; ipc = reg
+```
+<table>
+<tr>
+  <th>f<th>e<th>d<th>c<th>b<th>a<th>9<th>8<th>7<th>6<th>5<th>4<th>3<th>2<th>1<th>0
+</tr>
+<tr>
+  <td colspan=6>opcode</td>
+  <td colspan=6>---</td>
+  <td colspan=4>reg</td>
+</tr>
+</table>
+
+### mov.ipc.r
+Copy the value in the ipc reg to a reg.
+```
+mov.ipc.r reg
+; reg = ipc
+```
+<table>
+<tr>
+  <th>f<th>e<th>d<th>c<th>b<th>a<th>9<th>8<th>7<th>6<th>5<th>4<th>3<th>2<th>1<th>0
+</tr>
+<tr>
+  <td colspan=6>opcode</td>
+  <td colspan=6>---</td>
+  <td colspan=4>reg</td>
 </tr>
 </table>
 

@@ -1,7 +1,10 @@
 #include "include/defs.h"
-#include "kernel/incl.h"
-#include "lib/incl.h"
-#include "fs/incl.h"
+#include "fs/fs.h"
+#include "kernel/proc.h"
+#include "kernel/mmu.h"
+#include "kernel/mmu_asm.h"
+
+
 
 //main functions for the kernel
 
@@ -28,7 +31,7 @@ uint8_t * kernel_map_in_mem(uint8_t * pointer, struct proc * proc){
   uint16_t page1;
   uint16_t page2;
   //get which page the pointer is in the proc
-  page_in_proc = pointer >> MMU_PAGE_SIZE_SHIFT;
+  page_in_proc = (uint16_t)pointer >> MMU_PAGE_SIZE_SHIFT;
   //load real pages
   page1 = proc->mem_map[page_in_proc];
   //check that page is actually mapped in
@@ -53,5 +56,6 @@ uint8_t * kernel_map_in_mem(uint8_t * pointer, struct proc * proc){
   mmu_set_page(KERNEL_MEM_MAP_PAGE_1, page1);
   mmu_set_page(KERNEL_MEM_MAP_PAGE_2, page2);
   //return the pointer
-  return (KERNEL_MEM_MAP_PAGE_1 << MMU_PAGE_SIZE_SHIFT) + (pointer & MMU_PAGE_SIZE_MASK);
+  return (uint8_t *)(KERNEL_MEM_MAP_PAGE_1 << MMU_PAGE_SIZE_SHIFT) +
+  ((uint16_t)pointer & MMU_PAGE_SIZE_MASK);
 }

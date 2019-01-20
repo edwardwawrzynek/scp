@@ -7,6 +7,8 @@ class CPU {
     uint16_t regs[16];
     /* program counter */
     uint16_t pc;
+    /* int pc copy reg */
+    uint16_t ipc_reg;
     /* system privilage reg */
     uint8_t priv_lv;
     /* page table base reg*/

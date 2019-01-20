@@ -40,6 +40,9 @@
 //the kernel process - sheduler shouldn't run on it (it is just used for resource allocation for the kernel)
 #define PROC_STATE_IS_KERNEL 255
 
+//valid state to set condition register to at start of program (unconditional jumps before cmp.r.f have to succced)
+#define COND_REG_INIT 1
+
 /* Process Table entries */
 
 /* process memory object struct
@@ -61,16 +64,16 @@ struct proc_mem{
 };
 
 /* process cpu state struct. describes the following:
- * a, b, sp, and pc regs
+ * the 16 machine regs, and the condition code register, and the pc register
  * the ptb reg doesn't have to be stored - it is always proc.mmu_index << PROC_MMU_SHIFT
+ * the pc_int doesn't have to stored - calls to kernel change it anyway. It gets copied to the pc stored here.
  * the priv reg doesn't need to be stored - it is always usr priv (1)
  */
 
 struct proc_cpu_state {
-    uint16_t A_reg;
-    uint16_t B_reg;
-    uint16_t SP_reg;
-    uint16_t PC_reg;
+    uint16_t regs[16];
+    uint16_t pc_reg;
+    uint8_t cond_reg;
 };
 
 //process entry struct

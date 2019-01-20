@@ -422,6 +422,19 @@ void CPU::execute(uint16_t instr, uint16_t imd) {
             ptb = regs[reg_prim];
             break;
 
+        case RETI_IPC_N: /* reti.ipc.n - return from int */
+            pc = ipc_reg;
+            priv_lv = 1;
+            break;
+
+        case MOV_R_IPC: /* copy reg to ipc reg */
+            ipc_reg = regs[reg_prim];
+            break;
+
+        case MOV_IPC_R: /* copy ipc reg to reg */
+            regs[reg_prim] = ipc_reg;
+            break;
+
         case HLT_N_N: /* hlt.n.n - stop the machine */
             std::cout << "scp stopped by hlt.n.n instruction\n";
             std::cout << "main returned: " << regs[0xe] << "\n";
@@ -458,6 +471,7 @@ void CPU::nop_debug(uint16_t instr){
                 }
                 printf("%02x ", page_table[i]);
             }
+            printf("\nPTB: %u\n", ptb);
             break;
         default:
             break;

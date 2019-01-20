@@ -1,25 +1,35 @@
 #include "include/defs.h"
-#include "lib/incl.h"
-#include "fs/incl.h"
-#include "kernel/incl.h"
+#include <lib/string.h>
+#include "kernel/mmu.h"
+#include "kernel/mmu_asm.h"
+#include "kernel/proc_asm.h"
+#include "kernel/palloc.h"
+#include "fs/file.h"
+#include "kernel/kernel.h"
+#include "kernel/panic.h"
+#include "include/panic.h"
+#include "kernel/proc.h"
 
 /* process table */
 
 struct proc proc_table[PROC_TABLE_ENTRIES];
 
 //current pid assignment - incremented with each new process - a process likely won't still hold a reference once the pid loops around
-pid_t proc_current_pid = 0;
+pid_t proc_current_pid_alloc = 0;
 
 //the currently executing process (or NULL if a process hasn't been inited)
 struct proc * proc_current_proc;
 
 //regs for loading in proc_begin_execute
-static uint16_t proc_begin_execute_reg_a;
-static uint16_t proc_begin_execute_reg_b;
-static uint16_t proc_begin_execute_reg_sp;
-static uint16_t proc_begin_execute_reg_pc;
+uint16_t proc_begin_execute_regs[16];
+uint16_t proc_begin_execute_pc_reg;
+//cmp1 and cmp2 are used by proc_finish execute, this is just to keep track of it while figuring out what to compare
+uint8_t  proc_begin_execute_cond_reg;
+//two value to compare to set the right condition code value in proc_finish_execute
+uint16_t proc_begin_execute_cmp1;
+uint16_t proc_begin_execute_cmp2;
 
-#define proc_alloc_pid() proc_current_pid++
+#define proc_alloc_pid() proc_current_pid_alloc++
 
 /* initilize the proc table - set mmu_index
  * this is only called from kernel_init() - mmu_index tags aren't changed after init
@@ -75,7 +85,7 @@ void proc_init_kernel_entry(){
     //mark entry as in_use
     entry->in_use = 1;
     //pid of kernel is zero
-    proc_current_pid = 0;
+    proc_current_pid_alloc = 0;
     entry->pid = proc_alloc_pid();
     //no parent
     entry->parent = NULL;
@@ -129,10 +139,10 @@ struct proc * proc_new_entry(pid_t parent){
     //set parnet
     res->parent = parent;
     //set cpu state for execution
-    res->cpu_state.A_reg = 0;
-    res->cpu_state.B_reg = 0;
-    res->cpu_state.PC_reg = 0;
-    res->cpu_state.SP_reg = 0;
+    memset(res->cpu_state.regs, 0, sizeof(uint16_t) * 16);
+    res->cpu_state.pc_reg = 0;
+    //start with a valid state
+    res->cpu_state.cond_reg = COND_REG_INIT;
     //put in an init'd state
     res->state = PROC_STATE_INIT;
 
@@ -143,8 +153,10 @@ struct proc * proc_new_entry(pid_t parent){
  * returns (uint16_t) - 0 on success, a true value on failure */
 uint16_t proc_load_mem(struct proc * proc, struct file_entry * file){
     uint8_t * mapped_in;
-    uint16_t addr, bytes_read;
+    uint8_t * addr;
+    uint16_t bytes_read;
     //get size, and set the number of pages appropriately
+    //TODO: read binary header
     proc->mem_struct.instr_pages = 0;
     proc->mem_struct.data_pages = (file->ind->size >> MMU_PAGE_SIZE_SHIFT) + 1;
     proc->mem_struct.stack_pages = PROC_DEFAULT_STACK_PAGES;
@@ -163,8 +175,8 @@ uint16_t proc_load_mem(struct proc * proc, struct file_entry * file){
         bytes_read = file_read(file, mapped_in, MMU_PAGE_SIZE);
         addr += bytes_read;
     } while(bytes_read == MMU_PAGE_SIZE);
-    //only return succes if whole file was loaded
-    return (addr != file->ind->size);
+    //only return success if whole file was loaded
+    return ((uint16_t)addr != file->ind->size);
 }
 
 /* create a new process in a ready to run state from a parent pid, a binary file inode number
@@ -196,18 +208,52 @@ struct proc * proc_create_new(pid_t parent, uint16_t inum){
  * pass the real pc, not the one gotten from the interupt handler that is one byte to far
  * returns (none) */
 
-void proc_set_cpu_state(struct proc * proc, uint16_t a, uint16_t b, uint16_t pc, uint16_t sp){
-    proc->cpu_state.A_reg = a;
-    proc->cpu_state.B_reg = b;
-    proc->cpu_state.PC_reg = pc;
-    proc->cpu_state.SP_reg = sp;
+void proc_set_cpu_state(struct proc * proc, uint16_t * regs, uint16_t pc_reg, uint8_t cond_reg){
+    proc->cpu_state.pc_reg = pc_reg;
+    proc->cpu_state.cond_reg = cond_reg;
+    memcpy(proc->cpu_state.regs, regs, sizeof(uint16_t)*16);
+}
+
+/* set proc_begin_execute_cmp1 and cmp2 given a condition code */
+void proc_set_cmp_flags(uint8_t cond_code){
+    switch(cond_code){
+        //equal
+        case 0b00001:
+            proc_begin_execute_cmp1 = 0;
+            proc_begin_execute_cmp2 = 0;
+            break;
+        //unsigned and signed less than
+        case 0b01010:
+            proc_begin_execute_cmp1 = 0;
+            proc_begin_execute_cmp2 = 1;
+            break;
+        //unsigned and signed greater than
+        case 0b10100:
+            proc_begin_execute_cmp1 = 1;
+            proc_begin_execute_cmp2 = 0;
+            break;
+        //signed greater than, and unsigned less than
+        case 0b10010:
+            proc_begin_execute_cmp1 = 0;
+            proc_begin_execute_cmp2 = -1;
+            break;
+        //signed less than, and unsigned greater than
+        case 0b01100:
+            proc_begin_execute_cmp1 = -1;
+            proc_begin_execute_cmp2 = 0;
+            break;
+
+
+        default:
+            panic(PANIC_NOT_VALID_CMP_CODE);
+    }
 }
 
 /* switch execution to a process, using the proc cpu_state entry
  * if the switch works, it doesn't return
  * returns if failure (likely because the proc isn't in a runnable state) */
 
-void proc_begin_execute(struct proc * proc){
+uint8_t proc_begin_execute(struct proc * proc){
     //check that the proc can be run
     if(proc->state != PROC_STATE_RUNNABLE){
         return 1;
@@ -216,31 +262,18 @@ void proc_begin_execute(struct proc * proc){
     proc_current_proc = proc;
 
     //set ptb
-    proc->mmu_index << PROC_MMU_SHIFT;
-    _asm("  aptb\n");
-    //load a, b, sp, and pc regs into proc_begin_execute_reg_
-    //they are loaded into a global, then pushed
-    //this is so that compiler doesn't use the wrong stack offset for loading directly from proc *
-    proc_begin_execute_reg_a = proc->cpu_state.A_reg;
-    proc_begin_execute_reg_b = proc->cpu_state.B_reg;
-    proc_begin_execute_reg_sp = proc->cpu_state.SP_reg;
-    proc_begin_execute_reg_pc = proc->cpu_state.PC_reg;
-    //load sp and push
-    proc_begin_execute_reg_sp;
-    _asm("  psha\n");
-    //load pc and push
-    proc_begin_execute_reg_pc;
-    _asm("  psha\n");
-    //load b into b reg
-    proc_begin_execute_reg_b;
-    _asm("  xswp\n");
-    //load a into a reg
-    proc_begin_execute_reg_a;
-    //call ktou, switching execution
-    _asm("  ktou\n");
-    //if execution reaches here, something has gone terribly wrong
-    //the only way that could happen is if the kernel was run as a proc (which should be detected above)
+    mmu_set_ptb(proc->mmu_index << PROC_MMU_SHIFT);
+    //load value from cpu_state into cpu_begin_execute variables so that the asm routine can use them
+    memcpy(proc_begin_execute_regs, proc->cpu_state.regs, sizeof(uint16_t)*16);
+    proc_begin_execute_pc_reg = proc->cpu_state.pc_reg;
+    proc_begin_execute_cond_reg = proc->cpu_state.cond_reg;
+    //find values to compare to get proper condition code
+    proc_set_cmp_flags(proc_begin_execute_cond_reg);
 
+    //call the asm routine that will start up the right context from the proc_begin_execute vars, and jump to the function. It expects the ptb and all proc_begin_execute vars to be set;
+
+
+    //something went wrong -
     panic(PANIC_CONTEXT_SWITCH_FAILURE);
 }
 

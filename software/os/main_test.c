@@ -169,7 +169,6 @@ int main(){
             break;
 
         case 'x':
-            mmu_set_page(32, 0xff);
             debug();
             break;
 

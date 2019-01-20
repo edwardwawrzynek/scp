@@ -91,8 +91,17 @@ struct instr_encoding instructions[] = {
   { "mmu.r.r", 0b011101, {reg, reg, end_arg}, /* mmu.r.r reg1 reg2 */
     "000000--11112222"},
 
-  { "ptb.r.n", 0b011110, {reg, end_arg}, /* ptb.r.n */
+  { "ptb.r.n", 0b011110, {reg, end_arg}, /* ptb.r.n reg */
     "000000------1111"},
+
+  { "reti.ipc.n", 0b011111, {end_arg}, /* reti.ipc.n */
+    "000000----------" },
+
+  { "mov.r.ipc", 0b100000, {reg, end_arg}, /* mov.r.ipc reg */
+    "000000------1111" },
+
+  { "mov.ipc.r", 0b100001, {reg, end_arg}, /* mov.ipc.r reg */
+    "000000------1111" },
 
   { "hlt.n.n",  0b111111, {end_arg},  /* hlt.n.n */
     "000000----------"},

@@ -1,7 +1,8 @@
 /* This file was automatically generated.  Do not edit! */
 void proc_put_memory(struct proc *proc);
-void proc_begin_execute(struct proc *proc);
-void proc_set_cpu_state(struct proc *proc,uint16_t a,uint16_t b,uint16_t pc,uint16_t sp);
+uint8_t proc_begin_execute(struct proc *proc);
+void proc_set_cmp_flags(uint8_t cond_code);
+void proc_set_cpu_state(struct proc *proc,uint16_t *regs,uint16_t pc_reg,uint8_t cond_reg);
 void proc_put(struct proc *proc);
 struct proc *proc_create_new(pid_t parent,uint16_t inum);
 uint16_t proc_load_mem(struct proc *proc,struct file_entry *file);
@@ -12,6 +13,11 @@ void proc_write_mem_map(struct proc *proc);
 struct proc *proc_get(pid_t pid);
 struct proc *proc_alloc();
 void proc_init_table();
+extern uint16_t proc_begin_execute_cmp2;
+extern uint16_t proc_begin_execute_cmp1;
+extern uint8_t proc_begin_execute_cond_reg;
+extern uint16_t proc_begin_execute_pc_reg;
+extern uint16_t proc_begin_execute_regs[16];
 extern struct proc *proc_current_proc;
-extern pid_t proc_current_pid;
+extern pid_t proc_current_pid_alloc;
 extern struct proc proc_table[PROC_TABLE_ENTRIES];
