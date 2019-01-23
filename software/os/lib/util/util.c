@@ -1,6 +1,6 @@
 #include <stddef.h>
 #include <stdint.h>
-#include <string.h>
+#include <lib/string.h>
 #include <lib/kstdio_layer.h>
 
 /* functions for reading and writing to buffers (little endian) */

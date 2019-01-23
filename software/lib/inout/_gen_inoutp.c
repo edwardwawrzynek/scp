@@ -72,22 +72,22 @@ int main(int argc, char ** argv){
         for(int p = 0; p < (sizeof(port_names)/sizeof(struct port_name)); p++){
             if(i == port_names[p].port){
                 fprintf(out, "__inp_%s:\n\t.global __inp_%s\n", port_names[p].name, port_names[p].name);
-                fprintf(outh, "int _inp_%s(void);\n", port_names[p].name);
+                fprintf(outh, "unsigned int _inp_%s(void);\n", port_names[p].name);
             }
         }
 
         fprintf(out, "__inp_%u:\n\t.global __inp_%u\n\tin.r.p re %u\n\tret.n.sp sp\n", i, i, i);
-        fprintf(outh, "int _inp_%u(void);\n", i);
+        fprintf(outh, "unsigned int _inp_%u(void);\n", i);
 
         for(int p = 0; p < (sizeof(port_names)/sizeof(struct port_name)); p++){
             if(i == port_names[p].port){
                 fprintf(out, "__outp_%s:\n\t.global __outp_%s\n", port_names[p].name, port_names[p].name);
-                fprintf(outh, "void _outp_%s(__reg(\"ra\") int val);\n", port_names[p].name);
+                fprintf(outh, "void _outp_%s(__reg(\"ra\") unsigned int val);\n", port_names[p].name);
             }
         }
 
         fprintf(out, "__outp_%u:\n\t.global __outp_%u\n\tout.r.p ra %u\n\tret.n.sp sp\n", i, i, i);
-        fprintf(outh, "void _outp_%u(__reg(\"ra\") int val);\n", i);
+        fprintf(outh, "void _outp_%u(__reg(\"ra\") unsigned int val);\n", i);
 
 
     }

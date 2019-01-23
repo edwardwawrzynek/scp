@@ -342,6 +342,7 @@ static void load_into_reg(FILE *f, struct obj *o, int real_type, int reg){
       emit(f, "\tmov.r.r %s %s\n", regnames[reg], regnames[o->reg]);
     }
   } else if (o->flags & KONST){
+    /* TODO: do we need to load differently for chars (should negatives fill whole byte ?) */
     emit(f, "\tld.r.i %s %i\n", regnames[reg], o->val.vmax);
   } else if (o->flags & VAR){
     /* check if we are loading address of a var */

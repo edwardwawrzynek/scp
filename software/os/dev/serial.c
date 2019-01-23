@@ -30,7 +30,7 @@ static int serial_putc(char c){
 
 /* read in a char from the serial input */
 static int serial_getc(){
-    char res;
+    unsigned int res;
     if(!inp(_serial_in_waiting_port)){
         /* not eof, just blocking */
         return -2;

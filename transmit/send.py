@@ -67,11 +67,11 @@ for i in range(len(data)):
         cur += 1
         sys.stdout.write("#")
         sys.stdout.flush()
-
-ser.write(chr(0xf0));
-ser.write(chr(0x0f));
-ser.write(chr(0xff));
-ser.write(chr(0x00));
+ser.write(chr(0xf0))
+ser.write(chr(0xf0))
+ser.write(chr(0x0f))
+ser.write(chr(0xff))
+ser.write(chr(0x00))
 sys.stdout.write("\n")
 sys.stdout.flush()
 print "Sent"

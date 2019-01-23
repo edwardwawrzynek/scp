@@ -1,46 +1,245 @@
 #include <lib/kstdio_layer.h>
 #include <lib/kmalloc.h>
+
 #include "include/defs.h"
 
 #include "fs/superblock.h"
 #include "fs/buffer.h"
 #include "fs/inode.h"
 #include "fs/fs.h"
+#include "fs/file.h"
+#include "fs/dir.h"
+
+#include "kernel/mmu.h"
 
 #include <lib/util.h>
 
-extern int _BRK_END;
+char buf[256];
+char *arg;
+char *arg2;
+char *arg3;
+
+#define DIGARR "0123456789abcdef"
+void hexdump(unsigned char * mem, unsigned int n){
+    unsigned char * dig;
+    unsigned int i, j;
+    unsigned char is_end;
+    dig = DIGARR;
+    for(i = 0; i < n; ++i){
+        putchar(dig[(*mem)>>4]);
+        putchar(dig[(*(mem++))&0x0f]);
+        is_end = (i%10) == 9;
+        putchar(is_end ? '|' : ' ');
+        if(is_end){
+            //print out ascii representation
+            mem = mem - 10;
+            for(j = 0; j < 10; ++j){
+                if(*mem != '\n' && *mem != '\t' && *mem != 8){
+                    putchar(*mem);
+                } else {
+                    putchar(219);
+                }
+                mem++;
+            }
+        }
+    }
+}
+
+void list_dir(struct file_entry * dir){
+    uint16_t i;
+    uint8_t name[14];
+    file_seek(dir, 0, SEEK_SET);
+    i = dir_next_entry(dir, name);
+    while(i){
+        printf("%u: %s\n", i, name);
+        i = dir_next_entry(dir, name);
+    }
+}
+
+
+void debug(){
+    __asm("\tnop.n.n\n");
+    __asm("\t.dc.w 1\n");
+}
+
+//switch back to user mode in kernel to allow ints (just for testing/debug)
+void switch_to_user(){
+
+}
+
+//switch to system mode in kernel (just for testing/debug)
+void switch_to_sys(){
+
+}
+
+
+
+//print the contents of a file
+void file_print(uint16_t cwd, char * file){
+    struct file_entry * f;
+    uint16_t i;
+    uint8_t ind;
+    uint16_t p;
+    i = fs_path_to_inum(file, cwd);
+    if(i == 0){
+        printf("no such file: %s\n", file);
+        return;
+    }
+    f = file_get(i, FILE_MODE_READ);
+    while(file_read(f, (uint8_t *)&p, 1) == 1){
+        putchar(p);
+    }
+}
+
+
+void serial_recv(uint16_t cwd, char * path){
+    struct file_entry * f;
+    uint16_t i;
+    //buffer of bytes - bytes[0] is most recently recv'd
+    unsigned char buf[4];
+    unsigned char recv;
+    unsigned int loop_num;
+
+    kstdio_set_output_dev(1);
+    loop_num = 0;
+    //create file
+    i = dir_make_file(cwd, path, 0, 0);
+    //open file
+    f = file_get(i, FILE_MODE_TRUNCATE | FILE_MODE_WRITE);
+    //recv write loop
+    while(1){
+        recv = getchar();
+        //write back byte
+        putchar(recv);
+        kstdio_set_output_dev(0);
+        printf("%x\n", recv);
+        kstdio_set_output_dev(1);
+        //write buf[3] to file
+        if(loop_num > 3){
+            file_write(f, &buf[3], 1);
+            buf[3] = buf[3] + 5;
+        }
+        //advance bytes in buffer
+        buf[3] = buf[2];
+        buf[2] = buf[1];
+        buf[1] = buf[0];
+        //write in new buf to buffer
+        buf[0] = recv;
+        //check for end condition
+        if(buf[0] == 0x00 && buf[1] == 0xff && buf[2] == 0x0f && buf[3] == 0xf0){
+            file_put(f);
+            return;
+        }
+        loop_num++;
+
+    }
+    kstdio_set_output_dev(0);
+}
 
 int main(){
-    kstdio_set_output_dev(0);
+    struct file_entry * fin;
 
-    printf("Testing\nNumber: %i, Hex: %x\nChar: %c\nString: %s\n", -2, 0xffa, 'H', "Hello, World!");
+    uint16_t inum;
+    uint16_t cwd;
 
-    printf("brk end: %x\n", (int)(&_BRK_END));
-
-    int * var = kmalloc(0x100);
-    printf("Addr 0: %x\n", (int)var);
-    kfree(var);
-    var = kmalloc(0x50);
-    printf("Addr 1: %x\n", (int)var);
-    var = kmalloc(0x50);
-    printf("Addr 3: %x\n", (int)var);
+    struct file_entry * pfile;
 
 
-    superblock_read();
+    uint16_t pinum, pinum2;
+    char *i;
 
-    printf("Num Inodes: %u, First Blk: %u, Name: %s\n", superblk.num_inodes, superblk.first_blk, superblk.name);
-
-
-    struct inode *in = inode_get(3);
-    printf("Inode: %u\n", (unsigned int)in);
-    printf("Links: %u, Flags: %u, Dev: %u, Size: %u, disk_blk: %u, in_use: %u, Inum: %u, refs: %u, blks: %u, num_blks: %u\n", (unsigned int)in->links, (unsigned int)in->flags, (unsigned int)in->dev_num, (unsigned int)in->size, (unsigned int)in->disk_blk, (unsigned int)in->in_use, (unsigned int)in->inum, (unsigned int)in->refs, (unsigned int)in->blks, (unsigned int)in->num_blks);
+    switch_to_sys();
 
 
-    fs_close();
+    printf("Initing Kernel\n");
+    fs_init();
+    mmu_init_clear_table();
+    printf("Kernel Inited\n");
 
+    switch_to_user();
+
+    cwd = 2;
+    fin = file_get(cwd, FILE_MODE_READ);
+    arg = buf+2;
     while(1){
-        putchar(getchar());
+        printf("\nCWD: %u\n", cwd);
+        printf("$ ");
+        gets(buf);
+
+        i = arg;
+
+        putchar('\n');
+        switch(buf[0]){
+        case 'e':
+            fs_close();
+            printf("Saved file system\n");
+            return 255;
+
+            break;
+        case 'l':
+            list_dir(fin);
+            break;
+        case 'm':
+            printf("%u\n", dir_make_file(cwd, arg, 0, 0));
+            break;
+        case 'r':
+            if(dir_delete_file(cwd, arg)){
+                printf("No such file: %s\n", arg);
+            }
+            break;
+        case 'i':
+            printf("%u\n", dir_name_inum(cwd, arg));
+            break;
+        case 'd':
+            if(!dir_make_dir(cwd, arg)){
+                printf("Failure");
+            }
+            break;
+        case 'c':
+            inum = fs_path_to_inum(arg, cwd);
+            if(inum == 0){
+                printf("No such dir\n");
+                break;
+            } else {
+                cwd = inum;
+                file_put(fin);
+                fin = file_get(cwd, FILE_MODE_READ);
+            }
+            break;
+        case 's':
+            serial_recv(cwd, arg);
+            break;
+        case 'p':
+            file_print(cwd, arg);
+            break;
+
+        case 'x':
+            debug();
+            break;
+
+
+        default:
+            printf("No such command: %c\n", buf[0]);
+            break;
+        }
     }
+}
+int _isdigit(c) char c;{
+        if (c >= '0' & c <= '9')      return(1);
+        else                            return(0);
+        }
+#define EOL 10
+int atoi(s) char s[];{
+        int i,n,sign;
+        for (i=0; (s[i] == ' ') | (s[i] == EOL) | (s[i] == '\t'); ++i);
+        sign = 1;
+        if(s[i]=='-'){
+        	sign = -1;
+            ++i;
+	    }
+        for(n = 0;_isdigit(s[i]);
+                ++i)
+                n = 10 * n + s[i] - '0';
+        return (sign * n);
 
 }
