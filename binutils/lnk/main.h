@@ -1,4 +1,5 @@
 /* This file was automatically generated.  Do not edit! */
+#undef INTERFACE
 void run_lnk_obj();
 void run_lnk_bin();
 int main(int argc,char *argv[]);
