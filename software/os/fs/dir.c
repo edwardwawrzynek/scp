@@ -44,6 +44,7 @@ uint16_t dir_make_file(uint16_t dir_inum, uint8_t * name, uint16_t dev_num, uint
     fs_global_buf[15] = new_inum>>8;
     //write
     if(file_write(dir, fs_global_buf, DIR_ENTRY_SIZE) != DIR_ENTRY_SIZE){
+        //try to fix what we did
         inode_delete(new_inum);
         file_put(dir);
         return 0;
@@ -150,6 +151,7 @@ uint16_t dir_delete_file(uint16_t dir_inum, uint8_t *name){
         return 1;
     }
     --ind->links;
+    //inode put checks if it needs to remove the inode
     inode_put(ind);
     //return success
     file_put(dir);

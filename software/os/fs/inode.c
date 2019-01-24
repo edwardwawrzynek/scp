@@ -161,25 +161,37 @@ void inode_put(struct inode * in){
     //dec references
     --in->refs;
     //if the inode is no longer referenced, free it
-//don't do this if entries are kept open
+    //if we are keeping inode entries open, don't do this until needed, unless the inode no longer has any links to it (and no refs)
 #ifndef INODE_TABLE_KEEP_OPEN
     if(!in->refs){
+        inode_force_put(in);
+    }
+#endif
+#ifdef INODE_TABLE_KEEP_OPEN
+    if((!in->refs) && (!in->links)){
         inode_force_put(in);
     }
 #endif
 }
 
 /* releases an inode, regardless of its refs count - shouldn't be called directly
+ * if the inode has a zero link count, it is deleted off disk
  * returns (none) */
 
 void inode_force_put(struct inode * in){
-    //only write if the inode is referencing an inode other than the 0 inode
-    //0 inode shouldn't be changed directly, and unloaded inodes have inum set to zero anyway
-    if(in->inum){
+    //only write if the inode has a blk list set, meaning it is in use.
+    if(in->blks){
         kfree(in->blks);
         //mark blocks as null for use with INODE_TABLE_KEEP_OPEN
         in->blks = NULL;
-        inode_write(in, in->inum);
+        /* check if we need to delete the inum */
+        if(!in->links){
+            inode_delete(in->inum);
+        } else {
+            inode_write(in, in->inum);
+        }
+    } else {
+        panic(PANIC_INODE_PUT_ON_NON_OPENED_INODE);
     }
 }
 
@@ -189,7 +201,10 @@ void inode_force_put(struct inode * in){
 void inode_put_all(){
     uint16_t i;
     for(i = 0; i < INODE_TABLE_ENTRIES; ++i){
-        inode_force_put(inode_table+i);
+        /* make sure the inode is loaded */
+        if(inode_table[i].blks){
+            inode_force_put(inode_table+i);
+        }
     }
 }
 
