@@ -1,4 +1,5 @@
 /* This file was automatically generated.  Do not edit! */
+#undef INTERFACE
 void obj_out_write_symbols();
 uint16_t extern_get_addr(int i,uint16_t index);
 struct obj_symbol_entry *find_extern(int i,uint16_t index,int *file);

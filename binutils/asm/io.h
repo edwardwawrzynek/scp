@@ -1,4 +1,5 @@
 /* This file was automatically generated.  Do not edit! */
+#undef INTERFACE
 void reset_file();
 int read_byte();
 void error(char *msg);

@@ -1,4 +1,5 @@
 /* This file was automatically generated.  Do not edit! */
+#undef INTERFACE
 int obj_read_data(struct obj_file *obj,uint16_t *data,uint8_t *flag,uint8_t *is_word);
 int obj_read_byte(struct obj_file *obj,uint8_t *byte,uint8_t *flag);
 void obj_write_extern_offset(struct obj_file *o,uint16_t index,uint8_t pc_rel);
