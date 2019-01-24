@@ -36,3 +36,8 @@ __pycache___
 #Hide vscode stuff
 .vscode
 
+#Hide non scp binaries
+/vbcc/bin/*
+/binutils/bin/*
+/emulator/scpemu
+
