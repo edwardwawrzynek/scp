@@ -104,16 +104,19 @@ void serial_recv(uint16_t cwd, char * path){
     loop_num = 0;
     //create file
     i = dir_make_file(cwd, path, 0, 0);
+    if(!i){
+        printf("Failure making file\n");
+    }
     //open file
     f = file_get(i, FILE_MODE_TRUNCATE | FILE_MODE_WRITE);
+    if(!f){
+        printf("Failure openning file\n");
+    }
     //recv write loop
     while(1){
         recv = getchar();
         //write back byte
         putchar(recv);
-        kstdio_set_output_dev(0);
-        printf("%x\n", recv);
-        kstdio_set_output_dev(1);
         //write buf[3] to file
         if(loop_num > 3){
             file_write(f, &buf[3], 1);
@@ -127,13 +130,13 @@ void serial_recv(uint16_t cwd, char * path){
         buf[0] = recv;
         //check for end condition
         if(buf[0] == 0x00 && buf[1] == 0xff && buf[2] == 0x0f && buf[3] == 0xf0){
+            kstdio_set_output_dev(0);
             file_put(f);
             return;
         }
         loop_num++;
 
     }
-    kstdio_set_output_dev(0);
 }
 
 int main(){

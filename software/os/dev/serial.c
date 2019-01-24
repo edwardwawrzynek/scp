@@ -33,7 +33,7 @@ static int serial_getc(){
     unsigned int res;
     if(!inp(_serial_in_waiting_port)){
         /* not eof, just blocking */
-        return -2;
+        return DEV_BLOCKING;
     }
     res = inp(_serial_data_in_port);
     outp(_serial_next_port, 1);

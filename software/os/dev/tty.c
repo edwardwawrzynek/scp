@@ -85,7 +85,7 @@ static int tty_getc_plain(){
     }
 
     /* not eof, just blocking */
-    return -2;
+    return DEV_BLOCKING;
 }
 
 /* if we are shifted */

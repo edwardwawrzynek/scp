@@ -24,30 +24,37 @@
 
 /*  int _dev_write(int minor, uint8_t *buf, size_t bytes, uint8_t *eof); */
 
-/** macro to generate write method given a putc - putc should return -1 if the function should stop and set eof, -2 if it should stop and clear eof */
+/** return codes for the gen_ dev methods
+ * DEV_BLOCKING - stop and clear eof
+ * DEV_EOF      - stop and set eof */
+
+#define DEV_BLOCKING 256
+#define DEV_EOF 257
+
+/** macro to generate write method given a putc - putc should return 0 on success, or DEV_BLOCKING/DEV_EOF */
 #define gen_write_from_putc(write_func_name, putc)                              \
     int write_func_name (int minor, uint8_t *buf, size_t bytes, uint8_t *eof){  \
         int result;                                                             \
         size_t written = 0;                                                     \
-        while(written != bytes && (result = putc(*buf)) >= 0){                   \
+        while(written != bytes && (result = putc(*buf)) < DEV_BLOCKING){        \
             buf++;                                                              \
             written++;                                                          \
         }                                                                       \
-        *eof = result == -1;                                                    \
+        *eof = result == DEV_EOF;                                               \
         return written;                                                         \
     }
 
-/** macro to generate read method given a getc, which returns -1 if the function should stop and set eof, -2 if it should stop and clear eof (device just blocking), otherwise it should return the read byte */
+/** macro to generate read method given a getc, which returns DEV_BLOCKING/DEV_EOF, otherwise it should return the read byte */
 #define gen_read_from_getc(read_func_name, getc)                                \
     int read_func_name (int minor, uint8_t *buf, size_t bytes, uint8_t *eof){   \
         int result;                                                             \
         size_t read = 0;                                                        \
-        while(read != bytes && (result = getc()) >= 0){                        \
+        while(read != bytes && (result = getc()) < DEV_BLOCKING){               \
             *buf = result;                                                      \
             buf++;                                                              \
             read++;                                                             \
         }                                                                       \
-        *eof = result == -1;                                                    \
+        *eof = result == DEV_EOF;                                               \
         return read;                                                            \
     }
 
