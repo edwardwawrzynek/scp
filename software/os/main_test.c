@@ -9,8 +9,10 @@
 #include "fs/fs.h"
 #include "fs/file.h"
 #include "fs/dir.h"
+#include "kernel/proc.h"
 
 #include "kernel/mmu.h"
+#include "kernel/kernel.h"
 
 #include <lib/util.h>
 
@@ -155,8 +157,7 @@ int main(){
 
 
     printf("Initing Kernel\n");
-    fs_init();
-    mmu_init_clear_table();
+    kernel_init();
     printf("Kernel Inited\n");
 
     switch_to_user();
@@ -214,6 +215,19 @@ int main(){
             break;
         case 'p':
             file_print(cwd, arg);
+            break;
+
+        case 'n':;
+            int pinum = fs_path_to_inum(arg, cwd);
+            if(!pinum){
+                printf("No such file: %s\n", arg);
+                break;
+            }
+            struct proc * pproc = proc_create_new(100, pinum);
+            if(!pproc){
+                printf("Error creating proc\n");
+            }
+            proc_begin_execute(pproc);
             break;
 
         case 'x':

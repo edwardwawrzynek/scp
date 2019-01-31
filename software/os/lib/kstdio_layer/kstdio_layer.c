@@ -56,6 +56,7 @@ int puts(char *str){
     return putchar('\n') == EOF ? EOF : 1;
 }
 
+//do basic delete emulation TODO: handle this in drivers or generic tty driver kernel interface
 char *gets(char *buf){
     char c;
     char *res = buf;
@@ -67,6 +68,9 @@ char *gets(char *buf){
         if(c == '\n'){
             *(buf++) = '\0';
             return res;
+        }
+        if(c == 0x8){
+            *(--buf) = '\0';
         }
         *(buf++) = c;
     }

@@ -23,7 +23,7 @@ uint8_t palloc_page_refs[MMU_NUM_PROCS];
  * returns (uint8_t) - the page addr, suitable for use in a mem_map array*/
 uint8_t palloc_new(){
     unsigned int i;
-    for(i = 0; i < MMU_NUM_PROCS; ++i){
+    for(i = 0; i < MMU_NUM_PROCS; i++){
         if(!palloc_page_refs[i]){
             palloc_page_refs[i] = 1;
             return (i | 0b10000000);

@@ -271,7 +271,7 @@ uint8_t proc_begin_execute(struct proc * proc){
     proc_set_cmp_flags(proc_begin_execute_cond_reg);
 
     //call the asm routine that will start up the right context from the proc_begin_execute vars, and jump to the function. It expects the ptb and all proc_begin_execute vars to be set;
-
+    proc_finish_execute();
 
     //something went wrong -
     panic(PANIC_CONTEXT_SWITCH_FAILURE);

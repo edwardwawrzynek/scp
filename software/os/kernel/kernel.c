@@ -53,8 +53,8 @@ uint8_t * kernel_map_in_mem(uint8_t * pointer, struct proc * proc){
     page2 = MMU_UNUSED;
   }
   //map into kernel addr space
-  mmu_set_page(KERNEL_MEM_MAP_PAGE_1, page1);
-  mmu_set_page(KERNEL_MEM_MAP_PAGE_2, page2);
+  mmu_set_page(KERNEL_MEM_MAP_PAGE_1, page1 | 0b10000000);
+  mmu_set_page(KERNEL_MEM_MAP_PAGE_2, page2 | 0b10000000);
   //return the pointer
   return (uint8_t *)(KERNEL_MEM_MAP_PAGE_1 << MMU_PAGE_SIZE_SHIFT) +
   ((uint16_t)pointer & MMU_PAGE_SIZE_MASK);

@@ -40,7 +40,11 @@ _proc_finish_execute:
 
 ;   Go to proc
     reti.ipc.n
-;   Flow won't reach here
+;   Flow won't reach here - if it does, we have lost the stack pointer anyway, so jump to panic
+    jmp.c.j elgLG _panic
+
+    .extern _panic
+
 
 
 

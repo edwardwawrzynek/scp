@@ -68,10 +68,11 @@ uint32_t CPU::hard_addr(uint16_t addr) {
     high_addr = addr >> 11;
 
     /* page lookup */
-    /* check fo unassigned mmu access */
+    /* check for unassigned mmu access */
     if(!(page_table[high_addr + real_ptb] & 0b10000000)){
         /* TODO: segfault interupt */
-        std::cout << "scpemu: warning: unassigned mmu access\n";
+        std::cerr << "scpemu: warning: unassigned mmu access\n";
+        std::cerr << "attempted to access page " << (high_addr + real_ptb) << "\n";
     }
     res = (page_table[high_addr + real_ptb] & 0b01111111) << 11;
     res += low_addr;
@@ -92,9 +93,9 @@ uint8_t CPU::read_byte(uint16_t addr) {
  * if the addr isn't aligned, the aligned word at (addr & 0xfffe) is read anyway */
 uint16_t CPU::read_word(uint16_t addr){
     /* align */
-    addr = hard_addr(addr) & 0b1111111111111110;
+    uint32_t real_addr = hard_addr(addr) & ((~0) - 1);
     /* read */
-    return mem[addr] + (mem[addr + 1] << 8);
+    return mem[real_addr] + (mem[real_addr + 1] << 8);
 }
 
 /**
@@ -110,10 +111,10 @@ void CPU::write_byte(uint16_t addr, uint8_t val){
  * if not aligned, will be written on the aligned barrier anyway */
 void CPU::write_word(uint16_t addr, uint16_t val){
     /* align */
-    addr = hard_addr(addr) & 0b1111111111111110;
+    uint32_t real_addr = hard_addr(addr) & ((~0) - 1);
     /* write */
-    mem[addr] = val & 0x00ff;
-    mem[addr + 1] = val >> 8;
+    mem[real_addr] = val & 0x00ff;
+    mem[real_addr + 1] = val >> 8;
 }
 
 /**
@@ -457,8 +458,10 @@ void CPU::run_instr() {
     /* set instr and imd reg */
     instr_reg = read_word(pc);
     imd_reg = read_word(pc + 2);
+
     /* increment program counter */
     pc = pc + 2;
+
 }
 
 /* do a nop debug */
