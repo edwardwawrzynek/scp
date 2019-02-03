@@ -1,4 +1,4 @@
-SUBDIRS = asm lnk mif_conv
+SUBDIRS = asm lnk mif_conv size
 
 .PHONY: subdirs $(SUBDIRS)
 

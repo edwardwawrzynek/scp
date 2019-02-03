@@ -1,8 +1,10 @@
 /* This file was automatically generated.  Do not edit! */
-void _int_reset_timer(uint16_t n);
-void _int5_handler();
-void _int4_handler();
-void _int3_handler();
-void _int2_handler();
-void _int1_handler();
-void _int0_handler();
+#undef INTERFACE
+void int_handler_7();
+void int_handler_6();
+void int_handler_5();
+void int_handler_4();
+void int_handler_3();
+void int_handler_2();
+void int_handler_1();
+void int_handler_0();

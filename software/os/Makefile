@@ -11,10 +11,11 @@ fs/disk.h	fs/superblock.h	fs/buffer.h	fs/balloc.h		\
 fs/inode.h	fs/file.h	fs/dir.h	fs/fs.h				\
 kernel/panic.h	kernel/palloc.h	kernel/mmu.h			\
 kernel/mmu_asm.h	kernel/proc.h	kernel/proc_asm.h	\
-kernel/kernel.h											\
+kernel/int_handler.h	kernel/kernel.h					\
 
 
 OBJS = \
+crt/crt0.o	crt/div.o									\
 dev/devices.o	dev/serial.o	dev/tty.o				\
 lib/kstdio_layer/kstdio_layer.o							\
 lib/string/string.o										\
@@ -25,7 +26,7 @@ fs/disk.o	fs/superblock.o	fs/buffer.o	fs/balloc.o		\
 fs/inode.o	fs/file.o	fs/dir.o	fs/fs.o				\
 kernel/panic.o	kernel/palloc.o	kernel/mmu.o			\
 kernel/mmu_asm.o	kernel/proc.o	kernel/proc_asm.o	\
-kernel/kernel.o											\
+kernel/int_handler.o	kernel/kernel.o					\
 														\
 main_test.o	lib/brk_loc/end.o							\
 
@@ -36,9 +37,9 @@ CFLAGS = -c99 -I./include -I.
 #optimization levels above -O1 are buggy (vbcc, not backend, fault (bug with inode_new: setting ind.disk_blk is optimized to just set blks[0], despite addr of ind later being taken.))
 CFLAGS += -O1 -size
 
-
+LD = scplnk
 #no need for the os to have a header or split segs on pages
-LDFLAGS = -rawbin
+LDFLAGS = -r -p
 
 all: $(BIN)
 
@@ -49,7 +50,7 @@ all: $(BIN)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 $(BIN): $(OBJS)
-	$(CC) -o $(BIN) $(OBJS) $(LDFLAGS)
+	$(LD) -o $(BIN) $(OBJS) $(LDFLAGS)
 
 clean:
 	rm -f $(OBJS)

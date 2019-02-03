@@ -606,8 +606,8 @@ int.i.n vector
 </tr>
 <tr>
   <td colspan=6>opcode</td>
-  <td colspan=6>---</td>
-  <td colspan=4>vector</td>
+  <td colspan=7>---</td>
+  <td colspan=3>vector</td>
 </tr>
 </table>
 

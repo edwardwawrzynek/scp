@@ -37,6 +37,11 @@ void CPU::reset() {
             page_table[i] = 0;
         }
     }
+
+    /* set int vectors */
+    for(int i = 0; i < 8; i++){
+        int_vectors[i] = (i*0x4)+0x8;
+    }
 }
 
 /**
@@ -408,8 +413,8 @@ void CPU::execute(uint16_t instr, uint16_t imd) {
             regs[reg_prim] = io.io_read(imd);
             break;
 
-        case INT_I_N: /* software int - unimplemented */
-            std::cout << "scpemu: int.i.n unimplemented\n";
+        case INT_I_N: /* int.i.n - do a software int on the given vector */
+            do_int(reg_prim & 0b0111);
             break;
 
         case MMU_R_R: /* mmu.r.r - set page_table */
@@ -455,6 +460,9 @@ void CPU::run_instr() {
     /* execute */
     execute(instr_reg, imd_reg);
 
+    /* check interupts */
+    check_ints();
+
     /* set instr and imd reg */
     instr_reg = read_word(pc);
     imd_reg = read_word(pc + 2);
@@ -462,6 +470,39 @@ void CPU::run_instr() {
     /* increment program counter */
     pc = pc + 2;
 
+}
+
+/**
+ * request an interrupt on the given irq line */
+void CPU::do_int(uint8_t irq_line){
+    if(irq_line >= 8){
+        std::cerr << "scpemu: no such interupt irq line\n";
+    }
+    irq_req[irq_line] = 1;
+}
+
+/**
+ * check if there are ints and we can do them */
+void CPU::check_ints(){
+    //make sure priv_lv is user
+    if(!priv_lv){
+        return;
+    }
+    //go through each irq line
+    for(uint8_t irq = 0; irq < 8; irq++){
+        //handle request, and return
+        if(irq_req[irq]){
+            irq_req[irq] = 0;
+            //raise priv_lv
+            priv_lv = 0;
+            //save pc
+            ipc_reg = pc;
+            //set pc
+            pc = int_vectors[irq];
+            return;
+
+        }
+    }
 }
 
 /* do a nop debug */

@@ -15,6 +15,10 @@ class CPU {
     uint16_t ptb;
     /* flags reg */
     uint8_t flags;
+    /* interrupt request line - set high until int is handled */
+    uint8_t irq_req[8];
+    /* interrupt addresses */
+    uint16_t int_vectors[8];
     /* the memory managment unit page table
         128 pages (256k memory) * 32 pages (64k) per process */
     uint8_t page_table[4096];
@@ -49,6 +53,9 @@ class CPU {
     /* execute an instruction */
     void execute(uint16_t instr, uint16_t imd);
 
+    /* check and handle ints */
+    void check_ints();
+
     /* do a nop debug instr */
     void nop_debug(uint16_t instr);
 
@@ -64,4 +71,6 @@ class CPU {
     void read_file(const char * path);
     /* run a single cpu instruction cycle */
     void run_instr();
+    /* request an int */
+    void do_int(uint8_t irq_line);
 };
