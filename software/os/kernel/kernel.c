@@ -59,3 +59,29 @@ uint8_t * kernel_map_in_mem(uint8_t * pointer, struct proc * proc){
   return (uint8_t *)(KERNEL_MEM_MAP_PAGE_1 << MMU_PAGE_SIZE_SHIFT) +
   ((uint16_t)pointer & MMU_PAGE_SIZE_MASK);
 }
+
+/**
+ * map in a pointer to at most an aligned word, or a byte
+ * can be used at the same time as kernel_map_in_mem, as it uses a different page */
+uint8_t * kernel_map_in_word(uint8_t * word, struct proc * proc){
+  //the index of the page in the proc's addr space
+  uint16_t page_in_proc;
+  //real page that the pointer resides in
+  uint16_t page1;
+  //get which page the pointer is in the proc
+  page_in_proc = (uint16_t)word >> MMU_PAGE_SIZE_SHIFT;
+  //load real pages
+  page1 = proc->mem_map[page_in_proc];
+  //check that page is actually mapped in
+  if(!(page1 & 0b10000000)){
+    return NULL;
+  }
+  //clear assigned bit
+  page1 = page1 & 0b01111111;
+
+  //map into kernel addr space
+  mmu_set_page(KERNEL_MEM_MAP_PAGE_3, page1 | 0b10000000);
+  //return the pointer
+  return (uint8_t *)(KERNEL_MEM_MAP_PAGE_3 << MMU_PAGE_SIZE_SHIFT) +
+  ((uint16_t)word & MMU_PAGE_SIZE_MASK);
+}

@@ -93,6 +93,7 @@ void file_print(uint16_t cwd, char * file){
     while(file_read(f, (uint8_t *)&p, 1) == 1){
         putchar(p);
     }
+    file_put(f);
 }
 
 
@@ -225,12 +226,10 @@ int main(){
                 printf("No such file: %s\n", arg);
                 break;
             }
-            struct proc * pproc = proc_create_new(100, fs_path_to_inum("mandelbrot", cwd));
+            struct proc * pproc = proc_create_new(100, pinum);
             if(!pproc){
                 printf("Error creating proc\n");
             }
-            struct proc * pproc3 = proc_create_new(100, fs_path_to_inum("test1", cwd));
-            struct proc * pproc2 = proc_create_new(100, fs_path_to_inum("test2", cwd));
             shed_shedule();
             break;
 

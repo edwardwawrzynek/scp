@@ -26,28 +26,12 @@ struct inode inode_table[INODE_TABLE_ENTRIES];
 struct inode * inode_alloc(){
     uint16_t i;
     for(i = 0; i < INODE_TABLE_ENTRIES; ++i){
-#ifndef INODE_TABLE_KEEP_OPEN
-            if(inode_table[i].refs == 0)
-#endif
-#ifdef INODE_TABLE_KEEP_OPEN
-            if(inode_table[i].blks == 0)
-#endif
+        if(inode_table[i].refs == 0)
         {
             return inode_table + i;
         }
     }
-#ifdef INODE_TABLE_KEEP_OPEN
 
-    for(i = 0; i < INODE_TABLE_ENTRIES; ++i){
-        if(!inode_table[i].refs){
-            if(inode_table[i].blks){
-                inode_force_put(inode_table + i);
-            }
-            return &inode_table[i];
-        }
-    }
-
-#endif
     panic(PANIC_INODE_TABLE_FULL);
 }
 
@@ -117,12 +101,7 @@ struct inode * inode_get(uint16_t inum){
     for(i = 0; i < INODE_TABLE_ENTRIES; ++i){
         //Make sure the entry has at least 1 ref, or else inode 0 will be falsly
         //returned on any free entry
-#ifndef INODE_TABLE_KEEP_OPEN
-         if(inode_table[i].inum == inum && inode_table[i].refs)
-#endif
-#ifdef INODE_TABLE_KEEP_OPEN
-         if(inode_table[i].inum == inum && inode_table[i].blks)
-#endif
+        if(inode_table[i].inum == inum && inode_table[i].refs)
         {
             //inc refs
             ++inode_table[i].refs;
@@ -162,16 +141,9 @@ void inode_put(struct inode * in){
     --in->refs;
     //if the inode is no longer referenced, free it
     //if we are keeping inode entries open, don't do this until needed, unless the inode no longer has any links to it (and no refs)
-#ifndef INODE_TABLE_KEEP_OPEN
     if(!in->refs){
         inode_force_put(in);
     }
-#endif
-#ifdef INODE_TABLE_KEEP_OPEN
-    if((!in->refs) && (!in->links)){
-        inode_force_put(in);
-    }
-#endif
 }
 
 /* releases an inode, regardless of its refs count - shouldn't be called directly
@@ -182,7 +154,7 @@ void inode_force_put(struct inode * in){
     //only write if the inode has a blk list set, meaning it is in use.
     if(in->blks){
         kfree(in->blks);
-        //mark blocks as null for use with INODE_TABLE_KEEP_OPEN
+        //mark blocks as null for use with
         in->blks = NULL;
         /* check if we need to delete the inum */
         if(!in->links){

@@ -11,6 +11,7 @@
 #include "include/panic.h"
 #include "kernel/proc.h"
 #include "kernel/shed.h"
+#include "lib/brk_loc/end.h"
 #include <lib/kstdio_layer.h>
 
 /* process table */
@@ -86,15 +87,32 @@ void proc_init_kernel_entry(){
     //make the sheduler and related ignore the kernel
     entry->state = PROC_STATE_IS_KERNEL;
     /* allocate memory
-     * note: if no pages have been marked as in use, this will allocate the pages from 0-31 in order
+     * note: if no pages have been marked as in use, this will allocate the pages from 0 to the ((&_BRK_END)>>MMU_PAGE_SIZE_SHIFT)+1;
      * this is the current configuration on startup - this won't mess it up
      * palloc_new() is used just to properly mark them as in use in the palloc use table */
-    for(page = 0; page < 32; ++page){
+    for(page = 0; page < ((unsigned int)(&_BRK_END)>>MMU_PAGE_SIZE_SHIFT)+1; ++page){
         entry->mem_map[page] = palloc_new();
     }
+    while(page < 30){
+        entry->mem_map[page++] = MMU_UNUSED;
+    }
+    entry->mem_map[31] = palloc_alloc(31);
     //write out memory map
     proc_write_mem_map(entry);
 }
+
+/**
+ * expand, if needed, the mem_map for the kernel, given a new brk */
+void proc_kernel_expand_brk(uint8_t *brk){
+    uint16_t page_in_kernel = ((uint16_t)brk >> MMU_PAGE_SIZE_SHIFT);
+    for(int page = 0; page <= page_in_kernel; page++){
+        if(proc_table[0].mem_map[page] == MMU_UNUSED){
+            proc_table[0].mem_map[page] = palloc_new();
+        }
+    }
+    proc_write_mem_map(&proc_table[0]);
+}
+
 /* init's the mem_map for a process from the the proc's proc_mem struct
  * takes a struct proc and inits mem_map from the proc_mem in the proc
  * returns (none) */

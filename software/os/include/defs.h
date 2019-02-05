@@ -12,8 +12,6 @@
 //Number of entries in the buffer table - FILE_TABLE_ENTRIES because each file table entry usually has 1 unique buffer
 #define BUFFER_TABLE_ENTRIES FILE_TABLE_ENTRIES
 //Keep inode table entries open until they are needed - semi experimental (likely works)
-#define INODE_TABLE_KEEP_OPEN
-//#undef INODE_TABLE_KEEP_OPEN
 
 /* Process Options */
 //Default number of pages for the proc's user stack
@@ -38,3 +36,6 @@
 
 /* ---- kernel definitions ---- */
 #include "include/kernel.h"
+
+/* ---- system call definitions ---- */
+#include "include/syscall.h"

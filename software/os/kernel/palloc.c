@@ -45,6 +45,20 @@ uint8_t palloc_add_ref(uint8_t page){
     return page;
 }
 
+/* allocate a specific page, or panic if it is in use
+ * should only be used by kernel to fit to already set mmu map
+ */
+uint8_t palloc_alloc(uint8_t page){
+    page = page & 0b01111111;
+    if(palloc_page_refs[page]){
+        panic(PANIC_PALLOC_ALLOC_ALREADY_IN_USE);
+    }
+    palloc_page_refs[page]=1;
+
+    return page | 0b10000000;
+}
+
+
 /* free a page, and mark it as free
  * returns (none) */
 void palloc_free(uint8_t i){

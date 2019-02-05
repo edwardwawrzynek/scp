@@ -1,5 +1,8 @@
 #include <lib/string.h>
 #include <stddef.h>
+#include "lib/brk_loc/end.h"
+#include "include/defs.h"
+#include "kernel/proc.h"
 
 //Header before every malloc'd block of memory
 struct _malloc_header {
@@ -12,8 +15,6 @@ struct _malloc_header {
     //whether the block is free or not
     unsigned char free;
 };
-
-extern char _BRK_END;
 
 //pointer to end of data segment (_BRK_END is defined in lib/brk_loc/end.asm)
 static unsigned char * brk = &_BRK_END;
@@ -32,6 +33,7 @@ static unsigned char * _malloc_new(unsigned int size, struct _malloc_header * pr
     header.prev = prev_blk;
     header.next = 0;
     //memcpy header to memory
+    proc_kernel_expand_brk(brk + sizeof(struct _malloc_header));
     memcpy(brk, &header, sizeof(struct _malloc_header));
     if(prev_blk){
         prev_blk->next = (struct _malloc_header *) brk;
@@ -43,11 +45,19 @@ static unsigned char * _malloc_new(unsigned int size, struct _malloc_header * pr
     _malloc_tail = (struct _malloc_header *) brk;
     //increment brk the appropriate amount
     brk += sizeof(struct _malloc_header) + size;
+    proc_kernel_expand_brk(brk);
+
     return brk - size;
 }
 
 //attempt to combine a free block with those before and after it if they are free
 static void _malloc_combine(struct _malloc_header * header){
+    if(!header){
+        return;
+    }
+    if(!header->free){
+        return;
+    }
     if(header->next){
         if(header->next->free){
             //combine with the next block, using this block's header as the final result's header
@@ -55,8 +65,9 @@ static void _malloc_combine(struct _malloc_header * header){
             header->next = header->next->next;
             if(!(header->next)){
                 _malloc_tail = header;
+            } else {
+                _malloc_combine(header);
             }
-            _malloc_combine(header);
         }
     }
     else if(header->prev){

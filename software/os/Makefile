@@ -1,6 +1,13 @@
 BIN = bin/scpos
 
 HEADERS = \
+include/defs.h	include/fs.h	include/io.h			\
+include/kernel.h 	include/panic.h	include/proc.h		\
+include/stdarg.h	include/stddef.h					\
+include/stdint.h	include/lib/inout.h					\
+include/lib/__inoutp.h	include/lib/kmalloc.h			\
+include/lib/kstdio_layer.h	include/lib/string.h		\
+include/lib/util.h										\
 dev/dev.h 	dev/devices.h 	dev/serial.h 	dev/tty.h	\
 lib/kstdio_layer/kstdio_layer.h							\
 lib/string/string.h										\
@@ -16,7 +23,7 @@ kernel/context_vars.h	kernel/kernel.h 				\
 
 
 OBJS = \
-crt/crt0.o	crt/div.o									\
+lib/crt/crt0.o	lib/crt/div.o							\
 dev/devices.o	dev/serial.o	dev/tty.o				\
 lib/kstdio_layer/kstdio_layer.o							\
 lib/string/string.o										\
