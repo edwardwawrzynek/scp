@@ -10,8 +10,9 @@ lib/util/util.h											\
 fs/disk.h	fs/superblock.h	fs/buffer.h	fs/balloc.h		\
 fs/inode.h	fs/file.h	fs/dir.h	fs/fs.h				\
 kernel/panic.h	kernel/palloc.h	kernel/mmu.h			\
-kernel/mmu_asm.h	kernel/proc.h	kernel/proc_asm.h	\
-kernel/int_handler.h	kernel/kernel.h					\
+kernel/mmu_asm.h	kernel/proc.h	kernel/shed.h		\
+kernel/context_switch.h	kernel/int_handler.h			\
+kernel/context_vars.h	kernel/kernel.h 				\
 
 
 OBJS = \
@@ -25,8 +26,9 @@ lib/util/util.o											\
 fs/disk.o	fs/superblock.o	fs/buffer.o	fs/balloc.o		\
 fs/inode.o	fs/file.o	fs/dir.o	fs/fs.o				\
 kernel/panic.o	kernel/palloc.o	kernel/mmu.o			\
-kernel/mmu_asm.o	kernel/proc.o	kernel/proc_asm.o	\
-kernel/int_handler.o	kernel/kernel.o					\
+kernel/mmu_asm.o	kernel/proc.o	kernel/shed.o		\
+kernel/context_switch.o kernel/int_handler.o			\
+kernel/context_vars.o	kernel/kernel.o					\
 														\
 main_test.o	lib/brk_loc/end.o							\
 

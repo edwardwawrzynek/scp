@@ -46,4 +46,6 @@
 #define _disk_data_out_wr_en_port 18
 #define _disk_data_out_addr_port 18
 
+#define _int_timer_port 255
+
 #endif

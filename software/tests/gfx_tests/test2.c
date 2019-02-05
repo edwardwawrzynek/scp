@@ -27,7 +27,7 @@ void run(){
         speed = -speed;
     }
     color++;
-    for(int i = 1; i; i++){
+    for(int i = 40000; i; i++){
     }
 }
 

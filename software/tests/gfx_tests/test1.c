@@ -14,7 +14,7 @@ void run(){
         }
     }
     for(int i = 1; i; i++){
-        for(int g=0; g < 8; g++);
+        for(int g=0; g < 2; g++);
     }
     color++;
 }

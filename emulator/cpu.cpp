@@ -42,6 +42,8 @@ void CPU::reset() {
     for(int i = 0; i < 8; i++){
         int_vectors[i] = (i*0x4)+0x8;
     }
+
+    time_till_clock_int = -1;
 }
 
 /**
@@ -404,8 +406,13 @@ void CPU::execute(uint16_t instr, uint16_t imd) {
             break;
 
         case OUT_R_P: /* out.r.p - write to an io port */
-            /* port number is in immediate */
-            io.io_write(imd, regs[reg_prim]);
+            /* check for clock int pulse time set */
+            if(imd == 0xff){
+                time_till_clock_int = regs[reg_prim] << 12;
+            } else {
+                /* port number is in immediate */
+                io.io_write(imd, regs[reg_prim]);
+            }
             break;
 
         case IN_R_P: /* in.r.p - read from an io port */
@@ -442,8 +449,8 @@ void CPU::execute(uint16_t instr, uint16_t imd) {
             break;
 
         case HLT_N_N: /* hlt.n.n - stop the machine */
-            std::cout << "scp stopped by hlt.n.n instruction\n";
-            std::cout << "main returned: " << regs[0xe] << "\n";
+            printf("scp stopped by hlt.n.n instruction\n");
+            printf("main returned: %u\n", regs[0xe]);
             clean_exit();
             break;
 
@@ -457,18 +464,25 @@ void CPU::execute(uint16_t instr, uint16_t imd) {
 /**
  * run the next cpu instruction */
 void CPU::run_instr() {
-    /* execute */
-    execute(instr_reg, imd_reg);
-
+        /* run clock int pulse */
+    if(time_till_clock_int > 0){
+        time_till_clock_int--;
+    } else if (time_till_clock_int == 0){
+        do_int(1);
+        time_till_clock_int = -1;
+    }
     /* check interupts */
     check_ints();
-
     /* set instr and imd reg */
     instr_reg = read_word(pc);
     imd_reg = read_word(pc + 2);
-
     /* increment program counter */
     pc = pc + 2;
+
+    /* execute */
+    execute(instr_reg, imd_reg);
+
+
 
 }
 
@@ -500,7 +514,6 @@ void CPU::check_ints(){
             //set pc
             pc = int_vectors[irq];
             return;
-
         }
     }
 }
@@ -508,7 +521,7 @@ void CPU::check_ints(){
 /* do a nop debug */
 void CPU::nop_debug(uint16_t instr){
     switch(instr){
-        case 1:
+        case 16:
             for(int i = 0; i < 4096; i++){
                 if(i % 32 == 0){
                     printf("\nProc %02x|", i / 32);

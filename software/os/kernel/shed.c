@@ -1,6 +1,8 @@
 #include "include/defs.h"
-#include "lib/incl.h"
-#include "kernel/incl.h"
+#include "kernel/proc.h"
+#include "kernel/int_handler.h"
+#include "kernel/panic.h"
+#include <panic.h>
 
 /* sheduling algorithms for processes */
 
@@ -15,14 +17,14 @@ void shed_shedule(){
   proc_index = proc_current_proc->mmu_index;
   for(i = proc_index+1; i < PROC_TABLE_ENTRIES; ++i){
     if(proc_table[i].in_use && proc_table[i].state == PROC_STATE_RUNNABLE){
-      _int_reset_timer(SHED_MAX_TIME);
+      int_reset_timer(SHED_MAX_TIME);
       proc_begin_execute(proc_table + i);
     }
   }
   //start from beginning, running the proc again if needed
   for(i = 0; i <= proc_index; ++i){
     if(proc_table[i].in_use && proc_table[i].state == PROC_STATE_RUNNABLE){
-      _int_reset_timer(SHED_MAX_TIME);
+      int_reset_timer(SHED_MAX_TIME);
       proc_begin_execute(proc_table + i);
     }
   }

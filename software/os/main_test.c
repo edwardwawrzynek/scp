@@ -14,6 +14,8 @@
 #include "kernel/mmu.h"
 #include "kernel/kernel.h"
 
+#include "kernel/shed.h"
+
 #include <lib/util.h>
 
 char buf[256];
@@ -61,7 +63,7 @@ void list_dir(struct file_entry * dir){
 
 void debug(){
     __asm("\tnop.n.n\n");
-    __asm("\t.dc.w 1\n");
+    __asm("\t.dc.w 16\n");
 }
 
 //switch back to user mode in kernel to allow ints (just for testing/debug)
@@ -223,11 +225,13 @@ int main(){
                 printf("No such file: %s\n", arg);
                 break;
             }
-            struct proc * pproc = proc_create_new(100, pinum);
+            struct proc * pproc = proc_create_new(100, fs_path_to_inum("mandelbrot", cwd));
             if(!pproc){
                 printf("Error creating proc\n");
             }
-            proc_begin_execute(pproc);
+            struct proc * pproc3 = proc_create_new(100, fs_path_to_inum("test1", cwd));
+            struct proc * pproc2 = proc_create_new(100, fs_path_to_inum("test2", cwd));
+            shed_shedule();
             break;
 
         case 'x':

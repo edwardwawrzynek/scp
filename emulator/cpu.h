@@ -19,6 +19,8 @@ class CPU {
     uint8_t irq_req[8];
     /* interrupt addresses */
     uint16_t int_vectors[8];
+    /* countdown (in number of instructions executed) till next clock pulse int */
+    int32_t time_till_clock_int;
     /* the memory managment unit page table
         128 pages (256k memory) * 32 pages (64k) per process */
     uint8_t page_table[4096];

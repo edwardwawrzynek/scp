@@ -2,13 +2,16 @@
 #include <lib/string.h>
 #include "kernel/mmu.h"
 #include "kernel/mmu_asm.h"
-#include "kernel/proc_asm.h"
+#include "kernel/context_switch.h"
+#include "kernel/context_vars.h"
 #include "kernel/palloc.h"
 #include "fs/file.h"
 #include "kernel/kernel.h"
 #include "kernel/panic.h"
 #include "include/panic.h"
 #include "kernel/proc.h"
+#include "kernel/shed.h"
+#include <lib/kstdio_layer.h>
 
 /* process table */
 
@@ -19,15 +22,6 @@ pid_t proc_current_pid_alloc = 0;
 
 //the currently executing process (or NULL if a process hasn't been inited)
 struct proc * proc_current_proc;
-
-//regs for loading in proc_begin_execute
-uint16_t proc_begin_execute_regs[16];
-uint16_t proc_begin_execute_pc_reg;
-//cmp1 and cmp2 are used by proc_finish execute, this is just to keep track of it while figuring out what to compare
-uint8_t  proc_begin_execute_cond_reg;
-//two value to compare to set the right condition code value in proc_finish_execute
-uint16_t proc_begin_execute_cmp1;
-uint16_t proc_begin_execute_cmp2;
 
 #define proc_alloc_pid() proc_current_pid_alloc++
 
@@ -214,33 +208,33 @@ void proc_set_cpu_state(struct proc * proc, uint16_t * regs, uint16_t pc_reg, ui
     memcpy(proc->cpu_state.regs, regs, sizeof(uint16_t)*16);
 }
 
-/* set proc_begin_execute_cmp1 and cmp2 given a condition code */
+/* set context_switch_cmp1 and cmp2 given a condition code */
 void proc_set_cmp_flags(uint8_t cond_code){
     switch(cond_code){
         //equal
         case 0b00001:
-            proc_begin_execute_cmp1 = 0;
-            proc_begin_execute_cmp2 = 0;
+            context_switch_cmp1 = 0;
+            context_switch_cmp2 = 0;
             break;
         //unsigned and signed less than
         case 0b01010:
-            proc_begin_execute_cmp1 = 0;
-            proc_begin_execute_cmp2 = 1;
+            context_switch_cmp1 = 0;
+            context_switch_cmp2 = 1;
             break;
         //unsigned and signed greater than
         case 0b10100:
-            proc_begin_execute_cmp1 = 1;
-            proc_begin_execute_cmp2 = 0;
+            context_switch_cmp1 = 1;
+            context_switch_cmp2 = 0;
             break;
         //signed greater than, and unsigned less than
         case 0b10010:
-            proc_begin_execute_cmp1 = 0;
-            proc_begin_execute_cmp2 = -1;
+            context_switch_cmp1 = 0;
+            context_switch_cmp2 = -1;
             break;
         //signed less than, and unsigned greater than
         case 0b01100:
-            proc_begin_execute_cmp1 = -1;
-            proc_begin_execute_cmp2 = 0;
+            context_switch_cmp1 = -1;
+            context_switch_cmp2 = 0;
             break;
 
 
@@ -264,17 +258,24 @@ uint8_t proc_begin_execute(struct proc * proc){
     //set ptb
     mmu_set_ptb(proc->mmu_index << PROC_MMU_SHIFT);
     //load value from cpu_state into cpu_begin_execute variables so that the asm routine can use them
-    memcpy(proc_begin_execute_regs, proc->cpu_state.regs, sizeof(uint16_t)*16);
-    proc_begin_execute_pc_reg = proc->cpu_state.pc_reg;
-    proc_begin_execute_cond_reg = proc->cpu_state.cond_reg;
+    memcpy(context_switch_regs, proc->cpu_state.regs, sizeof(uint16_t)*16);
+    context_switch_pc_reg = proc->cpu_state.pc_reg;
+    context_switch_cond_reg = proc->cpu_state.cond_reg;
     //find values to compare to get proper condition code
-    proc_set_cmp_flags(proc_begin_execute_cond_reg);
+    proc_set_cmp_flags(context_switch_cond_reg);
 
-    //call the asm routine that will start up the right context from the proc_begin_execute vars, and jump to the function. It expects the ptb and all proc_begin_execute vars to be set;
-    proc_finish_execute();
+    //call the asm routine that will start up the right context from the context_switch vars, and jump to the function. It expects the ptb and all context_switch vars to be set;
+    context_switch_run_state();
 
     //something went wrong -
     panic(PANIC_CONTEXT_SWITCH_FAILURE);
+}
+
+/**
+ * handle the return from a proc from an int, and shedule a new proc to run */
+void proc_finish_return(){
+    proc_set_cpu_state(proc_current_proc, context_switch_regs, context_switch_pc_reg, context_switch_cond_reg);
+    shed_shedule();
 }
 
 /* release a process from the process table, clearing its memory and other resources

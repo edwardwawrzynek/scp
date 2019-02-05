@@ -46,6 +46,8 @@ struct port_name port_names[] = {
 {"_disk_data_out_wr_en_port", 18},
 {"_disk_data_out_addr_port", 18},
 
+{"_int_timer_port", 255},
+
 };
 
 int main(int argc, char ** argv){
