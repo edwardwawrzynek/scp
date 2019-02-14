@@ -9,6 +9,7 @@ include/lib/__inoutp.h	include/lib/kmalloc.h			\
 include/lib/kstdio_layer.h	include/lib/string.h		\
 include/lib/util.h										\
 dev/dev.h 	dev/devices.h 	dev/serial.h 	dev/tty.h	\
+dev/dev_gen.h											\
 lib/kstdio_layer/kstdio_layer.h							\
 lib/string/string.h										\
 lib/kmalloc/kmalloc.h									\
@@ -25,6 +26,7 @@ kernel/context_vars.h	kernel/kernel.h 				\
 OBJS = \
 lib/crt/crt0.o	lib/crt/div.o							\
 dev/devices.o	dev/serial.o	dev/tty.o				\
+dev/dev_gen.o											\
 lib/kstdio_layer/kstdio_layer.o							\
 lib/string/string.o										\
 lib/inout/inoutp.o										\

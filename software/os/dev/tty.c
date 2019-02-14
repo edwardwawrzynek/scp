@@ -15,6 +15,7 @@ struct _tty_dev {
     uint8_t pos_x;
     /* y position */
     uint8_t pos_y;
+    termios_t termios;
 };
 
 /* only one tty is supported right now - other ttys will probably need different drivers */
@@ -126,10 +127,8 @@ static int tty_getc(){
             /* shift */
             /* putc by default - TODO: make echo setable by ioctrl */
             if(tty_shifted){
-                tty_putc(shifted_charset[c-32]);
                 return shifted_charset[c-32];
             } else {
-                tty_putc(c);
                 return c;
             }
         }
@@ -151,7 +150,14 @@ int _tty_close(int minor){
     return 0;
 }
 
+/**
+ * ioctl */
+int _tty_ioctl(int minor, int req_code, int val){
+    return 0;
+}
+
 /* generate read and write methods */
 gen_write_from_putc(_tty_write, tty_putc)
 
-gen_read_from_getc(_tty_read, tty_getc)
+//gen_read_from_getc(_tty_read, tty_getc)
+gen_tty_read_from_getc(_tty_read, tty_getc, tty_putc, tty.termios)

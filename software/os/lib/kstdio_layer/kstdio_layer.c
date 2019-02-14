@@ -69,9 +69,6 @@ char *gets(char *buf){
             *(buf++) = '\0';
             return res;
         }
-        if(c == 0x8){
-            *(--buf) = '\0';
-        }
         *(buf++) = c;
     }
 }
