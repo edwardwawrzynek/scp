@@ -42,7 +42,9 @@ uint8_t _dev_tty_write_into_buf(uint8_t *buf, uint8_t c, uint8_t* ind, uint8_t e
         buf[*ind] = '\0';
         if(*ind > last_write_end){
             (*ind)--;
-            putc(c);
+            putc(0x8);
+            putc(' ');
+            putc(0x8);
         }
     }
     /* just convert tabs to eight spaces, disregarding current pos */
