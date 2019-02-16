@@ -34,11 +34,30 @@ int _dev_gen_read(int minor, uint8_t *buf, size_t bytes, uint8_t *eof, int (*get
  * to flush. Return 0 otherwise
  * buf - buffer to write into
  * c - char to write
- * ind - current index (starting at 0, not buffer addr) in buffer*/
-uint8_t _dev_tty_write_into_buf(uint8_t *buf, uint8_t c, uint8_t* ind){
-    /* basic handling for now - later handle backspace, tab, etc */
-    buf[(*ind)++] = c;
+ * ind - current index (starting at 0, not buffer addr) in buffer
+ * also handle echoing */
+uint8_t _dev_tty_write_into_buf(uint8_t *buf, uint8_t c, uint8_t* ind, uint8_t echo, int (*putc)(char), uint8_t last_write_end){
+    /* handle backspace */
+    if(c == 0x8){
+        buf[*ind] = '\0';
+        if(*ind > last_write_end){
+            (*ind)--;
+            putc(c);
+        }
+    }
+    /* just convert tabs to eight spaces, disregarding current pos */
+    else if (c == '\t'){
+        for(int t = 0; t < 8; t++){
+            buf[(*ind)++] = ' ';
+            putc(' ');
+        }
+    }
+    else {
+        buf[(*ind)++] = c;
+        putc(c);
+    }
 
+    /* we want newlines in returned output */
     if(c == '\n'){
         return *ind;
     }
@@ -74,13 +93,11 @@ int _dev_tty_gen_read(int minor, uint8_t *buf, size_t bytes, uint8_t *eof, int (
         }
         /* Write into termios buffer */
         termios->data_left_in_buf = 0;
-        /* handle ECHO */
-        if(termios->flags & TERMIOS_ECHO){
-            putc(c);
-        }
-        int good_bytes = _dev_tty_write_into_buf(termios->buf, c, &(termios->write_ind));
+        /* dev_tty_write_into_buf handles ECHO */
+        int good_bytes = _dev_tty_write_into_buf(termios->buf, c, &(termios->write_ind), termios->flags & TERMIOS_ECHO, putc, termios->last_write_end);
         /* if we got a newline, return what we have (up to bytes req'd) */
         if(good_bytes){
+            termios->last_write_end = termios->write_ind;
             int bytes_to_return = good_bytes;
             /* only return as many bytes as requested */
             if(bytes < bytes_to_return){

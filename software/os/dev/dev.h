@@ -2,8 +2,6 @@
 #include <stddef.h>
 #include <string.h>
 
-#include "dev_gen.h"
-
 /**
  * Device driver interface (probably will be used in os, now just for testing
  * dev is the device name - this is just an example of prototype, not real prototypes -
@@ -35,31 +33,7 @@ struct dev_entry {
     int (*_write)(int minor, uint8_t *buf, size_t bytes, uint8_t *eof);
     int (*_ioctl)(int minor, int req_code, int arg);
 };
-/* ---------------- Non-TTY device read and write generation ---------------- */
 
-/** return codes for the gen_ dev methods
- * DEV_BLOCKING - stop and clear eof
- * DEV_EOF      - stop and set eof */
-
-#define DEV_BLOCKING 256
-#define DEV_EOF 257
-
-/** macro to generate write method given a putc - putc should return 0 on success, or DEV_BLOCKING/DEV_EOF */
-#define gen_write_from_putc(write_func_name, putc)                              \
-    int write_func_name (int minor, uint8_t *buf, size_t bytes, uint8_t *eof){  \
-        return _dev_gen_write(minor, buf, bytes, eof, &putc);                          \
-    }
-
-/** macro to generate read method given a getc, which returns DEV_BLOCKING/DEV_EOF, otherwise it should return the read byte */
-#define gen_read_from_getc(read_func_name, getc)                               \
-    int read_func_name (int minor, uint8_t *buf, size_t bytes, uint8_t *eof){  \
-        return _dev_gen_read(minor, buf, bytes, eof, &getc);                          \
-    }
-
-
-/** TTY Functions **/
-
-/* ---------------- Non-TTY device read and write generation ---------------- */
 
 /**
  * Supported tty ioctl flags:
@@ -87,6 +61,9 @@ typedef struct {
      * it means that we have leftover data from last read to return */
     uint8_t read_ind;
     uint8_t data_left_in_buf;
+    /* Last starting place in buf after reading into it - used so the line
+     * disciple knows how far to delete */
+    uint8_t last_write_end;
 
 } termios_t;
 
@@ -98,7 +75,9 @@ typedef struct {
  * DEV_EOF      - stop and set eof */
 
 /** TTY's should use gen_write_from_putc for writing */
+#include "dev_gen.h"
 
+/* ---------------- TTY device read and write generation ---------------- */
 
 /** macro to generate tty read method given a getc, which returns DEV_BLOCKING/DEV_EOF, otherwise it should return the read byte
  * Also needs a way to access the termios_t entry for the instance
@@ -116,7 +95,29 @@ typedef struct {
 
 
 
-#define gen_tty_read_from_getc(read_func_name, getc, putc, termios_access)              \
-    int read_func_name (int minor, uint8_t *buf, size_t bytes, uint8_t *eof){           \
-        _dev_tty_gen_read(minor, buf, bytes, eof, &(getc), &(putc), &(termios_access)); \
+#define gen_tty_read_from_getc(read_func_name, getc, putc, termios_access)              	\
+    int read_func_name (int minor, uint8_t *buf, size_t bytes, uint8_t *eof){           	\
+        return _dev_tty_gen_read(minor, buf, bytes, eof, &(getc), &(putc), &(termios_access)); 	\
     }
+
+/* ---------------- Non-TTY device read and write generation ---------------- */
+
+/** return codes for the gen_ dev methods
+ * DEV_BLOCKING - stop and clear eof
+ * DEV_EOF      - stop and set eof */
+
+#define DEV_BLOCKING 256
+#define DEV_EOF 257
+
+/** macro to generate write method given a putc - putc should return 0 on success, or DEV_BLOCKING/DEV_EOF */
+#define gen_write_from_putc(write_func_name, putc)                              \
+    int write_func_name (int minor, uint8_t *buf, size_t bytes, uint8_t *eof){  \
+        return _dev_gen_write(minor, buf, bytes, eof, &putc);                          \
+    }
+
+/** macro to generate read method given a getc, which returns DEV_BLOCKING/DEV_EOF, otherwise it should return the read byte */
+#define gen_read_from_getc(read_func_name, getc)                               \
+    int read_func_name (int minor, uint8_t *buf, size_t bytes, uint8_t *eof){  \
+        return _dev_gen_read(minor, buf, bytes, eof, &getc);                          \
+    }
+

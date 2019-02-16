@@ -68,7 +68,7 @@ static int tty_putc(char c){
     } else if (c == 0x8){
         tty.pos_x--;
         outp(_text_addr_port, (tty.pos_y * 80) + tty.pos_x);
-        outp(_text_data_port, '\0');
+        outp(_text_data_port, ' ');
     }
     else {
         outp(_text_addr_port, (tty.pos_y * 80) + tty.pos_x);
