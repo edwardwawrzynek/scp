@@ -40,9 +40,9 @@ static int serial_getc(){
     outp(_serial_next_port, 1);
 
     /* Ignore carriage returns */
-    if(res == 13){
+    /*if(res == 13){
         return DEV_BLOCKING;
-    }
+    }*/
 
     return res;
 }
@@ -63,5 +63,5 @@ int _serial_close(int minor){
 /* generate read and write methods */
 gen_write_from_putc(_serial_write, serial_putc)
 
-//gen_read_from_getc(_serial_read, serial_getc)
-gen_tty_read_from_getc(_serial_read, serial_getc, serial_putc, serial.termios)
+gen_read_from_getc(_serial_read, serial_getc)
+//gen_tty_read_from_getc(_serial_read, serial_getc, serial_putc, serial.termios)

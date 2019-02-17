@@ -11,6 +11,8 @@
 
 ;   Extern functions used from proc.c
     .extern _proc_finish_return
+;   Extern functions used from handler.c
+    .extern _syscall_handler_run
 
 ;   **************** context_switch_run_state ****************
 ;   Given the needed state loaded into _context_switch vars,
@@ -150,3 +152,48 @@ _int_handler_1:
     st.r.m.b re _context_switch_cond_reg
 
     call.j.sp sp _proc_finish_return
+
+
+;   **************** syscall_handler ****************
+;   A proc just having interuppted, save its state in context_switch
+;   variables (sets cond_reg, not cmp1 and cmp2 - proc.c does that)
+;   This is used as int_handler_7, and is jumped to by int vector 7
+;   It calls syscall_handler_run, and shouldn't be called directly
+
+    .text
+    .align
+_syscall_handler:
+    .global _syscall_handler
+_int_handler_7:
+    .global _int_handler_7
+
+;   Save reg state
+    st.r.m.w r0 _context_switch_regs+0
+    st.r.m.w r1 _context_switch_regs+2
+    st.r.m.w r2 _context_switch_regs+4
+    st.r.m.w r3 _context_switch_regs+6
+    st.r.m.w r4 _context_switch_regs+8
+    st.r.m.w r5 _context_switch_regs+10
+    st.r.m.w r6 _context_switch_regs+12
+    st.r.m.w r7 _context_switch_regs+14
+    st.r.m.w r8 _context_switch_regs+16
+    st.r.m.w r9 _context_switch_regs+18
+    st.r.m.w ra _context_switch_regs+20
+    st.r.m.w rb _context_switch_regs+22
+    st.r.m.w rc _context_switch_regs+24
+    st.r.m.w rd _context_switch_regs+26
+    st.r.m.w re _context_switch_regs+28
+    st.r.m.w rf _context_switch_regs+30
+
+;   Save ipc reg
+    mov.ipc.r r0
+    st.r.m.w r0 _context_switch_pc_reg
+
+;   Setup sp for function calls
+    ld.r.i sp 0
+
+;   Load cond reg
+    call.j.sp sp _context_switch_get_cond_reg
+    st.r.m.b re _context_switch_cond_reg
+
+    call.j.sp sp _syscall_handler_run

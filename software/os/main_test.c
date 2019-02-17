@@ -105,6 +105,7 @@ void serial_recv(uint16_t cwd, char * path){
     unsigned char recv;
     unsigned int loop_num;
 
+    kstdio_set_output_dev(1);
     loop_num = 0;
     //create file
     i = dir_make_file(cwd, path, 0, 0);
@@ -157,7 +158,6 @@ int main(){
 
     switch_to_sys();
 
-    kstdio_set_output_dev(1);
 
     printf("Initing Kernel\n");
     kernel_init();

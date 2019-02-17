@@ -92,7 +92,6 @@ void int_handler_6(){
     while(1){};
 }
 
-void int_handler_7(){
-    printf("Int 7\n");
-    while(1){};
-}
+/**
+ * Int handler 7 is software syscall int
+ * It is handled in handler_asm.asm */
