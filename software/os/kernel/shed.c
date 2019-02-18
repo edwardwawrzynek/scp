@@ -7,7 +7,6 @@
 /* sheduling algorithms for processes */
 
 /* run the next waiting process in the process table
- * TODO: actually implement a real sheduling alogorithm
  * for now, this just goes to the next valid process after proc_current_proc and executes it
  * returns (none) - doesn't return (runs next proc instead) */
 

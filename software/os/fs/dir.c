@@ -12,7 +12,7 @@
  * name, along with its dev number and flags (almost always 0)
  * returns (uint16_t) - the inum of the new inode, or 0 if failure */
 
-uint16_t dir_make_file(uint16_t dir_inum, uint8_t * name, uint16_t dev_num, uint8_t flags){
+uint16_t dir_make_file(uint16_t dir_inum, uint8_t * name, uint16_t dev_num, uint8_t flags, uint8_t dev_minor){
     struct file_entry * dir;
     uint16_t entry_i;
     uint16_t new_inum;
@@ -34,7 +34,7 @@ uint16_t dir_make_file(uint16_t dir_inum, uint8_t * name, uint16_t dev_num, uint
     //seek to entry
     file_seek(dir, entry_i*DIR_ENTRY_SIZE, SEEK_SET);
     //create inode - regular file with no flags, unless a directory is created
-    new_inum = inode_new(dev_num, flags);
+    new_inum = inode_new(dev_num, flags, dev_minor);
     //clear fs_global_buf
     memset(fs_global_buf, 0, DIR_ENTRY_SIZE);
     //set name
@@ -63,7 +63,7 @@ uint16_t dir_make_file(uint16_t dir_inum, uint8_t * name, uint16_t dev_num, uint
 uint16_t dir_make_dir(uint16_t dir_inum, uint8_t * name){
     uint16_t inum;
     struct file_entry * dir;
-    inum = dir_make_file(dir_inum, name, 0, INODE_FLAG_DIR);
+    inum = dir_make_file(dir_inum, name, 0, INODE_FLAG_DIR, 0);
     //only continue if creation worked
     if(inum){
         //open dir to write . and ..

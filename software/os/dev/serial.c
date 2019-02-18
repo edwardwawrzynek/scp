@@ -15,7 +15,7 @@
 struct _serial_dev {
     /* TODO: buffer serial input */
     uint8_t nothing;
-    termios_t termios;
+    tty_dev_t tty_dev;
 };
 
 /* only one serial interface is supported now - may change if we add multiple uarts */
@@ -40,9 +40,9 @@ static int serial_getc(){
     outp(_serial_next_port, 1);
 
     /* Ignore carriage returns */
-    /*if(res == 13){
+    if((serial.tty_dev.termios.flags & TERMIOS_CANON) && res == 13){
         return DEV_BLOCKING;
-    }*/
+    }
 
     return res;
 }
@@ -52,6 +52,7 @@ int _serial_open(int minor){
     if(minor)
         return 1;
 
+    serial.tty_dev.termios.flags |= (TERMIOS_CANON | TERMIOS_ECHO);
     return 0;
 }
 
@@ -63,5 +64,7 @@ int _serial_close(int minor){
 /* generate read and write methods */
 gen_write_from_putc(_serial_write, serial_putc)
 
-gen_read_from_getc(_serial_read, serial_getc)
-//gen_tty_read_from_getc(_serial_read, serial_getc, serial_putc, serial.termios)
+//gen_read_from_getc(_serial_read, serial_getc)
+gen_tty_read_from_getc(_serial_read, serial_getc, serial_putc, serial.tty_dev)
+
+gen_tty_ioctl_from_tty_dev(_serial_ioctl, serial.tty_dev)

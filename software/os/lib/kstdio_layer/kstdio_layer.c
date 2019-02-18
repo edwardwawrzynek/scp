@@ -3,6 +3,9 @@
 #include "dev/dev.h"
 #include "dev/devices.h"
 
+#include "kernel/panic.h"
+#include "include/panic.h"
+
 #include <stdarg.h>
 
 #define EOF -1
@@ -10,9 +13,27 @@
 /* the current output device */
 static uint8_t cur_out_dev = 0;
 
+/* Init kstdio layer */
+void kstdio_layer_init(int dev_index){
+    cur_out_dev = dev_index;
+    if(devices[dev_index]._open(0)){
+        panic(PANIC_KSTDIO_LAYER_INIT_FAILED);
+    }
+}
+
 /* set the output device */
 void kstdio_set_output_dev(int dev_index){
+    if(devices[cur_out_dev]._close(0)){
+        panic(PANIC_KSTDIO_LAYER_INIT_FAILED);
+    }
     cur_out_dev = dev_index;
+    if(devices[cur_out_dev]._open(0)){
+        panic(PANIC_KSTDIO_LAYER_INIT_FAILED);
+    }
+}
+
+int kstdio_ioctl(int req_code, uint16_t arg){
+    return devices[cur_out_dev]._ioctl(0, req_code, arg);
 }
 
 /* putchar and getchar - just call function* in table */

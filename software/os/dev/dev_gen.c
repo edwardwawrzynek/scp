@@ -1,7 +1,8 @@
-#include <stdint.h>
-#include <stddef.h>
+#include "include/defs.h"
+#include <string.h>
 
 #include "dev.h"
+
 
 /* Generic Reading and Writing Routines From getc and putc - wrappers in dev.h */
 int _dev_gen_write(int minor, uint8_t *buf, size_t bytes, uint8_t *eof, int (*putc)(char)){
@@ -67,11 +68,8 @@ uint8_t _dev_tty_write_into_buf(uint8_t *buf, uint8_t c, uint8_t* ind, uint8_t e
     return 0;
 }
 
-int _dev_tty_gen_read(int minor, uint8_t *buf, size_t bytes, uint8_t *eof, int (*getc)(), int (*putc)(char), termios_t * termios){
+int _dev_tty_gen_read(int minor, uint8_t *buf, size_t bytes, uint8_t *eof, int (*getc)(), int (*putc)(char), tty_dev_t * termios){
     int read = 0;
-    /* TODO: let driver set this */
-    termios->flags |= TERMIOS_CANON;
-    termios->flags |= TERMIOS_ECHO;
 
     /* Read remaining data in buffer */
     if(termios->read_ind < termios->write_ind && termios->data_left_in_buf){
@@ -86,7 +84,7 @@ int _dev_tty_gen_read(int minor, uint8_t *buf, size_t bytes, uint8_t *eof, int (
     }
 
     /* Only handle canonical mode */
-    if(termios->flags & TERMIOS_CANON){
+    if(termios->termios.flags & TERMIOS_CANON){
         int c = getc();
         /* Handle blocking or eof (eof shouldn't really happen with tty devs */
         if(c >= DEV_BLOCKING){
@@ -96,7 +94,7 @@ int _dev_tty_gen_read(int minor, uint8_t *buf, size_t bytes, uint8_t *eof, int (
         /* Write into termios buffer */
         termios->data_left_in_buf = 0;
         /* dev_tty_write_into_buf handles ECHO */
-        int good_bytes = _dev_tty_write_into_buf(termios->buf, c, &(termios->write_ind), termios->flags & TERMIOS_ECHO, putc, termios->last_write_end);
+        int good_bytes = _dev_tty_write_into_buf(termios->buf, c, &(termios->write_ind), termios->termios.flags & TERMIOS_ECHO, putc, termios->last_write_end);
         /* if we got a newline, return what we have (up to bytes req'd) */
         if(good_bytes){
             termios->last_write_end = termios->write_ind;
@@ -121,6 +119,33 @@ int _dev_tty_gen_read(int minor, uint8_t *buf, size_t bytes, uint8_t *eof, int (
         return 0;
 
     } else {
-        /* TODO */
+        int result;
+        size_t read = 0;
+        while(read != bytes && (result = getc()) < DEV_BLOCKING){
+            *buf = result;
+            if(termios->termios.flags & TERMIOS_ECHO){
+                putc(result);
+            }
+            buf++;
+            read++;
+        }
+        *eof = result == DEV_EOF;
+        return read;
     }
+}
+
+/* handle tty ioctls */
+int _dev_tty_gen_ioctl(int minor,int req_code,uint16_t arg,tty_dev_t *tty_dev_access){
+    switch(req_code){
+        case TCGETA:
+            /* read termio into arg */
+            memcpy((struct termio*)arg, &(tty_dev_access->termios), sizeof(struct termios));
+            break;
+        case TCSETA:
+            memcpy(&(tty_dev_access->termios), (struct termio*)arg, sizeof(struct termios));
+            break;
+        default:
+            return -1;
+    }
+    return 0;
 }

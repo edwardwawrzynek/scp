@@ -12,6 +12,9 @@
 #include <panic.h>
 #include "kernel/panic.h"
 
+#include "dev/dev.h"
+#include "dev/devices.h"
+
 #include <lib/util.h>
 #include <lib/kstdio_layer.h>
 #include <lib/string.h>
@@ -58,7 +61,7 @@ void inode_load(struct inode * in, uint16_t inum){
     in->dev_num = _read_byte(&buf);
     in->size = _read_word(&buf);
     in->disk_blk = _read_word(&buf);
-    in->in_use = _read_byte(&buf);
+    in->dev_minor = _read_byte(&buf);
 
 }
 
@@ -84,7 +87,7 @@ void inode_write(struct inode * in, uint16_t inum){
     _write_byte(&buf, in->dev_num);
     _write_word(&buf, in->size);
     _write_word(&buf, in->disk_blk);
-    _write_byte(&buf, in->in_use);
+    _write_byte(&buf, in->dev_minor);
 
     //write out
     disk_write(blk_num, fs_global_buf);
@@ -92,6 +95,7 @@ void inode_write(struct inode * in, uint16_t inum){
 
 /* gets an inode in the inode table for a specified inum, loading in a new one
  * if nessesary, setting in-core values
+ * also, open dev if not open already
  * returns (struct inode *) - the inode, or NULL on failure */
 
 struct inode * inode_get(uint16_t inum){
@@ -113,7 +117,7 @@ struct inode * inode_get(uint16_t inum){
     //read in data
     inode_load(res, inum);
     //if the inode is not marked as in use, return failure
-    if(!(res->in_use)){
+    if(!(res->links)){
         return NULL;
     }
     //set refs
@@ -128,6 +132,13 @@ struct inode * inode_get(uint16_t inum){
         inode_put(res);
         return NULL;
         //panic(PANIC_INODE_REFS_BAD_BLOCK);
+    }
+    /* open dev */
+    if(res->dev_num){
+        if(devices[res->dev_num]._open(res->dev_minor)){
+            inode_put(res);
+            return NULL;
+        }
     }
     return res;
 }
@@ -154,6 +165,10 @@ void inode_force_put(struct inode * in){
     //only write if the inode has a blk list set, meaning it is in use.
     if(in->blks){
         kfree(in->blks);
+        /* close dev */
+        if(in->dev_num){
+            devices[in->dev_num]._close(in->dev_minor);
+        }
         //mark blocks as null for use with
         in->blks = NULL;
         /* check if we need to delete the inum */
@@ -225,13 +240,13 @@ void inode_truncate(struct inode * ind){
     ind->blks = balloc_get(ind->disk_blk, &(ind->num_blks));
 }
 
-/* creates a new inode on disk, init'ing its in_use, disk_blk, links, and size
+/* creates a new inode on disk, init'ing its links, disk_blk, links, and size
  * properties, and setting its dev_num and flags from args. Sets links to 1
- * this function assumes that any inode with in_use clear doesn't have any blks
+ * this function assumes that any inode with links clear doesn't have any blks
  * or other resources allocated to it
  * returns (uint16_t) - the inum of the new inode */
 
-uint16_t inode_new(uint16_t dev_num, uint8_t flags){
+uint16_t inode_new(uint16_t dev_num, uint8_t flags, uint8_t dev_minor){
     uint16_t i;
     struct inode ind;
     uint16_t blks[2];
@@ -239,15 +254,14 @@ uint16_t inode_new(uint16_t dev_num, uint8_t flags){
     //TODO:this is VERY INEFFICIENT
     for(i = 0; i < superblk.num_inodes; ++i){
         inode_load(&ind, i);
-        if(!ind.in_use){
+        if(!ind.links){
             //This inode is good
-            //mark it as in_use
-            ind.in_use = 1;
-            //clear other properties, setting links to 1
+            //mark it as in use
             ind.links = 1;
             ind.size = 0;
             //set args
             ind.dev_num = dev_num;
+            ind.dev_minor = dev_minor;
             ind.flags = flags;
             //init a block
             ind.disk_blk = balloc_alloc();
@@ -265,7 +279,7 @@ uint16_t inode_new(uint16_t dev_num, uint8_t flags){
     panic(PANIC_NO_FREE_INODES);
 }
 
-/* deletes an inode from disk, clearing its in_use flag, setting its links to 0,
+/* deletes an inode from disk,  setting its links to 0,
  * and freeing all of the blocks alloc'd to it. This function deletes the inode
  * regardless of if it is being used
  * returns (none) */
@@ -277,7 +291,6 @@ void inode_delete(uint16_t inum){
     //clear some values
     ind.links = 0;
     ind.size = 0;
-    ind.in_use = 0;
     //free blks
     balloc_free(ind.disk_blk);
     //write to disk

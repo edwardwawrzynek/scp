@@ -3,6 +3,7 @@
 #include "kernel/proc.h"
 #include "kernel/mmu.h"
 #include "kernel/mmu_asm.h"
+#include "include/lib/kstdio_layer.h"
 
 
 
@@ -18,6 +19,8 @@ void kernel_init(){
   proc_init_table();
   //init kernel entry
   proc_init_kernel_entry();
+  //start kstdio layer
+  kstdio_layer_init(1);
 }
 
 /* map a pointer from a proc's addr space into the kernels

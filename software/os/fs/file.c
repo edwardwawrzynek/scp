@@ -4,8 +4,6 @@
 #include <panic.h>
 #include "kernel/panic.h"
 
-//TODO: handle devices with methods from dev table
-
 //Handles the file table, allowing operations on entries
 //This combines buffers, disk_io, block lists and inodes for convienent file access
 
@@ -46,6 +44,10 @@ struct file_entry * file_get(uint16_t inum, uint8_t mode){
         res->refs = 0;
         return NULL;
     }
+    /* if a dev file, don't setup other resources */
+    if(res->ind->dev_num){
+        return res;
+    }
     //truncate if FILE_MODE_TRUNCATE
     if(mode & FILE_MODE_TRUNCATE){
         inode_truncate(res->ind);
@@ -73,8 +75,10 @@ void file_put(struct file_entry * file){
     if(!(file->refs)){
         //release inode
         inode_put(file->ind);
-        //release buffer
-        buffer_put(file->buf);
+        //release buffer -- only if not dev file
+        if(!file->ind->dev_num){
+            buffer_put(file->buf);
+        }
     }
 }
 
@@ -108,6 +112,7 @@ void file_set_buf(struct file_entry * file){
 /* write bytes bytes from buf into the file file. write flag must be set
  * returns (uint16_t) - the number of bytes written*/
 
+/* TODO: call dev methods, add eof */
 uint16_t file_write(struct file_entry * file, uint8_t * buffer, uint16_t bytes){
     uint16_t bytes_c;
     bytes_c = bytes;
@@ -131,6 +136,7 @@ uint16_t file_write(struct file_entry * file, uint8_t * buffer, uint16_t bytes){
 /* reads bytes bytes into buf fom the file file. only reads to end of file.
  * returns (uint16_t) - the number of bytes read*/
 
+/* TODO: call dev methods, add eof */
 uint16_t file_read(struct file_entry * file, uint8_t * buffer, uint16_t bytes){
     uint16_t bytes_c;
     bytes_c = bytes;

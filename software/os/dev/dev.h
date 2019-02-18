@@ -1,6 +1,7 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <string.h>
+#include "include/tty.h"
 
 /**
  * Device driver interface (probably will be used in os, now just for testing
@@ -8,11 +9,14 @@
  * should that be made clear somehow? */
 
 /** open a device with the given minor number, returning 0 on success and 1 on failure
-  * driver has to handle alloc'ing any data structures it needs (drivers will probably just have a small static array and a limited number of devices, use malloc, or only support one device) */
+  * driver has to handle alloc'ing any data structures it needs (drivers will probably just have a small static array and a limited number of devices, use malloc, or only support one device)
+  * this is only called on an opening of a new minor number - if the device is opened by a process
+  * while another process already has it open, _dev_open is not called */
 
 /*  int _dev_open(int minor); */
 
 /** close the device with the given minor number,
+ * probably just free data structures
  * return 0 on success, 1 on failure (should always succed) */
 
 /*  int _dev_close(int minor);  */
@@ -31,7 +35,7 @@ struct dev_entry {
     int (*_close)(int minor);
     int (*_read)(int minor, uint8_t *buf, size_t bytes, uint8_t *eof);
     int (*_write)(int minor, uint8_t *buf, size_t bytes, uint8_t *eof);
-    int (*_ioctl)(int minor, int req_code, int arg);
+    int (*_ioctl)(int minor, int req_code, uint16_t arg);
 };
 
 
@@ -51,7 +55,7 @@ struct dev_entry {
 
 typedef struct {
     /* flags (ECHO and CANON) */
-    uint16_t flags;
+    struct termios termios;
     /* buffer */
     uint8_t buf[256];
     /* current writing index in buffer */
@@ -65,10 +69,7 @@ typedef struct {
      * disciple knows how far to delete */
     uint8_t last_write_end;
 
-} termios_t;
-
-#define TERMIOS_ECHO    0b00000001
-#define TERMIOS_CANON   0b00000010
+} tty_dev_t;
 
 /** return codes for the gen_ dev methods
  * DEV_BLOCKING - stop and clear eof
@@ -80,8 +81,8 @@ typedef struct {
 /* ---------------- TTY device read and write generation ---------------- */
 
 /** macro to generate tty read method given a getc, which returns DEV_BLOCKING/DEV_EOF, otherwise it should return the read byte
- * Also needs a way to access the termios_t entry for the instance
- * termios_access should be the termios_t field, which could use the minor argument
+ * Also needs a way to access the tty_dev_t entry for the instance
+ * tty_dev_access should be the tty_dev_t field, which could use the minor argument
  * Creates a 256 byte buffer for input for use with the CANON mode
  * putc is needed for echo
 */
@@ -95,9 +96,17 @@ typedef struct {
 
 
 
-#define gen_tty_read_from_getc(read_func_name, getc, putc, termios_access)              	\
-    int read_func_name (int minor, uint8_t *buf, size_t bytes, uint8_t *eof){           	\
-        return _dev_tty_gen_read(minor, buf, bytes, eof, &(getc), &(putc), &(termios_access)); 	\
+#define gen_tty_read_from_getc(read_func_name, getc, putc, tty_dev_access)              	    \
+    int read_func_name (int minor, uint8_t *buf, size_t bytes, uint8_t *eof){           	    \
+        return _dev_tty_gen_read(minor, buf, bytes, eof, &(getc), &(putc), &(tty_dev_access)); 	\
+    }
+
+/** macro to generate ioctl for a tty device
+ * handles TCGETA and TCSETA calls to set termios structure */
+
+#define gen_tty_ioctl_from_tty_dev(ioctl_func_name, tty_dev_access)                 \
+    int ioctl_func_name(int minor, int req_code, int arg){                          \
+        return _dev_tty_gen_ioctl(minor, req_code, arg, &(tty_dev_access));         \
     }
 
 /* ---------------- Non-TTY device read and write generation ---------------- */

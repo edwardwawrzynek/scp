@@ -16,6 +16,8 @@
 
 #include "kernel/shed.h"
 
+#include "include/tty.h"
+
 #include <lib/util.h>
 
 char buf[256];
@@ -105,10 +107,18 @@ void serial_recv(uint16_t cwd, char * path){
     unsigned char recv;
     unsigned int loop_num;
 
-    kstdio_set_output_dev(1);
+    struct termios tio;
+    struct termios old_tio;
+
+    tio.flags &= (~TERMIOS_CANON);
+    tio.flags &= (~TERMIOS_ECHO);
+
+    kstdio_set_output_dev(2);
+    kstdio_ioctl(TCGETA, (uint16_t)&old_tio);
+    kstdio_ioctl(TCSETA, (uint16_t)&tio);
     loop_num = 0;
     //create file
-    i = dir_make_file(cwd, path, 0, 0);
+    i = dir_make_file(cwd, path, 0, 0, 0);
     if(!i){
         printf("Failure making file\n");
     }
@@ -135,7 +145,9 @@ void serial_recv(uint16_t cwd, char * path){
         buf[0] = recv;
         //check for end condition
         if(buf[0] == 0x00 && buf[1] == 0xff && buf[2] == 0x0f && buf[3] == 0xf0){
-            kstdio_set_output_dev(0);
+            kstdio_set_output_dev(2);
+            kstdio_ioctl(TCSETA, (uint16_t)&old_tio);
+            kstdio_set_output_dev(1);
             file_put(f);
             return;
         }
@@ -159,7 +171,6 @@ int main(){
     switch_to_sys();
 
 
-    printf("Initing Kernel\n");
     kernel_init();
     printf("Kernel Inited\n");
 
@@ -187,7 +198,7 @@ int main(){
             list_dir(fin);
             break;
         case 'm':
-            printf("%u\n", dir_make_file(cwd, arg, 0, 0));
+            printf("%u\n", dir_make_file(cwd, arg, 0, 0, 0));
             break;
         case 'r':
             if(dir_delete_file(cwd, arg)){

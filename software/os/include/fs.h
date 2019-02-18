@@ -34,8 +34,8 @@ struct inode {
     uint16_t size;
     //first blk - disk block linked list pointer
     uint16_t disk_blk;
-    //if the inode is in use
-    uint8_t in_use;
+    //device minor number (only used if dev_num is non zero)
+    uint8_t dev_minor;
     /* ---- In Core only values ---- */
     //inode number - on disk, this is just the inode's addr in the table
     uint16_t inum;
@@ -60,8 +60,8 @@ struct disk_inode {
     uint16_t size;
     //first blk - disk block linked list pointer
     uint16_t disk_blk;
-    //if the inode is in use
-    uint8_t in_use;
+    //device minor number (only used if dev_num is non zero)
+    uint8_t dev_minor;
 };
 
 /* size of inode on disk */
