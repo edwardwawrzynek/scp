@@ -3,6 +3,8 @@
 #include "fs/inode.h"
 #include <panic.h>
 #include "kernel/panic.h"
+#include "dev/dev.h"
+#include "dev/devices.h"
 
 //Handles the file table, allowing operations on entries
 //This combines buffers, disk_io, block lists and inodes for convienent file access
@@ -111,14 +113,21 @@ void file_set_buf(struct file_entry * file){
 
 /* write bytes bytes from buf into the file file. write flag must be set
  * returns (uint16_t) - the number of bytes written*/
-
-/* TODO: call dev methods, add eof */
-uint16_t file_write(struct file_entry * file, uint8_t * buffer, uint16_t bytes){
+uint16_t file_write_nonblocking(struct file_entry * file, uint8_t * buffer, uint16_t bytes, uint8_t *eof){
     uint16_t bytes_c;
+
+    *eof = 0;
     bytes_c = bytes;
     if(!(file->mode & FILE_MODE_WRITE)){
+        *eof = 1;
         return 0;
     }
+
+    /* call dev method if needed */
+    if(file->ind->dev_num){
+        return devices[file->ind->dev_num]._write(file->ind->dev_minor, buffer, bytes, eof);
+    }
+
     //initial set
     file_set_buf(file);
     while(bytes--){
@@ -136,18 +145,27 @@ uint16_t file_write(struct file_entry * file, uint8_t * buffer, uint16_t bytes){
 /* reads bytes bytes into buf fom the file file. only reads to end of file.
  * returns (uint16_t) - the number of bytes read*/
 
-/* TODO: call dev methods, add eof */
-uint16_t file_read(struct file_entry * file, uint8_t * buffer, uint16_t bytes){
+uint16_t file_read_nonblocking(struct file_entry * file, uint8_t * buffer, uint16_t bytes, uint8_t *eof){
     uint16_t bytes_c;
+
+    *eof = 0;
     bytes_c = bytes;
     if(!(file->mode & FILE_MODE_READ)){
+        *eof = 1;
         return 0;
     }
+
+    /* call dev method if needed */
+    if(file->ind->dev_num){
+        return devices[file->ind->dev_num]._read(file->ind->dev_minor, buffer, bytes, eof);
+    }
+
     //initial set
     file_set_buf(file);
     while(bytes--){
         //if the end of file is reached, return
         if(file->pos >= file->ind->size){
+            *eof = 1;
             return bytes_c - (bytes+1);
         }
         if(!(file->pos&DISK_BLK_SIZE_MASK)){
@@ -156,6 +174,33 @@ uint16_t file_read(struct file_entry * file, uint8_t * buffer, uint16_t bytes){
         *(buffer++) = file->buf->buf[(file->pos++)&DISK_BLK_SIZE_MASK];
     }
     return bytes_c;
+}
+
+/* blocking methods of file read and file write
+ * only used by os when os is sure file isn't dev file */
+uint16_t file_write(struct file_entry * file, uint8_t * buffer, uint16_t bytes){
+    uint8_t eof;
+    uint16_t bytes_in = 0;
+    do {
+        uint16_t read = file_write_nonblocking(file, buffer, bytes, &eof);
+        buffer += read;
+        bytes_in += read;
+        bytes -= read;
+    } while (!eof && bytes);
+
+    return bytes_in;
+}
+uint16_t file_read(struct file_entry * file, uint8_t * buffer, uint16_t bytes){
+    uint8_t eof;
+    uint16_t bytes_out = 0;
+    do {
+        uint16_t read = file_read_nonblocking(file, buffer, bytes, &eof);
+        buffer += read;
+        bytes_out += read;
+        bytes -= read;
+    } while (!eof && bytes);
+
+    return bytes_out;
 }
 
 /* move the position in the file around. modes: 1-offset from beggining, 2-

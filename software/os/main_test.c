@@ -200,6 +200,16 @@ int main(){
         case 'm':
             printf("%u\n", dir_make_file(cwd, arg, 0, 0, 0));
             break;
+        case 't':
+            printf("%u\n", dir_make_file(cwd, "tty0", 1, 0, 0));
+            break;
+        case 'z':;
+            struct file_entry * f = file_get(fs_path_to_inum(arg, cwd), FILE_MODE_WRITE);
+            if(!f){
+                printf("Failure");
+            }
+            file_write(f, "hello, world. Testing!", 23);
+            break;
         case 'r':
             if(dir_delete_file(cwd, arg)){
                 printf("No such file: %s\n", arg);
