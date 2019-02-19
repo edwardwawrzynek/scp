@@ -15,6 +15,11 @@ struct _tty_dev {
     uint8_t pos_x;
     /* y position */
     uint8_t pos_y;
+    /* if shift key was pressed */
+    uint8_t tty_shifted;
+    /* if the ctrl key was pressed */
+    uint8_t ctrl;
+    /* tty_dev support for CANON mode */
     tty_dev_t tty_dev;
 };
 
@@ -93,29 +98,35 @@ static int tty_getc_plain(){
     return DEV_BLOCKING;
 }
 
-/* if we are shifted */
-static uint8_t tty_shifted = 0;
 
 /* the shifted charset, starting with space (ascii 32) */
 static char * shifted_charset = " !\"#$%&\"()*+<_>?)!@#$%^&*(::<+>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ{|}^_~ABCDEFGHIJKLMNOPQRSTUVWXYZ{|}~\\";
 
 /* process raw keypresses into ascii chars - don't handle backspace */
+/* TODO: handle arrow key escapes and things like that */
 static int tty_getc(){
     int c;
     while(1){
         c = tty_getc_plain();
         /* handle blocking and eof */
-        if(c == -2){
-            return -2;
-        } else if(c == -1){
-            return -1;
+        if(c == DEV_EOF){
+            return DEV_EOF;
+        } else if(c == DEV_BLOCKING){
+            return DEV_BLOCKING;
         }
         /* handle shift and shift releases */
         if(c == 16){
-            tty_shifted = 1;
+            tty.tty_shifted = 1;
             continue;
-        } else if (c == (0x100 + 16)){
-            tty_shifted = 0;
+        }
+        else if (c == (0x100 + 16)){
+            tty.tty_shifted = 0;
+            continue;
+        } else if (c == 17){
+            tty.ctrl = 1;
+            continue;
+        } else if (c == (0x100 + 17)){
+            tty.ctrl = 0;
             continue;
         }
         /* normal keys */
@@ -125,8 +136,12 @@ static int tty_getc(){
                 continue;
             }
             /* shift */
-            if(tty_shifted){
+            if(tty.tty_shifted){
                 return shifted_charset[c-32];
+            /* ctrl */
+            } else if (tty.ctrl){
+                /* ctrl+a is 0x1, ctrl+c 0x3, ctrl+d 0x4, and so on */
+                return c - 96;
             } else {
                 return c;
             }
@@ -139,7 +154,7 @@ int _tty_open(int minor){
     if(minor)
         return 1;
 
-    tty.tty_dev.termios.flags |= (TERMIOS_CANON | TERMIOS_ECHO);
+    tty.tty_dev.termios.flags |= (TERMIOS_CANON | TERMIOS_ECHO | TERMIOS_CTRL);
     return 0;
 }
 

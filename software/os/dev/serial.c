@@ -52,7 +52,7 @@ int _serial_open(int minor){
     if(minor)
         return 1;
 
-    serial.tty_dev.termios.flags |= (TERMIOS_CANON | TERMIOS_ECHO);
+    serial.tty_dev.termios.flags |= (TERMIOS_CANON | TERMIOS_ECHO | TERMIOS_CTRL);
     return 0;
 }
 

@@ -91,6 +91,16 @@ int _dev_tty_gen_read(int minor, uint8_t *buf, size_t bytes, uint8_t *eof, int (
             *eof = (c == DEV_EOF);
             return 0;
         }
+
+        /* Handle ctrl chars */
+        if(termios->termios.flags & TERMIOS_CTRL){
+            /* ctrl+d generates eof */
+            if(c == 0x4){
+                *eof = 1;
+                return 0;
+            }
+            /* TODO: ctrl+c handling */
+        }
         /* Write into termios buffer */
         termios->data_left_in_buf = 0;
         /* dev_tty_write_into_buf handles ECHO */
