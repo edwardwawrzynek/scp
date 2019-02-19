@@ -151,9 +151,14 @@ uint16_t GfxIO::get_keycode(SDL_Keycode key, uint8_t release){
         res = 31;
         break;
     /* shift */
+    case 1073742053:
     case 1073742049:
         res = 16;
         break;
+    /* ctrl */
+    case 1073742048:
+      res = 17;
+      break;
     /* return */
     case 13:
         res = 10;
