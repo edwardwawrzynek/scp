@@ -208,7 +208,7 @@ int main(){
             if(!f){
                 printf("Failure");
             }
-            file_write(f, "hello, world. Testing!", 23);
+            file_write(f, "helloworldaa\0\0a", 16);
             break;
         case 'r':
             if(dir_delete_file(cwd, arg)){

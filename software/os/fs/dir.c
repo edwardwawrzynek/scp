@@ -21,6 +21,11 @@ uint16_t dir_make_file(uint16_t dir_inum, uint8_t * name, uint16_t dev_num, uint
     if(!dir){
         return 0;
     }
+    //check that it is actually a dir
+    if(!(dir->ind->flags & INODE_FLAG_DIR)){
+        file_put(dir);
+        return 0;
+    }
     //find an open entry in the file, using fs_global_buf
     entry_i = -1;
     do{
@@ -63,6 +68,7 @@ uint16_t dir_make_file(uint16_t dir_inum, uint8_t * name, uint16_t dev_num, uint
 uint16_t dir_make_dir(uint16_t dir_inum, uint8_t * name){
     uint16_t inum;
     struct file_entry * dir;
+
     inum = dir_make_file(dir_inum, name, 0, INODE_FLAG_DIR, 0);
     //only continue if creation worked
     if(inum){
@@ -116,6 +122,11 @@ uint16_t dir_delete_file(uint16_t dir_inum, uint8_t *name){
     dir = file_get(dir_inum, FILE_MODE_READ | FILE_MODE_WRITE);
     if(!dir){
         return 1;
+    }
+    //check that it is actually a dir
+    if(!(dir->ind->flags & INODE_FLAG_DIR)){
+        file_put(dir);
+        return 0;
     }
     //find the entry matching the specified name
     while (1){
@@ -185,6 +196,11 @@ uint16_t dir_name_inum(uint16_t dir_inum, uint8_t *name){
     uint16_t res;
     dir = file_get(dir_inum, FILE_MODE_READ);
     if(!dir){
+        return 0;
+    }
+    /* check dir is a directory */
+    if(!(dir->ind->flags & INODE_FLAG_DIR)){
+        file_put(dir);
         return 0;
     }
     while(file_read(dir, fs_global_buf, DIR_ENTRY_SIZE) == DIR_ENTRY_SIZE){

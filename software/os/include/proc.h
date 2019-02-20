@@ -100,6 +100,9 @@ struct proc {
     //file descripter 0 coresponds to the 0 entry in this array, etc
     struct file_entry *files[PROC_NUM_FILES];
 
+    //cwd of this process - inum
+    uint16_t cwd;
+
     //this proc's mmu number (also its index in the proc_table) - THIS SHOULD NOT BE WRITTEN after proc_init_table
     uint8_t mmu_index;
 };
