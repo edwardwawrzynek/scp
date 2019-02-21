@@ -36,6 +36,3 @@
 
 /* ---- kernel definitions ---- */
 #include "include/kernel.h"
-
-/* ---- system call definitions ---- */
-#include "include/syscall.h"

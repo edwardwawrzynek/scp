@@ -37,6 +37,8 @@
 //a process waiting partway thorugh init (probably needs memory to be read in, file entries set)
 //the process will have at least the in_use flag set
 #define PROC_STATE_INIT 3
+//a process that has died but is still around for a parent to wait on it
+#define PROC_STATE_ZOMBIE 4
 //the kernel process - sheduler shouldn't run on it (it is just used for resource allocation for the kernel)
 #define PROC_STATE_IS_KERNEL 255
 
@@ -102,6 +104,12 @@ struct proc {
 
     //cwd of this process - inum
     uint16_t cwd;
+    //croot of this process - inum
+    uint16_t croot;
+
+    //if the process has returned, and, if so, what value it returned
+    uint8_t has_retd;
+    uint8_t ret_val;
 
     //this proc's mmu number (also its index in the proc_table) - THIS SHOULD NOT BE WRITTEN after proc_init_table
     uint8_t mmu_index;

@@ -12,16 +12,17 @@
 //Just defines fs_global_buf
 uint8_t fs_global_buf[DISK_BLK_SIZE];
 
-/* convert a filesystem path to an inode number, given a name and cwd inum
+/* convert a filesystem path to an inode number, given a name and cwd inum,
+ * and a root inum (probably a process root) to start / paths at
  * returns (uint16_t) the inum , or 0 if not found */
 
-uint16_t fs_path_to_inum(uint8_t * name, uint16_t cwd){
+uint16_t fs_path_to_inum(uint8_t * name, uint16_t cwd, uint16_t croot){
     //temporary value only to allow the while loop to run once - gets set after
     uint8_t *i;
     //If name starts with /, start searching at root
     if(name[0] == '/'){
         ++name;
-        cwd = 2;
+        cwd = croot;
     }
     //Loop
     while(cwd){

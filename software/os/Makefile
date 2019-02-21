@@ -22,6 +22,7 @@ kernel/mmu_asm.h	kernel/proc.h	kernel/shed.h		\
 kernel/context_switch.h	kernel/int_handler.h			\
 kernel/context_vars.h	kernel/kernel.h 				\
 syscall/handler.h	syscall/test.h	syscall/getpid.h	\
+syscall/fork.h											\
 
 
 OBJS = \
@@ -40,6 +41,7 @@ kernel/mmu_asm.o	kernel/proc.o	kernel/shed.o		\
 kernel/context_switch.o kernel/int_handler.o			\
 kernel/context_vars.o	kernel/kernel.o					\
 syscall/handler.o	syscall/test.o	syscall/getpid.o	\
+syscall/fork.o											\
 														\
 main_test.o	lib/brk_loc/end.o							\
 

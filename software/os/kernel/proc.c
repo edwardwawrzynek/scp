@@ -63,6 +63,23 @@ struct proc *proc_get(pid_t pid){
     return NULL;
 }
 
+/* go thorugh the proc list, and fill the passed array with all children of the given pid
+ * the passed array should be of size PROC_TABLE_ENTRIES
+ * does include zombie children
+ * returns number of children found - only these entries in pid_list are valid */
+uint16_t proc_find_children(pid_t parent, pid_t * pid_list){
+    uint16_t found = 0;
+    /* Don't check that parent is invalid - we may be searching for parents of a proc we just killed */
+    for(uint16_t i = 0; i < PROC_TABLE_ENTRIES; ++i){
+        if(proc_table[i].parent == parent && proc_table[i].in_use){
+            pid_list[found++] = proc_table[i].pid;
+        }
+    }
+
+    return found;
+}
+
+
 /* write a proc's mmu map to the mmu_table */
 void proc_write_mem_map(struct proc * proc){
     mmu_proc_table_out(proc->mem_map, (proc->mmu_index) << PROC_MMU_SHIFT);
@@ -140,7 +157,7 @@ void proc_init_mem_map(struct proc * proc){
  * doesn't init memory contents or memory layout
  * returns (struct proc *) the process entry */
 
-struct proc * proc_new_entry(pid_t parent){
+struct proc * proc_new_entry(pid_t parent, uint16_t cwd, uint16_t croot){
     struct proc * res;
     //get a new entry
     res = proc_alloc();
@@ -148,8 +165,15 @@ struct proc * proc_new_entry(pid_t parent){
     res->in_use = 1;
     //get an id
     res->pid = proc_alloc_pid();
-    //set parnet
+    //set parent
     res->parent = parent;
+    //set directory info
+    res->cwd = cwd;
+    res->croot = croot;
+    //return info
+    res->has_retd = 0;
+    res->ret_val = 0;
+
     //set cpu state for execution
     memset(res->cpu_state.regs, 0, sizeof(uint16_t) * 16);
     res->cpu_state.pc_reg = 0;
@@ -195,10 +219,10 @@ uint16_t proc_load_mem(struct proc * proc, struct file_entry * file){
  * TODO: create other process resources here
  * returns (struct proc *) - the process, or NULL on failure */
 
-struct proc * proc_create_new(pid_t parent, uint16_t inum){
+struct proc * proc_create_new(uint16_t inum, pid_t parent, uint16_t cwd, uint16_t croot){
     struct proc * res;
     struct file_entry * file;
-    res = proc_new_entry(parent);
+    res = proc_new_entry(parent, cwd, croot);
     //open file
     file = file_get(inum, FILE_MODE_READ);
     if(!file){
@@ -296,24 +320,68 @@ void proc_finish_return(){
     shed_shedule();
 }
 
+/**
+ * fork a process's system resources - only copy resources,
+ * not state or other information. That is handled in fork system calls.
+ * This needs to copy file descriptors, copy memory, copy cpu state
+ * This writes new mem map */
+void proc_fork_resources(struct proc * parent, struct proc * child){
+    /* TODO: copy over file descriptors */
+
+    /* copy over mem layout */
+    memcpy(&child->mem_struct, &parent->mem_struct, sizeof(struct proc_mem));
+    /* alloc pages TODO: use shared text segments */
+    proc_init_mem_map(child);
+    proc_write_mem_map(child);
+
+    /* copy over pages */
+    for(uint16_t i = 0; i < child->mem_struct.instr_pages + child->mem_struct.data_pages; i++){
+        uint8_t * parent_page = kernel_map_in_mem((uint8_t *)(i<<MMU_PAGE_SIZE_SHIFT), parent);
+        uint8_t * child_page = kernel_map_in_mem2((uint8_t *)(i<<MMU_PAGE_SIZE_SHIFT), child);
+        /* copy */
+        memcpy(child_page, parent_page, MMU_PAGE_SIZE);
+    }
+    /* copy stack */
+    uint16_t page = 31;
+    for(uint16_t i = 0; i < (child->mem_struct.stack_pages); ++i){
+        uint8_t * parent_page = kernel_map_in_mem((uint8_t *)(page<<MMU_PAGE_SIZE_SHIFT), parent);
+        uint8_t * child_page = kernel_map_in_mem2((uint8_t *)(page<<MMU_PAGE_SIZE_SHIFT), child);
+        /* copy */
+        memcpy(child_page, parent_page, MMU_PAGE_SIZE);
+        page--;
+    }
+
+    /* copy cpu state */
+    memcpy(&child->cpu_state, &parent->cpu_state, sizeof(struct proc_cpu_state));
+
+}
+
 /* release a process from the process table, clearing its memory and other resources
+ * doesn't handle orphan or zombie processes - exit system call handles those
  * returns (none) */
 
 void proc_put(struct proc * proc){
+    //cean up resources - if the process is zombie, this has already been done
+    if(proc->state != PROC_STATE_ZOMBIE){
+        proc_release_resources(proc);
+    }
     //mark as not in_use
     proc->in_use = 0;
     //set state
     proc->state = PROC_STATE_DEAD;
-    //clear memory map
-    proc_put_memory(proc);
+}
 
-    //TODO: deallocate other resources
+/* deallocate all resources associated with a process except its proc table entry
+ * called by proc_put, and used to clean up zombie processes before their parent
+ * calls wait on them */
+void proc_release_resources(struct proc * proc){
+    /* Realease memory */
+    proc_put_memory(proc);
+    /* TODO: release open files, etc */
 }
 
 /* release the memory map associated with a process, freeing all pages - doesn't clear the pages
  * returns (none) */
-
-/* TODO: move this into palloc_free, and keep refs there */
 
 void proc_put_memory(struct proc * proc){
     unsigned int i;
@@ -321,10 +389,10 @@ void proc_put_memory(struct proc * proc){
         //only palloc release if the page had been allocd
         if(proc->mem_map[i] & 0b10000000){
             palloc_free(proc->mem_map[i]);
-            proc->mem_map[i] = 0;
+            proc->mem_map[i] = MMU_UNUSED;
         } else {
             //mark it as clear for mmu anyway
-            proc->mem_map[i] = 0;
+            proc->mem_map[i] = MMU_UNUSED;
         }
     }
     mmu_proc_table_out(proc->mem_map, (proc->mmu_index) << PROC_MMU_SHIFT);

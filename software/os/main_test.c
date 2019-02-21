@@ -86,7 +86,7 @@ void file_print(uint16_t cwd, char * file){
     uint16_t i;
     uint8_t ind;
     uint16_t p;
-    i = fs_path_to_inum(file, cwd);
+    i = fs_path_to_inum(file, cwd, 2);
     if(i == 0){
         printf("no such file: %s\n", file);
         return;
@@ -112,6 +112,7 @@ void serial_recv(uint16_t cwd, char * path){
 
     tio.flags &= (~TERMIOS_CANON);
     tio.flags &= (~TERMIOS_ECHO);
+    tio.flags &= (~TERMIOS_CTRL);
 
     kstdio_set_output_dev(2);
     kstdio_ioctl(TCGETA, (uint16_t)&old_tio);
@@ -202,9 +203,10 @@ int main(){
             break;
         case 't':
             printf("%u\n", dir_make_file(cwd, "tty0", 1, 0, 0));
+            printf("%u\n", dir_make_file(cwd, "serial0", 2, 0, 0));
             break;
         case 'z':;
-            struct file_entry * f = file_get(fs_path_to_inum(arg, cwd), FILE_MODE_WRITE);
+            struct file_entry * f = file_get(fs_path_to_inum(arg, cwd, 2), FILE_MODE_WRITE);
             if(!f){
                 printf("Failure");
             }
@@ -224,7 +226,7 @@ int main(){
             }
             break;
         case 'c':
-            inum = fs_path_to_inum(arg, cwd);
+            inum = fs_path_to_inum(arg, cwd, 2);
             if(inum == 0){
                 printf("No such dir\n");
                 break;
@@ -242,12 +244,12 @@ int main(){
             break;
 
         case 'n':;
-            int pinum = fs_path_to_inum(arg, cwd);
+            int pinum = fs_path_to_inum(arg, cwd, 2);
             if(!pinum){
                 printf("No such file: %s\n", arg);
                 break;
             }
-            struct proc * pproc = proc_create_new(100, pinum);
+            struct proc * pproc = proc_create_new(pinum, 100, cwd, 2);
             if(!pproc){
                 printf("Error creating proc\n");
             }
