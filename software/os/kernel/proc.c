@@ -125,6 +125,7 @@ void proc_kernel_expand_brk(uint8_t *brk){
     for(int page = 0; page <= page_in_kernel; page++){
         if(proc_table[0].mem_map[page] == MMU_UNUSED){
             proc_table[0].mem_map[page] = palloc_new();
+            printf("alloced page: %u", proc_table[0].mem_map[page]&0b1111111);
         }
     }
     proc_write_mem_map(&proc_table[0]);
@@ -179,6 +180,10 @@ struct proc * proc_new_entry(pid_t parent, uint16_t cwd, uint16_t croot){
     res->cpu_state.pc_reg = 0;
     //start with a valid state
     res->cpu_state.cond_reg = COND_REG_INIT;
+
+    //clear file table
+    memset(res->files, 0, sizeof(struct file_entry *) * PROC_NUM_FILES);
+
     //put in an init'd state
     res->state = PROC_STATE_INIT;
 
@@ -326,7 +331,14 @@ void proc_finish_return(){
  * This needs to copy file descriptors, copy memory, copy cpu state
  * This writes new mem map */
 void proc_fork_resources(struct proc * parent, struct proc * child){
-    /* TODO: copy over file descriptors */
+    /* copy over file descriptors */
+    memcpy(&child->files, &parent->files, sizeof(struct file_entry *) * PROC_NUM_FILES);
+    /* inc refs on file descriptors */
+    for(uint16_t i = 0; i < PROC_NUM_FILES; i++){
+        if(child->files[i]){
+            file_inc_refs(child->files[i]);
+        }
+    }
 
     /* copy over mem layout */
     memcpy(&child->mem_struct, &parent->mem_struct, sizeof(struct proc_mem));
@@ -356,6 +368,17 @@ void proc_fork_resources(struct proc * parent, struct proc * child){
 
 }
 
+/* get next open file descriptor, or panic if non left */
+uint16_t proc_next_open_fd(struct proc * proc){
+    for(uint16_t i = 0; i < PROC_NUM_FILES; i++){
+        if(!proc->files[i]){
+            return i;
+        }
+    }
+
+    panic(PANIC_NO_FREE_FD);
+}
+
 /* release a process from the process table, clearing its memory and other resources
  * doesn't handle orphan or zombie processes - exit system call handles those
  * returns (none) */
@@ -377,7 +400,12 @@ void proc_put(struct proc * proc){
 void proc_release_resources(struct proc * proc){
     /* Realease memory */
     proc_put_memory(proc);
-    /* TODO: release open files, etc */
+    /* Release open file descriptors */
+    for(uint16_t i = 0; i < PROC_NUM_FILES; i++){
+        if(proc->files[i]){
+            file_put(proc->files[i]);
+        }
+    }
 }
 
 /* release the memory map associated with a process, freeing all pages - doesn't clear the pages

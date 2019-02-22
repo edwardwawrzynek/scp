@@ -9,6 +9,7 @@ uint16_t file_write_nonblocking(struct file_entry *file,uint8_t *buffer,uint16_t
 void file_set_buf(struct file_entry *file);
 void file_put_all();
 void file_put(struct file_entry *file);
+void file_inc_refs(struct file_entry *file);
 struct file_entry *file_get(uint16_t inum,uint8_t mode);
 struct file_entry *file_alloc();
 extern struct file_entry file_table[FILE_TABLE_ENTRIES];

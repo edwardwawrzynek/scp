@@ -150,6 +150,7 @@ void serial_recv(uint16_t cwd, char * path){
             kstdio_ioctl(TCSETA, (uint16_t)&old_tio);
             kstdio_set_output_dev(1);
             file_put(f);
+            printf("Returning\n");
             return;
         }
         loop_num++;

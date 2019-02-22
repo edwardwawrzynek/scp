@@ -44,3 +44,13 @@ _fork:
 ;   Int
     int.i.n r7
     ret.n.sp sp
+
+;   open - oepn/create a file (non blocking)
+    .align
+_open:
+    .global _open
+;   Load syscall number
+    ld.r.i re 4
+;   Int
+    int.i.n r7
+    ret.n.sp sp

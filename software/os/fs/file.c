@@ -66,6 +66,11 @@ struct file_entry * file_get(uint16_t inum, uint8_t mode){
     return res;
 }
 
+/* inc refs on file entry */
+void file_inc_refs(struct file_entry * file){
+    file->refs++;
+}
+
 /* releases a file table entry, realesing its inode, buffer, and marking it as
  * free in the file table, if it no longer has refrences
  * returns (none) */

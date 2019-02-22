@@ -15,3 +15,5 @@ uint16_t test_syscall(__reg("ra") uint8_t *a0, uint16_t __reg("rb") a1, __reg("r
 uint16_t getpid();
 uint16_t getppid();
 uint16_t fork();
+
+uint16_t open(__reg("ra") char * name, __reg("rb") uint16_t flags);

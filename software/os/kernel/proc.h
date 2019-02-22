@@ -2,6 +2,7 @@
 #undef INTERFACE
 void proc_put_memory(struct proc *proc);
 void proc_release_resources(struct proc *proc);
+uint16_t proc_next_open_fd(struct proc *proc);
 void proc_fork_resources(struct proc *parent,struct proc *child);
 void proc_finish_return();
 uint8_t proc_begin_execute(struct proc *proc);

@@ -4,7 +4,8 @@
 #include "kernel/mmu.h"
 #include "kernel/mmu_asm.h"
 #include "include/lib/kstdio_layer.h"
-
+#include "kernel/panic.h"
+#include "kernel/shed.h"
 
 
 //main functions for the kernel
@@ -21,6 +22,20 @@ void kernel_init(){
   proc_init_kernel_entry();
   //start kstdio layer
   kstdio_layer_init(1);
+}
+
+/* create the init process from the 'init' bin file at root dir level, and run it
+ * init doesn't have stdin, stdout, or stderr, and has to open it itself */
+void kernel_start_init(){
+  uint16_t init_inum = fs_path_to_inum("init", 2, 2);
+  if(!init_inum){
+    panic(PANIC_NO_INIT_FILE);
+  }
+  /* don'y give init a parent */
+  struct proc * proc = proc_create_new(init_inum, 0, 2, 2);
+
+  /* return from kernel */
+  shed_shedule();
 }
 
 /* map a pointer from a proc's addr space into the kernels

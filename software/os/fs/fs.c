@@ -34,9 +34,12 @@ uint16_t fs_path_to_inum(uint8_t * name, uint16_t cwd, uint16_t croot){
             *i = '\0';
         }
         //load new cwd from dir_name_inode
+        printf("Name going in: %s\n", name);
         cwd = dir_name_inum(cwd, name);
+        printf("CWD: %u, Name: %s\n", cwd, name);
         //update name to after /
         name = i+1;
+        printf("New name: %s\n", name);
         //if i is 0, meaning no more slashes were found, the the loop will exit
         if(!i){
             break;
