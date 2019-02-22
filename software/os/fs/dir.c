@@ -194,9 +194,7 @@ uint16_t dir_next_entry(struct file_entry * file, uint8_t * name){
 uint16_t dir_name_inum(uint16_t dir_inum, uint8_t *name){
     struct file_entry * dir;
     uint16_t res;
-    printf("name 1: %s\n", name);
     dir = file_get(dir_inum, FILE_MODE_READ);
-    printf("name 2: %u\n", name);
     if(!dir){
         return 0;
     }

@@ -18,16 +18,12 @@
 
 /* Open a file, and return its file descriptor */
 int16_t _open(uint16_t name, uint16_t flags, uint16_t a2, uint16_t a3){
-    printf("Name: %u, Flags: %u\n", name, flags);
     uint16_t fd = proc_next_open_fd(proc_current_proc);
 
     char * path = kernel_map_in_mem((uint8_t *) name, proc_current_proc);
-    printf("Mapped in: %u, %s, cwd: %u, croot: %u\n", path, path, proc_current_proc->cwd, proc_current_proc->croot);
     /* find file */
     uint16_t inum = fs_path_to_inum(path, proc_current_proc->cwd, proc_current_proc->croot);
-        printf("opening, inum: %u\n", inum);
     if(!inum){
-        printf("returning\n");
         /* TODO: handle O_CREAT flag with creat system call */
         return -1;
     }

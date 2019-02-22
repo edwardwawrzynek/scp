@@ -125,7 +125,6 @@ void proc_kernel_expand_brk(uint8_t *brk){
     for(int page = 0; page <= page_in_kernel; page++){
         if(proc_table[0].mem_map[page] == MMU_UNUSED){
             proc_table[0].mem_map[page] = palloc_new();
-            printf("alloced page: %u", proc_table[0].mem_map[page]&0b1111111);
         }
     }
     proc_write_mem_map(&proc_table[0]);

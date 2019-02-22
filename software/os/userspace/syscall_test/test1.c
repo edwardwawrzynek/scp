@@ -12,8 +12,9 @@ int main(){
 		test_syscall("Parent Running\nParent's Child PID: %u\n", pid, 0, 0);
 		int fd = open("/dev/tty0", 3);
 		test_syscall("FD Opened: %u\n", fd, 0, 0);
-		    __asm("\tnop.n.n\n");
-    __asm("\t.dc.w 16\n");
+		fd = open("/dev/serial0", 3);
+		test_syscall("FD Opened: %u\n", fd, 0, 0);
+
 	}
 
 	while(1);

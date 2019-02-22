@@ -56,8 +56,7 @@ uint8_t * kernel_map_in_mem(uint8_t * pointer, struct proc * proc){
   if(!(page1 & 0b10000000)){
     return NULL;
   }
-  //clear assigned bit
-  page1 = page1 & 0b01111111;
+
   //only load 2nd page if the pointer isn't pointing to the last page
   if(page_in_proc != 31){
     page2 = (proc->mem_map[page_in_proc]);
@@ -65,14 +64,14 @@ uint8_t * kernel_map_in_mem(uint8_t * pointer, struct proc * proc){
     if(!(page2 & 0b10000000)){
       return NULL;
     }
-    //clear assigned bit
-    page2 = page2 & 0b01111111;
+
   } else {
     page2 = MMU_UNUSED;
   }
   //map into kernel addr space
-  mmu_set_page(KERNEL_MEM_MAP_PAGE_1, page1 | 0b10000000);
-  mmu_set_page(KERNEL_MEM_MAP_PAGE_2, page2 | 0b10000000);
+  proc_table[0].mem_map[KERNEL_MEM_MAP_PAGE_1] = page1;
+  proc_table[0].mem_map[KERNEL_MEM_MAP_PAGE_2] = page2;
+  proc_write_mem_map(&proc_table[0]);
   //return the pointer
   return (uint8_t *)(KERNEL_MEM_MAP_PAGE_1 << MMU_PAGE_SIZE_SHIFT) +
   ((uint16_t)pointer & MMU_PAGE_SIZE_MASK);
@@ -85,7 +84,7 @@ uint8_t * kernel_map_in_mem(uint8_t * pointer, struct proc * proc){
  * returns (uint8_t *) - NULL on failure, or a pointer in the kernel addr space, valid until the next call to kernel_map_in_mem2
  * by using this and kernel_map_in_mem, two buffers can be mapped in at once */
 uint8_t * kernel_map_in_mem2(uint8_t * pointer, struct proc * proc){
-  //the indes of the page in the proc's addr space
+   //the indes of the page in the proc's addr space
   uint16_t page_in_proc;
   //real pages that the pointer resides in
   uint16_t page1;
@@ -98,8 +97,7 @@ uint8_t * kernel_map_in_mem2(uint8_t * pointer, struct proc * proc){
   if(!(page1 & 0b10000000)){
     return NULL;
   }
-  //clear assigned bit
-  page1 = page1 & 0b01111111;
+
   //only load 2nd page if the pointer isn't pointing to the last page
   if(page_in_proc != 31){
     page2 = (proc->mem_map[page_in_proc]);
@@ -107,14 +105,14 @@ uint8_t * kernel_map_in_mem2(uint8_t * pointer, struct proc * proc){
     if(!(page2 & 0b10000000)){
       return NULL;
     }
-    //clear assigned bit
-    page2 = page2 & 0b01111111;
+
   } else {
     page2 = MMU_UNUSED;
   }
   //map into kernel addr space
-  mmu_set_page(KERNEL_MEM_MAP_PAGE_3, page1 | 0b10000000);
-  mmu_set_page(KERNEL_MEM_MAP_PAGE_4, page2 | 0b10000000);
+  proc_table[0].mem_map[KERNEL_MEM_MAP_PAGE_3] = page1;
+  proc_table[0].mem_map[KERNEL_MEM_MAP_PAGE_4] = page2;
+  proc_write_mem_map(&proc_table[0]);
   //return the pointer
   return (uint8_t *)(KERNEL_MEM_MAP_PAGE_3 << MMU_PAGE_SIZE_SHIFT) +
   ((uint16_t)pointer & MMU_PAGE_SIZE_MASK);
