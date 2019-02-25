@@ -54,3 +54,63 @@ _open:
 ;   Int
     int.i.n r7
     ret.n.sp sp
+
+;   read_nb - read from a file (needs blocking wrapper)
+    .align
+_read_nb:
+    .global _read_nb
+;   Load syscall number
+    ld.r.i re 5
+;   Int
+    int.i.n r7
+    ret.n.sp sp
+
+;   write_nb - write to a file (needs blocking wrapper)
+    .align
+_write_nb:
+    .global _write_nb
+;   Load syscall number
+    ld.r.i re 6
+;   Int
+    int.i.n r7
+    ret.n.sp sp
+
+;   close - close a file (non blocking)
+    .align
+_close:
+    .global _close
+;   Load syscall number
+    ld.r.i re 7
+;   Int
+    int.i.n r7
+    ret.n.sp sp
+
+;   dup - duplicate fd (non blocking)
+    .align
+_dup:
+    .global _dup
+;   Load syscall number
+    ld.r.i re 8
+;   Int
+    int.i.n r7
+    ret.n.sp sp
+
+;   dup2 - duplicate fd (non blocking)
+    .align
+_dup2:
+    .global _dup2
+;   Load syscall number
+    ld.r.i re 9
+;   Int
+    int.i.n r7
+    ret.n.sp sp
+
+;   creat - create file (non blocking)
+    .align
+_creat:
+    .global _creat
+;   Load syscall number
+    ld.r.i re 10
+;   Int
+    int.i.n r7
+    ret.n.sp sp

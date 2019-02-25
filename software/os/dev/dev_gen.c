@@ -62,7 +62,7 @@ uint8_t _dev_tty_write_into_buf(uint8_t *buf, uint8_t c, uint8_t* ind, uint8_t e
 
     /* we want newlines in returned output */
     if(c == '\n'){
-        return *ind;
+        return (*ind)-last_write_end;
     }
 
     return 0;

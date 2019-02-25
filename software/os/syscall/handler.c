@@ -7,7 +7,7 @@
 #include "syscall/test.h"
 #include "syscall/getpid.h"
 #include "syscall/fork.h"
-#include "syscall/open.h"
+#include "syscall/files.h"
 
 /* syscall table (all syscalls take four args, regardless of if they use them or not *) */
 uint16_t (*syscalls[])(uint16_t, uint16_t, uint16_t, uint16_t) = {
@@ -16,6 +16,12 @@ uint16_t (*syscalls[])(uint16_t, uint16_t, uint16_t, uint16_t) = {
     _getppid,
     _fork,
     _open,
+    _read_nb,
+    _write_nb,
+    _close,
+    _dup,
+    _dup2,
+    _creat,
 };
 
 /* Passed Args and syscall number */

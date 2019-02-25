@@ -45,6 +45,37 @@ uint16_t fs_path_to_inum(uint8_t * name, uint16_t cwd, uint16_t croot){
     return cwd;
 }
 
+/* convert a filesystem path into the inum of the directory containing it
+ * it doesn't matter wheather the last part of the path exists -
+ * this just returns directory above it
+ * also, copy name of file (not path) over to file_name
+ * returns 0 if a directory at some point doesn't exist */
+uint16_t fs_path_to_contain_dir(uint8_t *name, uint16_t cwd, uint16_t croot, uint8_t * file_name){
+    /* cut off last / from path */
+    uint16_t len = strlen(name);
+    /* search for / backwards */
+    int16_t index = -1;
+    for(int16_t i = len; i > 0; i--){
+        if(name[i] == '/'){
+            index = i;
+            break;
+        }
+    }
+    /* if no / found, return cwd */
+    if(index == -1){
+        strcpy(file_name, name);
+        return cwd;
+    }
+    /* make sure / wasn't last thing in path */
+    if(index == len -1){
+	    return 0;
+    }
+    name[index] = '\0';
+    /* copy from index+1 to len */
+    strcpy(file_name, name + index + 1);
+    return fs_path_to_inum(name, cwd, croot);
+}
+
 /* init the filesystem
  * returns (none) */
 void fs_init(){
