@@ -31,8 +31,11 @@ uint16_t _open(uint16_t name, uint16_t flags, uint16_t a2, uint16_t a3){
     /* find file */
     uint16_t inum = fs_path_to_inum(path, proc_current_proc->cwd, proc_current_proc->croot);
     if(!inum){
-        /* TODO: handle O_CREAT flag with creat system call */
-        return create_file(path);
+        if(flags & O_CREAT){
+            return create_file(path);
+        } else {
+            return -1;
+        }
     }
     uint16_t mode = 0;
     /* handle r/w modes (O_RDWR is handled by being O_RDONLY | O_WRONLY) */
@@ -113,6 +116,7 @@ uint16_t _close(uint16_t fd, uint16_t a1, uint16_t a2, uint16_t a3){
     }
 
     file_put(proc_current_proc->files[fd]);
+    proc_current_proc->files[fd] = NULL;
     return 0;
 }
 
@@ -150,6 +154,10 @@ uint16_t _dup2(uint16_t old, uint16_t new, uint16_t a2, uint16_t a3){
 
 /* non blocking read and write calls (userspace implements blocking wrappers) */
 uint16_t _read_nb(uint16_t fd, uint16_t buf, uint16_t bytes, uint16_t eof){
+    /* make sure file exists */
+    if(!proc_current_proc->files[fd]){
+        return -1;
+    }
     uint8_t *kbuf = kernel_map_in_mem((uint8_t *)buf, proc_current_proc);
     uint8_t * keof = kernel_map_in_mem2((uint8_t *)eof, proc_current_proc);
     if((!kbuf) || (!keof)){
@@ -162,6 +170,10 @@ uint16_t _read_nb(uint16_t fd, uint16_t buf, uint16_t bytes, uint16_t eof){
 }
 
 uint16_t _write_nb(uint16_t fd, uint16_t buf, uint16_t bytes, uint16_t eof){
+    /* make sure file exists */
+    if(!proc_current_proc->files[fd]){
+        return -1;
+    }
     uint8_t *kbuf = kernel_map_in_mem((uint8_t *)buf, proc_current_proc);
     uint8_t * keof = kernel_map_in_mem2((uint8_t *)eof, proc_current_proc);
     if((!kbuf) || (!keof)){

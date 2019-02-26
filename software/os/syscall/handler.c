@@ -8,6 +8,7 @@
 #include "syscall/getpid.h"
 #include "syscall/fork.h"
 #include "syscall/files.h"
+#include "syscall/exec.h"
 
 /* syscall table (all syscalls take four args, regardless of if they use them or not *) */
 uint16_t (*syscalls[])(uint16_t, uint16_t, uint16_t, uint16_t) = {
@@ -22,6 +23,7 @@ uint16_t (*syscalls[])(uint16_t, uint16_t, uint16_t, uint16_t) = {
     _dup,
     _dup2,
     _creat,
+    _execv,
 };
 
 /* Passed Args and syscall number */
@@ -37,7 +39,6 @@ void syscall_handler_run(){
     arg2 = context_switch_regs[0xc];
     arg3 = context_switch_regs[0xd];
     syscall_num = context_switch_regs[0xe];
-
     /* call syscall */
     uint16_t result = syscalls[syscall_num](arg0, arg1, arg2, arg3);
 

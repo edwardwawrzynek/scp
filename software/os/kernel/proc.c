@@ -153,6 +153,16 @@ void proc_init_mem_map(struct proc * proc){
     }
 }
 
+/* reset proc's cpu state
+ * needed for a blank execution */
+void proc_reset_cpu(struct proc * proc){
+    //set cpu state for execution
+    memset(proc->cpu_state.regs, 0, sizeof(uint16_t) * 16);
+    proc->cpu_state.pc_reg = 0;
+    //start with a valid state
+    proc->cpu_state.cond_reg = COND_REG_INIT;
+}
+
 /* creates a new process entry from a parent pid
  * doesn't init memory contents or memory layout
  * returns (struct proc *) the process entry */
@@ -175,10 +185,7 @@ struct proc * proc_new_entry(pid_t parent, uint16_t cwd, uint16_t croot){
     res->ret_val = 0;
 
     //set cpu state for execution
-    memset(res->cpu_state.regs, 0, sizeof(uint16_t) * 16);
-    res->cpu_state.pc_reg = 0;
-    //start with a valid state
-    res->cpu_state.cond_reg = COND_REG_INIT;
+    proc_reset_cpu(res);
 
     //clear file table
     memset(res->files, 0, sizeof(struct file_entry *) * PROC_NUM_FILES);

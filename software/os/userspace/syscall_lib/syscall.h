@@ -40,3 +40,7 @@ uint16_t dup2(__reg("ra") uint16_t old, __reg("rb") uint16_t new);
 uint16_t close(__reg("ra") uint16_t fd);
 
 uint16_t creat(__reg("ra") uint8_t *name);
+
+uint16_t yield();
+
+uint16_t execv(uint8_t *path, uint8_t **argv);

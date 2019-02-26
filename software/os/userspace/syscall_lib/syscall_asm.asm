@@ -5,6 +5,17 @@
 
     .text
 
+;   Yield CPU time for current time block
+;   Called by wrappers when waiting on blocking file,
+;   Or for others. This triggers the same int as the timer,
+;   so the cpu thinks the proc used all its time
+    .align
+_yield:
+    .global _yield
+;   Int (same as timer)
+    int.i.n r1
+    ret.n.sp sp
+
 ;   Test Syscall
     .align
 _test_syscall:
@@ -111,6 +122,16 @@ _creat:
     .global _creat
 ;   Load syscall number
     ld.r.i re 10
+;   Int
+    int.i.n r7
+    ret.n.sp sp
+
+;   execv - replace proc (non blocking)
+    .align
+_execv:
+    .global _execv
+;   Load syscall number
+    ld.r.i re 11
 ;   Int
     int.i.n r7
     ret.n.sp sp

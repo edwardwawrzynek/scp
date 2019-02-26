@@ -22,7 +22,7 @@
 #define PROC_NUM_FILES 8
 
 /* max time for a process to run (in 2^12 clk ticks) */
-#define SHED_MAX_TIME 500
+#define SHED_MAX_TIME 50
 
 
 /* ---- File structures ---- */

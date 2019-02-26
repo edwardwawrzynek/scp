@@ -12,6 +12,7 @@ void proc_put(struct proc *proc);
 struct proc *proc_create_new(uint16_t inum,pid_t parent,uint16_t cwd,uint16_t croot);
 uint16_t proc_load_mem(struct proc *proc,struct file_entry *file);
 struct proc *proc_new_entry(pid_t parent,uint16_t cwd,uint16_t croot);
+void proc_reset_cpu(struct proc *proc);
 void proc_init_mem_map(struct proc *proc);
 void proc_kernel_expand_brk(uint8_t *brk);
 void proc_init_kernel_entry();

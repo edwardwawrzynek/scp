@@ -2,20 +2,19 @@
 #include <stdio.h>
 #include "../syscall_lib/syscall.h"
 #include <inout.h>
+#include <stddef.h>
 
 char buf[20];
 
 int main(){
-	//test_syscall("Parent Starting.\nPID: %u\nForking..", getpid(), 0, 0);
-	uint16_t pid = fork();
-	if(pid == 0){
-		//test_syscall("Child Running\nChild PID: %u\nChild's parent pid: %u\n", getpid(), getppid(), 0);
-	} else {
-		//test_syscall("Parent Running\nParent's Child PID: %u\n", pid, 0, 0);
-		int fd = creat("test.txt");
-		test_syscall("FD: %u\n", fd, 0,0);
-		write(fd, "hello, world! This is a test. What fun. this is cool.", 54);
-		close(fd);
+	for(int i = 0; i < 10; i++){
+		int pid = fork();
+		if(pid == 0){
+			execv("test2", NULL);
+		}
+		for(int p=1;p;p++){
+			for(int j=0;j<7;j++);
+		}
 	}
 
 	while(1);
