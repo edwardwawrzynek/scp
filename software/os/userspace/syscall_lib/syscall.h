@@ -44,3 +44,6 @@ uint16_t creat(__reg("ra") uint8_t *name);
 uint16_t yield();
 
 uint16_t execv(uint8_t *path, uint8_t **argv);
+
+uint16_t chdir(uint8_t *path);
+uint16_t chroot(uint8_t *path);

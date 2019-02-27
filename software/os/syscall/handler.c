@@ -9,6 +9,7 @@
 #include "syscall/fork.h"
 #include "syscall/files.h"
 #include "syscall/exec.h"
+#include "syscall/chdir.h"
 
 /* syscall table (all syscalls take four args, regardless of if they use them or not *) */
 uint16_t (*syscalls[])(uint16_t, uint16_t, uint16_t, uint16_t) = {
@@ -24,6 +25,8 @@ uint16_t (*syscalls[])(uint16_t, uint16_t, uint16_t, uint16_t) = {
     _dup2,
     _creat,
     _execv,
+    _chdir,
+    _chroot,
 };
 
 /* Passed Args and syscall number */

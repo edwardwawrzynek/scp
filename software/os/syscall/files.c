@@ -42,7 +42,7 @@ uint16_t _open(uint16_t name, uint16_t flags, uint16_t a2, uint16_t a3){
     if(flags & O_RDONLY){
         mode |= FILE_MODE_READ;
     }
-    if(flags & O_WRONLY){
+    else if(flags & O_WRONLY){
         mode |= FILE_MODE_WRITE;
     } else {
         /* some kind of r/w mode is needed */

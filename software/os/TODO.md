@@ -1,0 +1,29 @@
+# Todo for OS
+- [x] Basic FS (inodes, blocks, normal files, dirs, etc)
+- [x] Device Files
+    - [ ] Special device files (/dev/null, zero, random, etc)
+- [ ] Pipes
+    - [ ] Named Pipes (offsets have to be stored in inode - dev drivers need access to file_entry)
+- [ ] Environment Variables
+    - [ ] exec e flag
+    - [ ] exec p flag and PATH searching
+- [ ] Errno
+    - [ ] full errno setting
+- [x] Syscalls
+    - [x] getpid, getppid
+    - [x] open, creat, read, write, close
+    - [x] dup, dup2
+    - [x] fork
+    - [x] execv (will be execve)
+        - [ ] argv passing
+        - [ ] #! script handling
+        - [ ] binary header handling - proper paging
+    - [ ] mkdir, readdir, rmdir (must be emptied before)
+    - [ ] chmod
+    - [x] chdir, chroot
+    - [ ] mkfifo (needs named pipes)
+    - [ ] link, unlink
+    - [ ] exit
+        - [ ] zombie / orphan handling (don't make init do it)
+        - [ ] wait
+- [ ] Swapping/Paging

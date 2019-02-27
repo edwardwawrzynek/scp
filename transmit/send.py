@@ -53,13 +53,12 @@ def sendChunk(index, length):
         length = len(data)-index
     for i in range(index, index+length):
         ser.write(data[i])
-        time.sleep(0.0002)
     while ser.inWaiting() < length:
         pass
     ser.read(ser.inWaiting())
 
 cur = 0
-chunk_len = 2
+chunk_len = 128
 for i in range(len(data)):
     if i % chunk_len == 0:
         sendChunk(i, chunk_len)

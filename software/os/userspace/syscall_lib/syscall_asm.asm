@@ -135,3 +135,23 @@ _execv:
 ;   Int
     int.i.n r7
     ret.n.sp sp
+
+;   chdir - change current dir (non blocking)
+    .align
+_chdir:
+    .global _chdir
+;   Load syscall number
+    ld.r.i re 12
+;   Int
+    int.i.n r7
+    ret.n.sp sp
+
+;   chroot - change current root dir (non blocking)
+    .align
+_chroot:
+    .global _chroot
+;   Load syscall number
+    ld.r.i re 13
+;   Int
+    int.i.n r7
+    ret.n.sp sp

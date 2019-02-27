@@ -78,8 +78,14 @@ uint32_t CPU::hard_addr(uint16_t addr) {
     /* check for unassigned mmu access */
     if(!(page_table[high_addr + real_ptb] & 0b10000000)){
         /* TODO: segfault interupt */
+        std::cerr << std::dec;
         std::cerr << "scpemu: warning: unassigned mmu access\n";
         std::cerr << "attempted to access page " << (high_addr + real_ptb) << "\n";
+        std::cerr << "current sp page (in proc): " << (uint16_t)(regs[15] >> 11) << "\n";
+        std::cerr << "priv_lv: " << priv_lv << "\n";
+	nop_debug(16);
+	exit(1);
+
     }
     res = (page_table[high_addr + real_ptb] & 0b01111111) << 11;
     res += low_addr;

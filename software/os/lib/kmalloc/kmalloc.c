@@ -3,6 +3,7 @@
 #include "lib/brk_loc/end.h"
 #include "include/defs.h"
 #include "kernel/proc.h"
+#include "kernel/panic.h"
 
 //Header before every malloc'd block of memory
 struct _malloc_header {
@@ -33,6 +34,9 @@ static unsigned char * _malloc_new(unsigned int size, struct _malloc_header * pr
     header.prev = prev_blk;
     header.next = 0;
     //memcpy header to memory
+    if(((uint16_t)(brk + sizeof(struct _malloc_header)) >> MMU_PAGE_SIZE_SHIFT) >= KERNEL_MEM_MAP_PAGE_1){
+        panic(PANIC_KMALLOC_NO_FREE_MEM);
+    }
     proc_kernel_expand_brk(brk + sizeof(struct _malloc_header));
     memcpy(brk, &header, sizeof(struct _malloc_header));
     if(prev_blk){
@@ -45,6 +49,9 @@ static unsigned char * _malloc_new(unsigned int size, struct _malloc_header * pr
     _malloc_tail = (struct _malloc_header *) brk;
     //increment brk the appropriate amount
     brk += sizeof(struct _malloc_header) + size;
+    if(((uint16_t)(brk) >> MMU_PAGE_SIZE_SHIFT) >= KERNEL_MEM_MAP_PAGE_1){
+        panic(PANIC_KMALLOC_NO_FREE_MEM);
+    }
     proc_kernel_expand_brk(brk);
 
     return brk - size;

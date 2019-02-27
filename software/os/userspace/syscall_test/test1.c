@@ -7,15 +7,25 @@
 char buf[20];
 
 int main(){
-	for(int i = 0; i < 10; i++){
-		int pid = fork();
-		if(pid == 0){
-			execv("test2", NULL);
-		}
-		for(int p=1;p;p++){
-			for(int j=0;j<7;j++);
-		}
+	int pid, fd;
+
+	pid = fork();
+	if(!pid){
+		fd = open("/tty0", O_RDONLY);
+		test_syscall("1 fd: %u\n", fd, 0,0);
+		while(1);
 	}
+	/* change dir */
+	int val = chroot("/dev");
+	test_syscall("chdir val: %u\n", val);
+	pid = fork();
+	if(pid){
+		fd = open("/tty0", O_RDONLY);
+		test_syscall("2 fd: %u\n", fd, 0,0);
+		while(1);
+
+	}
+
 
 	while(1);
 }
