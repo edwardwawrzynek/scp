@@ -175,3 +175,23 @@ _wait_nb:
 ;   Int
     int.i.n r7
     ret.n.sp sp
+
+;   link - create new link to file (nonblocking)
+    .align
+_link:
+    .global _link
+;   Load syscall number
+    ld.r.i re 16
+;   Int
+    int.i.n r7
+    ret.n.sp sp
+
+;   unlink - remove a file (nonblocking)
+    .align
+_unlink:
+    .global _unlink
+;   Load syscall number
+    ld.r.i re 17
+;   Int
+    int.i.n r7
+    ret.n.sp sp

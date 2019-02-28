@@ -43,14 +43,18 @@ uint16_t creat(__reg("ra") uint8_t *name);
 
 uint16_t yield();
 
-uint16_t execv(uint8_t *path, uint8_t **argv);
+uint16_t execv(__reg("ra") uint8_t *path, __reg("rb") uint8_t **argv);
 
-uint16_t chdir(uint8_t *path);
+uint16_t chdir(__reg("ra") uint8_t *path);
 
-uint16_t chroot(uint8_t *path);
+uint16_t chroot(__reg("ra") uint8_t *path);
 
-uint16_t exit(uint8_t return_value);
+uint16_t exit(__reg("ra") uint8_t return_value);
 
 uint16_t wait_nb(uint8_t *ret_val);
 
-uint16_t wait(uint8_t *ret_val);
+uint16_t wait(__reg("ra") uint8_t *ret_val);
+
+uint16_t link(__reg("ra") uint8_t *old_path, __reg("rb") uint8_t *new_path);
+
+uint16_t unlink(__reg("ra") uint8_t *path);

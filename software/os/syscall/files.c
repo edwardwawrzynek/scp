@@ -183,3 +183,54 @@ uint16_t _write_nb(uint16_t fd, uint16_t buf, uint16_t bytes, uint16_t eof){
 
     return file_write_nonblocking(proc_current_proc->files[fd], kbuf, bytes, keof);
 }
+
+/* Link a previously existed file to a new location */
+uint16_t _link(uint16_t old, uint16_t new, uint16_t a2, uint16_t a3){
+    /* map in mem */
+    uint8_t * old_path = kernel_map_in_mem((uint8_t *)old, proc_current_proc);
+    uint8_t * new_path = kernel_map_in_mem2((uint8_t *)new, proc_current_proc);
+
+    if((!old_path) || (!new_path)){
+        return -1;
+    }
+    /* get inums */
+    uint16_t old_inum = fs_path_to_inum(old_path, proc_current_proc->cwd, proc_current_proc->croot);
+    /* make sure file doesn't exist already */
+    uint16_t new_inum = fs_path_to_inum(new_path, proc_current_proc->cwd, proc_current_proc->croot);
+    if(new_inum){
+        return -1;
+    }
+    /* create new file */
+    uint16_t dir_inum = fs_path_to_contain_dir(new_path, proc_current_proc->cwd, proc_current_proc->croot, file_name_buf);
+    /* probably just a containing directory didn't exist */
+    if(!dir_inum){
+        return -1;
+    }
+
+    /* add link */
+    if(!dir_link_inum(dir_inum, file_name_buf, old_inum)){
+        return -1;
+    }
+
+    return 0;
+}
+
+/* unlink a file entry */
+uint16_t _unlink(uint16_t name, uint16_t a1, uint16_t a2, uint16_t a3){
+    /* map in path */
+    uint8_t * path = kernel_map_in_mem((uint8_t *)name, proc_current_proc);
+    if(!path){
+        return -1;
+    }
+    uint16_t dir_inum = fs_path_to_contain_dir(path, proc_current_proc->cwd, proc_current_proc->croot, file_name_buf);
+    /* probably just a containing directory didn't exist */
+    if(!dir_inum){
+        return -1;
+    }
+
+    if(dir_delete_file(dir_inum, file_name_buf)){
+        return -1;
+    }
+
+    return 0;
+}

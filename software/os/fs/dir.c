@@ -8,6 +8,64 @@
 //This file contains routines for managing the directory structure
 
 /**
+ * add a link to an existing inum to a dir
+ * incs its link count
+ * return the new inum or 0 on failure*/
+uint16_t dir_link_inum(uint16_t dir_inum, uint8_t *name, uint16_t new_inum){
+    struct file_entry * dir;
+    uint16_t entry_i;
+    //open the directory
+    dir = file_get(dir_inum, FILE_MODE_READ | FILE_MODE_WRITE);
+    if(!dir){
+        return 0;
+    }
+    //check that it is actually a dir
+    if(!(dir->ind->flags & INODE_FLAG_DIR)){
+        file_put(dir);
+        return 0;
+    }
+    //find an open entry in the file, using fs_global_buf
+    entry_i = -1;
+    do{
+        ++entry_i;
+        //If no more room in dir, break
+        if(file_read(dir, fs_global_buf, DIR_ENTRY_SIZE) != DIR_ENTRY_SIZE){
+            break;
+        }
+      //Break when an zero inode is found
+    } while(fs_global_buf[14] | fs_global_buf[15]);
+    //seek to entry
+    file_seek(dir, entry_i*DIR_ENTRY_SIZE, SEEK_SET);
+    //clear fs_global_buf
+    memset(fs_global_buf, 0, DIR_ENTRY_SIZE);
+    //set name
+    strncpy(fs_global_buf, name, 14);
+    //set inode number in entry
+    fs_global_buf[14] = new_inum&0xff;
+    fs_global_buf[15] = new_inum>>8;
+    //write
+    if(file_write(dir, fs_global_buf, DIR_ENTRY_SIZE) != DIR_ENTRY_SIZE){
+        //try to fix what we did
+        inode_delete(new_inum);
+        file_put(dir);
+        return 0;
+    }
+
+    file_put(dir);
+
+    //inc link count to file
+    struct inode * ind = inode_get(new_inum);
+    if(!ind){
+        return 0;
+    }
+    ++ind->links;
+    //inode put checks if it needs to remove the inode
+    inode_put(ind);
+
+    return new_inum;
+}
+
+/**
  *  creates a file in a directory, given the directory's inode number and file
  * name, along with its dev number and flags (almost always 0)
  * returns (uint16_t) - the inum of the new inode, or 0 if failure */

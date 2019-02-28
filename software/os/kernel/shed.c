@@ -27,6 +27,8 @@ void shed_shedule(){
       proc_begin_execute(proc_table + i);
     }
   }
+
+  fs_close();
   panic(PANIC_NO_PROC_TO_RUN);
 
 }

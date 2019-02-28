@@ -22,7 +22,7 @@
     - [ ] chmod
     - [x] chdir, chroot
     - [ ] mkfifo (needs named pipes)
-    - [ ] link, unlink
+    - [x] link, unlink
     - [x] exit
         - [x] zombie / orphan handling (don't make init do it)
         - [x] wait

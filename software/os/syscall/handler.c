@@ -30,6 +30,8 @@ uint16_t (*syscalls[])(uint16_t, uint16_t, uint16_t, uint16_t) = {
     _chroot,
     _exit,
     _wait_nb,
+    _link,
+    _unlink,
 };
 
 /* Passed Args and syscall number */
