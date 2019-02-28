@@ -13,19 +13,26 @@ int main(){
 	if(!pid){
 		fd = open("/tty0", O_RDONLY);
 		test_syscall("1 fd: %u\n", fd, 0,0);
-		while(1);
+		exit(0);
 	}
 	/* change dir */
 	int val = chroot("/dev");
 	test_syscall("chdir val: %u\n", val);
 	pid = fork();
-	if(pid){
+	if(!pid){
 		fd = open("/tty0", O_RDONLY);
 		test_syscall("2 fd: %u\n", fd, 0,0);
-		while(1);
+		for(int i = 320000; i; i++){
+			int val = getpid();
+		}
+		exit(1);
 
+	}
+	uint8_t value;
+	while((pid = wait(&value)) != -1){
+		test_syscall("Proc %u Returned %u\n", pid, value, 0);
 	}
 
 
-	while(1);
+	exit(2);
 }

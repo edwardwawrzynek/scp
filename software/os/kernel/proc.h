@@ -17,6 +17,7 @@ void proc_init_mem_map(struct proc *proc);
 void proc_kernel_expand_brk(uint8_t *brk);
 void proc_init_kernel_entry();
 void proc_write_mem_map(struct proc *proc);
+uint16_t proc_is_zombie(struct proc *proc);
 uint16_t proc_find_children(pid_t parent,pid_t *pid_list);
 struct proc *proc_get(pid_t pid);
 struct proc *proc_alloc();

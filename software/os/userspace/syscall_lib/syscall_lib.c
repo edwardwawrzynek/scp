@@ -47,3 +47,17 @@ uint16_t write(uint16_t fd, uint8_t * buffer, uint16_t bytes){
 
     return bytes_in;
 }
+
+/* wrapper for wait_nb syscall */
+uint16_t wait(uint8_t *val){
+    uint16_t ret;
+    while(1) {
+        ret = wait_nb(val);
+        if(ret){
+           break;
+        }
+        yield();
+    };
+
+    return ret;
+}

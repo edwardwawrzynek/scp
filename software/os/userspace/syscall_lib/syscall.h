@@ -46,4 +46,11 @@ uint16_t yield();
 uint16_t execv(uint8_t *path, uint8_t **argv);
 
 uint16_t chdir(uint8_t *path);
+
 uint16_t chroot(uint8_t *path);
+
+uint16_t exit(uint8_t return_value);
+
+uint16_t wait_nb(uint8_t *ret_val);
+
+uint16_t wait(uint8_t *ret_val);

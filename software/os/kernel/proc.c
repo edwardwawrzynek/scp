@@ -63,7 +63,8 @@ struct proc *proc_get(pid_t pid){
     return NULL;
 }
 
-/* go thorugh the proc list, and fill the passed array with all children of the given pid
+/* go thorugh the proc list, and fill the passed array with all children (indexes of children,
+ * not the pids) of the given pid
  * the passed array should be of size PROC_TABLE_ENTRIES
  * does include zombie children
  * returns number of children found - only these entries in pid_list are valid */
@@ -72,13 +73,20 @@ uint16_t proc_find_children(pid_t parent, pid_t * pid_list){
     /* Don't check that parent is invalid - we may be searching for parents of a proc we just killed */
     for(uint16_t i = 0; i < PROC_TABLE_ENTRIES; ++i){
         if(proc_table[i].parent == parent && proc_table[i].in_use){
-            pid_list[found++] = proc_table[i].pid;
+            pid_list[found++] = i;
         }
     }
 
     return found;
 }
 
+/* return true if a process is a zombie */
+uint16_t proc_is_zombie(struct proc * proc){
+    if(proc->state == PROC_STATE_RUNNABLE || proc->state == PROC_STATE_WAITING){
+        return 0;
+    }
+    return 1;
+}
 
 /* write a proc's mmu map to the mmu_table */
 void proc_write_mem_map(struct proc * proc){

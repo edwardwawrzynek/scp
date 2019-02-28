@@ -10,6 +10,7 @@
 #include "syscall/files.h"
 #include "syscall/exec.h"
 #include "syscall/chdir.h"
+#include "syscall/exit.h"
 
 /* syscall table (all syscalls take four args, regardless of if they use them or not *) */
 uint16_t (*syscalls[])(uint16_t, uint16_t, uint16_t, uint16_t) = {
@@ -27,6 +28,8 @@ uint16_t (*syscalls[])(uint16_t, uint16_t, uint16_t, uint16_t) = {
     _execv,
     _chdir,
     _chroot,
+    _exit,
+    _wait_nb,
 };
 
 /* Passed Args and syscall number */

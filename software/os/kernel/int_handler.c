@@ -4,6 +4,7 @@
 #include "kernel/proc.h"
 #include "kernel/context_switch.h"
 #include "kernel/shed.h"
+#include "kernel/panic.h"
 
 uint16_t int_save_state_regs[16];
 uint16_t int_save_state_pc;
@@ -60,7 +61,7 @@ void int_reset_timer(uint16_t time){
 
 void int_handler_0(){
     printf("Int 0\n");
-    while(1){};
+    panic(PANIC_ERROR);
 }
 
 /**
@@ -69,27 +70,27 @@ void int_handler_0(){
 
 void int_handler_2(){
     printf("Int 2\n");
-    while(1){};
+    panic(PANIC_ERROR);
 }
 
 void int_handler_3(){
     printf("Int 3\n");
-    while(1){};
+    panic(PANIC_ERROR);
 }
 
 void int_handler_4(){
     printf("Int 4\n");
-    while(1){};
+    panic(PANIC_ERROR);
 }
 
 void int_handler_5(){
     printf("Int 5\n");
-    while(1){};
+    panic(PANIC_ERROR);
 }
 
 void int_handler_6(){
     printf("Int 6\n");
-    while(1){};
+    panic(PANIC_ERROR);
 }
 
 /**

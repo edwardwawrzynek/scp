@@ -23,7 +23,7 @@
     - [x] chdir, chroot
     - [ ] mkfifo (needs named pipes)
     - [ ] link, unlink
-    - [ ] exit
-        - [ ] zombie / orphan handling (don't make init do it)
-        - [ ] wait
+    - [x] exit
+        - [x] zombie / orphan handling (don't make init do it)
+        - [x] wait
 - [ ] Swapping/Paging

@@ -155,3 +155,23 @@ _chroot:
 ;   Int
     int.i.n r7
     ret.n.sp sp
+
+;   exit - exit from a proc (non blocking)
+    .align
+_exit:
+    .global _exit
+;   Load syscall number
+    ld.r.i re 14
+;   Int
+    int.i.n r7
+    ret.n.sp sp
+
+;   wait - wait for a child to die (needs blocking wrapper)
+    .align
+_wait_nb:
+    .global _wait_nb
+;   Load syscall number
+    ld.r.i re 15
+;   Int
+    int.i.n r7
+    ret.n.sp sp

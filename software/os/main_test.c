@@ -245,6 +245,8 @@ int main(){
             break;
 
         case 'n':;
+            /* Simulate behavior of init */
+            proc_current_pid_alloc = 2;
             int pinum = fs_path_to_inum(arg, cwd, 2);
             if(!pinum){
                 printf("No such file: %s\n", arg);
