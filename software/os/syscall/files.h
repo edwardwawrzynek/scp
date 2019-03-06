@@ -10,3 +10,4 @@ uint16_t _close(uint16_t fd,uint16_t a1,uint16_t a2,uint16_t a3);
 uint16_t _creat(uint16_t name,uint16_t a1,uint16_t a2,uint16_t a3);
 uint16_t create_file(uint8_t *name);
 uint16_t _open(uint16_t name,uint16_t flags,uint16_t a2,uint16_t a3);
+extern uint8_t file_name_buf[17];

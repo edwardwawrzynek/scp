@@ -195,3 +195,23 @@ _unlink:
 ;   Int
     int.i.n r7
     ret.n.sp sp
+
+;   mkdir - make a directory (nonblocking)
+    .align
+_mkdir:
+    .global _mkdir
+;   Load syscall number
+    ld.r.i re 18
+;   Int
+    int.i.n r7
+    ret.n.sp sp
+
+;   rmdir - remove a directory (nonblocking)
+    .align
+_rmdir:
+    .global _rmdir
+;   Load syscall number
+    ld.r.i re 19
+;   Int
+    int.i.n r7
+    ret.n.sp sp

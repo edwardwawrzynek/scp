@@ -19,7 +19,7 @@
 #define O_TRUNC 16 /* truncate file to length 0 */
 #define O_EXCL 32  /* fail if O_CREAT is set and file already exists */
 
-static uint8_t file_name_buf[17];
+uint8_t file_name_buf[17];
 
 /* Open a file, and return its file descriptor */
 uint16_t _open(uint16_t name, uint16_t flags, uint16_t a2, uint16_t a3){
@@ -42,9 +42,10 @@ uint16_t _open(uint16_t name, uint16_t flags, uint16_t a2, uint16_t a3){
     if(flags & O_RDONLY){
         mode |= FILE_MODE_READ;
     }
-    else if(flags & O_WRONLY){
+    if(flags & O_WRONLY){
         mode |= FILE_MODE_WRITE;
-    } else {
+    }
+    if(!(flags & 3)) {
         /* some kind of r/w mode is needed */
         return -1;
     }

@@ -12,11 +12,17 @@
 //Just defines fs_global_buf
 uint8_t fs_global_buf[DISK_BLK_SIZE];
 
+#define PATH_BUF_SIZE 256
+/* buffer for path to inode conversions */
+static uint8_t fs_path_buf[PATH_BUF_SIZE];
+
 /* convert a filesystem path to an inode number, given a name and cwd inum,
  * and a root inum (probably a process root) to start / paths at
  * returns (uint16_t) the inum , or 0 if not found */
 
-uint16_t fs_path_to_inum(uint8_t * name, uint16_t cwd, uint16_t croot){
+uint16_t fs_path_to_inum(uint8_t * path, uint16_t cwd, uint16_t croot){
+    strncpy(fs_path_buf, path, PATH_BUF_SIZE);
+    uint8_t * name = fs_path_buf;
     //temporary value only to allow the while loop to run once - gets set after
     uint8_t *i;
     //If name starts with /, start searching at root
@@ -50,12 +56,14 @@ uint16_t fs_path_to_inum(uint8_t * name, uint16_t cwd, uint16_t croot){
  * this just returns directory above it
  * also, copy name of file (not path) over to file_name
  * returns 0 if a directory at some point doesn't exist */
-uint16_t fs_path_to_contain_dir(uint8_t *name, uint16_t cwd, uint16_t croot, uint8_t * file_name){
+uint16_t fs_path_to_contain_dir(uint8_t *path, uint16_t cwd, uint16_t croot, uint8_t * file_name){
+    strncpy(fs_path_buf, path, PATH_BUF_SIZE);
+    uint8_t * name = fs_path_buf;
     /* cut off last / from path */
     uint16_t len = strlen(name);
     /* search for / backwards */
     int16_t index = -1;
-    for(int16_t i = len; i > 0; i--){
+    for(int16_t i = len; i >= 0; i--){
         if(name[i] == '/'){
             index = i;
             break;

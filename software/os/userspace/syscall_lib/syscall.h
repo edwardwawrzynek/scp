@@ -58,3 +58,17 @@ uint16_t wait(__reg("ra") uint8_t *ret_val);
 uint16_t link(__reg("ra") uint8_t *old_path, __reg("rb") uint8_t *new_path);
 
 uint16_t unlink(__reg("ra") uint8_t *path);
+
+uint16_t mkdir(__reg("ra") uint8_t *path);
+
+uint16_t rmdir(__reg("ra") uint8_t *path);
+
+/* directory entry structure */
+struct dirent {
+    /* inode number of file */
+    uint16_t inum;
+    /* file name (including null) */
+    uint8_t name[14];
+};
+
+uint16_t readdir(uint16_t fd, struct dirent * dirp);

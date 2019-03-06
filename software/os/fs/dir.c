@@ -184,7 +184,7 @@ uint16_t dir_delete_file(uint16_t dir_inum, uint8_t *name){
     //check that it is actually a dir
     if(!(dir->ind->flags & INODE_FLAG_DIR)){
         file_put(dir);
-        return 0;
+        return 1;
     }
     //find the entry matching the specified name
     while (1){

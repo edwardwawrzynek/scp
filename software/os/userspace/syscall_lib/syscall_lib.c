@@ -1,6 +1,6 @@
 #include "include/defs.h"
 #include "syscall.h"
-
+#include <stdint.h>
 
 /* System Call Wrappers
  * The actual syscalls are implemented in asm, but wrappers for ones that need to block are implemented here */
@@ -60,4 +60,28 @@ uint16_t wait(uint8_t *val){
     };
 
     return ret;
+}
+
+/* readdir syscall on top of read */
+uint16_t readdir(uint16_t fd, struct dirent * dirp){
+    uint16_t bytes;
+    /* read name */
+    bytes = read(fd, dirp->name, 14);
+    test_syscall("Result: %s\n", (uint16_t)dirp->name);
+    if(bytes == -1){
+        return -1;
+    }
+    if(bytes != 14){
+        return 0;
+    }
+    /* read inum */
+    bytes = read(fd, (uint8_t *)dirp->inum, 2);
+    if(bytes == -1){
+        return -1;
+    }
+    if(bytes != 2){
+        return 0;
+    }
+
+    return 1;
 }

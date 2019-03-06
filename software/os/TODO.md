@@ -6,19 +6,20 @@
     - [ ] Named Pipes (offsets have to be stored in inode - dev drivers need access to file_entry)
 - [ ] Environment Variables
     - [ ] exec e flag
-    - [ ] exec p flag and PATH searching
-- [ ] Errno
-    - [ ] full errno setting
+    - [ ] exec p flag and PATH searching (c library, not kernel)
+- [ ] Errno Mechanism
+    - [ ] all syscalls set errno on failure
 - [x] Syscalls
     - [x] getpid, getppid
     - [x] open, creat, read, write, close
+    - [ ] lseek
     - [x] dup, dup2
     - [x] fork
     - [x] execv (will be execve)
         - [ ] argv passing
         - [ ] #! script handling
         - [ ] binary header handling - proper paging
-    - [ ] mkdir, readdir, rmdir (must be emptied before)
+    - [x] mkdir, readdir, rmdir
     - [ ] chmod
     - [x] chdir, chroot
     - [ ] mkfifo (needs named pipes)
@@ -26,4 +27,8 @@
     - [x] exit
         - [x] zombie / orphan handling (don't make init do it)
         - [x] wait
-- [ ] Swapping/Paging
+    - [ ] brk, sbrk
+- [ ] Serial File Transfer Program
+    - [ ] OS disk (with binaries) creation method
+- [ ] Init method (attach ttys)
+- [ ] C Standard Library (Userspace)
