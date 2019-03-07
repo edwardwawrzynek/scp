@@ -77,10 +77,6 @@ struct proc *proc_get(pid_t pid){
 uint16_t proc_find_children(pid_t parent, pid_t * pid_list){
     uint16_t found = 0;
     /* Don't check that parent is invalid - we may be searching for parents of a proc we just killed */
-    if(parent == 0){
-        printf("0 parent\n");
-        while(1);
-    }
     for(uint16_t i = 0; i < PROC_TABLE_ENTRIES; ++i){
         if(proc_table[i].parent == parent && proc_table[i].in_use){
             pid_list[found++] = i;
@@ -413,9 +409,6 @@ uint16_t proc_set_next_open_fd(struct proc * proc, struct file_entry *file){
 void proc_put(struct proc * proc){
     //cean up resources - if the process is zombie, this has already been done
     if(proc->state != PROC_STATE_ZOMBIE){
-        if(proc == proc_table){
-            printf("proc put on kernel\n");
-        }
         proc_release_resources(proc);
     }
     //mark as not in_use
