@@ -20,12 +20,10 @@ int main(){
 	//test_syscall("remove dir result: %u\n", rmdir("../test"));*/
 	int fd = open("/test", O_RDWR);
 	test_syscall("fd: %u\n", fd);
-	read(fd, buf, 20);
-	hexdump(buf, 20);
-	test_syscall("Buffer: %s\n", (uint16_t) buf);
 
-	/*while(readdir(fd, &entry) == 1){
+	while(readdir(fd, &entry) == 1){
+		hexdump(entry.name, 14);
 		test_syscall("Inode: %u, Name: %s\n", (uint16_t)entry.inum, (uint16_t)entry.name);
-	}*/
+	}
 	exit(0);
 }

@@ -12,7 +12,7 @@
  *
  */
 
-#define pid_t uint8_t
+#define pid_t uint16_t
 
 #define MMU_NUM_PROCS 128
 #define MMU_PAGE_SIZE 2048

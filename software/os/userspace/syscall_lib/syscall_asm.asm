@@ -215,3 +215,13 @@ _rmdir:
 ;   Int
     int.i.n r7
     ret.n.sp sp
+
+;   lseek - seek to a position in a file (nonblocking)
+    .align
+_lseek:
+    .global _lseek
+;   Load syscall number
+    ld.r.i re 20
+;   Int
+    int.i.n r7
+    ret.n.sp sp

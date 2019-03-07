@@ -23,6 +23,11 @@ uint16_t fork();
 #define O_CREAT 8  /* create file if it doesn't exist (don't do anything if it already does) */
 #define O_TRUNC 16 /* truncate file to length 0 */
 #define O_EXCL 32  /* fail if O_CREAT is set and file already exists */
+
+#define stdin 0
+#define stdout 1
+#define stderr 2
+
 uint16_t open(__reg("ra") char * name, __reg("rb") uint16_t flags);
 
 uint16_t read_nb(__reg("ra") uint16_t fd, __reg("rb") uint8_t * buf, __reg("rc") uint16_t bytes, __reg("rd") uint8_t * eof);
@@ -72,3 +77,9 @@ struct dirent {
 };
 
 uint16_t readdir(uint16_t fd, struct dirent * dirp);
+
+#define SEEK_SET 1
+#define SEEK_CUR 2
+#define SEEK_END 3
+
+uint16_t lseek(__reg("ra") uint16_t fd, __reg("rb") uint16_t pos, __reg("rc") uint16_t whence);

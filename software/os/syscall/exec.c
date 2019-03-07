@@ -59,6 +59,9 @@ uint16_t _execv(uint16_t name, uint16_t argv, uint16_t a2, uint16_t a4){
     //set in runnable state
     proc_current_proc->state = PROC_STATE_RUNNABLE;
 
+    //release bin file
+    file_put(file);
+
     //shedule
     shed_shedule();
 }

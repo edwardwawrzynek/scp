@@ -36,6 +36,10 @@ uint16_t _exit(uint16_t ret_val, uint16_t a1, uint16_t a2, uint16_t a3){
         /* kill dead children */
         if(proc_is_zombie(&proc_table[children[i]])){
             /* completly kill */
+            if(&proc_table[children[i]] == proc_table){
+                printf("put 1");
+                while(1);
+            }
             proc_put(&proc_table[children[i]]);
         } else {
             /* just orphan */
@@ -73,7 +77,9 @@ uint16_t _wait_nb(uint16_t ret_pointer, uint16_t a1, uint16_t a2, uint16_t a3){
             if(!proc_table[children[i]].has_retd){
                 panic(PANIC_PROC_NO_RET_VAL);
             }
-            *ret_val = proc_table[children[i]].ret_val;
+            if(ret_pointer != NULL){
+                *ret_val = proc_table[children[i]].ret_val;
+            }
             pid_t pid = proc_table[children[i]].pid;
             proc_put(&proc_table[children[i]]);
             return pid;

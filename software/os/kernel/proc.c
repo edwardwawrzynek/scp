@@ -24,7 +24,13 @@ pid_t proc_current_pid_alloc = 0;
 //the currently executing process (or NULL if a process hasn't been inited)
 struct proc * proc_current_proc;
 
-#define proc_alloc_pid() proc_current_pid_alloc++
+pid_t proc_alloc_pid(){
+    while(proc_get(proc_current_pid_alloc) || proc_current_pid_alloc == 0 || proc_current_pid_alloc == 1){
+        proc_current_pid_alloc++;
+    }
+
+    return proc_current_pid_alloc;
+}
 
 /* initilize the proc table - set mmu_index
  * this is only called from kernel_init() - mmu_index tags aren't changed after init
@@ -71,6 +77,10 @@ struct proc *proc_get(pid_t pid){
 uint16_t proc_find_children(pid_t parent, pid_t * pid_list){
     uint16_t found = 0;
     /* Don't check that parent is invalid - we may be searching for parents of a proc we just killed */
+    if(parent == 0){
+        printf("0 parent\n");
+        while(1);
+    }
     for(uint16_t i = 0; i < PROC_TABLE_ENTRIES; ++i){
         if(proc_table[i].parent == parent && proc_table[i].in_use){
             pid_list[found++] = i;
@@ -106,7 +116,7 @@ void proc_init_kernel_entry(){
     entry->in_use = 1;
     //pid of kernel is zero
     proc_current_pid_alloc = 0;
-    entry->pid = proc_alloc_pid();
+    entry->pid = 0;
     //no parent
     entry->parent = NULL;
     //make the sheduler and related ignore the kernel
@@ -252,6 +262,7 @@ struct proc * proc_create_new(uint16_t inum, pid_t parent, uint16_t cwd, uint16_
     if(proc_load_mem(res, file)){
         file_put(file);
         proc_put(res);
+
         return NULL;
     };
     //set in runnable state
@@ -402,6 +413,9 @@ uint16_t proc_set_next_open_fd(struct proc * proc, struct file_entry *file){
 void proc_put(struct proc * proc){
     //cean up resources - if the process is zombie, this has already been done
     if(proc->state != PROC_STATE_ZOMBIE){
+        if(proc == proc_table){
+            printf("proc put on kernel\n");
+        }
         proc_release_resources(proc);
     }
     //mark as not in_use

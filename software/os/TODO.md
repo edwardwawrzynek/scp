@@ -7,12 +7,13 @@
 - [ ] Environment Variables
     - [ ] exec e flag
     - [ ] exec p flag and PATH searching (c library, not kernel)
+    - [ ] setenv, getenv, putenv, unsetenv, etc
 - [ ] Errno Mechanism
     - [ ] all syscalls set errno on failure
 - [x] Syscalls
     - [x] getpid, getppid
     - [x] open, creat, read, write, close
-    - [ ] lseek
+    - [x] lseek
     - [x] dup, dup2
     - [x] fork
     - [x] execv (will be execve)
@@ -30,5 +31,5 @@
     - [ ] brk, sbrk
 - [ ] Serial File Transfer Program
     - [ ] OS disk (with binaries) creation method
-- [ ] Init method (attach ttys)
+- [x] Init method (attach ttys)
 - [ ] C Standard Library (Userspace)

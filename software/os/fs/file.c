@@ -213,6 +213,12 @@ uint16_t file_read(struct file_entry * file, uint8_t * buffer, uint16_t bytes){
  * returns (uint16_t) the new position */
 
 uint16_t file_seek(struct file_entry * file, int16_t offset, uint8_t mode){
+    /* don't seek on dev files */
+    /* call dev method if needed */
+    if(file->ind->dev_num){
+        return -1;
+    }
+
     switch(mode){
     case SEEK_CUR:
         file->pos += offset;

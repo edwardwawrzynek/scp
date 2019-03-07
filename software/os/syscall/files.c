@@ -235,3 +235,16 @@ uint16_t _unlink(uint16_t name, uint16_t a1, uint16_t a2, uint16_t a3){
 
     return 0;
 }
+
+/* seek to a spot in a file */
+uint16_t _lseek(uint16_t fd, uint16_t pos, uint16_t whence, uint16_t a3){
+    /* make sure file exists */
+    if(!proc_current_proc->files[fd]){
+        return -1;
+    }
+    /* call seek */
+    int res = file_seek(proc_current_proc->files[fd], pos, whence);
+
+    /* file_seek returns -1 on error */
+    return res;
+}

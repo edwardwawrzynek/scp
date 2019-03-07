@@ -63,7 +63,7 @@ uint8_t palloc_alloc(uint8_t page){
  * returns (none) */
 void palloc_free(uint8_t i){
     //clear bit mask
-    i = i  & 0b01111111;
+    i = i & 0b01111111;
     if(!palloc_page_refs[i]){
         panic(PANIC_PALLOC_FREE_UNASIGNED);
     }

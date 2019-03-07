@@ -1,5 +1,6 @@
 /* This file was automatically generated.  Do not edit! */
 #undef INTERFACE
+uint16_t _lseek(uint16_t fd,uint16_t pos,uint16_t whence,uint16_t a3);
 uint16_t _unlink(uint16_t name,uint16_t a1,uint16_t a2,uint16_t a3);
 uint16_t _link(uint16_t old,uint16_t new,uint16_t a2,uint16_t a3);
 uint16_t _write_nb(uint16_t fd,uint16_t buf,uint16_t bytes,uint16_t eof);

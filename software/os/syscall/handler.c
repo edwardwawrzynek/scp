@@ -35,6 +35,7 @@ uint16_t (*syscalls[])(uint16_t, uint16_t, uint16_t, uint16_t) = {
     _unlink,
     _mkdir,
     _rmdir,
+    _lseek,
 };
 
 /* Passed Args and syscall number */
