@@ -225,3 +225,13 @@ _lseek:
 ;   Int
     int.i.n r7
     ret.n.sp sp
+
+;   ioctl - set io params on dev file (nonblocking)
+    .align
+_ioctl:
+    .global _ioctl
+;   Load syscall number
+    ld.r.i re 21
+;   Int
+    int.i.n r7
+    ret.n.sp sp

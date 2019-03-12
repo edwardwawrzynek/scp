@@ -7,6 +7,8 @@
 
 #include "include/panic.h"
 #include "kernel/panic.h"
+#include "dev/dev.h"
+#include "dev/devices.h"
 
 #include "syscall/files.h"
 
@@ -119,6 +121,28 @@ uint16_t _close(uint16_t fd, uint16_t a1, uint16_t a2, uint16_t a3){
     file_put(proc_current_proc->files[fd]);
     proc_current_proc->files[fd] = NULL;
     return 0;
+}
+
+/* perform an ioctl call on a file descriptor */
+uint16_t _ioctl(uint16_t fd, uint16_t cmd, uint16_t arg, uint16_t a3){
+    /* make sure file exists */
+    if(!proc_current_proc->files[fd]){
+        return -1;
+    }
+
+    /* only allow ioctl on dev files */
+    if(!proc_current_proc->files[fd]->ind->dev_num){
+        return -1;
+    }
+
+    /* map in arg */
+    uint8_t * argp = kernel_map_in_mem((uint8_t *)arg, proc_current_proc);
+
+    return devices[proc_current_proc->files[fd]->ind->dev_num]._ioctl(
+        proc_current_proc->files[fd]->ind->dev_minor,
+        cmd,
+        argp
+    );
 }
 
 /* duplicate a file descriptor into an open file descriptor */

@@ -11,6 +11,7 @@
 - [ ] Errno Mechanism
     - [ ] all syscalls set errno on failure
 - [x] Syscalls
+    - [ ] Check for already existing files (IMPORTANT)
     - [x] getpid, getppid
     - [x] open, creat, read, write, close
     - [x] lseek
@@ -23,8 +24,9 @@
     - [x] mkdir, readdir, rmdir
     - [ ] chmod
     - [x] chdir, chroot
-    - [ ] mkfifo (needs named pipes)
+    - [ ] pipe, mknod (dev + named pipe), mkfifo (needs named pipes)
     - [x] link, unlink
+    - [x] ioctl
     - [x] exit
         - [x] zombie / orphan handling (don't make init do it)
         - [x] wait

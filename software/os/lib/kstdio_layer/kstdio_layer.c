@@ -33,7 +33,7 @@ void kstdio_set_output_dev(int dev_index){
 }
 
 int kstdio_ioctl(int req_code, uint16_t arg){
-    return devices[cur_out_dev]._ioctl(0, req_code, arg);
+    return devices[cur_out_dev]._ioctl(0, req_code, (uint8_t *)arg);
 }
 
 /* putchar and getchar - just call function* in table */

@@ -35,7 +35,7 @@ struct dev_entry {
     int (*_close)(int minor);
     int (*_read)(int minor, uint8_t *buf, size_t bytes, uint8_t *eof);
     int (*_write)(int minor, uint8_t *buf, size_t bytes, uint8_t *eof);
-    int (*_ioctl)(int minor, int req_code, uint16_t arg);
+    int (*_ioctl)(int minor, int req_code, uint8_t * arg);
 };
 
 
@@ -105,7 +105,7 @@ typedef struct {
  * handles TCGETA and TCSETA calls to set termios structure */
 
 #define gen_tty_ioctl_from_tty_dev(ioctl_func_name, tty_dev_access)                 \
-    int ioctl_func_name(int minor, int req_code, int arg){                          \
+    int ioctl_func_name(int minor, int req_code, uint8_t *arg){                          \
         return _dev_tty_gen_ioctl(minor, req_code, arg, &(tty_dev_access));         \
     }
 

@@ -24,9 +24,9 @@ uint16_t fork();
 #define O_TRUNC 16 /* truncate file to length 0 */
 #define O_EXCL 32  /* fail if O_CREAT is set and file already exists */
 
-#define stdin 0
-#define stdout 1
-#define stderr 2
+#define STDIN_FILENO 0
+#define STDOUT_FILENO 1
+#define STDERR_FILENO 2
 
 uint16_t open(__reg("ra") char * name, __reg("rb") uint16_t flags);
 
@@ -83,3 +83,26 @@ uint16_t readdir(uint16_t fd, struct dirent * dirp);
 #define SEEK_END 3
 
 uint16_t lseek(__reg("ra") uint16_t fd, __reg("rb") uint16_t pos, __reg("rc") uint16_t whence);
+
+/* Termios struct */
+struct termios {
+    /* flags */
+    uint16_t flags;
+};
+
+/* ioctl tty requests */
+#define TCGETA 0
+#define TCSETA 1
+
+/* termios flags */
+/* echo input */
+#define TERMIOS_ECHO    0b00000001
+/* canonical / raw mode */
+#define TERMIOS_CANON   0b00000010
+/* handle key codes such as ctrl+c, ctrl+d, etc - only handled in CANON mode */
+#define TERMIOS_CTRL    0b00000100
+
+/* complete raw mode */
+#define TERMIOS_RAW 0
+
+uint16_t ioctl(__reg("ra") uint16_t fd, __reg("rb") uint16_t cmd, __reg("rc") uint8_t * arg);

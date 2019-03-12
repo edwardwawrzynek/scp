@@ -1,6 +1,6 @@
 /* This file was automatically generated.  Do not edit! */
 #undef INTERFACE
-int _dev_tty_gen_ioctl(int minor,int req_code,uint16_t arg,tty_dev_t *tty_dev_access);
+int _dev_tty_gen_ioctl(int minor,int req_code,uint8_t *arg,tty_dev_t *tty_dev_access);
 int _dev_tty_gen_read(int minor,uint8_t *buf,size_t bytes,uint8_t *eof,int(*getc)(),int(*putc)(char),tty_dev_t *termios);
 uint8_t _dev_tty_write_into_buf(uint8_t *buf,uint8_t c,uint8_t *ind,uint8_t echo,int(*putc)(char),uint8_t last_write_end);
 int _dev_gen_read(int minor,uint8_t *buf,size_t bytes,uint8_t *eof,int(*getc)());
