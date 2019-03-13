@@ -46,7 +46,8 @@ int bin_decode_data(int i, uint8_t seg){
             uint16_t real_addr = data + in_segs_start[i][seg_num];
             /* check that real_addr is actually in seg */
             if(!( real_addr >= seg_start[seg_num] && real_addr <= seg_start[seg_num] + seg_size[seg_num])){
-                error("symbol resolves to address outside of declared segment");
+                /* allow symbols out of seg, because we may be taking their addr then adding to to something */
+                //error("symbol resolves to address outside of declared segment");
             }
             /* adjust for pc relative offsets */
             if(is_pc_relative){

@@ -1,9 +1,12 @@
 #include <stdint.h>
+#ifndef __TERMIOS_STRUCT
+#define __TERMIOS_STRUCT 1
 /* Termios struct */
 struct termios {
     /* flags */
     uint16_t flags;
 };
+#endif
 
 /* ioctl tty requests */
 #define TCGETA 0

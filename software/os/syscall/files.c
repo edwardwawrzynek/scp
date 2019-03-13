@@ -4,6 +4,7 @@
 #include "kernel/kernel.h"
 #include "fs/file.h"
 #include "fs/dir.h"
+#include "fs/inode.h"
 
 #include "include/panic.h"
 #include "kernel/panic.h"
@@ -12,14 +13,7 @@
 
 #include "syscall/files.h"
 
-/* file modes */
-#define O_RDONLY 1 /* read only mode */
-#define O_WRONLY 2 /* write only mode */
-#define O_RDWR 3   /* read and write mode */
-#define O_APPEND 4 /* start at end of file for writing */
-#define O_CREAT 8  /* create file if it doesn't exist (don't do anything if it already does) */
-#define O_TRUNC 16 /* truncate file to length 0 */
-#define O_EXCL 32  /* fail if O_CREAT is set and file already exists */
+#include "syscall.h"
 
 uint8_t file_name_buf[17];
 
@@ -271,4 +265,84 @@ uint16_t _lseek(uint16_t fd, uint16_t pos, uint16_t whence, uint16_t a3){
 
     /* file_seek returns -1 on error */
     return res;
+}
+
+static void internal_stat(struct inode *in, struct stat * stat){
+    stat->st_size = in->size;
+    stat->st_ino = in->inum;
+    stat->st_nlinks = in->links;
+    /* create modes */
+    if(in->flags & INODE_FLAG_DIR){
+        stat->st_mode = S_IFDIR;
+    }
+    else if(in->dev_num == DEV_NUM_FIFO){
+        stat->st_mode = S_IFIFO;
+    }
+    else if(in->dev_num != 0){
+        stat->st_mode = S_IDEV;
+    }
+    else {
+        stat->st_mode = S_IFREG;
+    }
+
+    /* set exec flag if needed */
+    if(in->flags & INODE_FLAG_EXEC){
+        stat->st_mode &= S_IEXEC;
+    }
+
+}
+
+/* stat functions on files */
+uint16_t _stat(uint16_t name, uint16_t stat_struct, uint16_t a2, uint16_t a3){
+    /* map in path */
+    uint8_t * path = kernel_map_in_mem((uint8_t *)name, proc_current_proc);
+    if(!path){
+        return -1;
+    }
+    /* map in struct */
+    struct stat * stat = (struct stat *)kernel_map_in_mem2((uint8_t *)stat_struct, proc_current_proc);
+    if(!stat){
+        return -1;
+    }
+    uint16_t inum = fs_path_to_inum(path, proc_current_proc->cwd, proc_current_proc->croot);
+    if(!inum){
+        return -1;
+    }
+    struct inode *in = inode_get(inum);
+    if(!in){
+        return -1;
+    }
+
+    internal_stat(in, stat);
+
+    inode_put(in);
+
+    return 0;
+}
+
+uint16_t _fstat(uint16_t fd, uint16_t stat_struct, uint16_t a2, uint16_t a3){
+    /* make sure file exists */
+    if(!proc_current_proc->files[fd]){
+        return -1;
+    }
+    /* map in struct */
+    struct stat * stat = (struct stat *)kernel_map_in_mem2((uint8_t *)stat_struct, proc_current_proc);
+    if(!stat){
+        return -1;
+    }
+
+    uint16_t inum = proc_current_proc->files[fd]->ind->inum;
+    if(!inum){
+        return -1;
+    }
+    struct inode *in = inode_get(inum);
+    if(!in){
+        return -1;
+    }
+
+    internal_stat(in, stat);
+
+    inode_put(in);
+
+    return 0;
 }

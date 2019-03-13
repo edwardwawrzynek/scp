@@ -1,6 +1,6 @@
 #include <stdint.h>
 #include <stdio.h>
-#include "../syscall_lib/syscall.h"
+#include <syscall.h>
 #include <inout.h>
 #include <stddef.h>
 

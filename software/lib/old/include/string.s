@@ -1,1 +1,0 @@
-/home/edward/scp_software/lib/include/../src/string/lib.s

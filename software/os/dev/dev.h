@@ -130,3 +130,6 @@ typedef struct {
         return _dev_gen_read(minor, buf, bytes, eof, &getc);                          \
     }
 
+/* Specific device indexes */
+/* TODO: set fifo index for stat */
+#define DEV_NUM_FIFO 255

@@ -21,7 +21,9 @@
         - [ ] argv passing
         - [ ] #! script handling
         - [ ] binary header handling - proper paging
-    - [x] mkdir, readdir, rmdir
+    - [x] mkdir, rmdir
+    - [ ] opendir, readdir, closedir
+    - [x] stat, fstat
     - [ ] chmod
     - [x] chdir, chroot
     - [ ] pipe, mknod (dev + named pipe), mkfifo (needs named pipes)

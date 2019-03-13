@@ -37,6 +37,8 @@ uint16_t (*syscalls[])(uint16_t, uint16_t, uint16_t, uint16_t) = {
     _rmdir,
     _lseek,
     _ioctl,
+    _stat,
+    _fstat,
 };
 
 /* Passed Args and syscall number */
