@@ -4,6 +4,7 @@
     - [ ] Special device files (/dev/null, zero, random, etc)
 - [ ] Pipes
     - [ ] Named Pipes (offsets have to be stored in inode - dev drivers need access to file_entry)
+    - [ ] Device driver access to inodes members (needed for offsets)
 - [ ] Environment Variables
     - [ ] exec e flag
     - [ ] exec p flag and PATH searching (c library, not kernel)
@@ -11,8 +12,8 @@
 - [ ] Errno Mechanism
     - [ ] all syscalls set errno on failure
 - [x] Syscalls
-    - [ ] Check for already existing files (IMPORTANT)
-    - [ ] Check for -1 file descriptors in syscalls dealing with them
+    - [x] Check for already existing files (IMPORTANT) (NEED for mknod)
+    - [x] Check for -1 file descriptors in syscalls dealing with them
     - [x] getpid, getppid
     - [x] open, creat, read, write, close
     - [x] lseek
@@ -27,14 +28,14 @@
     - [x] stat, fstat
     - [x] chmod, fstat
     - [x] chdir, chroot
-    - [ ] pipe, mknod (dev + named pipe), mkfifo (needs named pipes)
+    - [ ] pipe, mknod (dev + named pipe (just allow named pipe with mkfifo?)), mkfifo (needs named pipes)
     - [x] link, unlink
     - [x] ioctl
     - [x] exit
         - [x] zombie / orphan handling (don't make init do it)
         - [x] wait
     - [ ] brk, sbrk
-- [ ] Serial File Transfer Program
+- [x] Serial File Transfer Program
     - [ ] OS disk (with binaries) creation method
-- [x] Init method (attach ttys)
+- [x] Init method (init process based on an initrc file)
 - [ ] C Standard Library (Userspace)

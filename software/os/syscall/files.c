@@ -108,6 +108,9 @@ uint16_t create_file(uint8_t *name){
 /* close a file descriptor */
 uint16_t _close(uint16_t fd, uint16_t a1, uint16_t a2, uint16_t a3){
     /* make sure file exists */
+    if(fd == -1){
+        return -1;
+    }
     if(!proc_current_proc->files[fd]){
         return -1;
     }
@@ -142,6 +145,9 @@ uint16_t _ioctl(uint16_t fd, uint16_t cmd, uint16_t arg, uint16_t a3){
 /* duplicate a file descriptor into an open file descriptor */
 uint16_t _dup(uint16_t fd, uint16_t a1, uint16_t a2, uint16_t a3){
     /* make sure file exists */
+    if(fd == -1){
+        return -1;
+    }
     if(!proc_current_proc->files[fd]){
         return -1;
     }
@@ -156,6 +162,9 @@ uint16_t _dup(uint16_t fd, uint16_t a1, uint16_t a2, uint16_t a3){
 /* duplicate a file descriptor into a specific fd slot */
 uint16_t _dup2(uint16_t old, uint16_t new, uint16_t a2, uint16_t a3){
     /* make sure file exists */
+    if(old == -1 || new == -1){
+        return -1;
+    }
     if(!proc_current_proc->files[old]){
         return -1;
     }
@@ -173,6 +182,9 @@ uint16_t _dup2(uint16_t old, uint16_t new, uint16_t a2, uint16_t a3){
 
 /* non blocking read and write calls (userspace implements blocking wrappers) */
 uint16_t _read_nb(uint16_t fd, uint16_t buf, uint16_t bytes, uint16_t eof){
+    if(fd == -1){
+        return -1;
+    }
     /* make sure file exists */
     if(!proc_current_proc->files[fd]){
         return -1;
@@ -190,6 +202,9 @@ uint16_t _read_nb(uint16_t fd, uint16_t buf, uint16_t bytes, uint16_t eof){
 
 uint16_t _write_nb(uint16_t fd, uint16_t buf, uint16_t bytes, uint16_t eof){
     /* make sure file exists */
+    if(fd == -1){
+        return -1;
+    }
     if(!proc_current_proc->files[fd]){
         return -1;
     }
@@ -257,6 +272,9 @@ uint16_t _unlink(uint16_t name, uint16_t a1, uint16_t a2, uint16_t a3){
 /* seek to a spot in a file */
 uint16_t _lseek(uint16_t fd, uint16_t pos, uint16_t whence, uint16_t a3){
     /* make sure file exists */
+    if(fd == -1){
+        return -1;
+    }
     if(!proc_current_proc->files[fd]){
         return -1;
     }
