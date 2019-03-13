@@ -1,5 +1,6 @@
 /* This file was automatically generated.  Do not edit! */
 #undef INTERFACE
+uint16_t _pipe(uint16_t fds,uint16_t a1,uint16_t a2,uint16_t a3);
 uint16_t _fchmod(uint16_t fd,uint16_t mode,uint16_t a2,uint16_t a3);
 uint16_t _chmod(uint16_t name,uint16_t mode,uint16_t a2,uint16_t a3);
 uint16_t _fstat(uint16_t fd,uint16_t stat_struct,uint16_t a2,uint16_t a3);

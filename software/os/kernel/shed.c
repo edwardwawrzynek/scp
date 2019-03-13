@@ -3,6 +3,7 @@
 #include "kernel/int_handler.h"
 #include "kernel/panic.h"
 #include <panic.h>
+#include "fs/fs.h"
 
 /* sheduling algorithms for processes */
 

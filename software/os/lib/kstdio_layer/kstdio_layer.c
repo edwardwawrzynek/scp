@@ -16,24 +16,24 @@ static uint8_t cur_out_dev = 0;
 /* Init kstdio layer */
 void kstdio_layer_init(int dev_index){
     cur_out_dev = dev_index;
-    if(devices[dev_index]._open(0)){
+    if(devices[dev_index]._open(0, NULL)){
         panic(PANIC_KSTDIO_LAYER_INIT_FAILED);
     }
 }
 
 /* set the output device */
 void kstdio_set_output_dev(int dev_index){
-    if(devices[cur_out_dev]._close(0)){
+    if(devices[cur_out_dev]._close(0, NULL)){
         panic(PANIC_KSTDIO_LAYER_INIT_FAILED);
     }
     cur_out_dev = dev_index;
-    if(devices[cur_out_dev]._open(0)){
+    if(devices[cur_out_dev]._open(0, NULL)){
         panic(PANIC_KSTDIO_LAYER_INIT_FAILED);
     }
 }
 
 int kstdio_ioctl(int req_code, uint16_t arg){
-    return devices[cur_out_dev]._ioctl(0, req_code, (uint8_t *)arg);
+    return devices[cur_out_dev]._ioctl(0, req_code, (uint8_t *)arg, NULL);
 }
 
 /* putchar and getchar - just call function* in table */
@@ -41,7 +41,7 @@ int putchar(int c){
     uint8_t eof = 0;
     int written;
     do {
-        written = devices[cur_out_dev]._write(0, (uint8_t *)(&c), 1, &eof);
+        written = devices[cur_out_dev]._write(0, (uint8_t *)(&c), 1, &eof, NULL);
     } while((written != 1) && (!eof));
 
     return eof ? EOF : c;
@@ -52,7 +52,7 @@ int getchar(void){
     int c = 0;
     int written;
     do {
-        written = devices[cur_out_dev]._read(0, (uint8_t*)&c, 1, &eof);
+        written = devices[cur_out_dev]._read(0, (uint8_t*)&c, 1, &eof, NULL);
     } while((written != 1) && (!eof));
 
     return eof ? EOF : c;

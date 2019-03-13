@@ -1,5 +1,4 @@
-#include "include/defs.h"
-#include <string.h>
+#include <lib/string.h>
 
 #include "dev.h"
 

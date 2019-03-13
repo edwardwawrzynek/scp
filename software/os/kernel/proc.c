@@ -390,7 +390,7 @@ void proc_fork_resources(struct proc * parent, struct proc * child){
 }
 
 /* get next open file descriptor, and set it to file
- * return fd, or -1 if non left */
+ * return fd, or panic if non left */
 uint16_t proc_set_next_open_fd(struct proc * proc, struct file_entry *file){
     for(uint16_t i = 0; i < PROC_NUM_FILES; i++){
         if(!proc->files[i]){

@@ -9,7 +9,7 @@ include/lib/__inoutp.h	include/lib/kmalloc.h			\
 include/lib/kstdio_layer.h	include/lib/string.h		\
 include/lib/util.h										\
 dev/dev.h 	dev/devices.h 	dev/serial.h 	dev/tty.h	\
-dev/dev_gen.h											\
+dev/dev_gen.h	dev/pipe.h								\
 lib/kstdio_layer/kstdio_layer.h							\
 lib/string/string.h										\
 lib/kmalloc/kmalloc.h									\
@@ -29,7 +29,7 @@ syscall/chdir.h	syscall/exit.h	syscall/dir.h			\
 OBJS = \
 lib/crt/crt0.o	lib/crt/div.o							\
 dev/devices.o	dev/serial.o	dev/tty.o				\
-dev/dev_gen.o											\
+dev/dev_gen.o	dev/pipe.o								\
 lib/kstdio_layer/kstdio_layer.o							\
 lib/string/string.o										\
 lib/inout/inoutp.o										\

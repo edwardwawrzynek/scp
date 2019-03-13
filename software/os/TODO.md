@@ -2,9 +2,9 @@
 - [x] Basic FS (inodes, blocks, normal files, dirs, etc)
 - [x] Device Files
     - [ ] Special device files (/dev/null, zero, random, etc)
-- [ ] Pipes
-    - [ ] Named Pipes (offsets have to be stored in inode - dev drivers need access to file_entry)
-    - [ ] Device driver access to inodes members (needed for offsets)
+- [x] Pipes
+    - [x] Named Pipes
+    - [x] Device driver access to inodes members (needed for offsets)
 - [ ] Environment Variables
     - [ ] exec e flag
     - [ ] exec p flag and PATH searching (c library, not kernel)
@@ -28,7 +28,8 @@
     - [x] stat, fstat
     - [x] chmod, fstat
     - [x] chdir, chroot
-    - [ ] pipe, mknod (dev + named pipe (just allow named pipe with mkfifo?)), mkfifo (needs named pipes)
+    - [x] mknod
+    - [x] pipe, mknod for pipes, mkfifo (needs named pipes)
     - [x] link, unlink
     - [x] ioctl
     - [x] exit

@@ -21,6 +21,18 @@
 #define INODE_FLAG_DIR 1
 #define INODE_FLAG_EXEC 2
 
+//pipe structure
+struct pipe {
+    /* pipe buffer (malloc'd) */
+    uint8_t *buf;
+    /* write pos in buffer */
+    uint16_t write_pos;
+    /* read pos in buffer */
+    uint16_t read_pos;
+    /* if the pipe is named (if not so, links is set to 0 when closed) */
+    uint8_t is_named;
+};
+
 //inode structures
 struct inode {
     /* ---- In Disk Values ---- */
@@ -45,6 +57,8 @@ struct inode {
     uint16_t * blks;
     //number of blks (not counting the trailing zero) in blks
     uint8_t num_blks;
+    //pipe info
+    struct pipe pipe;
 };
 
 //inode on disk

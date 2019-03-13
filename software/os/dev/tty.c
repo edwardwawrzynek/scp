@@ -150,16 +150,16 @@ static int tty_getc(){
 }
 
 /* open a tty - only allow openning a single tty */
-int _tty_open(int minor){
+int _tty_open(int minor, struct inode *f){
     if(minor)
-        return 1;
+        return -1;
 
     tty.tty_dev.termios.flags |= (TERMIOS_CANON | TERMIOS_ECHO | TERMIOS_CTRL);
     return 0;
 }
 
 /* close the tty */
-int _tty_close(int minor){
+int _tty_close(int minor, struct inode *f){
     return 0;
 }
 

@@ -141,3 +141,8 @@ int16_t closedir(uint16_t fd){
 
     return close(fd);
 }
+
+/* mkfifo - thin wrapper over mknod */
+int16_t mkfifo(uint8_t *path){
+    return mknod(path, S_IFIFO);
+}

@@ -182,7 +182,8 @@ uint16_t _ioctl(uint16_t fd, uint16_t cmd, uint16_t arg, uint16_t a3){
     return devices[proc_current_proc->files[fd]->ind->dev_num]._ioctl(
         proc_current_proc->files[fd]->ind->dev_minor,
         cmd,
-        argp
+        argp,
+        proc_current_proc->files[fd]->ind
     );
 }
 
@@ -466,6 +467,31 @@ uint16_t _fchmod(uint16_t fd, uint16_t mode, uint16_t a2, uint16_t a3){
     internal_chmod(in, mode);
 
     inode_put(in);
+
+    return 0;
+}
+
+/* create an unamed pipe, and return a read and write end */
+uint16_t _pipe(uint16_t fds, uint16_t a1, uint16_t a2, uint16_t a3){
+    uint16_t *pipefds = (uint16_t *)kernel_map_in_mem((uint8_t *)fds, proc_current_proc);
+    if(!pipefds){
+        return -1;
+    }
+    /* pipefds[0] is read end, pipefds[1] is write end */
+    uint16_t inum = inode_new(DEV_NUM_FIFO, 0, 0);
+    if(!inum){
+        return -1;
+    }
+    /* make sure it will be deleted when closed */
+    struct file_entry *fread = file_get(inum, FILE_MODE_READ);
+    struct file_entry *fwrite = file_get(inum, FILE_MODE_WRITE);
+    if((!fread) || (!fwrite)){
+        return -1;
+    }
+    fread->ind->pipe.is_named = 0;
+
+    pipefds[0] = proc_set_next_open_fd(proc_current_proc, fread);
+    pipefds[1] = proc_set_next_open_fd(proc_current_proc, fwrite);
 
     return 0;
 }

@@ -130,7 +130,7 @@ uint16_t file_write_nonblocking(struct file_entry * file, uint8_t * buffer, uint
 
     /* call dev method if needed */
     if(file->ind->dev_num){
-        return devices[file->ind->dev_num]._write(file->ind->dev_minor, buffer, bytes, eof);
+        return devices[file->ind->dev_num]._write(file->ind->dev_minor, buffer, bytes, eof, file->ind);
     }
 
     //initial set
@@ -162,7 +162,7 @@ uint16_t file_read_nonblocking(struct file_entry * file, uint8_t * buffer, uint1
 
     /* call dev method if needed */
     if(file->ind->dev_num){
-        return devices[file->ind->dev_num]._read(file->ind->dev_minor, buffer, bytes, eof);
+        return devices[file->ind->dev_num]._read(file->ind->dev_minor, buffer, bytes, eof, file->ind);
     }
 
     //initial set

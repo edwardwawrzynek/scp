@@ -285,3 +285,13 @@ _mknod:
 ;   Int
     int.i.n r7
     ret.n.sp sp
+
+;   pipe - make an unnamed pipe (nonblocking)
+    .align
+_pipe:
+    .global _pipe
+;   Load syscall number
+    ld.r.i re 27
+;   Int
+    int.i.n r7
+    ret.n.sp sp

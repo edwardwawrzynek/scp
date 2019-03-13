@@ -1,3 +1,5 @@
+#ifndef _DEFS_I
+#define _DEFS_I 1
 #include "include/stdint.h"
 #include "include/stddef.h"
 
@@ -11,7 +13,11 @@
 #define FILE_TABLE_ENTRIES 32
 //Number of entries in the buffer table - FILE_TABLE_ENTRIES because each file table entry usually has 1 unique buffer
 #define BUFFER_TABLE_ENTRIES FILE_TABLE_ENTRIES
-//Keep inode table entries open until they are needed - semi experimental (likely works)
+//Size (in bytes) of buffers used for pipes
+//Because userspace read and write call can pass part of data to kernel and wait till it can handle the rest to pass it,
+//this can be very small (2 bytes min), and pipes will still work
+//however, this will seriously hurt performance
+#define PIPE_BUF_SIZE 256
 
 /* Process Options */
 //Default number of pages for the proc's user stack
@@ -36,3 +42,4 @@
 
 /* ---- kernel definitions ---- */
 #include "include/kernel.h"
+#endif

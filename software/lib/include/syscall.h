@@ -159,3 +159,6 @@ int16_t fchmod(__reg("ra") uint16_t fd, __reg("rb") uint16_t mode);
 
 int16_t mknod(__reg("ra") uint8_t *path, __reg("rb") uint16_t mode, __reg("rc") uint16_t dev);
 
+int16_t pipe(__reg("ra") uint16_t *pipefds);
+
+int16_t mkfifo(uint8_t *path);

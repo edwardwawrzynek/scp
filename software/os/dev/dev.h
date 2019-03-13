@@ -2,11 +2,10 @@
 #include <stddef.h>
 #include <string.h>
 #include "include/tty.h"
+#include "include/defs.h"
 
 /**
- * Device driver interface (probably will be used in os, now just for testing
- * dev is the device name - this is just an example of prototype, not real prototypes -
- * should that be made clear somehow? */
+ * Device driver interface  */
 
 /** open a device with the given minor number, returning 0 on success and 1 on failure
   * driver has to handle alloc'ing any data structures it needs (drivers will probably just have a small static array and a limited number of devices, use malloc, or only support one device)
@@ -29,13 +28,14 @@
 
 /*  int _dev_write(int minor, uint8_t *buf, size_t bytes, uint8_t *eof); */
 
-/* Device table entry */
+/* Device table entry (Note: inodes's are passed to allow things like pipes to use the dev interface
+ * real device files won't use them */
 struct dev_entry {
-    int (*_open)(int minor);
-    int (*_close)(int minor);
-    int (*_read)(int minor, uint8_t *buf, size_t bytes, uint8_t *eof);
-    int (*_write)(int minor, uint8_t *buf, size_t bytes, uint8_t *eof);
-    int (*_ioctl)(int minor, int req_code, uint8_t * arg);
+    int (*_open)(int minor, struct inode *file);
+    int (*_close)(int minor, struct inode*file);
+    int (*_read)(int minor, uint8_t *buf, size_t bytes, uint8_t *eof, struct inode *file);
+    int (*_write)(int minor, uint8_t *buf, size_t bytes, uint8_t *eof, struct inode *file);
+    int (*_ioctl)(int minor, int req_code, uint8_t * arg, struct inode *file);
 };
 
 
@@ -96,17 +96,17 @@ typedef struct {
 
 
 
-#define gen_tty_read_from_getc(read_func_name, getc, putc, tty_dev_access)              	    \
-    int read_func_name (int minor, uint8_t *buf, size_t bytes, uint8_t *eof){           	    \
-        return _dev_tty_gen_read(minor, buf, bytes, eof, &(getc), &(putc), &(tty_dev_access)); 	\
+#define gen_tty_read_from_getc(read_func_name, getc, putc, tty_dev_access)              	        \
+    int read_func_name (int minor, uint8_t *buf, size_t bytes, uint8_t *eof, struct inode *f){ \
+        return _dev_tty_gen_read(minor, buf, bytes, eof, &(getc), &(putc), &(tty_dev_access)); 	    \
     }
 
 /** macro to generate ioctl for a tty device
  * handles TCGETA and TCSETA calls to set termios structure */
 
-#define gen_tty_ioctl_from_tty_dev(ioctl_func_name, tty_dev_access)                 \
-    int ioctl_func_name(int minor, int req_code, uint8_t *arg){                          \
-        return _dev_tty_gen_ioctl(minor, req_code, arg, &(tty_dev_access));         \
+#define gen_tty_ioctl_from_tty_dev(ioctl_func_name, tty_dev_access)                     \
+    int ioctl_func_name(int minor, int req_code, uint8_t *arg, struct inode *f){   \
+        return _dev_tty_gen_ioctl(minor, req_code, arg, &(tty_dev_access));             \
     }
 
 /* ---------------- Non-TTY device read and write generation ---------------- */
@@ -119,17 +119,19 @@ typedef struct {
 #define DEV_EOF 257
 
 /** macro to generate write method given a putc - putc should return 0 on success, or DEV_BLOCKING/DEV_EOF */
-#define gen_write_from_putc(write_func_name, putc)                              \
-    int write_func_name (int minor, uint8_t *buf, size_t bytes, uint8_t *eof){  \
-        return _dev_gen_write(minor, buf, bytes, eof, &putc);                          \
+#define gen_write_from_putc(write_func_name, putc)                                                      \
+    int write_func_name (int minor, uint8_t *buf, size_t bytes, uint8_t *eof, struct inode *f){    \
+        return _dev_gen_write(minor, buf, bytes, eof, &putc);                                           \
     }
 
 /** macro to generate read method given a getc, which returns DEV_BLOCKING/DEV_EOF, otherwise it should return the read byte */
-#define gen_read_from_getc(read_func_name, getc)                               \
-    int read_func_name (int minor, uint8_t *buf, size_t bytes, uint8_t *eof){  \
-        return _dev_gen_read(minor, buf, bytes, eof, &getc);                          \
+#define gen_read_from_getc(read_func_name, getc)                                                    \
+    int read_func_name (int minor, uint8_t *buf, size_t bytes, uint8_t *eof, struct inode *f){ \
+        return _dev_gen_read(minor, buf, bytes, eof, &getc);                                        \
     }
 
 /* Specific device indexes */
-/* TODO: set fifo index for stat */
-#define DEV_NUM_FIFO 255
+#define DEV_NUM_REG 0
+#define DEV_NUM_TTY 1
+#define DEV_NUM_SERIAL 2
+#define DEV_NUM_FIFO 3

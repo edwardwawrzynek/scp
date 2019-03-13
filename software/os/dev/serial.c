@@ -48,16 +48,16 @@ static int serial_getc(){
 }
 
 /* open a serial - only allow openning a single serial port */
-int _serial_open(int minor){
+int _serial_open(int minor, struct inode *f){
     if(minor)
-        return 1;
+        return -1;
 
     serial.tty_dev.termios.flags |= (TERMIOS_CANON | TERMIOS_ECHO | TERMIOS_CTRL);
     return 0;
 }
 
 /* close the serial*/
-int _serial_close(int minor){
+int _serial_close(int minor, struct inode *f){
     return 0;
 }
 

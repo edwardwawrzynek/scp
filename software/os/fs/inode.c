@@ -133,9 +133,16 @@ struct inode * inode_get(uint16_t inum){
         return NULL;
         //panic(PANIC_INODE_REFS_BAD_BLOCK);
     }
+    /* set pipe info */
+    res->pipe.buf = NULL;
+    res->pipe.read_pos = 0;
+    res->pipe.write_pos = 0;
+    /* set to be named by default
+     * if pipe is created by pipe syscall, this will be set to be 0 explicitly */
+    res->pipe.is_named = 1;
     /* open dev */
     if(res->dev_num){
-        if(devices[res->dev_num]._open(res->dev_minor)){
+        if(devices[res->dev_num]._open(res->dev_minor, res)){
             inode_put(res);
             return NULL;
         }
@@ -167,7 +174,7 @@ void inode_force_put(struct inode * in){
         kfree(in->blks);
         /* close dev */
         if(in->dev_num){
-            devices[in->dev_num]._close(in->dev_minor);
+            devices[in->dev_num]._close(in->dev_minor, in);
         }
         //mark blocks as null for use with
         in->blks = NULL;
