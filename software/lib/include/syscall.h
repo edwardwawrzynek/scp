@@ -12,11 +12,11 @@
 
 #include <stdint.h>
 
-uint16_t test_syscall(__reg("ra") uint8_t *a0, uint16_t __reg("rb") a1, __reg("rc") uint16_t a2, uint16_t __reg("rd") a3);
+int16_t test_syscall(__reg("ra") uint8_t *a0, uint16_t __reg("rb") a1, __reg("rc") uint16_t a2, uint16_t __reg("rd") a3);
 
-uint16_t getpid();
-uint16_t getppid();
-uint16_t fork();
+int16_t getpid();
+int16_t getppid();
+int16_t fork();
 
 #define O_RDONLY 1 /* read only mode */
 #define O_WRONLY 2 /* write only mode */
@@ -30,45 +30,45 @@ uint16_t fork();
 #define STDOUT_FILENO 1
 #define STDERR_FILENO 2
 
-uint16_t open(__reg("ra") char * name, __reg("rb") uint16_t flags);
+int16_t open(__reg("ra") char * name, __reg("rb") uint16_t flags);
 
-uint16_t read_nb(__reg("ra") uint16_t fd, __reg("rb") uint8_t * buf, __reg("rc") uint16_t bytes, __reg("rd") uint8_t * eof);
+int16_t read_nb(__reg("ra") uint16_t fd, __reg("rb") uint8_t * buf, __reg("rc") uint16_t bytes, __reg("rd") uint8_t * eof);
 
-uint16_t write_nb(__reg("ra") uint16_t fd, __reg("rb") uint8_t * buf, __reg("rc") uint16_t bytes, __reg("rd") uint8_t * eof);
+int16_t write_nb(__reg("ra") uint16_t fd, __reg("rb") uint8_t * buf, __reg("rc") uint16_t bytes, __reg("rd") uint8_t * eof);
 
-uint16_t read(uint16_t fd, uint8_t * buffer, uint16_t bytes);
+int16_t read(uint16_t fd, uint8_t * buffer, uint16_t bytes);
 
-uint16_t write(uint16_t fd, uint8_t * buffer, uint16_t bytes);
+int16_t write(uint16_t fd, uint8_t * buffer, uint16_t bytes);
 
-uint16_t dup(__reg("ra") uint16_t fd);
+int16_t dup(__reg("ra") uint16_t fd);
 
-uint16_t dup2(__reg("ra") uint16_t old, __reg("rb") uint16_t new);
+int16_t dup2(__reg("ra") uint16_t old, __reg("rb") uint16_t new);
 
-uint16_t close(__reg("ra") uint16_t fd);
+int16_t close(__reg("ra") uint16_t fd);
 
-uint16_t creat(__reg("ra") uint8_t *name);
+int16_t creat(__reg("ra") uint8_t *name);
 
-uint16_t yield();
+int16_t yield();
 
-uint16_t execv(__reg("ra") uint8_t *path, __reg("rb") uint8_t **argv);
+int16_t execv(__reg("ra") uint8_t *path, __reg("rb") uint8_t **argv);
 
-uint16_t chdir(__reg("ra") uint8_t *path);
+int16_t chdir(__reg("ra") uint8_t *path);
 
-uint16_t chroot(__reg("ra") uint8_t *path);
+int16_t chroot(__reg("ra") uint8_t *path);
 
-uint16_t exit(__reg("ra") uint8_t return_value);
+int16_t exit(__reg("ra") uint8_t return_value);
 
-uint16_t wait_nb(uint8_t *ret_val);
+int16_t wait_nb(uint8_t *ret_val);
 
-uint16_t wait(__reg("ra") uint8_t *ret_val);
+int16_t wait(__reg("ra") uint8_t *ret_val);
 
-uint16_t link(__reg("ra") uint8_t *old_path, __reg("rb") uint8_t *new_path);
+int16_t link(__reg("ra") uint8_t *old_path, __reg("rb") uint8_t *new_path);
 
-uint16_t unlink(__reg("ra") uint8_t *path);
+int16_t unlink(__reg("ra") uint8_t *path);
 
-uint16_t mkdir(__reg("ra") uint8_t *path);
+int16_t mkdir(__reg("ra") uint8_t *path);
 
-uint16_t rmdir(__reg("ra") uint8_t *path);
+int16_t rmdir(__reg("ra") uint8_t *path);
 
 /* directory entry structure */
 struct dirent {
@@ -78,13 +78,17 @@ struct dirent {
     uint8_t name[14];
 };
 
-uint16_t readdir(uint16_t fd, struct dirent * dirp);
+int16_t readdir(uint16_t fd, struct dirent * dirp);
+
+/* open and close directory fd's (opendir and closedir operate on fds, not DIRP* as in posix) */
+int16_t opendir(uint8_t *path);
+int16_t closedir(uint16_t fd);
 
 #define SEEK_SET 1
 #define SEEK_CUR 2
 #define SEEK_END 3
 
-uint16_t lseek(__reg("ra") uint16_t fd, __reg("rb") uint16_t pos, __reg("rc") uint16_t whence);
+int16_t lseek(__reg("ra") uint16_t fd, __reg("rb") uint16_t pos, __reg("rc") uint16_t whence);
 
 #ifndef __TERMIOS_STRUCT
 #define __TERMIOS_STRUCT 1
@@ -110,7 +114,7 @@ struct termios {
 /* complete raw mode */
 #define TERMIOS_RAW 0
 
-uint16_t ioctl(__reg("ra") uint16_t fd, __reg("rb") uint16_t cmd, __reg("rc") uint8_t * arg);
+int16_t ioctl(__reg("ra") uint16_t fd, __reg("rb") uint16_t cmd, __reg("rc") uint8_t * arg);
 
 /* stat structure */
 struct stat {
@@ -140,5 +144,5 @@ struct stat {
 #define S_ISFIFO(mode) (mode & S_IFIFO)
 #define S_ISDEV(mode) (mode & S_IDEV)
 
-uint16_t stat(__reg("ra") uint8_t *path, __reg("rb") struct stat *stat);
-uint16_t fstat(__reg("ra") uint16_t fd, __reg("rb") struct stat *stat);
+int16_t stat(__reg("ra") uint8_t *path, __reg("rb") struct stat *stat);
+int16_t fstat(__reg("ra") uint16_t fd, __reg("rb") struct stat *stat);

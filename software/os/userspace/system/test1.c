@@ -13,12 +13,20 @@
     exit(0);
 }*/
 
-struct stat stat_s;
+struct dirent entry;
 
 int main(){
-    int fd = open("init", O_RDONLY);
-    fstat(fd, &stat_s);
-    test_syscall("is_dir: %u, is_reg: %u, links: %u\n", S_ISDIR(stat_s.st_mode), S_ISREG(stat_s.st_mode), stat_s.st_size);
+    int fd = opendir("dir_test");
+    if(fd == -1){
+        test_syscall("failure opening\n");
+    } else {
+        test_syscall("success %u\n", fd);
+    }
 
+    while(readdir(fd, &entry) > 0){
+        test_syscall(entry.name);
+    }
+
+    closedir(fd);
     while(1);
 }

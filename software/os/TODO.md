@@ -12,6 +12,7 @@
     - [ ] all syscalls set errno on failure
 - [x] Syscalls
     - [ ] Check for already existing files (IMPORTANT)
+    - [ ] Check for -1 file descriptors in syscalls dealing with them
     - [x] getpid, getppid
     - [x] open, creat, read, write, close
     - [x] lseek
@@ -22,7 +23,7 @@
         - [ ] #! script handling
         - [ ] binary header handling - proper paging
     - [x] mkdir, rmdir
-    - [ ] opendir, readdir, closedir
+    - [x] opendir, readdir, closedir
     - [x] stat, fstat
     - [ ] chmod
     - [x] chdir, chroot

@@ -29,7 +29,9 @@ uint16_t _mkdir(uint16_t name, uint16_t a1, uint16_t a2, uint16_t a3){
     return 0;
 }
 
-/* readdir - implemented with just wrapper on read in userspace (doesn't check if it is dir) */
+/* readdir - implemented with just wrapper on read in userspace using fstat*/
+/* opendir - implemented as wrappers in userspace using stat (to make sure it is dir) */
+/* closedir - implemented as wrpper in userspace using fstat (to mke sure it is dir) */
 
 /* rmdir - remove a dir with just . and .. entries */
 

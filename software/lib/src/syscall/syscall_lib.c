@@ -35,7 +35,7 @@ void hexdump(unsigned char * mem, unsigned int n){
 /* blocking wrappers for non blocking read and write
  * yield's cpu time when waiting */
 
-uint16_t read(uint16_t fd, uint8_t * buffer, uint16_t bytes){
+int16_t read(uint16_t fd, uint8_t * buffer, uint16_t bytes){
     uint8_t eof;
     uint16_t bytes_out = 0;
     while(1) {
@@ -55,7 +55,7 @@ uint16_t read(uint16_t fd, uint8_t * buffer, uint16_t bytes){
     return bytes_out;
 }
 
-uint16_t write(uint16_t fd, uint8_t * buffer, uint16_t bytes){
+int16_t write(uint16_t fd, uint8_t * buffer, uint16_t bytes){
     uint8_t eof;
     uint16_t bytes_in = 0;
     while(1) {
@@ -76,7 +76,7 @@ uint16_t write(uint16_t fd, uint8_t * buffer, uint16_t bytes){
 }
 
 /* wrapper for wait_nb syscall */
-uint16_t wait(uint8_t *val){
+int16_t wait(uint8_t *val){
     uint16_t ret;
     while(1) {
         ret = wait_nb(val);
@@ -89,9 +89,19 @@ uint16_t wait(uint8_t *val){
     return ret;
 }
 
+static struct stat _dirstat;
+
 /* readdir syscall on top of read */
-uint16_t readdir(uint16_t fd, struct dirent * dirp){
+int16_t readdir(uint16_t fd, struct dirent * dirp){
     uint16_t bytes;
+    if(fd == -1){
+        return -1;
+    }
+    /* make sure file is actually dir */
+    fstat(fd, &_dirstat);
+    if(!S_ISDIR(_dirstat.st_mode)){
+        return -1;
+    }
     /* read name */
     bytes = read(fd, dirp->name, 14);
     if(bytes == -1){
@@ -110,4 +120,24 @@ uint16_t readdir(uint16_t fd, struct dirent * dirp){
     }
 
     return 1;
+}
+
+/* same as open with O_RDONLY, but checks that it is a dir */
+int16_t opendir(uint8_t *path){
+    stat(path, &_dirstat);
+    if(!S_ISDIR(_dirstat.st_mode)){
+        return -1;
+    }
+
+    return open(path, O_RDONLY);
+}
+
+/* same as open with O_RDONLY, but checks that it is a dir */
+int16_t closedir(uint16_t fd){
+    fstat(fd, &_dirstat);
+    if(!S_ISDIR(_dirstat.st_mode)){
+        return -1;
+    }
+
+    return close(fd);
 }
