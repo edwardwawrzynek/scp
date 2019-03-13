@@ -20,7 +20,7 @@ uint16_t _mkdir(uint16_t name, uint16_t a1, uint16_t a2, uint16_t a3){
         return -1;
     }
     /* make sure dir doesn't already exist */
-    uint16_t inum = fs_path_to_contain_dir(path, proc_current_proc->cwd, proc_current_proc->croot);
+    uint16_t inum = fs_path_to_inum(path, proc_current_proc->cwd, proc_current_proc->croot);
     if(inum){
         return -1;
     }

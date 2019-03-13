@@ -118,6 +118,8 @@ int16_t ioctl(__reg("ra") uint16_t fd, __reg("rb") uint16_t cmd, __reg("rc") uin
 
 /* stat structure */
 struct stat {
+    /* file device info (major number in low byte, minor in high) */
+    uint16_t st_dev;
     /* file mode (different from flags in inode. Set based on them, also includes pipe flag) */
     uint16_t st_mode;
     /* inode number */
@@ -144,8 +146,16 @@ struct stat {
 #define S_ISFIFO(mode) (mode & S_IFIFO)
 #define S_ISDEV(mode) (mode & S_IFDEV)
 
+/* dev macros */
+#define makedev(maj, min) ((maj) + ((min)<<8))
+#define major(dev) ((dev) & 0xff)
+#define minor(dev) ((dev) >> 8)
+
 int16_t stat(__reg("ra") uint8_t *path, __reg("rb") struct stat *stat);
 int16_t fstat(__reg("ra") uint16_t fd, __reg("rb") struct stat *stat);
 
 int16_t chmod(__reg("ra") uint8_t *path, __reg("rb") uint16_t mode);
 int16_t fchmod(__reg("ra") uint16_t fd, __reg("rb") uint16_t mode);
+
+int16_t mknod(__reg("ra") uint8_t *path, __reg("rb") uint16_t mode, __reg("rc") uint16_t dev);
+

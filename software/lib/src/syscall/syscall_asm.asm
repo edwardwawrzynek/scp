@@ -275,3 +275,13 @@ _fchmod:
 ;   Int
     int.i.n r7
     ret.n.sp sp
+
+;   mknod - make regular, dev, or named pipe (nonblocking)
+    .align
+_mknod:
+    .global _mknod
+;   Load syscall number
+    ld.r.i re 26
+;   Int
+    int.i.n r7
+    ret.n.sp sp

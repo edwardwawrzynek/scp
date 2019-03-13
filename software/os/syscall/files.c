@@ -28,7 +28,7 @@ uint16_t _open(uint16_t name, uint16_t flags, uint16_t a2, uint16_t a3){
     uint16_t inum = fs_path_to_inum(path, proc_current_proc->cwd, proc_current_proc->croot);
     if(!inum){
         if(flags & O_CREAT){
-            return create_file(path);
+            return create_file(path, 0, 0);
         } else {
             return -1;
         }
@@ -77,11 +77,55 @@ uint16_t _creat(uint16_t name, uint16_t a1, uint16_t a2, uint16_t a3){
         return -1;
     }
 
-    return create_file(path);
+    return create_file(path, 0, 0);
+}
+
+/* create a regular, dev, or named pipe */
+uint16_t _mknod(uint16_t name, uint16_t mode, uint16_t dev, uint16_t a3){
+    char * path = kernel_map_in_mem((uint8_t *)name, proc_current_proc);
+    if(!path){
+        return -1;
+    }
+
+    /* make sure path doesn't exist */
+    if(fs_path_to_inum(path, proc_current_proc->cwd, proc_current_proc->croot)){
+        return -1;
+    }
+
+    uint16_t major = 0, minor = 0;
+    if(mode & S_IFDEV){
+        major = major(dev);
+        minor = minor(dev);
+    }
+    else if(mode & S_IFIFO){
+        major = DEV_NUM_FIFO;
+        minor = 1;
+    }
+    else if(mode & S_IFREG){
+        major = 0;
+        minor = 0;
+    } else {
+        /* not a valid mode */
+        return -1;
+    }
+
+    /* find containing directory */
+    uint16_t inum = fs_path_to_contain_dir(path, proc_current_proc->cwd, proc_current_proc->croot, file_name_buf);
+    /* probably just a containing directory didn't exist */
+    if(!inum){
+        return -1;
+    }
+    /* we know the file doesn't exist, so we can just create it */
+    inum = dir_make_file(inum, file_name_buf, major, 0, minor);
+    if(!inum){
+        return -1;
+    }
+
+    return 0;
 }
 
 /* create a file, and return its new fd, or -1 on failure */
-uint16_t create_file(uint8_t *name){
+uint16_t create_file(uint8_t *name, uint16_t dev_num, uint16_t dev_minor){
     struct file_entry *file = NULL;
     /* if file exists already, truncate it */
     uint16_t inum = fs_path_to_inum(name, proc_current_proc->cwd, proc_current_proc->croot);
@@ -96,7 +140,7 @@ uint16_t create_file(uint8_t *name){
             return -1;
         }
         /* we know the file doesn't exist, so we can just create it */
-        inum = dir_make_file(inum, file_name_buf, 0, 0, 0);
+        inum = dir_make_file(inum, file_name_buf, dev_num, 0, dev_minor);
         if(!inum){
             return -1;
         }
@@ -289,6 +333,12 @@ static void internal_stat(struct inode *in, struct stat * stat){
     stat->st_size = in->size;
     stat->st_ino = in->inum;
     stat->st_nlinks = in->links;
+    /* create dev mode */
+    if(in->dev_num && in->dev_num != DEV_NUM_FIFO){
+        stat->st_dev = makedev(in->dev_num, in->dev_minor);
+    } else {
+        stat->st_dev = 0;
+    }
     /* create modes */
     if(in->flags & INODE_FLAG_DIR){
         stat->st_mode = S_IFDIR;
