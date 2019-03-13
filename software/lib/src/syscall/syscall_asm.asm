@@ -255,3 +255,23 @@ _fstat:
 ;   Int
     int.i.n r7
     ret.n.sp sp
+
+;   chmod - change permissions on file (nonblocking)
+    .align
+_chmod:
+    .global _chmod
+;   Load syscall number
+    ld.r.i re 24
+;   Int
+    int.i.n r7
+    ret.n.sp sp
+
+;   fchmod - change permissions on file (nonblocking)
+    .align
+_fchmod:
+    .global _fchmod
+;   Load syscall number
+    ld.r.i re 25
+;   Int
+    int.i.n r7
+    ret.n.sp sp

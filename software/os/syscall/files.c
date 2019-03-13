@@ -279,7 +279,7 @@ static void internal_stat(struct inode *in, struct stat * stat){
         stat->st_mode = S_IFIFO;
     }
     else if(in->dev_num != 0){
-        stat->st_mode = S_IDEV;
+        stat->st_mode = S_IFDEV;
     }
     else {
         stat->st_mode = S_IFREG;
@@ -287,7 +287,7 @@ static void internal_stat(struct inode *in, struct stat * stat){
 
     /* set exec flag if needed */
     if(in->flags & INODE_FLAG_EXEC){
-        stat->st_mode &= S_IEXEC;
+        stat->st_mode |= S_IEXEC;
     }
 
 }
@@ -341,6 +341,61 @@ uint16_t _fstat(uint16_t fd, uint16_t stat_struct, uint16_t a2, uint16_t a3){
     }
 
     internal_stat(in, stat);
+
+    inode_put(in);
+
+    return 0;
+}
+
+/* change permissions on a file (only S_IEXEC flag is applicable) */
+
+static void internal_chmod(struct inode *in, uint16_t mode){
+    if(mode & S_IEXEC){
+        in->flags |= INODE_FLAG_EXEC;
+    } else {
+        in->flags &= (~INODE_FLAG_EXEC);
+    }
+}
+
+uint16_t _chmod(uint16_t name, uint16_t mode, uint16_t a2, uint16_t a3){
+    /* map in path */
+    uint8_t * path = kernel_map_in_mem((uint8_t *)name, proc_current_proc);
+    if(!path){
+        return -1;
+    }
+
+    uint16_t inum = fs_path_to_inum(path, proc_current_proc->cwd, proc_current_proc->croot);
+    if(!inum){
+        return -1;
+    }
+    struct inode *in = inode_get(inum);
+    if(!in){
+        return -1;
+    }
+
+    internal_chmod(in, mode);
+
+    inode_put(in);
+
+    return 0;
+}
+
+uint16_t _fchmod(uint16_t fd, uint16_t mode, uint16_t a2, uint16_t a3){
+    /* make sure file exists */
+    if(!proc_current_proc->files[fd]){
+        return -1;
+    }
+
+    uint16_t inum = proc_current_proc->files[fd]->ind->inum;
+    if(!inum){
+        return -1;
+    }
+    struct inode *in = inode_get(inum);
+    if(!in){
+        return -1;
+    }
+
+    internal_chmod(in, mode);
 
     inode_put(in);
 

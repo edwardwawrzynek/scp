@@ -39,6 +39,8 @@ uint16_t (*syscalls[])(uint16_t, uint16_t, uint16_t, uint16_t) = {
     _ioctl,
     _stat,
     _fstat,
+    _chmod,
+    _fchmod,
 };
 
 /* Passed Args and syscall number */

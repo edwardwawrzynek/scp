@@ -136,13 +136,16 @@ struct stat {
 #define S_IEXEC 2
 #define S_IFREG 4
 #define S_IFIFO 8
-#define S_IDEV 16
+#define S_IFDEV 16
 
 #define S_ISDIR(mode) (mode & S_IFDIR)
 #define S_ISEXEC(mode) (mode & S_IEXEC)
 #define S_ISREG(mode) (mode & S_IFREG)
 #define S_ISFIFO(mode) (mode & S_IFIFO)
-#define S_ISDEV(mode) (mode & S_IDEV)
+#define S_ISDEV(mode) (mode & S_IFDEV)
 
 int16_t stat(__reg("ra") uint8_t *path, __reg("rb") struct stat *stat);
 int16_t fstat(__reg("ra") uint16_t fd, __reg("rb") struct stat *stat);
+
+int16_t chmod(__reg("ra") uint8_t *path, __reg("rb") uint16_t mode);
+int16_t fchmod(__reg("ra") uint16_t fd, __reg("rb") uint16_t mode);

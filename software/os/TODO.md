@@ -25,7 +25,7 @@
     - [x] mkdir, rmdir
     - [x] opendir, readdir, closedir
     - [x] stat, fstat
-    - [ ] chmod
+    - [x] chmod, fstat
     - [x] chdir, chroot
     - [ ] pipe, mknod (dev + named pipe), mkfifo (needs named pipes)
     - [x] link, unlink

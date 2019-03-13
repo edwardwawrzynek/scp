@@ -13,20 +13,14 @@
     exit(0);
 }*/
 
-struct dirent entry;
+struct stat stat_e;
 
 int main(){
-    int fd = opendir("dir_test");
-    if(fd == -1){
-        test_syscall("failure opening\n");
-    } else {
-        test_syscall("success %u\n", fd);
-    }
+    int fd = open("test2.txt", O_RDONLY);
+    fstat(fd, &stat_e);
+    test_syscall("is exec: %u\n", S_ISEXEC(stat_e.st_mode));
+    test_syscall("chmod: %u\n", fchmod(fd, 0));
 
-    while(readdir(fd, &entry) > 0){
-        test_syscall(entry.name);
-    }
-
-    closedir(fd);
-    while(1);
+    //while(1);
+    exit(0);
 }
