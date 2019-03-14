@@ -158,3 +158,22 @@ int _dev_tty_gen_ioctl(int minor,int req_code,uint8_t *arg,tty_dev_t *tty_dev_ac
     }
     return 0;
 }
+
+/* null methods for devs (open and close succced, read and write set eof, and ioctl returns -1) */
+int no_open(int minor, struct inode *file){
+    return 0;
+}
+int no_close(int minor, struct inode*file){
+    return 0;
+}
+int no_read(int minor, uint8_t *buf, size_t bytes, uint8_t *eof, struct inode *file){
+    *eof = 1;
+    return 0;
+}
+int no_write(int minor, uint8_t *buf, size_t bytes, uint8_t *eof, struct inode *file){
+    *eof = 1;
+    return 0;
+}
+int no_ioctl(int minor, int req_code, uint8_t * arg, struct inode *file){
+    return -1;
+}

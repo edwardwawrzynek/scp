@@ -1,7 +1,7 @@
 # Todo for OS
 - [x] Basic FS (inodes, blocks, normal files, dirs, etc)
 - [x] Device Files
-    - [ ] Special device files (/dev/null, zero, random, etc)
+    - [x] Special device files (/dev/null, zero, random, etc)
 - [x] Pipes
     - [x] Named Pipes
     - [x] Device driver access to inodes members (needed for offsets)
@@ -36,7 +36,7 @@
     - [x] exit
         - [x] zombie / orphan handling (don't make init do it)
         - [x] wait
-    - [ ] brk, sbrk
+    - [x] brk, sbrk
 - [x] Serial File Transfer Program
     - [ ] OS disk (with binaries) creation method
 - [x] Init method (init process based on an initrc file)

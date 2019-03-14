@@ -135,3 +135,6 @@ typedef struct {
 #define DEV_NUM_TTY 1
 #define DEV_NUM_SERIAL 2
 #define DEV_NUM_FIFO 3
+#define DEV_NUM_NULL 4
+#define DEV_NUM_ZERO 5
+#define DEV_NUM_RANDOM 6

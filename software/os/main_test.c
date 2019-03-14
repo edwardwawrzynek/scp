@@ -205,6 +205,9 @@ int main(){
         case 't':
             printf("%u\n", dir_make_file(cwd, "tty0", 1, 0, 0));
             printf("%u\n", dir_make_file(cwd, "serial0", 2, 0, 0));
+            printf("%u\n", dir_make_file(cwd, "null", 4, 0, 0));
+            printf("%u\n", dir_make_file(cwd, "zero", 5, 0, 0));
+            printf("%u\n", dir_make_file(cwd, "random", 6, 0, 0));
             break;
         case 'z':;
             struct file_entry * f = file_get(fs_path_to_inum(arg, cwd, 2), FILE_MODE_WRITE);
