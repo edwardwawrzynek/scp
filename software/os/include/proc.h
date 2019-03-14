@@ -26,6 +26,8 @@
 //the 0 in the high bit indicates unused, the rest is just recognizable in hex
 #define MMU_UNUSED 0b1111111
 
+#define IS_MMU_UNUSED(page_val) (!(page_val & 0b10000000))
+
 /* Process State */
 
 //a dead process - used in conjunction with in_use=0
@@ -59,8 +61,10 @@
 struct proc_mem{
     //number of instruction pages - this is fixed after loading
     uint8_t instr_pages;
-    //number of data pages - this is init'd on loading, but can change via sbrk or similair
+    //number of data pages - this is init'd on loading, but can change via brk/sbrk
     uint8_t data_pages;
+    //current brk of program (pointer into last data page) (changed by brk/sbrk)
+    uint8_t * brk;
     //number of stack pages, starting at the highest memory addr - starts at PROC_DEFAULT_STACK_PAGES
     uint8_t stack_pages;
 };

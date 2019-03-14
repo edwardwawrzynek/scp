@@ -137,7 +137,7 @@ void proc_init_kernel_entry(){
 void proc_kernel_expand_brk(uint8_t *brk){
     uint16_t page_in_kernel = ((uint16_t)brk >> MMU_PAGE_SIZE_SHIFT);
     for(int page = 0; page <= page_in_kernel; page++){
-        if(proc_table[0].mem_map[page] == MMU_UNUSED){
+        if(IS_MMU_UNUSED(proc_table[0].mem_map[page])){
             proc_table[0].mem_map[page] = palloc_new();
         }
     }
@@ -236,8 +236,49 @@ uint16_t proc_load_mem(struct proc * proc, struct file_entry * file){
         bytes_read = file_read(file, mapped_in, MMU_PAGE_SIZE);
         addr += bytes_read;
     } while(bytes_read == MMU_PAGE_SIZE);
+    //set proc brk to end of memory
+    proc->mem_struct.brk = addr;
     //only return success if whole file was loaded
     return ((uint16_t)addr != file->ind->size);
+}
+
+/* expand the proc's brk to a new value, allocating and mapping in new memory if needed
+ * return 0 on success, 1 on failure (new brk would collide with stack) */
+uint16_t proc_set_brk(struct proc *proc, uint8_t *brk){
+    uint16_t old_brk = (uint16_t)proc->mem_struct.brk;
+    /* check for collision with stack */
+    if(((uint16_t)brk)>>MMU_PAGE_SIZE_SHIFT >= (32 - proc->mem_struct.stack_pages)){
+        return 1;
+    }
+    /* make sure brk is clear of text pages */
+    if(((uint16_t)brk)>>MMU_PAGE_SIZE_SHIFT < proc->mem_struct.instr_pages){
+        return -1;
+    }
+    /* allocate new memory */
+    uint16_t new_max_page = ((uint16_t)brk >> MMU_PAGE_SIZE_SHIFT);
+    for(int page = 0; page <= new_max_page; page++){
+        if(IS_MMU_UNUSED(proc->mem_map[page])){
+            proc->mem_map[page] = palloc_new();
+            proc->mem_struct.data_pages++;
+        }
+    }
+    /* if we need to, free old memory */
+    if((uint16_t)brk < old_brk){
+        uint16_t old_max_page = old_brk >> MMU_PAGE_SIZE_SHIFT;
+        for(int page = old_max_page; page > new_max_page; page--){
+            if(!IS_MMU_UNUSED(proc->mem_map[page])){
+                palloc_free(proc->mem_map[page]);
+                proc->mem_map[page] = MMU_UNUSED;
+            }
+        }
+    }
+
+    /* set brk */
+    proc->mem_struct.brk = brk;
+
+    proc_write_mem_map(proc);
+
+    return 0;
 }
 
 /* create a new process in a ready to run state from a parent pid, a binary file inode number

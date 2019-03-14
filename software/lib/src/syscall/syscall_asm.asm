@@ -295,3 +295,23 @@ _pipe:
 ;   Int
     int.i.n r7
     ret.n.sp sp
+
+;   brk - change size of data segment (nonblocking)
+    .align
+_brk:
+    .global _brk
+;   Load syscall number
+    ld.r.i re 28
+;   Int
+    int.i.n r7
+    ret.n.sp sp
+
+;   sbrk - change size of data segment (nonblocking)
+    .align
+_sbrk:
+    .global _sbrk
+;   Load syscall number
+    ld.r.i re 29
+;   Int
+    int.i.n r7
+    ret.n.sp sp

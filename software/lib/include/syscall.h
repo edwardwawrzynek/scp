@@ -162,3 +162,7 @@ int16_t mknod(__reg("ra") uint8_t *path, __reg("rb") uint16_t mode, __reg("rc") 
 int16_t pipe(__reg("ra") uint16_t *pipefds);
 
 int16_t mkfifo(uint8_t *path);
+
+int16_t brk(__reg("ra") uint8_t *brk);
+
+uint8_t * sbrk(__reg("ra") uint16_t inc);

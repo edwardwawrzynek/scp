@@ -23,6 +23,7 @@
         - [ ] argv passing
         - [ ] #! script handling
         - [ ] binary header handling - proper paging
+            - [ ] Text segment sharing of processes of same exec file
     - [x] mkdir, rmdir
     - [x] opendir, readdir, closedir
     - [x] stat, fstat

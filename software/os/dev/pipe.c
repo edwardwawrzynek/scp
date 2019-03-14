@@ -49,7 +49,6 @@ int _pipe_close(int minor, struct inode *ind){
     ind->pipe.buf = NULL;
     /* if pipe is unnamed, set links to 0 so that it won't be kept on fs */
     if(!ind->pipe.is_named){
-        printf("pipe closing\n");
         ind->links = 0;
     }
 

@@ -12,6 +12,7 @@
 #include "syscall/chdir.h"
 #include "syscall/exit.h"
 #include "syscall/dir.h"
+#include "syscall/brk.h"
 
 /* syscall table (all syscalls take four args, regardless of if they use them or not *) */
 uint16_t (*syscalls[])(uint16_t, uint16_t, uint16_t, uint16_t) = {
@@ -43,6 +44,8 @@ uint16_t (*syscalls[])(uint16_t, uint16_t, uint16_t, uint16_t) = {
     _fchmod,
     _mknod,
     _pipe,
+    _brk,
+    _sbrk,
 };
 
 /* Passed Args and syscall number */
