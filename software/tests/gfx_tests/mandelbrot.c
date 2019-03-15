@@ -31,7 +31,7 @@ int main(){
 	int16_t zx;
 	int16_t zy;
 
-	
+
 
 	zx = -600;
 	zy = -300;
@@ -44,6 +44,6 @@ int main(){
 		zy += 3;
 	}
 
-	while(1);
+	return 0;
 
 }

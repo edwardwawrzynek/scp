@@ -1,162 +1,208 @@
-#include <lib/string.h>
-#include <stddef.h>
-#include "lib/brk_loc/end.h"
-#include "include/defs.h"
-#include "kernel/proc.h"
-#include "kernel/panic.h"
+#define SCP
+//#undef SCP
 
-//Header before every malloc'd block of memory
-struct _malloc_header {
-    //ptr to previous header
-    struct _malloc_header * prev;
-    //ptr to next header
-    struct _malloc_header * next;
-    //size of the block in bytes - NOT including header
-    unsigned int size;
-    //whether the block is free or not
-    unsigned char free;
+#include <stdint.h>
+#include <stddef.h>
+
+#ifdef SCP
+    #include "include/defs.h"
+    #include "lib/brk_loc/end.h"
+    #include "kernel/proc.h"
+    #include "kernel/panic.h"
+    #include "include/defs.h"
+    #include "include/panic.h"
+    #include <lib/string.h>
+#endif
+#ifndef SCP
+    #include <unistd.h>
+    #include <stdio.h>
+    #include <string.h>
+#endif
+
+#ifndef SCP
+    #define PANIC_MALLOC_ERROR 1
+
+    void panic(uint16_t code){
+        printf("Error\n%u\n", code);
+        _exit(0);
+    }
+#endif
+
+/* kmalloc implementation
+ * allocates linked lists of blocks of memory
+ * with headers */
+
+/* Basic algorithm to malloc:
+ * start at head of list, and go till we find a free block
+ * check if it is big enough for request. If so, alloc and split
+ * it (if enough space for split).
+ * If not, check if the next block is free. If so, combine blocks,
+ * and start again.
+ * If all that fails, go to next block
+ * If no free blocks, make a new one */
+
+#define DEBUG
+#define MAGIC 0x1234
+
+/* Header of blocks */
+struct _header {
+    /* Size of header, in bytes */
+    size_t size;
+    /* Pointer to next block */
+    struct _header * next;
+    /* if the block is in use or not */
+    uint16_t in_use;
+    /* magic number - 0x1234 */
+    #ifdef DEBUG
+        uint16_t magic;
+    #endif
 };
 
-//pointer to end of data segment (_BRK_END is defined in lib/brk_loc/end.asm)
-static unsigned char * brk = &_BRK_END;
+/* start of linked list */
+struct _header * head = NULL;
 
-//pointer to first and last blocks(set when first block is created)
-static struct _malloc_header * _malloc_head;
-static struct _malloc_header * _malloc_tail;
+/* end of data segment */
+#ifdef SCP
+    uint8_t * brk_end = &_BRK_END;
+#endif
+#ifndef SCP
+    uint8_t * brk_end;
+#endif
 
 
-//create a new block, link it to _prev_blk, and return a pointer to the start of the data area of the blk
-static unsigned char * _malloc_new(unsigned int size, struct _malloc_header * prev_blk){
-    struct _malloc_header header;
+/* create a new block at brk */
+static struct _header * make_block(size_t size){
+    /* add size of header */
+    size_t real_size = sizeof(struct _header) + size;
+    /* expand brk */
+    #ifndef SCP
+        brk_end = sbrk(real_size);
+    #endif
+    #ifdef SCP
+        proc_kernel_expand_brk(brk_end+real_size);
+    #endif
+    /* create header */
+    struct _header * block = (struct _header *) brk_end;
 
-    header.free = 0;
-    header.size = size;
-    header.prev = prev_blk;
-    header.next = 0;
-    //memcpy header to memory
-    if(((uint16_t)(brk + sizeof(struct _malloc_header)) >> MMU_PAGE_SIZE_SHIFT) >= KERNEL_MEM_MAP_PAGE_1){
-        panic(PANIC_KMALLOC_NO_FREE_MEM);
-    }
-    proc_kernel_expand_brk(brk + sizeof(struct _malloc_header));
-    memcpy(brk, &header, sizeof(struct _malloc_header));
-    if(prev_blk){
-        prev_blk->next = (struct _malloc_header *) brk;
-    } else {
-        //set _malloc_head to be this block
-        _malloc_head = (struct _malloc_header *) brk;
-    }
-    //set _malloc_tail
-    _malloc_tail = (struct _malloc_header *) brk;
-    //increment brk the appropriate amount
-    brk += sizeof(struct _malloc_header) + size;
-    if(((uint16_t)(brk) >> MMU_PAGE_SIZE_SHIFT) >= KERNEL_MEM_MAP_PAGE_1){
-        panic(PANIC_KMALLOC_NO_FREE_MEM);
-    }
-    proc_kernel_expand_brk(brk);
+    block->size = size;
+    block->in_use = 1;
+    block->next = NULL;
+    #ifdef DEBUG
+        block->magic = MAGIC;
+    #endif
 
-    return brk - size;
+    brk_end += real_size;
+
+    return block;
 }
 
-//attempt to combine a free block with those before and after it if they are free
-static void _malloc_combine(struct _malloc_header * header){
-    if(!header){
-        return;
-    }
-    if(!header->free){
-        return;
-    }
-    if(header->next){
-        if(header->next->free){
-            //combine with the next block, using this block's header as the final result's header
-            header->size += header->next->size + sizeof(struct _malloc_header);
-            header->next = header->next->next;
-            if(!(header->next)){
-                _malloc_tail = header;
+/* go through linked list till we find a block that is free of at least the passed size */
+static struct _header * get_free_block(size_t size){
+    struct _header * block = NULL;
+    struct _header * pblock = NULL;
+
+    for(block = head; block != NULL; block = block->next){
+        #ifdef DEBUG
+            if(block->magic != MAGIC){
+                panic(PANIC_MALLOC_ERROR);
+            }
+        #endif
+
+        if(!block->in_use){
+            /* check size */
+            if(block->size >= size){
+                /* return block */
+                /* TODO: split */
+                block->in_use = 1;
+                return block;
             } else {
-                _malloc_combine(header);
-            }
-        }
-    }
-    else if(header->prev){
-        _malloc_combine(header->prev);
-    }
-}
+                /* combine with as many blocks as we can */
+                while(block->next != NULL){
+                    if(block->next->in_use){
+                        break;
+                    }
+                    /* combine sizes */
+                    block->size += block->next->size + sizeof(struct _header);
 
+                    /* clear magic number */
+                    #ifdef DEBUG
+                        block->next->magic = 0;
+                    #endif
 
-void * kmalloc(size_t size){
-    struct _malloc_header new;
-    struct _malloc_header *cur;
-    unsigned char *loc;
-    unsigned int extra_space;
-    unsigned char *new_loc;
-    //search for a free block of good size, and split it if it has extra space
-    cur = _malloc_head;
-    while(cur){
-        if(cur->size >= size && cur->free){
-            //Mark the block in use
-            cur->free = 0;
-            //set loc
-            loc = (unsigned char *) cur;
-            extra_space = cur->size - size;
-            //If the block can be split and the second half have enough space for another header + at leats 1 byte of data, do so
-            if(extra_space > sizeof(struct _malloc_header)){
-                //reduce first block's size
-                cur->size = size;
-                //create a new header
-                new.free = 1;
-                new.size = extra_space - sizeof(struct _malloc_header);
-                new.prev = cur;
-                new.next = cur->next;
-                //write header
-                new_loc = loc + sizeof(struct _malloc_header) + size;
-                memcpy(new_loc, &new, sizeof(struct _malloc_header));
-                //adjust the list to include the new block
-                //if there is is a block after the new one, set that, or, if not, set _malloc_tail
-                if(cur->next){
-                    cur->next->prev = (struct _malloc_header *) new_loc;
-                } else {
-                    _malloc_tail = (struct _malloc_header *) new_loc;
+                    /* if block after one we are combining with is null, that will just be reflected here */
+                    block->next = block->next->next;
                 }
-                cur->next = (struct _malloc_header *) new_loc;
+
+                if(block->size >= size){
+                    /* return block */
+                    /* TODO: split */
+                    block->in_use = 1;
+                    return block;
+                }
             }
-
-            return loc+sizeof(struct _malloc_header);
         }
-        cur = cur->next;
+
+        pblock = block;
     }
-    //No block found, so create a new one
-    return _malloc_new(size, _malloc_tail);
+    /* no free blocks - create one */
+
+    /* if no head, make that */
+    if(head == NULL){
+        head = make_block(size);
+        return head;
+    } else {
+        pblock->next = make_block(size);
+        return pblock->next;
+    }
 }
 
-void * kcalloc(unsigned int nvals, size_t svals){
-    size_t size;
-    unsigned char *ptr;
-    unsigned char *ptr2;
-    size = nvals*svals;
-    ptr = kmalloc(size);
-    ptr2 = ptr;
-    while(size--){
-        *(ptr2++) = 0;
-    }
-    return ptr;
+/* malloc */
+void *kmalloc(size_t size){
+    struct _header * block = get_free_block(size);
+    return (void *)(block+1);
 }
 
+/* free */
 void kfree(void *ptr){
-    struct _malloc_header * header;
-    //Get the header for the blk
-    header = ((struct _malloc_header *)ptr) - 1;
-    //Mark as free
-    header->free = 1;
-    //Check if the block above or below is free, and, if so, combine with it
-    _malloc_combine(header);
+    if(ptr == NULL){
+        return;
+    }
+    struct _header * block = ((struct _header *)(ptr)) - 1;
+    #ifdef DEBUG
+        if(block->magic != MAGIC){
+            panic(PANIC_MALLOC_ERROR);
+        }
+    #endif
+    block->in_use = 0;
 }
 
+/* realloc (TODO: check next blocks) */
 void * krealloc(void *ptr, size_t size){
-    struct _malloc_header *header;
-    unsigned char *res;
-    header = ((struct _malloc_header *) ptr) - 1;
-    res = kmalloc(size);
-    memcpy(res, ptr, header->size);
+    if(ptr == NULL){
+        return kmalloc(size);
+    }
+    struct _header * block = ((struct _header *)(ptr)) - 1;
+    #ifdef DEBUG
+        if(block->magic != MAGIC){
+            panic(PANIC_MALLOC_ERROR);
+        }
+    #endif
+
+    void * new = kmalloc(size);
+    memcpy(new, ptr, block->size > size ? size: block->size);
     kfree(ptr);
+
+    return new;
+}
+
+void * kcalloc(size_t nmeb, size_t meb_size){
+    size_t size = nmeb * meb_size;
+
+    void * res = kmalloc(size);
+
+    if(res != NULL){
+        memset(res, 0, size);
+    }
+
     return res;
 }

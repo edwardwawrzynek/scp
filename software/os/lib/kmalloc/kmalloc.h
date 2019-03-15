@@ -1,5 +1,5 @@
 #include <stddef.h>
-void *krealloc(void *ptr,size_t size);
 void kfree(void *ptr);
-void *kcalloc(unsigned int nvals,size_t svals);
-void *kmalloc(size_t size);
+void * krealloc(void *ptr, size_t size);
+void * kcalloc(size_t nmeb, size_t meb_size);
+void * kmalloc(size_t size);

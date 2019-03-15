@@ -115,15 +115,21 @@ void proc_files(uint16_t parent, char * parent_path){
                 if(fd == -1){
                     test_syscall("error making file\n");
                 }
-                /* TODO: chmod on exec files */
+                if(files[i].is_executable){
+                    fchmod(fd, S_IEXEC);
+                }
                 /* read in file */
                 test_syscall(path);
+                uint16_t s_len = strlen(path);
+                for(int i = 0; i < 32-s_len; i++){
+                    test_syscall(" ");
+                }
                 test_syscall(" |");
                 uint8_t pprogress = 0;
                 uint8_t progress = 0;
                 file_write_buf_pos = 0;
                 for(uint16_t ind=0;ind<files[i].bytes;ind++){
-                    progress = (ind<<4)/files[i].bytes;
+                    progress = (ind<<5)/files[i].bytes;
                     if(progress != pprogress){
                         test_syscall("#");
                     }
@@ -134,6 +140,7 @@ void proc_files(uint16_t parent, char * parent_path){
                 }
                 file_buf_close(fd);
                 close(fd);
+                test_syscall("\n");
             } else {
                 /* create folder */
                 if(mkdir(path) == -1){
@@ -165,6 +172,10 @@ int main(){
     /* process files, and write to disk */
     proc_files(0, ".");
 
-    exit(1);
+    /* execute /init */
+    execv("/init", NULL);
+
+    test_syscall("exec failure\n");
+    exit(0);
 }
 

@@ -22,7 +22,7 @@ void _write_byte(uint8_t val){
         do{
             waiting = sp_input_waiting(port);
             if(waiting < 0){
-                printf("error code: %u\n");
+                printf("error code: %u\n", waiting);
                 exit(0);
             }
         } while(waiting < BUF_SIZE);
@@ -45,7 +45,7 @@ void _write_bytes(uint16_t bytes, uint8_t *buf){
         do{
             waiting = sp_input_waiting(port);
             if(waiting < 0){
-                printf("error code: %u\n");
+                printf("error code: %u\n", waiting);
                 exit(0);
             }
         } while(waiting < BUF_SIZE);
@@ -132,22 +132,22 @@ void read_dir(char * path, uint16_t parent_index){
             if((!strcmp(entry->d_name, ".")) || (!strcmp(entry->d_name, ".."))){
                 continue;
             }
-            if(entry->d_type == DT_REG){
+            sprintf(path_buf, "%s/%s", path, entry->d_name);
+            if(stat(path_buf, &finfo) < 0){
+                printf("%s\n", path_buf);
+                printf("error\n%s\n", strerror(errno));
+            }
+
+            if(S_ISREG(finfo.st_mode)){
                 /* add regular file */
-                sprintf(path_buf, "%s/%s", path, entry->d_name);
                 /* get info on file */
-                if(stat(path_buf, &finfo) < 0){
-                    printf("%s\n", path_buf);
-                    printf("error\n%s\n", strerror(errno));
-                }
                 /* get file size, exec but, etc */
                 uint16_t size = finfo.st_size;
                 uint16_t is_exec = finfo.st_mode & S_IXUSR;
 
                 files_add(parent_index, entry->d_name, size, 0, 0, 0, is_exec, path_buf);
-            } else if (entry->d_type == DT_DIR){
+            } else if (S_ISDIR(finfo.st_mode)){
                 /* add regular file */
-                sprintf(path_buf, "%s/%s", path, entry->d_name);
                 /* set size to 0 - dir contents aren't actually transmitted - they are created from parent linsk in struct file */
 
                 uint16_t parent = files_add(parent_index, entry->d_name, 0, 0, 0, 1, 0, path_buf);
@@ -187,6 +187,10 @@ int main(int argc, char **argv){
     /* wite files */
     read_files(argv[1]);
     write_files();
+    /* write out a buffer worth of zeros, to make sure all files are flusshed */
+    while(transmitted != BUF_SIZE){
+        _write_byte(0);
+    }
     sp_close(port);
 
 }

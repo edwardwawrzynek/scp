@@ -138,3 +138,8 @@ void obj_out_main_pass(){
 
     }
 }
+
+/* output symbol debugging information on file (only applicable for debug output) */
+void bin_sym_debug(char * file){
+
+}

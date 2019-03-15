@@ -21,6 +21,7 @@ void usage(){
         \n-l\tname\t:link with a file libname.o in the dirs specified by -L\
         \n-L\tdir\t:set dir to be part of the search path used by -l\
         \n-O\t\t:force the output to be an obj file, no matter output extension\
+        \n-D\tsym_db\t:output symbol debugging info in sym_db (binary file output only)\
         \n");
 }
 
@@ -39,6 +40,9 @@ int lib_path_index = 0;
 
 /* buffer for finding libraries */
 char lib_buf[256];
+
+int do_sym_debug = 0;
+char * sym_debug_out;
 
 int main(int argc, char *argv[]){
   char * outfile = "out.bin";
@@ -65,6 +69,10 @@ int main(int argc, char *argv[]){
         break;
       case 'O':
         do_out_obj = 1;
+        break;
+      case 'D':
+        do_sym_debug = 1;
+        sym_debug_out = optarg;
         break;
       case '?':
         usage();
@@ -139,6 +147,10 @@ void run_lnk_bin(){
   symbol_read_in_tables();
 
   bin_main_pass();
+  /* output addr of each symbol defined by linked objects */
+  if(do_sym_debug){
+    bin_sym_debug(sym_debug_out);
+  }
 }
 
 /* output an obj file - a bit simpler */
