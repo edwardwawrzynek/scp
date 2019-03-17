@@ -170,13 +170,9 @@ int main(){
     uint16_t pinum, pinum2;
     char *i;
 
-    switch_to_sys();
-
 
     kernel_init();
     printf("Kernel Inited\n");
-
-    switch_to_user();
 
     cwd = 2;
     fin = file_get(cwd, FILE_MODE_READ);

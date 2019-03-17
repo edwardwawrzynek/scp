@@ -96,6 +96,29 @@ static struct _header * make_block(size_t size){
     return block;
 }
 
+/* split a block to be of the given size, and create a block the fills the remaining space
+ * return block, or NULL if not enough space to add a header in remaining space
+ * next pointers are handled */
+static struct _header * split_block(struct _header * block, size_t size){
+    /* make sure we can hold at least a header + 1 bytes in new block */
+    if(block->size < (size + sizeof(struct _header))){
+        return NULL;
+    }
+    /* make new header */
+    struct _header * new = (struct _header *)((uint8_t *)block + sizeof(struct _header) + size);
+    new->in_use = 1;
+    new->size = block->size - (size + sizeof(struct _header));
+    block->size = size;
+
+    #ifdef DEBUG
+        new->magic = MAGIC;
+    #endif
+    new->next = block->next;
+    block->next = new;
+
+    return new;
+}
+
 /* go through linked list till we find a block that is free of at least the passed size */
 static struct _header * get_free_block(size_t size){
     struct _header * block = NULL;
@@ -112,7 +135,7 @@ static struct _header * get_free_block(size_t size){
             /* check size */
             if(block->size >= size){
                 /* return block */
-                /* TODO: split */
+                split_block(block, size);
                 block->in_use = 1;
                 return block;
             } else {
@@ -135,7 +158,7 @@ static struct _header * get_free_block(size_t size){
 
                 if(block->size >= size){
                     /* return block */
-                    /* TODO: split */
+                    split_block(block, size);
                     block->in_use = 1;
                     return block;
                 }
@@ -188,11 +211,28 @@ void * krealloc(void *ptr, size_t size){
         }
     #endif
 
-    void * new = kmalloc(size);
-    memcpy(new, ptr, block->size > size ? size: block->size);
-    kfree(ptr);
+    /* combine with next blocks */
+    for(struct _header * head = block->next; head != NULL; head = head->next){
+        if(head->in_use){
+            break;
+        }
+        block->size += sizeof(struct _header) + head->size;
+        block->next = head->next;
+    }
 
-    return new;
+    size_t sum_size = block->size;
+
+    /* if the block can hold the requested size, use it */
+    if(size <= sum_size){
+        split_block(block, size);
+        return ptr;
+    } else {
+        void * new = kmalloc(size);
+        memcpy(new, ptr, block->size > size ? size: block->size);
+        kfree(ptr);
+
+        return new;
+    }
 }
 
 void * kcalloc(size_t nmeb, size_t meb_size){

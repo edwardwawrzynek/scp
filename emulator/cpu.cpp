@@ -147,7 +147,7 @@ uint16_t CPU::alu(uint8_t opcode, uint16_t a, uint16_t b) {
         case 7: return a - b;
         case 8: return a * b;
         case 9: return ~a;
-        case 10: return - ((int16_t)a);
+        case 10: return -a;
         default: return a;
     }
 }

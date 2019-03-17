@@ -12,13 +12,10 @@ char buf[80];
 
 char null;
 void run(){
-    if(pos >= 80){
-        speed = -1;
-    }
-    if(pos < 0){
-        speed = 1;
-    }
     pos+=speed;
+    if(pos >= 79 || pos <= 0){
+        speed = -speed;
+    }
     memset(buf, 0, 80);
     buf[pos] = '#';
     if(write(STDOUT_FILENO, buf, 80) != 80){
