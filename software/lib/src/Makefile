@@ -12,8 +12,21 @@ LIBC_BIN = ../bin/libc.o
 LIBC_HEADERS =
 
 LIBC_OBJS = \
-ctype/ctype.o	stdio/stdio.o	stdlib/stdlib.o	string/string.o	\
-stdlib/malloc.o													\
+stdio/stdio.o																\
+																			\
+stdlib/abs.o	stdlib/itoa.o	stdlib/malloc.o	stdlib/strtol.o				\
+ctype/isalnum.o	ctype/isalpha.o ctype/isblank.o	ctype/iscntrl.o				\
+ctype/isdigit.o	ctype/isgraph.o	ctype/islower.o	ctype/isprint.o				\
+ctype/ispunc.o 	ctype/isspace.o	ctype/isupper.o	ctype/isxdigit.o			\
+ctype/tolower.o	ctype/toupper.o												\
+																			\
+string/memchr.o	string/memcmp.o	string/memcpy.o	string/memmove.o			\
+string/memset.o	string/strcat.o	string/strchr.o	string/strcpy.o				\
+string/strcspn.o	string/strlen.o	string/strncat.o	string/strnchr.o	\
+string/strncmp.o	string/strncpy.o	string/strnlen.o					\
+string/strpbrk.o	string/strrchr.o	string/strspn.o	string/strstr.o		\
+string/strcmp.o																\
+																			\
 syscall/syscall_asm.o	syscall/syscall_lib.o	\
 
 #inp and outp (seperate from libc)
