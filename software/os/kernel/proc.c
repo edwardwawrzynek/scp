@@ -135,13 +135,14 @@ void proc_init_kernel_entry(){
 /**
  * expand, if needed, the mem_map for the kernel, given a new brk */
 void proc_kernel_expand_brk(uint8_t *brk){
-    uint16_t page_in_kernel = ((uint16_t)brk >> MMU_PAGE_SIZE_SHIFT);
+    /*uint16_t page_in_kernel = ((uint16_t)brk >> MMU_PAGE_SIZE_SHIFT);
     for(int page = 0; page <= page_in_kernel; page++){
         if(IS_MMU_UNUSED(proc_table[0].mem_map[page])){
             proc_table[0].mem_map[page] = palloc_new();
         }
     }
-    proc_write_mem_map(&proc_table[0]);
+    proc_write_mem_map(&proc_table[0]);*/
+    proc_set_brk(&proc_table[0], brk);
 }
 
 /* init's the mem_map for a process from the the proc's proc_mem struct

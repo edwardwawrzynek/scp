@@ -172,8 +172,10 @@ int main(){
 
 
     kernel_init();
-    printf("Kernel Inited\n");
-    kernel_start_init("/serial");
+    printf("Kernel Inited\nPress enter for serial loader autoboot\n:");
+    if(getchar() == 0xa){
+        kernel_start_init("/serial");
+    }
     cwd = 2;
     fin = file_get(cwd, FILE_MODE_READ);
     arg = buf+2;
