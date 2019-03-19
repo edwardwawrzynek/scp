@@ -1,34 +1,6 @@
 #include "syscall.h"
 #include <stdint.h>
 
-/* helpful for debugging */
-
-#define DIGARR "0123456789abcdef"
-void hexdump(unsigned char * mem, unsigned int n){
-    unsigned char * dig;
-    unsigned int i, j;
-    unsigned char is_end;
-    dig = DIGARR;
-    for(i = 0; i < n; ++i){
-        test_syscall("%c", (uint16_t)dig[(*mem)>>4]);
-        test_syscall("%c", (uint16_t)dig[(*(mem++))&0x0f]);
-        is_end = (i%20) == 19;
-        test_syscall("%c", (uint16_t)is_end ? '|' : ' ');
-        if(is_end){
-            mem = mem - 20;
-            for(j = 0; j < 20; ++j){
-                if(*mem != '\n' && *mem != '\t' && *mem != 8){
-                    test_syscall("%c", (uint16_t)*mem);
-                } else {
-                    test_syscall("%c", (uint16_t)219);
-                }
-                mem++;
-            }
-        }
-    }
-    test_syscall("%c", (uint16_t)'\n');
-}
-
 /* System Call Wrappers
  * The actual syscalls are implemented in asm, but wrappers for ones that need to block are implemented here */
 
@@ -144,5 +116,5 @@ int16_t closedir(uint16_t fd){
 
 /* mkfifo - thin wrapper over mknod */
 int16_t mkfifo(uint8_t *path){
-    return mknod(path, S_IFIFO);
+    return mknod(path, S_IFIFO, 0);
 }

@@ -13,6 +13,7 @@ LIBC_HEADERS =
 
 LIBC_OBJS = \
 ctype/ctype.o	stdio/stdio.o	stdlib/stdlib.o	string/string.o	\
+stdlib/malloc.o													\
 syscall/syscall_asm.o	syscall/syscall_lib.o	\
 
 #inp and outp (seperate from libc)

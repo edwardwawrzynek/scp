@@ -41,6 +41,11 @@
  * If all that fails, go to next block
  * If no free blocks, make a new one */
 
+/* TODO: lower memory usage when last block is freed
+ * also, when this happens, somehow check blocks before removed
+ * one to see if they can also be removed (probably just have to go
+ * thorugh all of linked list) */
+
 #define DEBUG
 #define MAGIC 0x1234
 
@@ -106,7 +111,7 @@ static struct _header * split_block(struct _header * block, size_t size){
     }
     /* make new header */
     struct _header * new = (struct _header *)((uint8_t *)block + sizeof(struct _header) + size);
-    new->in_use = 1;
+    new->in_use = 0;
     new->size = block->size - (size + sizeof(struct _header));
     block->size = size;
 
@@ -179,6 +184,58 @@ static struct _header * get_free_block(size_t size){
     }
 }
 
+/* go through list and remove free blocks at end */
+static void free_end(){
+    struct _header * pblock = NULL;
+    for(struct _header * block = head; block != NULL; block = block->next){
+        #ifdef DEBUG
+            if(block->magic != MAGIC){
+                panic(PANIC_MALLOC_ERROR);
+            }
+        #endif
+        if(block->in_use){
+            pblock = block;
+            continue;
+        }
+        /* combine with next blocks */
+        while(block->next != NULL){
+            if(block->next->in_use){
+                break;
+            }
+            /* combine sizes */
+            block->size += block->next->size + sizeof(struct _header);
+
+            /* clear magic number */
+            #ifdef DEBUG
+                block->next->magic = 0;
+            #endif
+
+            /* if block after one we are combining with is null, that will just be reflected here */
+            block->next = block->next->next;
+        }
+        /* check if it is last block */
+        if(block->next == NULL && pblock != NULL){
+            /* unlink */
+            if(pblock->next != block){
+                panic(PANIC_MALLOC_ERROR);
+            }
+            pblock->next = NULL;
+            #ifdef DEBUG
+                block->magic = 0;
+            #endif
+            #ifdef SCP
+                brk_end -= (block->size + sizeof(struct _header));
+                proc_kernel_expand_brk(brk_end);
+            #endif
+            #ifndef SCP
+                brk_end -= (block->size + sizeof(struct _header));
+                sbrk(-(block->size + sizeof(struct _header)));
+            #endif
+        }
+        pblock = block;
+    }
+}
+
 /* malloc */
 void *kmalloc(size_t size){
     struct _header * block = get_free_block(size);
@@ -197,9 +254,11 @@ void kfree(void *ptr){
         }
     #endif
     block->in_use = 0;
+
+    free_end();
 }
 
-/* realloc (TODO: check next blocks) */
+/* realloc */
 void * krealloc(void *ptr, size_t size){
     if(ptr == NULL){
         return kmalloc(size);

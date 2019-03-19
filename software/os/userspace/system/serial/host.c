@@ -156,7 +156,7 @@ void read_dir(char * path, uint16_t parent_index){
         }
         closedir(d);
     } else {
-        //printf("error\n%s\n", strerror(errno));
+        printf("error\n%s\n", strerror(errno));
     }
 }
 

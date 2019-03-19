@@ -173,7 +173,7 @@ int main(){
 
     kernel_init();
     printf("Kernel Inited\n");
-
+    kernel_start_init("/serial");
     cwd = 2;
     fin = file_get(cwd, FILE_MODE_READ);
     arg = buf+2;
@@ -251,7 +251,7 @@ int main(){
                 printf("No such file: %s\n", arg);
                 break;
             }
-            struct proc * pproc = proc_create_new(pinum, 100, cwd, 2);
+            struct proc * pproc = proc_create_new(pinum, 0, cwd, 2);
             if(!pproc){
                 printf("Error creating proc\n");
             }

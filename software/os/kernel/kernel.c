@@ -26,8 +26,8 @@ void kernel_init(){
 
 /* create the init process from the /init binary, and run it
  * init doesn't have stdin, stdout, or stderr, and has to open it itself */
-void kernel_start_init(){
-  uint16_t init_inum = fs_path_to_inum("/init", 2, 2);
+void kernel_start_init(char * initpath){
+  uint16_t init_inum = fs_path_to_inum(initpath, 2, 2);
   if(!init_inum){
     panic(PANIC_NO_INIT_FILE);
   }
