@@ -23,6 +23,7 @@ void usage(){
         \n-l\tname\t:link with a file libname.o in the dirs specified by -L\
         \n-L\tdir\t:set dir to be part of the search path used by -l\
         \n-O\t\t:force the output to be an obj file, no matter output extension\
+        \n-A\t\t:force the output to be an archive, no matter output extension\
         \n-D\tsym_db\t:output symbol debugging info in sym_db (binary file output only)\
         \n-S\t\t:don't do static dependency optomization\
         \n");
@@ -50,11 +51,33 @@ char * sym_debug_out;
 /* don't link unneeded object files */
 int do_dep_opt = 1;
 
+/* output an archive (combination of object files) */
+int do_out_ar = 0;
+
+int in_objs_index = 0;
+
+/* add a obj to in_objs from arg */
+uint8_t add_obj(char * name){
+  FILE * file = fopen(name, "r");
+  if(file == NULL){
+    return 1;
+  }
+  obj_init(&in_objs[in_objs_index]);
+  in_objs[in_objs_index].file = file;
+  in_objs_do_lnk[in_objs_index] = 1;
+  handle_ar_obj(&in_objs[in_objs_index], &in_objs_index);
+
+  in_objs_index++;
+
+  return 0;
+}
+
+
 int main(int argc, char *argv[]){
   char * outfile = "out.bin";
   int opt;
   /* read options */
-  while((opt = getopt(argc, argv, "o:rpl:L:OS")) != -1) {
+  while((opt = getopt(argc, argv, "o:rpl:L:OAS")) != -1) {
     switch(opt){
       case 'o':
         outfile = optarg;
@@ -76,6 +99,9 @@ int main(int argc, char *argv[]){
       case 'O':
         do_out_obj = 1;
         break;
+      case 'A':
+        do_out_ar = 1;
+        break;
       case 'D':
         do_sym_debug = 1;
         sym_debug_out = optarg;
@@ -95,72 +121,41 @@ int main(int argc, char *argv[]){
   if(outend[-2] == '.' && outend[-1] == 'o'){
     do_out_obj = 1;
   }
-
-  /* open all source files */
-  int i = 0;
-  for(; optind < argc; optind++){
-    /* init obj */
-    obj_init(&in_objs[i]);
-    in_objs[i].file = fopen(argv[optind], "r");
-    in_objs_do_lnk[i] = 1;
-    if(!in_objs[i].file){
-      printf("scplnk: error: no such file %s\n", argv[optind]);
-      exit(1);
-    }
-    i++;
+  else if(outend[-2] == '.' && outend[-1] == 'a'){
+    do_out_ar = 1;
   }
 
-  FILE *f;
+  /* open all source files */
+  for(; optind < argc; optind++){
+    /* init obj */
+    if(add_obj(argv[optind])){
+      printf("scplnk: error: no such file: %s\n", argv[optind]);
+    }
+  }
+
   /* open all libraries specified with -l */
   for(int l = 0; l < lib_path_index; l++){
     /* go through each -L path */
-    int opened = 0;
     for(int d=0; d < lib_search_dirs_index; d++){
       /* try lib_.o variant */
-      sprintf(lib_buf, "%slib%s.o", lib_search_dirs[d], lib_path[l]);
-      /* try to open it */
-      f = fopen(lib_buf, "r");
-      if(f != NULL){
-        opened = 1;
-        obj_init(&in_objs[i]);
-        in_objs[i].file = f;
-        in_objs_do_lnk[i] = 1;
-        i++;
-        break;
+      if(
+        sprintf(lib_buf, "%slib%s.o", lib_search_dirs[d], lib_path[l]),
+        !add_obj(lib_buf)
+      ){
+
+      } else if (
+        sprintf(lib_buf, "%slib%s.a", lib_search_dirs[d], lib_path[l]),
+        !add_obj(lib_buf)
+      ){
+
       } else {
-        /* try lib_ directory containing object files */
-        sprintf(lib_buf, "%slib%s", lib_search_dirs[d], lib_path[l]);
-        DIR * dir = opendir(lib_buf);
-        if(dir != NULL){
-          opened = 1;
-          struct dirent * ent;
-          /* add all files in dir */
-          while((ent = readdir(dir)) != NULL){
-            if(strcmp(ent->d_name, ".") && strcmp(ent->d_name, "..")){
-              sprintf(lib_buf, "%slib%s/%s", lib_search_dirs[d], lib_path[l], ent->d_name);
-              f = fopen(lib_buf, "r");
-              if(f == NULL){
-                printf("failed to open: %s\n", lib_buf);
-                exit(1);
-              }
-              obj_init(&in_objs[i]);
-              in_objs[i].file = f;
-              in_objs_do_lnk[i] = 1;
-              i++;
-            }
-          }
-          break;
-        }
+        printf("scplnk: error: no such library found: %s\n", lib_path[l]);
       }
-    }
-    if(!opened){
-      printf("scplnk: error: no such library found: %s\n", lib_path[l]);
-      exit(1);
     }
   }
 
   /* make sure we have at least one file */
-  if(i == 0){
+  if(in_objs_index == 0){
     usage();
     exit(1);
   }
@@ -210,8 +205,9 @@ void run_lnk_obj(){
 void run_lnk(){
   if(do_out_obj){
     run_lnk_obj();
-  }
-  else {
+  } else if(do_out_ar){
+    run_lnk_ar();
+  } else {
     run_lnk_bin();
   }
 }

@@ -461,9 +461,11 @@ int main(int argc,char *argv[])
             destname=parm+3;
             flags|=OUTPUTSET;*parm=0;continue;
         }
-        /* if the destination ends in .o, don't link with stdlib */
+        /* if the destination ends in .o or .a, don't link with stdlib */
         if(strend(destname, ".o")){
-            flags|=NOSTDLIB;
+            flags |= NOSTDLIB;
+        } else if(strend(destname, ".a")){
+            flags |= NOSTDLIB;
         }
         if(destname)
         if(parm[0]=='-'&&parm[1]=='l'){

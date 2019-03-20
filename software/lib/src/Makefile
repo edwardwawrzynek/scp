@@ -1,5 +1,5 @@
 # C Runtime
-CRT_BIN = ../bin/crt0.o
+CRT_BIN = ../bin/crt0.a
 
 CRT_HEADERS =
 
@@ -7,7 +7,7 @@ CRT_OBJS =\
 crt/crt0.o	crt/div.o
 
 # C Library
-LIBC_BIN = ../bin/libc
+LIBC_BIN = ../bin/libc.a
 
 LIBC_HEADERS =
 
@@ -30,7 +30,7 @@ string/strcmp.o																\
 syscall/syscall_asm.o	syscall/syscall_lib.o	\
 
 #inp and outp (seperate from libc)
-INOUTP_BIN = ../bin/libinout.o
+INOUTP_BIN = ../bin/libinout.a
 
 INOUTP_HEADERS = \
 inout/inout.h
@@ -58,8 +58,7 @@ all: $(LIBC_BIN) $(CRT_BIN) $(INOUTP_BIN)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 $(LIBC_BIN): $(LIBC_OBJS)
-	scplnkdir $(LIBC_BIN) $(LIBC_OBJS)
-	#$(LD) -o $(LIBC_BIN) $(LIBC_OBJS) $(LDFLAGS)
+	$(LD) -o $(LIBC_BIN) $(LIBC_OBJS) $(LDFLAGS)
 
 $(CRT_BIN): $(CRT_OBJS)
 	$(LD) -o $(CRT_BIN) $(CRT_OBJS) $(LDFLAGS)
