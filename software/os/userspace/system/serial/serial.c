@@ -127,16 +127,22 @@ void proc_files(uint16_t parent, char * parent_path){
                 test_syscall(" |");
                 uint8_t pprogress = 0;
                 uint8_t progress = 0;
+                uint8_t num_prog = 0;
                 file_write_buf_pos = 0;
                 for(uint16_t ind=0;ind<files[i].bytes;ind++){
                     progress = (ind<<5)/files[i].bytes;
                     if(progress != pprogress){
                         test_syscall("#");
+                        num_prog++;
                     }
                     uint8_t res = _read_byte();
                     /* write bytes into file */
                     file_buf_write(fd, res);
                     pprogress = progress;
+                }
+                while(num_prog < 40){
+                    test_syscall("#");
+                    num_prog++;
                 }
                 file_buf_close(fd);
                 close(fd);
