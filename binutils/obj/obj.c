@@ -104,7 +104,7 @@ void obj_read_header(struct obj_file *obj){
   offset += tmp;
   obj->segs.extern_table.size = tmp;
   /* make sure we read in the right size header */
-  if(ftell(obj->file) != _OBJ_HEADER_SIZE){
+  if(ftell(obj->file)-obj->offset != _OBJ_HEADER_SIZE){
     _obj_error("Internal Error: expected header size doesn't match read header's size");
   }
 }

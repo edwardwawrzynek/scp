@@ -84,6 +84,9 @@ void bin_create_segs(uint8_t do_head, uint8_t do_pages){
         seg_start[s] = offset;
         /* offset += seg_size[s]; */
         for(int i = 0; in_objs[i].file; i++){
+            if(!in_objs_do_lnk[i]){
+                continue;
+            }
             /* divide by two b/c sizes in header includes meta-bytes */
             uint32_t size = in_objs[i].segs.segs[s].size / 2;
             /* sum total seg_size */

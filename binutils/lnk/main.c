@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <dirent.h>
 
 #include "lnk.h"
 #include "object.h"
@@ -22,7 +23,6 @@ void usage(){
         \n-l\tname\t:link with a file libname.o in the dirs specified by -L\
         \n-L\tdir\t:set dir to be part of the search path used by -l\
         \n-O\t\t:force the output to be an obj file, no matter output extension\
-        \n-A\t\t:force the output to be an archive, no matter output extension\
         \n-D\tsym_db\t:output symbol debugging info in sym_db (binary file output only)\
         \n-S\t\t:don't do static dependency optomization\
         \n");
@@ -50,14 +50,11 @@ char * sym_debug_out;
 /* don't link unneeded object files */
 int do_dep_opt = 1;
 
-/* output an archive (combination of object files) */
-int do_out_ar = 0;
-
 int main(int argc, char *argv[]){
   char * outfile = "out.bin";
   int opt;
   /* read options */
-  while((opt = getopt(argc, argv, "o:rpl:L:OAS")) != -1) {
+  while((opt = getopt(argc, argv, "o:rpl:L:OS")) != -1) {
     switch(opt){
       case 'o':
         outfile = optarg;
@@ -79,9 +76,6 @@ int main(int argc, char *argv[]){
       case 'O':
         do_out_obj = 1;
         break;
-      case 'A':
-        do_out_ar = 1;
-        break;
       case 'D':
         do_sym_debug = 1;
         sym_debug_out = optarg;
@@ -100,9 +94,6 @@ int main(int argc, char *argv[]){
   char * outend = outfile + strlen(outfile);
   if(outend[-2] == '.' && outend[-1] == 'o'){
     do_out_obj = 1;
-  }
-  else if(outend[-2] == '.' && outend[-1] == 'a'){
-    do_out_ar = 1;
   }
 
   /* open all source files */
@@ -123,19 +114,46 @@ int main(int argc, char *argv[]){
   /* open all libraries specified with -l */
   for(int l = 0; l < lib_path_index; l++){
     /* go through each -L path */
+    int opened = 0;
     for(int d=0; d < lib_search_dirs_index; d++){
+      /* try lib_.o variant */
       sprintf(lib_buf, "%slib%s.o", lib_search_dirs[d], lib_path[l]);
       /* try to open it */
       f = fopen(lib_buf, "r");
       if(f != NULL){
+        opened = 1;
         obj_init(&in_objs[i]);
         in_objs[i].file = f;
         in_objs_do_lnk[i] = 1;
         i++;
         break;
+      } else {
+        /* try lib_ directory containing object files */
+        sprintf(lib_buf, "%slib%s", lib_search_dirs[d], lib_path[l]);
+        DIR * dir = opendir(lib_buf);
+        if(dir != NULL){
+          opened = 1;
+          struct dirent * ent;
+          /* add all files in dir */
+          while((ent = readdir(dir)) != NULL){
+            if(strcmp(ent->d_name, ".") && strcmp(ent->d_name, "..")){
+              sprintf(lib_buf, "%slib%s/%s", lib_search_dirs[d], lib_path[l], ent->d_name);
+              f = fopen(lib_buf, "r");
+              if(f == NULL){
+                printf("failed to open: %s\n", lib_buf);
+                exit(1);
+              }
+              obj_init(&in_objs[i]);
+              in_objs[i].file = f;
+              in_objs_do_lnk[i] = 1;
+              i++;
+            }
+          }
+          break;
+        }
       }
     }
-    if(f == NULL){
+    if(!opened){
       printf("scplnk: error: no such library found: %s\n", lib_path[l]);
       exit(1);
     }
@@ -192,8 +210,6 @@ void run_lnk_obj(){
 void run_lnk(){
   if(do_out_obj){
     run_lnk_obj();
-  } else if(do_out_ar){
-    run_lnk_ar();
   }
   else {
     run_lnk_bin();

@@ -7,7 +7,7 @@ CRT_OBJS =\
 crt/crt0.o	crt/div.o
 
 # C Library
-LIBC_BIN = ../bin/libc.a
+LIBC_BIN = ../bin/libc
 
 LIBC_HEADERS =
 
@@ -47,6 +47,8 @@ CFLAGS += -O1 -size
 
 LDFLAGS =
 
+LD = scplnk
+
 all: $(LIBC_BIN) $(CRT_BIN) $(INOUTP_BIN)
 
 %.o: %.c $(LIBC_HEADERS) $(CRT_HEADERS) $(INOUTP_HEADERS)
@@ -56,13 +58,14 @@ all: $(LIBC_BIN) $(CRT_BIN) $(INOUTP_BIN)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 $(LIBC_BIN): $(LIBC_OBJS)
-	$(CC) -o $(LIBC_BIN) $(LIBC_OBJS) $(LDFLAGS)
+	scplnkdir $(LIBC_BIN) $(LIBC_OBJS)
+	#$(LD) -o $(LIBC_BIN) $(LIBC_OBJS) $(LDFLAGS)
 
 $(CRT_BIN): $(CRT_OBJS)
-	$(CC) -o $(CRT_BIN) $(CRT_OBJS) $(LDFLAGS)
+	$(LD) -o $(CRT_BIN) $(CRT_OBJS) $(LDFLAGS)
 
 $(INOUTP_BIN): $(INOUTP_OBJS)
-	$(CC) -o $(INOUTP_BIN) $(INOUTP_OBJS) $(LDFLAGS)
+	$(LD) -o $(INOUTP_BIN) $(INOUTP_OBJS) $(LDFLAGS)
 
 clean:
 	rm -f $(LIBC_OBJS) $(CRT_OBJS) $(INOUTP_OBJS)
