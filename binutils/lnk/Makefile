@@ -1,6 +1,6 @@
 DEPS = lnk.h defs.h
 
-OBJS = main.o obj.o io.o symbols.o decode.o
+OBJS = main.o obj.o io.o symbols.o decode.o ar.o
 
 %.o: %.c $(DEPS)
 	makeheaders $<

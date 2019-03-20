@@ -2,7 +2,7 @@
 #define _DEFSH
 
 /* Maximum number of input file */
-#define MAX_FILES 50
+#define MAX_FILES 200
 
 /* maximum number of -L specified locations */
 #define NUM_DIRS 10

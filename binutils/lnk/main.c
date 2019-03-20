@@ -8,6 +8,7 @@
 #include "io.h"
 #include "symbols.h"
 #include "decode.h"
+#include "ar.h"
 
 /**
  * scplnk produces a directly loadable binary with or without -r - see segs.c */
@@ -21,6 +22,7 @@ void usage(){
         \n-l\tname\t:link with a file libname.o in the dirs specified by -L\
         \n-L\tdir\t:set dir to be part of the search path used by -l\
         \n-O\t\t:force the output to be an obj file, no matter output extension\
+        \n-A\t\t:force the output to be an archive, no matter output extension\
         \n-D\tsym_db\t:output symbol debugging info in sym_db (binary file output only)\
         \n-S\t\t:don't do static dependency optomization\
         \n");
@@ -45,13 +47,17 @@ char lib_buf[256];
 int do_sym_debug = 0;
 char * sym_debug_out;
 
+/* don't link unneeded object files */
 int do_dep_opt = 1;
+
+/* output an archive (combination of object files) */
+int do_out_ar = 0;
 
 int main(int argc, char *argv[]){
   char * outfile = "out.bin";
   int opt;
   /* read options */
-  while((opt = getopt(argc, argv, "o:rpl:L:O")) != -1) {
+  while((opt = getopt(argc, argv, "o:rpl:L:OAS")) != -1) {
     switch(opt){
       case 'o':
         outfile = optarg;
@@ -73,11 +79,14 @@ int main(int argc, char *argv[]){
       case 'O':
         do_out_obj = 1;
         break;
+      case 'A':
+        do_out_ar = 1;
+        break;
       case 'D':
         do_sym_debug = 1;
         sym_debug_out = optarg;
         break;
-      case 's':
+      case 'S':
         do_dep_opt = 0;
         break;
       case '?':
@@ -91,6 +100,9 @@ int main(int argc, char *argv[]){
   char * outend = outfile + strlen(outfile);
   if(outend[-2] == '.' && outend[-1] == 'o'){
     do_out_obj = 1;
+  }
+  else if(outend[-2] == '.' && outend[-1] == 'a'){
+    do_out_ar = 1;
   }
 
   /* open all source files */
@@ -180,7 +192,10 @@ void run_lnk_obj(){
 void run_lnk(){
   if(do_out_obj){
     run_lnk_obj();
-  } else {
+  } else if(do_out_ar){
+    run_lnk_ar();
+  }
+  else {
     run_lnk_bin();
   }
 }

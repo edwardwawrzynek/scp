@@ -7,7 +7,7 @@ CRT_OBJS =\
 crt/crt0.o	crt/div.o
 
 # C Library
-LIBC_BIN = ../bin/libc.o
+LIBC_BIN = ../bin/libc.a
 
 LIBC_HEADERS =
 

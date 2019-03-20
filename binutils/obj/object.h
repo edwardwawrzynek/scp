@@ -92,6 +92,8 @@ struct obj_segs {
 struct obj_file {
   /* the file being written to */
   FILE *file;
+  /* offset of obj in file (used for ar file) */
+  uint32_t offset;
   /* header information */
   struct obj_segs segs;
   /* current write pos in defined symbol table */
