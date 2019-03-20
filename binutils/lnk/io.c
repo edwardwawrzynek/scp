@@ -8,6 +8,8 @@
 
 /* Input object files */
 struct obj_file in_objs[MAX_FILES];
+/* if the input object file should be linked */
+uint8_t in_objs_do_lnk[MAX_FILES];
 
 /* current input file being read */
 int cur_in_obj;

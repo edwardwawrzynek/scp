@@ -2,6 +2,7 @@
 #undef INTERFACE
 void obj_out_write_symbols();
 uint16_t extern_get_addr(int i,uint16_t index);
+int find_defined_symbol_file(char *name);
 struct obj_symbol_entry *find_extern(int i,uint16_t index,int *file);
 void symbol_read_in_tables();
 extern uint16_t extern_size[MAX_FILES];

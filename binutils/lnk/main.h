@@ -3,6 +3,9 @@
 void run_lnk_obj();
 void run_lnk_bin();
 int main(int argc,char *argv[]);
+extern int do_dep_opt;
+extern char *sym_debug_out;
+extern int do_sym_debug;
 extern char lib_buf[256];
 extern int lib_path_index;
 extern char *lib_path[NUM_LIBS];

@@ -6,7 +6,8 @@
 
 	.text
 	.align
-_start:
+_START:
+	.global _START
 	call.j.sp sp _main
 	hlt.n.n
 	hlt.n.n

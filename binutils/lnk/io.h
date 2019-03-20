@@ -20,4 +20,5 @@ extern int do_out_obj;
 extern struct obj_file out_obj;
 extern FILE *out_file;
 extern int cur_in_obj;
+extern uint8_t in_objs_do_lnk[MAX_FILES];
 extern struct obj_file in_objs[MAX_FILES];

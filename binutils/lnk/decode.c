@@ -63,6 +63,9 @@ int bin_decode_data(int i, uint8_t seg){
 void bin_main_pass(){
     /* read through each file */
     for(int i = 0; in_objs[i].file; i++){
+        if(!in_objs_do_lnk[i]){
+            continue;
+        }
         /* Go through each seg */
         for(int s = 0; s < 4; s++){
             /* set seg */
@@ -128,6 +131,9 @@ int obj_out_decode_data(int i, uint8_t seg){
 void obj_out_main_pass(){
     /* read through each file */
     for(int i = 0; in_objs[i].file; i++){
+        if(!in_objs_do_lnk[i]){
+            continue;
+        }
         /* Go through each seg */
         for(int s = 0; s < 4; s++){
             /* set seg */
@@ -139,7 +145,32 @@ void obj_out_main_pass(){
     }
 }
 
-/* output symbol debugging information on file (only applicable for debug output) */
-void bin_sym_debug(char * file){
+/* clear in_obj_do_lnk in preparation for static linking dependency removal */
+void in_objs_clear_do_lnk(){
+    for(int i = 0; in_objs[i].file; i++){
+        in_objs_do_lnk[i] = 0;
+    }
+}
+
+/* recursivley add object dependencies (mark do_lnk as true) for a symbol */
+void add_symbol_deps(char * symbol){
+    /* find symbol */
+    int file_index = find_defined_symbol_file(symbol);
+    if(file_index == -1){
+        /* no symbol found - error */
+        printf("scplnk: error:\nundefined reference to '%s'\n", symbol);
+        exit(1);
+    }
+    /* if we already found this file as dep, don't do it again */
+    if(in_objs_do_lnk[file_index]){
+        return;
+    }
+    /* found file, so make as needed and find deps of all symbols in extern table of file */
+    in_objs_do_lnk[file_index] = 1;
+    for(int n = 0; n < extern_size[file_index]; n++){
+        if(extern_tables[file_index][n].seg == 0xff){
+            add_symbol_deps(extern_tables[file_index][n].name);
+        }
+    }
 
 }

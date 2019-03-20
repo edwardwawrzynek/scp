@@ -49,6 +49,20 @@ struct obj_symbol_entry * find_extern(int i, uint16_t index, int *file){
     return NULL;
 }
 
+/* find a symbol in all the defined symbol tables, and return the index of the file that had it */
+int find_defined_symbol_file(char *name){
+    /* look through all the tables */
+    for(int f = 0; in_objs[f].file; f++){
+        /* look through all entries */
+        for(int n = 0; n < defined_size[f]; n++){
+            if(!strcmp(name, defined_tables[f][n].name)){
+                return f;
+            }
+        }
+    }
+    return -1;
+}
+
 /* get the real address of a symbol defined in an external table of the i'th file */
 uint16_t extern_get_addr(int i, uint16_t index){
     struct obj_symbol_entry *entry = &(extern_tables[i][index]);

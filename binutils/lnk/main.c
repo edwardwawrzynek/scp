@@ -22,6 +22,7 @@ void usage(){
         \n-L\tdir\t:set dir to be part of the search path used by -l\
         \n-O\t\t:force the output to be an obj file, no matter output extension\
         \n-D\tsym_db\t:output symbol debugging info in sym_db (binary file output only)\
+        \n-S\t\t:don't do static dependency optomization\
         \n");
 }
 
@@ -43,6 +44,8 @@ char lib_buf[256];
 
 int do_sym_debug = 0;
 char * sym_debug_out;
+
+int do_dep_opt = 1;
 
 int main(int argc, char *argv[]){
   char * outfile = "out.bin";
@@ -74,6 +77,9 @@ int main(int argc, char *argv[]){
         do_sym_debug = 1;
         sym_debug_out = optarg;
         break;
+      case 's':
+        do_dep_opt = 0;
+        break;
       case '?':
         usage();
         exit(1);
@@ -93,6 +99,7 @@ int main(int argc, char *argv[]){
     /* init obj */
     obj_init(&in_objs[i]);
     in_objs[i].file = fopen(argv[optind], "r");
+    in_objs_do_lnk[i] = 1;
     if(!in_objs[i].file){
       printf("scplnk: error: no such file %s\n", argv[optind]);
       exit(1);
@@ -111,6 +118,7 @@ int main(int argc, char *argv[]){
       if(f != NULL){
         obj_init(&in_objs[i]);
         in_objs[i].file = f;
+        in_objs_do_lnk[i] = 1;
         i++;
         break;
       }
@@ -142,19 +150,21 @@ int main(int argc, char *argv[]){
 /* output a binary file */
 void run_lnk_bin(){
   read_in_headers();
-  bin_create_segs(do_head, do_pages);
-
   symbol_read_in_tables();
 
-  bin_main_pass();
-  /* output addr of each symbol defined by linked objects */
-  if(do_sym_debug){
-    bin_sym_debug(sym_debug_out);
+  if(do_dep_opt){
+    in_objs_clear_do_lnk();
+    add_symbol_deps("_START");
   }
+
+  bin_create_segs(do_head, do_pages);
+
+  bin_main_pass();
 }
 
 /* output an obj file - a bit simpler */
 void run_lnk_obj(){
+  /* don't do dep opt - we don't know what might be used from resulting object file */
   read_in_headers();
 
   obj_out_create_segs();
