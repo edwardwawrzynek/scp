@@ -34,10 +34,10 @@ uint16_t _execv(uint16_t name, uint16_t argv, uint16_t a2, uint16_t a4){
 
     /* open file, and check executable bit TODO: executable bit checking disabled for now, fix later */
     struct file_entry * file = file_get(inum, FILE_MODE_READ);
-    if(!(file->ind->flags & INODE_FLAG_EXEC)){
+    /*if(!(file->ind->flags & INODE_FLAG_EXEC)){
         file_put(file);
         return -1;
-    }
+    }*/
 
     /* release memory */
     proc_put_memory(proc_current_proc);

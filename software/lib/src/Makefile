@@ -12,7 +12,7 @@ LIBC_BIN = ../bin/libc.a
 LIBC_HEADERS =
 
 LIBC_OBJS = \
-stdio/_file_open.o															\
+stdio/_file_open.o	stdio/_file_buf.o	stdio/fopen.o						\
 																			\
 stdlib/abs.o	stdlib/itoa.o	stdlib/malloc.o	stdlib/strtol.o				\
 ctype/isalnum.o	ctype/isalpha.o ctype/isblank.o	ctype/iscntrl.o				\
