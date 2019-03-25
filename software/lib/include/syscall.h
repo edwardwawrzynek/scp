@@ -114,7 +114,7 @@ struct termios {
 /* complete raw mode */
 #define TERMIOS_RAW 0
 
-int16_t ioctl(__reg("ra") uint16_t fd, __reg("rb") uint16_t cmd, __reg("rc") uint8_t * arg);
+int16_t ioctl(__reg("ra") uint16_t fd, __reg("rb") uint16_t cmd, __reg("rc") void * arg);
 
 /* stat structure */
 struct stat {
@@ -166,3 +166,5 @@ int16_t mkfifo(uint8_t *path);
 int16_t brk(__reg("ra") uint8_t *brk);
 
 uint8_t * sbrk(__reg("ra") uint16_t inc);
+
+int16_t isatty(uint16_t fd);

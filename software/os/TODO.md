@@ -41,3 +41,14 @@
     - [ ] OS disk (with binaries) creation method
 - [x] Init method (init process based on an initrc file)
 - [ ] C Standard Library (Userspace)
+    - [x] string
+    - [x] ctype
+    - [ ] stdio
+        - [ ] file io
+        - [ ] formats (printf, scanf, etc).
+    - [ ] stdlib
+        - [x] malloc
+        - [ ] bsearch, qsort, div, ldiv, etc
+        - [ ] int to string, string to int, etc
+    - [ ] setjmp
+    - [ ] proper stdarg

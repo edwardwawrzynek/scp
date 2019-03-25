@@ -118,3 +118,9 @@ int16_t closedir(uint16_t fd){
 int16_t mkfifo(uint8_t *path){
     return mknod(path, S_IFIFO, 0);
 }
+
+/* check if a file is a tty device */
+int16_t isatty(uint16_t fd){
+    struct termios termios;
+    return ioctl(fd, TCGETA, &termios) != -1;
+}
