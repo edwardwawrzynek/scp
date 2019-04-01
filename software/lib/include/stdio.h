@@ -66,4 +66,6 @@ int fseek(struct _file * file, uint16_t location, uint16_t whence);
 uint16_t fileno(struct _file * file);
 int fflush(struct _file * file);
 
+uint16_t ftell(struct _file * file);
+
 #endif

@@ -13,7 +13,7 @@ LIBC_HEADERS =
 
 LIBC_OBJS = \
 stdio/_file_open.o	stdio/_file_buf.o	stdio/fopen.o	stdio/fseek.o		\
-stdio/fileno.o	stdio/fflush.o												\
+stdio/fileno.o	stdio/fflush.o	stdio/ftell.o								\
 																			\
 stdlib/abs.o	stdlib/itoa.o	stdlib/malloc.o	stdlib/strtol.o				\
 ctype/isalnum.o	ctype/isalpha.o ctype/isblank.o	ctype/iscntrl.o				\
