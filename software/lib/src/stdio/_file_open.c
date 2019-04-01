@@ -39,5 +39,7 @@ int _file_open(struct _file * file, uint8_t * path,  uint8_t *mode, uint8_t *buf
     file->buf_index = 0;
     file->buf_eof = -1;
 
+    file->has_in_data = 0;
+
     return 0;
 }

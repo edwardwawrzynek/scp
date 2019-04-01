@@ -84,9 +84,17 @@ int16_t readdir(uint16_t fd, struct dirent * dirp);
 int16_t opendir(uint8_t *path);
 int16_t closedir(uint16_t fd);
 
+#ifndef SEEK_SET
 #define SEEK_SET 1
+#endif
+
+#ifndef SEEK_CUR
 #define SEEK_CUR 2
+#endif
+
+#ifndef SEEK_END
 #define SEEK_END 3
+#endif
 
 int16_t lseek(__reg("ra") uint16_t fd, __reg("rb") uint16_t pos, __reg("rc") uint16_t whence);
 

@@ -15,6 +15,9 @@ int _file_buf_flush(struct _file * file){
         if(file->buf_mode & _IONBF){
             return 0;
         }
+        if(file->buf_index == 0){
+            return 0;
+        }
         if(write(file->fd, file->buf, file->buf_index) == -1){
             return -1;
         }
@@ -52,13 +55,14 @@ int _file_buf_read(struct _file * file){
     }
 
     file->buf_index = 0;
+    file->has_in_data = 1;
     return 0;
 }
 
 /* write to a file */
 int16_t fputc(int16_t c, struct _file * file){
     /* if we are in file input mode, return EOF (it is undefined behavior, so technically standard compliant)
-     * TODO: this has to work right after an fseek */
+     * this has to work right after an fseek, so fseek sets mode to __BUF_OUT (fgetc can handle being in buf out) */
     if(file->buf_mode & __BUF_IN){
         return EOF;
     }
@@ -98,7 +102,8 @@ int16_t fgetc(struct _file * file){
         if(_file_buf_flush(file)){
             return EOF;
         }
-        file->buf_mode = __BUF_IN;
+        file->buf_mode |= __BUF_IN;
+        file->buf_mode &= ~(__BUF_OUT);
         if(_file_buf_read(file)){
             return EOF;
         }
@@ -117,7 +122,7 @@ int16_t fgetc(struct _file * file){
             return EOF;
         }
         /* if we are past end of buffer, read in */
-        if(file->buf_index >= BUFSIZE){
+        if(file->buf_index >= BUFSIZE || (!file->has_in_data)){
             if(_file_buf_read(file)){
                 return EOF;
             }

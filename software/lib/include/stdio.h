@@ -7,7 +7,18 @@
 #define FOPEN_MAX 8
 #define EOF -1
 
-/* file structure */
+
+#ifndef SEEK_SET
+#define SEEK_SET 1
+#endif
+
+#ifndef SEEK_CUR
+#define SEEK_CUR 2
+#endif
+
+#ifndef SEEK_END
+#define SEEK_END 3
+#endif
 
 /* buffer default size */
 #define BUFSIZE 512
@@ -29,6 +40,8 @@ typedef struct _file {
     uint8_t flags;
     /* buffering mode (_IONBF, _IOLBF, _IOFBF) or'd with __BUF_IN or __BUF_OUT */
     uint8_t buf_mode;
+    /* if input has been read into buffer */
+    uint8_t has_in_data;
     /* index in buffer */
     uint16_t buf_index;
     /* index of eof in buffer, or -1 if eof not in buffer */
@@ -48,5 +61,9 @@ int16_t fmode_to_flags(uint8_t *mode);
 
 struct _file * fopen(uint8_t * path, uint8_t *mode);
 int16_t fclose(struct _file * file);
+
+int fseek(struct _file * file, uint16_t location, uint16_t whence);
+uint16_t fileno(struct _file * file);
+int fflush(struct _file * file);
 
 #endif

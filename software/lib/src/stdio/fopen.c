@@ -13,10 +13,6 @@ struct _file * fopen(uint8_t * path, uint8_t *mode){
         free(buf);
         return NULL;
     }
-    /* if in read mode, force read in */
-    if(file->buf_mode & __BUF_IN){
-        file->buf_index = BUFSIZE + 1;
-    }
 
     return file;
 }

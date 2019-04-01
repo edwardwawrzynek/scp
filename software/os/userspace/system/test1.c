@@ -25,6 +25,7 @@ int main(){
     int c;
     while((c = fgetc(file)) != EOF){
         buf[buf_index++] = c;
+        fseek(file, 2, SEEK_CUR);
     }
 
     test_syscall(buf);
