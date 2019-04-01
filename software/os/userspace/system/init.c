@@ -203,6 +203,6 @@ int main(){
         }
     }
 
-    /* die (no children left) */
-    exit(7);
+    /* hang (no children left) */
+    while(1);
 }

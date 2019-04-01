@@ -14,7 +14,7 @@ int fseek(struct _file * file, uint16_t location, uint16_t whence){
     /* adjust for any data we have read into the input buffer but not consumed
      * we always read a full BUFSIZE of input (unless eof), so just sub index from that */
     if(file->buf_mode & __BUF_IN){
-        uint16_t backtrack = file->buf_index - (file->buf_eof != -1 ? file->buf_eof : BUFSIZE);
+        uint16_t backtrack = file->buf_index - (file->buf_eof != -1 ? file->buf_eof : BUFSIZ);
         if(lseek(file->fd, backtrack, SEEK_CUR) == -1){
             return -1;
         }

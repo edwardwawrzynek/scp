@@ -21,7 +21,7 @@
 #endif
 
 /* buffer default size */
-#define BUFSIZE 512
+#define BUFSIZ 512
 
 /* unbuffered mode */
 #define _IONBF 1
@@ -48,6 +48,8 @@ typedef struct _file {
     uint16_t buf_eof;
     /* buffer (malloc'd by default, or set by setbuf) */
     uint8_t * buf;
+    /* if the buffer was set by setbu and shouldn't be freed on close */
+    uint8_t buf_was_setbuf;
 } FILE;
 
 int _file_buf_read(struct _file *file);
@@ -67,5 +69,9 @@ uint16_t fileno(struct _file * file);
 int fflush(struct _file * file);
 
 uint16_t ftell(struct _file * file);
+
+int setvbuf(struct _file *file, uint16_t *buf, uint8_t mode, uint16_t size);
+
+void setbuf(struct _file * file, uint8_t * buf);
 
 #endif

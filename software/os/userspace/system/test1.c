@@ -22,10 +22,11 @@ int main(){
     if(file == NULL){
         test_syscall("open failure\n");
     }
+    //setbuf(file, NULL);
     int c;
     while((c = fgetc(file)) != EOF){
         buf[buf_index++] = c;
-        test_syscall("pos: %u\n", ftell(file));
+        //test_syscall("pos: %u\n", ftell(file));
     }
 
     test_syscall(buf);

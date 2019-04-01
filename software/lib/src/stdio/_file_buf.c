@@ -38,12 +38,12 @@ int _file_buf_read(struct _file * file){
         /* line buffered is treated as not buffered at all */
         /* if fully buffered, read buf size worth */
         else if(file->buf_mode & _IOFBF){
-            uint16_t bytes = read(file->fd, file->buf, BUFSIZE);
+            uint16_t bytes = read(file->fd, file->buf, BUFSIZ);
             if(bytes == -1){
                 return -1;
             }
             /* mark eof if buffer isn't full */
-            if(bytes != BUFSIZE){
+            if(bytes != BUFSIZ){
                 file->buf_eof = bytes;
             } else {
                 file->buf_eof = -1;
@@ -68,7 +68,7 @@ int16_t fputc(int16_t c, struct _file * file){
     }
     uint8_t data = c;
     /* check if we need to flush buffer */
-    if(file->buf_index >= BUFSIZE){
+    if(file->buf_index >= BUFSIZ){
         if(_file_buf_flush(file)){
             return EOF;
         }
@@ -122,7 +122,7 @@ int16_t fgetc(struct _file * file){
             return EOF;
         }
         /* if we are past end of buffer, read in */
-        if(file->buf_index >= BUFSIZE || (!file->has_in_data)){
+        if(file->buf_index >= BUFSIZ || (!file->has_in_data)){
             if(_file_buf_read(file)){
                 return EOF;
             }

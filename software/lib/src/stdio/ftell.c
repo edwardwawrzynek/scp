@@ -8,7 +8,7 @@ uint16_t ftell(struct _file * file){
     uint16_t pos = lseek(file->fd, 0, SEEK_CUR);
 
     if((file->buf_mode & __BUF_IN) && file->has_in_data){
-        pos += file->buf_index - (file->buf_eof != -1 ? file->buf_eof : BUFSIZE);
+        pos += file->buf_index - (file->buf_eof != -1 ? file->buf_eof : BUFSIZ);
     } else if (file->buf_mode & __BUF_OUT){
         pos += file->buf_index;
     }
