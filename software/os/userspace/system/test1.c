@@ -18,17 +18,8 @@ char buf[1000];
 int buf_index = 0;
 
 int main(){
-    FILE * file = fopen("/test.txt", "r");
-    if(file == NULL){
-        test_syscall("open failure\n");
+    test_syscall("stdin: %u\nmode: %u", (int16_t)stdin, stdin->buf_mode);
+    while(1){
+        puts(gets(buf));
     }
-    //setbuf(file, NULL);
-    int c;
-    while((c = fgetc(file)) != EOF){
-        buf[buf_index++] = c;
-        //test_syscall("pos: %u\n", ftell(file));
-    }
-
-    test_syscall(buf);
-
 }

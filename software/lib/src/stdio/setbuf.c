@@ -3,7 +3,7 @@
 #include <syscall.h>
 
 /* set the buffer and buffering mode on a file */
-int setvbuf(struct _file *file, uint16_t *buf, uint8_t mode, uint16_t size){
+int setvbuf(struct _file *file, uint8_t *buf, uint8_t mode, uint16_t size){
     /* if buffer is null, only change mode */
     file->buf_mode &= ~(0b111);
     file->buf_mode |= mode;
@@ -13,6 +13,10 @@ int setvbuf(struct _file *file, uint16_t *buf, uint8_t mode, uint16_t size){
             file->buf = malloc(BUFSIZ);
         }
     } else {
+        /* only allow bufs BUFSIZ or bigger */
+        if(size < BUFSIZ){
+            return EOF;
+        }
         file->buf = buf;
         file->buf_was_setbuf = 1;
     }

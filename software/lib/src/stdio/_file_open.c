@@ -15,16 +15,11 @@ int16_t fmode_to_flags(uint8_t *mode){
 	return flags;
 }
 
-/* open a file from a path, buffer, and buffer mode (not including __BUF_IN or __BUF_OUT)
- * return 1 on failure, 0 on success */
-int _file_open(struct _file * file, uint8_t * path,  uint8_t *mode, uint8_t *buf, uint8_t buf_mode){
-    file->flags = fmode_to_flags(mode);
-    file->fd = open(path, file->flags);
-    if(file->fd == -1){
-        return -1;
-    }
-
+/* open a file from a file descriptor */
+int _file_des_open(struct _file *file, uint16_t fd, uint8_t *buf, uint8_t buf_mode, uint16_t flags){
+    file->fd = fd;
     file->buf = buf;
+    file->flags = flags;
     file->buf_mode = buf_mode;
     if(buf == NULL){
         file->buf_mode = _IONBF;
@@ -43,4 +38,16 @@ int _file_open(struct _file * file, uint8_t * path,  uint8_t *mode, uint8_t *buf
     file->buf_was_setbuf = 0;
 
     return 0;
+}
+
+/* open a file from a path, buffer, and buffer mode (not including __BUF_IN or __BUF_OUT)
+ * return 1 on failure, 0 on success */
+int _file_open(struct _file * file, uint8_t * path,  uint8_t *mode, uint8_t *buf, uint8_t buf_mode){
+    uint16_t flags = fmode_to_flags(mode);
+    uint16_t fd = open(path, flags);
+    if(fd == -1){
+        return -1;
+    }
+
+    return _file_des_open(file, fd, buf, buf_mode, flags);
 }
