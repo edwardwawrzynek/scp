@@ -65,7 +65,6 @@ void obj_read_header(struct obj_file *obj){
   fseek(obj->file, 0 + obj->offset, SEEK_SET);
   /* read magic number, and make sure it is right */
   if(_obj_read_val(obj->file, 4) != _OBJ_MAGIC_NUMBER){
-    printf("offset: %u\n", obj->offset);
     _obj_error("Expected Magic Number to start file");
   }
   /* read blank */

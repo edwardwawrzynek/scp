@@ -17,6 +17,10 @@ int setvbuf(struct _file *file, uint8_t *buf, uint8_t mode, uint16_t size){
         if(size < BUFSIZ){
             return EOF;
         }
+        /* free buffer if already alloc'd */
+        if(file->buf != NULL){
+            free(file->buf);
+        }
         file->buf = buf;
         file->buf_was_setbuf = 1;
     }

@@ -89,6 +89,9 @@ int puts(uint8_t *str);
 uint8_t *fgets(uint8_t *buf, uint16_t size, struct _file * file);
 uint8_t * gets(uint8_t * buf);
 
+uint16_t fwrite(void *ptr, uint16_t size, uint16_t nmemb, struct _file *file);
+uint16_t fread(void *ptr, uint16_t size, uint16_t nmemb, struct _file *file);
+
 void _init_stdio();
 
 extern struct _file * stdin;
