@@ -4,6 +4,7 @@
 #include <inout.h>
 #include <stddef.h>
 #include <string.h>
+#include <stdarg.h>
 
 /* Test proc 1 - print and exit */
 /*int main(){
@@ -17,25 +18,16 @@
 char buf[1000];
 int buf_index = 0;
 
+int method(int num, ...){
+    va_list args;
+
+    va_start(args, num);
+    while(num--){
+        test_syscall("arg: %u\n", (int)va_arg(args, int*));
+    }
+    va_end(args);
+}
+
 int main(){
-    FILE * file = fopen("test.txt", "w+");
-    if(file == NULL){
-        puts("open failure");
-    }
-    if(fwrite("hello, world!", 1, 13, file) != 13){
-        puts("write failure\n");
-    }
-    fflush(file);
-    fseek(file, 1, SEEK_SET);
-
-    if(fread(buf, 1, 5, file) != 5){
-        puts("read failure\n");
-    }
-    puts(buf);
-    fseek(file, 0, SEEK_CUR);
-    fputc('a', file);
-    fseek(file, 0, SEEK_CUR);
-    puts(fgets(buf, 1000, file));
-
-    fclose(file);
+    method(5, 1, 2, 3, 4, 64345);
 }

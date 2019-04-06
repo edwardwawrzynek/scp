@@ -56,6 +56,8 @@ typedef struct _file {
     uint8_t buf_was_setbuf;
 } FILE;
 
+typedef uint16_t fpos_t;
+
 int _file_buf_read(struct _file *file);
 int _file_buf_flush(struct _file *file);
 
@@ -75,13 +77,15 @@ struct _file* freopen(char* path, char* mode, struct _file * file);
 int16_t fclose(struct _file * file);
 
 int fseek(struct _file * file, uint16_t location, uint16_t whence);
+uint16_t ftell(struct _file * file);
+void rewind(struct _file * file);
+uint16_t fgetpos(struct _file * file, fpos_t *pos);
+uint16_t fsetpos(struct _file * file, fpos_t *pos);
+
 uint16_t fileno(struct _file * file);
 int fflush(struct _file * file);
 
-uint16_t ftell(struct _file * file);
-
 int setvbuf(struct _file *file, uint8_t *buf, uint8_t mode, uint16_t size);
-
 void setbuf(struct _file * file, uint8_t * buf);
 
 int fputs(uint8_t *str, struct _file * file);

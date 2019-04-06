@@ -35,3 +35,16 @@ int fseek(struct _file * file, uint16_t location, uint16_t whence){
 
     return 0;
 }
+
+void rewind(struct _file * file){
+    fseek(file, 0, SEEK_SET);
+}
+
+uint16_t fgetpos(struct _file * file, fpos_t *pos){
+    *pos = ftell(file);
+    return 0;
+}
+
+uint16_t fsetpos(struct _file * file, fpos_t *pos){
+    return fseek(file, *pos, SEEK_SET);
+}
