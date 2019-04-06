@@ -1,23 +1,14 @@
-#include <stdint.h>
 #include <stdio.h>
-#include <syscall.h>
-#include <inout.h>
-#include <stddef.h>
 #include <string.h>
-#include <stdarg.h>
 
-/* Test proc 1 - print and exit */
-/*int main(){
-    if(write(STDOUT_FILENO, "test1\n", 6) != 6){
-        test_syscall("error in test1 occured\n", 0, 0, 0);
-    }
+int main () {
+   int day, year;
+   char weekday[20], month[20], dtm[100];
 
-    exit(0);
-}*/
+   strcpy( dtm, "Saturday March 25 1989" );
+   sscanf( dtm, "%s %s %d  %d", weekday, month, &day, &year );
 
-char buf[1000];
-int buf_index = 0;
+   printf("%s %d, %d = %s\n", month, day, year, weekday );
 
-int main(){
-    printf("Hello, printf!\nString: %s, Number: %05u, char: %c\n", "string!", 45, 'a');
+   return(0);
 }

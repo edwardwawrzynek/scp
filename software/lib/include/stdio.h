@@ -107,6 +107,9 @@ uint8_t * gets(uint8_t * buf);
 uint16_t fwrite(void *ptr, uint16_t size, uint16_t nmemb, struct _file *file);
 uint16_t fread(void *ptr, uint16_t size, uint16_t nmemb, struct _file *file);
 
+int16_t rename(char* oldname, char* newname);
+int16_t remove(char* filename);
+
 extern struct _file * stdin;
 extern struct _file * stdout;
 extern struct _file * stderr;
@@ -119,5 +122,12 @@ int snprintf(char* buffer, size_t count, const char* format, ...);
 int vsnprintf(char* buffer, size_t count, const char* format, va_list va);
 int sprintf(char* buffer, const char* format, ...);
 int vprintf(const char* format, va_list va);
+
+/* modified version of mirror.fsf.org/pmon2000/2.x/src/lib/libc/scanf.c */
+int sscanf(const char *buf,const char *fmt,...);
+int fscanf(FILE *fp,const char *fmt,...);
+int scanf(const char *fmt,...);
+int vsscanf(const char *buf,const char *s,va_list ap);
+int vfscanf(FILE *fp,const char *fmt,va_list ap);
 
 #endif

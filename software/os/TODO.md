@@ -43,12 +43,12 @@
 - [ ] C Standard Library (Userspace)
     - [x] string
     - [x] ctype
-    - [ ] stdio
-        - [ ] file io
-        - [ ] formats (printf, scanf, etc).
+    - [x] stdio
+        - [x] file io
+        - [x] formats (printf, scanf, etc).
     - [ ] stdlib
         - [x] malloc
         - [ ] bsearch, qsort, div, ldiv, etc
         - [ ] int to string, string to int, etc
     - [ ] setjmp
-    - [ ] proper stdarg
+    - [x] proper stdarg

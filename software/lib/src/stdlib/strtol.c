@@ -83,3 +83,7 @@ strtol(const char *nptr, char **endptr, register int base)
 		*endptr = (char *) (any ? s - 1 : nptr);
 	return (acc);
 }
+
+int atoi(char *nptr){
+	return strtol(nptr, NULL, 10);
+}

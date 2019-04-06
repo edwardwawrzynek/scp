@@ -49,14 +49,14 @@ static inline void _out_buffer(char character, void* buffer, size_t idx, size_t 
 // internal null output
 static inline void _out_null(char character, void* buffer, size_t idx, size_t maxlen)
 {
-  (void)character; (void)buffer; (void)idx; (void)maxlen;
+//  (void)character; (void)buffer; (void)idx; (void)maxlen;
 }
 
 
 // internal _putchar wrapper
 static inline void _out_char(char character, void* buffer, size_t idx, size_t maxlen)
 {
-  (void)buffer; (void)idx; (void)maxlen;
+//  (void)buffer; (void)idx; (void)maxlen;
   if (character) {
     putchar(character);
   }
@@ -66,7 +66,7 @@ static inline void _out_char(char character, void* buffer, size_t idx, size_t ma
 // internal output function wrapper
 static inline void _out_fct(char character, void* buffer, size_t idx, size_t maxlen)
 {
-  (void)idx; (void)maxlen;
+//  (void)idx; (void)maxlen;
   if (character) {
     // buffer is the output fct pointer
     ((out_fct_wrap_type*)buffer)->fct(character, ((out_fct_wrap_type*)buffer)->arg);
