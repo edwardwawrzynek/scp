@@ -33,6 +33,8 @@ int fseek(struct _file * file, uint16_t location, uint16_t whence){
 
     file->buf_index = 0;
 
+    file->is_eof = 0;
+
     return 0;
 }
 
@@ -47,4 +49,12 @@ uint16_t fgetpos(struct _file * file, fpos_t *pos){
 
 uint16_t fsetpos(struct _file * file, fpos_t *pos){
     return fseek(file, *pos, SEEK_SET);
+}
+
+void clearerr(struct _file *file){
+    file->is_eof = 0;
+}
+
+uint16_t feof(struct _file *file){
+    return file->is_eof;
 }

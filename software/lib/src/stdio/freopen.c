@@ -4,16 +4,18 @@
 
 struct _file* freopen(char* path, char* mode, struct _file * file){
     if(file != NULL){
-        /* flush file */
-        if(file->buf_mode & __BUF_OUT){
-            _file_buf_flush(file);
-        }
+        if(!_remove_open_file(file)){
+            /* flush file */
+            if(file->buf_mode & __BUF_OUT){
+                _file_buf_flush(file);
+            }
 
-        /* don't free buffers that were setbuf */
-        if(file->buf != NULL && (!file->buf_was_setbuf)){
-            free(file->buf);
+            /* don't free buffers that were setbuf */
+            if(file->buf != NULL && (!file->buf_was_setbuf)){
+                free(file->buf);
+            }
+            close(file->fd);
         }
-        close(file->fd);
     }
 
     /* and open */
@@ -23,6 +25,10 @@ struct _file* freopen(char* path, char* mode, struct _file * file){
     if(_file_open(file, path,  mode, buf, _IOFBF)){
         free(file);
         free(buf);
+        return NULL;
+    }
+
+    if(_add_open_file(file)){
         return NULL;
     }
 

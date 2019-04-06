@@ -19,6 +19,7 @@ int16_t fgetc(struct _file * file){
     if((file->buf_mode & _IONBF) || (file->buf_mode & _IOLBF)){
         uint8_t data;
         if(read(file->fd, &data, 1) != 1){
+            file->is_eof = 1;
             return EOF;
         }
 
@@ -35,6 +36,7 @@ int16_t fgetc(struct _file * file){
         }
         /* check if we reached eof */
         if(file->buf_index >= file->buf_eof && file->buf_eof != -1){
+            file->is_eof = 1;
             return EOF;
         }
 

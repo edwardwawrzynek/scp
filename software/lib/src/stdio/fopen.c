@@ -14,5 +14,9 @@ struct _file * fopen(uint8_t * path, uint8_t *mode){
         return NULL;
     }
 
+    if(_add_open_file(file)){
+        return NULL;
+    }
+
     return file;
 }

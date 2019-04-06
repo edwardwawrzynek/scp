@@ -18,16 +18,6 @@
 char buf[1000];
 int buf_index = 0;
 
-int method(int num, ...){
-    va_list args;
-
-    va_start(args, num);
-    while(num--){
-        test_syscall("arg: %u\n", (int)va_arg(args, int*));
-    }
-    va_end(args);
-}
-
 int main(){
-    method(5, 1, 2, 3, 4, 64345);
+    printf("Hello, printf!\nString: %s, Number: %05u, char: %c\n", "string!", 45, 'a');
 }

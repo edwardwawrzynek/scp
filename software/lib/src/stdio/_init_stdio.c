@@ -16,3 +16,12 @@ void _init_stdio(){
     setvbuf(stdout, NULL, _IOLBF, 0);
     setvbuf(stderr, NULL, _IONBF, 0);
 }
+
+/* close stdio (flush all buffers) */
+void _close_stdio(){
+    for(int i = 0; i < FOPEN_MAX; i++){
+        if(_open_files[i] != NULL){
+            fclose(_open_files[i]);
+        }
+    }
+}

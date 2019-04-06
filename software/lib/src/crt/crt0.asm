@@ -12,10 +12,12 @@ _START:
 	call.j.sp sp _main
 ;	Call exit (load return value into ra)
 	mov.r.r ra re
+	call.j.sp sp __close_stdio
 	call.j.sp sp _exit
 	hlt.n.n
 	.extern _main
 	.extern _exit
 	.extern __init_stdio
+	.extern __close_stdio
 
 	.module

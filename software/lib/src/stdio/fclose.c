@@ -21,5 +21,9 @@ int16_t fclose(struct _file * file){
 
     free(file);
 
+    if(_remove_open_file(file)){
+        return EOF;
+    }
+
     return 0;
 }

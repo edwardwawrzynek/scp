@@ -3,6 +3,32 @@
 #include <stddef.h>
 #include <string.h>
 
+/* currently open files */
+struct _file * _open_files[FOPEN_MAX];
+
+/* add a file to currently open */
+int _add_open_file(struct _file * file){
+    for(int i = 0; i < FOPEN_MAX; i++){
+        if(_open_files[i] == NULL){
+            _open_files[i] = file;
+            return 0;
+        }
+    }
+
+    return 1;
+}
+
+int _remove_open_file(struct _file * file){
+    for(int i = 0; i < FOPEN_MAX; i++){
+        if(_open_files[i] == file){
+            _open_files[i] = NULL;
+            return 0;
+        }
+    }
+
+    return 1;
+}
+
 /* return the kernel flags for a given stdio file mode string */
 int16_t fmode_to_flags(uint8_t *mode){
 	int16_t flags;
@@ -36,6 +62,7 @@ int _file_des_open(struct _file *file, uint16_t fd, uint8_t *buf, uint8_t buf_mo
 
     file->has_in_data = 0;
     file->buf_was_setbuf = 0;
+    file->is_eof = 0;
 
     return 0;
 }

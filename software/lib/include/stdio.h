@@ -1,4 +1,6 @@
 #include <stdint.h>
+#include <stdarg.h>
+#include <stddef.h>
 
 #ifndef __STDIO_INCL
 #define __STDIO_INCL 1
@@ -54,6 +56,8 @@ typedef struct _file {
     uint8_t * buf;
     /* if the buffer was set by setbuf and shouldn't be freed on close */
     uint8_t buf_was_setbuf;
+    /* eof indicator */
+    uint8_t is_eof;
 } FILE;
 
 typedef uint16_t fpos_t;
@@ -71,6 +75,9 @@ int _file_open(struct _file *file,uint8_t *path,uint8_t *mode,uint8_t *buf,uint8
 int _file_des_open(struct _file *file, uint16_t fd, uint8_t *buf, uint8_t buf_mode, uint16_t flags);
 int16_t fmode_to_flags(uint8_t *mode);
 
+int _add_open_file(struct _file * file);
+int _remove_open_file(struct _file * file);
+
 struct _file * fopen(uint8_t * path, uint8_t *mode);
 struct _file * fdopen(uint16_t fd, uint8_t *mode);
 struct _file* freopen(char* path, char* mode, struct _file * file);
@@ -81,6 +88,9 @@ uint16_t ftell(struct _file * file);
 void rewind(struct _file * file);
 uint16_t fgetpos(struct _file * file, fpos_t *pos);
 uint16_t fsetpos(struct _file * file, fpos_t *pos);
+
+void clearerr(struct _file *file);
+uint16_t feof(struct _file *file);
 
 uint16_t fileno(struct _file * file);
 int fflush(struct _file * file);
@@ -97,10 +107,17 @@ uint8_t * gets(uint8_t * buf);
 uint16_t fwrite(void *ptr, uint16_t size, uint16_t nmemb, struct _file *file);
 uint16_t fread(void *ptr, uint16_t size, uint16_t nmemb, struct _file *file);
 
-void _init_stdio();
-
 extern struct _file * stdin;
 extern struct _file * stdout;
 extern struct _file * stderr;
+
+extern struct _file * _open_files[FOPEN_MAX];
+
+/* printf and similar implementation is modified version of (https://github.com/mpaland/printf), MIT Licence */
+int printf(const char* format, ...);
+int snprintf(char* buffer, size_t count, const char* format, ...);
+int vsnprintf(char* buffer, size_t count, const char* format, va_list va);
+int sprintf(char* buffer, const char* format, ...);
+int vprintf(const char* format, va_list va);
 
 #endif
