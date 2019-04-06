@@ -28,7 +28,7 @@ uint16_t _open(uint16_t name, uint16_t flags, uint16_t a2, uint16_t a3){
     uint16_t inum = fs_path_to_inum(path, proc_current_proc->cwd, proc_current_proc->croot);
     if(!inum){
         if(flags & O_CREAT){
-            return create_file(path, 0, 0);
+            return create_file(path, 0, 0, flags);
         } else {
             return -1;
         }
@@ -77,7 +77,7 @@ uint16_t _creat(uint16_t name, uint16_t a1, uint16_t a2, uint16_t a3){
         return -1;
     }
 
-    return create_file(path, 0, 0);
+    return create_file(path, 0, 0, 0);
 }
 
 /* create a regular, dev, or named pipe */
@@ -125,7 +125,7 @@ uint16_t _mknod(uint16_t name, uint16_t mode, uint16_t dev, uint16_t a3){
 }
 
 /* create a file, and return its new fd, or -1 on failure */
-uint16_t create_file(uint8_t *name, uint16_t dev_num, uint16_t dev_minor){
+uint16_t create_file(uint8_t *name, uint16_t dev_num, uint16_t dev_minor, uint16_t flags){
     struct file_entry *file = NULL;
     /* if file exists already, truncate it */
     uint16_t inum = fs_path_to_inum(name, proc_current_proc->cwd, proc_current_proc->croot);
@@ -144,7 +144,7 @@ uint16_t create_file(uint8_t *name, uint16_t dev_num, uint16_t dev_minor){
         if(!inum){
             return -1;
         }
-        file = file_get(inum, FILE_MODE_WRITE | FILE_MODE_TRUNCATE);
+        file = file_get(inum, FILE_MODE_WRITE | FILE_MODE_TRUNCATE | flags);
         return proc_set_next_open_fd(proc_current_proc, file);
     }
 }

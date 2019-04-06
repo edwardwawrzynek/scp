@@ -18,8 +18,24 @@ char buf[1000];
 int buf_index = 0;
 
 int main(){
-    test_syscall("stdin: %u\nmode: %u", (int16_t)stdin, stdin->buf_mode);
-    while(1){
-        puts(gets(buf));
+    FILE * file = fopen("test.txt", "w+");
+    if(file == NULL){
+        puts("open failure");
     }
+    if(fwrite("hello, world!", 1, 13, file) != 13){
+        puts("write failure\n");
+    }
+    fflush(file);
+    fseek(file, 1, SEEK_SET);
+
+    if(fread(buf, 1, 5, file) != 5){
+        puts("read failure\n");
+    }
+    puts(buf);
+    fseek(file, 0, SEEK_CUR);
+    fputc('a', file);
+    fseek(file, 0, SEEK_CUR);
+    puts(fgets(buf, 1000, file));
+
+    fclose(file);
 }

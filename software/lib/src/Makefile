@@ -16,7 +16,7 @@ stdio/_file_open.o	stdio/_file_buf.o	stdio/fopen.o	stdio/fseek.o		\
 stdio/fileno.o	stdio/fflush.o	stdio/ftell.o	stdio/setbuf.o				\
 stdio/fdopen.o	stdio/fputs.o	stdio/_init_stdio.o	stdio/fputc.o			\
 stdio/fgetc.o	stdio/fgets.o	stdio/fclose.o	stdio/fread.o				\
-stdio/fwrite.o																\
+stdio/fwrite.o	stdio/freopen.o												\
 																			\
 stdlib/abs.o	stdlib/itoa.o	stdlib/malloc.o	stdlib/strtol.o				\
 ctype/isalnum.o	ctype/isalpha.o ctype/isblank.o	ctype/iscntrl.o				\

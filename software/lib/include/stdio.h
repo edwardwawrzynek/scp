@@ -71,6 +71,7 @@ int16_t fmode_to_flags(uint8_t *mode);
 
 struct _file * fopen(uint8_t * path, uint8_t *mode);
 struct _file * fdopen(uint16_t fd, uint8_t *mode);
+struct _file* freopen(char* path, char* mode, struct _file * file);
 int16_t fclose(struct _file * file);
 
 int fseek(struct _file * file, uint16_t location, uint16_t whence);

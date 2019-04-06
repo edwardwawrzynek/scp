@@ -25,7 +25,7 @@ int _file_des_open(struct _file *file, uint16_t fd, uint8_t *buf, uint8_t buf_mo
         file->buf_mode = _IONBF;
     }
 
-    if(file->flags & O_RDONLY){
+    if((file->flags & O_RDONLY) && !(file->flags & O_CREAT)){
         file->buf_mode |= __BUF_IN;
     } else if (file->flags & O_WRONLY){
         file->buf_mode |= __BUF_OUT;
