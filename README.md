@@ -1,5 +1,5 @@
 # Small C Processor (scp)
-A small, 16 bit processor design.
+A small, 16 bit processor design to learn about computers.
 
 SCP consists of:
 
