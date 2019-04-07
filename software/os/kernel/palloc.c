@@ -58,6 +58,13 @@ uint8_t palloc_alloc(uint8_t page){
     return page | 0b10000000;
 }
 
+/* inc refs to page, regardless of it is in use or not */
+uint8_t palloc_use_page(uint8_t page){
+    page = page & 0b01111111;
+    palloc_page_refs[page]++;
+
+    return page | 0b10000000;
+}
 
 /* free a page, and mark it as free
  * returns (none) */

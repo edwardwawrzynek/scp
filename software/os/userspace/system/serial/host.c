@@ -126,7 +126,7 @@ void read_dir(char * path, uint16_t parent_index){
     char path_buf[258];
     struct dirent *entry;
     DIR *d = opendir(path);
-    if (d) {
+    if (d != NULL) {
         while ((entry = readdir(d)) != NULL) {
             /* ignore . and .. entries */
             if((!strcmp(entry->d_name, ".")) || (!strcmp(entry->d_name, ".."))){
@@ -138,12 +138,12 @@ void read_dir(char * path, uint16_t parent_index){
                 printf("error\n%s\n", strerror(errno));
             }
 
-            if(S_ISREG(finfo.st_mode)){
+            if(!S_ISDIR(finfo.st_mode)){
                 /* add regular file */
                 /* get info on file */
                 /* get file size, exec but, etc */
                 uint16_t size = finfo.st_size;
-                uint16_t is_exec = finfo.st_mode & S_IXUSR;
+                uint16_t is_exec = finfo.st_mode & (S_IXUSR | S_IXGRP | S_IXOTH);
 
                 files_add(parent_index, entry->d_name, size, 0, 0, 0, is_exec, path_buf);
             } else if (S_ISDIR(finfo.st_mode)){
@@ -156,7 +156,7 @@ void read_dir(char * path, uint16_t parent_index){
         }
         closedir(d);
     } else {
-        printf("error\n%s\n", strerror(errno));
+        printf("No such dir");
     }
 }
 

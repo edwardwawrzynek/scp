@@ -1,14 +1,11 @@
 #include <stdio.h>
 #include <string.h>
 
-int main () {
-   int day, year;
-   char weekday[20], month[20], dtm[100];
-
-   strcpy( dtm, "Saturday March 25 1989" );
-   sscanf( dtm, "%s %s %d  %d", weekday, month, &day, &year );
-
-   printf("%s %d, %d = %s\n", month, day, year, weekday );
+int main (char **argv, int argc) {
+   printf("test1\n");
+   for(int i =0; i < argc; i++){
+      printf("arg %u: %s\n", i, argv[i]);
+   }
 
    return(0);
 }

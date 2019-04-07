@@ -490,3 +490,23 @@ void proc_put_memory(struct proc * proc){
     }
     mmu_proc_table_out(proc->mem_map, (proc->mmu_index) << PROC_MMU_SHIFT);
 }
+
+/* add an aligned (multiple of two) amount of data to a proc's stack
+ * used for passing argv, etc
+ * shouldn't be used once a proc is running, as it cause issues
+ * returns (uint8_t *) - the location of the memory on the stack*/
+uint8_t * proc_add_to_stack(struct proc *proc, uint8_t * memory, uint16_t bytes){
+    /* align */
+    if(bytes&1){
+        bytes++;
+    }
+    uint8_t *cur_sp = (uint8_t *)proc->cpu_state.regs[15];
+    uint8_t * location = cur_sp - bytes;
+
+    uint8_t * mem = kernel_map_in_mem(location, proc);
+    memcpy(mem, memory, bytes);
+
+    proc->cpu_state.regs[15] -= bytes;
+
+    return location;
+}
