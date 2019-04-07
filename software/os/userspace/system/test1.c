@@ -1,11 +1,13 @@
 #include <stdio.h>
 #include <string.h>
 
-int main (char **argv, int argc) {
+int main (int argc, char ** argv) {
    printf("test1\n");
-   for(int i =0; i < argc; i++){
-      printf("arg %u: %s\n", i, argv[i]);
+   for(int i = 0; i < argc; i++){
+      printf("%s ", argv[i]);
    }
+   printf("\n");
+
 
    return(0);
 }

@@ -20,7 +20,7 @@
     - [x] dup, dup2
     - [x] fork
     - [x] execv (will be execve)
-        - [ ] argv passing
+        - [x] argv passing
         - [ ] #! script handling
         - [ ] binary header handling - proper paging
             - [ ] Text segment sharing of processes of same exec file

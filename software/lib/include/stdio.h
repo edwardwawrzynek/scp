@@ -116,8 +116,10 @@ extern struct _file * stderr;
 
 extern struct _file * _open_files[FOPEN_MAX];
 
-/* printf and similar implementation is modified version of (https://github.com/mpaland/printf), MIT Licence */
+/* printf and similar implementation is modified version (fprintf suport) of (https://github.com/mpaland/printf), MIT Licence */
 int printf(const char* format, ...);
+int fprintf(FILE *file, const char* format, ...);
+int vfprintf(FILE *file, const char* format, va_list va);
 int snprintf(char* buffer, size_t count, const char* format, ...);
 int vsnprintf(char* buffer, size_t count, const char* format, va_list va);
 int sprintf(char* buffer, const char* format, ...);

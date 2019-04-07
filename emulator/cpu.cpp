@@ -85,8 +85,8 @@ uint32_t CPU::hard_addr(uint16_t addr) {
         fprintf(stderr, "priv_lv: %u\n", priv_lv);
         fprintf(stderr, "Pc at fault: 0x%x\n", pc);
 	nop_debug(16);
-	exit(1);
-
+	//exit(1);
+       while(1);
     }
     res = (page_table[high_addr + real_ptb] & 0b01111111) << 11;
     res += low_addr;

@@ -45,19 +45,27 @@ uint16_t _execv(uint16_t name, uint16_t argv_p, uint16_t a2, uint16_t a4){
     proc_reset_cpu(proc_current_proc);
 
     /* copy argv data to existing last stack page, which we later inject into new mem map (hacky but works, and doesn't require a kernel space buffer) */
-    uint8_t **argv = (uint8_t **)kernel_map_in_mem((uint8_t *)argv_p, proc_current_proc);
+    uint8_t **argv = (uint8_t **)kernel_map_in_mem2((uint8_t *)argv_p, proc_current_proc);
+    if(argv == NULL){
+        panic(PANIC_ERROR);
+    }
     /* copy argv contents onto stack, then argv, then pointers passed to main */
     if(argv_p != NULL){
         uint16_t i;
         for(i = 0; argv[i] != NULL; i++){
             uint8_t * argv_i = kernel_map_in_mem2(argv[i], proc_current_proc);
-            argv[i] = proc_add_to_stack(proc_current_proc, argv_i, strlen(argv_i)+1);
+            if(argv_i == NULL){
+                panic(PANIC_ERROR);
+            }
+            uint8_t *new_argv_i = proc_add_to_stack(proc_current_proc, argv_i, strlen(argv_i)+1);
+            uint8_t **argv = (uint8_t **)kernel_map_in_mem2((uint8_t *)argv_p, proc_current_proc);
+            argv[i] = new_argv_i;
         }
-        uint8_t *argv_stack = proc_add_to_stack(proc_current_proc, argv, i*2);
+        uint8_t *argv_stack = proc_add_to_stack(proc_current_proc, (uint8_t *)argv, i*2);
+        proc_add_to_stack(proc_current_proc, (uint8_t *)(&argv_stack), 2);
         proc_add_to_stack(proc_current_proc, (uint8_t *)(&i), 2);
-        proc_add_to_stack(proc_current_proc, (uint8_t *)(argv_stack), 2);
-    } else {
-        /* argv is NULL, argc 0 */
+        printf("[0]: %u, [1]: %u\n", argv_stack, i);
+    }else {
         uint16_t data;
         data = 0;
         proc_add_to_stack(proc_current_proc, (uint8_t *)(&data), 2);
@@ -65,6 +73,7 @@ uint16_t _execv(uint16_t name, uint16_t argv_p, uint16_t a2, uint16_t a4){
         proc_add_to_stack(proc_current_proc, (uint8_t *)(&data), 2);
     }
     uint16_t old_page = proc_current_proc->mem_map[31];
+
 
     /* release memory */
     proc_put_memory(proc_current_proc);

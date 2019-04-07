@@ -32,7 +32,7 @@ string/strncmp.o	string/strncpy.o	string/strnlen.o					\
 string/strpbrk.o	string/strrchr.o	string/strspn.o	string/strstr.o		\
 string/strcmp.o																\
 																			\
-syscall/syscall_asm.o	syscall/syscall_lib.o	\
+syscall/syscall_asm.o	syscall/syscall_lib.o	syscall/getopt.o			\
 
 #inp and outp (seperate from libc)
 INOUTP_BIN = ../bin/libinout.a

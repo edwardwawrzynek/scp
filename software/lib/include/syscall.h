@@ -1,3 +1,6 @@
+#ifndef __SYSCALL_INCL
+#define __SYSCALL_INCL
+
 /**
  * System Call Mechanism:
  * system calls use int #7
@@ -176,3 +179,12 @@ int16_t brk(__reg("ra") uint8_t *brk);
 uint8_t * sbrk(__reg("ra") uint16_t inc);
 
 int16_t isatty(uint16_t fd);
+
+extern char * optarg;
+extern int optind;
+extern int optopt;
+extern int opterr;
+
+int getopt(int argc, char **argv, char *optstr);
+
+#endif
