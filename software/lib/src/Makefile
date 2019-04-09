@@ -20,6 +20,8 @@ stdio/fwrite.o	stdio/freopen.o	stdio/printf.o	stdio/remove.o				\
 stdio/rename.o	stdio/scanf.o												\
 																			\
 stdlib/abs.o	stdlib/itoa.o	stdlib/malloc.o	stdlib/strtol.o				\
+stdlib/qsort.o																\
+																			\
 ctype/isalnum.o	ctype/isalpha.o ctype/isblank.o	ctype/iscntrl.o				\
 ctype/isdigit.o	ctype/isgraph.o	ctype/islower.o	ctype/isprint.o				\
 ctype/ispunc.o 	ctype/isspace.o	ctype/isupper.o	ctype/isxdigit.o			\

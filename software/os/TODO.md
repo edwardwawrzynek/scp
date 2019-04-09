@@ -52,3 +52,4 @@
         - [ ] int to string, string to int, etc
     - [ ] setjmp
     - [x] proper stdarg
+    - [x] getopt

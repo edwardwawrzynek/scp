@@ -1,5 +1,5 @@
 BIN = \
-init test2	test1									\
+init test2	test1	ls								\
 
 all: $(BIN)
 
