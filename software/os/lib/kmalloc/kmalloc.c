@@ -238,6 +238,10 @@ static void free_end(){
 
 /* malloc */
 void *kmalloc(size_t size){
+    /* align memory */
+    if(size&1){
+        size++;
+    }
     struct _header * block = get_free_block(size);
     return (void *)(block+1);
 }
@@ -260,6 +264,10 @@ void kfree(void *ptr){
 
 /* realloc */
 void * krealloc(void *ptr, size_t size){
+    /* align */
+    if(size & 1){
+        size++;
+    }
     if(ptr == NULL){
         return kmalloc(size);
     }

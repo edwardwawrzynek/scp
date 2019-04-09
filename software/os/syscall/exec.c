@@ -10,6 +10,7 @@
 #include "include/lib/string.h"
 #include "kernel/shed.h"
 #include "kernel/palloc.h"
+#include "include/lib/kmalloc.h"
 
 uint8_t path_buf[256];
 
@@ -41,42 +42,34 @@ uint16_t _execv(uint16_t name, uint16_t argv_p, uint16_t a2, uint16_t a4){
         return -1;
     }
 
-    /* reset cpu state */
-    proc_reset_cpu(proc_current_proc);
-
-    /* copy argv data to existing last stack page, which we later inject into new mem map (hacky but works, and doesn't require a kernel space buffer) */
-    uint8_t **argv = (uint8_t **)kernel_map_in_mem2((uint8_t *)argv_p, proc_current_proc);
-    if(argv == NULL){
-        panic(PANIC_ERROR);
-    }
-    /* copy argv contents onto stack, then argv, then pointers passed to main */
+    /* read argv from old memory, and copy to kernel space */
+    uint8_t **kargv;
+    uint16_t argv_i;
     if(argv_p != NULL){
-        uint16_t i;
-        for(i = 0; argv[i] != NULL; i++){
-            uint8_t * argv_i = kernel_map_in_mem2(argv[i], proc_current_proc);
-            if(argv_i == NULL){
-                panic(PANIC_ERROR);
+        uint8_t ** sargv = kernel_map_in_mem((uint8_t *)argv_p, proc_current_proc);
+        for(argv_i = 0;;argv_i++){
+            if(sargv[argv_i] == NULL){
+                break;
             }
-            uint8_t *new_argv_i = proc_add_to_stack(proc_current_proc, argv_i, strlen(argv_i)+1);
-            uint8_t **argv = (uint8_t **)kernel_map_in_mem2((uint8_t *)argv_p, proc_current_proc);
-            argv[i] = new_argv_i;
         }
-        uint8_t *argv_stack = proc_add_to_stack(proc_current_proc, (uint8_t *)argv, i*2);
-        proc_add_to_stack(proc_current_proc, (uint8_t *)(&argv_stack), 2);
-        proc_add_to_stack(proc_current_proc, (uint8_t *)(&i), 2);
-        printf("[0]: %u, [1]: %u\n", argv_stack, i);
-    }else {
-        uint16_t data;
-        data = 0;
-        proc_add_to_stack(proc_current_proc, (uint8_t *)(&data), 2);
-        data = NULL;
-        proc_add_to_stack(proc_current_proc, (uint8_t *)(&data), 2);
-    }
-    uint16_t old_page = proc_current_proc->mem_map[31];
+        kargv = kmalloc(argv_i*sizeof(uint8_t **));
+        memcpy(kargv, sargv, argv_i*sizeof(uint8_t **));
 
+        /* copy strings pointed to by argv into kernel memory */
+        for(uint16_t n=0;n<argv_i;n++){
+            uint8_t * sargv_i = kernel_map_in_mem((uint8_t *)kargv[n], proc_current_proc);
+            uint8_t * kargv_i = kmalloc(strlen(sargv_i)+1);
+            memcpy(kargv_i, sargv_i, strlen(sargv_i)+1);
+
+            kargv[n] = kargv_i;
+        }
+
+    }
 
     /* release memory */
     proc_put_memory(proc_current_proc);
+    /* reset cpu state */
+    proc_reset_cpu(proc_current_proc);
 
     /* TODO: handle executables beginning with #! */
 
@@ -89,10 +82,26 @@ uint16_t _execv(uint16_t name, uint16_t argv_p, uint16_t a2, uint16_t a4){
         return -1;
     }
 
-    /* inject stack page that we previously loaded argv into */
-    palloc_free(proc_current_proc->mem_map[31]);
-    proc_current_proc->mem_map[31] = palloc_use_page(old_page);
-    proc_write_mem_map(proc_current_proc);
+    /* copy argv to new mem map */
+    proc_current_proc->cpu_state.regs[15]=0;
+    if(argv_p != NULL){
+        for(uint16_t n=0;n<argv_i;n++){
+            uint8_t *new_kargv_i = proc_add_to_stack(proc_current_proc, kargv[n], strlen(kargv[n])+1);
+            kfree(kargv[n]);
+            kargv[n] = new_kargv_i;
+        }
+        uint8_t **new_kargv = (uint8_t **)proc_add_to_stack(proc_current_proc, kargv, argv_i*sizeof(uint8_t **));
+        kfree(kargv);
+        kargv = new_kargv;
+        proc_add_to_stack(proc_current_proc, &kargv, 2);
+        proc_add_to_stack(proc_current_proc, &argv_i, 2);
+    } else {
+        uint16_t data = 0;
+        /* argc 0, argv NULL */
+        proc_add_to_stack(proc_current_proc, &data, 2);
+        proc_add_to_stack(proc_current_proc, &data, 2);
+    }
+
 
     //set in runnable state
     proc_current_proc->state = PROC_STATE_RUNNABLE;

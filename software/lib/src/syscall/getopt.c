@@ -21,6 +21,7 @@ int getopt(int argc, char **argv, char *optstr){
     }
 
     if(arg[0] != '-'){
+        optind--;
         return -1;
     }
 

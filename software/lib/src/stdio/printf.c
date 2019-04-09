@@ -49,7 +49,9 @@ static inline void _out_null(FILE * file, char character, void* buffer, size_t i
 static inline void _out_char(FILE * file, char character, void* buffer, size_t idx, size_t maxlen)
 {
 //  (void)buffer; (void)idx; (void)maxlen;
-  putchar(character);
+  if(character){
+    putchar(character);
+  }
 }
 
 
@@ -470,7 +472,6 @@ int snprintf(char* buffer, size_t count, const char* format, ...)
   va_end(va);
   return ret;
 }
-
 
 int vprintf(const char* format, va_list va)
 {

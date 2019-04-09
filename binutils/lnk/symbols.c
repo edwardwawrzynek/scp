@@ -14,8 +14,8 @@ struct obj_symbol_entry *defined_tables[MAX_FILES];
 struct obj_symbol_entry *extern_tables[MAX_FILES];
 
 /* number of elements in each table */
-uint16_t defined_size[MAX_FILES];
-uint16_t extern_size[MAX_FILES];
+uint32_t defined_size[MAX_FILES];
+uint32_t extern_size[MAX_FILES];
 
 /* read in symbol tables */
 void symbol_read_in_tables(){
@@ -30,7 +30,7 @@ void symbol_read_in_tables(){
 
 /* find the entry of an external symbol in the defined symbol tables, and return it if found, NULL otherwise. Looks for the index'th entry of the i'th file's external table
     set file to which file's defined table it was found in */
-struct obj_symbol_entry * find_extern(int i, uint16_t index, int *file){
+struct obj_symbol_entry * find_extern(int i, uint32_t index, int *file){
     struct obj_symbol_entry *entry = &(extern_tables[i][index]);
 
     /* look through all the tables */
@@ -64,7 +64,7 @@ int find_defined_symbol_file(char *name){
 }
 
 /* get the real address of a symbol defined in an external table of the i'th file */
-uint16_t extern_get_addr(int i, uint16_t index){
+uint16_t extern_get_addr(int i, uint32_t index){
     struct obj_symbol_entry *entry = &(extern_tables[i][index]);
     uint16_t addr;
     int file;

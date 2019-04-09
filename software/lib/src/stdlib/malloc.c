@@ -207,6 +207,10 @@ static void free_end(){
 
 /* malloc */
 void *malloc(size_t size){
+    /* align */
+    if(size &1){
+        size++;
+    }
     struct _header * block = get_free_block(size);
     return (void *)(block+1);
 }
@@ -229,6 +233,10 @@ void free(void *ptr){
 
 /* realloc */
 void * realloc(void *ptr, size_t size){
+    /* align */
+    if(size&1){
+        size++;
+    }
     if(ptr == NULL){
         return malloc(size);
     }
