@@ -27,7 +27,7 @@
 static void malloc_magic_fail(){
     #ifdef DEBUG
         /* TODO: fail */
-        test_syscall("malloc fail\n", 0, 0, 0);
+        fprintf(stderr, "malloc magic number assert fail");
     #endif
 }
 

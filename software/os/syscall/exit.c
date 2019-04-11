@@ -55,10 +55,6 @@ uint16_t _exit(uint16_t ret_val, uint16_t a1, uint16_t a2, uint16_t a3){
  * if pid was returned, then the child proc has been removed, and the return value will be
  * put into the passed pointer */
 uint16_t _wait_nb(uint16_t ret_pointer, uint16_t a1, uint16_t a2, uint16_t a3){
-    uint8_t * ret_val = kernel_map_in_mem((uint8_t *)ret_pointer, proc_current_proc);
-    if(!ret_val){
-        return -1;
-    }
 
     /* find children */
     uint16_t num_children = proc_find_children(proc_current_proc->pid, children);
@@ -74,6 +70,10 @@ uint16_t _wait_nb(uint16_t ret_pointer, uint16_t a1, uint16_t a2, uint16_t a3){
                 panic(PANIC_PROC_NO_RET_VAL);
             }
             if(ret_pointer != NULL){
+                uint8_t * ret_val = kernel_map_in_mem((uint8_t *)ret_pointer, proc_current_proc);
+                if(!ret_val){
+                    return -1;
+                }
                 *ret_val = proc_table[children[i]].ret_val;
             }
             pid_t pid = proc_table[children[i]].pid;

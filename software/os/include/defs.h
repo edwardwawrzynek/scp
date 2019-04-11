@@ -8,9 +8,9 @@
 
 /* File System Options */
 //Number of entries in the inode table
-#define INODE_TABLE_ENTRIES 24
+#define INODE_TABLE_ENTRIES 50
 //Number of entries in the file table
-#define FILE_TABLE_ENTRIES 32
+#define FILE_TABLE_ENTRIES 64
 //Number of entries in the buffer table - FILE_TABLE_ENTRIES because each file table entry usually has 1 unique buffer
 #define BUFFER_TABLE_ENTRIES FILE_TABLE_ENTRIES
 //Size (in bytes) of buffers used for pipes
@@ -25,7 +25,7 @@
 //Number of entries in the process table
 #define PROC_TABLE_ENTRIES 16
 //Number of file entries allowed per proc
-#define PROC_NUM_FILES 8
+#define PROC_NUM_FILES 20
 
 /* max time for a process to run (in 2^12 clk ticks) */
 #define SHED_MAX_TIME 50

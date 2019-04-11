@@ -24,7 +24,7 @@ kernel/context_vars.h	kernel/kernel.h 				\
 syscall/handler.h	syscall/test.h	syscall/getpid.h	\
 syscall/fork.h	syscall/files.h	syscall/exec.h			\
 syscall/chdir.h	syscall/exit.h	syscall/dir.h			\
-syscall/brk.h											\
+syscall/brk.handler										\
 
 
 OBJS = \

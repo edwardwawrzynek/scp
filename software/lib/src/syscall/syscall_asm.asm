@@ -315,3 +315,13 @@ _sbrk:
 ;   Int
     int.i.n r7
     ret.n.sp sp
+
+;   fchdir - change current working directory (nonblocking)
+    .align
+_fchdir:
+    .global _fchdir
+;   Load syscall number
+    ld.r.i re 30
+;   Int
+    int.i.n r7
+    ret.n.sp sp

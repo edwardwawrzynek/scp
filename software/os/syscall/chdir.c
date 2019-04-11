@@ -20,7 +20,21 @@ uint16_t _chdir(uint16_t name, uint16_t a1, uint16_t a2, uint16_t a3){
     if(!inum){
         return -1;
     }
-    
+
+    proc_current_proc->cwd = inum;
+
+    return 0;
+}
+
+uint16_t _fchdir(uint16_t fd, uint16_t a1, uint16_t a2, uint16_t a3){
+    if(proc_current_proc->files[fd] == NULL){
+        return -1;
+    }
+    uint16_t inum = proc_current_proc->files[fd]->ind->inum;
+    if(!inum){
+        return -1;
+    }
+
     proc_current_proc->cwd = inum;
 
     return 0;

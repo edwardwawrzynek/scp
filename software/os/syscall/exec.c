@@ -46,7 +46,7 @@ uint16_t _execv(uint16_t name, uint16_t argv_p, uint16_t a2, uint16_t a4){
     uint8_t **kargv;
     uint16_t argv_i;
     if(argv_p != NULL){
-        uint8_t ** sargv = kernel_map_in_mem((uint8_t *)argv_p, proc_current_proc);
+        uint8_t ** sargv = (uint8_t **)kernel_map_in_mem((uint8_t *)argv_p, proc_current_proc);
         for(argv_i = 0;;argv_i++){
             if(sargv[argv_i] == NULL){
                 break;
@@ -90,16 +90,16 @@ uint16_t _execv(uint16_t name, uint16_t argv_p, uint16_t a2, uint16_t a4){
             kfree(kargv[n]);
             kargv[n] = new_kargv_i;
         }
-        uint8_t **new_kargv = (uint8_t **)proc_add_to_stack(proc_current_proc, kargv, argv_i*sizeof(uint8_t **));
+        uint8_t **new_kargv = (uint8_t **)proc_add_to_stack(proc_current_proc, (uint8_t *)kargv, argv_i*sizeof(uint8_t **));
         kfree(kargv);
         kargv = new_kargv;
-        proc_add_to_stack(proc_current_proc, &kargv, 2);
-        proc_add_to_stack(proc_current_proc, &argv_i, 2);
+        proc_add_to_stack(proc_current_proc, (uint8_t *)(&kargv), 2);
+        proc_add_to_stack(proc_current_proc, (uint8_t *)(&argv_i), 2);
     } else {
         uint16_t data = 0;
         /* argc 0, argv NULL */
-        proc_add_to_stack(proc_current_proc, &data, 2);
-        proc_add_to_stack(proc_current_proc, &data, 2);
+        proc_add_to_stack(proc_current_proc, (uint8_t *)(&data), 2);
+        proc_add_to_stack(proc_current_proc, (uint8_t *)(&data), 2);
     }
 
 

@@ -46,6 +46,7 @@ uint16_t (*syscalls[])(uint16_t, uint16_t, uint16_t, uint16_t) = {
     _pipe,
     _brk,
     _sbrk,
+    _fchdir,
 };
 
 /* Passed Args and syscall number */

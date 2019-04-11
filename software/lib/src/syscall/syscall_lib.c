@@ -48,17 +48,14 @@ int16_t write(uint16_t fd, uint8_t * buffer, uint16_t bytes){
 }
 
 /* wrapper for wait_nb syscall */
-int16_t wait(uint8_t *val){
-    uint16_t ret;
-    while(1) {
-        ret = wait_nb(val);
+int16_t wait(uint8_t *data){
+    while(1){
+        uint16_t ret = wait_nb(&data);
         if(ret){
-           break;
+            return ret;
         }
         yield();
-    };
-
-    return ret;
+    }
 }
 
 static struct stat _dirstat;

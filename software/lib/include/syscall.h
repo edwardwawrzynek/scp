@@ -14,6 +14,12 @@
  */
 
 #include <stdint.h>
+#include <stddef.h>
+
+/* make vscode intelisense happy */
+#ifndef __SCP__
+    #define __reg(a)
+#endif
 
 int16_t test_syscall(__reg("ra") uint8_t *a0, uint16_t __reg("rb") a1, __reg("rc") uint16_t a2, uint16_t __reg("rd") a3);
 
@@ -57,11 +63,13 @@ int16_t execv(__reg("ra") uint8_t *path, __reg("rb") uint8_t **argv);
 
 int16_t chdir(__reg("ra") uint8_t *path);
 
+int16_t fchdir(__reg("ra") uint16_t fd);
+
 int16_t chroot(__reg("ra") uint8_t *path);
 
-int16_t exit(__reg("ra") uint8_t return_value);
+int16_t exit(__reg("ra") uint16_t return_value);
 
-int16_t wait_nb(uint8_t *ret_val);
+int16_t wait_nb(__reg("ra") uint8_t *ret_val);
 
 int16_t wait(__reg("ra") uint8_t *ret_val);
 
