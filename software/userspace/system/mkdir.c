@@ -22,9 +22,9 @@ int main(int argc, char **argv){
         }
         else if(mkdir(argv[optind]) == -1){
             fprintf(stderr, "mkdir: error making directory %s\n", argv[optind]);
-            return 234;
+            return 1;
         }
     }
 
-    return 234;
+    return 0;
 }
