@@ -211,7 +211,6 @@ void inode_add_blk(struct inode * ind){
     uint16_t old_size;
     uint16_t *i;
     //figure out the current size
-    //TODO:kindof inefficient to do search, mabye this should be in struct inode
     old_size = 0;
     i = ind->blks;
     do{++old_size;} while(*(i++));

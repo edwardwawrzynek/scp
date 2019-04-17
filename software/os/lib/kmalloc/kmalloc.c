@@ -41,11 +41,6 @@
  * If all that fails, go to next block
  * If no free blocks, make a new one */
 
-/* TODO: lower memory usage when last block is freed
- * also, when this happens, somehow check blocks before removed
- * one to see if they can also be removed (probably just have to go
- * thorugh all of linked list) */
-
 #define DEBUG
 #define MAGIC 0x1234
 

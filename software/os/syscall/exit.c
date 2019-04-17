@@ -5,6 +5,8 @@
 #include "kernel/panic.h"
 #include "kernel/shed.h"
 #include "kernel/kernel.h"
+#include "syscall/exec.h"
+#include "errno.h"
 
 /* Exiting and waiting functions */
 
@@ -60,6 +62,7 @@ uint16_t _wait_nb(uint16_t ret_pointer, uint16_t a1, uint16_t a2, uint16_t a3){
     uint16_t num_children = proc_find_children(proc_current_proc->pid, children);
     /* error if no children */
     if(!num_children){
+        set_errno(ECHILD);
         return -1;
     }
     for(uint16_t i = 0; i < num_children; i++){
@@ -72,6 +75,7 @@ uint16_t _wait_nb(uint16_t ret_pointer, uint16_t a1, uint16_t a2, uint16_t a3){
             if(ret_pointer != NULL){
                 uint8_t * ret_val = kernel_map_in_mem((uint8_t *)ret_pointer, proc_current_proc);
                 if(!ret_val){
+                    set_errno(EUMEM);
                     return -1;
                 }
                 *ret_val = proc_table[children[i]].ret_val;

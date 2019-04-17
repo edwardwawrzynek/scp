@@ -5,11 +5,14 @@
 - [x] Pipes
     - [x] Named Pipes
     - [x] Device driver access to inodes members (needed for offsets)
-- [ ] Environment Variables
+- [ ] Environment Variables?
     - [ ] exec e flag
     - [ ] exec p flag and PATH searching (c library, not kernel)
     - [ ] setenv, getenv, putenv, unsetenv, etc
-- [ ] Errno Mechanism
+- [ ] Signals
+    - [ ] proc killing mechagnism
+    - [ ] response to signals
+- [x] Errno Mechanism
     - [ ] all syscalls set errno on failure
 - [x] Syscalls
     - [x] Check for already existing files (IMPORTANT) (NEED for mknod)
@@ -53,3 +56,21 @@
     - [ ] setjmp
     - [x] proper stdarg
     - [x] getopt
+
+- [ ] Userspace programs
+    - [x] ls
+    - [x] mkdir
+    - [ ] rm
+        - [ ] rmdir and rm -r
+    - [ ] cat
+    - [ ] ln
+    - [ ] cp
+    - [ ] mv
+    - [ ] chmod
+    - [ ] sh
+        - [ ] basic command parsing / exec
+        - [ ] cd
+        - [ ] redirection
+        - [ ] pipes
+        - [ ] scripting ?
+        - [ ] history ?

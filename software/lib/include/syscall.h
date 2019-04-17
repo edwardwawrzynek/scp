@@ -15,10 +15,12 @@
 
 #include <stdint.h>
 #include <stddef.h>
+#include <errno.h>
 
 /* make vscode intelisense happy */
 #ifndef __SCP__
     #define __reg(a)
+    #define __regsused(a)
 #endif
 
 int16_t test_syscall(__reg("ra") uint8_t *a0, uint16_t __reg("rb") a1, __reg("rc") uint16_t a2, uint16_t __reg("rd") a3);
@@ -39,47 +41,47 @@ int16_t fork();
 #define STDOUT_FILENO 1
 #define STDERR_FILENO 2
 
-int16_t open(__reg("ra") char * name, __reg("rb") uint16_t flags);
+ int16_t open(__reg("ra") char * name, __reg("rb") uint16_t flags);
 
-int16_t read_nb(__reg("ra") uint16_t fd, __reg("rb") uint8_t * buf, __reg("rc") uint16_t bytes, __reg("rd") uint8_t * eof);
+ int16_t read_nb(__reg("ra") uint16_t fd, __reg("rb") uint8_t * buf, __reg("rc") uint16_t bytes, __reg("rd") uint8_t * eof);
 
-int16_t write_nb(__reg("ra") uint16_t fd, __reg("rb") uint8_t * buf, __reg("rc") uint16_t bytes, __reg("rd") uint8_t * eof);
+ int16_t write_nb(__reg("ra") uint16_t fd, __reg("rb") uint8_t * buf, __reg("rc") uint16_t bytes, __reg("rd") uint8_t * eof);
 
 int16_t read(uint16_t fd, uint8_t * buffer, uint16_t bytes);
 
 int16_t write(uint16_t fd, uint8_t * buffer, uint16_t bytes);
 
-int16_t dup(__reg("ra") uint16_t fd);
+ int16_t dup(__reg("ra") uint16_t fd);
 
-int16_t dup2(__reg("ra") uint16_t old, __reg("rb") uint16_t new);
+ int16_t dup2(__reg("ra") uint16_t old, __reg("rb") uint16_t new);
 
-int16_t close(__reg("ra") uint16_t fd);
+ int16_t close(__reg("ra") uint16_t fd);
 
-int16_t creat(__reg("ra") uint8_t *name);
+ int16_t creat(__reg("ra") uint8_t *name);
 
-int16_t yield();
+ int16_t yield();
 
-int16_t execv(__reg("ra") uint8_t *path, __reg("rb") uint8_t **argv);
+ int16_t execv(__reg("ra") uint8_t *path, __reg("rb") uint8_t **argv);
 
-int16_t chdir(__reg("ra") uint8_t *path);
+ int16_t chdir(__reg("ra") uint8_t *path);
 
-int16_t fchdir(__reg("ra") uint16_t fd);
+ int16_t fchdir(__reg("ra") uint16_t fd);
 
-int16_t chroot(__reg("ra") uint8_t *path);
+ int16_t chroot(__reg("ra") uint8_t *path);
 
-int16_t exit(__reg("ra") uint16_t return_value);
+ int16_t exit(__reg("ra") uint16_t return_value);
 
-int16_t wait_nb(__reg("ra") uint8_t *ret_val);
+ int16_t wait_nb(__reg("ra") uint8_t *ret_val);
 
-int16_t wait(__reg("ra") uint8_t *ret_val);
+ int16_t wait(__reg("ra") uint8_t *ret_val);
 
-int16_t link(__reg("ra") uint8_t *old_path, __reg("rb") uint8_t *new_path);
+ int16_t link(__reg("ra") uint8_t *old_path, __reg("rb") uint8_t *new_path);
 
-int16_t unlink(__reg("ra") uint8_t *path);
+ int16_t unlink(__reg("ra") uint8_t *path);
 
-int16_t mkdir(__reg("ra") uint8_t *path);
+ int16_t mkdir(__reg("ra") uint8_t *path);
 
-int16_t rmdir(__reg("ra") uint8_t *path);
+ int16_t rmdir(__reg("ra") uint8_t *path);
 
 /* directory entry structure */
 struct dirent {
@@ -133,7 +135,7 @@ struct termios {
 /* complete raw mode */
 #define TERMIOS_RAW 0
 
-int16_t ioctl(__reg("ra") uint16_t fd, __reg("rb") uint16_t cmd, __reg("rc") void * arg);
+ int16_t ioctl(__reg("ra") uint16_t fd, __reg("rb") uint16_t cmd, __reg("rc") void * arg);
 
 /* stat structure */
 struct stat {
@@ -170,21 +172,21 @@ struct stat {
 #define major(dev) ((dev) & 0xff)
 #define minor(dev) ((dev) >> 8)
 
-int16_t stat(__reg("ra") uint8_t *path, __reg("rb") struct stat *stat);
-int16_t fstat(__reg("ra") uint16_t fd, __reg("rb") struct stat *stat);
+ int16_t stat(__reg("ra") uint8_t *path, __reg("rb") struct stat *stat);
+ int16_t fstat(__reg("ra") uint16_t fd, __reg("rb") struct stat *stat);
 
-int16_t chmod(__reg("ra") uint8_t *path, __reg("rb") uint16_t mode);
-int16_t fchmod(__reg("ra") uint16_t fd, __reg("rb") uint16_t mode);
+ int16_t chmod(__reg("ra") uint8_t *path, __reg("rb") uint16_t mode);
+ int16_t fchmod(__reg("ra") uint16_t fd, __reg("rb") uint16_t mode);
 
-int16_t mknod(__reg("ra") uint8_t *path, __reg("rb") uint16_t mode, __reg("rc") uint16_t dev);
+ int16_t mknod(__reg("ra") uint8_t *path, __reg("rb") uint16_t mode, __reg("rc") uint16_t dev);
 
-int16_t pipe(__reg("ra") uint16_t *pipefds);
+ int16_t pipe(__reg("ra") uint16_t *pipefds);
 
 int16_t mkfifo(uint8_t *path);
 
-int16_t brk(__reg("ra") uint8_t *brk);
+ int16_t brk(__reg("ra") uint8_t *brk);
 
-uint8_t * sbrk(__reg("ra") uint16_t inc);
+ uint8_t * sbrk(__reg("ra") uint16_t inc);
 
 int16_t isatty(uint16_t fd);
 

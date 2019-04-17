@@ -15,14 +15,12 @@ int main(int argc, char **argv){
     while((i = getopt(argc, argv, "")) != -1);
 
     for(;optind<argc;optind++){
-        int fd = open(argv[optind], O_RDONLY);
-        if(fd != -1){
-            fprintf(stderr, "mkdir: directory %s already exists\n", argv[optind]);
-            close(fd);
-        }
-        else if(mkdir(argv[optind]) == -1){
-            fprintf(stderr, "mkdir: error making directory %s\n", argv[optind]);
-            return 1;
+        if(mkdir(argv[optind]) == -1){
+            if(errno == EEXIST){
+                fprintf(stderr, "mkdir: directory already exists %s\n", argv[optind]);
+            } else {
+                fprintf(stderr, "mkdir: error making directory %s\n", argv[optind]);
+            }
         }
     }
 

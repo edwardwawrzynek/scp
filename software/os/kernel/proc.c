@@ -283,7 +283,7 @@ uint16_t proc_set_brk(struct proc *proc, uint8_t *brk){
 }
 
 /* create a new process in a ready to run state from a parent pid, a binary file inode number
- * TODO: create other process resources here
+ * used just to start up os, proc_new_entry is used for fork, etc
  * returns (struct proc *) - the process, or NULL on failure */
 
 struct proc * proc_create_new(uint16_t inum, pid_t parent, uint16_t cwd, uint16_t croot){
@@ -303,6 +303,10 @@ struct proc * proc_create_new(uint16_t inum, pid_t parent, uint16_t cwd, uint16_
 
         return NULL;
     };
+    proc_reset_cpu(res);
+    /* add errno (not argc and argv, as init doesn't expect these) */
+    uint16_t errno_default = 0;
+    proc_add_to_stack(res, (uint8_t *)(&errno_default), 2);
     //set in runnable state
     res->state = PROC_STATE_RUNNABLE;
     return res;

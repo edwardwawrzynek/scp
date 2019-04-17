@@ -14,7 +14,6 @@
 
 uint8_t path_buf[256];
 
-
 /* Execv system call (TODO: implement env variables, execve) */
 uint16_t _execv(uint16_t name, uint16_t argv_p, uint16_t a2, uint16_t a4){
     /* map in name */
@@ -35,7 +34,6 @@ uint16_t _execv(uint16_t name, uint16_t argv_p, uint16_t a2, uint16_t a4){
         }
     }
 
-    /* open file, and check executable bit TODO: executable bit checking disabled for now, fix later */
     struct file_entry * file = file_get(inum, FILE_MODE_READ);
     if(!(file->ind->flags & INODE_FLAG_EXEC)){
         file_put(file);
@@ -82,6 +80,10 @@ uint16_t _execv(uint16_t name, uint16_t argv_p, uint16_t a2, uint16_t a4){
         return -1;
     }
 
+    uint16_t errno_default = 0;
+    /* add errno to process */
+    proc_add_to_stack(proc_current_proc, (uint8_t *)(&errno_default), 2);
+
     /* copy argv to new mem map */
     proc_current_proc->cpu_state.regs[15]=0;
     if(argv_p != NULL){
@@ -111,4 +113,13 @@ uint16_t _execv(uint16_t name, uint16_t argv_p, uint16_t a2, uint16_t a4){
 
     //shedule
     shed_shedule();
+}
+
+/* set errno for current proc (in exec.c because errno is setup in exec) */
+void set_errno(uint16_t errno){
+    uint16_t * errno_mem = (uint16_t *) kernel_map_in_mem((uint8_t *)(0xfffe), proc_current_proc);
+    if(errno_mem == NULL){
+        panic(PANIC_CANT_SET_ERRNO);
+    }
+    *errno_mem = errno;
 }
