@@ -50,7 +50,7 @@ int16_t write(uint16_t fd, uint8_t * buffer, uint16_t bytes){
 /* wrapper for wait_nb syscall */
 int16_t wait(uint8_t *data){
     while(1){
-        uint16_t ret = wait_nb(&data);
+        uint16_t ret = wait_nb(data);
         if(ret){
             return ret;
         }

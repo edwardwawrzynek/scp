@@ -116,6 +116,8 @@ extern struct _file * stderr;
 
 extern struct _file * _open_files[FOPEN_MAX];
 
+void perror(const char *s);
+
 /* printf and similar implementation is modified version (fprintf suport) of (https://github.com/mpaland/printf), MIT Licence */
 int printf(const char* format, ...);
 int fprintf(FILE *file, const char* format, ...);

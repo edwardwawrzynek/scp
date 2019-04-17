@@ -20,6 +20,8 @@
 /* flags passed on command line */
 uint8_t l_flag, a_flag, A_flag, f_flag, F_flag, R_flag, s_flag, i_flag;
 
+uint8_t did_error = 1;
+
 /* sort files */
 int filesort(const void *p1, const void *p2)
 {
@@ -32,7 +34,9 @@ void list_dir(char *dir, uint8_t display_name);
 int print_file(char *file){
     struct stat sentry;
     if(stat(file, &sentry) == -1){
-        fprintf(stderr, "ls: can't stat file: %s\n", file);
+        fprintf(stderr, "ls: can't stat file: %s:", file);
+        perror(NULL);
+        did_error = 1;
         return 0;
     }
     if(i_flag){
@@ -82,14 +86,18 @@ void list_dir(char *dir, uint8_t display_name){
     int old_dir_fd = open(".", O_RDONLY);
 
     if(chdir(dir)==-1){
-        fprintf(stderr, "ls: can't chdir to %s\n", dir);
+        fprintf(stderr, "ls: can't chdir to %s: ", dir);
+        perror(NULL);
+        did_error = 1;
         return;
     }
     uint16_t dir_fd = opendir(".");
     struct dirent entry;
 
     if(dir_fd == -1){
-        fprintf(stderr, "ls: error: can't open directory %s\n", dir);
+        fprintf(stderr, "ls: error: can't open directory %s:", dir);
+        perror(NULL);
+        did_error = 1;
         return;
     }
     if(display_name){
@@ -208,5 +216,6 @@ int main(int argc, char **argv){
         list_dir(argv[optind], display_name);
     }
 
+    return did_error;
 }
 

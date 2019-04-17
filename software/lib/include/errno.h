@@ -17,4 +17,8 @@
 
 #define ENOTEMPTY 8 /* directory not empty */
 
+#define ENOMEM 9 /* no memory (or out of bounds on sbrk) */
+
+#define __ERRNO_LEN 10
+
 #endif

@@ -17,7 +17,7 @@ stdio/fileno.o	stdio/fflush.o	stdio/ftell.o	stdio/setbuf.o				\
 stdio/fdopen.o	stdio/fputs.o	stdio/_init_stdio.o	stdio/fputc.o			\
 stdio/fgetc.o	stdio/fgets.o	stdio/fclose.o	stdio/fread.o				\
 stdio/fwrite.o	stdio/freopen.o	stdio/printf.o	stdio/remove.o				\
-stdio/rename.o	stdio/scanf.o												\
+stdio/rename.o	stdio/scanf.o	stdio/perror.o	stdio/feof.o				\
 																			\
 stdlib/abs.o	stdlib/itoa.o	stdlib/malloc.o	stdlib/strtol.o				\
 stdlib/qsort.o																\
@@ -32,7 +32,7 @@ string/memset.o	string/strcat.o	string/strchr.o	string/strcpy.o				\
 string/strcspn.o	string/strlen.o	string/strncat.o	string/strnchr.o	\
 string/strncmp.o	string/strncpy.o	string/strnlen.o					\
 string/strpbrk.o	string/strrchr.o	string/strspn.o	string/strstr.o		\
-string/strcmp.o																\
+string/strcmp.o		string/strerror.o										\
 																			\
 syscall/syscall_asm.o	syscall/syscall_lib.o	syscall/getopt.o			\
 

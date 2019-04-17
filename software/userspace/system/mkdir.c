@@ -9,6 +9,8 @@
  * No flags
  */
 
+uint8_t did_error = 0;
+
 int main(int argc, char **argv){
     int i;
     /* print errors if options are passed */
@@ -16,13 +18,11 @@ int main(int argc, char **argv){
 
     for(;optind<argc;optind++){
         if(mkdir(argv[optind]) == -1){
-            if(errno == EEXIST){
-                fprintf(stderr, "mkdir: directory already exists %s\n", argv[optind]);
-            } else {
-                fprintf(stderr, "mkdir: error making directory %s\n", argv[optind]);
-            }
+            fprintf(stderr, "mkdir: cannot create directory %s: ", argv[optind]);
+            perror(NULL);
+            did_error = 1;
         }
     }
 
-    return 0;
+    return did_error;
 }

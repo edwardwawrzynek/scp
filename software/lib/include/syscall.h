@@ -73,7 +73,7 @@ int16_t write(uint16_t fd, uint8_t * buffer, uint16_t bytes);
 
  int16_t wait_nb(__reg("ra") uint8_t *ret_val);
 
- int16_t wait(__reg("ra") uint8_t *ret_val);
+ int16_t wait(uint8_t *ret_val);
 
  int16_t link(__reg("ra") uint8_t *old_path, __reg("rb") uint8_t *new_path);
 
