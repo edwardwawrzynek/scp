@@ -19,6 +19,14 @@
 
 #define ENOMEM 9 /* no memory (or out of bounds on sbrk) */
 
-#define __ERRNO_LEN 10
+#define ENOEXEC 10 /* not an executable */
+
+#define EARG 11 /* invalid args to syscall */
+
+#define ENOTTY 12 /* improper ioctl for file */
+
+#define EVMOD 13 /* violtion of file mode */
+
+#define __ERRNO_LEN 14
 
 #endif

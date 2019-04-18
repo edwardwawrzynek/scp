@@ -5,6 +5,9 @@
 #include "kernel/panic.h"
 #include "dev/dev.h"
 #include "dev/devices.h"
+#include "syscall/exec.h"
+#include "errno.h"
+
 
 //Handles the file table, allowing operations on entries
 //This combines buffers, disk_io, block lists and inodes for convienent file access
@@ -125,7 +128,8 @@ uint16_t file_write_nonblocking(struct file_entry * file, uint8_t * buffer, uint
     bytes_c = bytes;
     if(!(file->mode & FILE_MODE_WRITE)){
         *eof = 1;
-        return 0;
+        set_errno(EVMOD);
+        return -1;
     }
 
     /* call dev method if needed */
@@ -157,7 +161,8 @@ uint16_t file_read_nonblocking(struct file_entry * file, uint8_t * buffer, uint1
     bytes_c = bytes;
     if(!(file->mode & FILE_MODE_READ)){
         *eof = 1;
-        return 0;
+        set_errno(EVMOD);
+        return -1;
     }
 
     /* call dev method if needed */
@@ -188,6 +193,9 @@ uint16_t file_write(struct file_entry * file, uint8_t * buffer, uint16_t bytes){
     uint16_t bytes_in = 0;
     do {
         uint16_t read = file_write_nonblocking(file, buffer, bytes, &eof);
+        if(read == -1){
+            return -1;
+        }
         buffer += read;
         bytes_in += read;
         bytes -= read;
@@ -200,6 +208,9 @@ uint16_t file_read(struct file_entry * file, uint8_t * buffer, uint16_t bytes){
     uint16_t bytes_out = 0;
     do {
         uint16_t read = file_read_nonblocking(file, buffer, bytes, &eof);
+        if(read == -1){
+            return -1;
+        }
         buffer += read;
         bytes_out += read;
         bytes -= read;

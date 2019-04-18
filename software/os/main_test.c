@@ -25,32 +25,6 @@ char *arg;
 char *arg2;
 char *arg3;
 
-#define DIGARR "0123456789abcdef"
-void hexdump(unsigned char * mem, unsigned int n){
-    unsigned char * dig;
-    unsigned int i, j;
-    unsigned char is_end;
-    dig = DIGARR;
-    for(i = 0; i < n; ++i){
-        putchar(dig[(*mem)>>4]);
-        putchar(dig[(*(mem++))&0x0f]);
-        is_end = (i%10) == 9;
-        putchar(is_end ? '|' : ' ');
-        if(is_end){
-            //print out ascii representation
-            mem = mem - 10;
-            for(j = 0; j < 10; ++j){
-                if(*mem != '\n' && *mem != '\t' && *mem != 8){
-                    putchar(*mem);
-                } else {
-                    putchar(219);
-                }
-                mem++;
-            }
-        }
-    }
-}
-
 void list_dir(struct file_entry * dir){
     uint16_t i;
     uint8_t name[14];

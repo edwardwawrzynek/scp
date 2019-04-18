@@ -10,12 +10,12 @@
     - [ ] exec p flag and PATH searching (c library, not kernel)
     - [ ] setenv, getenv, putenv, unsetenv, etc
 - [ ] Signals
-    - [ ] proc killing mechagnism
+    - [ ] proc killing mechagnism?
     - [ ] response to signals
 - [x] Errno Mechanism
-    - [ ] all syscalls set errno on failure
+    - [x] all syscalls set errno on failure
 - [x] Syscalls
-    - [x] Check for already existing files (IMPORTANT) (NEED for mknod)
+    - [x] Check for already existing files
     - [x] Check for -1 file descriptors in syscalls dealing with them
     - [x] getpid, getppid
     - [x] open, creat, read, write, close

@@ -1,6 +1,8 @@
 #include <lib/string.h>
 
 #include "dev.h"
+#include "syscall/exec.h"
+#include "errno.h"
 
 
 /* Generic Reading and Writing Routines From getc and putc - wrappers in dev.h */
@@ -154,6 +156,7 @@ int _dev_tty_gen_ioctl(int minor,int req_code,uint8_t *arg,tty_dev_t *tty_dev_ac
             memcpy(&(tty_dev_access->termios), (struct termio*)arg, sizeof(struct termios));
             break;
         default:
+            set_errno(ENOTTY);
             return -1;
     }
     return 0;
@@ -175,5 +178,6 @@ int no_write(int minor, uint8_t *buf, size_t bytes, uint8_t *eof, struct inode *
     return 0;
 }
 int no_ioctl(int minor, int req_code, uint8_t * arg, struct inode *file){
+    set_errno(ENOTTY);
     return -1;
 }

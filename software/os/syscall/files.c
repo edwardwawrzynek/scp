@@ -15,6 +15,9 @@
 
 #include "syscall.h"
 
+#include "syscall/exec.h"
+#include "errno.h"
+
 uint8_t file_name_buf[17];
 
 /* Open a file, and return its file descriptor */
@@ -22,6 +25,7 @@ uint16_t _open(uint16_t name, uint16_t flags, uint16_t a2, uint16_t a3){
 
     char * path = kernel_map_in_mem((uint8_t *) name, proc_current_proc);
     if(!path){
+        set_errno(EUMEM);
         return -1;
     }
     /* find file */
@@ -30,6 +34,7 @@ uint16_t _open(uint16_t name, uint16_t flags, uint16_t a2, uint16_t a3){
         if(flags & O_CREAT){
             return create_file(path, 0, 0, flags);
         } else {
+            set_errno(ENOENT);
             return -1;
         }
     }
@@ -61,6 +66,7 @@ uint16_t _open(uint16_t name, uint16_t flags, uint16_t a2, uint16_t a3){
     /* open */
     struct file_entry * file = file_get(inum, mode);
     if(!file){
+        set_errno(ENOENT);
         return -1;
     }
 
@@ -74,6 +80,7 @@ uint16_t _open(uint16_t name, uint16_t flags, uint16_t a2, uint16_t a3){
 uint16_t _creat(uint16_t name, uint16_t a1, uint16_t a2, uint16_t a3){
     char * path = kernel_map_in_mem((uint8_t *)name, proc_current_proc);
     if(!path){
+        set_errno(ENOENT);
         return -1;
     }
 
@@ -84,11 +91,13 @@ uint16_t _creat(uint16_t name, uint16_t a1, uint16_t a2, uint16_t a3){
 uint16_t _mknod(uint16_t name, uint16_t mode, uint16_t dev, uint16_t a3){
     char * path = kernel_map_in_mem((uint8_t *)name, proc_current_proc);
     if(!path){
+        set_errno(EUMEM);
         return -1;
     }
 
     /* make sure path doesn't exist */
     if(fs_path_to_inum(path, proc_current_proc->cwd, proc_current_proc->croot)){
+        set_errno(EEXIST);
         return -1;
     }
 
@@ -106,6 +115,7 @@ uint16_t _mknod(uint16_t name, uint16_t mode, uint16_t dev, uint16_t a3){
         minor = 0;
     } else {
         /* not a valid mode */
+        set_errno(EARG);
         return -1;
     }
 
@@ -113,11 +123,13 @@ uint16_t _mknod(uint16_t name, uint16_t mode, uint16_t dev, uint16_t a3){
     uint16_t inum = fs_path_to_contain_dir(path, proc_current_proc->cwd, proc_current_proc->croot, file_name_buf);
     /* probably just a containing directory didn't exist */
     if(!inum){
+        set_errno(ENOENT);
         return -1;
     }
     /* we know the file doesn't exist, so we can just create it */
     inum = dir_make_file(inum, file_name_buf, major, 0, minor);
     if(!inum){
+        set_errno(ENOENT);
         return -1;
     }
 
@@ -137,11 +149,13 @@ uint16_t create_file(uint8_t *name, uint16_t dev_num, uint16_t dev_minor, uint16
         inum = fs_path_to_contain_dir(name, proc_current_proc->cwd, proc_current_proc->croot, file_name_buf);
         /* probably just a containing directory didn't exist */
         if(!inum){
+            set_errno(ENOENT);
             return -1;
         }
         /* we know the file doesn't exist, so we can just create it */
         inum = dir_make_file(inum, file_name_buf, dev_num, 0, dev_minor);
         if(!inum){
+            set_errno(EEXIST);
             return -1;
         }
         file = file_get(inum, FILE_MODE_WRITE | FILE_MODE_TRUNCATE | flags);
@@ -153,9 +167,11 @@ uint16_t create_file(uint8_t *name, uint16_t dev_num, uint16_t dev_minor, uint16
 uint16_t _close(uint16_t fd, uint16_t a1, uint16_t a2, uint16_t a3){
     /* make sure file exists */
     if(fd == -1){
+        set_errno(EBADF);
         return -1;
     }
     if(!proc_current_proc->files[fd]){
+        set_errno(EBADF);
         return -1;
     }
 
@@ -168,11 +184,13 @@ uint16_t _close(uint16_t fd, uint16_t a1, uint16_t a2, uint16_t a3){
 uint16_t _ioctl(uint16_t fd, uint16_t cmd, uint16_t arg, uint16_t a3){
     /* make sure file exists */
     if(!proc_current_proc->files[fd]){
+        set_errno(EBADF);
         return -1;
     }
 
     /* only allow ioctl on dev files */
     if(!proc_current_proc->files[fd]->ind->dev_num){
+        set_errno(ENOTTY);
         return -1;
     }
 
@@ -191,9 +209,11 @@ uint16_t _ioctl(uint16_t fd, uint16_t cmd, uint16_t arg, uint16_t a3){
 uint16_t _dup(uint16_t fd, uint16_t a1, uint16_t a2, uint16_t a3){
     /* make sure file exists */
     if(fd == -1){
+        set_errno(EBADF);
         return -1;
     }
     if(!proc_current_proc->files[fd]){
+        set_errno(EBADF);
         return -1;
     }
 
@@ -208,9 +228,11 @@ uint16_t _dup(uint16_t fd, uint16_t a1, uint16_t a2, uint16_t a3){
 uint16_t _dup2(uint16_t old, uint16_t new, uint16_t a2, uint16_t a3){
     /* make sure file exists */
     if(old == -1 || new == -1){
+        set_errno(EBADF);
         return -1;
     }
     if(!proc_current_proc->files[old]){
+        set_errno(EBADF);
         return -1;
     }
     /* close new if open */
@@ -228,16 +250,19 @@ uint16_t _dup2(uint16_t old, uint16_t new, uint16_t a2, uint16_t a3){
 /* non blocking read and write calls (userspace implements blocking wrappers) */
 uint16_t _read_nb(uint16_t fd, uint16_t buf, uint16_t bytes, uint16_t eof){
     if(fd == -1){
+        set_errno(EBADF);
         return -1;
     }
     /* make sure file exists */
     if(!proc_current_proc->files[fd]){
+        set_errno(EBADF);
         return -1;
     }
     uint8_t *kbuf = kernel_map_in_mem((uint8_t *)buf, proc_current_proc);
     uint8_t * keof = kernel_map_in_mem2((uint8_t *)eof, proc_current_proc);
     if((!kbuf) || (!keof)){
         /* can't set eof */
+        set_errno(EUMEM);
         return -1;
     }
 
@@ -248,15 +273,18 @@ uint16_t _read_nb(uint16_t fd, uint16_t buf, uint16_t bytes, uint16_t eof){
 uint16_t _write_nb(uint16_t fd, uint16_t buf, uint16_t bytes, uint16_t eof){
     /* make sure file exists */
     if(fd == -1){
+        set_errno(EBADF);
         return -1;
     }
     if(!proc_current_proc->files[fd]){
+        set_errno(EBADF);
         return -1;
     }
     uint8_t *kbuf = kernel_map_in_mem((uint8_t *)buf, proc_current_proc);
     uint8_t * keof = kernel_map_in_mem2((uint8_t *)eof, proc_current_proc);
     if((!kbuf) || (!keof)){
         /* can't set eof */
+        set_errno(EUMEM);
         return -1;
     }
 
@@ -270,6 +298,7 @@ uint16_t _link(uint16_t old, uint16_t new, uint16_t a2, uint16_t a3){
     uint8_t * new_path = kernel_map_in_mem2((uint8_t *)new, proc_current_proc);
 
     if((!old_path) || (!new_path)){
+        set_errno(EUMEM);
         return -1;
     }
     /* get inums */
@@ -277,17 +306,20 @@ uint16_t _link(uint16_t old, uint16_t new, uint16_t a2, uint16_t a3){
     /* make sure file doesn't exist already */
     uint16_t new_inum = fs_path_to_inum(new_path, proc_current_proc->cwd, proc_current_proc->croot);
     if(new_inum){
+        set_errno(EEXIST);
         return -1;
     }
     /* create new file */
     uint16_t dir_inum = fs_path_to_contain_dir(new_path, proc_current_proc->cwd, proc_current_proc->croot, file_name_buf);
     /* probably just a containing directory didn't exist */
     if(!dir_inum){
+        set_errno(ENOENT);
         return -1;
     }
 
     /* add link */
     if(!dir_link_inum(dir_inum, file_name_buf, old_inum)){
+        set_errno(ENOENT);
         return -1;
     }
 
@@ -299,15 +331,18 @@ uint16_t _unlink(uint16_t name, uint16_t a1, uint16_t a2, uint16_t a3){
     /* map in path */
     uint8_t * path = kernel_map_in_mem((uint8_t *)name, proc_current_proc);
     if(!path){
+        set_errno(EUMEM);
         return -1;
     }
     uint16_t dir_inum = fs_path_to_contain_dir(path, proc_current_proc->cwd, proc_current_proc->croot, file_name_buf);
     /* probably just a containing directory didn't exist */
     if(!dir_inum){
+        set_errno(ENOENT);
         return -1;
     }
 
     if(dir_delete_file(dir_inum, file_name_buf)){
+        set_errno(ENOENT);
         return -1;
     }
 
@@ -318,9 +353,11 @@ uint16_t _unlink(uint16_t name, uint16_t a1, uint16_t a2, uint16_t a3){
 uint16_t _lseek(uint16_t fd, uint16_t pos, uint16_t whence, uint16_t a3){
     /* make sure file exists */
     if(fd == -1){
+        set_errno(EBADF);
         return -1;
     }
     if(!proc_current_proc->files[fd]){
+        set_errno(EBADF);
         return -1;
     }
     /* call seek */
@@ -366,19 +403,23 @@ uint16_t _stat(uint16_t name, uint16_t stat_struct, uint16_t a2, uint16_t a3){
     /* map in path */
     uint8_t * path = kernel_map_in_mem((uint8_t *)name, proc_current_proc);
     if(!path){
+        set_errno(EUMEM);
         return -1;
     }
     /* map in struct */
     struct stat * stat = (struct stat *)kernel_map_in_mem2((uint8_t *)stat_struct, proc_current_proc);
     if(!stat){
+        set_errno(EUMEM);
         return -1;
     }
     uint16_t inum = fs_path_to_inum(path, proc_current_proc->cwd, proc_current_proc->croot);
     if(!inum){
+        set_errno(ENOENT);
         return -1;
     }
     struct inode *in = inode_get(inum);
     if(!in){
+        set_errno(ENOENT);
         return -1;
     }
 
@@ -391,21 +432,29 @@ uint16_t _stat(uint16_t name, uint16_t stat_struct, uint16_t a2, uint16_t a3){
 
 uint16_t _fstat(uint16_t fd, uint16_t stat_struct, uint16_t a2, uint16_t a3){
     /* make sure file exists */
+    if(fd == -1){
+        set_errno(EBADF);
+        return -1;
+    }
     if(!proc_current_proc->files[fd]){
+        set_errno(EBADF);
         return -1;
     }
     /* map in struct */
     struct stat * stat = (struct stat *)kernel_map_in_mem2((uint8_t *)stat_struct, proc_current_proc);
     if(!stat){
+        set_errno(EUMEM);
         return -1;
     }
 
     uint16_t inum = proc_current_proc->files[fd]->ind->inum;
     if(!inum){
+        set_errno(ENOENT);
         return -1;
     }
     struct inode *in = inode_get(inum);
     if(!in){
+        set_errno(ENOENT);
         return -1;
     }
 
@@ -430,15 +479,18 @@ uint16_t _chmod(uint16_t name, uint16_t mode, uint16_t a2, uint16_t a3){
     /* map in path */
     uint8_t * path = kernel_map_in_mem((uint8_t *)name, proc_current_proc);
     if(!path){
+        set_errno(EUMEM);
         return -1;
     }
 
     uint16_t inum = fs_path_to_inum(path, proc_current_proc->cwd, proc_current_proc->croot);
     if(!inum){
+        set_errno(ENOENT);
         return -1;
     }
     struct inode *in = inode_get(inum);
     if(!in){
+        set_errno(ENOENT);
         return -1;
     }
 
@@ -452,15 +504,18 @@ uint16_t _chmod(uint16_t name, uint16_t mode, uint16_t a2, uint16_t a3){
 uint16_t _fchmod(uint16_t fd, uint16_t mode, uint16_t a2, uint16_t a3){
     /* make sure file exists */
     if(!proc_current_proc->files[fd]){
+        set_errno(EBADF);
         return -1;
     }
 
     uint16_t inum = proc_current_proc->files[fd]->ind->inum;
     if(!inum){
+        set_errno(ENOENT);
         return -1;
     }
     struct inode *in = inode_get(inum);
     if(!in){
+        set_errno(ENOENT);
         return -1;
     }
 
@@ -475,17 +530,20 @@ uint16_t _fchmod(uint16_t fd, uint16_t mode, uint16_t a2, uint16_t a3){
 uint16_t _pipe(uint16_t fds, uint16_t a1, uint16_t a2, uint16_t a3){
     uint16_t *pipefds = (uint16_t *)kernel_map_in_mem((uint8_t *)fds, proc_current_proc);
     if(!pipefds){
+        set_errno(EUMEM);
         return -1;
     }
     /* pipefds[0] is read end, pipefds[1] is write end */
     uint16_t inum = inode_new(DEV_NUM_FIFO, 0, 0);
     if(!inum){
+        set_errno(ENOENT);
         return -1;
     }
     /* make sure it will be deleted when closed */
     struct file_entry *fread = file_get(inum, FILE_MODE_READ);
     struct file_entry *fwrite = file_get(inum, FILE_MODE_WRITE);
     if((!fread) || (!fwrite)){
+        set_errno(ENOENT);
         return -1;
     }
     fread->ind->pipe.is_named = 0;

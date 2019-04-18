@@ -4,6 +4,9 @@
 #include "include/panic.h"
 #include "kernel/panic.h"
 
+#include "syscall/exec.h"
+#include "errno.h"
+
 /* Create a fork of the current running process
  * its execution starts at the same place, but fork returns 0 for it instead of the child pid */
 uint16_t _fork(){

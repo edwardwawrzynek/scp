@@ -12,6 +12,10 @@
 #include "kernel/palloc.h"
 #include "include/lib/kmalloc.h"
 
+
+#include "syscall/exec.h"
+#include "errno.h"
+
 uint8_t path_buf[256];
 
 /* Execv system call (TODO: implement env variables, execve) */
@@ -19,6 +23,7 @@ uint16_t _execv(uint16_t name, uint16_t argv_p, uint16_t a2, uint16_t a4){
     /* map in name */
     uint8_t * path = kernel_map_in_mem((uint8_t *)name, proc_current_proc);
     if(!path){
+        set_errno(EUMEM);
         return -1;
     }
     /* check cwd for executable */
@@ -30,6 +35,7 @@ uint16_t _execv(uint16_t name, uint16_t argv_p, uint16_t a2, uint16_t a4){
         strcpy(path_buf+5, path);
         inum = fs_path_to_inum(path_buf, proc_current_proc->cwd, proc_current_proc->croot);
         if(!inum){
+            set_errno(ENOENT);
             return -1;
         }
     }
@@ -37,6 +43,7 @@ uint16_t _execv(uint16_t name, uint16_t argv_p, uint16_t a2, uint16_t a4){
     struct file_entry * file = file_get(inum, FILE_MODE_READ);
     if(!(file->ind->flags & INODE_FLAG_EXEC)){
         file_put(file);
+        set_errno(ENOEXEC);
         return -1;
     }
 
@@ -116,10 +123,13 @@ uint16_t _execv(uint16_t name, uint16_t argv_p, uint16_t a2, uint16_t a4){
 }
 
 /* set errno for current proc (in exec.c because errno is setup in exec) */
-void set_errno(uint16_t errno){
+void set_errno(uint16_t err){
+    if(proc_current_proc == NULL){
+        return;
+    }
     uint16_t * errno_mem = (uint16_t *) kernel_map_in_mem((uint8_t *)(0xfffe), proc_current_proc);
     if(errno_mem == NULL){
         panic(PANIC_CANT_SET_ERRNO);
     }
-    *errno_mem = errno;
+    *errno_mem = err;
 }
