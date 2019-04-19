@@ -47,6 +47,7 @@ char lib_buf[256];
 
 int do_sym_debug = 0;
 char * sym_debug_out;
+FILE * sym_debug_file;
 
 /* don't link unneeded object files */
 int do_dep_opt = 1;
@@ -77,7 +78,7 @@ int main(int argc, char *argv[]){
   char * outfile = "out.bin";
   int opt;
   /* read options */
-  while((opt = getopt(argc, argv, "o:rpl:L:OAS")) != -1) {
+  while((opt = getopt(argc, argv, "o:rpl:L:OASD:")) != -1) {
     switch(opt){
       case 'o':
         outfile = optarg;
@@ -105,6 +106,10 @@ int main(int argc, char *argv[]){
       case 'D':
         do_sym_debug = 1;
         sym_debug_out = optarg;
+        sym_debug_file = fopen(sym_debug_out, "w");
+        if(sym_debug_file == NULL){
+          error("error creating debugging file\n");
+        }
         break;
       case 'S':
         do_dep_opt = 0;
@@ -201,6 +206,10 @@ void run_lnk_obj(){
   obj_out_write_symbols();
 }
 
+void run_sym_debug_out(){
+  sym_out_write_symbols(sym_debug_file);
+}
+
 /* run the linker */
 void run_lnk(){
   if(do_out_obj){
@@ -209,5 +218,8 @@ void run_lnk(){
     run_lnk_ar();
   } else {
     run_lnk_bin();
+    if(sym_debug_out){
+      run_sym_debug_out();
+    }
   }
 }

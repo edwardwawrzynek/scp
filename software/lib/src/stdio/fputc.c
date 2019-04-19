@@ -32,7 +32,6 @@ int16_t fputc(int16_t c, struct _file * file){
             }
         }
     }
-
     return data;
 }
 

@@ -106,7 +106,7 @@ uint16_t _execv(uint16_t name, uint16_t argv_p, uint16_t a2, uint16_t a4){
         proc_add_to_stack(proc_current_proc, (uint8_t *)(&argv_i), 2);
     } else {
         uint16_t data = 0;
-        /* argc 0, argv NULL */
+        // argc 0, argv NULL
         proc_add_to_stack(proc_current_proc, (uint8_t *)(&data), 2);
         proc_add_to_stack(proc_current_proc, (uint8_t *)(&data), 2);
     }

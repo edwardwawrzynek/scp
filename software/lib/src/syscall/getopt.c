@@ -25,13 +25,10 @@ int getopt(int argc, char **argv, char *optstr){
         return -1;
     }
 
-    /* just - is not a valid argument */
+    /* just - is treated as an arg */
     if(strlen(arg) < 2){
-        if(opterr){
-            fprintf(stderr, "%s: '-' is not recognized as a valid option\n", argv[0]);
-        }
-        optopt = '-';
-        return '?';
+        optind--;
+        return -1;
     }
 
 

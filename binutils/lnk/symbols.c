@@ -94,3 +94,22 @@ void obj_out_write_symbols(){
         }
     }
 }
+
+
+/* write out symbol adresses */
+void sym_out_write_symbols(FILE * file){
+    for(uint32_t a = 0; a < 65536; a++){
+        for(int i = 0; in_objs[i].file; i++){
+            for(int d = 0; d < in_objs[i].segs.defined_table.size / _OBJ_SYMBOL_ENTRY_SIZE; d++){
+                struct obj_symbol_entry *entry = &defined_tables[i][d];
+                uint16_t addr = in_segs_start[i][entry->seg] + entry->offset;
+                if(addr == 0){
+                    continue;
+                }
+                if(addr == a){
+                fprintf(file, "0x%04x: %s\n", addr, defined_tables[i][d].name);
+                }
+            }
+        }
+    }
+}
