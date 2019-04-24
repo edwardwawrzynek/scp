@@ -26,6 +26,7 @@
         - [x] argv passing
         - [ ] #! script handling
         - [ ] binary header handling - proper paging
+            - [ ] Text segment write protection (MMU changes req'd) !!!
             - [ ] Text segment sharing of processes of same exec file
     - [x] mkdir, rmdir
     - [x] opendir, readdir, closedir
@@ -74,3 +75,5 @@
         - [ ] pipes
         - [ ] scripting ?
         - [ ] history ?
+
+- [x] LD debug output
