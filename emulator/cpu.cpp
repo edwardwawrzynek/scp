@@ -62,7 +62,7 @@ void CPU::update_io(){
 /**
  * calculate the physical addr from a 16 bit addr
  * basically just does a page lookup */
-uint32_t CPU::hard_addr(uint16_t addr) {
+uint32_t CPU::hard_addr(uint16_t addr, uint8_t is_write) {
     uint32_t res;
     uint16_t real_ptb, low_addr, high_addr;
 
@@ -84,9 +84,24 @@ uint32_t CPU::hard_addr(uint16_t addr) {
         std::cerr << "current sp page (in proc): " << (uint16_t)(regs[15] >> 11) << "\n";
         fprintf(stderr, "priv_lv: %u\n", priv_lv);
         fprintf(stderr, "Pc at fault: 0x%x\n", pc);
-	nop_debug(16);
-	//exit(1);
-       while(1);
+	    nop_debug(16);
+        std::cerr << "Unassigned MMU Page Attempted Access\n";
+	    //exit(1);
+        while(1);
+    }
+    /* check for write restricted page violation */
+    if((!(page_table[high_addr + real_ptb] & 0b01000000)) && is_write){
+        /* TODO: segfault interupt */
+        std::cerr << std::dec;
+        std::cerr << "scpemu: warning: text-write protection mmu access\n";
+        std::cerr << "attempted to write page " << (high_addr + real_ptb) << "\n";
+        std::cerr << "current sp page (in proc): " << (uint16_t)(regs[15] >> 11) << "\n";
+        fprintf(stderr, "priv_lv: %u\n", priv_lv);
+        fprintf(stderr, "Pc at fault: 0x%x\n", pc);
+	    nop_debug(16);
+        std::cerr << "Text Segment Write Restriction Violation\n";
+	    //exit(1);
+        while(1);
     }
     res = (page_table[high_addr + real_ptb] & 0b01111111) << 11;
     res += low_addr;
@@ -98,7 +113,7 @@ uint32_t CPU::hard_addr(uint16_t addr) {
  * read a byte from memory
  * no alignment needed */
 uint8_t CPU::read_byte(uint16_t addr) {
-    return mem[hard_addr(addr)];
+    return mem[hard_addr(addr, 0)];
 }
 
 /**
@@ -107,7 +122,7 @@ uint8_t CPU::read_byte(uint16_t addr) {
  * if the addr isn't aligned, the aligned word at (addr & 0xfffe) is read anyway */
 uint16_t CPU::read_word(uint16_t addr){
     /* align */
-    uint32_t real_addr = hard_addr(addr) & ((~0) - 1);
+    uint32_t real_addr = hard_addr(addr, 0) & ((~0) - 1);
     /* read */
     return mem[real_addr] + (mem[real_addr + 1] << 8);
 }
@@ -116,7 +131,7 @@ uint16_t CPU::read_word(uint16_t addr){
  * write a byte to memory
  * no alignment needed */
 void CPU::write_byte(uint16_t addr, uint8_t val){
-    mem[hard_addr(addr)] = val;
+    mem[hard_addr(addr, 1)] = val;
 }
 
 /**
@@ -125,7 +140,7 @@ void CPU::write_byte(uint16_t addr, uint8_t val){
  * if not aligned, will be written on the aligned barrier anyway */
 void CPU::write_word(uint16_t addr, uint16_t val){
     /* align */
-    uint32_t real_addr = hard_addr(addr) & ((~0) - 1);
+    uint32_t real_addr = hard_addr(addr, 1) & ((~0) - 1);
     /* write */
     mem[real_addr] = val & 0x00ff;
     mem[real_addr + 1] = val >> 8;

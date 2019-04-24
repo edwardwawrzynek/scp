@@ -37,7 +37,7 @@ class CPU {
 
     private:
     /* get the real physical addr in memory from a 16bit addr */
-    uint32_t hard_addr(uint16_t addr);
+    uint32_t hard_addr(uint16_t addr, uint8_t is_write);
     /* read from memory */
     uint8_t read_byte(uint16_t addr);
     uint16_t read_word(uint16_t addr);
