@@ -30,6 +30,9 @@
 /* max time for a process to run (in 2^12 clk ticks) */
 #define SHED_MAX_TIME 50
 
+/* */
+#define MMU_ASIGN_BIT 	0b10000000
+#define MMU_CLEAR_ASIGN	0b00111111
 
 /* ---- File structures ---- */
 #include "include/fs.h"

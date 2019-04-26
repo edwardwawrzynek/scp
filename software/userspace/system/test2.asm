@@ -18,7 +18,7 @@ _main:
 l16:
 	ld.r.ra ra l18+0
 	push.r.sp ra sp
-	call.j.sp sp _printf
+	call.j.sp sp _perror
 	alu.r.i add sp 2
 	ld.r.i re 0
 	pop.r.sp r0 sp
@@ -43,6 +43,12 @@ l14:
 
 	.rodata
 l18:
+	.dc.bs	116
+	.dc.bs	101
+	.dc.bs	115
+	.dc.bs	116
+	.dc.bs	50
+	.dc.bs	32
 	.dc.bs	101
 	.dc.bs	120
 	.dc.bs	101
@@ -54,7 +60,8 @@ l18:
 	.dc.bs	108
 	.dc.bs	101
 	.dc.bs	100
-	.dc.bs	10
+	.dc.bs	58
+	.dc.bs	32
 	.dc.bs	0
 
 	.data
@@ -85,6 +92,9 @@ _args3:
 	.dc.w	l10
 	.dc.w	l11
 	.dc.w	0
+
+	.bss
+	.extern	_perror
 
 	.bss
 	.extern	_printf

@@ -90,7 +90,7 @@ uint32_t CPU::hard_addr(uint16_t addr, uint8_t is_write) {
         while(1);
     }
     /* check for write restricted page violation */
-    if((!(page_table[high_addr + real_ptb] & 0b01000000)) && is_write){
+    if(((page_table[high_addr + real_ptb] & 0b01000000)) && is_write){
         /* TODO: segfault interupt */
         std::cerr << std::dec;
         std::cerr << "scpemu: warning: text-write protection mmu access\n";
@@ -103,7 +103,7 @@ uint32_t CPU::hard_addr(uint16_t addr, uint8_t is_write) {
 	    //exit(1);
         while(1);
     }
-    res = (page_table[high_addr + real_ptb] & 0b01111111) << 11;
+    res = (page_table[high_addr + real_ptb] & 0b00111111) << 11;
     res += low_addr;
 
     return res;

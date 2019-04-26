@@ -182,6 +182,7 @@ int main(){
     execv("/init", NULL);
 
     test_syscall("exec failure\n");
+    test_syscall(strerror(errno), 0, 0, 0);
     exit(0);
 }
 

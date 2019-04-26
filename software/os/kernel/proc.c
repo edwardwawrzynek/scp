@@ -155,6 +155,7 @@ void proc_init_mem_map(struct proc * proc){
     i = 0;
     //init the instr pages
     for(i = 0; i < (proc->mem_struct.instr_pages); ++i){
+        /* write protect is set after text is written by kernel into page */
         proc->mem_map[addr++] = palloc_new();
     }
     //init the data pages
@@ -165,6 +166,22 @@ void proc_init_mem_map(struct proc * proc){
     addr = 31;
     for(i = 0; i < (proc->mem_struct.stack_pages); ++i){
         proc->mem_map[addr--] = palloc_new();
+    }
+}
+
+/* make a proc's text segment write protected */
+void proc_enable_text_write_protect(struct proc * proc){
+    for(int i = 0; i < (proc->mem_struct.instr_pages); ++i){
+        /* write protect is set after text is written by kernel into page */
+        proc->mem_map[i] |= 0b01000000;
+    }
+}
+
+/* make a proc's text segment not write protected (for loading mem) */
+void proc_disable_text_write_protect(struct proc * proc){
+    for(int i = 0; i < (proc->mem_struct.instr_pages); ++i){
+        /* write protect is set after text is written by kernel into page */
+        proc->mem_map[i] &= 0b10111111;
     }
 }
 
@@ -211,6 +228,42 @@ struct proc * proc_new_entry(pid_t parent, uint16_t cwd, uint16_t croot){
     return res;
 }
 
+/* read the header of a binary file into the proc_mem struct, or return 1 on failure */
+uint16_t proc_bin_get_sizes(struct file_entry * file, struct proc_mem * mem){
+    uint8_t c;
+    uint16_t segs[4];
+    file_seek(file, 0, SEEK_SET);
+    for(int i = 0; i < 4; i++){
+        segs[i] = 0;
+        if(file_read(file, &c, 1) != 1){
+            return 1;
+        }
+        segs[i] |= c;
+        if(file_read(file, &c, 1) != 1){
+            return 1;
+        }
+        segs[i] |= (c<<8);
+    }
+    file_seek(file, 0, SEEK_SET);
+    /* get seg info */
+    uint16_t cur_page = 0;
+    for(int i = 0; i < 4; i++){
+        uint16_t offset = segs[i]&0b11111;
+        if(offset != cur_page){
+            return 1;
+        }
+        uint16_t size = (segs[i]>>5)&0b11111;
+        cur_page += size;
+        if(i == 0){
+            mem->instr_pages = size;
+        } else if (i == 1){
+            mem->data_pages = size;
+        }
+
+    }
+    return 0;
+}
+
 /* load the memory, create a memory layout, and write the memory for a process from a binary
  * returns (uint16_t) - 0 on success, a true value on failure */
 uint16_t proc_load_mem(struct proc * proc, struct file_entry * file){
@@ -218,9 +271,12 @@ uint16_t proc_load_mem(struct proc * proc, struct file_entry * file){
     uint8_t * addr;
     uint16_t bytes_read;
     //get size, and set the number of pages appropriately
-    //TODO: read binary header
-    proc->mem_struct.instr_pages = 0;
-    proc->mem_struct.data_pages = (file->ind->size >> MMU_PAGE_SIZE_SHIFT) + 1;
+    /* Read sizes out of binary header */
+    if(proc_bin_get_sizes(file, &(proc->mem_struct))){
+        return -1;
+    }
+    //proc->mem_struct.instr_pages = 0;
+    //proc->mem_struct.data_pages = (file->ind->size >> MMU_PAGE_SIZE_SHIFT) + 1;
     proc->mem_struct.stack_pages = PROC_DEFAULT_STACK_PAGES;
     //init memory
     proc_init_mem_map(proc);
@@ -239,6 +295,8 @@ uint16_t proc_load_mem(struct proc * proc, struct file_entry * file){
     } while(bytes_read == MMU_PAGE_SIZE);
     //set proc brk to end of memory
     proc->mem_struct.brk = addr;
+    //write protect text seg
+    proc_enable_text_write_protect(proc);
     //only return success if whole file was loaded
     return ((uint16_t)addr != file->ind->size);
 }
@@ -430,6 +488,7 @@ void proc_fork_resources(struct proc * parent, struct proc * child){
         page--;
     }
 
+    proc_enable_text_write_protect(child);
     /* copy cpu state */
     memcpy(&child->cpu_state, &parent->cpu_state, sizeof(struct proc_cpu_state));
 

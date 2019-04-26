@@ -12,7 +12,7 @@
 
 uint8_t did_error = 0;
 
-char * args[] = {"cat", "test2"};
+char buf[512];
 
 int main(int argc, char **argv){
     int i;
@@ -32,11 +32,11 @@ int main(int argc, char **argv){
             fprintf(stderr, "cat: error opening %s", argv[optind]);
             did_error = 1;
         } else{
-            int8_t c;
-            test_syscall("running\n");
-            while(read(fd, &c, 1) == 1){
-                putchar(c);
-            }
+            uint16_t bytes;
+            do{
+                bytes = read(fd, buf, 512);
+                write(STDOUT_FILENO, buf, bytes);
+            } while(bytes == 512);
         }
 
     }

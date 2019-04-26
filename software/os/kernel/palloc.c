@@ -36,7 +36,7 @@ uint8_t palloc_new(){
  * returns (uint8_t) - the page addr, suitable for use in mem_map, and for deallocation by palloc_free */
 uint8_t palloc_add_ref(uint8_t page){
     //clear bit mask if page was obtained from mmu tables or mem_map
-    page = page & 0b01111111;
+    page = page & MMU_CLEAR_ASIGN;
     if(!palloc_page_refs[page]){
         panic(PANIC_PALLOC_ADD_REF_UNASIGNED_PAGE);
     }
@@ -49,7 +49,7 @@ uint8_t palloc_add_ref(uint8_t page){
  * should only be used by kernel to fit to already set mmu map
  */
 uint8_t palloc_alloc(uint8_t page){
-    page = page & 0b01111111;
+    page = page & MMU_CLEAR_ASIGN;
     if(palloc_page_refs[page]){
         panic(PANIC_PALLOC_ALLOC_ALREADY_IN_USE);
     }
@@ -60,7 +60,7 @@ uint8_t palloc_alloc(uint8_t page){
 
 /* inc refs to page, regardless of it is in use or not */
 uint8_t palloc_use_page(uint8_t page){
-    page = page & 0b01111111;
+    page = page & MMU_CLEAR_ASIGN;
     palloc_page_refs[page]++;
 
     return page | 0b10000000;
@@ -70,7 +70,7 @@ uint8_t palloc_use_page(uint8_t page){
  * returns (none) */
 void palloc_free(uint8_t i){
     //clear bit mask
-    i = i & 0b01111111;
+    i = i & MMU_CLEAR_ASIGN;
     if(!palloc_page_refs[i]){
         panic(PANIC_PALLOC_FREE_UNASIGNED);
     }
