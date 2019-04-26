@@ -16,27 +16,24 @@ char buf[512];
 
 int main(int argc, char **argv){
     int i;
-    test_syscall("starting cat\n");
     /* print errors if options are passed */
     while((i = getopt(argc, argv, "")) != -1);
 
     for(;optind<argc;optind++){
-        int fd;
+        FILE * file;
         if(!strcmp(argv[optind], "-")){
-            fd = STDIN_FILENO;
+            file = stdin;
         } else {
-            fd = open(argv[optind], O_RDONLY);
-            test_syscall("opened: %u\n", (int16_t)fd);
+            file = fopen(argv[optind], "r");
         }
-        if(fd == -1){
-            fprintf(stderr, "cat: error opening %s", argv[optind]);
+        if(file == NULL){
+            fprintf(stderr, "cat: failed to open file: %s: %s\n", argv[optind], strerror(errno));
             did_error = 1;
-        } else{
-            uint16_t bytes;
-            do{
-                bytes = read(fd, buf, 512);
-                write(STDOUT_FILENO, buf, bytes);
-            } while(bytes == 512);
+        } else {
+            uint8_t c;
+            while((c = fgetc(file)) != EOF){
+                putchar(c);
+            }
         }
 
     }
