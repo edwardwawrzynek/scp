@@ -49,20 +49,20 @@ it doesnt really do anything, but shows some syntax
 	echo "Failed again"
 ))
 
-# background process (in subshell)
-ls -l &
-
-(for (= i 0) (< i 5) (++ i) (
-	echo i
-) & )
-
 # subshell syntax (plus piping, (for is still blocking) (interpreter is forked, then procs again fork off, not just proc fork)
 <(for (= i 0) (< i 500) (++ i) (
 	echo (* i i)
 )) | less>
 
-#subshell background syntax
-< ls -l | wc -l & >
+# background process (in subshell)
+(& ls -l)
+& ls -l
+
+(& for (= i 0) (< i 5) (++ i) (
+	echo i
+) )
+
+<& ls -l | wc -l >
 
 #single line syntax can be extended over multiple lines if we are still in sub function:
 if (> a 5) {

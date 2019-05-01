@@ -288,6 +288,8 @@ char branch_get_closing_bracket(struct branch * b){
 }
 
 /* main parser (clas to it should pass a blank branch for it to manipulate) */
+
+/* TODO: pipes */
 void parse(struct branch * branch){
     bool line_mode = 0;
 
@@ -335,6 +337,10 @@ void parse(struct branch * branch){
                 if(!line_mode && branch_get_closing_bracket(branch) != c){
                     parse_error("expected '%c' to close", branch_get_closing_bracket(branch));
                 }
+                /* if in line mode and we see a closing bracket, it means we are in a code block or subshell higher up that ended */
+                if(line_mode && isclosebracket(c)){
+                    io_back();
+                }
                 return;
             } else {
                 io_back();
@@ -356,7 +362,7 @@ void parse(struct branch * branch){
 
         char c = io_char();
         /* handle closing of func */
-        if(isclosebracket(c) || (c == '\n' && line_mode)){
+        if(isclosebracket(c)){
             if(!line_mode && branch_get_closing_bracket(branch) != c){
                 parse_error("expected '%c' to close", branch_get_closing_bracket(branch));
             }
