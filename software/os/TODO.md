@@ -25,8 +25,8 @@
     - [x] execv (will be execve)
         - [x] argv passing
         - [ ] #! script handling
-        - [ ] binary header handling - proper paging
-            - [ ] Text segment write protection (MMU changes req'd) !!!
+        - [x] binary header handling - proper paging
+            - [x] Text segment write protection
             - [ ] Text segment sharing of processes of same exec file
     - [x] mkdir, rmdir
     - [x] opendir, readdir, closedir
@@ -63,7 +63,7 @@
     - [x] mkdir
     - [ ] rm
         - [ ] rmdir and rm -r
-    - [ ] cat
+    - [x] cat
     - [ ] ln
     - [ ] cp
     - [ ] mv
