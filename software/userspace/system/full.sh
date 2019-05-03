@@ -2,14 +2,10 @@
 
 #SH Test program
 
-#normal command
-ls -l
-
-#variables
-(= count 0)
 
 #loops
-(while (< count 5) (
+
+(^ while (< count 5) <
 	# single line expressions don't need parens
 	+= count 1
 	# variable interpolation
@@ -18,7 +14,10 @@ ls -l
 	= cont (cat file.txt)
 	# here the output of cat is passed to stdin, since we are in while's code block
 	cat file.txt
-))
+>)
+
+
+(hello <set)}
 
 # pipes (parens are optional)
 (cat file.txt | (wc -l)) | less

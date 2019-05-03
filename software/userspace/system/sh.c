@@ -39,6 +39,7 @@ enum branch_type {
     SUBSH,  /* subshell command wrapper: <(func1 arg1) (func2 arg2)> */
     CODE,   /* code block: {(func1 arg1) (func2 arg2)} */
     LEAF,   /* leaf of a command: arg1 */
+    PIPE,   /* pipe - basically normal command strung togeather, output same as normal command */
 };
 
 struct branch{
@@ -51,13 +52,6 @@ struct branch{
     /* child branches */
     struct branch ** children;
 };
-
-/* parsing notes:
- * two modes: full paren mode and single line
- * full paren is simple
- * single line:
- *  newline, &, and | are interpreted as end of command
- * in full paren mode, & and | are still supported, but, if they are unexpected, they error instead of end of command */
 
 /* init a branch */
 struct branch * branch_new(){
@@ -125,7 +119,7 @@ void print_branch(struct branch * b, int indent){
 }
 
 /* io routines */
-
+unsigned int io_line = 1;
 FILE * fin;
 /* read a char from input */
 char io_raw_char(){
@@ -148,6 +142,8 @@ char io_char(){
         if(c == EOF){
             return EOF;
         }
+        if(c == '\n')
+            io_line++;
         /* handle single line comments */
         if(is_com && c == '\n'){
             is_com = 0;
@@ -183,8 +179,8 @@ void io_skip_whitespace(bool skip_lf){
 /* read an alphanumeric name (including _) into a malloc'd buffer, and stop on whitespace or non alphanumerical character
  * buffer will be overwritten on successive calls
  * return NULL if no symbol was read
- * if op_allowed is true, +, -, *, /, %, =, >, < are allowed*/
-char * io_read_symbol(bool op_allowed){
+ * +, -, *, /, %, =, >, <, . are allowed in names (for commands)*/
+char * io_read_symbol(){
     static char * buf = NULL;
     static size_t buf_size = 0;
 
@@ -197,12 +193,9 @@ char * io_read_symbol(bool op_allowed){
     }
     do {
         c = io_char();
-        if(!isalnum(c) && c != '_' && c != '"' && c != '\''){
-            if(!op_allowed)
+        /* TODO: allow anything in string or char (handle escapes somewhere else in ast) */
+        if(!isalnum(c) && c != '_' && c != '"' && c != '\'' && c != '+' && c != '-' && c != '*' && c != '/' && c != '%' && c != '>' && c != '<' && c != '=' && c != '!' && c != '.'){
                 c = '\0';
-            else
-                if(c != '+' && c != '-' && c != '*' && c != '/' && c != '%' && c != '>' && c != '<' && c != '=' && c != '!')
-                    c = '\0';
         }
         /* expand buffer if needed */
         if(pos+1>buf_size){
@@ -239,13 +232,31 @@ bool io_test_char(char c){
 /* throw an error */
 void parse_error(char *error, ...)
 {
-    va_list args;
-
-    va_start(args, error);
+    int pos = 0;
+    fprintf(stderr, "scp-sh error: line %u\n\n", io_line);
+    io_back();
+    while (io_char() != '\n'){
+        io_back();
+        io_back();
+        pos++;
+    };
+    char c;
+    while ((c = io_char()) != '\n'){
+        fputc(c, stderr);
+    }
+    fputc('\n', stderr);
+    for(int i = 0; i < pos-1; i++){
+        fputc(' ', stderr);
+    }
+    fputs("^\n", stderr);
     fputs("parse error: ", stderr);
+
+    va_list args;
+    va_start(args, error);
     vfprintf(stderr, error, args);
-    fputs("\n", stderr);
     va_end(args);
+
+    fputs("\n", stderr);
 
     exit(1);
 }
@@ -279,7 +290,7 @@ enum branch_type parse_bracket_to_type(char c){
 char branch_get_closing_bracket(struct branch * b){
     enum branch_type type = b->type;
 
-    if(type == CMD || type == CMD_RET)
+    if(type == CMD || type == CMD_RET || type == PIPE)
         return ')';
     if(type == CODE)
         return '}';
@@ -289,8 +300,13 @@ char branch_get_closing_bracket(struct branch * b){
 
 /* main parser (clas to it should pass a blank branch for it to manipulate) */
 
-/* TODO: pipes */
-void parse(struct branch * branch){
+/*
+ * TODO: pipes
+ * we need to allow paren expressions to be turned into PIPE expressions,
+ * as they are the return value of the pipe
+ * This means the current command has to be converted to a branch of the new ast node,
+ * and new ast node inserted, as well as parsing mode switched(break from loop probably) */
+struct branch * parse(struct branch * branch){
     bool line_mode = 0;
 
     io_skip_whitespace(!line_mode);
@@ -314,7 +330,7 @@ void parse(struct branch * branch){
 
     /* read command (only present in cmds) */
     if(branch->type == CMD || branch->type == CMD_RET){
-        char * cmd = io_read_symbol(true);
+        char * cmd = io_read_symbol();
         if(cmd == NULL){
             parse_error("expected function name");
         }
@@ -322,14 +338,14 @@ void parse(struct branch * branch){
     }
 
     /* read args (only present in cmds) */
-    while(branch->type == CMD || branch->type == CMD_RET){
+    while(branch->type == CMD || branch->type == CMD_RET || branch->type == PIPE){
         io_skip_whitespace(!line_mode);
         /* we have to have parens for nested args, even in line mode */
         char c = io_char();
         if(isopenbracket(c)){
             io_back();
             struct branch * child = branch_new();
-            parse(child);
+            child = parse(child);
             branch_add_child(branch, child);
         } else {
             /* handle closing of func */
@@ -341,18 +357,26 @@ void parse(struct branch * branch){
                 if(line_mode && isclosebracket(c)){
                     io_back();
                 }
-                return;
+                return branch;
             } else {
                 io_back();
-                /* handle simple arg */
-                char * arg = io_read_symbol(false);
-                if(arg == NULL){
-                    parse_error("expected arg");
+                /* if we found a pipe char, switch to pipe mode, and make current command sub branch of new pipe parent */
+                if(io_test_char('|')){
+                    branch->type = PIPE;
+                    struct branch * child = branch_new();
+                    child = parse(child);
+                    branch_add_child(branch, child);
+                } else {
+                    /* handle simple arg */
+                    char * arg = io_read_symbol();
+                    if(arg == NULL){
+                        parse_error("expected arg");
+                    }
+                    struct branch * child = branch_new();
+                    child->type = LEAF;
+                    branch_set_cmd(child, arg);
+                    branch_add_child(branch, child);
                 }
-                struct branch * child = branch_new();
-                child->type = LEAF;
-                branch_set_cmd(child, arg);
-                branch_add_child(branch, child);
             }
         }
     }
@@ -366,7 +390,7 @@ void parse(struct branch * branch){
             if(!line_mode && branch_get_closing_bracket(branch) != c){
                 parse_error("expected '%c' to close", branch_get_closing_bracket(branch));
             }
-            return;
+            return branch;
         }
         io_back();
 
@@ -374,12 +398,12 @@ void parse(struct branch * branch){
         parse(child);
         branch_add_child(branch, child);
     }
-    return;
+    return branch;
 
 }
 
 /* main TODO: handle args on command line or interactive mode */
-void main(int argc, char ** argv){
+int main(int argc, char ** argv){
     if(argc != 2){
         fprintf(stderr, "usage: sh file\n");
         exit(1);
@@ -391,4 +415,7 @@ void main(int argc, char ** argv){
     struct branch * prgm = branch_new();
     parse(prgm);
     print_branch(prgm, 0);
+    /* TODO: repl and evaluate commands */
+
+    return 0;
 }
