@@ -14,7 +14,7 @@
 	= cont (cat file.txt)
 	# here the output of cat is passed to stdin, since we are in while's code block
 	cat file.txt
->)
+)
 
 
 (hello <set)}
