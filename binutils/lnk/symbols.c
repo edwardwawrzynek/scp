@@ -107,7 +107,7 @@ void sym_out_write_symbols(FILE * file){
                     continue;
                 }
                 if(addr == a){
-                fprintf(file, "0x%04x: %s\n", addr, defined_tables[i][d].name);
+                    fprintf(file, "0x%04x: %s\n", addr, defined_tables[i][d].name);
                 }
             }
         }

@@ -75,3 +75,8 @@ $(INOUTP_BIN): $(INOUTP_OBJS)
 
 clean:
 	rm -f $(LIBC_OBJS) $(CRT_OBJS) $(INOUTP_OBJS)
+
+.PHONY: configure
+
+configure:
+	ln -sf `pwd`/../include/syscall.h `pwd`/../include/unistd.h

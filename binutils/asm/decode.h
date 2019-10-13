@@ -1,5 +1,4 @@
 /* This file was automatically generated.  Do not edit! */
-#undef INTERFACE
 void check_instr(struct instr *instr);
 void line_into_instr(struct instr *instr);
 void read_in_arg(char *buf);

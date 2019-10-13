@@ -10,7 +10,7 @@
  * - as an arg cats stdin
  */
 
-uint8_t did_error = 0;
+int8_t did_error = 0;
 
 char buf[512];
 
@@ -30,7 +30,7 @@ int main(int argc, char **argv){
             fprintf(stderr, "cat: failed to open file: %s: %s\n", argv[optind], strerror(errno));
             did_error = 1;
         } else {
-            uint8_t c;
+            int8_t c;
             while((c = fgetc(file)) != EOF){
                 putchar(c);
             }

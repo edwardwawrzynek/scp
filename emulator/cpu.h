@@ -1,5 +1,6 @@
 #include <cstdint>
 #include "io/io.h"
+#include "debug.h"
 
 class CPU {
     public:
@@ -32,6 +33,11 @@ class CPU {
     /* the imeddiate register - last loaded immediate */
     uint16_t imd_reg;
 
+    /* if debug is enabled */
+    bool debug_enabled;
+    /* debug files */
+    DebugFileInfo * debug_tables[128];
+
     /* the machine's io subsystem */
     IO io;
 
@@ -47,7 +53,7 @@ class CPU {
 
     /* preform an alu operation on two operands */
     uint16_t alu(uint8_t opcode, uint16_t a, uint16_t b);
-    /* compare a and b, and set flags appropriatley */
+    /* compare a and b, and set flags appropriately */
     void alu_cmp(uint16_t a, uint16_t b);
     /* sign extend a value */
     uint16_t sign_extend(uint16_t val);
@@ -75,4 +81,6 @@ class CPU {
     void run_instr();
     /* request an int */
     void do_int(uint8_t irq_line);
+    /* set debug file info */
+    void set_debug_files(int num_files, char ** file_names);
 };

@@ -233,7 +233,7 @@ bool io_test_char(char c){
 void parse_error(char *error, ...)
 {
     int pos = 0;
-    fprintf(stderr, "scp-sh error: line %u\n\n", io_line);
+    fprintf(stdout, "scp-sh error: line %u\n\n", io_line);
     io_back();
     while (io_char() != '\n'){
         io_back();
@@ -242,21 +242,21 @@ void parse_error(char *error, ...)
     };
     char c;
     while ((c = io_char()) != '\n'){
-        fputc(c, stderr);
+        fputc(c, stdout);
     }
-    fputc('\n', stderr);
+    fputc('\n', stdout);
     for(int i = 0; i < pos-1; i++){
-        fputc(' ', stderr);
+        fputc(' ', stdout);
     }
-    fputs("^\n", stderr);
-    fputs("parse error: ", stderr);
+    fputs("^\n", stdout);
+    fputs("parse error: ", stdout);
 
     va_list args;
     va_start(args, error);
-    vfprintf(stderr, error, args);
+    vfprintf(stdout, error, args);
     va_end(args);
 
-    fputs("\n", stderr);
+    fputs("\n", stdout);
 
     exit(1);
 }
@@ -404,17 +404,25 @@ struct branch * parse(struct branch * branch){
 
 /* main TODO: handle args on command line or interactive mode */
 int main(int argc, char ** argv){
+    test_syscall("a1", 0, 0, 0);
     if(argc != 2){
-        fprintf(stderr, "usage: sh file\n");
+        test_syscall("out\n", 0, 0, 0);
+        fprintf(stdout, "usage: sh file\n");
         exit(1);
     }
     fin = fopen(argv[1], "r");
+    test_syscall("b4",0,0,0);
     if(fin == NULL){
-        fprintf(stderr, "couldn't open file: %s\n", argv[1]);
+        test_syscall("out1\n", 0, 0, 0);
+        fprintf(stdout, "couldn't open file: %s\n", argv[1]);
     }
+    test_syscall("b5", 0, 0, 0);
     struct branch * prgm = branch_new();
+    test_syscall("b6", 0, 0, 0);
     parse(prgm);
+    test_syscall("b7", 0, 0, 0);
     print_branch(prgm, 0);
+    test_syscall("b8", 0, 0, 0);
     /* TODO: repl and evaluate commands */
 
     return 0;

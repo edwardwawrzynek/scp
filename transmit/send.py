@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 import serial, sys, time
 import serial.tools.list_ports
@@ -12,8 +12,11 @@ else:
 ser.baudrate = 115200
 
 def print_usage():
-    print "\n--------------------\n- SCP Prgm Send -\nUsage:\nscpsnd <bin file> <serial port (optional)>\n--------------------"
+    print("\n--------------------\n- SCP Prgm Send -\nUsage:\nscpsnd <bin file> <serial port (optional)>\n--------------------")
     exit()
+
+if len(sys.argv) < 2:
+    print_usage()
 
 if ser.port == "FALSE":
     for p in serial.tools.list_ports.comports():
@@ -21,7 +24,7 @@ if ser.port == "FALSE":
             ser.port = p[0]
 
 if ser.port == "FALSE":
-    print "No Port Specified, and no UART Port Found. Terminating"
+    print("No Port Specified, and no UART Port Found. Terminating")
     exit()
 
 if not ser.isOpen():
@@ -30,14 +33,11 @@ if not ser.isOpen():
 if ser.isOpen():
     ser.read(ser.inWaiting())
 else:
-    print "Port Failed to open"
+    print("Port Failed to open")
     exit()
 
-if len(sys.argv) < 2:
-    print_usage()
-
 path = sys.argv[1]
-print "Transmiting " + path + " to " + ser.port
+print("Transmiting " + path + " to " + ser.port)
 
 sys.stdout.write("|")
 for i in range(78):
@@ -73,4 +73,4 @@ ser.write(chr(0xff))
 ser.write(chr(0x00))
 sys.stdout.write("\n")
 sys.stdout.flush()
-print "Sent"
+print("Sent")

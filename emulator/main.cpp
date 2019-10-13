@@ -28,7 +28,7 @@ void clean_exit(){
 }
 
 void usage(){
-    std::cerr << "Usage: scpemu [options] [bin file]\nOptions:\n-g\t\t:enable the gui\n-s [serial_dev]\t:enable serial output on serial_dev\n-d [disk_file]\t:enable disk io on disk_file\n";
+    std::cerr << "Usage: scpemu [options] [bin file]\nOptions:\n-g\t\t:enable the gui\n-s [serial_dev]\t:enable serial output on serial_dev\n-d [disk_file]\t:enable disk io on disk_file\n-D [debug file]\t:enable debugging output given sym debug file. multiple invocations supply debugs for multiple procs\n";
     exit(1);
 }
 
@@ -37,10 +37,14 @@ int main(int argc, char ** argv){
     char * serial_file = NULL;
     char * disk_file = NULL;
 
+    char *debug_files[128];
+    int debug_file_num = 0;
+
     int opt;
 
     /* set options */
-    while((opt = getopt(argc, argv, "s:d:g")) != -1){
+    while((opt = getopt(argc, argv, "D:s:d:g")) != -1){
+        char * mem;
         switch(opt){
             case 's':
                 serial_en = 1;
@@ -53,6 +57,10 @@ int main(int argc, char ** argv){
                 disk_en = 1;
                 disk_file = optarg;
                 break;
+            case 'D':
+                mem = new char[strlen(optarg) + 1];
+                debug_files[debug_file_num++] = strcpy(mem, optarg);
+                break;
             case '?':
             default:
                 usage();
@@ -60,6 +68,9 @@ int main(int argc, char ** argv){
     }
     if(!argv[optind]){
         usage();
+    }
+    if(debug_file_num > 0) {
+        cpu.set_debug_files(debug_file_num, debug_files);
     }
 
     cpu.reset();

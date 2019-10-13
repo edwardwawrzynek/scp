@@ -1,5 +1,4 @@
 /* This file was automatically generated.  Do not edit! */
-#undef INTERFACE
 void remove_defined_externs();
 void labels_write_out(struct obj_file *o);
 void labels_get_num(uint16_t *defined,uint16_t *external);

@@ -3,25 +3,17 @@
 _branch_new:
 	.global	_branch_new
 	push.r.sp r0 sp
-	ld.r.ra ra l3+0
-	call.j.sp sp _test_syscall
 	ld.r.i ra 8
 	push.r.sp ra sp
 	call.j.sp sp _malloc
 	alu.r.i add sp 2
 	mov.r.r r0 re
-	ld.r.ra ra l4+0
-	call.j.sp sp _test_syscall
 	ld.r.i rc 0
 	cmp.r.f r0 rc
-	jmp.c.j GLgl l6
+	jmp.c.j GLgl l4
 	ld.r.i re 0
 	jmp.c.j LGlge l1
-l6:
-	ld.r.ra ra l7+0
-	push.r.sp ra sp
-	call.j.sp sp _printf
-	alu.r.i add sp 2
+l4:
 	ld.r.i ra 8
 	push.r.sp ra sp
 	ld.r.i ra 0
@@ -29,67 +21,10 @@ l6:
 	push.r.sp r0 sp
 	call.j.sp sp _memset
 	alu.r.i add sp 6
-	ld.r.ra ra l8+0
-	push.r.sp ra sp
-	call.j.sp sp _printf
-	alu.r.i add sp 2
 	mov.r.r re r0
 l1:
 	pop.r.sp r0 sp
 	ret.n.sp sp
-
-	.rodata
-l3:
-	.dc.bs	115
-	.dc.bs	116
-	.dc.bs	97
-	.dc.bs	114
-	.dc.bs	116
-	.dc.bs	32
-	.dc.bs	98
-	.dc.bs	114
-	.dc.bs	97
-	.dc.bs	110
-	.dc.bs	99
-	.dc.bs	104
-	.dc.bs	10
-	.dc.bs	0
-
-	.rodata
-l4:
-	.dc.bs	109
-	.dc.bs	97
-	.dc.bs	108
-	.dc.bs	108
-	.dc.bs	111
-	.dc.bs	99
-	.dc.bs	39
-	.dc.bs	100
-	.dc.bs	0
-
-	.rodata
-l7:
-	.dc.bs	109
-	.dc.bs	101
-	.dc.bs	115
-	.dc.bs	101
-	.dc.bs	116
-	.dc.bs	116
-	.dc.bs	105
-	.dc.bs	110
-	.dc.bs	103
-	.dc.bs	10
-	.dc.bs	0
-
-	.rodata
-l8:
-	.dc.bs	109
-	.dc.bs	101
-	.dc.bs	109
-	.dc.bs	115
-	.dc.bs	101
-	.dc.bs	116
-	.dc.bs	0
 	.text
 	.align
 _branch_set_cmd:
@@ -111,7 +46,7 @@ _branch_set_cmd:
 	ld.r.p.w ra ra
 	ld.r.i rc 0
 	cmp.r.f ra rc
-	jmp.c.j GLgl l12
+	jmp.c.j GLgl l8
 	push.r.sp r4 sp
 	call.j.sp sp _malloc
 	alu.r.i add sp 2
@@ -119,8 +54,8 @@ _branch_set_cmd:
 	mov.r.r r0 r2
 	alu.r.i add r0 2
 	st.r.p.w r1 r0
-	jmp.c.j LGlge l13
-l12:
+	jmp.c.j LGlge l9
+l8:
 	push.r.sp r4 sp
 	mov.r.r r0 r2
 	alu.r.i add r0 2
@@ -130,7 +65,7 @@ l12:
 	call.j.sp sp _realloc
 	alu.r.i add sp 4
 	st.r.p.w re r0
-l13:
+l9:
 	ld.r.p.off.w ra sp 10
 	push.r.sp ra sp
 	mov.r.r r0 r2
@@ -204,7 +139,7 @@ _branch_free:
 	ld.r.p.w ra ra
 	ld.r.i rc 0
 	cmp.r.f ra rc
-	jmp.c.j e l21
+	jmp.c.j e l17
 	mov.r.r r0 r3
 	alu.r.i add r0 2
 	mov.r.r ra r0
@@ -212,7 +147,7 @@ _branch_free:
 	push.r.sp ra sp
 	call.j.sp sp _free
 	alu.r.i add sp 2
-l21:
+l17:
 	ld.r.i r2 0
 	mov.r.r r0 r3
 	alu.r.i add r0 4
@@ -220,8 +155,8 @@ l21:
 	ld.r.p.w ra ra
 	ld.r.i rc 0
 	cmp.r.f ra rc
-	jmp.c.j le l27
-l26:
+	jmp.c.j le l23
+l22:
 	mov.r.r r1 r3
 	alu.r.i add r1 6
 	mov.r.r r0 r2
@@ -241,8 +176,8 @@ l26:
 	mov.r.r rc r0
 	ld.r.p.w rc rc
 	cmp.r.f r2 rc
-	jmp.c.j l l26
-l27:
+	jmp.c.j l l22
+l23:
 	mov.r.r r0 r3
 	alu.r.i add r0 6
 	mov.r.r ra r0
@@ -271,34 +206,34 @@ _print_branch:
 	ld.r.p.off.w ra sp 12
 	ld.r.i rc 0
 	cmp.r.f ra rc
-	jmp.c.j Le l32
+	jmp.c.j Le l28
 	ld.r.p.off.w r1 sp 12
-l30:
-	ld.r.ra ra l34+0
+l26:
+	ld.r.ra ra l30+0
 	push.r.sp ra sp
 	call.j.sp sp _printf
 	alu.r.i add sp 2
 	alu.r.i add r0 1
 	cmp.r.f r0 r1
-	jmp.c.j L l30
+	jmp.c.j L l26
 	st.r.p.off.w r1 sp 12
-l32:
+l28:
 	mov.r.r ra r3
 	ld.r.p.w ra ra
 	ld.r.i rc 5
 	cmp.r.f ra rc
-	jmp.c.j GLgl l36
+	jmp.c.j GLgl l32
 	mov.r.r r0 r3
 	alu.r.i add r0 2
 	mov.r.r ra r0
 	ld.r.p.w ra ra
 	push.r.sp ra sp
-	ld.r.ra ra l37+0
+	ld.r.ra ra l33+0
 	push.r.sp ra sp
 	call.j.sp sp _printf
 	alu.r.i add sp 4
-	jmp.c.j LGlge l47
-l36:
+	jmp.c.j LGlge l43
+l32:
 	mov.r.r r0 r3
 	alu.r.i add r0 4
 	mov.r.r ra r0
@@ -312,7 +247,7 @@ l36:
 	mov.r.r ra r1
 	ld.r.p.w ra ra
 	push.r.sp ra sp
-	ld.r.ra ra l39+0
+	ld.r.ra ra l35+0
 	push.r.sp ra sp
 	call.j.sp sp _printf
 	alu.r.i add sp 8
@@ -321,8 +256,8 @@ l36:
 	ld.r.p.w ra ra
 	ld.r.i rc 0
 	cmp.r.f ra rc
-	jmp.c.j le l47
-l45:
+	jmp.c.j le l43
+l41:
 	ld.r.p.off.w r0 sp 12
 	alu.r.i add r0 1
 	push.r.sp r0 sp
@@ -346,8 +281,8 @@ l45:
 	mov.r.r rc r0
 	ld.r.p.w rc rc
 	cmp.r.f r1 rc
-	jmp.c.j l l45
-l47:
+	jmp.c.j l l41
+l43:
 	pop.r.sp r3 sp
 	pop.r.sp r2 sp
 	pop.r.sp r1 sp
@@ -355,13 +290,13 @@ l47:
 	ret.n.sp sp
 
 	.rodata
-l34:
+l30:
 	.dc.bs	32
 	.dc.bs	32
 	.dc.bs	0
 
 	.rodata
-l37:
+l33:
 	.dc.bs	37
 	.dc.bs	115
 	.dc.bs	58
@@ -374,7 +309,7 @@ l37:
 	.dc.bs	0
 
 	.rodata
-l39:
+l35:
 	.dc.bs	37
 	.dc.bs	115
 	.dc.bs	58
@@ -441,96 +376,96 @@ _io_back:
 _io_char:
 	.global	_io_char
 	push.r.sp r0 sp
-l77:
+l73:
 	call.j.sp sp _io_raw_char
 	mov.r.r r4 re
 	mov.r.r r0 r4
 	ld.r.i rc -1
 	cmp.r.f r0 rc
-	jmp.c.j GLgl l60
+	jmp.c.j GLgl l56
 	ld.r.i re -1
-	jmp.c.j LGlge l52
-l60:
+	jmp.c.j LGlge l48
+l56:
 	mov.r.r r0 r4
 	ld.r.i rc 10
 	cmp.r.f r0 rc
-	jmp.c.j GLgl l62
+	jmp.c.j GLgl l58
 	ld.r.m.w ra _io_line+0
 	alu.r.i add ra 1
 	st.r.m.w ra _io_line+0
-l62:
-	ld.r.m.b ra l54+0
+l58:
+	ld.r.m.b ra l50+0
 	ld.r.i rc 0
 	cmp.r.f ra rc
-	jmp.c.j e l64
+	jmp.c.j e l60
 	mov.r.r r0 r4
 	ld.r.i rc 10
 	cmp.r.f r0 rc
-	jmp.c.j GLgl l64
+	jmp.c.j GLgl l60
 	ld.r.i ra 0
-	st.r.m.b ra l54+0
-	jmp.c.j LGlge l73
-l64:
-	ld.r.m.b ra l54+0
+	st.r.m.b ra l50+0
+	jmp.c.j LGlge l69
+l60:
+	ld.r.m.b ra l50+0
 	ld.r.i rc 0
 	cmp.r.f ra rc
-	jmp.c.j GLgl l67
+	jmp.c.j GLgl l63
 	mov.r.r r0 r4
 	ld.r.i rc 35
 	cmp.r.f r0 rc
-	jmp.c.j GLgl l67
+	jmp.c.j GLgl l63
 	ld.r.i ra 1
-	st.r.m.b ra l54+0
-l67:
-	ld.r.m.b ra l54+0
+	st.r.m.b ra l50+0
+l63:
+	ld.r.m.b ra l50+0
 	ld.r.i rc 0
 	cmp.r.f ra rc
-	jmp.c.j e l70
+	jmp.c.j e l66
 	mov.r.r r0 r4
 	ld.r.i rc 62
 	cmp.r.f r0 rc
-	jmp.c.j GLgl l70
+	jmp.c.j GLgl l66
 	ld.r.i ra 1
-	st.r.m.b ra l55+0
+	st.r.m.b ra l51+0
 	ld.r.i ra 0
-	st.r.m.b ra l54+0
-l70:
-	ld.r.m.b ra l55+0
+	st.r.m.b ra l50+0
+l66:
+	ld.r.m.b ra l51+0
 	ld.r.i rc 0
 	cmp.r.f ra rc
-	jmp.c.j e l73
-	ld.r.m.b r0 l54+0
+	jmp.c.j e l69
+	ld.r.m.b r0 l50+0
 	ld.r.i rc 1
 	cmp.r.f r0 rc
-	jmp.c.j GLgl l73
+	jmp.c.j GLgl l69
 	mov.r.r r0 r4
 	ld.r.i rc 60
 	cmp.r.f r0 rc
+	jmp.c.j GLgl l69
+	ld.r.i ra 0
+	st.r.m.b ra l50+0
+	ld.r.i ra 0
+	st.r.m.b ra l51+0
+l69:
+	ld.r.m.b ra l50+0
+	ld.r.i rc 0
+	cmp.r.f ra rc
 	jmp.c.j GLgl l73
-	ld.r.i ra 0
-	st.r.m.b ra l54+0
-	ld.r.i ra 0
-	st.r.m.b ra l55+0
-l73:
-	ld.r.m.b ra l54+0
+	ld.r.m.b ra l51+0
 	ld.r.i rc 0
 	cmp.r.f ra rc
-	jmp.c.j GLgl l77
-	ld.r.m.b ra l55+0
-	ld.r.i rc 0
-	cmp.r.f ra rc
-	jmp.c.j GLgl l77
+	jmp.c.j GLgl l73
 	mov.r.r re r4
-l52:
+l48:
 	pop.r.sp r0 sp
 	ret.n.sp sp
 
 	.data
-l54:
+l50:
 	.dc.bs	0
 
 	.data
-l55:
+l51:
 	.dc.bs	0
 	.text
 	.align
@@ -540,7 +475,7 @@ _io_skip_whitespace:
 	push.r.sp r1 sp
 	push.r.sp r2 sp
 	ld.r.p.off.b r2 sp 8
-l81:
+l77:
 	call.j.sp sp _io_char
 	mov.r.r r1 re
 	mov.r.r r0 r1
@@ -550,15 +485,15 @@ l81:
 	mov.r.r r0 re
 	ld.r.i rc 0
 	cmp.r.f r0 rc
-	jmp.c.j e l87
+	jmp.c.j e l83
 	ld.r.i rc 0
 	cmp.r.f r2 rc
-	jmp.c.j GLgl l81
+	jmp.c.j GLgl l77
 	mov.r.r r0 r1
 	ld.r.i rc 10
 	cmp.r.f r0 rc
-	jmp.c.j GLgl l81
-l87:
+	jmp.c.j GLgl l77
+l83:
 	call.j.sp sp _io_back
 	pop.r.sp r2 sp
 	pop.r.sp r1 sp
@@ -572,20 +507,20 @@ _io_read_symbol:
 	push.r.sp r1 sp
 	push.r.sp r2 sp
 	ld.r.i r2 0
-	ld.r.m.w ra l91+0
+	ld.r.m.w ra l87+0
 	ld.r.i rc 256
 	cmp.r.f ra rc
-	jmp.c.j le l116
+	jmp.c.j le l112
 	ld.r.i ra 32
 	push.r.sp ra sp
-	ld.r.m.w ra l90+0
+	ld.r.m.w ra l86+0
 	push.r.sp ra sp
 	call.j.sp sp _realloc
 	alu.r.i add sp 4
-	st.r.m.w re l90+0
+	st.r.m.w re l86+0
 	ld.r.i ra 32
-	st.r.m.w ra l91+0
-l116:
+	st.r.m.w ra l87+0
+l112:
 	call.j.sp sp _io_char
 	mov.r.r r1 re
 	mov.r.r r0 r1
@@ -595,109 +530,109 @@ l116:
 	mov.r.r r0 re
 	ld.r.i rc 0
 	cmp.r.f r0 rc
-	jmp.c.j GLgl l98
+	jmp.c.j GLgl l94
 	mov.r.r r0 r1
 	ld.r.i rc 95
 	cmp.r.f r0 rc
-	jmp.c.j e l98
+	jmp.c.j e l94
 	mov.r.r r0 r1
 	ld.r.i rc 34
 	cmp.r.f r0 rc
-	jmp.c.j e l98
+	jmp.c.j e l94
 	mov.r.r r0 r1
 	ld.r.i rc 39
 	cmp.r.f r0 rc
-	jmp.c.j e l98
+	jmp.c.j e l94
 	mov.r.r r0 r1
 	ld.r.i rc 43
 	cmp.r.f r0 rc
-	jmp.c.j e l98
+	jmp.c.j e l94
 	mov.r.r r0 r1
 	ld.r.i rc 45
 	cmp.r.f r0 rc
-	jmp.c.j e l98
+	jmp.c.j e l94
 	mov.r.r r0 r1
 	ld.r.i rc 42
 	cmp.r.f r0 rc
-	jmp.c.j e l98
+	jmp.c.j e l94
 	mov.r.r r0 r1
 	ld.r.i rc 47
 	cmp.r.f r0 rc
-	jmp.c.j e l98
+	jmp.c.j e l94
 	mov.r.r r0 r1
 	ld.r.i rc 37
 	cmp.r.f r0 rc
-	jmp.c.j e l98
+	jmp.c.j e l94
 	mov.r.r r0 r1
 	ld.r.i rc 62
 	cmp.r.f r0 rc
-	jmp.c.j e l98
+	jmp.c.j e l94
 	mov.r.r r0 r1
 	ld.r.i rc 60
 	cmp.r.f r0 rc
-	jmp.c.j e l98
+	jmp.c.j e l94
 	mov.r.r r0 r1
 	ld.r.i rc 61
 	cmp.r.f r0 rc
-	jmp.c.j e l98
+	jmp.c.j e l94
 	mov.r.r r0 r1
 	ld.r.i rc 33
 	cmp.r.f r0 rc
-	jmp.c.j e l98
+	jmp.c.j e l94
 	mov.r.r r0 r1
 	ld.r.i rc 46
 	cmp.r.f r0 rc
-	jmp.c.j e l98
+	jmp.c.j e l94
 	ld.r.i r1 0
-l98:
+l94:
 	mov.r.r r0 r2
 	alu.r.i add r0 1
-	ld.r.m.w rc l91+0
+	ld.r.m.w rc l87+0
 	cmp.r.f r0 rc
-	jmp.c.j le l113
-	ld.r.m.w r0 l91+0
+	jmp.c.j le l109
+	ld.r.m.w r0 l87+0
 	alu.r.i add r0 32
 	push.r.sp r0 sp
-	ld.r.m.w ra l90+0
+	ld.r.m.w ra l86+0
 	push.r.sp ra sp
 	call.j.sp sp _realloc
 	alu.r.i add sp 4
-	st.r.m.w re l90+0
-	ld.r.m.w ra l91+0
+	st.r.m.w re l86+0
+	ld.r.m.w ra l87+0
 	alu.r.i add ra 32
-	st.r.m.w ra l91+0
-l113:
+	st.r.m.w ra l87+0
+l109:
 	mov.r.r r0 r2
 	alu.r.i add r2 1
 	mov.r.r rc r0
-	ld.r.m.w r0 l90+0
+	ld.r.m.w r0 l86+0
 	alu.r.r add r0 rc
 	st.r.p.bs r1 r0
 	mov.r.r r0 r1
 	ld.r.i rc 0
 	cmp.r.f r0 rc
-	jmp.c.j GLgl l116
+	jmp.c.j GLgl l112
 	ld.r.i rc 1
 	cmp.r.f r2 rc
-	jmp.c.j g l115
+	jmp.c.j g l111
 	ld.r.i re 0
-	jmp.c.j LGlge l88
-l115:
+	jmp.c.j LGlge l84
+l111:
 	call.j.sp sp _io_back
-	ld.r.m.w re l90+0
-l88:
+	ld.r.m.w re l86+0
+l84:
 	pop.r.sp r2 sp
 	pop.r.sp r1 sp
 	pop.r.sp r0 sp
 	ret.n.sp sp
 
 	.data
-l90:
+l86:
 	.align
 	.dc.w	0
 
 	.data
-l91:
+l87:
 	.align
 	.dc.w	0
 	.text
@@ -710,13 +645,13 @@ _io_test_char:
 	mov.r.r r1 re
 	ld.r.p.off.bs r0 sp 6
 	cmp.r.f r1 r0
-	jmp.c.j GLgl l121
+	jmp.c.j GLgl l117
 	ld.r.i re 1
-	jmp.c.j LGlge l118
-l121:
+	jmp.c.j LGlge l114
+l117:
 	call.j.sp sp _io_back
 	ld.r.i re 0
-l118:
+l114:
 	pop.r.sp r1 sp
 	pop.r.sp r0 sp
 	ret.n.sp sp
@@ -730,7 +665,7 @@ _parse_error:
 	ld.r.i r1 0
 	ld.r.m.w ra _io_line+0
 	push.r.sp ra sp
-	ld.r.ra ra l124+0
+	ld.r.ra ra l120+0
 	push.r.sp ra sp
 	ld.r.m.w ra _stderr+0
 	push.r.sp ra sp
@@ -741,8 +676,8 @@ _parse_error:
 	mov.r.r r0 re
 	ld.r.i rc 10
 	cmp.r.f r0 rc
-	jmp.c.j e l141
-l138:
+	jmp.c.j e l137
+l134:
 	call.j.sp sp _io_back
 	call.j.sp sp _io_back
 	alu.r.i add r1 1
@@ -750,15 +685,15 @@ l138:
 	mov.r.r r0 re
 	ld.r.i rc 10
 	cmp.r.f r0 rc
-	jmp.c.j GLgl l138
-l141:
+	jmp.c.j GLgl l134
+l137:
 	call.j.sp sp _io_char
 	mov.r.r r4 re
 	mov.r.r r0 r4
 	ld.r.i rc 10
 	cmp.r.f r0 rc
-	jmp.c.j e l142
-l139:
+	jmp.c.j e l138
+l135:
 	ld.r.m.w ra _stderr+0
 	push.r.sp ra sp
 	mov.r.r r0 r4
@@ -770,8 +705,8 @@ l139:
 	mov.r.r r0 r4
 	ld.r.i rc 10
 	cmp.r.f r0 rc
-	jmp.c.j GLgl l139
-l142:
+	jmp.c.j GLgl l135
+l138:
 	ld.r.m.w ra _stderr+0
 	push.r.sp ra sp
 	ld.r.i ra 10
@@ -783,8 +718,8 @@ l142:
 	alu.r.i sub r0 1
 	ld.r.i rc 0
 	cmp.r.f r0 rc
-	jmp.c.j Le l143
-l140:
+	jmp.c.j Le l139
+l136:
 	ld.r.m.w ra _stderr+0
 	push.r.sp ra sp
 	ld.r.i ra 32
@@ -795,17 +730,17 @@ l140:
 	mov.r.r r0 r1
 	alu.r.i sub r0 1
 	cmp.r.f r2 r0
-	jmp.c.j L l140
-l143:
+	jmp.c.j L l136
+l139:
 	ld.r.m.w ra _stderr+0
 	push.r.sp ra sp
-	ld.r.ra ra l135+0
+	ld.r.ra ra l131+0
 	push.r.sp ra sp
 	call.j.sp sp _fputs
 	alu.r.i add sp 4
 	ld.r.m.w ra _stderr+0
 	push.r.sp ra sp
-	ld.r.ra ra l136+0
+	ld.r.ra ra l132+0
 	push.r.sp ra sp
 	call.j.sp sp _fputs
 	alu.r.i add sp 4
@@ -821,7 +756,7 @@ l143:
 	alu.r.i add sp 6
 	ld.r.m.w ra _stderr+0
 	push.r.sp ra sp
-	ld.r.ra ra l137+0
+	ld.r.ra ra l133+0
 	push.r.sp ra sp
 	call.j.sp sp _fputs
 	alu.r.i add sp 4
@@ -833,7 +768,7 @@ l143:
 	ret.n.sp sp
 
 	.rodata
-l124:
+l120:
 	.dc.bs	115
 	.dc.bs	99
 	.dc.bs	112
@@ -860,13 +795,13 @@ l124:
 	.dc.bs	0
 
 	.rodata
-l135:
+l131:
 	.dc.bs	94
 	.dc.bs	10
 	.dc.bs	0
 
 	.rodata
-l136:
+l132:
 	.dc.bs	112
 	.dc.bs	97
 	.dc.bs	114
@@ -883,7 +818,7 @@ l136:
 	.dc.bs	0
 
 	.rodata
-l137:
+l133:
 	.dc.bs	10
 	.dc.bs	0
 	.text
@@ -895,32 +830,32 @@ _isbracket:
 	mov.r.r r0 r4
 	ld.r.i rc 40
 	cmp.r.f r0 rc
-	jmp.c.j e l148
+	jmp.c.j e l144
 	mov.r.r r0 r4
 	ld.r.i rc 41
 	cmp.r.f r0 rc
-	jmp.c.j e l148
+	jmp.c.j e l144
 	mov.r.r r0 r4
 	ld.r.i rc 123
 	cmp.r.f r0 rc
-	jmp.c.j e l148
+	jmp.c.j e l144
 	mov.r.r r0 r4
 	ld.r.i rc 125
 	cmp.r.f r0 rc
-	jmp.c.j e l148
+	jmp.c.j e l144
 	mov.r.r r0 r4
 	ld.r.i rc 60
 	cmp.r.f r0 rc
-	jmp.c.j e l148
+	jmp.c.j e l144
 	mov.r.r r0 r4
 	ld.r.i rc 62
 	cmp.r.f r0 rc
-	jmp.c.j e l148
+	jmp.c.j e l144
 	ld.r.i r5 0
-	jmp.c.j LGlge l149
-l148:
+	jmp.c.j LGlge l145
+l144:
 	ld.r.i r5 1
-l149:
+l145:
 	mov.r.r r0 r5
 	mov.r.r re r0
 	pop.r.sp r0 sp
@@ -934,20 +869,20 @@ _isopenbracket:
 	mov.r.r r0 r5
 	ld.r.i rc 40
 	cmp.r.f r0 rc
-	jmp.c.j e l158
+	jmp.c.j e l154
 	mov.r.r r0 r5
 	ld.r.i rc 123
 	cmp.r.f r0 rc
-	jmp.c.j e l158
+	jmp.c.j e l154
 	mov.r.r r0 r5
 	ld.r.i rc 60
 	cmp.r.f r0 rc
-	jmp.c.j e l158
+	jmp.c.j e l154
 	ld.r.i r4 0
-	jmp.c.j LGlge l159
-l158:
+	jmp.c.j LGlge l155
+l154:
 	ld.r.i r4 1
-l159:
+l155:
 	mov.r.r r0 r4
 	mov.r.r re r0
 	pop.r.sp r0 sp
@@ -964,7 +899,7 @@ _isclosebracket:
 	mov.r.r r0 re
 	ld.r.i rc 0
 	cmp.r.f r0 rc
-	jmp.c.j e l165
+	jmp.c.j e l161
 	ld.r.p.off.bs r0 sp 4
 	push.r.sp r0 sp
 	call.j.sp sp _isopenbracket
@@ -972,12 +907,12 @@ _isclosebracket:
 	mov.r.r r0 re
 	ld.r.i rc 0
 	cmp.r.f r0 rc
-	jmp.c.j GLgl l165
+	jmp.c.j GLgl l161
 	ld.r.i r4 1
-	jmp.c.j LGlge l166
-l165:
+	jmp.c.j LGlge l162
+l161:
 	ld.r.i r4 0
-l166:
+l162:
 	mov.r.r r0 r4
 	mov.r.r re r0
 	pop.r.sp r0 sp
@@ -991,41 +926,41 @@ _parse_bracket_to_type:
 	mov.r.r r0 r4
 	ld.r.i rc 40
 	cmp.r.f r0 rc
-	jmp.c.j e l169
+	jmp.c.j e l165
 	mov.r.r r0 r4
 	ld.r.i rc 41
 	cmp.r.f r0 rc
-	jmp.c.j GLgl l170
-l169:
+	jmp.c.j GLgl l166
+l165:
 	ld.r.i re 1
-	jmp.c.j LGlge l167
-l170:
+	jmp.c.j LGlge l163
+l166:
 	mov.r.r r0 r4
 	ld.r.i rc 123
 	cmp.r.f r0 rc
-	jmp.c.j e l172
+	jmp.c.j e l168
 	mov.r.r r0 r4
 	ld.r.i rc 125
 	cmp.r.f r0 rc
-	jmp.c.j GLgl l173
-l172:
+	jmp.c.j GLgl l169
+l168:
 	ld.r.i re 4
-	jmp.c.j LGlge l167
-l173:
+	jmp.c.j LGlge l163
+l169:
 	mov.r.r r0 r4
 	ld.r.i rc 60
 	cmp.r.f r0 rc
-	jmp.c.j e l175
+	jmp.c.j e l171
 	mov.r.r r0 r4
 	ld.r.i rc 62
 	cmp.r.f r0 rc
-	jmp.c.j GLgl l176
-l175:
+	jmp.c.j GLgl l172
+l171:
 	ld.r.i re 3
-	jmp.c.j LGlge l167
-l176:
+	jmp.c.j LGlge l163
+l172:
 	ld.r.i re 0
-l167:
+l163:
 	pop.r.sp r0 sp
 	ret.n.sp sp
 	.text
@@ -1037,28 +972,28 @@ _branch_get_closing_bracket:
 	ld.r.p.w r4 r4
 	ld.r.i rc 1
 	cmp.r.f r4 rc
-	jmp.c.j e l180
+	jmp.c.j e l176
 	ld.r.i rc 2
 	cmp.r.f r4 rc
-	jmp.c.j e l180
+	jmp.c.j e l176
 	ld.r.i rc 6
 	cmp.r.f r4 rc
-	jmp.c.j GLgl l181
-l180:
+	jmp.c.j GLgl l177
+l176:
 	ld.r.i re 41
-	jmp.c.j LGlge l187
-l181:
+	jmp.c.j LGlge l183
+l177:
 	ld.r.i rc 4
 	cmp.r.f r4 rc
-	jmp.c.j GLgl l185
+	jmp.c.j GLgl l181
 	ld.r.i re 125
-	jmp.c.j LGlge l187
-l185:
+	jmp.c.j LGlge l183
+l181:
 	ld.r.i rc 3
 	cmp.r.f r4 rc
-	jmp.c.j GLgl l187
+	jmp.c.j GLgl l183
 	ld.r.i re 62
-l187:
+l183:
 	ret.n.sp sp
 	.text
 	.align
@@ -1085,7 +1020,7 @@ _parse:
 	ld.r.p.bs r8 sp
 	ld.r.i rc 0
 	cmp.r.f r0 rc
-	jmp.c.j e l194
+	jmp.c.j e l190
 	ld.r.i r3 0
 	mov.r.r r0 r8
 	push.r.sp r0 sp
@@ -1096,13 +1031,13 @@ _parse:
 	push.r.sp r0 sp
 	call.j.sp sp _io_skip_whitespace
 	alu.r.i add sp 2
-	jmp.c.j LGlge l198
-l194:
+	jmp.c.j LGlge l194
+l190:
 	ld.r.i r3 1
 	ld.r.i ra 1
 	st.r.p.w ra r2
 	call.j.sp sp _io_back
-l198:
+l194:
 	ld.r.i ra 94
 	push.r.sp ra sp
 	call.j.sp sp _io_test_char
@@ -1110,83 +1045,83 @@ l198:
 	mov.r.r r0 re
 	ld.r.i rc 0
 	cmp.r.f r0 rc
-	jmp.c.j e l200
+	jmp.c.j e l196
 	mov.r.r ra r2
 	ld.r.p.w ra ra
 	ld.r.i rc 1
 	cmp.r.f ra rc
-	jmp.c.j GLgl l200
+	jmp.c.j GLgl l196
 	ld.r.i ra 2
 	st.r.p.w ra r2
 	ld.r.i rc 0
 	cmp.r.f r3 rc
-	jmp.c.j GLgl l202
+	jmp.c.j GLgl l198
 	ld.r.i r6 1
-	jmp.c.j LGlge l203
-l202:
+	jmp.c.j LGlge l199
+l198:
 	ld.r.i r6 0
-l203:
+l199:
 	push.r.sp r6 sp
 	call.j.sp sp _io_skip_whitespace
 	alu.r.i add sp 2
-l200:
+l196:
 	mov.r.r ra r2
 	ld.r.p.w ra ra
 	ld.r.i rc 1
 	cmp.r.f ra rc
-	jmp.c.j e l205
+	jmp.c.j e l201
 	mov.r.r ra r2
 	ld.r.p.w ra ra
 	ld.r.i rc 2
 	cmp.r.f ra rc
-	jmp.c.j GLgl l206
-l205:
+	jmp.c.j GLgl l202
+l201:
 	call.j.sp sp _io_read_symbol
 	mov.r.r r7 re
 	ld.r.i rc 0
 	cmp.r.f r7 rc
-	jmp.c.j GLgl l209
-	ld.r.ra ra l210+0
+	jmp.c.j GLgl l205
+	ld.r.ra ra l206+0
 	push.r.sp ra sp
 	st.r.p.off.w r7 sp 2
 	call.j.sp sp _parse_error
 	alu.r.i add sp 2
 	ld.r.p.w r7 sp
-l209:
+l205:
 	push.r.sp r7 sp
 	push.r.sp r2 sp
 	call.j.sp sp _branch_set_cmd
 	alu.r.i add sp 4
-l206:
+l202:
 	st.r.p.b r3 sp
 	mov.r.r ra r2
 	ld.r.p.w ra ra
 	ld.r.i rc 1
 	cmp.r.f ra rc
-	jmp.c.j e l256
+	jmp.c.j e l252
 	st.r.p.b r3 sp
 	mov.r.r ra r2
 	ld.r.p.w ra ra
 	ld.r.i rc 2
 	cmp.r.f ra rc
-	jmp.c.j e l256
+	jmp.c.j e l252
 	st.r.p.b r3 sp
 	mov.r.r ra r2
 	ld.r.p.w ra ra
 	ld.r.i rc 6
 	cmp.r.f ra rc
-	jmp.c.j GLgl l213
-l256:
+	jmp.c.j GLgl l209
+l252:
 	ld.r.p.b r1 sp
-l211:
+l207:
 	ld.r.i rc 0
 	cmp.r.f r1 rc
-	jmp.c.j GLgl l216
+	jmp.c.j GLgl l212
 	ld.r.i r4 1
-	jmp.c.j LGlge l217
-l216:
+	jmp.c.j LGlge l213
+l212:
 	ld.r.i r4 0
-l217:
+l213:
 	push.r.sp r4 sp
 	call.j.sp sp _io_skip_whitespace
 	alu.r.i add sp 2
@@ -1199,7 +1134,7 @@ l217:
 	mov.r.r r0 re
 	ld.r.i rc 0
 	cmp.r.f r0 rc
-	jmp.c.j e l220
+	jmp.c.j e l216
 	call.j.sp sp _io_back
 	call.j.sp sp _branch_new
 	mov.r.r r0 re
@@ -1211,8 +1146,8 @@ l217:
 	push.r.sp r2 sp
 	call.j.sp sp _branch_add_child
 	alu.r.i add sp 4
-	jmp.c.j LGlge l236
-l220:
+	jmp.c.j LGlge l232
+l216:
 	mov.r.r r0 r3
 	push.r.sp r0 sp
 	call.j.sp sp _isclosebracket
@@ -1220,42 +1155,42 @@ l220:
 	mov.r.r r0 re
 	ld.r.i rc 0
 	cmp.r.f r0 rc
-	jmp.c.j GLgl l222
+	jmp.c.j GLgl l218
 	mov.r.r r0 r3
 	ld.r.i rc 10
 	cmp.r.f r0 rc
-	jmp.c.j GLgl l223
+	jmp.c.j GLgl l219
 	ld.r.i rc 0
 	cmp.r.f r1 rc
-	jmp.c.j e l223
-l222:
+	jmp.c.j e l219
+l218:
 	st.r.p.b r1 sp
 	ld.r.i rc 0
 	cmp.r.f r1 rc
-	jmp.c.j GLgl l227
+	jmp.c.j GLgl l223
 	push.r.sp r2 sp
 	call.j.sp sp _branch_get_closing_bracket
 	alu.r.i add sp 2
 	mov.r.r r1 re
 	mov.r.r r0 r3
 	cmp.r.f r1 r0
-	jmp.c.j e l227
+	jmp.c.j e l223
 	ld.r.p.b r1 sp
 	push.r.sp r2 sp
 	call.j.sp sp _branch_get_closing_bracket
 	alu.r.i add sp 2
 	mov.r.r r0 re
 	push.r.sp r0 sp
-	ld.r.ra ra l229+0
+	ld.r.ra ra l225+0
 	push.r.sp ra sp
 	call.j.sp sp _parse_error
 	alu.r.i add sp 4
 	st.r.p.b r1 sp
-l227:
+l223:
 	ld.r.p.b r1 sp
 	ld.r.i rc 0
 	cmp.r.f r1 rc
-	jmp.c.j e l259
+	jmp.c.j e l255
 	mov.r.r r0 r3
 	push.r.sp r0 sp
 	call.j.sp sp _isclosebracket
@@ -1263,10 +1198,10 @@ l227:
 	mov.r.r r0 re
 	ld.r.i rc 0
 	cmp.r.f r0 rc
-	jmp.c.j e l259
+	jmp.c.j e l255
 	call.j.sp sp _io_back
-	jmp.c.j LGlge l259
-l223:
+	jmp.c.j LGlge l255
+l219:
 	call.j.sp sp _io_back
 	ld.r.i ra 124
 	push.r.sp ra sp
@@ -1275,7 +1210,7 @@ l223:
 	mov.r.r r0 re
 	ld.r.i rc 0
 	cmp.r.f r0 rc
-	jmp.c.j e l235
+	jmp.c.j e l231
 	ld.r.i ra 6
 	st.r.p.w ra r2
 	call.j.sp sp _branch_new
@@ -1288,20 +1223,20 @@ l223:
 	push.r.sp r2 sp
 	call.j.sp sp _branch_add_child
 	alu.r.i add sp 4
-	jmp.c.j LGlge l236
-l235:
+	jmp.c.j LGlge l232
+l231:
 	call.j.sp sp _io_read_symbol
 	mov.r.r r0 re
 	st.r.p.w r0 sp
 	ld.r.i rc 0
 	cmp.r.f r0 rc
-	jmp.c.j GLgl l238
-	ld.r.ra ra l239+0
+	jmp.c.j GLgl l234
+	ld.r.ra ra l235+0
 	push.r.sp ra sp
 	call.j.sp sp _parse_error
 	alu.r.i add sp 2
 	st.r.p.w r0 sp
-l238:
+l234:
 	call.j.sp sp _branch_new
 	mov.r.r r0 re
 	ld.r.i ra 5
@@ -1315,47 +1250,47 @@ l238:
 	push.r.sp r2 sp
 	call.j.sp sp _branch_add_child
 	alu.r.i add sp 4
-l236:
+l232:
 	mov.r.r ra r2
 	ld.r.p.w ra ra
 	ld.r.i rc 1
 	cmp.r.f ra rc
-	jmp.c.j e l211
+	jmp.c.j e l207
 	mov.r.r ra r2
 	ld.r.p.w ra ra
 	ld.r.i rc 2
 	cmp.r.f ra rc
-	jmp.c.j e l211
+	jmp.c.j e l207
 	mov.r.r ra r2
 	ld.r.p.w ra ra
 	ld.r.i rc 6
 	cmp.r.f ra rc
-	jmp.c.j e l211
+	jmp.c.j e l207
 	st.r.p.b r1 sp
-l213:
+l209:
 	ld.r.p.b r3 sp
 	st.r.p.b r3 sp
 	mov.r.r ra r2
 	ld.r.p.w ra ra
 	ld.r.i rc 4
 	cmp.r.f ra rc
-	jmp.c.j e l257
+	jmp.c.j e l253
 	st.r.p.b r3 sp
 	mov.r.r ra r2
 	ld.r.p.w ra ra
 	ld.r.i rc 3
 	cmp.r.f ra rc
-	jmp.c.j GLgl l259
-l257:
+	jmp.c.j GLgl l255
+l253:
 	ld.r.p.b ra sp
 	ld.r.i rc 0
 	cmp.r.f ra rc
-	jmp.c.j GLgl l246
+	jmp.c.j GLgl l242
 	ld.r.i r1 1
-	jmp.c.j LGlge l247
-l246:
+	jmp.c.j LGlge l243
+l242:
 	ld.r.i r1 0
-l247:
+l243:
 	push.r.sp r1 sp
 	call.j.sp sp _io_skip_whitespace
 	alu.r.i add sp 2
@@ -1368,29 +1303,29 @@ l247:
 	mov.r.r r0 re
 	ld.r.i rc 0
 	cmp.r.f r0 rc
-	jmp.c.j e l250
+	jmp.c.j e l246
 	ld.r.p.b ra sp
 	ld.r.i rc 0
 	cmp.r.f ra rc
-	jmp.c.j GLgl l259
+	jmp.c.j GLgl l255
 	push.r.sp r2 sp
 	call.j.sp sp _branch_get_closing_bracket
 	alu.r.i add sp 2
 	mov.r.r r1 re
 	mov.r.r r0 r3
 	cmp.r.f r1 r0
-	jmp.c.j e l259
+	jmp.c.j e l255
 	push.r.sp r2 sp
 	call.j.sp sp _branch_get_closing_bracket
 	alu.r.i add sp 2
 	mov.r.r r0 re
 	push.r.sp r0 sp
-	ld.r.ra ra l254+0
+	ld.r.ra ra l250+0
 	push.r.sp ra sp
 	call.j.sp sp _parse_error
 	alu.r.i add sp 4
-	jmp.c.j LGlge l259
-l250:
+	jmp.c.j LGlge l255
+l246:
 	call.j.sp sp _io_back
 	call.j.sp sp _branch_new
 	mov.r.r r0 re
@@ -1405,13 +1340,13 @@ l250:
 	ld.r.p.w ra ra
 	ld.r.i rc 4
 	cmp.r.f ra rc
-	jmp.c.j e l257
+	jmp.c.j e l253
 	mov.r.r ra r2
 	ld.r.p.w ra ra
 	ld.r.i rc 3
 	cmp.r.f ra rc
-	jmp.c.j e l257
-l259:
+	jmp.c.j e l253
+l255:
 	mov.r.r re r2
 	alu.r.i add sp 2
 	pop.r.sp r3 sp
@@ -1421,7 +1356,7 @@ l259:
 	ret.n.sp sp
 
 	.rodata
-l210:
+l206:
 	.dc.bs	101
 	.dc.bs	120
 	.dc.bs	112
@@ -1447,7 +1382,7 @@ l210:
 	.dc.bs	0
 
 	.rodata
-l229:
+l225:
 	.dc.bs	101
 	.dc.bs	120
 	.dc.bs	112
@@ -1473,7 +1408,7 @@ l229:
 	.dc.bs	0
 
 	.rodata
-l239:
+l235:
 	.dc.bs	101
 	.dc.bs	120
 	.dc.bs	112
@@ -1489,7 +1424,7 @@ l239:
 	.dc.bs	0
 
 	.rodata
-l254:
+l250:
 	.dc.bs	101
 	.dc.bs	120
 	.dc.bs	112
@@ -1518,11 +1453,16 @@ l254:
 _main:
 	.global	_main
 	push.r.sp r0 sp
+	ld.r.ra ra l258+0
+	ld.r.i rb 0
+	ld.r.i rc 0
+	ld.r.i rd 0
+	call.j.sp sp _test_syscall
 	ld.r.p.off.w ra sp 4
 	ld.r.i rc 2
 	cmp.r.f ra rc
-	jmp.c.j e l263
-	ld.r.ra ra l264+0
+	jmp.c.j e l260
+	ld.r.ra ra l261+0
 	push.r.sp ra sp
 	ld.r.m.w ra _stderr+0
 	push.r.sp ra sp
@@ -1530,59 +1470,74 @@ _main:
 	alu.r.i add sp 4
 	ld.r.i ra 1
 	call.j.sp sp _exit
-l263:
-	ld.r.ra ra l265+0
+l260:
+	ld.r.ra ra l262+0
+	ld.r.i rb 0
+	ld.r.i rc 0
+	ld.r.i rd 0
 	call.j.sp sp _test_syscall
-	ld.r.ra ra l266+0
-	push.r.sp ra sp
-	ld.r.p.off.w r0 sp 8
+	ld.r.p.off.w r0 sp 6
 	alu.r.i add r0 2
+	mov.r.r ra r0
+	ld.r.p.w ra ra
+	ld.r.i rb 0
+	ld.r.i rc 0
+	ld.r.i rd 0
+	call.j.sp sp _test_syscall
+	ld.r.ra ra l263+0
+	ld.r.i rb 0
+	ld.r.i rc 0
+	ld.r.i rd 0
+	call.j.sp sp _test_syscall
+	ld.r.ra ra l264+0
+	push.r.sp ra sp
 	mov.r.r ra r0
 	ld.r.p.w ra ra
 	push.r.sp ra sp
 	call.j.sp sp _fopen
 	alu.r.i add sp 4
 	st.r.m.w re _fin+0
-	ld.r.m.w ra _fin+0
+	ld.r.ra ra l265+0
+	ld.r.i rb 0
 	ld.r.i rc 0
-	cmp.r.f ra rc
-	jmp.c.j GLgl l268
-	ld.r.p.off.w r0 sp 6
-	alu.r.i add r0 2
-	mov.r.r ra r0
-	ld.r.p.w ra ra
-	push.r.sp ra sp
-	ld.r.ra ra l269+0
-	push.r.sp ra sp
-	ld.r.m.w ra _stderr+0
-	push.r.sp ra sp
-	call.j.sp sp _fprintf
-	alu.r.i add sp 6
-l268:
-	ld.r.ra ra l270+0
+	ld.r.i rd 0
+	call.j.sp sp _test_syscall
+	ld.r.ra ra l268+0
+	ld.r.i rb 0
+	ld.r.i rc 0
+	ld.r.i rd 0
 	call.j.sp sp _test_syscall
 	call.j.sp sp _branch_new
 	mov.r.r r0 re
-	ld.r.ra ra l271+0
+	ld.r.ra ra l269+0
+	ld.r.i rb 0
+	ld.r.i rc 0
+	ld.r.i rd 0
 	call.j.sp sp _test_syscall
 	push.r.sp r0 sp
 	call.j.sp sp _parse
 	alu.r.i add sp 2
-	ld.r.ra ra l272+0
+	ld.r.ra ra l270+0
+	ld.r.i rb 0
+	ld.r.i rc 0
+	ld.r.i rd 0
 	call.j.sp sp _test_syscall
 	ld.r.i ra 0
 	push.r.sp ra sp
 	push.r.sp r0 sp
 	call.j.sp sp _print_branch
 	alu.r.i add sp 4
-	ld.r.ra ra l273+0
+	ld.r.ra ra l271+0
+	ld.r.i rb 0
+	ld.r.i rc 0
+	ld.r.i rd 0
 	call.j.sp sp _test_syscall
 	ld.r.i re 0
 	pop.r.sp r0 sp
 	ret.n.sp sp
 
 	.rodata
-l264:
+l261:
 	.dc.bs	117
 	.dc.bs	115
 	.dc.bs	97
@@ -1601,60 +1556,56 @@ l264:
 	.dc.bs	0
 
 	.rodata
-l269:
-	.dc.bs	99
-	.dc.bs	111
-	.dc.bs	117
-	.dc.bs	108
-	.dc.bs	100
-	.dc.bs	110
-	.dc.bs	39
-	.dc.bs	116
-	.dc.bs	32
-	.dc.bs	111
-	.dc.bs	112
-	.dc.bs	101
-	.dc.bs	110
-	.dc.bs	32
-	.dc.bs	102
-	.dc.bs	105
-	.dc.bs	108
-	.dc.bs	101
-	.dc.bs	58
-	.dc.bs	32
-	.dc.bs	37
-	.dc.bs	115
-	.dc.bs	10
+l258:
+	.dc.bs	98
+	.dc.bs	49
+	.dc.bs	0
+
+	.rodata
+l262:
+	.dc.bs	98
+	.dc.bs	50
+	.dc.bs	0
+
+	.rodata
+l263:
+	.dc.bs	98
+	.dc.bs	51
+	.dc.bs	0
+
+	.rodata
+l264:
+	.dc.bs	114
 	.dc.bs	0
 
 	.rodata
 l265:
-	.dc.bs	97
+	.dc.bs	98
+	.dc.bs	52
 	.dc.bs	0
 
 	.rodata
-l266:
-	.dc.bs	114
+l268:
+	.dc.bs	98
+	.dc.bs	53
+	.dc.bs	0
+
+	.rodata
+l269:
+	.dc.bs	98
+	.dc.bs	54
 	.dc.bs	0
 
 	.rodata
 l270:
 	.dc.bs	98
+	.dc.bs	55
 	.dc.bs	0
 
 	.rodata
 l271:
-	.dc.bs	99
-	.dc.bs	0
-
-	.rodata
-l272:
-	.dc.bs	100
-	.dc.bs	0
-
-	.rodata
-l273:
-	.dc.bs	101
+	.dc.bs	98
+	.dc.bs	56
 	.dc.bs	0
 
 	.data

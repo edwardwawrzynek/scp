@@ -1,5 +1,4 @@
 /* This file was automatically generated.  Do not edit! */
-#undef INTERFACE
 int main(int argc,char *argv[]);
 extern FILE *file;
 void handle_ar_obj(struct obj_file *obj_file,char *name);

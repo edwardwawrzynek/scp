@@ -1,5 +1,4 @@
 /* This file was automatically generated.  Do not edit! */
-#undef INTERFACE
 void run_sym_debug_out();
 void run_lnk_obj();
 void run_lnk_bin();

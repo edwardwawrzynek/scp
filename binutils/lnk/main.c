@@ -50,7 +50,9 @@ char * sym_debug_out;
 FILE * sym_debug_file;
 
 /* don't link unneeded object files */
-int do_dep_opt = 1;
+/* (disabled during testing) */
+//int do_dep_opt = 1;
+int do_dep_opt = 0;
 
 /* output an archive (combination of object files) */
 int do_out_ar = 0;

@@ -1,5 +1,4 @@
 /* This file was automatically generated.  Do not edit! */
-#undef INTERFACE
 void write_word(uint16_t val);
 void write_byte(uint8_t val);
 void bin_set_seg(uint8_t seg);

@@ -35,6 +35,7 @@ void kernel_start_init(char * initpath){
   proc_current_pid_alloc++;
   /* don't give init a parent */
   struct proc * proc = proc_create_new(init_inum, 0, 2, 2);
+  printf("proc pid alloc: %u\n", proc_current_pid_alloc);
 
   /* return from kernel */
   shed_shedule();

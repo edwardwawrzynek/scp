@@ -1,5 +1,4 @@
 /* This file was automatically generated.  Do not edit! */
-#undef INTERFACE
 void sym_out_write_symbols(FILE *file);
 void obj_out_write_symbols();
 uint16_t extern_get_addr(int i,uint32_t index);

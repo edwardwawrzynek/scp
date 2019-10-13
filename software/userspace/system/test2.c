@@ -7,6 +7,8 @@ unsigned char *args2[] = {"sh", "full.sh", NULL};
 
 unsigned char *args3[] = {"cat", "fsdfdsa", "-", "test2", NULL};
 
+int *a = NULL;
+
 int main(){
     printf("test2\n");
     uint8_t ret_val;
@@ -19,4 +21,5 @@ int main(){
         execv("cat", args3);
         perror("test2 exec failed: ");
     }
+    *a = 5;
 }

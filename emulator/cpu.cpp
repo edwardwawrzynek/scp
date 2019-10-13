@@ -81,6 +81,7 @@ uint32_t CPU::hard_addr(uint16_t addr, uint8_t is_write) {
         std::cerr << std::dec;
         std::cerr << "scpemu: warning: unassigned mmu access\n";
         std::cerr << "attempted to access page " << (high_addr + real_ptb) << "\n";
+        fprintf(stderr, "pointer dereferenced: 0x%x\n", addr);
         std::cerr << "current sp page (in proc): " << (uint16_t)(regs[15] >> 11) << "\n";
         fprintf(stderr, "priv_lv: %u\n", priv_lv);
         fprintf(stderr, "Pc at fault: 0x%x\n", pc);
@@ -221,6 +222,8 @@ void CPU::read_file(const char * path){
 
     file.close();
 }
+
+#define HEX( x ) std::setw(4) << std::setfill('0') << std::hex << (uint16_t)( x ) << std::dec
 
 /**
  * execute and instruction given the immediate following it. This should only be called by run_instr. */
@@ -403,28 +406,65 @@ void CPU::execute(uint16_t instr, uint16_t imd) {
             break;
 
         case CALL_J_SP: /* call.j.sp sp addr - call a pc-relative address */
+            val = pc;
             /* adjust stack pointer */
             regs[reg_secd] -= 2;
             /* write pc - (with pc adjusted over immediate) */
             write_word(regs[reg_secd], pc + 2);
             /* set pc */
             pc = pc + imd;
+            /* debug */
+            if(debug_enabled && priv_lv == 0) {
+                std::cout << "call.j.sp from 0x" << HEX(val) << " to 0x" << HEX(pc);
+                std::string * name = debug_tables[0]->findName(pc);
+                std::string * from_name = debug_tables[0]->findNameInBody(val);
+                if(name != nullptr && from_name != nullptr) {
+                    std::cout << "(" << *(from_name) << " -> " << *(name) << ")";
+                } else {
+                    std::cout << "(not in symbol tables)";
+                }
+                std::cout << "\n";
+            }
             break;
 
         case CALL_R_SP: /* call.r.sp sp addr - call a non pc-relative address in a reg*/
+            val = pc;
             /* adjust stack pointer */
             regs[reg_secd] -= 2;
             /* write pc */
             write_word(regs[reg_secd], pc);
             /* set pc */
             pc = regs[reg_prim];
+            if(debug_enabled && priv_lv == 0) {
+                std::cout << "call.r.sp from 0x" << HEX(val) << " to 0x" << HEX(pc);
+                std::string * name = debug_tables[0]->findName(pc);
+                std::string * from_name = debug_tables[0]->findNameInBody(val);
+                if(name != nullptr && from_name != nullptr) {
+                    std::cout << "(" << *(from_name) << " -> " << *(name) << ")";
+                } else {
+                    std::cout << "(not in symbol tables)";
+                }
+                std::cout << "\n";
+            }
             break;
 
         case RET_N_SP: /* ret.n.sp - return from a subroutine */
+            val = pc;
             /* adjust stack pointer */
             regs[reg_secd] += 2;
             /* read pc from stack */
             pc = read_word(regs[reg_secd] - 2);
+            if(debug_enabled && priv_lv == 0) {
+                std::cout << "ret.n.sp  from 0x" << HEX(val) << " to 0x" << HEX(pc);
+                std::string * name = debug_tables[0]->findNameInBody(pc);
+                std::string * from_name = debug_tables[0]->findNameInBody(val-2);
+                if(name != nullptr && from_name != nullptr) {
+                    std::cout << "(" << *(name) << " <- " << *(from_name) << ")";
+                } else {
+                    std::cout << "(not in symbol tables)";
+                }
+                std::cout << "\n";
+            }
             break;
 
         case OUT_R_P: /* out.r.p - write to an io port */
@@ -554,5 +594,13 @@ void CPU::nop_debug(uint16_t instr){
             break;
         default:
             break;
+    }
+}
+/* set debug files */
+void CPU::set_debug_files(int num_files, char ** file_names) {
+    memset(debug_tables, 0, sizeof(void *) * 128);
+    for(int i = 0; i < num_files; i++) {
+        debug_tables[i] = new DebugFileInfo(std::string(file_names[i]));
+        debug_enabled = 1;
     }
 }
