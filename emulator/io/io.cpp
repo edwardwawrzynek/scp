@@ -8,7 +8,7 @@ uint8_t serial_ports[] = {_serial_data_in_port, _serial_next_port, _serial_in_wa
 uint8_t gfx_ports[] = {_key_in_waiting_port, _key_data_in_port, _key_next_port, _text_addr_port, _text_data_port, _gfx_addr_port, _gfx_data_port, 0};
 
 /* disk subsystem ports */
-uint8_t disk_ports[] = {_disk_busy_port, _disk_reset_port, _disk_error_port, _disk_block_addr_port, _disk_data_in_port, _disk_data_in_next_port, _disk_data_in_next_port, _disk_data_in_rd_en_port, _disk_data_in_addr_port, _disk_data_out_port, _disk_data_out_wr_en_port, _disk_data_out_addr_port};
+uint8_t disk_ports[] = {_disk_busy_port, _disk_reset_port, _disk_error_port, _disk_block_addr_port, _disk_data_in_port, _disk_data_in_next_port, _disk_data_in_next_port, _disk_data_in_rd_en_port, _disk_data_in_addr_port, _disk_data_out_port, _disk_data_out_wr_en_port, _disk_data_out_addr_port, 0};
 
 /* check if a number occurs in a serial array */
 uint8_t is_subsys(uint8_t port, uint8_t * subsys){

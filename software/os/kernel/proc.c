@@ -175,6 +175,7 @@ void proc_enable_text_write_protect(struct proc * proc){
         /* write protect is set after text is written by kernel into page */
         proc->mem_map[i] |= 0b01000000;
     }
+    proc_write_mem_map(proc);
 }
 
 /* make a proc's text segment not write protected (for loading mem) */

@@ -18,7 +18,7 @@ int main(){
     }
     wait(NULL);
     if(fork() == 0){
-        execv("cat", args3);
+        execv("sh", args3);
         perror("test2 exec failed: ");
     }
     *a = 5;

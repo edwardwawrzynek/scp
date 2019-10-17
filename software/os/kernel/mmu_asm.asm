@@ -23,9 +23,9 @@ _mmu_set_page:
 
 ;   Set ptb to ra
     ptb.r.n ra
-;   Load 0 into rb, and use it as offset in table (ptb can acess any entry itself)
-    ld.r.i rb 0
+;   Load 0 into ra, and use it as offset in table (ptb can access any entry itself)
+    ld.r.i ra 0
 ;   Write out
-    mmu.r.r rb rc
+    mmu.r.r ra rc
 
     ret.n.sp sp

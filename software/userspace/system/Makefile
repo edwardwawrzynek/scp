@@ -4,7 +4,7 @@ init test2	test1	ls	mkdir	cat	clear sh						\
 all: $(BIN)
 
 CC = vc
-CFLAGS = -c99 -O1
+CFLAGS = -c99 -O2
 LDFLAGS = -lc
 
 

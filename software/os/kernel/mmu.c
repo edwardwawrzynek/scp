@@ -24,7 +24,6 @@
 void mmu_proc_table_out(uint8_t * table, uint16_t offset){
     uint16_t i;
     for(i = 0; i < 32; ++i){
-
         if(table[i]&0b10000000){
             mmu_set_page(offset+i, table[i]);
         } else {
