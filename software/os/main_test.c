@@ -144,11 +144,22 @@ int main(){
     uint16_t pinum, pinum2;
     char *i;
 
-
+    printf("Booting Kernel\n");
     kernel_init();
-    printf("Kernel Inited\nPress s for serial loader autoboot\n:");
+    printf("Kernel Booted\n\n");
+    printf("####   ###   ###      ##   ####\n");
+    printf("#     #     #  #     #  #  #   \n");
+    printf("####  #     ###   #  #  #  ####\n");
+    printf("   #  #     #        #  #     #\n");
+    printf("####   ###  #         ##   ####\n\n");
+    printf("Welcome to SCP OS v0.0.1\n");
+    printf("Author: Edward Wawrzynek\n");
+    printf("The programs distributed with SCP are free software and are liscensed under the GPL-3\n");
+    printf("https://github.com/edwardwawrzynek/scp\n")
+
+    printf("Press s for serial loader, enter for minishell\n:");
     if(getchar() == 's'){
-        kernel_start_init("/serial");
+        kernel_start_init("/bin/serial");
     }
     cwd = 2;
     fin = file_get(cwd, FILE_MODE_READ);

@@ -1,6 +1,7 @@
 #include <stdint.h>
 #include <stdarg.h>
 #include <stddef.h>
+#include <assert.h>
 
 #ifndef __STDIO_INCL
 #define __STDIO_INCL 1
@@ -8,7 +9,6 @@
 #define FILENAME_MAX 14
 #define FOPEN_MAX 8
 #define EOF -1
-
 
 #ifndef SEEK_SET
 #define SEEK_SET 1
@@ -23,47 +23,67 @@
 #endif
 
 /* buffer default size */
-#define BUFSIZ 512
-
-/* unbuffered mode */
-#define _IONBF 1
-/* line buffered mode */
-#define _IOLBF 2
-/* fully buffered mode */
-#define _IOFBF 4
-
-#define __BUF_IN 8
-#define __BUF_OUT 16
+#define BUFSIZE 64
 
 #ifndef NULL
 #define NULL 0
 #endif
 
+/* magic number for file objects */
+#define _FILE_MAGIC 0xf11e
+
+#ifdef _FILE_MAGIC
+    #define _file_assert_magic(file) assert(file->_magic == _FILE_MAGIC);
+#endif
+#ifndef _FILE_MAGIC
+    #define _file_assert_magic(file)
+#endif
+
+struct _file_buf {
+    /* buffer itself */
+    uint8_t buf[BUFSIZE];
+    /* position in buffer, or position of eof if read buffer */
+    /* if output buffer, this is the position of next char to be written */
+    /* if input buffer, this is the position of the eof char, or -1 if eof not present*/
+    /* if input buffer and pos is 0, we haven't read any data */
+    uint16_t pos;
+};
+
+enum _file_buf_mode {
+    NOBUF, /* no buffering */
+    LNBUF, /* line buffering */
+    FULLBUF /* full buffering */
+};
+
+#define _FILE_DEFAULT_BUF_MODE NOBUF
+
+enum _file_rw_mode {
+    READONLY,
+    WRITEONLY,
+    READWRITE,
+};
+
 typedef struct _file {
+    #ifdef _FILE_MAGIC
+        uint16_t _magic;
+    #endif
     /* os file descriptor (-1 when not open) */
     uint16_t fd;
-    /* file mode (using kernel open modes (O_RDONLY), etc */
+    /* file read/write mode (using kernel open modes (O_RDONLY), etc */
     uint8_t flags;
-    /* buffering mode (_IONBF, _IOLBF, _IOFBF) or'd with __BUF_IN or __BUF_OUT */
-    uint8_t buf_mode;
-    /* if input has been read into buffer */
-    uint8_t has_in_data;
-    /* index in buffer */
-    uint16_t buf_index;
-    /* index of eof in buffer, or -1 if eof not in buffer */
-    uint16_t buf_eof;
-    /* buffer (malloc'd by default, or set by setbuf) */
-    uint8_t * buf;
-    /* if the buffer was set by setbuf and shouldn't be freed on close */
-    uint8_t buf_was_setbuf;
-    /* eof indicator */
-    uint8_t is_eof;
+    /* buffering mode */
+    enum _file_buf_mode buf_mode;
+    /* buffers */
+    struct _file_buf * in_buf;
+    struct _file_buf * out_buf;
+    /* read write mode */
+    enum _file_rw_mode rw_mode;
+
+    /* eof flag */
+    uint8_t eof_flag;
 } FILE;
 
 typedef uint16_t fpos_t;
-
-int _file_buf_read(struct _file *file);
-int _file_buf_flush(struct _file *file);
 
 int16_t fgetc(struct _file *file);
 int16_t getchar();
@@ -71,12 +91,7 @@ int16_t fputc(int16_t c, struct _file *file);
 int16_t putchar(int16_t c);
 
 
-int _file_open(struct _file *file,uint8_t *path,uint8_t *mode,uint8_t *buf,uint8_t buf_mode);
-int _file_des_open(struct _file *file, uint16_t fd, uint8_t *buf, uint8_t buf_mode, uint16_t flags);
-int16_t fmode_to_flags(uint8_t *mode);
-
-int _add_open_file(struct _file * file);
-int _remove_open_file(struct _file * file);
+int16_t _fmode_to_flags(uint8_t *mode);
 
 struct _file * fopen(uint8_t * path, uint8_t *mode);
 struct _file * fdopen(uint16_t fd, uint8_t *mode);

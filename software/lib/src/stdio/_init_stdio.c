@@ -11,10 +11,10 @@ void _init_stdio(){
     stdout = fdopen(STDOUT_FILENO, "w");
     stderr = fdopen(STDERR_FILENO, "w");
 
-    /* setup modes */
-    setvbuf(stdin, NULL, _IOLBF, 0);
+    /* setup modes (TODO) */
+    /*setvbuf(stdin, NULL, _IOLBF, 0);
     setvbuf(stdout, NULL, _IOLBF, 0);
-    setvbuf(stderr, NULL, _IONBF, 0);
+    setvbuf(stderr, NULL, _IONBF, 0);*/
 }
 
 /* close stdio (flush all buffers) */

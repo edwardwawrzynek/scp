@@ -30,9 +30,9 @@ void CPU::reset() {
     imd_reg = 0;
 
     /* clear page table, and set up memory for first process */
-    for(int i = 0; i < 4096; i++) {
+    for(int i = 0; i < 2048; i++) {
         if(i < 32){
-            page_table[i] = 0b10000000 + i;
+            page_table[i] = MMU_ASSIGN_FLAG + i;
         } else {
             page_table[i] = 0;
         }
@@ -68,43 +68,46 @@ uint32_t CPU::hard_addr(uint16_t addr, uint8_t is_write) {
 
     /* if sys(0) priv_lv, 0 is ptb */
     real_ptb = (priv_lv ? ptb : 0);
-    /* ptb is only twelve bits */
-    real_ptb = real_ptb & 0b0000111111111111;
+    /* ptb */
+    real_ptb = real_ptb & MMU_PTB_MASK;
     /* get low and high parts of addr */
     low_addr = addr & 0b0000011111111111;
     high_addr = addr >> 11;
 
     /* page lookup */
     /* check for unassigned mmu access */
-    if(!(page_table[high_addr + real_ptb] & 0b10000000)){
+    if(!(page_table[high_addr + real_ptb] & MMU_ASSIGN_FLAG)){
         /* TODO: segfault interupt */
         std::cerr << std::dec;
         std::cerr << "scpemu: warning: unassigned mmu access\n";
         std::cerr << "attempted to access page " << (high_addr + real_ptb) << "\n";
+        fprintf(stderr, "ptb: 0x%02x, page index in entry: 0x%02x, entry value: 0x%04x\n", real_ptb, high_addr, page_table[high_addr+real_ptb]);
         fprintf(stderr, "pointer dereferenced: 0x%x\n", addr);
-        std::cerr << "current sp page (in proc): " << (uint16_t)(regs[15] >> 11) << "\n";
         fprintf(stderr, "priv_lv: %u\n", priv_lv);
-        fprintf(stderr, "Pc at fault: 0x%x\n", pc);
+        fprintf(stderr, "pc at fault: 0x%x\n", pc);
+        std::cerr << "current sp page (in proc): " << (uint16_t)(regs[15] >> 11) << "\n";
 	    nop_debug(16);
         std::cerr << "Unassigned MMU Page Attempted Access\n";
 	    //exit(1);
         while(1);
     }
     /* check for write restricted page violation */
-    if(((page_table[high_addr + real_ptb] & 0b01000000)) && is_write){
+    if(((page_table[high_addr + real_ptb] & MMU_TEXT_FLAG)) && is_write){
         /* TODO: segfault interupt */
         std::cerr << std::dec;
         std::cerr << "scpemu: warning: text-write protection mmu access\n";
         std::cerr << "attempted to write page " << (high_addr + real_ptb) << "\n";
-        std::cerr << "current sp page (in proc): " << (uint16_t)(regs[15] >> 11) << "\n";
+        fprintf(stderr, "ptb: 0x%02x, page index in entry: 0x%02x, entry value: 0x%04x\n", real_ptb, high_addr, page_table[high_addr+real_ptb]);
+        fprintf(stderr, "pointer dereferenced: 0x%x\n", addr);
         fprintf(stderr, "priv_lv: %u\n", priv_lv);
-        fprintf(stderr, "Pc at fault: 0x%x\n", pc);
+        fprintf(stderr, "pc at fault: 0x%x\n", pc);
+        std::cerr << "current sp page (in proc): " << (uint16_t)(regs[15] >> 11) << "\n";
 	    nop_debug(16);
-        std::cerr << "Text Segment Write Restriction Violation\n";
+        std::cerr << "Text Segment MMU Restriction Violation\n";
 	    //exit(1);
         while(1);
     }
-    res = (page_table[high_addr + real_ptb] & 0b00111111) << 11;
+    res = (page_table[high_addr + real_ptb] & MMU_PAGE_MASK) << 11;
     res += low_addr;
 
     return res;
@@ -584,11 +587,11 @@ void CPU::check_ints(){
 void CPU::nop_debug(uint16_t instr){
     switch(instr){
         case 16:
-            for(int i = 0; i < 4096; i++){
+            for(int i = 0; i < 2048; i++){
                 if(i % 32 == 0){
                     printf("\nProc %02x|", i / 32);
                 }
-                printf("%02x ", page_table[i]);
+                printf("%04x ", page_table[i]);
             }
             printf("\nPTB: %u\n", ptb);
             break;

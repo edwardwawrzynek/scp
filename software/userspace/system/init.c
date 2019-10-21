@@ -180,7 +180,7 @@ int main(){
     int len;
     uint16_t file_seek_loc;
     /* open initrc file */
-    int initrc = open("/initrc", O_RDONLY);
+    int initrc = open("/etc/initrc", O_RDONLY);
     /* if we didn't open it, not much we can do (we don't have stderr) */
     if(initrc == -1){
         /* error */

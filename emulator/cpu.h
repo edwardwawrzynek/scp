@@ -2,6 +2,12 @@
 #include "io/io.h"
 #include "debug.h"
 
+#define MMU_ASSIGN_FLAG 0x8000
+#define MMU_TEXT_FLAG   0x4000
+#define MMU_PAGE_MASK   0x3fff
+
+#define MMU_PTB_MASK    0xffff
+
 class CPU {
     public:
     /* regfile */
@@ -23,10 +29,12 @@ class CPU {
     /* countdown (in number of instructions executed) till next clock pulse int */
     int32_t time_till_clock_int;
     /* the memory managment unit page table
-        128 pages (256k memory) * 32 pages (64k) per process */
-    uint8_t page_table[4096];
-    /* the machine's memory - some will be device mapped memory*/
-    uint8_t mem[262144];
+        64 procs max * 32 pages (64k) per process */
+    uint16_t page_table[2048];
+    /* the machine's memory - some will be device mapped memory
+        2048 pages x 2048 bytes per page
+    */
+    uint8_t mem[4194304];
 
     /* the instruction register - the last loaded instruction */
     uint16_t instr_reg;

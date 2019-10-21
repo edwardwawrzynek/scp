@@ -35,7 +35,6 @@ void kernel_start_init(char * initpath){
   proc_current_pid_alloc++;
   /* don't give init a parent */
   struct proc * proc = proc_create_new(init_inum, 0, 2, 2);
-  printf("proc pid alloc: %u\n", proc_current_pid_alloc);
 
   /* return from kernel */
   shed_shedule();
@@ -56,7 +55,7 @@ uint8_t * kernel_map_in_mem(uint8_t * pointer, struct proc * proc){
   //load real pages
   page1 = proc->mem_map[page_in_proc];
   //check that page is actually mapped in
-  if(!(page1 & 0b10000000)){
+  if(IS_MMU_UNASSIGNED(page1)) {
     return NULL;
   }
 
@@ -64,7 +63,7 @@ uint8_t * kernel_map_in_mem(uint8_t * pointer, struct proc * proc){
   if(page_in_proc != 31){
     page2 = (proc->mem_map[page_in_proc]);
     //check that page is actually mapped in
-    if(!(page2 & 0b10000000)){
+    if(IS_MMU_UNASSIGNED(page2)){
       return NULL;
     }
 
@@ -97,7 +96,7 @@ uint8_t * kernel_map_in_mem2(uint8_t * pointer, struct proc * proc){
   //load real pages
   page1 = proc->mem_map[page_in_proc];
   //check that page is actually mapped in
-  if(!(page1 & 0b10000000)){
+  if(IS_MMU_UNASSIGNED(page1)){
     return NULL;
   }
 
@@ -105,7 +104,7 @@ uint8_t * kernel_map_in_mem2(uint8_t * pointer, struct proc * proc){
   if(page_in_proc != 31){
     page2 = (proc->mem_map[page_in_proc]);
     //check that page is actually mapped in
-    if(!(page2 & 0b10000000)){
+  if(IS_MMU_UNASSIGNED(page2)){
       return NULL;
     }
 

@@ -13,6 +13,7 @@
 #include "kernel/shed.h"
 #include "lib/brk_loc/end.h"
 #include <lib/kstdio_layer.h>
+#include "kernel/proc.h"
 
 /* process table */
 
@@ -173,7 +174,7 @@ void proc_init_mem_map(struct proc * proc){
 void proc_enable_text_write_protect(struct proc * proc){
     for(int i = 0; i < (proc->mem_struct.instr_pages); ++i){
         /* write protect is set after text is written by kernel into page */
-        proc->mem_map[i] |= 0b01000000;
+        proc->mem_map[i] |= MMU_TEXT_FLAG;
     }
     proc_write_mem_map(proc);
 }
@@ -182,7 +183,7 @@ void proc_enable_text_write_protect(struct proc * proc){
 void proc_disable_text_write_protect(struct proc * proc){
     for(int i = 0; i < (proc->mem_struct.instr_pages); ++i){
         /* write protect is set after text is written by kernel into page */
-        proc->mem_map[i] &= 0b10111111;
+        proc->mem_map[i] &= MMU_CLEAR_TEXT;
     }
 }
 
@@ -317,7 +318,7 @@ uint16_t proc_set_brk(struct proc *proc, uint8_t *brk){
     /* allocate new memory */
     uint16_t new_max_page = ((uint16_t)brk >> MMU_PAGE_SIZE_SHIFT);
     for(int page = 0; page <= new_max_page; page++){
-        if(IS_MMU_UNUSED(proc->mem_map[page])){
+        if(IS_MMU_UNASSIGNED(proc->mem_map[page])){
             proc->mem_map[page] = palloc_new();
             proc->mem_struct.data_pages++;
         }
@@ -326,7 +327,7 @@ uint16_t proc_set_brk(struct proc *proc, uint8_t *brk){
     if((uint16_t)brk < old_brk){
         uint16_t old_max_page = old_brk >> MMU_PAGE_SIZE_SHIFT;
         for(int page = old_max_page; page > new_max_page; page--){
-            if(!IS_MMU_UNUSED(proc->mem_map[page])){
+            if(IS_MMU_ASSIGNED(proc->mem_map[page])){
                 palloc_free(proc->mem_map[page]);
                 proc->mem_map[page] = MMU_UNUSED;
             }
@@ -544,7 +545,7 @@ void proc_put_memory(struct proc * proc){
     unsigned int i;
     for(i = 0; i < PROC_MMU_PAGES; ++i){
         //only palloc release if the page had been allocd
-        if(proc->mem_map[i] & 0b10000000){
+        if(proc->mem_map[i] & MMU_ASSIGN_FLAG){
             palloc_free(proc->mem_map[i]);
             proc->mem_map[i] = MMU_UNUSED;
         } else {

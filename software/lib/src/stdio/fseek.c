@@ -6,36 +6,16 @@
  * just adjust for the data in the buffer, then call lseek
  * inefficient to dump all of buffer when we migh not have to, but it works */
 
+/* TODO */
+
 int fseek(struct _file * file, uint16_t location, uint16_t whence){
-    /* flush buffers */
-    if(file->buf_mode & __BUF_OUT){
-        _file_buf_flush(file);
+    _file_assert_magic(file);
+
+    if(file->buf_mode == NOBUF) {
+        lseek(file->fd, location, whence);
+    } else {
+        /* TODO */
     }
-    /* adjust for any data we have read into the input buffer but not consumed
-     * we always read a full BUFSIZE of input (unless eof), so just sub index from that */
-    if(file->buf_mode & __BUF_IN){
-        uint16_t backtrack = file->buf_index - (file->buf_eof != -1 ? file->buf_eof : BUFSIZ);
-        if(lseek(file->fd, backtrack, SEEK_CUR) == -1){
-            return -1;
-        }
-    }
-
-    /* do actual seek */
-    if(lseek(file->fd, location, whence) == -1){
-        return -1;
-    }
-
-    /* set to be in output mode, as fputc has to work after seek */
-    file->buf_mode |= __BUF_OUT;
-    file->buf_mode &= ~(__BUF_IN);
-
-    file->has_in_data = 0;
-
-    file->buf_index = 0;
-
-    file->is_eof = 0;
-
-    return 0;
 }
 
 void rewind(struct _file * file){
@@ -52,9 +32,10 @@ uint16_t fsetpos(struct _file * file, fpos_t *pos){
 }
 
 void clearerr(struct _file *file){
-    file->is_eof = 0;
+
 }
 
 uint16_t feof(struct _file *file){
-    return file->is_eof;
+    _file_assert_magic(file);
+    return file->eof_flag;
 }

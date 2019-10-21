@@ -3,36 +3,22 @@
 
 /* write to a file */
 int16_t fputc(int16_t c, struct _file * file){
-    /* if we are in file input mode, return EOF (it is undefined behavior, so technically standard compliant)
-     * this has to work right after an fseek, so fseek sets mode to __BUF_OUT (fgetc can handle being in buf out) */
-    if(file->buf_mode & __BUF_IN){
-        return EOF;
-    }
+    /* this needs to check if we are in input mode and return EOF */
+    _file_assert_magic(file);
+
     uint8_t data = c;
-    /* check if we need to flush buffer */
-    if(file->buf_index >= BUFSIZ){
-        if(_file_buf_flush(file)){
-            return EOF;
-        }
-    }
-    /* handle no buffering */
-    if(file->buf_mode & _IONBF){
+
+    if(file->buf_mode == NOBUF) {
         if(write(file->fd, &data, 1) != 1){
+            file->eof_flag = 1;
             return EOF;
+        } else {
+            return data;
         }
-    } else{
-        if(file->buf == NULL){
-            return EOF;
-        }
-        file->buf[file->buf_index++] = data;
-        /* if line buffered, flush if we need to */
-        if(data == '\n' && (file->buf_mode & _IOLBF)){
-            if(_file_buf_flush(file)){
-                return EOF;
-            }
-        }
+    } else {
+        /* TODO */
     }
-    return data;
+    
 }
 
 int16_t putchar(int16_t c){

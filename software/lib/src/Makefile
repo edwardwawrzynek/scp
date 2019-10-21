@@ -12,11 +12,11 @@ LIBC_BIN = ../bin/libc.a
 LIBC_HEADERS =
 
 LIBC_OBJS = \
-stdio/_file_open.o	stdio/_file_buf.o	stdio/fopen.o	stdio/fseek.o		\
-stdio/fileno.o	stdio/fflush.o	stdio/ftell.o	stdio/setbuf.o				\
-stdio/fdopen.o	stdio/fputs.o	stdio/_init_stdio.o	stdio/fputc.o			\
-stdio/fgetc.o	stdio/fgets.o	stdio/fclose.o	stdio/fread.o				\
-stdio/fwrite.o	stdio/freopen.o	stdio/printf.o	stdio/remove.o				\
+stdio/_file_open.o	stdio/_file_buf.o	stdio/fseek.o		\
+stdio/fileno.o	stdio/ftell.o				\
+stdio/fputs.o	stdio/_init_stdio.o	stdio/fputc.o			\
+stdio/fgetc.o	stdio/fgets.o	stdio/fread.o				\
+stdio/fwrite.o stdio/printf.o	stdio/remove.o				\
 stdio/rename.o	stdio/scanf.o	stdio/perror.o	stdio/feof.o				\
 																			\
 stdlib/abs.o	stdlib/itoa.o	stdlib/malloc.o	stdlib/strtol.o				\

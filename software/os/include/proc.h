@@ -14,7 +14,8 @@
 
 #define pid_t uint16_t
 
-#define MMU_NUM_PROCS 128
+#define MMU_NUM_PAGES 2048 //2048 pages available - every proc full
+#define MMU_MAX_PROCS 64
 #define MMU_PAGE_SIZE 2048
 #define MMU_PAGE_SIZE_SHIFT 11
 #define MMU_PAGE_SIZE_MASK 2047
@@ -24,9 +25,21 @@
 
 //a value for the mmu table that marks a page as not used
 //the 0 in the high bit indicates unused, the rest is just recognizable in hex
-#define MMU_UNUSED 0b1111111
+#define MMU_PAGE_MASK       0x3fff
+#define MMU_UNUSED          0x3fff
 
-#define IS_MMU_UNUSED(page_val) (!(page_val & 0b10000000))
+#define MMU_ASSIGN_FLAG     0x8000
+#define MMU_CLEAR_ASSIGN    0x7fff
+#define MMU_TEXT_FLAG       0x4000
+#define MMU_CLEAR_TEXT      0xbfff
+
+#define MMU_CLEAR_FLAGS     0x3fff
+
+#define IS_MMU_ASSIGNED(page_val) ((page_val & MMU_ASSIGN_FLAG))
+#define IS_MMU_UNASSIGNED(page_val) (!(page_val & MMU_ASSIGN_FLAG))
+
+#define IS_MMU_TEXT(page_val) ((page_val & MMU_TEXT_FLAG))
+#define IS_MMU_DATA(page_val) (!(page_val & MMU_TEXT_FLAG))
 
 /* Process State */
 
@@ -96,9 +109,8 @@ struct proc {
     struct proc_cpu_state cpu_state;
 
     //the memory table for the process - the proc's memory map starts at its index in the table << PROC_MMU_SHIFT
-    //a value > 0b10000000 indicates an assigned page (low 7 bytes being mmu entry + high bit indicating in use to mmu), a zero unassigned
     //the high bit marks a page assigned to mmu and os
-    uint8_t mem_map[PROC_MMU_PAGES];
+    uint16_t mem_map[PROC_MMU_PAGES];
     //the proc_mem struct for the process - keeps track of which pages are which
     struct proc_mem mem_struct;
 

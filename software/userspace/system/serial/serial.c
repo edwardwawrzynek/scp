@@ -179,7 +179,7 @@ int main(){
     proc_files(0, ".");
 
     /* execute /init */
-    execv("/init", NULL);
+    execv("/etc/init", NULL);
 
     test_syscall("exec failure\n");
     test_syscall(strerror(errno), 0, 0, 0);

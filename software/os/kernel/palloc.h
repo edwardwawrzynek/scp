@@ -1,8 +1,7 @@
 /* This file was automatically generated.  Do not edit! */
-#undef INTERFACE
-void palloc_free(uint8_t i);
-uint8_t palloc_use_page(uint8_t page);
-uint8_t palloc_alloc(uint8_t page);
-uint8_t palloc_add_ref(uint8_t page);
-uint8_t palloc_new();
-extern uint8_t palloc_page_refs[MMU_NUM_PROCS];
+void palloc_free(uint16_t i);
+uint16_t palloc_use_page(uint16_t page);
+uint16_t palloc_alloc(uint16_t page);
+uint16_t palloc_add_ref(uint16_t page);
+uint16_t palloc_new();
+extern uint16_t palloc_page_refs[MMU_NUM_PAGES];

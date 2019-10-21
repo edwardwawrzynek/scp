@@ -17,26 +17,26 @@
  */
 
 //array of refs to each page
-uint8_t palloc_page_refs[MMU_NUM_PROCS];
+uint16_t palloc_page_refs[MMU_NUM_PAGES];
 
 /* get a new page, and mark it as in use
- * returns (uint8_t) - the page addr, suitable for use in a mem_map array*/
-uint8_t palloc_new(){
+ * returns (uint16_t) - the page addr, suitable for use in a mem_map array*/
+uint16_t palloc_new(){
     unsigned int i;
-    for(i = 0; i < MMU_NUM_PROCS; i++){
+    for(i = 0; i < MMU_NUM_PAGES; i++){
         if(!palloc_page_refs[i]){
             palloc_page_refs[i] = 1;
-            return (i | 0b10000000);
+            return (i | MMU_ASSIGN_FLAG);
         }
     }
     panic(PANIC_NO_MORE_PAGES);
 }
 
 /* increase the refs for a certain page
- * returns (uint8_t) - the page addr, suitable for use in mem_map, and for deallocation by palloc_free */
-uint8_t palloc_add_ref(uint8_t page){
+ * returns (uint16_t) - the page addr, suitable for use in mem_map, and for deallocation by palloc_free */
+uint16_t palloc_add_ref(uint16_t page){
     //clear bit mask if page was obtained from mmu tables or mem_map
-    page = page & MMU_CLEAR_ASIGN;
+    page = page & MMU_CLEAR_FLAGS;
     if(!palloc_page_refs[page]){
         panic(PANIC_PALLOC_ADD_REF_UNASIGNED_PAGE);
     }
@@ -48,29 +48,29 @@ uint8_t palloc_add_ref(uint8_t page){
 /* allocate a specific page, or panic if it is in use
  * should only be used by kernel to fit to already set mmu map
  */
-uint8_t palloc_alloc(uint8_t page){
-    page = page & MMU_CLEAR_ASIGN;
+uint16_t palloc_alloc(uint16_t page){
+    page = page & MMU_CLEAR_FLAGS;
     if(palloc_page_refs[page]){
         panic(PANIC_PALLOC_ALLOC_ALREADY_IN_USE);
     }
     palloc_page_refs[page]=1;
 
-    return page | 0b10000000;
+    return page | MMU_ASSIGN_FLAG;
 }
 
 /* inc refs to page, regardless of it is in use or not */
-uint8_t palloc_use_page(uint8_t page){
-    page = page & MMU_CLEAR_ASIGN;
+uint16_t palloc_use_page(uint16_t page){
+    page = page & MMU_CLEAR_FLAGS;
     palloc_page_refs[page]++;
 
-    return page | 0b10000000;
+    return page | MMU_ASSIGN_FLAG;
 }
 
 /* free a page, and mark it as free
  * returns (none) */
-void palloc_free(uint8_t i){
+void palloc_free(uint16_t i){
     //clear bit mask
-    i = i & MMU_CLEAR_ASIGN;
+    i = i & MMU_CLEAR_FLAGS;
     if(!palloc_page_refs[i]){
         panic(PANIC_PALLOC_FREE_UNASIGNED);
     }
