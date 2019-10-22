@@ -25,9 +25,11 @@
 
 int16_t test_syscall(__reg("ra") uint8_t *a0, uint16_t __reg("rb") a1, __reg("rc") uint16_t a2, uint16_t __reg("rd") a3);
 
-int16_t getpid();
-int16_t getppid();
-int16_t fork();
+typedef int16_t pid_t;
+
+pid_t getpid();
+pid_t getppid();
+pid_t fork();
 
 #define O_RDONLY 1 /* read only mode */
 #define O_WRONLY 2 /* write only mode */
@@ -69,11 +71,11 @@ int16_t write(uint16_t fd, uint8_t * buffer, uint16_t bytes);
 
  int16_t chroot(__reg("ra") uint8_t *path);
 
- int16_t exit(__reg("ra") uint16_t return_value);
+ int16_t exit(__reg("ra") int16_t return_value);
 
- int16_t wait_nb(__reg("ra") uint8_t *ret_val);
+ int16_t wait_nb(__reg("ra") int16_t *ret_val);
 
- int16_t wait(uint8_t *ret_val);
+ int16_t wait(int16_t *ret_val);
 
  int16_t link(__reg("ra") uint8_t *old_path, __reg("rb") uint8_t *new_path);
 

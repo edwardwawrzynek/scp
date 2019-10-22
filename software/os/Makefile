@@ -58,7 +58,7 @@ CFLAGS += -O1 -size
 
 LD = scplnk
 #no need for the os to have a header or split segs on pages
-LDFLAGS = -r -p -D bin/os.debug -S
+LDFLAGS = -r -p
 
 all: $(BIN)
 

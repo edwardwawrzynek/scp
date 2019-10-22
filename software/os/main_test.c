@@ -155,10 +155,11 @@ int main(){
     printf("Welcome to SCP OS v0.0.1\n");
     printf("Author: Edward Wawrzynek\n");
     printf("The programs distributed with SCP are free software and are liscensed under the GPL-3\n");
-    printf("https://github.com/edwardwawrzynek/scp\n")
+    printf("https://github.com/edwardwawrzynek/scp\n");
 
     printf("Press s for serial loader, enter for minishell\n:");
     if(getchar() == 's'){
+        getchar();
         kernel_start_init("/bin/serial");
     }
     cwd = 2;

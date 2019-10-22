@@ -1,5 +1,5 @@
 BIN = \
-init start_user	test1	ls	mkdir	cat	clear sh						\
+init start_user	test1	ls	mkdir	cat	clear sh wc						\
 
 all: $(BIN)
 

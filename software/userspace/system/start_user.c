@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <unistd.h>
+#include <setjmp.h>
 
-unsigned char *args[] = {"sh", NULL};
+unsigned char *args[] = {"sh", "-i", NULL};
 
 int main(){
     printf("start_user up\n");

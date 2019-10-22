@@ -12,7 +12,7 @@
  *
  */
 
-#define pid_t uint16_t
+typedef int16_t pid_t;
 
 #define MMU_NUM_PAGES 2048 //2048 pages available - every proc full
 #define MMU_MAX_PROCS 64

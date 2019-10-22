@@ -74,7 +74,7 @@ uint16_t _wait_nb(uint16_t ret_pointer, uint16_t a1, uint16_t a2, uint16_t a3){
                 panic(PANIC_PROC_NO_RET_VAL);
             }
             if(ret_pointer != NULL){
-                uint8_t * ret_val = kernel_map_in_mem((uint8_t *)ret_pointer, proc_current_proc);
+                int16_t * ret_val = (uint16_t *)kernel_map_in_mem((int16_t *)ret_pointer, proc_current_proc);
                 if(!ret_val){
                     set_errno(EUMEM);
                     return -1;

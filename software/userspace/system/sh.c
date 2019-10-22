@@ -6,6 +6,8 @@
 #include <stdbool.h>
 #include <ctype.h>
 #include <stdarg.h>
+#include <assert.h>
+
 
 /*
 SCP shell
@@ -16,6 +18,7 @@ just redirection and piping
 
 #define MAXCMDSIZE 256
 #define MAXARGS 32
+#define MAXPIPES 8
 
 /* input file - may be stdin */
 FILE * file_in;
@@ -24,6 +27,7 @@ FILE * file_in;
 char line[MAXCMDSIZE+1];
 char * line_pos;
 
+int interactive_flag = 0;
 
 /* read a line into the buffer */
 void readline() {
@@ -65,11 +69,41 @@ struct cmd {
     uint16_t args_index;
     char * redir_in;
     char * redir_out;
+    uint8_t in_background;
 };
 
-struct cmd current_cmd;
+struct cmd * alloc_cmd() {
+    struct cmd * res = malloc(sizeof(struct cmd));
+    assert(res != NULL);
+    res->cmd = NULL;
+    memset(res->args, 0, MAXARGS);
+    res->args_index = 0;
+    res->redir_in = NULL;
+    res->redir_out = NULL;
+    res->in_background = 0;
 
-int exec_cmd_no_fork(struct cmd * cmd) {
+    return res;
+}
+
+void free_cmd(struct cmd * cmd) {
+    free(cmd->cmd);
+    free(cmd->redir_in);
+    free(cmd->redir_out);
+    for(int i = 0; i < MAXARGS; i++) {
+        free(cmd->args[i]);
+    }
+
+    free(cmd);
+}
+
+char * copy_to_malloc(char * str) {
+    char * res = malloc(strlen(str) + 1);
+    assert(res != NULL);
+    strcpy(res, str);
+    return res;
+}
+
+int exec_cmd_no_fork(struct cmd * cmd, pid_t input_pipe, pid_t output_pipe) {
     int fd_redir_out = STDOUT_FILENO;
     int fd_redir_in = STDIN_FILENO;
 
@@ -82,6 +116,7 @@ int exec_cmd_no_fork(struct cmd * cmd) {
             return 1;
         }
         dup2(fd, STDIN_FILENO);
+        close(fd);
     }
     if(cmd->redir_out != NULL) {
         int fd = open(cmd->redir_out, O_CREAT | O_TRUNC | O_WRONLY);
@@ -91,6 +126,17 @@ int exec_cmd_no_fork(struct cmd * cmd) {
             return 1;
         }
         dup2(fd, STDOUT_FILENO);
+        close(fd);
+    }
+
+    /* handle pipes if we need to */
+    if(input_pipe != -1) {
+        dup2(input_pipe, STDIN_FILENO);
+        close(input_pipe);
+    }
+    if(output_pipe != -1) {
+        dup2(output_pipe, STDOUT_FILENO);
+        close(output_pipe);
     }
 
     /* set null in args */
@@ -98,7 +144,7 @@ int exec_cmd_no_fork(struct cmd * cmd) {
 
     /* actually execute */
     if(execv(cmd->cmd, cmd->args) == -1) {
-        perror("sh: execution failed: ");
+        perror("sh: no such command");
     }
     
 }
@@ -116,26 +162,83 @@ int exec_cd(struct cmd * cmd) {
     return 0;
 }
 
-int exec_cmd(struct cmd * cmd) {
-    if(!strcmp(cmd->cmd, "cd")) {
-        return exec_cd(cmd);
-    } else if(!strcmp(cmd->cmd, "exit")) {
-        exit(0);
-    } else {
-        if(fork() == 0) {
-            exec_cmd_no_fork(cmd);
-            /* if we failed to exec, fail with error */
-            exit(255);
+/* proc pids to wait for (or -1 to not wait) */
+pid_t proc_pid_wait[MAXPIPES];
+pid_t proc_pid_wait_index = 0;
+
+pid_t proc_pid_wait_get_index(pid_t pid) {
+    for(int i = 0; i < proc_pid_wait_index; i++) {
+        if(proc_pid_wait[i] == pid){
+            return i;
         }
-        uint8_t ret_val;
-        wait(&ret_val);
-        return ret_val;
     }
+    return -1;
+}
+
+int16_t get_num_procs_waiting() {
+    int16_t res = 0;
+    for(int i = 0; i < proc_pid_wait_index; i++) {
+        if(proc_pid_wait[i] != -1){
+            res++;
+        }
+    }
+    return res;
+}
+
+struct cmd * cmds[MAXPIPES];
+uint16_t cmds_index = 0;
+
+int exec_cmds() {
+    proc_pid_wait_index = 0;
+    pid_t pipe_pids[2];
+
+    for(int i = 0; i < cmds_index; i++) {
+        struct cmd * cmd = cmds[i];
+        if(!strcmp(cmd->cmd, "cd")) {
+            return exec_cd(cmd);
+        } else if(!strcmp(cmd->cmd, "exit")) {
+            exit(0);
+        } else {
+            pid_t input_pipe = -1, output_pipe = -1;
+            if(i > 0) {
+                input_pipe = pipe_pids[0];
+            }
+            if(i < cmds_index -1) {
+                /* pipe */
+                pipe(pipe_pids);
+                output_pipe = pipe_pids[1];
+            }
+            pid_t pid = fork();
+            if(pid == 0) {
+                exec_cmd_no_fork(cmd, input_pipe, output_pipe);
+                /* if we failed to exec, fail with error */
+                exit(255);
+            } else {
+                if(input_pipe != -1) close(input_pipe);
+                if(output_pipe != -1) close(output_pipe);
+                if(cmd->in_background == 0) {
+                    proc_pid_wait[proc_pid_wait_index++] = pid;
+                }
+            }
+        }
+    }
+
+    int ret_val;
+    while(get_num_procs_waiting() > 0) {
+        int ret_pid = wait(&ret_val);
+        int pid_index = proc_pid_wait_get_index(ret_pid);
+        /* make sure we were actually waiting on this command */
+        if(pid_index != -1) {
+            proc_pid_wait[pid_index] = -1;
+        }
+    }
+    return ret_val;
 }
 
 /* run main loop (0 to re-run, 1 to exit */
 int mainloop() {
-    printf("$ ");
+    cmds_index = 0;
+    if(interactive_flag) printf("$ ");
     if(feof(file_in)) return 1;
     readline();
     /* step in parsing */
@@ -143,8 +246,8 @@ int mainloop() {
     /* current symbol we are on */
     char * sym;
 
-    struct cmd * res = &current_cmd;
-    memset(res, 0, sizeof(struct cmd));
+    struct cmd * res = alloc_cmd();
+    cmds[cmds_index++] = res;
     
     do{
         sym = get_next_sym();
@@ -157,20 +260,30 @@ int mainloop() {
             mode = REDIR_IN;
             continue;
         }
+        if(!strcmp(sym, "&")) {
+            res->in_background = 1;
+            continue;
+        }
+        if(!strcmp(sym, "|")) {
+            mode = CMD;
+            res = alloc_cmd();
+            cmds[cmds_index++] = res;
+            continue;
+        }
         switch(mode) {
             case CMD:
-                res->cmd = sym;
-                res->args[res->args_index++] = sym;
+                res->cmd = copy_to_malloc(sym);
+                res->args[res->args_index++] = copy_to_malloc(sym);
                 mode = ARGS;
                 break;
             case ARGS:
-                res->args[res->args_index++] = sym;
+                res->args[res->args_index++] = copy_to_malloc(sym);
                 break;
             case REDIR_IN:
-                res->redir_in = sym;
+                res->redir_in = copy_to_malloc(sym);
                 break;
             case REDIR_OUT:
-                res->redir_out = sym;
+                res->redir_out = copy_to_malloc(sym);
                 break;
             default:
                 break;
@@ -178,25 +291,43 @@ int mainloop() {
 
     } while (true);
 
-    exec_cmd(res);
+    exec_cmds();
+    //free cmd objects
+    for(int i = 0; i < cmds_index; i++) {
+        free_cmd(cmds[i]);
+    }
 
     return 0;
 }
 
-/* main TODO: handle args on command line or interactive mode */
+void print_usage() {
+    fprintf(stderr, "usage: sh [options] [file]\noptions:\n-i\tinteractive mode\n-h\tprint help\n");
+    exit(1);
+}
+
+/* main */
 int main(int argc, char ** argv){
-    printf("SCP SH v0.1\n");
-    if(argc != 2){
-        if(argc == 1) {
-            file_in = stdin;
-        } else {
-            fprintf(stdout, "usage: sh file\n");
-            exit(1);
+    int i;
+    while((i = getopt(argc, argv, "ih")) != -1) {
+        switch(i) {
+            case 'i':
+                interactive_flag = 1;
+                break;
+            case 'h':
+            default:
+                print_usage();
+                break;
         }
+    }
+    if(interactive_flag) printf("SCP SH v0.1\n");
+
+    if(optind >= argc){
+        file_in = stdin;
     } else {
-        file_in = fopen(argv[1], "r");
+        file_in = fopen(argv[optind], "r");
         if(file_in == NULL){
-            fprintf(stdout, "couldn't open file: %s\n", argv[1]);
+            fprintf(stderr, "couldn't open file: %s\n", argv[optind]);
+            exit(1);
         }
     }
     

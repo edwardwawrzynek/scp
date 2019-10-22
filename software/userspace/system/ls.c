@@ -17,6 +17,12 @@
  * i (list inodes)
  */
 
+void print_usage() {
+    fprintf(stderr, "usage: ls [options] [directory]\noptions:\n");
+    fprintf(stderr, "-l\tlong form\n-a\tshow hidden files\n-A\tshow hidden, ignore . and ..\n-f\tdon't sort\n-F\tshow file type indicator\n-R\trecursive\n-s\tshow sizes\n-i\tshow inodes\n-h\tprint help\n");
+    exit(1);
+}
+
 /* flags passed on command line */
 uint8_t l_flag, a_flag, A_flag, f_flag, F_flag, R_flag, s_flag, i_flag;
 
@@ -58,7 +64,7 @@ int print_file(char *file){
         printf("%s ", mode);
     }
     if(s_flag){
-        printf("%u Kb\t", sentry.st_size/1024);
+        printf("%u Kb\t", (sentry.st_size/1024) + 1);
     }
     printf("%s", file);
     if(f_flag){
@@ -154,16 +160,15 @@ void list_dir(char *dir, uint8_t display_name){
             }
             /* don't display hidden files */
             if(files[i][0] == '.'){
-                if(A_flag){
-                    if((!strcmp(files[i], ".")) || (!strcmp(files[i], ".."))){
-                        continue;
-                    }
-                } else if(!a_flag){
+                if((!strcmp(files[i], ".")) || (!strcmp(files[i], ".."))){
+                    continue;
+                }                    
+                if(!a_flag && !A_flag){
                     continue;
                 }
             }
             /* mark files that aren't dirs */
-            list_dir(files[i], display_name);
+            list_dir(files[i], 1);
         }
     }
     fchdir(old_dir_fd);
@@ -172,7 +177,7 @@ void list_dir(char *dir, uint8_t display_name){
 
 int main(int argc, char **argv){
     int i;
-    while((i = getopt(argc, argv, "laAfFRsi")) != -1){
+    while((i = getopt(argc, argv, "laAfFRsih")) != -1){
         switch(i){
             case 'l':
                 l_flag = 1;
@@ -200,7 +205,9 @@ int main(int argc, char **argv){
             case 'i':
                 i_flag = 1;
                 break;
+            case 'h':
             default:
+                print_usage();
                 break;
         }
     }
