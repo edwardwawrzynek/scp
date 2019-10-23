@@ -1060,6 +1060,7 @@ void gen_var_head(FILE *f,struct Var *v)
     /* read only bss (just goes in .rodata - let the assembler figure that one out) */
     emit(f, "\t.robss\n");
   }
+  emit(f, "\t.align\n");
 
   if(v->storage_class == STATIC){
     if(ISFUNC(v->vtyp->flags)) return;

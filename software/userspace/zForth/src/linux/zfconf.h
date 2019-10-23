@@ -7,7 +7,7 @@
  * tracing at run time when calling zf_init() or by setting the 'trace' user
  * variable to 1 */
 
-#define ZF_ENABLE_TRACE 1
+#define ZF_ENABLE_TRACE 0
 
 
 /* Set to 1 to add boundary checks to stack operations. Increases .text size
@@ -29,15 +29,15 @@
  * type. This adds a few hundred bytes of .text. Check the memaccess.zf file for
  * examples how to use these operations */
 
-#define ZF_ENABLE_TYPED_MEM_ACCESS 1
+#define ZF_ENABLE_TYPED_MEM_ACCESS 0
 
 
 /* Type to use for the basic cell, data stack and return stack. Choose a signed
  * integer type that suits your needs, or 'float' or 'double' if you need
  * floating point numbers */
 
-typedef float zf_cell;
-#define ZF_CELL_FMT "%.14g"
+typedef int32_t zf_cell;
+#define ZF_CELL_FMT "%d"
 
 
 /* The type to use for pointers and adresses. 'unsigned int' is usually a good

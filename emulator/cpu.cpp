@@ -252,7 +252,8 @@ void CPU::execute(uint16_t instr, uint16_t imd) {
         case NOP_N_N: /* nop.n.n - no operation*/
 
             /* if specific value are encoded in the nop, run debug outputs */
-            nop_debug(imd);
+            //nop_debug(imd);
+            //don't do this - causing issues with file headers triggering it
             break;
 
         case MOV_R_R: /* mov.r.r - copy reg to reg */
@@ -586,7 +587,7 @@ void CPU::check_ints(){
 /* do a nop debug */
 void CPU::nop_debug(uint16_t instr){
     switch(instr){
-        case 16:
+        case 255:
             for(int i = 0; i < 2048; i++){
                 if(i % 32 == 0){
                     printf("\nProc %02x|", i / 32);

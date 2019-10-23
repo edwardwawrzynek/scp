@@ -16,6 +16,7 @@ uint8_t *fgets(uint8_t *buf, uint16_t size, struct _file * file){
         size--;
     }
     *buf = '\0';
+    if(res == buf) return NULL;
 
     return res;
 }

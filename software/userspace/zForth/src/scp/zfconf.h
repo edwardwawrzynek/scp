@@ -37,7 +37,7 @@
  * floating point numbers */
 
 typedef int16_t zf_cell;
-#define ZF_CELL_FMT "%ld"
+#define ZF_CELL_FMT "%d"
 
 
 /* The type to use for pointers and adresses. 'unsigned int' is usually a good

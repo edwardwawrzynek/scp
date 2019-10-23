@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <setjmp.h>
 #include <stdint.h>
+#include <stdio.h>
 
 #include "zforth.h"
 
@@ -313,6 +314,7 @@ static zf_addr dict_get_cell_typed(zf_addr addr, zf_cell *v, zf_mem_size size)
 			return 1;
 		}
 	} 
+	printf("size: %i\n", size);
 	
 	GET(ZF_MEM_SIZE_CELL, zf_cell);
 	GET(ZF_MEM_SIZE_U8, uint8_t);
