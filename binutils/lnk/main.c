@@ -52,7 +52,7 @@ FILE * sym_debug_file;
 /* don't link unneeded object files */
 /* (disabled during testing) */
 //int do_dep_opt = 1;
-int do_dep_opt = 0;
+int do_dep_opt = 1;
 
 /* output an archive (combination of object files) */
 int do_out_ar = 0;
@@ -216,12 +216,15 @@ void run_sym_debug_out(){
 void run_lnk(){
   if(do_out_obj){
     run_lnk_obj();
+    sym_detect_duplicate_entries();
   } else if(do_out_ar){
     run_lnk_ar();
+    sym_detect_duplicate_entries();
   } else {
     run_lnk_bin();
     if(sym_debug_out){
       run_sym_debug_out();
     }
+    sym_detect_duplicate_entries();
   }
 }

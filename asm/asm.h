@@ -74,7 +74,7 @@ extern char line[LINE_SIZE];
 extern int lptr;
 
 extern char * alu_ops[16];
-const extern struct instr_encoding instructions[MAX_CMDS];
+extern const struct instr_encoding instructions[MAX_CMDS];
 
 /* debug file */
 extern FILE * debug_file;

@@ -26,7 +26,7 @@ int do_out_obj = 0;
 /**
  * Raise an error */
 void error(char * msg){
-  printf("\nscplnk: error:\n%s\n", msg);
+  fprintf(stderr, "\nscplnk: error:\n%s\n", msg);
 
   exit(1);
 }

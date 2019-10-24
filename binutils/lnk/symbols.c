@@ -95,11 +95,33 @@ void obj_out_write_symbols(){
     }
 }
 
+void sym_detect_duplicate_entries() {
+    /* look through all the tables */
+    for(int f = 0; in_objs[f].file; f++){
+        /* look through all entries */
+        for(int n = 0; n < defined_size[f]; n++){
+            struct obj_symbol_entry *entry = &defined_tables[f][n];
+            /* look through all the tables */
+            for(int f1 = 0; in_objs[f1].file; f1++){
+                /* look through all entries */
+                for(int n1 = 0; n1 < defined_size[f1]; n1++){
+                    if(f1 == f && n1 == n) continue;
+                    struct obj_symbol_entry *entry1 = &defined_tables[f1][n1];
+                    if(!strcmp(entry->name, entry1->name)) {
+                        fprintf(stderr, "\nscplnk: error:\nduplicate definition of symbol: %s\n", entry->name);
+                        exit(1);
+                    }
+                }
+            }
+        }
+    }
+}
 
 /* write out symbol adresses */
 void sym_out_write_symbols(FILE * file){
     for(uint32_t a = 0; a < 65536; a++){
         for(int i = 0; in_objs[i].file; i++){
+            if(!in_objs_do_lnk[i]) continue;
             for(int d = 0; d < in_objs[i].segs.defined_table.size / _OBJ_SYMBOL_ENTRY_SIZE; d++){
                 struct obj_symbol_entry *entry = &defined_tables[i][d];
                 uint16_t addr = in_segs_start[i][entry->seg] + entry->offset;

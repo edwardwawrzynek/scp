@@ -3,6 +3,7 @@
 #include "obj.h"
 #include "io.h"
 #include "symbols.h"
+#include <unistd.h>
 
 /**
  *  ----- scp .a file format -----
@@ -78,7 +79,7 @@ void handle_ar_obj(struct obj_file *obj_file, int * cur_index){
         for(int i = 0; i < num_objs; i++){
             int offset = ar_read_word(file);
             obj_init(&in_objs[*cur_index]);
-            in_objs[*cur_index].file = fdopen (dup (fileno (file)), "r");;
+            in_objs[*cur_index].file = fdopen (dup (fileno (file)), "r");
             in_objs_do_lnk[*cur_index] = 1;
 
             in_objs[*cur_index].offset = offset;

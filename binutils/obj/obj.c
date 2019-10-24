@@ -210,6 +210,8 @@ void obj_write_defined(struct obj_file *obj, char *name, uint8_t seg, uint16_t o
   _obj_write_symbol(obj, &sym, addr);
 
   obj->defined_write_pos++;
+
+  
 }
 
 /* write a symbol to the extern symbol table - with an offset from that symbol (usually zero)

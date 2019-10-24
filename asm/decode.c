@@ -63,10 +63,7 @@ uint8_t read_good_line(){
 /**
  * find the instruction entry that matches the given cmd name, or error if not a valid instruction */
 struct instr_encoding * get_instr_entry(char * name) {
-  printf("name: %s\n", name);
-  printf("instructions: %u, name: %s\n", instructions, instructions[0].name);
   for(unsigned int i = 0; instructions[i].name; i++){
-	  printf("test name: %s\n", instructions[i].name);
     if(!strcmp(instructions[i].name, name)) {
       return instructions + i;
     }

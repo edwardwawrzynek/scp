@@ -1,5 +1,6 @@
 /* This file was automatically generated.  Do not edit! */
 void sym_out_write_symbols(FILE *file);
+void sym_detect_duplicate_entries();
 void obj_out_write_symbols();
 uint16_t extern_get_addr(int i,uint32_t index);
 int find_defined_symbol_file(char *name);

@@ -22,4 +22,6 @@ void *realloc(void *ptr,size_t size);
 void free(void *ptr);
 void *malloc(size_t size);
 
+/* syscalls needed in stdlib */
+unsigned int exit(__reg("ra") int return_value);
 #endif
