@@ -16,3 +16,4 @@ void obj_create_header(struct obj_file *obj,uint32_t seg0,uint32_t seg1,uint32_t
 void obj_init(struct obj_file *obj);
 void obj_read_header(struct obj_file *obj);
 void obj_write_header(struct obj_file *obj);
+int obj_test_header(struct obj_file *obj);

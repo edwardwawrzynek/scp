@@ -15,4 +15,5 @@ void obj_expand_extern(struct obj_file *obj,uint32_t extern_symbols);
 void obj_create_header(struct obj_file *obj,uint32_t seg0,uint32_t seg1,uint32_t seg2,uint32_t seg3,uint32_t defined_symbols,uint32_t extern_symbols);
 void obj_init(struct obj_file *obj);
 void obj_read_header(struct obj_file *obj);
+int obj_test_header(struct obj_file *obj);
 void obj_write_header(struct obj_file *obj);

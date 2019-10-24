@@ -61,12 +61,38 @@ void handle_ar_obj(struct obj_file *obj_file, char *name){
     fseek(file, old_pos, SEEK_SET);
 }
 
+static void read_header_word_size(uint16_t word, uint16_t * size, uint16_t * offset) {
+  *size = ((word >> 5) & 0b11111)*2048;
+  *offset = (word & 0b11111)*2048;
+}
+
+/* read bin object and print info */
+void handle_bin_obj(FILE *file, char * name) {
+  uint16_t total = 0;
+  uint16_t data;
+  for(int i = 0; i < 4; i++) {
+    fread(&data, sizeof(data), 1, file);
+    uint16_t s_size;
+    uint16_t s_offset;
+    read_header_word_size(data, &s_size, &s_offset);
+    if(s_offset != total) {
+      fprintf(stderr, "\nfile %s is not scp archive, object file, or binary file with header\n", name);
+      exit(1);
+    }
+    printf("%u\t", s_size);
+    total += s_size;
+    seg_sum[i] += s_size;
+    sum += s_size;
+  }
+  printf("%u\t%s [bin]\n", total, name);
+}
+
 
 struct obj_file obj;
 FILE *file;
 
 int main(int argc, char *argv[]){
-  printf("seg 0\tseg 1\tseg 2\tseg 3\ttotal\tfile\n------\t------\t------\t------\t------\t------\n");
+  printf("text\tdata\tseg 2\tseg 3\ttotal\tfile\n------\t------\t------\t------\t------\t------\n");
   /* go through each file */
   for(int i = 1; i < argc; i++){
     file = fopen(argv[i], "r");
@@ -74,13 +100,16 @@ int main(int argc, char *argv[]){
       printf("scpsize: error: no such file %s\n", argv[i]);
       exit(1);
     }
-
     /* init object */
     obj_init(&obj);
     obj.file = file;
 
-    //handle sub objs if ar, and print size
-    handle_ar_obj(&obj, argv[i]);
+    if(obj_test_header(&obj)) {
+      //handle sub objs if ar, and print size
+      handle_ar_obj(&obj, argv[i]);
+    } else {
+      handle_bin_obj(obj.file, argv[i]);
+    }
 
   }
   /* print total sums */

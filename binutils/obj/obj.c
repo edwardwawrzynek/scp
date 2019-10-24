@@ -59,6 +59,20 @@ void obj_write_header(struct obj_file *obj){
 }
 
 /**
+ * test if a file is an object file
+ */
+int obj_test_header(struct obj_file *obj){
+  int res = 0;
+  /* seek to header start */
+  fseek(obj->file, 0 + obj->offset, SEEK_SET);
+  /* read magic number, and make sure it is right */
+  if(_obj_read_val(obj->file, 4) != _OBJ_MAGIC_NUMBER) res = 0;
+  else res = 1;
+  fseek(obj->file, 0, SEEK_SET);
+  return res;
+}
+
+/**
  * init an obj_segs object by reading in the header of the obj_file */
 void obj_read_header(struct obj_file *obj){
   /* seek to header start */
