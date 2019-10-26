@@ -146,7 +146,7 @@ int main(){
 
     printf("Booting Kernel\n");
     kernel_init();
-    printf("Kernel Booted\t\t\t[OK]\n");
+    printf("Kernel Booted\t\t\t[OK]\n\n");
     printf("####   ###   ###      ##   ####\n");
     printf("#     #     #  #     #  #  #   \n");
     printf("####  #     ###   #  #  #  ####\n");

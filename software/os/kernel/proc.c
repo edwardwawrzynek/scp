@@ -309,7 +309,7 @@ uint16_t proc_load_mem(struct proc * proc, struct file_entry * file){
     file_seek(file, 0, SEEK_SET);
     do{
         if((mapped_in = kernel_map_in_mem(addr, proc)) == NULL){
-            return 1;
+            return -2;
         };
         bytes_read = file_read(file, mapped_in, MMU_PAGE_SIZE);
         addr += bytes_read;

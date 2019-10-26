@@ -8,7 +8,7 @@
 #define MAX_FILES 64
 
 //buffer size to use for transfer
-#define BUF_SIZE 2
+#define BUF_SIZE 512
 
 /* An array of these file structs are transmitted first. They define what files are going to be sent and created. Any index var in them is the index in the global transmitted file array */
 /* Note: device files can't be sent. Only normal files, and directories are sent (execute and dir bits can be sent) */

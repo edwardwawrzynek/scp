@@ -13,15 +13,20 @@
 //perform a broad initilization of the kernel
 void kernel_init(){
   //set all mmu entries but proc 0 (kernel) to be unassigned
+  printf("Init MMU System\t\t\t");
   mmu_init_clear_table();
   //bring up filesystem
+  printf("[OK]\nStart Filesystem\t\t");
   fs_init();
+  printf("[OK]\nStart Proccess System\t\t");
   //init proc table
   proc_init_table();
   //init kernel entry
   proc_init_kernel_entry();
+  printf("[OK]\nStart IO System\t\t\t");
   //start kstdio layer
   kstdio_layer_init(1);
+  printf("[OK]\n");
 }
 
 /* create the init process from the /init binary, and run it

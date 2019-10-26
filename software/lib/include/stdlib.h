@@ -1,4 +1,5 @@
 #include <stddef.h>
+#include <stdint.h>
 
 #ifndef __STDLIB_INCL
 #define __STDLIB_INCL 1
@@ -23,5 +24,5 @@ void free(void *ptr);
 void *malloc(size_t size);
 
 /* syscalls needed in stdlib */
-unsigned int exit(__reg("ra") int return_value);
+int16_t exit(__reg("ra") int16_t return_value);
 #endif

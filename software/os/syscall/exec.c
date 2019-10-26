@@ -41,6 +41,10 @@ uint16_t _execv(uint16_t name, uint16_t argv_p, uint16_t a2, uint16_t a4){
     }
 
     struct file_entry * file = file_get(inum, FILE_MODE_READ);
+    if(file == NULL) {
+        set_errno(ENOENT);
+        return -1;
+    }
     if(!(file->ind->flags & INODE_FLAG_EXEC)){
         file_put(file);
         set_errno(ENOEXEC);
@@ -79,11 +83,13 @@ uint16_t _execv(uint16_t name, uint16_t argv_p, uint16_t a2, uint16_t a4){
     /* TODO: handle executables beginning with #! */
 
     /* load memory */
-    if(proc_load_mem(proc_current_proc, file)){
+    uint16_t code = proc_load_mem(proc_current_proc, file);
+    if(code != 0){
+        printf("code: %u\n", code);
         file_put(file);
         /* TODO: we can't fail b/c proc has no memory, so kill proc
          * unlikely to happen (probably just call exit)*/
-        panic(PANIC_ERROR);
+        panic(PANIC_EXEC_MEM_LOAD_FAIL);
         return -1;
     }
 
