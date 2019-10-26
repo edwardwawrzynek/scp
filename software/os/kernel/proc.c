@@ -103,6 +103,7 @@ void proc_write_mem_map(struct proc * proc){
 /* init the kernel entry in the process table
  * mark as in use, set pid, set parent to NULL, set state, and create a memory map,
  * allocating the pages with palloc_new() (marks them in page table)
+ * also enables text write protection on kernel
  * returns (none) */
 void proc_init_kernel_entry(){
     struct proc * entry;
@@ -119,16 +120,34 @@ void proc_init_kernel_entry(){
     //make the sheduler and related ignore the kernel
     entry->state = PROC_STATE_IS_KERNEL;
     /* allocate memory
-     * note: if no pages have been marked as in use, this will allocate the pages from 0 to the ((&_BRK_END)>>MMU_PAGE_SIZE_SHIFT)+1;
+     * note: mark the pages that have already been allocated to us as in use
      * this is the current configuration on startup - this won't mess it up
-     * palloc_new() is used just to properly mark them as in use in the palloc use table */
-    for(page = 0; page < ((unsigned int)(&_BRK_END)>>MMU_PAGE_SIZE_SHIFT)+1; ++page){
+     * palloc_new() is used just to properly mark them as in use in the palloc use table 
+     * also enable text seg protection (not enabled at startup) */
+    /* read from the kernel header to get page sizes (very hacky) */
+    uint16_t seg0_entry = *((uint16_t *)0);
+    uint16_t seg1_entry = *((uint16_t *)2);
+    //calculate info
+    uint16_t seg0_size = (seg0_entry >> 5) & 0b11111;
+    uint16_t seg0_offset = (seg0_entry) & 0b11111;
+    uint16_t seg1_size = (seg1_entry >> 5) & 0b11111;
+    uint16_t seg1_offset = (seg1_entry) & 0b11111;
+    if(seg0_offset != 0 || seg1_offset != seg0_size || (((uint16_t)(&_BRK_END)-1)>>MMU_PAGE_SIZE_SHIFT)+1 != seg1_offset + seg1_size){
+        panic(PANIC_KERNEL_HEADER_FORMAT_ERROR);
+    }
+    for(page = 0; page < seg1_offset + seg1_size; ++page){
         entry->mem_map[page] = palloc_new();
     }
+    entry->mem_struct.instr_pages = seg0_size;
+    entry->mem_struct.data_pages = seg1_size;
+    entry->mem_struct.stack_pages = 1;
     while(page < 30){
         entry->mem_map[page++] = MMU_UNUSED;
     }
+    //alloc stack page (has to be page 31, we already have stuff in it)
     entry->mem_map[31] = palloc_alloc(31);
+    //enable write protect
+    proc_enable_text_write_protect(entry);
     //write out memory map
     proc_write_mem_map(entry);
 }

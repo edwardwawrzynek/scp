@@ -40,7 +40,8 @@ void CPU::reset() {
 
     /* set int vectors */
     for(int i = 0; i < 8; i++){
-        int_vectors[i] = (i*0x4)+0x8;
+        //0x8 for __START + 0x8 for header 
+        int_vectors[i] = (i*0x4)+0x10;
     }
 
     time_till_clock_int = -1;

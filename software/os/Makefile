@@ -11,7 +11,7 @@ include/lib/util.h										\
 dev/dev.h 	dev/devices.h 	dev/serial.h 	dev/tty.h	\
 dev/dev_gen.h	dev/pipe.h	dev/special.h				\
 lib/kstdio_layer/kstdio_layer.h							\
-lib/string/string.h										\
+include/lib/string.h \
 lib/kmalloc/kmalloc.h									\
 lib/inout/inout.h lib/inout/__inoutp.h					\
 lib/util/util.h											\
@@ -32,7 +32,14 @@ lib/crt/crt0.o	lib/crt/div.o							\
 dev/devices.o	dev/serial.o	dev/tty.o				\
 dev/dev_gen.o	dev/pipe.o		dev/special.o			\
 lib/kstdio_layer/kstdio_layer.o							\
-lib/string/string.o										\
+\
+lib/string/memchr.o	lib/string/memcmp.o	lib/string/memcpy.o	lib/string/memmove.o			\
+lib/string/memset.o	lib/string/strcat.o	lib/string/strchr.o	lib/string/strcpy.o				\
+lib/string/strcspn.o	lib/string/strlen.o	lib/string/strncat.o	lib/string/strnchr.o	\
+lib/string/strncmp.o	lib/string/strncpy.o	lib/string/strnlen.o					\
+lib/string/strpbrk.o	lib/string/strrchr.o	lib/string/strspn.o	lib/string/strstr.o		\
+lib/string/strcmp.o									\
+\
 lib/inout/inoutp.o										\
 lib/kmalloc/kmalloc.o									\
 lib/util/util.o											\
@@ -58,7 +65,7 @@ CFLAGS += -O1 -size
 
 LD = scplnk
 #no need for the os to have a header or split segs on pages
-LDFLAGS = -r -p
+LDFLAGS =
 
 all: $(BIN)
 

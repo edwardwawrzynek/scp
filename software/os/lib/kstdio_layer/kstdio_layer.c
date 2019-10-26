@@ -7,6 +7,7 @@
 #include "include/panic.h"
 
 #include <stdarg.h>
+#include "include/lib/inout.h"
 
 #define EOF -1
 

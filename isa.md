@@ -16,13 +16,13 @@ The following conventions are used in asm commands and encodings.
   * `pbs` - a signed byte in memory
   * `pw` - a word in memory
 * `off` - an addressing offset (stored in word after instruction)
-* `j` - a pc-relative jump adress
-* `ra` - a pc relative adress to be converted to a non pc-relative adress (for loading pointer initial values)
+* `j` - a pc-relative jump address
+* `ra` - a pc relative address to be converted to a non pc-relative address (for loading pointer initial values)
 * `c` - a condition code (see below)
 * `sp` - a register used as a stack pointer
 * `p` - an io port number
-* `i` - an interrupt vector entry (one of 16 ints)
-* `ipc` - the interrupt pc reg (pc copied to ipc reg on interupt)
+* `i` - an interrupt vector entry (one of 8 ints)
+* `ipc` - the interrupt pc reg (pc copied to ipc reg on interrupt)
 
 ### Registers
 Registers are the program counter (pc), flags register (f), and registers r0-rf. By convention only, r0 is used as the stack pointer and r1 as the frame pointer. The hardware can use any register as a stack pointer, or have multiple stacks.
@@ -101,15 +101,30 @@ All instructions that deal with immediate addresses are pc-relative. Pointer loa
 PC relative addresses are found by taking the address of (inst_addr + mem_addr + 2), where instr_addr is the address where the first word of the instruction is written, and mem_addr is the pc-relative addr. The +2 is because the pc will already be incremented past the instruction by the time it executes.
 
 ### Instruction System
-SCP has 16 interrupt priority levels, ranging from int0 (highest priority) to intf (lowest priority).
+SCP has 8 interrupt priority levels, ranging from int0 (highest priority) to int7 (lowest priority).
 
-SCP has two privilage levels, 0 (system privilage), and 1 (user privilage). Interrupts can only occur in user privilage. An interrupts raises the privilage level to system privilage, and jumps to the interrupt vector. Because the privilage was raised to system, the page table base register is not used for page table calculations. This means that the interrupt vector that is jumped to will be in the system memory (ptb 0).
+SCP has two privilege levels, 0 (system privilege), and 1 (user privilege). Interrupts can only occur in user privilege. An interrupts raises the privilege level to system privilege, and jumps to the interrupt vector. Because the privilege was raised to system, the page table base register is not used for page table calculations. This means that the interrupt vector that is jumped to will be in the system memory (ptb 0).
 
-If an interrupt occurs and scp is in system privilage, the interrupts will wait till the privilage level goes back to user to take effect.
+If an interrupt occurs and scp is in system privilege, the interrupts will wait till the privilege level goes back to user to take effect.
 
-NOTE: because inetrupts can only occur in user privilage and interrupts switch privilage to system priority, interrupts can't be interrupted by higher priority interrupts. Thus, interrupt priority only comes into play if there are two inetrupts waiting to happen at the same time.
+NOTE: because interrupts can only occur in user privilage and interrupts switch privilage to system priority, interrupts can't be interrupted by higher priority interrupts. Thus, interrupt priority only comes into play if there are two interrupts waiting to happen at the same time.
 
 Interrupts can be triggered by an external event, or by the `int.i.n` instruction. An interrupt is the only way to raise the privilage level from user privilage, and are used for system calls, etc. The interrupt instruction can trigger any interrupt, even if it is also wired to an external device.
+
+#### Interrupt Vectors
+Interrupt vectors start at 0x0010 in the system memory, and the address of each increases by 0x0004 (enough space for one unconditional jump instruction). They are fixed address and can't be configured. Thus, the vectors are:
+int|vector
+-|-
+int0|0x0010
+int1|0x0014
+int2|0x0018
+int3|0x001b
+int4|0x001d
+int5|0x0020
+int6|0x0024
+int7|0x0028
+int8|0x002b
+
 
 ### Opcode Encodings
 Instr | opcode

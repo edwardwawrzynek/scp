@@ -146,7 +146,7 @@ int main(){
 
     printf("Booting Kernel\n");
     kernel_init();
-    printf("Kernel Booted\n\n");
+    printf("Kernel Booted\t\t\t[OK]\n");
     printf("####   ###   ###      ##   ####\n");
     printf("#     #     #  #     #  #  #   \n");
     printf("####  #     ###   #  #  #  ####\n");
@@ -169,7 +169,6 @@ int main(){
         printf("\nCWD: %u\n", cwd);
         printf("$ ");
         gets(buf);
-
         i = arg;
 
         putchar('\n');
