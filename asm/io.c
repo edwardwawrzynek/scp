@@ -53,6 +53,7 @@ int read_byte(){
 void reset_file(){
   int i = 0;
   while(in_files[i]){
+    printf("resetting file\n");
     fseek(in_files[i], 0, SEEK_SET);
     i++;
   }

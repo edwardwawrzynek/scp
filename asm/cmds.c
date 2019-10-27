@@ -219,6 +219,8 @@ uint16_t dir_second_pass(struct instr *i){
 
 /* run the second pass on an asm instruction */
 uint16_t cmd_second_pass(struct instr *i){
+    printf("a, instruction\n");
+    test_syscall("starting\n");
     struct instr_encoding *en = i->encoding;
     /* encode instruction */
     /* ultimate result of encoding (not includign immediate */
@@ -234,7 +236,7 @@ uint16_t cmd_second_pass(struct instr *i){
         values[n+1] = type_get_value(&(i->args[n]), en->types[n]);
         n++;
     }
-
+    printf("b\n");
     /* actually encode */
     n = strlen(en->encoding)-1;
     while(n >= 0){
@@ -252,19 +254,27 @@ uint16_t cmd_second_pass(struct instr *i){
 
         n--;
     }
+    printf("c\n");
     /* write out */
     obj_write_const_word(&out, res);
+    printf("d\n");
 
     /* encode immediate */
     if(en->imd_field){
+        printf("e\n");
         /* constant immediate */
         if(en->types[en->imd_field -1] == cnst){
+            printf("f\n");
             obj_write_const_word(&out, i->args[en->imd_field -1].val);
+            printf("g\n");
         }
         /* label immediate */
         else if(en->types[en->imd_field -1] == label){
+            printf("i\n");
             write_label_imd(&(i->args[en->imd_field -1]), 1);
+            printf("j\n");
         }
+        printf("k\n");
         /* four bytes written */
         return 4;
     }

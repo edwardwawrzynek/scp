@@ -588,7 +588,7 @@ void CPU::check_ints(){
 /* do a nop debug */
 void CPU::nop_debug(uint16_t instr){
     switch(instr){
-        case 255:
+        case 16:
             for(int i = 0; i < 2048; i++){
                 if(i % 32 == 0){
                     printf("\nProc %02x|", i / 32);

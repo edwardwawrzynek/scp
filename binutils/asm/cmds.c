@@ -40,9 +40,9 @@ uint16_t dir_first_pass(struct instr *i){
             return 0;
 
         /* all of these go in the read-only segment */
-        case text:
         case rodata:
         case robss:
+        case text:
             cur_seg = 0;
             return 0;
         /* read and write segment */
@@ -194,9 +194,9 @@ uint16_t dir_second_pass(struct instr *i){
             return 0;
 
         /* all of these go in the read-only segment */
-        case text:
         case rodata:
         case robss:
+        case text:
             cur_seg = 0;
             obj_set_seg(&out, cur_seg);
             return 0;

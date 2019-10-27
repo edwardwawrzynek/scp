@@ -4,15 +4,20 @@
 /* seek to a place in a file
  * whence is the same as lseek
  * just adjust for the data in the buffer, then call lseek
- * inefficient to dump all of buffer when we migh not have to, but it works */
+ * inefficient to dump all of buffer when we might not have to, but it works */
 
 /* TODO */
 
 int fseek(struct _file * file, uint16_t location, uint16_t whence){
     _file_assert_magic(file);
 
+    /* clear eof */
+    file->eof_flag = 0;
+
     if(file->buf_mode == NOBUF) {
-        lseek(file->fd, location, whence);
+        uint16_t res = lseek(file->fd, location, whence);
+        assert(res != -1);
+        return res;
     } else {
         /* TODO */
     }

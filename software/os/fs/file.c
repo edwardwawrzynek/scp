@@ -227,6 +227,7 @@ uint16_t file_seek(struct file_entry * file, int16_t offset, uint8_t mode){
     /* don't seek on dev files */
     /* call dev method if needed */
     if(file->ind->dev_num){
+        set_errno(EVMOD);
         return -1;
     }
 

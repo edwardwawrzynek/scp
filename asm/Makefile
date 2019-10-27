@@ -10,7 +10,7 @@ OBJS = encodings.o labels.o io.o decode.o main.o obj.o cmds.o defines.o
 all: scpasm
 
 scpasm: $(OBJS)
-	vc -o scpasm $(OBJS) -lc
+	scplnk -L/home/edward/Documents/scp/software/lib/bin/ /home/edward/Documents/scp/software/lib/bin/crt0.a -o scpasm $(OBJS) -lc -D scpasm.debug
 
 clean:
 	rm -f $(OBJS)

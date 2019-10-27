@@ -78,6 +78,7 @@ int main(int argc, char *argv[]){
 void run_asm(){
   /* first pass */
   while(!read_good_line()){
+    printf("good line\n");
     line_into_instr(&in);
     check_instr(&in);
     first_pass(&in);
@@ -99,7 +100,9 @@ void run_asm(){
   reset_segs_and_module();
   reset_file();
   /* second pass */
+  printf("starting second pass\n");
   while(!read_good_line()){
+    printf("good line\n");
     line_into_instr(&in);
     check_instr(&in);
     second_pass(&in);
