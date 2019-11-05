@@ -158,7 +158,7 @@ void add_symbol_deps(char * symbol){
     int file_index = find_defined_symbol_file(symbol);
     if(file_index == -1){
         /* no symbol found - error */
-        printf("scplnk: error:\nundefined reference to '%s'\n", symbol);
+        printf(BIN_NAME ": error:\nundefined reference to '%s'\n", symbol);
         exit(1);
     }
     /* if we already found this file as dep, don't do it again */

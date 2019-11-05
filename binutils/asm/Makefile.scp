@@ -1,0 +1,22 @@
+BIN = ../bin/scpasm.scp
+DEPS = asm.h defs.h
+
+OBJS = encodings.o labels.o io.o decode.o main.o obj.o cmds.o defines.o
+
+CFLAGS = -c99 -Dint32_t=int16_t -Duint32_t=uint16_t -DSCP
+LDFLAGS = -lc
+
+CC = vc
+
+
+%.o: %.c $(DEPS)
+	makeheaders $<
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+all: $(BIN)
+
+$(BIN): $(OBJS)
+	$(CC) -Wall -o $(BIN) $(OBJS) $(LDFLAGS)
+
+clean:
+	rm -f $(OBJS)

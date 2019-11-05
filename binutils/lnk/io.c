@@ -26,7 +26,7 @@ int do_out_obj = 0;
 /**
  * Raise an error */
 void error(char * msg){
-  fprintf(stderr, "\nscplnk: error:\n%s\n", msg);
+  fprintf(stderr, "\n" BIN_NAME ": error:\n%s\n", msg);
 
   exit(1);
 }
@@ -185,7 +185,7 @@ void write_word(uint16_t val){
     }
     /* make sure we are aligned */
     if(seg_pos[cur_seg] & 1){
-        printf("scplnk: warning: outputting an unaligned word\n");
+        printf(BIN_NAME ": warning: outputting an unaligned word\n");
     }
     raw_output_word(val);
     seg_pos[cur_seg] += 2;

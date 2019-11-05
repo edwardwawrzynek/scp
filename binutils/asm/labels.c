@@ -126,12 +126,5 @@ void labels_write_out(struct obj_file *o){
 
 /* remove extern labels that were defined */
 void remove_defined_externs(){
-  for(unsigned int i = i; i < labels_cur; i++){
-    if(labels[i].seg == -1){
-      struct label *entry = find_label(labels[i].name, labels[i].module, 1);
-      if(entry){
-        labels[i].in_use = 0;
-      }
-    }
-  }
+  /* TODO: - we need to do some readjustment of label offsets */
 }

@@ -1,17 +1,20 @@
+BIN = ../bin/scpdisasm
 DEPS = asm.h defs.h
 
-OBJS = encodings.o	main.o
+OBJS = encodings.o main.o
 
-%.o: %.c
+CFLAGS = -Wall
+LDFLAGS = 
+
+
+%.o: %.c $(DEPS)
 	makeheaders $<
-	$(CC) -g -Wall -c -o $@ $< $(CFLAGS)
+	$(CC) $(CFLAGS) -c -o $@ $<
 
-.PHONY: scpdisasm
+all: $(BIN)
 
-all: scpdisasm
-
-scpdisasm: $(OBJS)
-	$(CC) -g -Wall -o ../bin/scpdisasm $(OBJS)
+$(BIN): $(OBJS)
+	$(CC) -Wall -o $(BIN) $(OBJS) $(LDFLAGS)
 
 clean:
 	rm -f $(OBJS)

@@ -21,7 +21,7 @@ uint8_t do_debug;
 /**
  * Raise an error */
 void error(char * msg){
-  printf("\nscpasm: error:\n%s\nAt:\n%s\n", msg, line);
+  printf("\n" BIN_NAME ": error:\n%s\nAt:\n%s\n", msg, line);
 
   exit(1);
 }

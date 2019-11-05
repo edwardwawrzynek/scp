@@ -1,4 +1,20 @@
-all: scpftp
+BIN = ../bin/scpftp
+DEPS = serial.h
 
-scpftp: host.c serial.h
-	cc -o ../bin/scpftp host.c -lserialport
+OBJS = host.c
+
+CFLAGS = -Wall
+LDFLAGS = -lserialport
+
+
+%.o: %.c $(DEPS)
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+all: $(BIN)
+
+$(BIN): $(OBJS)
+	$(CC) -Wall -o $(BIN) $(OBJS) $(LDFLAGS)
+
+clean:
+	rm -f $(OBJS)
+

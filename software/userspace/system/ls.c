@@ -67,7 +67,7 @@ int print_file(char *file){
         printf("%u Kb\t", (sentry.st_size/1024) + 1);
     }
     printf("%s", file);
-    if(f_flag){
+    if(F_flag){
         if(S_ISDEV(sentry.st_mode)){
             printf("#");
         } else if(S_ISFIFO(sentry.st_mode)){

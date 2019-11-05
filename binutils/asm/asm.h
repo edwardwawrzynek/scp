@@ -5,6 +5,15 @@
 #include <stdio.h>
 
 #include "defs.h"
+
+#ifdef SCP
+#define BIN_NAME "as"
+#endif
+
+#ifndef BIN_NAME
+#define BIN_NAME "scpasm"
+#endif
+
 /* describes the encoding of an instruction */
 enum arg_type {end_arg, reg, alu, cnst, label, cond};
 
@@ -71,7 +80,7 @@ extern char line[LINE_SIZE];
 extern int lptr;
 
 extern char * alu_ops[16];
-struct instr_encoding instructions[MAX_CMDS];
+extern struct instr_encoding instructions[MAX_CMDS];
 
 /* debug file */
 extern FILE * debug_file;

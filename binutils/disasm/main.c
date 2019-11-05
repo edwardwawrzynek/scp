@@ -6,7 +6,7 @@
 
 
 void usage(){
-  printf("Usage: scpdisasm [options] file\
+  printf("Usage: " BIN_NAME " [options] file\
         \nOptions:\
         \n-o\tout.dasm\t:set output file\
         \n-D\tdebug\t\t:use a symbol debug file from the linker\
@@ -228,7 +228,7 @@ int main(int argc, char *argv[]){
   if(do_debug == 1) {
     debug_file = fopen(debugfile, "r");
     if(debug_file == NULL) {
-      fprintf(stderr, "can't open file %s", debugfile);
+      fprintf(stderr, BIN_NAME ":can't open file %s", debugfile);
       perror(" ");
       exit(1);
     }
@@ -238,7 +238,7 @@ int main(int argc, char *argv[]){
   }
   in_file = fopen(argv[optind], "r");
   if(in_file == NULL) {
-    fprintf(stderr, "can't open file %s", argv[optind]);
+    fprintf(stderr, BIN_NAME ":can't open file %s", argv[optind]);
       perror(" ");
       exit(1);
   }

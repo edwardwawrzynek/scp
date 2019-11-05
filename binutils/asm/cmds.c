@@ -228,7 +228,7 @@ uint16_t cmd_second_pass(struct instr *i){
 
     /* get opcode */
     values[0] = i->opcode;
-    /* go thorugh eahc arg, and gets its value */
+    /* go thorugh each arg, and gets its value */
     int16_t n = 0;
     while(en->types[n] != end_arg){
         values[n+1] = type_get_value(&(i->args[n]), en->types[n]);
@@ -236,21 +236,20 @@ uint16_t cmd_second_pass(struct instr *i){
     }
 
     /* actually encode */
-    n = strlen(en->encoding)-1;
-    while(n >= 0){
+   
+    for(n = strlen(en->encoding)-1; n >= 0; n--){
         /* get the value index to use */
-        uint8_t value_index = hex2int(en->encoding[n]);
+        int8_t value_index = hex2int(en->encoding[n]);
+        /* the encoding was a blank bit, so just set a zero */
 
         /* OR in the bit, and shift the instr right */
         res >>= 1;
         /* OR in a zero if the bit is set as - */
         if(en->encoding[n] != '-'){
             res |= (values[value_index] & 1) << 15;
+            /* shift the value to the next bit */
+            values[value_index] >>= 1;
         }
-        /* shift the value to the next bit */
-        values[value_index] >>= 1;
-
-        n--;
     }
     /* write out */
     obj_write_const_word(&out, res);

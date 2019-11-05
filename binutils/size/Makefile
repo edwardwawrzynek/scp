@@ -1,15 +1,20 @@
+BIN = ../bin/scpsize
 DEPS = object.h
 
 OBJS = main.o obj.o
 
+CFLAGS = -Wall
+LDFLAGS = 
+
+
 %.o: %.c $(DEPS)
 	makeheaders $<
-	$(CC) -Wall -c -o $@ $< $(CFLAGS)
+	$(CC) $(CFLAGS) -c -o $@ $<
 
-all: scpsize
+all: $(BIN)
 
-scpsize: $(OBJS)
-	$(CC) -Wall -o ../bin/scpsize $(OBJS)
+$(BIN): $(OBJS)
+	$(CC) -Wall -o $(BIN) $(OBJS) $(LDFLAGS)
 
 clean:
 	rm -f $(OBJS)

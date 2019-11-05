@@ -596,6 +596,7 @@ void CPU::nop_debug(uint16_t instr){
                 printf("%04x ", page_table[i]);
             }
             printf("\nPTB: %u\n", ptb);
+            this->update_io();
             break;
         default:
             break;

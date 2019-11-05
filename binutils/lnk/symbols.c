@@ -73,7 +73,7 @@ uint16_t extern_get_addr(int i, uint32_t index){
 
     if(!match){
         /* no symbol found - error */
-        printf("scplnk: error:\nundefined reference to '%s'\n", entry->name);
+        printf(BIN_NAME ": error:\nundefined reference to '%s'\n", entry->name);
         exit(1);
     }
 
@@ -108,7 +108,7 @@ void sym_detect_duplicate_entries() {
                     if(f1 == f && n1 == n) continue;
                     struct obj_symbol_entry *entry1 = &defined_tables[f1][n1];
                     if(!strcmp(entry->name, entry1->name)) {
-                        fprintf(stderr, "\nscplnk: error:\nduplicate definition of symbol: %s\n", entry->name);
+                        fprintf(stderr, "\n" BIN_NAME ": error:\nduplicate definition of symbol: %s\n", entry->name);
                         exit(1);
                     }
                 }
@@ -119,7 +119,7 @@ void sym_detect_duplicate_entries() {
 
 /* write out symbol adresses */
 void sym_out_write_symbols(FILE * file){
-    for(uint32_t a = 0; a < 65536; a++){
+    for(uint32_t a = 0; a < 65535; a++){
         for(int i = 0; in_objs[i].file; i++){
             if(!in_objs_do_lnk[i]) continue;
             for(int d = 0; d < in_objs[i].segs.defined_table.size / _OBJ_SYMBOL_ENTRY_SIZE; d++){

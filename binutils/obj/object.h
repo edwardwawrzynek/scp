@@ -55,6 +55,7 @@ _OBJ_SYMBOL_SIZE|The symbol's name, including null
 
 /* Magic Number (a uint32_t - Really SCPO in ascii (stored little endian)) */
 #define _OBJ_MAGIC_NUMBER (uint32_t)('S' + ('C' << 8) + ('P' << 16) + ('O' << 24))
+#define _AR_MAGIC_NUMBER (uint32_t)('S' + ('C' << 8) + ('P' << 16) + ('A' << 24))
 
 /* Size, including nulls, of symbol names (defined and external) - all symbol names will take up this much space
 * Note: if we change this, all object files will have to be regenerated */

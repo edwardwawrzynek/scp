@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
-#include <dirent.h>
 
 #include "lnk.h"
 #include "object.h"
@@ -15,18 +14,18 @@
  * scplnk produces a directly loadable binary with or without -r - see segs.c */
 
 void usage(){
-  printf("Usage: scplnk [options] files\
+  printf("Usage: " BIN_NAME " [options] files\
         \nOptions:\
         \n-o\tout.o\t:set output binary\
         \n-r\t\t:don't write out a layout header\
-        \n-p\t\t:don't arrange the segs on pages boundries\
+        \n-p\t\t:don't arrange the segs on pages boundaries\
         \n-l\tname\t:link with a file libname.o in the dirs specified by -L\
         \n-L\tdir\t:set dir to be part of the search path used by -l\
         \n-O\t\t:force the output to be an obj file, no matter output extension\
         \n-A\t\t:force the output to be an archive, no matter output extension\
         \n-D\tsym_db\t:output symbol debugging info in sym_db (binary file output only)\
-        \n-S\t\t:don't do static dependency optomization\
-        \n");
+        \n-S\t\t:don't do static dependency optimization\
+        \n-h\t\t:print usage\n");
 }
 
 void run_lnk(void);
@@ -80,7 +79,7 @@ int main(int argc, char *argv[]){
   char * outfile = "out.bin";
   int opt;
   /* read options */
-  while((opt = getopt(argc, argv, "o:rpl:L:OASD:")) != -1) {
+  while((opt = getopt(argc, argv, "o:rpl:L:OASD:h")) != -1) {
     switch(opt){
       case 'o':
         outfile = optarg;
@@ -116,6 +115,7 @@ int main(int argc, char *argv[]){
       case 'S':
         do_dep_opt = 0;
         break;
+      case 'h':
       case '?':
         usage();
         exit(1);
@@ -136,7 +136,8 @@ int main(int argc, char *argv[]){
   for(; optind < argc; optind++){
     /* init obj */
     if(add_obj(argv[optind])){
-      printf("scplnk: error: no such file: %s\n", argv[optind]);
+      printf(BIN_NAME ": error: no such file: %s\n", argv[optind]);
+      exit(1);
     }
   }
 
@@ -156,7 +157,8 @@ int main(int argc, char *argv[]){
       ){
 
       } else {
-        printf("scplnk: error: no such library found: %s\n", lib_path[l]);
+        printf(BIN_NAME ": error: no such library found: %s\n", lib_path[l]);
+        exit(1);
       }
     }
   }

@@ -2,8 +2,16 @@
 #include "obj.h"
 #include <unistd.h>
 
+#ifdef SCP
+#define BIN_NAME "size"
+#endif
+
+#ifndef BIN_NAME
+#define BIN_NAME "scpsize"
+#endif
+
 void usage(){
-  printf("Usage: scpsize files\n");
+  printf("Usage: " BIN_NAME " files\n");
 }
 
 uint32_t seg_sum[4];
@@ -76,7 +84,7 @@ void handle_bin_obj(FILE *file, char * name) {
     uint16_t s_offset;
     read_header_word_size(data, &s_size, &s_offset);
     if(s_offset != total) {
-      fprintf(stderr, "\nfile %s is not scp archive, object file, or binary file with header\n", name);
+      fprintf(stderr, "\n" BIN_NAME ":file %s is not scp archive, object file, or binary file with header\n", name);
       exit(1);
     }
     printf("%u\t", s_size);
@@ -97,14 +105,14 @@ int main(int argc, char *argv[]){
   for(int i = 1; i < argc; i++){
     file = fopen(argv[i], "r");
     if(!file){
-      printf("scpsize: error: no such file %s\n", argv[i]);
+      printf(BIN_NAME ": error: no such file %s\n", argv[i]);
       exit(1);
     }
     /* init object */
     obj_init(&obj);
     obj.file = file;
 
-    if(obj_test_header(&obj)) {
+    if(obj_test_header(&obj) || ar_test_header(&obj)) {
       //handle sub objs if ar, and print size
       handle_ar_obj(&obj, argv[i]);
     } else {

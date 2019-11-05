@@ -1,15 +1,20 @@
+BIN = ../bin/scpasm
 DEPS = asm.h defs.h
 
 OBJS = encodings.o labels.o io.o decode.o main.o obj.o cmds.o defines.o
 
+CFLAGS = -Wall
+LDFLAGS = 
+
+
 %.o: %.c $(DEPS)
 	makeheaders $<
-	$(CC) -Wall -c -o $@ $< $(CFLAGS)
+	$(CC) $(CFLAGS) -c -o $@ $<
 
-all: scpasm
+all: $(BIN)
 
-scpasm: $(OBJS)
-	$(CC) -Wall -o ../bin/scpasm $(OBJS)
+$(BIN): $(OBJS)
+	$(CC) -Wall -o $(BIN) $(OBJS) $(LDFLAGS)
 
 clean:
 	rm -f $(OBJS)

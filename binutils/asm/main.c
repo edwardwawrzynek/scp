@@ -11,10 +11,11 @@
 #include "labels.h"
 
 void usage(){
-  printf("Usage: scpasm [options] files\
+  printf("Usage: " BIN_NAME " [options] files\
         \nOptions:\
         \n-o\tout.o\t:set output binary\
-        \n-d\tdebug\t:output debugging info in debug\n");
+        \n-d\tdebug\t:output debugging info in debug\
+        \n-h\t\t:print usage\n");
 }
 
 void run_asm(void);
@@ -26,7 +27,7 @@ int main(int argc, char *argv[]){
   char * debugfile = NULL;
   int opt;
   /* read options */
-  while((opt = getopt(argc, argv, "o:d:")) != -1) {
+  while((opt = getopt(argc, argv, "o:d:h")) != -1) {
     switch(opt){
       case 'o':
         outfile = optarg;
@@ -35,6 +36,7 @@ int main(int argc, char *argv[]){
         debugfile = optarg;
         do_debug = 1;
         break;
+      case 'h':
       case '?':
         usage();
         exit(1);
@@ -47,7 +49,7 @@ int main(int argc, char *argv[]){
   for(; optind < argc; optind++){
     in_files[i++] = fopen(argv[optind], "r");
     if(!in_files[i-1]){
-      printf("scpasm: error: no such file %s\n", argv[optind]);
+      printf(BIN_NAME ": error: no such file %s\n", argv[optind]);
       exit(1);
     }
   }
