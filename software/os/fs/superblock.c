@@ -12,5 +12,6 @@ void superblock_read(){
     superblk.first_blk = _read_word(&buf);
 
     _read_bytes(&buf, superblk.name, 9);
+    superblk.is_boot_disk = _read_word(&buf);
 
 }

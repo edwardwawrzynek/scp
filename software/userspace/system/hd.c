@@ -53,7 +53,7 @@ int main(int argc, char **argv) {
   for(;optind<argc;optind++){
     FILE * f = fopen(argv[optind], "r");
     if(f == NULL) {
-      fprintf(stderr, "hd: error opening file %s", argv[optind]);
+      fprintf(stderr, "hd: error opening file %s: ", argv[optind]);
       perror(NULL);
       exit(1);
     }

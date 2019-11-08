@@ -84,6 +84,7 @@ uint16_t _execv(uint16_t name, uint16_t argv_p, uint16_t a2, uint16_t a4){
 
     /* load memory */
     uint16_t code = proc_load_mem(proc_current_proc, file);
+    /* file was not in a good executable format */
     if(code != 0){
         printf("code: %u\n", code);
         file_put(file);

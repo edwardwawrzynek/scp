@@ -1,6 +1,6 @@
 Assembler report for scp
-Mon Oct  8 21:56:09 2018
-Quartus Prime Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
+Wed Nov  6 01:16:34 2019
+Quartus Prime Version 19.1.0 Build 670 09/22/2019 SJ Lite Edition
 
 
 ---------------------
@@ -18,9 +18,9 @@ Quartus Prime Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
 ----------------
 ; Legal Notice ;
 ----------------
-Copyright (C) 2017  Intel Corporation. All rights reserved.
+Copyright (C) 2019  Intel Corporation. All rights reserved.
 Your use of Intel Corporation's design tools, logic functions 
-and other software and tools, and its AMPP partner logic 
+and other software and tools, and any partner logic 
 functions, and any output files from any of the foregoing 
 (including device programming or simulation files), and any 
 associated documentation or information are expressly subject 
@@ -30,14 +30,15 @@ the Intel FPGA IP License Agreement, or other applicable license
 agreement, including, without limitation, that your use is for
 the sole purpose of programming logic devices manufactured by
 Intel and sold by Intel or its authorized distributors.  Please
-refer to the applicable agreement for further details.
+refer to the applicable agreement for further details, at
+https://fpgasoftware.intel.com/eula.
 
 
 
 +---------------------------------------------------------------+
 ; Assembler Summary                                             ;
 +-----------------------+---------------------------------------+
-; Assembler Status      ; Successful - Mon Oct  8 21:56:09 2018 ;
+; Assembler Status      ; Successful - Wed Nov  6 01:16:34 2019 ;
 ; Revision Name         ; scp                                   ;
 ; Top-level Entity Name ; scp                                   ;
 ; Family                ; Cyclone V                             ;
@@ -52,13 +53,13 @@ refer to the applicable agreement for further details.
 +--------+---------+---------------+
 
 
-+-----------------------------------------------+
-; Assembler Generated Files                     ;
-+-----------------------------------------------+
-; File Name                                     ;
-+-----------------------------------------------+
-; /home/edward/scp/quartus/output_files/scp.sof ;
-+-----------------------------------------------+
++---------------------------------------------------------+
+; Assembler Generated Files                               ;
++---------------------------------------------------------+
+; File Name                                               ;
++---------------------------------------------------------+
+; /home/edward/Documents/scp/quartus/output_files/scp.sof ;
++---------------------------------------------------------+
 
 
 +-----------------------------------+
@@ -66,8 +67,8 @@ refer to the applicable agreement for further details.
 +----------------+------------------+
 ; Option         ; Setting          ;
 +----------------+------------------+
-; JTAG usercode  ; 0x0490A237       ;
-; Checksum       ; 0x0490A237       ;
+; JTAG usercode  ; 0x04908E65       ;
+; Checksum       ; 0x04908E65       ;
 +----------------+------------------+
 
 
@@ -76,14 +77,14 @@ refer to the applicable agreement for further details.
 +--------------------+
 Info: *******************************************************************
 Info: Running Quartus Prime Assembler
-    Info: Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
-    Info: Processing started: Mon Oct  8 21:55:52 2018
+    Info: Version 19.1.0 Build 670 09/22/2019 SJ Lite Edition
+    Info: Processing started: Wed Nov  6 01:16:25 2019
 Info: Command: quartus_asm --read_settings_files=off --write_settings_files=off scp -c scp
 Info (115030): Assembler is generating device programming files
 Info: Quartus Prime Assembler was successful. 0 errors, 0 warnings
-    Info: Peak virtual memory: 1018 megabytes
-    Info: Processing ended: Mon Oct  8 21:56:10 2018
-    Info: Elapsed time: 00:00:18
-    Info: Total CPU time (on all processors): 00:00:18
+    Info: Peak virtual memory: 1012 megabytes
+    Info: Processing ended: Wed Nov  6 01:16:34 2019
+    Info: Elapsed time: 00:00:09
+    Info: Total CPU time (on all processors): 00:00:09
 
 

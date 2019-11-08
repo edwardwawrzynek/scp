@@ -129,6 +129,8 @@ struct superblock {
     uint16_t first_blk;
     //Disk name - 8 chars
     char name[9];
+    //If a bootable image is present in the OS image segment
+    uint16_t is_boot_disk;
 };
 
 /* -------- Disk Format --------
@@ -142,7 +144,8 @@ struct superblock {
  * the block number of the next block in the file to which the block is a part
  * of, or a zero if the blk is not part of any file. The last blk in a file has
  * an entry of 1. Unusable blks (those covering the block ll, boot, super block,
- * and inode table) have an entry of 0xffff.
+ * and inode table) have an entry of 0xffff. An unallocated but usable block 
+ * has an entry value of 0.
  * ---- Boot Area ----
  * This area contains the boot code (63.5 kb) to be loaded by the bootloader.
  * The bootloader starts off in memory in the last 512 bytes of the addr space.

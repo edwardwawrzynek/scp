@@ -30,7 +30,7 @@ uint16_t rand_c = 17177;
 uint16_t rand_m = 61794;
 
 static int random_getc(){
-    rand_val = (rand_a * rand_val + rand_c)%rand_m;
+    rand_val = (rand_a * rand_val + rand_c) % rand_m;
     return (rand_val>>2)&0xff;
 }
 

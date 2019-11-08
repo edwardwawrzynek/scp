@@ -24,7 +24,8 @@ install:
 	ln -sf `pwd`/bin/scpmif ~/.local/bin/; \
 	ln -sf `pwd`/bin/scpsize ~/.local/bin/; \
 	ln -sf `pwd`/bin/scpftp ~/.local/bin;	\
-	ln -sf `pwd`/bin/scpdisasm ~/.local/bin; 
+	ln -sf `pwd`/bin/scpdisasm ~/.local/bin; \
+	ln -sf `pwd`/bin/scpmkfs ~/.local/bin;
 
 uninstall:
 	rm ~/.local/bin/scpasm; \
@@ -32,6 +33,7 @@ uninstall:
 	rm ~/.local/bin/scpmif; \
 	rm ~/.local/bin/scpsize; \
 	rm ~/.local/bin/scpftp;	\
-	rm ~/.local/bin/scpdisasm
+	rm ~/.local/bin/scpdisasm; \
+	rm ~/.local/bin/scpmkfs;
 
 all: subdirs
