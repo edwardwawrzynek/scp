@@ -21,7 +21,7 @@ kernel/panic.h	kernel/palloc.h	kernel/mmu.h			\
 kernel/mmu_asm.h	kernel/proc.h	kernel/shed.h		\
 kernel/context_switch.h	kernel/int_handler.h			\
 kernel/context_vars.h	kernel/kernel.h 				\
-syscall/handler.h	syscall/test.h	syscall/getpid.h	\
+syscall/handler.h	syscall/getpid.h	\
 syscall/fork.h	syscall/files.h	syscall/exec.h			\
 syscall/chdir.h	syscall/exit.h	syscall/dir.h			\
 syscall/brk.handler										\
@@ -49,12 +49,12 @@ kernel/panic.o	kernel/palloc.o	kernel/mmu.o			\
 kernel/mmu_asm.o	kernel/proc.o	kernel/shed.o		\
 kernel/context_switch.o kernel/int_handler.o			\
 kernel/context_vars.o	kernel/kernel.o					\
-syscall/handler.o	syscall/test.o	syscall/getpid.o	\
+syscall/handler.o	syscall/getpid.o	\
 syscall/fork.o	syscall/files.o	syscall/exec.o			\
 syscall/chdir.o	syscall/exit.o	syscall/dir.o			\
 syscall/brk.o											\
 														\
-main_test.o	lib/brk_loc/end.o							\
+start.o	lib/brk_loc/end.o							\
 
 
 CC = vc

@@ -4,7 +4,6 @@
 #include "kernel/context_vars.h"
 #include "kernel/shed.h"
 
-#include "syscall/test.h"
 #include "syscall/getpid.h"
 #include "syscall/fork.h"
 #include "syscall/files.h"
@@ -16,7 +15,7 @@
 
 /* syscall table (all syscalls take four args, regardless of if they use them or not *) */
 uint16_t (*syscalls[])(uint16_t, uint16_t, uint16_t, uint16_t) = {
-    _test_syscall,
+    NULL,
     _getpid,
     _getppid,
     _fork,

@@ -16,16 +16,6 @@ _yield:
     int.i.n r1
     ret.n.sp sp
 
-;   Test Syscall
-    .align
-_test_syscall:
-    .global _test_syscall
-;   Load syscall number
-    ld.r.i re 0
-;   Int
-    int.i.n r7
-    ret.n.sp sp
-
 ;   getpid - return process id (non blocking)
     .align
 _getpid:

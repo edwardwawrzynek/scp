@@ -143,7 +143,7 @@ struct superblock {
  * This area contains a two byte entry for each blk in the disk. The entry is
  * the block number of the next block in the file to which the block is a part
  * of, or a zero if the blk is not part of any file. The last blk in a file has
- * an entry of 1. Unusable blks (those covering the block ll, boot, super block,
+ * an entry of 0x0001. Unusable blks (those covering the block ll, boot, super block,
  * and inode table) have an entry of 0xffff. An unallocated but usable block 
  * has an entry value of 0.
  * ---- Boot Area ----

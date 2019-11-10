@@ -23,8 +23,6 @@
     #define __regsused(a)
 #endif
 
-int16_t test_syscall(__reg("ra") uint8_t *a0, uint16_t __reg("rb") a1, __reg("rc") uint16_t a2, uint16_t __reg("rd") a3);
-
 typedef int16_t pid_t;
 
 pid_t getpid();

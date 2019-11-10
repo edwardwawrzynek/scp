@@ -5,8 +5,7 @@
 unsigned char *args[] = {"sh", "-i", NULL};
 
 int main(){
-    printf("start_user up\n");
-    printf("starting sh ...\n");
+    printf("start_user: starting sh\t\n");
     uint8_t ret_val;
     if(fork() == 0){
         execv("sh", args);
@@ -16,6 +15,5 @@ int main(){
     }
     wait(NULL);
     printf("sh terminated\n");
-    printf("start_user exiting\n");
     exit(1);
 }

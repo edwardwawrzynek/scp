@@ -25,13 +25,13 @@ uint16_t file_write_buf_pos;
 void _read_buf(){
     if(read(serial_fd, in_buffer, BUF_SIZE) != BUF_SIZE){
         /* abort */
-        test_syscall("serial read failure",0,0,0);
+        printf("serial read failure");
     }
 
     /* write out buf to confirm we got it */
     if(write(serial_fd, in_buffer, BUF_SIZE) != BUF_SIZE){
         /* abort */
-        test_syscall("serial write failure",0,0,0);
+        printf("serial write failure");
     }
 
     in_buf_index = 0;
@@ -84,7 +84,7 @@ void read_files(){
 void file_buf_write(uint16_t fd, uint8_t c){
     if(file_write_buf_pos >= 512){
         if(write(fd, file_write_buf, file_write_buf_pos) != file_write_buf_pos){
-            test_syscall("error writing\n");
+            printf("error writing\n");
         }
         file_write_buf_pos = 0;
     }
@@ -93,7 +93,7 @@ void file_buf_write(uint16_t fd, uint8_t c){
 /* close buf and write out */
 void file_buf_close(uint16_t fd){
     if(write(fd, file_write_buf, file_write_buf_pos) != file_write_buf_pos){
-        test_syscall("error writing\n");
+        printf("error writing\n");
     }
 }
 
@@ -113,18 +113,18 @@ void proc_files(uint16_t parent, char * parent_path){
                 /* create file */
                 int fd = creat(path);
                 if(fd == -1){
-                    test_syscall("error making file\n");
+                    printf("error making file\n");
                 }
                 if(files[i].is_executable){
                     fchmod(fd, S_IEXEC);
                 }
                 /* read in file */
-                test_syscall(path);
+                printf(path);
                 uint16_t s_len = strlen(path);
                 for(int i = 0; i < 32-s_len; i++){
-                    test_syscall(" ");
+                    printf(" ");
                 }
-                test_syscall(" |");
+                printf(" |");
                 uint8_t pprogress = 0;
                 uint8_t progress = 0;
                 uint8_t num_prog = 0;
@@ -132,7 +132,7 @@ void proc_files(uint16_t parent, char * parent_path){
                 for(uint16_t ind=0;ind<files[i].bytes;ind++){
                     progress = (ind<<5)/files[i].bytes;
                     if(progress != pprogress){
-                        test_syscall("#");
+                        printf("#");
                         num_prog++;
                     }
                     uint8_t res = _read_byte();
@@ -141,16 +141,16 @@ void proc_files(uint16_t parent, char * parent_path){
                     pprogress = progress;
                 }
                 while(num_prog < 40){
-                    test_syscall("#");
+                    printf("#");
                     num_prog++;
                 }
                 file_buf_close(fd);
                 close(fd);
-                test_syscall("\n");
+                printf("\n");
             } else {
                 /* create folder */
                 if(mkdir(path) == -1){
-                    test_syscall("error making dir\n");
+                    printf("error making dir\n");
                 }
                 /* recursive find */
                 proc_files(i, path);
@@ -165,7 +165,7 @@ int main(){
     serial_fd = open("/dev/serial0", O_RDWR);
     /* make sure it is open */
     if(serial_fd == -1){
-        test_syscall("serial open failure\n");
+        printf("serial open failure\n");
         while(1);
     }
     /* set it to raw mode */
@@ -181,8 +181,8 @@ int main(){
     /* execute /init */
     execv("/etc/init", NULL);
 
-    test_syscall("exec failure\n");
-    test_syscall(strerror(errno), 0, 0, 0);
+    printf("exec failure\n");
+    printf(strerror(errno));
     exit(0);
 }
 

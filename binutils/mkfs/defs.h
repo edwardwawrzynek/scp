@@ -55,6 +55,9 @@ struct disk_inode {
 #define DISK_NUM_BLKS 65536
 #define DISK_SIZE (DISK_NUM_BLKS * DISK_BLK_SIZE)
 
+//start of os image
+#define OS_IMG_FIRST_BLK 256
+
 //superblock blk number
 #define SUPERBLOCK_ADDR 383
 
@@ -72,26 +75,34 @@ struct disk_inode {
 //size of inode on disk
 #define DISK_INODE_SIZE 8
 #define INODE_TABLE_BLKS ((DISK_INODE_SIZE*NUMBER_OF_INODES)/DISK_BLK_SIZE)
+#define INODES_PER_BLOCK (DISK_BLK_SIZE/DISK_INODE_SIZE)
 #define FIRST_DATA_BLK (INODE_TABLE_ADDR + INODE_TABLE_BLKS)
+
+#define DIRECTORY_ENTRY_SIZE 16
 
 /* Special scp files prefix */
 #define SCP_SPECIAL_FILE_PREFIX "__SCP__"
 
+/* dev file name
+   format: __SCP__DEV_xx_xx_name */
+#define SCP_DEV_FILE_PREFIX SCP_SPECIAL_FILE_PREFIX "DEV_"
+
+#define SCP_DEV_PREFIX_LENGTH (strlen(SCP_DEV_FILE_PREFIX "00_00_"))
+
 /* name of file to be written to os area on disk (__SCP__OS_IMAGE) */
-#define SCP_OS_FILE_NAME (SCP_SPECIAL_FILE_PREFIX "OS_IMAGE")
+#define SCP_OS_FILE_NAME (SCP_SPECIAL_FILE_PREFIX "BOOT_IMAGE")
 
-/* information we need for files from fd */
-struct host_file {
-    char name[14]; /* file name */
-    /* device files (pipes are major number 3) */
-    uint8_t is_dev;
-    uint8_t dev_major;
-    uint8_t dev_minor;
-    /* 1 if exec flag was set */
-    uint8_t exec_flag;
-    /* used for making hard links */
-    ino_t inode_num;
-
+struct host_inode {
+    struct disk_inode disk_inode; /* inode to be written to disk */
+    char * host_path; /* host full path */
+    ino_t host_inum; /* host inode number - used to associate with struct host_file */
+    ino_t disk_inum;
+    /* if we have written to disk */
+    uint8_t written_to_disk;
 };
+
+#define BLOCK_LL_FREE       0x0000
+#define BLOCK_LL_END        0x0001
+#define BLOCK_LL_RESERVED   0xffff
 
 #endif
