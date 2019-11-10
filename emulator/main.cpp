@@ -5,7 +5,7 @@
 
 #include "cpu.h"
 
-#define SCREEN_UPDATE_FREQ 1000000
+#define SCREEN_UPDATE_FREQ 300000
 
 using namespace std;
 

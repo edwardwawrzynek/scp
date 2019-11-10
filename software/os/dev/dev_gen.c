@@ -150,10 +150,10 @@ int _dev_tty_gen_ioctl(int minor,int req_code,uint8_t *arg,tty_dev_t *tty_dev_ac
     switch(req_code){
         case TCGETA:
             /* read termio into arg */
-            memcpy((struct termio*)arg, &(tty_dev_access->termios), sizeof(struct termios));
+            memcpy((struct termios *)arg, &(tty_dev_access->termios), sizeof(struct termios));
             break;
         case TCSETA:
-            memcpy(&(tty_dev_access->termios), (struct termio*)arg, sizeof(struct termios));
+            memcpy(&(tty_dev_access->termios), (struct termios *)arg, sizeof(struct termios));
             break;
         default:
             set_errno(ENOTTY);

@@ -1,3 +1,5 @@
+#ifndef __PROC_H_INCl
+#define __PROC_H_INCL 1
 #include "include/stdint.h"
 
 /* mmu layout
@@ -11,8 +13,10 @@
  * Therefore, the high 6 bits of entry addr is the proc, the low 5 bits the page
  *
  */
-
+#ifndef PIDT_DEF
+#define PIDT_DEF 1
 typedef int16_t pid_t;
+#endif
 
 #define MMU_NUM_PAGES 2048 //2048 pages available - every proc full
 #define MMU_MAX_PROCS 64
@@ -130,3 +134,4 @@ struct proc {
     //this proc's mmu number (also its index in the proc_table) - THIS SHOULD NOT BE WRITTEN after proc_init_table
     uint8_t mmu_index;
 };
+#endif

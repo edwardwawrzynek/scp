@@ -23,7 +23,10 @@
     #define __regsused(a)
 #endif
 
+#ifndef PIDT_DEF
+#define PIDT_DEF 1
 typedef int16_t pid_t;
+#endif
 
 pid_t getpid();
 pid_t getppid();
@@ -131,9 +134,11 @@ struct termios {
 #define TERMIOS_CANON   0b00000010
 /* handle key codes such as ctrl+c, ctrl+d, etc - only handled in CANON mode */
 #define TERMIOS_CTRL    0b00000100
+/* pass key release code to device */
+#define TERMIOS_RELEASE 0b00001000
 
-/* complete raw mode */
-#define TERMIOS_RAW 0
+/* complete raw mode (release has to be specified) */
+#define TERMIOS_RAW     0
 
  int16_t ioctl(__reg("ra") uint16_t fd, __reg("rb") uint16_t cmd, __reg("rc") void * arg);
 

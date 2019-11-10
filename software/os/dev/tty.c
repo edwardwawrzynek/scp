@@ -114,6 +114,18 @@ static int tty_getc(){
         } else if(c == DEV_BLOCKING){
             return DEV_BLOCKING;
         }
+        if(!(tty.tty_dev.termios.flags & (TERMIOS_CANON | TERMIOS_CTRL | TERMIOS_ECHO))) {
+            if(c & 0x100) {
+                if( tty.tty_dev.termios.flags & TERMIOS_RELEASE) {
+                    /* encode release as key with msb set */
+                    return (c & 0xff) | 0x80;
+                } else {
+                    continue;
+                }
+            } else {
+                return c;
+            }
+        }
         /* handle shift and shift releases */
         if(c == 16){
             tty.tty_shifted = 1;

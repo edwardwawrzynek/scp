@@ -1,6 +1,7 @@
 #include <lib/kstdio_layer.h>
 #include <kernel/kernel.h>
 #include <panic.h>
+#include <kernel/panic.h>
 
 int main(){
     printf("Booting Kernel\n");

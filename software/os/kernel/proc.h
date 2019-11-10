@@ -25,6 +25,7 @@ struct proc *proc_alloc();
 void proc_init_table();
 struct proc *proc_get(pid_t pid);
 pid_t proc_alloc_pid();
+void proc_enable_text_write_protect(struct proc * proc);
 extern struct proc *proc_current_proc;
 extern pid_t proc_current_pid_alloc;
 extern struct proc proc_table[PROC_TABLE_ENTRIES];

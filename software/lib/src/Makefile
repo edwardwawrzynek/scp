@@ -47,6 +47,14 @@ inout/inout.h
 INOUTP_OBJS = \
 inout/inoutp.o
 
+#gfx library
+GFX_BIN = ../bin/libgfx.a
+
+GFX_HEADERS =
+
+GFX_OBJS = \
+gfx/gfx.o gfx/gfx_asm.o
+
 # C compiler options
 CC = vc
 
@@ -58,7 +66,7 @@ LDFLAGS =
 
 LD = scplnk
 
-all: $(LIBC_BIN) $(CRT_BIN) $(INOUTP_BIN)
+all: $(LIBC_BIN) $(CRT_BIN) $(INOUTP_BIN) $(GFX_BIN)
 
 %.o: %.c $(LIBC_HEADERS) $(CRT_HEADERS) $(INOUTP_HEADERS)
 	$(CC) -c -o $@ $< $(CFLAGS)
@@ -75,8 +83,11 @@ $(CRT_BIN): $(CRT_OBJS)
 $(INOUTP_BIN): $(INOUTP_OBJS)
 	$(LD) -o $(INOUTP_BIN) $(INOUTP_OBJS) $(LDFLAGS)
 
+$(GFX_BIN): $(GFX_OBJS)
+	$(LD) -o $(GFX_BIN) $(GFX_OBJS) $(LDFLAGS)
+
 clean:
-	rm -f $(LIBC_OBJS) $(CRT_OBJS) $(INOUTP_OBJS)
+	rm -f $(LIBC_OBJS) $(CRT_OBJS) $(INOUTP_OBJS) $(GFX_OBJS)
 
 .PHONY: configure
 

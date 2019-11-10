@@ -6,6 +6,7 @@ unsigned char *args[] = {"sh", "-i", NULL};
 
 int main(){
     printf("start_user: starting sh\t\n");
+    chdir("/home");
     uint8_t ret_val;
     if(fork() == 0){
         execv("sh", args);

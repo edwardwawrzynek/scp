@@ -190,7 +190,7 @@ void proc_init_mem_map(struct proc * proc){
 }
 
 /* make a proc's text segment write protected */
-void proc_enable_text_write_protect(struct proc * proc){
+void proc_enable_text_write_protect(struct proc * proc) {
     for(int i = 0; i < (proc->mem_struct.instr_pages); ++i){
         /* write protect is set after text is written by kernel into page */
         proc->mem_map[i] |= MMU_TEXT_FLAG;

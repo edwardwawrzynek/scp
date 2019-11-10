@@ -31,18 +31,18 @@ void kernel_init(){
 
 /* create the init process from the /init binary, and run it
  * init doesn't have stdin, stdout, or stderr, and has to open it itself 
- * return 1 on failure */
+ * return on failure */
 void kernel_start_init(char * initpath, uint8_t print_ok){
   uint16_t init_inum = fs_path_to_inum(initpath, 2, 2);
   if(!init_inum){
-    return 1;
+    return;
   }
   /* give init pid 2 (pid 1 is symbolic for orphaned procs) */
   proc_current_pid_alloc++;
   /* don't give init a parent */
   struct proc * proc = proc_create_new(init_inum, 0, 2, 2);
 
-  if(proc == NULL) return 1;
+  if(proc == NULL) return;
 
   if(print_ok) printf("[ OK ]\n");
 

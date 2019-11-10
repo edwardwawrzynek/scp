@@ -1,9 +1,5 @@
 #include <inout.h>
-
-void gfx_pixel(int x, int y, int color){
-    outp(_gfx_addr_port, x + y * 320);
-    outp(_gfx_data_port, color);
-}
+#include <gfx.h>
 
 int color = 0;
 
