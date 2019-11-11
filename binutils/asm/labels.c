@@ -16,7 +16,7 @@ unsigned int labels_cur = 0;
 /* current segment being written to */
 uint8_t cur_seg = 0;
 /* addresses in each seg */
-uint16_t seg_pos[4];
+uint32_t seg_pos[4];
 
 /* current module */
 uint16_t cur_module = 0;

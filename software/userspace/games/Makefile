@@ -1,5 +1,5 @@
 BIN = \
-pong invaders	\
+pong	\
 
 all: $(BIN)
 

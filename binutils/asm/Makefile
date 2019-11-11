@@ -3,8 +3,8 @@ DEPS = asm.h defs.h
 
 OBJS = encodings.o labels.o io.o decode.o main.o obj.o cmds.o defines.o
 
-CFLAGS = -Wall
-LDFLAGS = 
+CFLAGS = -Wall -g
+LDFLAGS = -g
 
 
 %.o: %.c $(DEPS)
