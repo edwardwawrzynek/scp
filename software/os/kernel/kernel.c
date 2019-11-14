@@ -6,6 +6,7 @@
 #include "include/lib/kstdio_layer.h"
 #include "kernel/panic.h"
 #include "kernel/shed.h"
+#include "dev/dev.h"
 
 
 //main functions for the kernel
@@ -25,7 +26,7 @@ void kernel_init(){
   proc_init_kernel_entry();
   printf("[ OK ]\nStart IO System\t\t\t");
   //start kstdio layer
-  kstdio_layer_init(1);
+  kstdio_layer_init(DEV_NUM_TTY);
   printf("[ OK ]\n");
 }
 
@@ -128,4 +129,11 @@ uint8_t * kernel_map_in_mem2(uint8_t * pointer, struct proc * proc){
   //return the pointer
   return (uint8_t *)(KERNEL_MEM_MAP_PAGE_3 << MMU_PAGE_SIZE_SHIFT) +
   ((uint16_t)pointer & MMU_PAGE_SIZE_MASK);
+}
+
+void kernel_shutdown() {
+  printf("\nFlush Filesystem to disk\t");
+  fs_close();
+  printf("[ OK ]\nShutdown\t\t\t[ OK ]\n");
+  while(1);
 }

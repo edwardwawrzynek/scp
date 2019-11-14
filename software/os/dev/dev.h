@@ -132,9 +132,15 @@ typedef struct {
 
 /* Specific device indexes */
 #define DEV_NUM_REG 0
-#define DEV_NUM_TTY 1
-#define DEV_NUM_SERIAL 2
-#define DEV_NUM_FIFO 3
-#define DEV_NUM_NULL 4
-#define DEV_NUM_ZERO 5
-#define DEV_NUM_RANDOM 6
+
+#define DEV_NUM_SPECIAL 1
+#define DEV_MINOR_NULL 0
+#define DEV_MINOR_ZERO 1
+#define DEV_MINOR_RANDOM 2
+#define DEV_MINOR_SHUTDOWN 3
+
+#define DEV_NUM_FIFO 2
+
+#define DEV_NUM_TTY 3
+
+#define DEV_NUM_SERIAL 4

@@ -43,6 +43,8 @@ struct player player2 = {.paddle_pos = 80, .x_pos=300, .score=0};
 
 struct ball ball = {.x_pos = 156, .y_pos=96, .x_vel=1, .y_vel=1, .timeout=start_timeout, .update_freq = 2};
 
+uint16_t speedup_wait = speedup_time;
+
 void draw_player(struct player * player) {
 	/* clear area where paddle might have been last frame */
 	gfx_rect(player->x_pos, player->paddle_pos-paddle_movement, paddle_width, paddle_movement, background_color);
@@ -78,6 +80,8 @@ void reset_ball(struct ball * ball) {
 	ball->y_vel = 1;
 	ball->update_freq = 2;
 	ball->timeout = score_timeout;
+
+	speedup_wait = speedup_time;
 }
 
 int8_t freq_count = 0;
@@ -124,19 +128,18 @@ void limit_player_bounds(struct player * player) {
 	if(player->paddle_pos >= (200-paddle_height)) player->paddle_pos = 200-paddle_height;
 }
 
-uint16_t speedup_wait = speedup_time;
 uint8_t main_loop() {
 	if(player1.score >= 5) {
-		gfx_exit();
+		gfx_exit(1);
 		printf("pong: The computer beat you\n");
 		return 1;
 	} else if (player2.score >= 5) {
-		gfx_exit();
+		gfx_exit(1);
 		printf("pong: You beat the computer\n");
 		return 1;
 	}
 	if(gfx_is_key_pressed(gfx_key_esc)) {
-		gfx_exit();
+		gfx_exit(1);
 		return 1;
 	}
 	if(speedup_wait) {
@@ -186,7 +189,7 @@ void intro() {
 
 int main(int argc, char **argv) {
 	printf("SCP Pong\n");
-	gfx_init();
+	gfx_init(1);
 	gfx_set_input_mode(TRACK_PRESS);
 	gfx_background(background_color);
 	intro();

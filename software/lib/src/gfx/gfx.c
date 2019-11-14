@@ -5,21 +5,24 @@
 #include <string.h>
 
 /* start gfx mode */
-void gfx_init() {
-  gfx_clear_text();
-  gfx_background(0);
+void gfx_init(uint16_t do_clear) {
+  if(do_clear) {
+    gfx_clear_text();
+    gfx_background(0);
+  }
   /* setup input to raw mode */
   gfx_set_input_mode(STANDARD);
 }
 
 /* exit gfx mode */
-void gfx_exit() {
-  /* TODO: clear text */
-  gfx_background(0);
+void gfx_exit(uint16_t do_clear) {
+  if(do_clear) {
+    gfx_background(0);
+    gfx_clear_text();
+  }
   /* setup input to canomode */
   struct termios in_termios = {.flags = TERMIOS_CANON | TERMIOS_CTRL | TERMIOS_ECHO};
   ioctl(STDIN_FILENO, TCSETA, &in_termios);
-  gfx_clear_text();
 }
 
 /* 0 if not pressed, 1 if pressed */

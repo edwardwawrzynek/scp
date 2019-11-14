@@ -57,6 +57,14 @@ uint8_t read_good_line(){
     blanks();
     /* read next line if this line was a comment or just whitespace */
   } while (line[lptr] == ';' || line[lptr] == '\0');
+  /* take care of comment at end of line (if present) */
+  int lptr_copy = lptr;
+  while(line[lptr_copy] != '\0') {
+    if(line[lptr_copy] == ';') {
+      line[lptr_copy] = '\0';
+    }
+    lptr_copy++;
+  }
   return 0;
 }
 

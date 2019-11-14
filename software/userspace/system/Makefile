@@ -1,11 +1,11 @@
 BIN = \
-init start_user	test1	ls	mkdir	cat	clear sh wc	hd	chmod	\
+init start_user	test1	ls	mkdir	cat	clear sh wc	hd	chmod	imgview \
 
 all: $(BIN)
 
 CC = vc
 CFLAGS = -c99 -O2
-LDFLAGS = -lc
+LDFLAGS = -lc -lgfx
 
 
 %: %.c

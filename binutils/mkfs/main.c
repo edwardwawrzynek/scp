@@ -329,6 +329,8 @@ uint16_t recurse_host_fs(char * host_path, FILE *out, ino_t host_inum, uint16_t 
         struct stat file_stat;
         stat(path, &file_stat);
         if(S_ISDIR(file_stat.st_mode)) {
+          /* file is directory, so it will have a .. entry that links back to us. inc link count */
+          inode->disk_inode.links++;
           uint16_t disk_inum = recurse_host_fs(path, out, entry->d_ino, inode->disk_inum);
           fseek(out, blks[0]*DISK_BLK_SIZE + index*DIRECTORY_ENTRY_SIZE + 14, SEEK_SET);
           write_word(out, disk_inum);

@@ -12,7 +12,7 @@
 #define EOF -1
 
 /* the current output device */
-static uint8_t cur_out_dev = 1;
+static uint8_t cur_out_dev = DEV_NUM_TTY;
 
 /* Init kstdio layer */
 void kstdio_layer_init(int dev_index){

@@ -5,11 +5,11 @@
 
 /**
  * start gfx mode */
-void gfx_init();
+void gfx_init(uint16_t do_clear);
 
 /**
  * exit gfx mode */
-void gfx_exit();
+void gfx_exit(uint16_t do_clear);
 
 /**
  * clear text on screen */
@@ -106,7 +106,7 @@ int gfx_is_key_pressed(uint8_t key);
 #define gfx_key_f12 25
 
 
-#define gfx_rgb_to_color(r, g, b) ((b>>6) + ((g>>5)<<2) + ((b>>5)<<5))
+#define gfx_rgb_to_color(r, g, b) ((b>>6) + ((g>>5)<<2) + ((r>>5)<<5))
 
 #define gfx_red       0b11000000
 #define gfx_green     0b00111000

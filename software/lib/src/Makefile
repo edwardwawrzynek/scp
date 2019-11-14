@@ -32,7 +32,7 @@ string/memset.o	string/strcat.o	string/strchr.o	string/strcpy.o				\
 string/strcspn.o	string/strlen.o	string/strncat.o	string/strnchr.o	\
 string/strncmp.o	string/strncpy.o	string/strnlen.o					\
 string/strpbrk.o	string/strrchr.o	string/strspn.o	string/strstr.o		\
-string/strcmp.o		string/strerror.o										\
+string/strcmp.o		string/strerror.o	string/strdup.o										\
 																			\
 syscall/syscall_asm.o	syscall/syscall_lib.o	syscall/getopt.o			\
 \
