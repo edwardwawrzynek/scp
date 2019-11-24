@@ -6,6 +6,7 @@ int main(int argc,char *argv[]);
 uint8_t add_obj(char *name);
 extern int in_objs_index;
 extern int do_out_ar;
+extern int do_duplicate_detect;
 extern int do_dep_opt;
 extern FILE *sym_debug_file;
 extern char *sym_debug_out;

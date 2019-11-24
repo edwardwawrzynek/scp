@@ -3,13 +3,35 @@
 ; This runs entirely in a rom, so no stack or memory writing is done
 
 ; We have to manually fill bios image with zeros so that it is positioned at end of memory
-  .rodata
-  .ds 65150
 
   .text
   .align
 _START:
   .global _START
+; ---- clear regs -----
+  ld.r.i r0 0
+  ld.r.i r1 0
+  ld.r.i r2 0
+  ld.r.i r3 0
+  ld.r.i r4 0
+  ld.r.i r5 0
+  ld.r.i r6 0
+  ld.r.i r7 0
+  ld.r.i r8 0
+  ld.r.i r9 0
+  ld.r.i ra 0
+  ld.r.i rb 0
+  ld.r.i rc 0
+  ld.r.i rd 0
+  ld.r.i re 0
+  ld.r.i rf 0
+; ---- clear screen ----
+lbootclearscrn:
+  out.r.p r0 5
+  out.r.p r1 6
+  alu.r.i add r0 1
+  cmp.r.f r0 r1
+  jmp.c.j GLgl lbootclearscrn
 ; ---- print bootloader message ----
   ld.r.ra r0 lbootmsg
   ld.r.i r3 993
@@ -24,6 +46,13 @@ lbootmsgprint:
   alu.r.i add r3 1
   jmp.c.j LGlge lbootmsgprint
 lbootmsgprint_end:
+; ----- wait a bit (video hardware init) ----
+  ld.r.i r0 0
+  ld.r.i r1 0
+lwait:
+  alu.r.i add r0 1
+  cmp.r.f ro r1
+  jmp.c.j GLgl lwait
 ; ----- init disk hardware -----
   ld.r.i r0 0
   out.r.p r0 13
@@ -130,6 +159,13 @@ lreadloop:
   ld.r.i r0 383
   cmp.r.f rb r0
   jmp.c.j GLgl lreadimgwait
+; ---- clear screen ----
+lbootclearscrn1:
+  out.r.p r7 5
+  out.r.p r8 6
+  alu.r.i add r7 1
+  cmp.r.f r7 r8
+  jmp.c.j GLgl lbootclearscrn1
 
 ; transfer control to os
   ld.r.i r0 0

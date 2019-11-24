@@ -8,6 +8,7 @@ char *strstr(const char *s1,const char *s2);
 int memcmp(const void *cs,const void *ct,size_t count);
 void *memmove(void *dest,const void *src,size_t count);
 void *memcpy(void *dest,const void *src,size_t count);
+void *memset16(void *s, int c, size_t count);
 void *memset(void *s,int c,size_t count);
 char *strpbrk(const char *cs,const char *ct);
 size_t strcspn(const char *s,const char *reject);

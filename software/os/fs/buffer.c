@@ -67,11 +67,15 @@ void buffer_put(struct buffer_header * buf){
  * flush all of the buffers in the table - for shutdown, etc
  * returns (none) */
 
-void buffer_flush_all(){
+void buffer_flush_all(uint8_t do_free){
     uint16_t i;
     for(i = 0; i < BUFFER_TABLE_ENTRIES; ++i){
         if(buffer_table[i].refs){
             disk_write(buffer_table[i].blk, buffer_table[i].buf);
+        }
+        if(do_free) {
+            kfree(buffer_table[i].buf);
+            buffer_table[i].buf = NULL;
         }
     }
 }

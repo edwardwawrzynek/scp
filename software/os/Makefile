@@ -14,7 +14,7 @@ lib/kstdio_layer/kstdio_layer.h							\
 include/lib/string.h \
 lib/kmalloc/kmalloc.h									\
 lib/inout/inout.h lib/inout/__inoutp.h					\
-lib/util/util.h											\
+lib/util/util.h	include/lib/vterm.h										\
 fs/disk.h	fs/superblock.h	fs/buffer.h	fs/balloc.h		\
 fs/inode.h	fs/file.h	fs/dir.h	fs/fs.h				\
 kernel/panic.h	kernel/palloc.h	kernel/mmu.h			\
@@ -39,6 +39,7 @@ lib/string/strcspn.o	lib/string/strlen.o	lib/string/strncat.o	lib/string/strnchr
 lib/string/strncmp.o	lib/string/strncpy.o	lib/string/strnlen.o					\
 lib/string/strpbrk.o	lib/string/strrchr.o	lib/string/strspn.o	lib/string/strstr.o		\
 lib/string/strcmp.o									\
+lib/vterm/vterm.o								\
 \
 lib/inout/inoutp.o										\
 lib/kmalloc/kmalloc.o									\
@@ -49,6 +50,7 @@ kernel/panic.o	kernel/palloc.o	kernel/mmu.o			\
 kernel/mmu_asm.o	kernel/proc.o	kernel/shed.o		\
 kernel/context_switch.o kernel/int_handler.o			\
 kernel/context_vars.o	kernel/kernel.o					\
+kernel/kernel_asm.o							\
 syscall/handler.o	syscall/getpid.o	\
 syscall/fork.o	syscall/files.o	syscall/exec.o			\
 syscall/chdir.o	syscall/exit.o	syscall/dir.o			\
@@ -59,7 +61,7 @@ start.o	lib/brk_loc/end.o							\
 
 CC = vc
 
-CFLAGS = -c99 -I./include -I.
+CFLAGS = -c99 -I./include -I. -DSCPOS
 #optimization levels above -O1 are buggy (vbcc, not backend, fault (bug with inode_new: setting ind.disk_blk is optimized to just set blks[0], despite addr of ind later being taken.))
 CFLAGS += -O1 -size
 

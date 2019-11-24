@@ -1,4 +1,5 @@
 #include <string.h>
+#include <stdint.h>
 
 /**
  * memset - Fill a region of memory with the given value
@@ -14,5 +15,13 @@ void *memset(void *s, int c, size_t count)
 
 	while (count--)
 		*xs++ = c;
+	return s;
+}
+
+void *memset16(void *s, int c, size_t count) {
+	int16_t *xs = s;
+	while (count--) {
+		*(xs++) = c;
+	}
 	return s;
 }

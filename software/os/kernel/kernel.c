@@ -1,5 +1,6 @@
 #include "include/defs.h"
 #include "fs/fs.h"
+#include "fs/file.h"
 #include "kernel/proc.h"
 #include "kernel/mmu.h"
 #include "kernel/mmu_asm.h"
@@ -7,6 +8,8 @@
 #include "kernel/panic.h"
 #include "kernel/shed.h"
 #include "dev/dev.h"
+#include "lib/kmalloc.h"
+#include "kernel/kernel_asm.h"
 
 
 //main functions for the kernel
@@ -131,9 +134,45 @@ uint8_t * kernel_map_in_mem2(uint8_t * pointer, struct proc * proc){
   ((uint16_t)pointer & MMU_PAGE_SIZE_MASK);
 }
 
-void kernel_shutdown() {
-  printf("\nFlush Filesystem to disk\t");
+void kernel_exit() {
+  printf("Flush Filesystem to disk\t");
   fs_close();
   printf("[ OK ]\nShutdown\t\t\t[ OK ]\n");
+}
+
+void kernel_shutdown() {
+  printf("\n");
+  kernel_exit();
   while(1);
+}
+
+/* kind of hacky
+   we load the bios from disk into a malloc'd buffer, copy to last 512 bytes, and jump to it */
+void kernel_reboot() {
+  printf("\nLoading bootloader for reboot\t");
+  uint16_t bios_inum = fs_path_to_inum("/etc/bios", 2, 2);
+  if(!bios_inum) panic(PANIC_NO_BIOS_FILE);
+  struct file_entry * bios = file_get(bios_inum, FILE_MODE_READ);
+  if(bios == NULL) panic(PANIC_NO_BIOS_FILE);
+  uint8_t * buf = kmalloc(512);
+  if(buf == NULL) panic(PANIC_NO_BIOS_FILE);
+  memset(buf, 0, 512);
+  uint16_t bytes = file_read(bios, buf, 512);
+  if(bytes == 0) panic(PANIC_NO_BIOS_FILE);
+
+  printf("[ OK ]\n");
+  kernel_exit();
+
+  /* clear text protection on kernel pages */
+  for(uint8_t i = 0; i < 32; i++) {
+    proc_table[0].mem_map[i] = i | MMU_ASSIGN_FLAG;
+  }
+
+  mmu_set_ptb(0);
+
+  /* write kernel mem map */
+  proc_write_mem_map(&proc_table[0]);
+
+  /* we need to load bootloader in non stack using asm, as loading bootloader block wrecks stack */
+  kernel_load_bootloader_block(buf);
 }

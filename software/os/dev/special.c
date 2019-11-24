@@ -13,6 +13,7 @@
 #include <stdint.h>
 #include "errno.h"
 #include "kernel/kernel.h"
+#include "syscall/exec.h"
 
 
 /* /dev/random - highly insecure */
@@ -29,10 +30,11 @@ static int random_getc(){
 int _special_write(int minor, uint8_t * buf, size_t bytes, uint8_t *eof, struct inode *file) {
     *eof = 0;
     if(minor == DEV_MINOR_SHUTDOWN) {
-        /* any non zero write to /sys/shutdown triggers shutdown */
+        /* 0 doesn't do anything, 1 triggers shutdown and 2 triggers reboot */
         uint16_t b = bytes;
         while(b--) {
-            if(*(buf++)) kernel_shutdown();
+            if(*(buf) == '1') kernel_shutdown();
+            if(*(buf++) == '2') kernel_reboot();
         }
         return bytes;
     } 

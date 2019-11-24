@@ -21,10 +21,11 @@ void usage(){
         \n-p\t\t:don't arrange the segs on pages boundaries\
         \n-l\tname\t:link with a file libname.o in the dirs specified by -L\
         \n-L\tdir\t:set dir to be part of the search path used by -l\
-        \n-O\t\t:force the output to be an obj file, no matter output extension\
-        \n-A\t\t:force the output to be an archive, no matter output extension\
-        \n-D\tsym_db\t:output symbol debugging info in sym_db (binary file output only)\
+        \n-O\t\t:force the output to be an obj file\
+        \n-A\t\t:force the output to be an archive\
+        \n-D\tsym_db\t:output symbol debugging info in sym_db\
         \n-S\t\t:don't do static dependency optimization\
+        \n-Q\t\t:don't detect duplicate symbols\
         \n-h\t\t:print usage\n");
 }
 
@@ -53,6 +54,8 @@ FILE * sym_debug_file;
 //int do_dep_opt = 1;
 int do_dep_opt = 1;
 
+int do_duplicate_detect = 1;
+
 /* output an archive (combination of object files) */
 int do_out_ar = 0;
 
@@ -79,7 +82,7 @@ int main(int argc, char *argv[]){
   char * outfile = "out.bin";
   int opt;
   /* read options */
-  while((opt = getopt(argc, argv, "o:rpl:L:OASD:h")) != -1) {
+  while((opt = getopt(argc, argv, "o:rpl:L:OASD:hQ")) != -1) {
     switch(opt){
       case 'o':
         outfile = optarg;
@@ -115,6 +118,9 @@ int main(int argc, char *argv[]){
       case 'S':
         do_dep_opt = 0;
         break;
+      case 'Q':
+	      do_duplicate_detect = 0;
+	      break;
       case 'h':
       case '?':
         usage();
@@ -150,7 +156,13 @@ int main(int argc, char *argv[]){
         sprintf(lib_buf, "%slib%s.o", lib_search_dirs[d], lib_path[l]),
         !add_obj(lib_buf)
       ){
-
+        /* check that .a variant doesn't exist */
+        sprintf(lib_buf, "%slib%s.a", lib_search_dirs[d], lib_path[l]);
+        FILE * f = fopen(lib_buf, "r");
+        if(f != NULL) {
+          printf(BIN_NAME ": error: both lib%s.o and lib%s.a exist\n", lib_path[l], lib_path[l]);
+        }
+        exit(1);
       } else if (
         sprintf(lib_buf, "%slib%s.a", lib_search_dirs[d], lib_path[l]),
         !add_obj(lib_buf)
@@ -218,15 +230,15 @@ void run_sym_debug_out(){
 void run_lnk(){
   if(do_out_obj){
     run_lnk_obj();
-    sym_detect_duplicate_entries();
+    if(do_duplicate_detect) sym_detect_duplicate_entries();
   } else if(do_out_ar){
     run_lnk_ar();
-    sym_detect_duplicate_entries();
+    if(do_duplicate_detect) sym_detect_duplicate_entries();
   } else {
     run_lnk_bin();
     if(sym_debug_out){
       run_sym_debug_out();
     }
-    sym_detect_duplicate_entries();
+    if(do_duplicate_detect) sym_detect_duplicate_entries();
   }
 }

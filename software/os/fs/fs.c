@@ -96,5 +96,5 @@ void fs_init(){
 void fs_close(){
     file_put_all();
     inode_put_all();
-    buffer_flush_all();
+    buffer_flush_all(1);
 }

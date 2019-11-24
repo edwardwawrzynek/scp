@@ -32,7 +32,6 @@ void symbol_read_in_tables(){
     set file to which file's defined table it was found in */
 struct obj_symbol_entry * find_extern(int i, uint32_t index, int *file){
     struct obj_symbol_entry *entry = &(extern_tables[i][index]);
-
     /* look through all the tables */
     for(int f = 0; in_objs[f].file; f++){
         /* look through all entries */

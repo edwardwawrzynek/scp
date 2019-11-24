@@ -1,5 +1,5 @@
 Timing Analyzer report for scp
-Wed Nov  6 01:16:58 2019
+Tue Nov 19 20:01:21 2019
 Quartus Prime Version 19.1.0 Build 670 09/22/2019 SJ Lite Edition
 
 
@@ -106,7 +106,7 @@ https://fpgasoftware.intel.com/eula.
 ;                            ;             ;
 ; Usage by Processor         ; % Time Used ;
 ;     Processor 1            ; 100.0%      ;
-;     Processor 2            ;  57.0%      ;
+;     Processor 2            ;  56.9%      ;
 +----------------------------+-------------+
 
 
@@ -115,7 +115,7 @@ https://fpgasoftware.intel.com/eula.
 +---------------+--------+--------------------------+
 ; SDC File Path ; Status ; Read at                  ;
 +---------------+--------+--------------------------+
-; csp.sdc       ; OK     ; Wed Nov  6 01:16:38 2019 ;
+; csp.sdc       ; OK     ; Tue Nov 19 20:00:56 2019 ;
 +---------------+--------+--------------------------+
 
 
@@ -784,7 +784,7 @@ No non-DPA dedicated SERDES Receiver circuitry present in device or used in desi
 Info: *******************************************************************
 Info: Running Quartus Prime Timing Analyzer
     Info: Version 19.1.0 Build 670 09/22/2019 SJ Lite Edition
-    Info: Processing started: Wed Nov  6 01:16:35 2019
+    Info: Processing started: Tue Nov 19 20:00:52 2019
 Info: Command: quartus_sta scp -c scp
 Info: qsta_default_script.tcl version: #1
 Info (20032): Parallel compilation is enabled and will use up to 2 processors
@@ -1037,9 +1037,9 @@ Info (332114): Report Metastability: Found 2 synchronizer chains.
 Info (332102): Design is not fully constrained for setup requirements
 Info (332102): Design is not fully constrained for hold requirements
 Info: Quartus Prime Timing Analyzer was successful. 0 errors, 8 warnings
-    Info: Peak virtual memory: 1235 megabytes
-    Info: Processing ended: Wed Nov  6 01:16:58 2019
-    Info: Elapsed time: 00:00:23
-    Info: Total CPU time (on all processors): 00:00:33
+    Info: Peak virtual memory: 1236 megabytes
+    Info: Processing ended: Tue Nov 19 20:01:21 2019
+    Info: Elapsed time: 00:00:29
+    Info: Total CPU time (on all processors): 00:00:42
 
 

@@ -1,5 +1,5 @@
 Analysis & Synthesis report for scp
-Wed Nov  6 01:14:20 2019
+Tue Nov 19 19:57:47 2019
 Quartus Prime Version 19.1.0 Build 670 09/22/2019 SJ Lite Edition
 
 
@@ -113,7 +113,7 @@ https://fpgasoftware.intel.com/eula.
 +-------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                  ;
 +---------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status     ; Successful - Wed Nov  6 01:14:20 2019       ;
+; Analysis & Synthesis Status     ; Successful - Tue Nov 19 19:57:47 2019       ;
 ; Quartus Prime Version           ; 19.1.0 Build 670 09/22/2019 SJ Lite Edition ;
 ; Revision Name                   ; scp                                         ;
 ; Top-level Entity Name           ; scp                                         ;
@@ -314,7 +314,6 @@ https://fpgasoftware.intel.com/eula.
 ; altdpram.inc                     ; yes             ; Megafunction                           ; /opt/altera/19.1/quartus/libraries/megafunctions/altdpram.inc          ;         ;
 ; db/altsyncram_tnj2.tdf           ; yes             ; Auto-Generated Megafunction            ; /home/edward/Documents/scp/quartus/db/altsyncram_tnj2.tdf              ;         ;
 ; db/altsyncram_1ag1.tdf           ; yes             ; Auto-Generated Megafunction            ; /home/edward/Documents/scp/quartus/db/altsyncram_1ag1.tdf              ;         ;
-; IO/vga/charset.mif               ; yes             ; Auto-Found Memory Initialization File  ; /home/edward/Documents/scp/quartus/IO/vga/charset.mif                  ;         ;
 ; db/altsyncram_trj2.tdf           ; yes             ; Auto-Generated Megafunction            ; /home/edward/Documents/scp/quartus/db/altsyncram_trj2.tdf              ;         ;
 ; db/decode_dla.tdf                ; yes             ; Auto-Generated Megafunction            ; /home/edward/Documents/scp/quartus/db/decode_dla.tdf                   ;         ;
 ; db/decode_61a.tdf                ; yes             ; Auto-Generated Megafunction            ; /home/edward/Documents/scp/quartus/db/decode_61a.tdf                   ;         ;
@@ -2604,7 +2603,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------+--------------+
 ; Partition Name ; Elapsed Time ;
 +----------------+--------------+
-; Top            ; 00:00:10     ;
+; Top            ; 00:00:12     ;
 +----------------+--------------+
 
 
@@ -2614,7 +2613,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 19.1.0 Build 670 09/22/2019 SJ Lite Edition
-    Info: Processing started: Wed Nov  6 01:13:51 2019
+    Info: Processing started: Tue Nov 19 19:57:09 2019
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off scp -c scp
 Info (20032): Parallel compilation is enabled and will use up to 2 processors
 Info (12021): Found 1 design units, including 1 entities, in source file int/int_timer.v
@@ -3132,7 +3131,6 @@ Info (12133): Instantiated megafunction "ram_mega:RAM|altsyncram:altsyncram_comp
 Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_i5r2.tdf
     Info (12023): Found entity 1: altsyncram_i5r2 File: /home/edward/Documents/scp/quartus/db/altsyncram_i5r2.tdf Line: 34
 Info (12128): Elaborating entity "altsyncram_i5r2" for hierarchy "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated" File: /opt/altera/19.1/quartus/libraries/megafunctions/altsyncram.tdf Line: 792
-Critical Warning (127005): Memory depth (131072) in the design file differs from memory depth (65536) in the Memory Initialization File "/home/edward/Documents/scp/quartus/ram/ram_mega_cnts.mif" -- setting initial value for remaining addresses to 0 File: /home/edward/Documents/scp/quartus/ram/ram_mega.v Line: 97
 Info (12021): Found 1 design units, including 1 entities, in source file db/decode_tma.tdf
     Info (12023): Found entity 1: decode_tma File: /home/edward/Documents/scp/quartus/db/decode_tma.tdf Line: 23
 Info (12128): Elaborating entity "decode_tma" for hierarchy "ram_mega:RAM|altsyncram:altsyncram_component|altsyncram_i5r2:auto_generated|decode_tma:decode2" File: /home/edward/Documents/scp/quartus/db/altsyncram_i5r2.tdf Line: 49
@@ -3360,11 +3358,11 @@ Info (21057): Implemented 2600 device resources after synthesis - the final reso
     Info (21064): Implemented 361 RAM segments
     Info (21065): Implemented 6 PLLs
     Info (21062): Implemented 1 DSP elements
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 72 warnings
-    Info: Peak virtual memory: 1091 megabytes
-    Info: Processing ended: Wed Nov  6 01:14:20 2019
-    Info: Elapsed time: 00:00:29
-    Info: Total CPU time (on all processors): 00:00:48
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 71 warnings
+    Info: Peak virtual memory: 1096 megabytes
+    Info: Processing ended: Tue Nov 19 19:57:47 2019
+    Info: Elapsed time: 00:00:38
+    Info: Total CPU time (on all processors): 00:00:53
 
 
 +------------------------------------------+

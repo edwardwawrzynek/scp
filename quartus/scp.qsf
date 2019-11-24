@@ -69,7 +69,7 @@ set_location_assignment PIN_AE26 -to LED[5]
 set_location_assignment PIN_Y16 -to LED[6]
 set_location_assignment PIN_AA23 -to LED[7]
 set_location_assignment PIN_V11 -to CLOCK_50
-set_global_assignment -name TIMEQUEST_MULTICORNER_ANALYSIS ON
+set_global_assignment -name TIMING_ANALYZER_MULTICORNER_ANALYSIS ON
 set_global_assignment -name NUM_PARALLEL_PROCESSORS 2
 set_global_assignment -name SMART_RECOMPILE ON
 set_global_assignment -name OPTIMIZATION_MODE BALANCED
