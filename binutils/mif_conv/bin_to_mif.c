@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 
 const char *bit_rep[16] = {
     [ 0] = "0000", [ 1] = "0001", [ 2] = "0010", [ 3] = "0011",
@@ -16,9 +17,19 @@ void usage(){
   exit(0);
 }
 
+int read_word(FILE *f, uint16_t * res) {
+  int r1 = fgetc(f);
+  int r2 = fgetc(f);
+  if(r1 == EOF || r2 == EOF) {
+    return 1;
+  }
+  *res = (uint8_t)r1;
+  *res += (((uint8_t)r2)<<8);
+  return 0;
+}
+
 int main(int argc, char **argv){
   unsigned int addr;
-  int c;
   addr = 0;
   if(argc < 3){
     usage();
@@ -30,18 +41,20 @@ int main(int argc, char **argv){
   }
   mif_file = fopen(argv[2], "w");
   //Write header
-  fputs("WIDTH=8;\nDEPTH=65536;\nADDRESS_RADIX=UNS;\nDATA_RADIX=BIN;\nCONTENT BEGIN\n", mif_file);
+  fputs("WIDTH=16;\nDEPTH=98304;\nADDRESS_RADIX=UNS;\nDATA_RADIX=BIN;\nCONTENT BEGIN\n", mif_file);
 
-  c = fgetc(bin_file);
-  //Read from file
-  while(c != EOF){
-    fprintf(mif_file, "\t%u : %s%s;\n", addr, bit_rep[c >> 4], bit_rep[c & 0x0F]);
-    c = fgetc(bin_file);
-    addr++;
+  while(1) {
+    uint16_t data;
+    if(!read_word(bin_file, &data)) {
+      fprintf(mif_file, "\t%u: %s%s%s%s;\n", addr, bit_rep[(data >> 12) &0xf], bit_rep[(data >> 8)&0xf], bit_rep[(data >> 4)&0xf], bit_rep[(data >> 0) & 0xf]);
+      addr += 1;
+    } else {
+      break;
+    }
   }
   //Write Footer
-	if(addr <= 65535){
-  	fprintf(mif_file, "\t[%u..65535] : 00000000;\n", addr);
+	if(addr <= 98303){
+  	fprintf(mif_file, "\t[%u..98303] : 0000000000000000;\n", addr);
 	}
-  fputs("END;", mif_file);
+  fputs("END;\n", mif_file);
 }
