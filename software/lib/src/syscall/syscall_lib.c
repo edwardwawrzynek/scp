@@ -48,7 +48,7 @@ int16_t write(uint16_t fd, uint8_t * buffer, uint16_t bytes){
 }
 
 /* wrapper for wait_nb syscall */
-int16_t wait(uint8_t *data){
+int16_t wait(int16_t *data){
     while(1){
         uint16_t ret = wait_nb(data);
         if(ret){
@@ -71,21 +71,26 @@ int16_t readdir(uint16_t fd, struct dirent * dirp){
     if(!S_ISDIR(_dirstat.st_mode)){
         return -1;
     }
-    /* read name */
-    bytes = read(fd, dirp->name, 14);
-    if(bytes == -1){
-        return -1;
-    }
-    if(bytes != 14){
-        return 0;
-    }
-    /* read inum */
-    bytes = read(fd, (uint8_t *)(&dirp->inum), 2);
-    if(bytes == -1){
-        return -1;
-    }
-    if(bytes != 2){
-        return 0;
+    while(1) {
+        /* read name */
+        bytes = read(fd, dirp->name, 14);
+        if(bytes == -1){
+            return -1;
+        }
+        if(bytes != 14){
+            return 0;
+        }
+        /* read inum */
+        bytes = read(fd, (uint8_t *)(&dirp->inum), 2);
+        if(bytes == -1){
+            return -1;
+        }
+        if(bytes != 2){
+            return 0;
+        }
+        /* removed entry has a zero inum */
+        if(dirp->inum == 0) continue;
+        break;
     }
 
     return 1;

@@ -118,7 +118,7 @@ void bin_create_segs(uint8_t do_head, uint8_t do_pages){
             uint8_t start_page = seg_start[s] >> 11;
             res |= start_page;
             /* get number of pages */
-            uint8_t num_pages = seg_size[s] & (PAGE_SIZE -1) ? (seg_size[s] >> 11) + 1 : (seg_size[s] >> 1);
+            uint8_t num_pages = seg_size[s] & (PAGE_SIZE -1) ? (seg_size[s] >> 11) + 1 : (seg_size[s] >> 11);
             res |= (num_pages << 5);
             /* write result */
             raw_output_word(res);

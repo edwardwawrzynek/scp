@@ -38,6 +38,12 @@ void readline() {
 /* return a pointer to the next symbol (chars seperated by whitespace in the buffer) */
 char * get_next_sym() {
     /* skip whitespace */
+    if(*line_pos == '\n') {
+        *(line_pos -1) = ';';
+        *(line_pos) = '\0';
+        line_pos++;
+        return line_pos - 2;
+    }
     while(isspace(*line_pos) && *line_pos != '\0'){
         line_pos++;
     }
@@ -194,6 +200,7 @@ int exec_cmds() {
 
     for(int i = 0; i < cmds_index; i++) {
         struct cmd * cmd = cmds[i];
+        if(cmd->cmd[0] == '#') continue;
         if(!strcmp(cmd->cmd, "cd")) {
             return exec_cd(cmd);
         } else if(!strcmp(cmd->cmd, "exit")) {
@@ -240,7 +247,7 @@ int mainloop() {
     cmds_index = 0;
     if(interactive_flag) printf("$ ");
     if(feof(file_in)) return 1;
-    readline();
+    if(*line_pos == '\0') readline();
     /* step in parsing */
     enum parsing_mode mode = CMD;
     /* current symbol we are on */
@@ -252,6 +259,7 @@ int mainloop() {
     do{
         sym = get_next_sym();
         if(sym == NULL) break;
+        if(sym[0] == ';') break;
         if(!strcmp(sym, ">")) {
             mode = REDIR_OUT;
             continue;

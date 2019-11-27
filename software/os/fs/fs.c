@@ -26,7 +26,7 @@ uint16_t fs_path_to_inum(uint8_t * path, uint16_t cwd, uint16_t croot){
     //temporary value only to allow the while loop to run once - gets set after
     uint8_t *i;
     //If name starts with /, start searching at root
-    if(name[0] == '/'){
+    while(name[0] == '/'){
         ++name;
         cwd = croot;
     }
@@ -43,6 +43,8 @@ uint16_t fs_path_to_inum(uint8_t * path, uint16_t cwd, uint16_t croot){
         cwd = dir_name_inum(cwd, name);
         //update name to after /
         name = i+1;
+        //if multiple slashes were next to each other, move past them
+        while(*name == '/') {name++;}
         //if i is 0, meaning no more slashes were found, the the loop will exit
         if(!i){
             break;

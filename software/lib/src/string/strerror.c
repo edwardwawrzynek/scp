@@ -12,10 +12,12 @@ static char * errors[__ERRNO_LEN] = {
     "Is a directory", /* EISDIR */
     "Directory not empty", /* ENOTEMPTY */
     "Cannot allocate memory", /* ENOMEM */
-    "Not an executable", /* ENOEXEC */
+    "Not an executable", /* ENOTEX */
     "Invalid syscall args", /*EARG */
     "Improper ioctl for file", /* ENOTTY */
     "Improper file mode", /* EVMOD */
+    "Exec format error", /* ENOEXEC */
+    "Bad Interpeter",   /* ENOINTRP */
 };
 
 char * strerror(int err){

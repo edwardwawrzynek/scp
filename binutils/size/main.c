@@ -84,7 +84,7 @@ void handle_bin_obj(FILE *file, char * name) {
     uint16_t s_offset;
     read_header_word_size(data, &s_size, &s_offset);
     if(s_offset != total) {
-      fprintf(stderr, "\n" BIN_NAME ":file %s is not scp archive, object file, or binary file with header\n", name);
+      fprintf(stderr, "\n" BIN_NAME " :file %s is not a scp archive, object file, or binary file with header\n", name);
       exit(1);
     }
     printf("%u\t", s_size);
