@@ -335,50 +335,53 @@ static void load_into_reg(FILE *f, struct obj *o, int real_type, int reg){
     ierror(0);
   }
 
-  /* load into reg, then apply drefobj if nessesary */
-  /* TODO: add special case with REG|DREFOBJ - doesn't need the move before hand, we can just use old reg as source */
-  if(o->flags & REG){
-    if(o->reg != reg){
-      emit(f, "\tmov.r.r %s %s\n", regnames[reg], regnames[o->reg]);
-    }
-  } else if (o->flags & KONST){
-    /* TODO: do we need to load differently for chars (should negatives fill whole byte ?) */
-    emit(f, "\tld.r.i %s %i\n", regnames[reg], o->val.vmax);
-  } else if (o->flags & VAR){
-    /* check if we are loading address of a var */
-    if(o->flags & VARADR){
-      /* should only be used with static or external variables */
-      if(isextern(o->v->storage_class)){
-        emit(f, "\tld.r.ra %s %s%s+%i\n", regnames[reg], idprefix, o->v->identifier, o->val.vmax);
+  /* load into reg, then apply drefobj if necessary */
+  if(o->flags & REG && o->flags & DREFOBJ) {
+    /* we can dereference and move in one step */
+    emit(f, "\tld.r.p.%s %s %s\n", dt(real_type), regnames[reg], regnames[o->reg]);
+  } else {
+    if(o->flags & REG){
+      if(o->reg != reg){
+        emit(f, "\tmov.r.r %s %s\n", regnames[reg], regnames[o->reg]);
       }
-      if(isstatic(o->v->storage_class)){
-        emit(f, "\tld.r.ra %s %s%i+%i\n", regnames[reg], labprefix, o->v->offset, o->val.vmax);
+    } else if (o->flags & KONST){
+      emit(f, "\tld.r.i %s %i\n", regnames[reg], o->val.vmax);
+    } else if (o->flags & VAR){
+      /* check if we are loading address of a var */
+      if(o->flags & VARADR){
+        /* should only be used with static or external variables */
+        if(isextern(o->v->storage_class)){
+          emit(f, "\tld.r.ra %s %s%s+%i\n", regnames[reg], idprefix, o->v->identifier, o->val.vmax);
         }
-    } else {
-      /* handle externs and static */
-      if(isextern(o->v->storage_class)){
-        emit(f, "\tld.r.m.%s %s %s%s+%i\n", dt(typ), regnames[reg], idprefix, o->v->identifier, o->val.vmax);
-      }
-      if(isstatic(o->v->storage_class)){
-        emit(f, "\tld.r.m.%s %s %s%i+%i\n", dt(typ), regnames[reg], labprefix, o->v->offset, o->val.vmax);
-      }
-      /* handle automatic variables */
-      if(isauto(o->v->storage_class)){
-        /* get offset */
-        long off = real_stack_offset(o);
-        /* emit with an offset if we need to */
-        if(off){
-          emit(f, "\tld.r.p.off.%s %s sp %i\n", dt(typ), regnames[reg], off);
-        } else {
-          emit(f, "\tld.r.p.%s %s sp\n", dt(typ), regnames[reg]);
+        if(isstatic(o->v->storage_class)){
+          emit(f, "\tld.r.ra %s %s%i+%i\n", regnames[reg], labprefix, o->v->offset, o->val.vmax);
+          }
+      } else {
+        /* handle externs and static */
+        if(isextern(o->v->storage_class)){
+          emit(f, "\tld.r.m.%s %s %s%s+%i\n", dt(typ), regnames[reg], idprefix, o->v->identifier, o->val.vmax);
+        }
+        if(isstatic(o->v->storage_class)){
+          emit(f, "\tld.r.m.%s %s %s%i+%i\n", dt(typ), regnames[reg], labprefix, o->v->offset, o->val.vmax);
+        }
+        /* handle automatic variables */
+        if(isauto(o->v->storage_class)){
+          /* get offset */
+          long off = real_stack_offset(o);
+          /* emit with an offset if we need to */
+          if(off){
+            emit(f, "\tld.r.p.off.%s %s sp %i\n", dt(typ), regnames[reg], off);
+          } else {
+            emit(f, "\tld.r.p.%s %s sp\n", dt(typ), regnames[reg]);
+          }
         }
       }
     }
-  }
-  /* apply drefobj */
-  if (o->flags & DREFOBJ){
-    /* use a pointer object */
-    emit(f, "\tld.r.p.%s %s %s\n", dt(real_type), regnames[reg], regnames[reg]);
+    /* apply drefobj */
+    if (o->flags & DREFOBJ){
+      /* use a pointer object */
+      emit(f, "\tld.r.p.%s %s %s\n", dt(real_type), regnames[reg], regnames[reg]);
+    }
   }
 }
 
@@ -562,7 +565,6 @@ static void do_arithmetic(FILE *f, struct obj * q1, struct obj * q2, struct obj 
   }
   /* get reg1 and reg2, loading them into tmp1 and tmp2 if needed
     try to load reg1 into z reg if we can*/
-  /* TODO: IMPORTANT DOESN"T WORK - we need to check that if z and q2 regs match, we can't load q1 into it */
   reg1 = source_reg(f, z, ztype, tmp1);
   if(!single_op){
     reg2 = source_reg(f, q2, q2type, tmp2);
@@ -813,15 +815,15 @@ int init_cg(void)
   regscratch[4] = 0;
   regsa[4] = 0;
 
-  /* scratch registers usable by vbcc */
   regnames[5] = "r4";
-  regscratch[5] = 1;
+  regscratch[5] = 0;
   regsa[5] = 0;
 
   regnames[6] = "r5";
-  regscratch[6] = 1;
+  regscratch[6] = 0;
   regsa[6] = 0;
 
+  /* scratch registers usable by vbcc */
   regnames[7] = "r6";
   regscratch[7] = 1;
   regsa[7] = 0;
@@ -858,8 +860,8 @@ int init_cg(void)
 
   /* Return Register (32 bits returned as pointer) */
   regnames[15] = "re";
-  regscratch[15] = 0;
-  regsa[15] = 1;
+  regscratch[15] = 1;
+  regsa[15] = 0;
 
   /* Stack Pointer */
   regnames[16] = "sp";
@@ -1337,7 +1339,6 @@ void gen_code(FILE *f,struct IC *p,struct Var *v,zmax offset)
         /* load the from reg q1.reg into z */
         /* q1.reg should be ret_reg */
         if(p->q1.reg != ret_reg){
-          /* TODO: this happens when returning a struct - nothing has to be done? (looks like it from reading other backends) */
         } else {
           store_from_reg(f, &(p->z), ztyp(p), ret_reg, tmp1);
         }
@@ -1353,7 +1354,6 @@ void gen_code(FILE *f,struct IC *p,struct Var *v,zmax offset)
         load_into_reg(f, &(p->q1), q1typ(p), ret_reg);
         break;
 
-      /* TODO: are MOVEFROMREG and MOVETOREG correct ? */
       case MOVEFROMREG:
         debug("MOVEFROMREG\n");
 

@@ -161,7 +161,7 @@ uint16_t GfxIO::get_keycode(SDL_Keycode key, uint8_t release){
       break;
     /* return */
     case 13:
-        res = 10;
+        res = 13;
         break;
     /* page up and down */
     case 1073741899:

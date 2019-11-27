@@ -95,7 +95,7 @@ begin
 				8'h75: cur <= 8'd29; //Up Arrow
 				8'h74: cur <= 8'd30; //Right Arrow
 				8'h72: cur <= 8'd31; //Down Arrow
-				8'h5a: cur <= 8'd10; //Enter
+				8'h5a: cur <= 8'd13; //Enter
 				8'h12: cur <= 8'd16; //Left Shift
 				8'h59: cur <= 8'd16; //Right Shift
 				8'h14: cur <= 8'd17; //Ctrl

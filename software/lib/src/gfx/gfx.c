@@ -4,6 +4,8 @@
 #include <unistd.h>
 #include <string.h>
 
+/* TODO: update to new terminal system */
+
 /* start gfx mode */
 void gfx_init(uint16_t do_clear) {
   if(do_clear) {

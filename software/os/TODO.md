@@ -42,13 +42,14 @@
         - [x] wait
     - [x] brk, sbrk
 - [x] Serial File Transfer Program
-    - [ ] OS disk (with binaries) creation method
+    - [x] OS disk (with binaries) creation method
 - [x] Init method (init process based on an initrc file)
 - [ ] C Standard Library (Userspace)
     - [x] string
     - [x] ctype
     - [x] stdio
         - [x] file io
+            - [ ] Buffered file io
         - [x] formats (printf, scanf, etc).
     - [ ] stdlib
         - [x] malloc
@@ -61,18 +62,18 @@
 - [ ] Userspace programs
     - [x] ls
     - [x] mkdir
-    - [ ] rm
+    - [x] rm
         - [ ] rmdir and rm -r
     - [x] cat
     - [ ] ln
     - [ ] cp
     - [ ] mv
-    - [ ] chmod
-    - [ ] sh
-        - [ ] basic command parsing / exec
-        - [ ] cd
-        - [ ] redirection
-        - [ ] pipes
+    - [x] chmod
+    - [x] sh
+        - [x] basic command parsing / exec
+        - [x] cd
+        - [x] redirection
+        - [x] pipes
         - [ ] scripting ?
         - [ ] history ?
 

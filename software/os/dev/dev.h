@@ -101,6 +101,12 @@ typedef struct {
         return _dev_tty_gen_read(minor, buf, bytes, eof, &(getc), &(putc), &(tty_dev_access)); 	    \
     }
 
+
+#define gen_tty_write_from_putc(write_func_name, putc, tty_dev_access)              	        \
+    int write_func_name (int minor, uint8_t *buf, size_t bytes, uint8_t *eof, struct inode *f){ \
+        return _dev_tty_gen_write(minor, buf, bytes, eof, &(putc), &(tty_dev_access)); 	    \
+    }
+
 /** macro to generate ioctl for a tty device
  * handles TCGETA and TCSETA calls to set termios structure */
 

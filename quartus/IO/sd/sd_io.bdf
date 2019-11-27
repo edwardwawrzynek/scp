@@ -4,9 +4,9 @@ editor if you plan to continue editing the block that represents it in
 the Block Editor! File corruption is VERY likely to occur.
 */
 /*
-Copyright (C) 2017  Intel Corporation. All rights reserved.
+Copyright (C) 2019  Intel Corporation. All rights reserved.
 Your use of Intel Corporation's design tools, logic functions 
-and other software and tools, and its AMPP partner logic 
+and other software and tools, and any partner logic 
 functions, and any output files from any of the foregoing 
 (including device programming or simulation files), and any 
 associated documentation or information are expressly subject 
@@ -16,7 +16,8 @@ the Intel FPGA IP License Agreement, or other applicable license
 agreement, including, without limitation, that your use is for
 the sole purpose of programming logic devices manufactured by
 Intel and sold by Intel or its authorized distributors.  Please
-refer to the applicable agreement for further details.
+refer to the applicable agreement for further details, at
+https://fpgasoftware.intel.com/eula.
 */
 (header "graphic" (version "1.4"))
 (pin
@@ -747,6 +748,28 @@ refer to the applicable agreement for further details.
 	(annotation_block (parameter)(rect 376 928 546 958))
 )
 (symbol
+	(rect 728 496 896 576)
+	(text "real_sd_addr" (rect 5 0 72 11)(font "Arial" ))
+	(text "inst" (rect 8 64 26 75)(font "Arial" ))
+	(port
+		(pt 0 32)
+		(input)
+		(text "in[15..0]" (rect 0 0 40 11)(font "Arial" ))
+		(text "in[15..0]" (rect 21 27 61 38)(font "Arial" ))
+		(line (pt 0 32)(pt 16 32)(line_width 3))
+	)
+	(port
+		(pt 168 32)
+		(output)
+		(text "out[31..0]" (rect 0 0 46 11)(font "Arial" ))
+		(text "out[31..0]" (rect 109 27 155 38)(font "Arial" ))
+		(line (pt 168 32)(pt 152 32)(line_width 3))
+	)
+	(drawing
+		(rectangle (rect 16 16 152 64))
+	)
+)
+(symbol
 	(rect 1072 232 1280 440)
 	(text "SdCardCtrl" (rect 5 0 61 11)(font "Arial" ))
 	(text "sdinst" (rect 8 192 38 203)(font "Arial" ))
@@ -864,7 +887,7 @@ refer to the applicable agreement for further details.
 	)
 	(parameter
 		"FREQ_G"
-		"35.0"
+		"35"
 		""
 		(type "PARAMETER_SIGNED_FLOAT")	)
 	(parameter
@@ -874,7 +897,7 @@ refer to the applicable agreement for further details.
 		(type "PARAMETER_SIGNED_FLOAT")	)
 	(parameter
 		"SPI_FREQ_G"
-		"25.0"
+		"25"
 		""
 		(type "PARAMETER_SIGNED_FLOAT")	)
 	(parameter
@@ -891,28 +914,6 @@ refer to the applicable agreement for further details.
 		(rectangle (rect 16 16 192 192))
 	)
 	(annotation_block (parameter)(rect 1072 128 1324 218))
-)
-(symbol
-	(rect 728 496 896 576)
-	(text "real_sd_addr" (rect 5 0 72 11)(font "Arial" ))
-	(text "inst" (rect 8 64 26 75)(font "Arial" ))
-	(port
-		(pt 0 32)
-		(input)
-		(text "in[15..0]" (rect 0 0 40 11)(font "Arial" ))
-		(text "in[15..0]" (rect 21 27 61 38)(font "Arial" ))
-		(line (pt 0 32)(pt 16 32)(line_width 3))
-	)
-	(port
-		(pt 168 32)
-		(output)
-		(text "out[31..0]" (rect 0 0 46 11)(font "Arial" ))
-		(text "out[31..0]" (rect 109 27 155 38)(font "Arial" ))
-		(line (pt 168 32)(pt 152 32)(line_width 3))
-	)
-	(drawing
-		(rectangle (rect 16 16 152 64))
-	)
 )
 (connector
 	(pt 264 128)

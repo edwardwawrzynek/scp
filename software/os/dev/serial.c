@@ -39,10 +39,6 @@ static int serial_getc(){
     res = inp(_serial_data_in_port);
     outp(_serial_next_port, 1);
 
-    /* Ignore carriage returns */
-    if((serial.tty_dev.termios.flags & TERMIOS_CANON) && res == 13){
-        return DEV_BLOCKING;
-    }
 
     return res;
 }
@@ -52,7 +48,9 @@ int _serial_open(int minor, struct inode *f){
     if(minor)
         return -1;
 
-    serial.tty_dev.termios.flags |= (TERMIOS_CANON | TERMIOS_ECHO | TERMIOS_CTRL);
+    serial.tty_dev.termios.c_iflag = _TERMIOS_CIFLAG_DEFAULT;
+    serial.tty_dev.termios.c_lflag = _TERMIOS_CLFLAG_DEFAULT;
+    serial.tty_dev.termios.c_oflag = _TERMIOS_COFLAG_DEFAULT;
     return 0;
 }
 
@@ -62,7 +60,7 @@ int _serial_close(int minor, struct inode *f){
 }
 
 /* generate read and write methods */
-gen_write_from_putc(_serial_write, serial_putc)
+gen_tty_write_from_putc(_serial_write, serial_putc, serial.tty_dev)
 
 //gen_read_from_getc(_serial_read, serial_getc)
 gen_tty_read_from_getc(_serial_read, serial_getc, serial_putc, serial.tty_dev)

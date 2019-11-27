@@ -235,7 +235,7 @@ RESERVED_INPUT_WITH_WEAK_PULLUP : AF18      :        :                   :      
 VCCIO4A                      : AF19      : power  :                   : 3.3V    : 4A        :                
 SERIAL_TX                    : AF20      : output : 3.3-V LVCMOS      :         : 4A        : Y              
 RESERVED_INPUT_WITH_WEAK_PULLUP : AF21      :        :                   :         : 4A        :                
-VGA_COL_G[2]                 : AF22      : output : 3.3-V LVCMOS      :         : 4A        : Y              
+RESERVED_INPUT_WITH_WEAK_PULLUP : AF22      :        :                   :         : 4A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : AF23      :        :                   :         : 4A        :                
 GND                          : AF24      : gnd    :                   :         :           :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : AF25      :        :                   :         : 4A        :                
@@ -287,7 +287,7 @@ VCCIO4A                      : AH15      : power  :                   : 3.3V    
 RESERVED_INPUT_WITH_WEAK_PULLUP : AH16      :        :                   :         : 4A        :                
 KEY[0]                       : AH17      : input  : 2.5 V             :         : 4A        : Y              
 RESERVED_INPUT_WITH_WEAK_PULLUP : AH18      :        :                   :         : 4A        :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : AH19      :        :                   :         : 4A        :                
+VGA_COL_G[2]                 : AH19      : output : 3.3-V LVCMOS      :         : 4A        : Y              
 GND                          : AH20      : gnd    :                   :         :           :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : AH21      :        :                   :         : 4A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : AH22      :        :                   :         : 4A        :                

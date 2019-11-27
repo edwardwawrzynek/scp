@@ -17,7 +17,6 @@ module execution_unit(
 	output reg io_write,
 	output reg [7:0] io_addr,
 	/* Interupt controls (TODO) */
-	/* ALU controls (TODO) */
 	output reg [15:0] alu_reg0,
 	output reg [15:0] alu_reg1,
 	output reg [3:0] alu_op_reg,

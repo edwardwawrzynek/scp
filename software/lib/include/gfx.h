@@ -90,7 +90,7 @@ int gfx_is_key_pressed(uint8_t key);
 #define gfx_key_insert 45
 #define gfx_key_home 36
 #define gfx_key_end 35
-#define gfx_key_enter 10
+#define gfx_key_enter 13
 
 #define gfx_key_f1 11
 #define gfx_key_f2 12

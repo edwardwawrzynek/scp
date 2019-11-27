@@ -6,7 +6,9 @@
 
 #include "dev.h"
 
+#include <lib/kmalloc.h>
 #include <lib/inout.h>
+#include <lib/vterm.h>
 #include <stdint.h>
 
 /* tty device structure */
@@ -26,6 +28,8 @@ struct _tty_dev {
 /* only one tty is supported right now - other ttys will probably need different drivers */
 static struct _tty_dev tty;
 
+vterm_t * tty_vterm = NULL;
+
 /* scroll the text on the screen */
 static void tty_scroll(){
     int i, val;
@@ -41,47 +45,6 @@ static void tty_scroll(){
         outp(_text_addr_port, i);
         outp(_text_data_port, '\0');
     }
-}
-
-/* write out a char */
-static int tty_putc(char c){
-
-    if(tty.pos_x >= 80){
-        tty.pos_x = 0;
-        tty.pos_y++;
-    }
-    if(tty.pos_y >= 25){
-        tty_scroll();
-        tty.pos_y = 24;
-        tty.pos_x = 0;
-    }
-
-    if(c == '\n'){
-        tty.pos_x = 0;
-        tty.pos_y++;
-
-        if(tty.pos_y >= 25){
-            tty_scroll();
-            tty.pos_y = 24;
-            tty.pos_x = 0;
-        }
-    } else if (c == '\t'){
-        if(!(tty.pos_x & 0x7)){tty.pos_x++;}
-        while(tty.pos_x & 0x7){
-            tty.pos_x++;
-        }
-    } else if (c == 0x8){
-        tty.pos_x--;
-        outp(_text_addr_port, (tty.pos_y * 80) + tty.pos_x);
-        outp(_text_data_port, '\0');
-    }
-    else {
-        outp(_text_addr_port, (tty.pos_y * 80) + tty.pos_x);
-        outp(_text_data_port, c);
-
-        tty.pos_x++;
-    }
-    return 0;
 }
 
 /* read in a plain char from the txt input */
@@ -103,7 +66,7 @@ static int tty_getc_plain(){
 static char * shifted_charset = " !\"#$%&\"()*+<_>?)!@#$%^&*(::<+>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ{|}^_~ABCDEFGHIJKLMNOPQRSTUVWXYZ{|}~\\";
 
 /* process raw keypresses into ascii chars - don't handle backspace */
-/* TODO: handle arrow key escapes and things like that */
+/* TODO: move this into vterm's raw key getc mode */
 static int tty_getc(){
     int c;
     while(1){
@@ -113,18 +76,6 @@ static int tty_getc(){
             return DEV_EOF;
         } else if(c == DEV_BLOCKING){
             return DEV_BLOCKING;
-        }
-        if(!(tty.tty_dev.termios.flags & (TERMIOS_CANON | TERMIOS_CTRL | TERMIOS_ECHO))) {
-            if(c & 0x100) {
-                if( tty.tty_dev.termios.flags & TERMIOS_RELEASE) {
-                    /* encode release as key with msb set */
-                    return (c & 0xff) | 0x80;
-                } else {
-                    continue;
-                }
-            } else {
-                return c;
-            }
         }
         /* handle shift and shift releases */
         if(c == 16){
@@ -161,12 +112,28 @@ static int tty_getc(){
     }
 }
 
-/* open a tty - only allow openning a single tty */
+/* vterm putc */
+void _tty_vterm_putc(char c, uint16_t x, uint16_t y, vterm_atr_t atr, vterm_clr_t fg, vterm_clr_t bg, vterm_charset_t charset) {
+    outp(_text_addr_port, x + y * 80);
+    outp(_text_data_port, c);
+}
+
+int _tty_real_putc(char c) {
+    vterm_putc(tty_vterm, c);
+    return 0;
+}
+
+/* open a tty - only allow opening a single tty */
 int _tty_open(int minor, struct inode *f){
+    if(tty_vterm == NULL) {
+        tty_vterm = vterm_new(80, 25, &_tty_vterm_putc, NULL, 1, 1, 1, &tty_scroll, NULL);
+    }
     if(minor)
         return -1;
 
-    tty.tty_dev.termios.flags |= (TERMIOS_CANON | TERMIOS_ECHO | TERMIOS_CTRL);
+    tty.tty_dev.termios.c_iflag = _TERMIOS_CIFLAG_DEFAULT;
+    tty.tty_dev.termios.c_lflag = _TERMIOS_CLFLAG_DEFAULT;
+    tty.tty_dev.termios.c_oflag = _TERMIOS_COFLAG_DEFAULT;
     return 0;
 }
 
@@ -177,9 +144,9 @@ int _tty_close(int minor, struct inode *f){
 
 
 /* generate read and write methods */
-gen_write_from_putc(_tty_write, tty_putc)
+gen_tty_write_from_putc(_tty_write, _tty_real_putc, tty.tty_dev)
 
 //gen_read_from_getc(_tty_read, tty_getc)
-gen_tty_read_from_getc(_tty_read, tty_getc, tty_putc, tty.tty_dev)
+gen_tty_read_from_getc(_tty_read, tty_getc, _tty_real_putc, tty.tty_dev)
 
 gen_tty_ioctl_from_tty_dev(_tty_ioctl, tty.tty_dev)

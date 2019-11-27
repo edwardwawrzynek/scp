@@ -4,9 +4,9 @@ editor if you plan to continue editing the block that represents it in
 the Block Editor! File corruption is VERY likely to occur.
 */
 /*
-Copyright (C) 2017  Intel Corporation. All rights reserved.
+Copyright (C) 2019  Intel Corporation. All rights reserved.
 Your use of Intel Corporation's design tools, logic functions 
-and other software and tools, and its AMPP partner logic 
+and other software and tools, and any partner logic 
 functions, and any output files from any of the foregoing 
 (including device programming or simulation files), and any 
 associated documentation or information are expressly subject 
@@ -16,7 +16,8 @@ the Intel FPGA IP License Agreement, or other applicable license
 agreement, including, without limitation, that your use is for
 the sole purpose of programming logic devices manufactured by
 Intel and sold by Intel or its authorized distributors.  Please
-refer to the applicable agreement for further details.
+refer to the applicable agreement for further details, at
+https://fpgasoftware.intel.com/eula.
 */
 (header "graphic" (version "1.4"))
 (pin
@@ -1030,28 +1031,28 @@ refer to the applicable agreement for further details.
 		(pt 224 32)
 		(output)
 		(text "col[7..0]" (rect 0 0 38 11)(font "Arial" ))
-		(text "col[7..0]" (rect 171 27 203 38)(font "Arial" ))
+		(text "col[7..0]" (rect 171 27 209 38)(font "Arial" ))
 		(line (pt 224 32)(pt 208 32)(line_width 3))
 	)
 	(port
 		(pt 224 48)
 		(output)
 		(text "char_addr[10..0]" (rect 0 0 80 11)(font "Arial" ))
-		(text "char_addr[10..0]" (rect 136 43 203 54)(font "Arial" ))
+		(text "char_addr[10..0]" (rect 136 43 216 54)(font "Arial" ))
 		(line (pt 224 48)(pt 208 48)(line_width 3))
 	)
 	(port
 		(pt 224 64)
 		(output)
 		(text "gfx_addr[15..0]" (rect 0 0 74 11)(font "Arial" ))
-		(text "gfx_addr[15..0]" (rect 141 59 203 70)(font "Arial" ))
+		(text "gfx_addr[15..0]" (rect 141 59 215 70)(font "Arial" ))
 		(line (pt 224 64)(pt 208 64)(line_width 3))
 	)
 	(port
 		(pt 224 80)
 		(output)
 		(text "screen_en" (rect 0 0 53 11)(font "Arial" ))
-		(text "screen_en" (rect 159 75 203 86)(font "Arial" ))
+		(text "screen_en" (rect 159 75 212 86)(font "Arial" ))
 		(line (pt 224 80)(pt 208 80))
 	)
 	(drawing
@@ -2019,39 +2020,6 @@ refer to the applicable agreement for further details.
 	(bus)
 )
 (connector
-	(pt 440 1160)
-	(pt 432 1160)
-	(bus)
-)
-(connector
-	(pt 432 1160)
-	(pt 432 1200)
-	(bus)
-)
-(connector
-	(text "gfx_screen_en[15..0]" (rect 610 1184 715 1197)(font "Intel Clear" ))
-	(pt 432 1200)
-	(pt 624 1200)
-	(bus)
-)
-(connector
-	(pt 1096 88)
-	(pt 1096 152)
-)
-(connector
-	(pt 1152 152)
-	(pt 1096 152)
-)
-(connector
-	(pt 1152 1200)
-	(pt 1152 152)
-)
-(connector
-	(text "gfx_screen_en[0]" (rect 711 1184 798 1197)(font "Intel Clear" ))
-	(pt 1152 1200)
-	(pt 704 1200)
-)
-(connector
 	(text "COL[7..0]" (rect 957 24 1005 37)(font "Intel Clear" ))
 	(pt 928 40)
 	(pt 984 40)
@@ -2066,10 +2034,6 @@ refer to the applicable agreement for further details.
 	(pt 944 56)
 	(pt 928 56)
 	(bus)
-)
-(connector
-	(pt 928 88)
-	(pt 1096 88)
 )
 (connector
 	(text "addr[10..0]" (rect 672 568 728 581)(font "Intel Clear" ))

@@ -87,7 +87,7 @@ uint16_t _execv(uint16_t name, uint16_t argv_p, uint16_t a2, uint16_t a4){
     /* file was not in a good executable format */
     if(code != 0){
         file_put(file);
-        /* TODO: we can't fail b/c proc has no memory, so kill proc
+        /*  we can't fail b/c proc has no memory, so kill proc
          * unlikely to happen (probably just call exit)*/
         panic(PANIC_EXEC_MEM_LOAD_FAIL);
         return -1;

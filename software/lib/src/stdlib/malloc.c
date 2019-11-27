@@ -26,8 +26,8 @@
 /* debugging mode (check that all blocks passed have magic number) */
 static void malloc_magic_fail(){
     #ifdef DEBUG
-        /* TODO: fail */
         fprintf(stderr, "malloc magic number assert fail");
+        exit(1);
     #endif
 }
 

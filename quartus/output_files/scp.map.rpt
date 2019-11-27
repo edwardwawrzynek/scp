@@ -1,5 +1,5 @@
 Analysis & Synthesis report for scp
-Sun Nov 24 21:09:07 2019
+Mon Nov 25 20:45:47 2019
 Quartus Prime Version 19.1.0 Build 670 09/22/2019 SJ Lite Edition
 
 
@@ -48,7 +48,7 @@ Quartus Prime Version 19.1.0 Build 670 09/22/2019 SJ Lite Edition
  40. Parameter Settings for User Entity Instance: vga_io:inst23|io_port:inst1
  41. Parameter Settings for User Entity Instance: vga_io:inst23|io_port:inst3
  42. Parameter Settings for User Entity Instance: vga_pll:inst_io0|vga_pll_0002:vga_pll_inst|altera_pll:altera_pll_i
- 43. Parameter Settings for User Entity Instance: pll:inst4|pll_0002:pll_inst|altera_pll:altera_pll_i
+ 43. Parameter Settings for User Entity Instance: cpu_pll:inst1|cpu_pll_0002:cpu_pll_inst|altera_pll:altera_pll_i
  44. Parameter Settings for User Entity Instance: io_port:inst22
  45. Parameter Settings for User Entity Instance: uart_io:inst10|uart:inst01
  46. Parameter Settings for User Entity Instance: uart_io:inst10|uart:inst01|baud_rate_gen:uart_baud
@@ -80,12 +80,10 @@ Quartus Prime Version 19.1.0 Build 670 09/22/2019 SJ Lite Edition
  72. Parameter Settings for Inferred Entity Instance: execution_unit:inst3|altsyncram:regfile_rtl_0
  73. Parameter Settings for Inferred Entity Instance: execution_unit:inst3|altsyncram:regfile_rtl_1
  74. altsyncram Parameter Settings by Entity Instance
- 75. Port Connectivity Checks: "pll:inst4|pll_0002:pll_inst|altera_pll:altera_pll_i"
- 76. Port Connectivity Checks: "pll:inst4|pll_0002:pll_inst"
- 77. Post-Synthesis Netlist Statistics for Top Partition
- 78. Elapsed Time Per Partition
- 79. Analysis & Synthesis Messages
- 80. Analysis & Synthesis Suppressed Messages
+ 75. Post-Synthesis Netlist Statistics for Top Partition
+ 76. Elapsed Time Per Partition
+ 77. Analysis & Synthesis Messages
+ 78. Analysis & Synthesis Suppressed Messages
 
 
 
@@ -112,7 +110,7 @@ https://fpgasoftware.intel.com/eula.
 +-------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                  ;
 +---------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status     ; Successful - Sun Nov 24 21:09:06 2019       ;
+; Analysis & Synthesis Status     ; Successful - Mon Nov 25 20:45:47 2019       ;
 ; Quartus Prime Version           ; 19.1.0 Build 670 09/22/2019 SJ Lite Edition ;
 ; Revision Name                   ; scp                                         ;
 ; Top-level Entity Name           ; scp                                         ;
@@ -259,9 +257,6 @@ https://fpgasoftware.intel.com/eula.
 ; IO/vga/vga_controller.v          ; yes             ; User Verilog HDL File                  ; /home/edward/Documents/scp/quartus/IO/vga/vga_controller.v             ;         ;
 ; IO/io_port.v                     ; yes             ; User Verilog HDL File                  ; /home/edward/Documents/scp/quartus/IO/io_port.v                        ;         ;
 ; scp.bdf                          ; yes             ; User Block Diagram/Schematic File      ; /home/edward/Documents/scp/quartus/scp.bdf                             ;         ;
-; decode/decode_split.v            ; yes             ; User Verilog HDL File                  ; /home/edward/Documents/scp/quartus/decode/decode_split.v               ;         ;
-; pll.v                            ; yes             ; User Verilog HDL File                  ; /home/edward/Documents/scp/quartus/pll.v                               ; pll     ;
-; pll/pll_0002.v                   ; yes             ; User Verilog HDL File                  ; /home/edward/Documents/scp/quartus/pll/pll_0002.v                      ; pll     ;
 ; mux/mdr_out_mux.v                ; yes             ; User Verilog HDL File                  ; /home/edward/Documents/scp/quartus/mux/mdr_out_mux.v                   ;         ;
 ; vga_pll.v                        ; yes             ; User Wizard-Generated File             ; /home/edward/Documents/scp/quartus/vga_pll.v                           ; vga_pll ;
 ; vga_pll/vga_pll_0002.v           ; yes             ; User Verilog HDL File                  ; /home/edward/Documents/scp/quartus/vga_pll/vga_pll_0002.v              ; vga_pll ;
@@ -278,6 +273,9 @@ https://fpgasoftware.intel.com/eula.
 ; cpu/execution_unit.v             ; yes             ; User Verilog HDL File                  ; /home/edward/Documents/scp/quartus/cpu/execution_unit.v                ;         ;
 ; memory/ram_mmu.v                 ; yes             ; User Verilog HDL File                  ; /home/edward/Documents/scp/quartus/memory/ram_mmu.v                    ;         ;
 ; cpu/alu_unit.v                   ; yes             ; User Verilog HDL File                  ; /home/edward/Documents/scp/quartus/cpu/alu_unit.v                      ;         ;
+; IO/uart/vga_screen_en_reg.v      ; yes             ; User Verilog HDL File                  ; /home/edward/Documents/scp/quartus/IO/uart/vga_screen_en_reg.v         ;         ;
+; cpu_pll.v                        ; yes             ; User Wizard-Generated File             ; /home/edward/Documents/scp/quartus/cpu_pll.v                           ; cpu_pll ;
+; cpu_pll/cpu_pll_0002.v           ; yes             ; User Verilog HDL File                  ; /home/edward/Documents/scp/quartus/cpu_pll/cpu_pll_0002.v              ; cpu_pll ;
 ; altsyncram.tdf                   ; yes             ; Megafunction                           ; /opt/altera/19.1/quartus/libraries/megafunctions/altsyncram.tdf        ;         ;
 ; stratix_ram_block.inc            ; yes             ; Megafunction                           ; /opt/altera/19.1/quartus/libraries/megafunctions/stratix_ram_block.inc ;         ;
 ; lpm_mux.inc                      ; yes             ; Megafunction                           ; /opt/altera/19.1/quartus/libraries/megafunctions/lpm_mux.inc           ;         ;
@@ -295,7 +293,7 @@ https://fpgasoftware.intel.com/eula.
 ; db/mux_tfb.tdf                   ; yes             ; Auto-Generated Megafunction            ; /home/edward/Documents/scp/quartus/db/mux_tfb.tdf                      ;         ;
 ; altera_pll.v                     ; yes             ; Megafunction                           ; /opt/altera/19.1/quartus/libraries/megafunctions/altera_pll.v          ;         ;
 ; db/altsyncram_9tp1.tdf           ; yes             ; Auto-Generated Megafunction            ; /home/edward/Documents/scp/quartus/db/altsyncram_9tp1.tdf              ;         ;
-; init_mem.mif                     ; yes             ; Auto-Found Memory Initialization File  ; /home/edward/Documents/scp/quartus/init_mem.mif                        ;         ;
+; ../init_mem.mif                  ; yes             ; Auto-Found Memory Initialization File  ; /home/edward/Documents/scp/quartus/init_mem.mif                        ;         ;
 ; db/decode_pma.tdf                ; yes             ; Auto-Generated Megafunction            ; /home/edward/Documents/scp/quartus/db/decode_pma.tdf                   ;         ;
 ; db/decode_i2a.tdf                ; yes             ; Auto-Generated Megafunction            ; /home/edward/Documents/scp/quartus/db/decode_i2a.tdf                   ;         ;
 ; db/mux_oib.tdf                   ; yes             ; Auto-Generated Megafunction            ; /home/edward/Documents/scp/quartus/db/mux_oib.tdf                      ;         ;
@@ -306,36 +304,36 @@ https://fpgasoftware.intel.com/eula.
 +----------------------------------+-----------------+----------------------------------------+------------------------------------------------------------------------+---------+
 
 
-+------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis Resource Usage Summary                                                                      ;
-+---------------------------------------------+--------------------------------------------------------------------+
-; Resource                                    ; Usage                                                              ;
-+---------------------------------------------+--------------------------------------------------------------------+
-; Estimate of Logic utilization (ALMs needed) ; 985                                                                ;
-;                                             ;                                                                    ;
-; Combinational ALUT usage for logic          ; 1373                                                               ;
-;     -- 7 input functions                    ; 40                                                                 ;
-;     -- 6 input functions                    ; 456                                                                ;
-;     -- 5 input functions                    ; 239                                                                ;
-;     -- 4 input functions                    ; 165                                                                ;
-;     -- <=3 input functions                  ; 473                                                                ;
-;                                             ;                                                                    ;
-; Dedicated logic registers                   ; 971                                                                ;
-;                                             ;                                                                    ;
-; I/O pins                                    ; 30                                                                 ;
-; Total MLAB memory bits                      ; 0                                                                  ;
-; Total block memory bits                     ; 1094144                                                            ;
-;                                             ;                                                                    ;
-; Total DSP Blocks                            ; 1                                                                  ;
-;                                             ;                                                                    ;
-; Total PLLs                                  ; 6                                                                  ;
-;     -- PLLs                                 ; 6                                                                  ;
-;                                             ;                                                                    ;
-; Maximum fan-out node                        ; pll:inst4|pll_0002:pll_inst|altera_pll:altera_pll_i|outclk_wire[1] ;
-; Maximum fan-out                             ; 511                                                                ;
-; Total fan-out                               ; 14239                                                              ;
-; Average fan-out                             ; 5.32                                                               ;
-+---------------------------------------------+--------------------------------------------------------------------+
++------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Resource Usage Summary                                                                                  ;
++---------------------------------------------+--------------------------------------------------------------------------------+
+; Resource                                    ; Usage                                                                          ;
++---------------------------------------------+--------------------------------------------------------------------------------+
+; Estimate of Logic utilization (ALMs needed) ; 976                                                                            ;
+;                                             ;                                                                                ;
+; Combinational ALUT usage for logic          ; 1382                                                                           ;
+;     -- 7 input functions                    ; 34                                                                             ;
+;     -- 6 input functions                    ; 435                                                                            ;
+;     -- 5 input functions                    ; 274                                                                            ;
+;     -- 4 input functions                    ; 165                                                                            ;
+;     -- <=3 input functions                  ; 474                                                                            ;
+;                                             ;                                                                                ;
+; Dedicated logic registers                   ; 971                                                                            ;
+;                                             ;                                                                                ;
+; I/O pins                                    ; 30                                                                             ;
+; Total MLAB memory bits                      ; 0                                                                              ;
+; Total block memory bits                     ; 1094144                                                                        ;
+;                                             ;                                                                                ;
+; Total DSP Blocks                            ; 1                                                                              ;
+;                                             ;                                                                                ;
+; Total PLLs                                  ; 6                                                                              ;
+;     -- PLLs                                 ; 6                                                                              ;
+;                                             ;                                                                                ;
+; Maximum fan-out node                        ; cpu_pll:inst1|cpu_pll_0002:cpu_pll_inst|altera_pll:altera_pll_i|outclk_wire[1] ;
+; Maximum fan-out                             ; 511                                                                            ;
+; Total fan-out                               ; 14246                                                                          ;
+; Average fan-out                             ; 5.31                                                                           ;
++---------------------------------------------+--------------------------------------------------------------------------------+
 
 
 +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -343,21 +341,21 @@ https://fpgasoftware.intel.com/eula.
 +----------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+-------------------------------------------------------------------------------------------------------------------------+------------------+--------------+
 ; Compilation Hierarchy Node                   ; Combinational ALUTs ; Dedicated Logic Registers ; Block Memory Bits ; DSP Blocks ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                                     ; Entity Name      ; Library Name ;
 +----------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+-------------------------------------------------------------------------------------------------------------------------+------------------+--------------+
-; |scp                                         ; 1373 (4)            ; 971 (0)                   ; 1094144           ; 1          ; 30   ; 0            ; |scp                                                                                                                    ; scp              ; work         ;
+; |scp                                         ; 1382 (7)            ; 971 (0)                   ; 1094144           ; 1          ; 30   ; 0            ; |scp                                                                                                                    ; scp              ; work         ;
 ;    |alu_unit:inst7|                          ; 157 (157)           ; 21 (21)                   ; 0                 ; 1          ; 0    ; 0            ; |scp|alu_unit:inst7                                                                                                     ; alu_unit         ; work         ;
-;    |execution_unit:inst3|                    ; 334 (334)           ; 206 (206)                 ; 512               ; 0          ; 0    ; 0            ; |scp|execution_unit:inst3                                                                                               ; execution_unit   ; work         ;
+;    |cpu_pll:inst1|                           ; 0 (0)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|cpu_pll:inst1                                                                                                      ; cpu_pll          ; cpu_pll      ;
+;       |cpu_pll_0002:cpu_pll_inst|            ; 0 (0)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|cpu_pll:inst1|cpu_pll_0002:cpu_pll_inst                                                                            ; cpu_pll_0002     ; cpu_pll      ;
+;          |altera_pll:altera_pll_i|           ; 0 (0)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|cpu_pll:inst1|cpu_pll_0002:cpu_pll_inst|altera_pll:altera_pll_i                                                    ; altera_pll       ; work         ;
+;    |execution_unit:inst3|                    ; 346 (346)           ; 206 (206)                 ; 512               ; 0          ; 0    ; 0            ; |scp|execution_unit:inst3                                                                                               ; execution_unit   ; work         ;
 ;       |altsyncram:regfile_rtl_0|             ; 0 (0)               ; 0 (0)                     ; 256               ; 0          ; 0    ; 0            ; |scp|execution_unit:inst3|altsyncram:regfile_rtl_0                                                                      ; altsyncram       ; work         ;
 ;          |altsyncram_j2k1:auto_generated|    ; 0 (0)               ; 0 (0)                     ; 256               ; 0          ; 0    ; 0            ; |scp|execution_unit:inst3|altsyncram:regfile_rtl_0|altsyncram_j2k1:auto_generated                                       ; altsyncram_j2k1  ; work         ;
 ;       |altsyncram:regfile_rtl_1|             ; 0 (0)               ; 0 (0)                     ; 256               ; 0          ; 0    ; 0            ; |scp|execution_unit:inst3|altsyncram:regfile_rtl_1                                                                      ; altsyncram       ; work         ;
 ;          |altsyncram_j2k1:auto_generated|    ; 0 (0)               ; 0 (0)                     ; 256               ; 0          ; 0    ; 0            ; |scp|execution_unit:inst3|altsyncram:regfile_rtl_1|altsyncram_j2k1:auto_generated                                       ; altsyncram_j2k1  ; work         ;
 ;    |io_port:inst22|                          ; 1 (1)               ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|io_port:inst22                                                                                                     ; io_port          ; work         ;
-;    |pll:inst4|                               ; 0 (0)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|pll:inst4                                                                                                          ; pll              ; pll          ;
-;       |pll_0002:pll_inst|                    ; 0 (0)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|pll:inst4|pll_0002:pll_inst                                                                                        ; pll_0002         ; pll          ;
-;          |altera_pll:altera_pll_i|           ; 0 (0)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|pll:inst4|pll_0002:pll_inst|altera_pll:altera_pll_i                                                                ; altera_pll       ; work         ;
 ;    |ps2_io:inst11|                           ; 112 (0)             ; 110 (0)                   ; 2048              ; 0          ; 0    ; 0            ; |scp|ps2_io:inst11                                                                                                      ; ps2_io           ; work         ;
-;       |io_port:instp1|                       ; 2 (2)               ; 1 (1)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ps2_io:inst11|io_port:instp1                                                                                       ; io_port          ; work         ;
+;       |io_port:instp1|                       ; 3 (3)               ; 1 (1)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ps2_io:inst11|io_port:instp1                                                                                       ; io_port          ; work         ;
 ;       |io_port:instp2|                       ; 2 (2)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ps2_io:inst11|io_port:instp2                                                                                       ; io_port          ; work         ;
-;       |ps2_fifo:instp3|                      ; 28 (28)             ; 41 (41)                   ; 2048              ; 0          ; 0    ; 0            ; |scp|ps2_io:inst11|ps2_fifo:instp3                                                                                      ; ps2_fifo         ; work         ;
+;       |ps2_fifo:instp3|                      ; 27 (27)             ; 41 (41)                   ; 2048              ; 0          ; 0    ; 0            ; |scp|ps2_io:inst11|ps2_fifo:instp3                                                                                      ; ps2_fifo         ; work         ;
 ;          |altsyncram:mem_rtl_0|              ; 0 (0)               ; 0 (0)                     ; 2048              ; 0          ; 0    ; 0            ; |scp|ps2_io:inst11|ps2_fifo:instp3|altsyncram:mem_rtl_0                                                                 ; altsyncram       ; work         ;
 ;             |altsyncram_93k1:auto_generated| ; 0 (0)               ; 0 (0)                     ; 2048              ; 0          ; 0    ; 0            ; |scp|ps2_io:inst11|ps2_fifo:instp3|altsyncram:mem_rtl_0|altsyncram_93k1:auto_generated                                  ; altsyncram_93k1  ; work         ;
 ;       |ps2_keyboard:instp|                   ; 43 (17)             ; 57 (33)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|ps2_io:inst11|ps2_keyboard:instp                                                                                   ; ps2_keyboard     ; work         ;
@@ -372,12 +370,12 @@ https://fpgasoftware.intel.com/eula.
 ;             |mux_oib:mux2|                   ; 8 (8)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ram:inst|altsyncram:altsyncram_component|altsyncram_9tp1:auto_generated|mux_oib:mux2                               ; mux_oib          ; work         ;
 ;    |ram_addr_manager:inst2|                  ; 42 (42)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ram_addr_manager:inst2                                                                                             ; ram_addr_manager ; work         ;
 ;    |ram_mmu:inst5|                           ; 0 (0)               ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|ram_mmu:inst5                                                                                                      ; ram_mmu          ; work         ;
-;    |sd_io:inst27|                            ; 340 (0)             ; 279 (0)                   ; 8192              ; 0          ; 0    ; 0            ; |scp|sd_io:inst27                                                                                                       ; sd_io            ; work         ;
+;    |sd_io:inst27|                            ; 337 (0)             ; 279 (0)                   ; 8192              ; 0          ; 0    ; 0            ; |scp|sd_io:inst27                                                                                                       ; sd_io            ; work         ;
 ;       |SdCardCtrl:sdinst|                    ; 241 (241)           ; 142 (142)                 ; 0                 ; 0          ; 0    ; 0            ; |scp|sd_io:inst27|SdCardCtrl:sdinst                                                                                     ; SdCardCtrl       ; work         ;
 ;       |io_port:sdinst1|                      ; 2 (2)               ; 1 (1)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|sd_io:inst27|io_port:sdinst1                                                                                       ; io_port          ; work         ;
-;       |io_port:sdinst2|                      ; 4 (4)               ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|sd_io:inst27|io_port:sdinst2                                                                                       ; io_port          ; work         ;
+;       |io_port:sdinst2|                      ; 2 (2)               ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|sd_io:inst27|io_port:sdinst2                                                                                       ; io_port          ; work         ;
 ;       |io_port:sdinst3|                      ; 2 (2)               ; 1 (1)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|sd_io:inst27|io_port:sdinst3                                                                                       ; io_port          ; work         ;
-;       |io_port:sdinst4|                      ; 2 (2)               ; 1 (1)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|sd_io:inst27|io_port:sdinst4                                                                                       ; io_port          ; work         ;
+;       |io_port:sdinst4|                      ; 1 (1)               ; 1 (1)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|sd_io:inst27|io_port:sdinst4                                                                                       ; io_port          ; work         ;
 ;       |io_port:sdinst5|                      ; 1 (1)               ; 9 (9)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|sd_io:inst27|io_port:sdinst5                                                                                       ; io_port          ; work         ;
 ;       |io_port:sdinst8|                      ; 3 (3)               ; 1 (1)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|sd_io:inst27|io_port:sdinst8                                                                                       ; io_port          ; work         ;
 ;       |sdCtrlInt:sdinst7|                    ; 85 (85)             ; 108 (108)                 ; 8192              ; 0          ; 0    ; 0            ; |scp|sd_io:inst27|sdCtrlInt:sdinst7                                                                                     ; sdCtrlInt        ; work         ;
@@ -388,10 +386,10 @@ https://fpgasoftware.intel.com/eula.
 ;    |sound_io:inst12|                         ; 48 (0)              ; 36 (0)                    ; 0                 ; 0          ; 0    ; 0            ; |scp|sound_io:inst12                                                                                                    ; sound_io         ; work         ;
 ;       |io_port:inst|                         ; 2 (2)               ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|sound_io:inst12|io_port:inst                                                                                       ; io_port          ; work         ;
 ;       |sound_gen:inst1|                      ; 46 (46)             ; 20 (20)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|sound_io:inst12|sound_gen:inst1                                                                                    ; sound_gen        ; work         ;
-;    |uart_io:inst10|                          ; 107 (0)             ; 118 (0)                   ; 2048              ; 0          ; 0    ; 0            ; |scp|uart_io:inst10                                                                                                     ; uart_io          ; work         ;
-;       |io_port:inst03|                       ; 2 (2)               ; 1 (1)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|uart_io:inst10|io_port:inst03                                                                                      ; io_port          ; work         ;
-;       |io_port:inst04|                       ; 2 (2)               ; 17 (17)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|uart_io:inst10|io_port:inst04                                                                                      ; io_port          ; work         ;
-;       |io_port:inst05|                       ; 2 (2)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|uart_io:inst10|io_port:inst05                                                                                      ; io_port          ; work         ;
+;    |uart_io:inst10|                          ; 106 (0)             ; 118 (0)                   ; 2048              ; 0          ; 0    ; 0            ; |scp|uart_io:inst10                                                                                                     ; uart_io          ; work         ;
+;       |io_port:inst03|                       ; 3 (3)               ; 1 (1)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|uart_io:inst10|io_port:inst03                                                                                      ; io_port          ; work         ;
+;       |io_port:inst04|                       ; 1 (1)               ; 17 (17)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|uart_io:inst10|io_port:inst04                                                                                      ; io_port          ; work         ;
+;       |io_port:inst05|                       ; 1 (1)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|uart_io:inst10|io_port:inst05                                                                                      ; io_port          ; work         ;
 ;       |uart:inst01|                          ; 72 (0)              ; 58 (0)                    ; 0                 ; 0          ; 0    ; 0            ; |scp|uart_io:inst10|uart:inst01                                                                                         ; uart             ; work         ;
 ;          |baud_rate_gen:uart_baud|           ; 20 (20)             ; 14 (14)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|uart_io:inst10|uart:inst01|baud_rate_gen:uart_baud                                                                 ; baud_rate_gen    ; work         ;
 ;          |receiver:uart_rx|                  ; 38 (38)             ; 28 (28)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|uart_io:inst10|uart:inst01|receiver:uart_rx                                                                        ; receiver         ; work         ;
@@ -399,7 +397,7 @@ https://fpgasoftware.intel.com/eula.
 ;       |uartRecFIFO:inst02|                   ; 29 (29)             ; 42 (42)                   ; 2048              ; 0          ; 0    ; 0            ; |scp|uart_io:inst10|uartRecFIFO:inst02                                                                                  ; uartRecFIFO      ; work         ;
 ;          |altsyncram:mem_rtl_0|              ; 0 (0)               ; 0 (0)                     ; 2048              ; 0          ; 0    ; 0            ; |scp|uart_io:inst10|uartRecFIFO:inst02|altsyncram:mem_rtl_0                                                             ; altsyncram       ; work         ;
 ;             |altsyncram_93k1:auto_generated| ; 0 (0)               ; 0 (0)                     ; 2048              ; 0          ; 0    ; 0            ; |scp|uart_io:inst10|uartRecFIFO:inst02|altsyncram:mem_rtl_0|altsyncram_93k1:auto_generated                              ; altsyncram_93k1  ; work         ;
-;    |vga_io:inst23|                           ; 212 (0)             ; 167 (0)                   ; 557056            ; 0          ; 0    ; 0            ; |scp|vga_io:inst23                                                                                                      ; vga_io           ; work         ;
+;    |vga_io:inst23|                           ; 210 (0)             ; 167 (0)                   ; 557056            ; 0          ; 0    ; 0            ; |scp|vga_io:inst23                                                                                                      ; vga_io           ; work         ;
 ;       |VGA_controller:instv6|                ; 90 (90)             ; 111 (111)                 ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|VGA_controller:instv6                                                                                ; VGA_controller   ; work         ;
 ;       |char_mem:instv2|                      ; 0 (0)               ; 0 (0)                     ; 16384             ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|char_mem:instv2                                                                                      ; char_mem         ; work         ;
 ;          |altsyncram:altsyncram_component|   ; 0 (0)               ; 0 (0)                     ; 16384             ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|char_mem:instv2|altsyncram:altsyncram_component                                                      ; altsyncram       ; work         ;
@@ -415,10 +413,10 @@ https://fpgasoftware.intel.com/eula.
 ;                |decode_dla:decode3|          ; 8 (8)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|gfx_mem:inst|altsyncram:altsyncram_component|altsyncram_trj2:auto_generated|decode_dla:decode3       ; decode_dla       ; work         ;
 ;                |mux_tfb:mux5|                ; 4 (4)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|gfx_mem:inst|altsyncram:altsyncram_component|altsyncram_trj2:auto_generated|mux_tfb:mux5             ; mux_tfb          ; work         ;
 ;       |io_port:inst1|                        ; 1 (1)               ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|io_port:inst1                                                                                        ; io_port          ; work         ;
-;       |io_port:inst2|                        ; 2 (2)               ; 9 (9)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|io_port:inst2                                                                                        ; io_port          ; work         ;
+;       |io_port:inst2|                        ; 1 (1)               ; 9 (9)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|io_port:inst2                                                                                        ; io_port          ; work         ;
 ;       |io_port:instv3|                       ; 1 (1)               ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|io_port:instv3                                                                                       ; io_port          ; work         ;
 ;       |io_port:instv4|                       ; 1 (1)               ; 9 (9)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|io_port:instv4                                                                                       ; io_port          ; work         ;
-;       |text_gen:instv1|                      ; 89 (89)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|text_gen:instv1                                                                                      ; text_gen         ; work         ;
+;       |text_gen:instv1|                      ; 88 (88)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|text_gen:instv1                                                                                      ; text_gen         ; work         ;
 ;    |vga_pll:inst_io0|                        ; 0 (0)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_pll:inst_io0                                                                                                   ; vga_pll          ; vga_pll      ;
 ;       |vga_pll_0002:vga_pll_inst|            ; 0 (0)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_pll:inst_io0|vga_pll_0002:vga_pll_inst                                                                         ; vga_pll_0002     ; vga_pll      ;
 ;          |altera_pll:altera_pll_i|           ; 0 (0)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_pll:inst_io0|vga_pll_0002:vga_pll_inst|altera_pll:altera_pll_i                                                 ; altera_pll       ; work         ;
@@ -462,7 +460,7 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; Vendor ; IP Core Name ; Version ; Release Date ; License Type ; Entity Instance                       ; IP Include File      ;
 +--------+--------------+---------+--------------+--------------+---------------------------------------+----------------------+
 ; Altera ; RAM: 1-PORT  ; 19.1    ; N/A          ; N/A          ; |scp|ram:inst                         ; memory/ram.v         ;
-; N/A    ; altera_pll   ; 19.1    ; N/A          ; N/A          ; |scp|pll:inst4                        ;                      ;
+; Altera ; altera_pll   ; 19.1    ; N/A          ; N/A          ; |scp|cpu_pll:inst1                    ; cpu_pll.v            ;
 ; Altera ; RAM: 2-PORT  ; 17.1    ; N/A          ; N/A          ; |scp|vga_io:inst23|gfx_mem:inst       ; IO/vga/gfx_mem.v     ;
 ; Altera ; RAM: 2-PORT  ; 17.1    ; N/A          ; N/A          ; |scp|vga_io:inst23|char_mem:instv2    ; IO/vga/char_mem.v    ;
 ; Altera ; ROM: 1-PORT  ; 17.1    ; N/A          ; N/A          ; |scp|vga_io:inst23|charset_rom:instv5 ; IO/vga/charset_rom.v ;
@@ -1470,250 +1468,250 @@ Note: In order to hide this table in the UI and the text report file, please set
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
-+--------------------------------------------------------------------------------------------------+
-; Parameter Settings for User Entity Instance: pll:inst4|pll_0002:pll_inst|altera_pll:altera_pll_i ;
-+--------------------------------------+------------------------+----------------------------------+
-; Parameter Name                       ; Value                  ; Type                             ;
-+--------------------------------------+------------------------+----------------------------------+
-; reference_clock_frequency            ; 50.0 MHz               ; String                           ;
-; fractional_vco_multiplier            ; false                  ; String                           ;
-; pll_type                             ; General                ; String                           ;
-; pll_subtype                          ; General                ; String                           ;
-; number_of_clocks                     ; 3                      ; Signed Integer                   ;
-; operation_mode                       ; direct                 ; String                           ;
-; deserialization_factor               ; 4                      ; Signed Integer                   ;
-; data_rate                            ; 0                      ; Signed Integer                   ;
-; sim_additional_refclk_cycles_to_lock ; 0                      ; Signed Integer                   ;
-; output_clock_frequency0              ; 10.000000 MHz          ; String                           ;
-; phase_shift0                         ; 0 ps                   ; String                           ;
-; duty_cycle0                          ; 50                     ; Signed Integer                   ;
-; output_clock_frequency1              ; 10.000000 MHz          ; String                           ;
-; phase_shift1                         ; 51389 ps               ; String                           ;
-; duty_cycle1                          ; 50                     ; Signed Integer                   ;
-; output_clock_frequency2              ; 10.000000 MHz          ; String                           ;
-; phase_shift2                         ; 72222 ps               ; String                           ;
-; duty_cycle2                          ; 50                     ; Signed Integer                   ;
-; output_clock_frequency3              ; 0 MHz                  ; String                           ;
-; phase_shift3                         ; 0 ps                   ; String                           ;
-; duty_cycle3                          ; 50                     ; Signed Integer                   ;
-; output_clock_frequency4              ; 0 MHz                  ; String                           ;
-; phase_shift4                         ; 0 ps                   ; String                           ;
-; duty_cycle4                          ; 50                     ; Signed Integer                   ;
-; output_clock_frequency5              ; 0 MHz                  ; String                           ;
-; phase_shift5                         ; 0 ps                   ; String                           ;
-; duty_cycle5                          ; 50                     ; Signed Integer                   ;
-; output_clock_frequency6              ; 0 MHz                  ; String                           ;
-; phase_shift6                         ; 0 ps                   ; String                           ;
-; duty_cycle6                          ; 50                     ; Signed Integer                   ;
-; output_clock_frequency7              ; 0 MHz                  ; String                           ;
-; phase_shift7                         ; 0 ps                   ; String                           ;
-; duty_cycle7                          ; 50                     ; Signed Integer                   ;
-; output_clock_frequency8              ; 0 MHz                  ; String                           ;
-; phase_shift8                         ; 0 ps                   ; String                           ;
-; duty_cycle8                          ; 50                     ; Signed Integer                   ;
-; output_clock_frequency9              ; 0 MHz                  ; String                           ;
-; phase_shift9                         ; 0 ps                   ; String                           ;
-; duty_cycle9                          ; 50                     ; Signed Integer                   ;
-; output_clock_frequency10             ; 0 MHz                  ; String                           ;
-; phase_shift10                        ; 0 ps                   ; String                           ;
-; duty_cycle10                         ; 50                     ; Signed Integer                   ;
-; output_clock_frequency11             ; 0 MHz                  ; String                           ;
-; phase_shift11                        ; 0 ps                   ; String                           ;
-; duty_cycle11                         ; 50                     ; Signed Integer                   ;
-; output_clock_frequency12             ; 0 MHz                  ; String                           ;
-; phase_shift12                        ; 0 ps                   ; String                           ;
-; duty_cycle12                         ; 50                     ; Signed Integer                   ;
-; output_clock_frequency13             ; 0 MHz                  ; String                           ;
-; phase_shift13                        ; 0 ps                   ; String                           ;
-; duty_cycle13                         ; 50                     ; Signed Integer                   ;
-; output_clock_frequency14             ; 0 MHz                  ; String                           ;
-; phase_shift14                        ; 0 ps                   ; String                           ;
-; duty_cycle14                         ; 50                     ; Signed Integer                   ;
-; output_clock_frequency15             ; 0 MHz                  ; String                           ;
-; phase_shift15                        ; 0 ps                   ; String                           ;
-; duty_cycle15                         ; 50                     ; Signed Integer                   ;
-; output_clock_frequency16             ; 0 MHz                  ; String                           ;
-; phase_shift16                        ; 0 ps                   ; String                           ;
-; duty_cycle16                         ; 50                     ; Signed Integer                   ;
-; output_clock_frequency17             ; 0 MHz                  ; String                           ;
-; phase_shift17                        ; 0 ps                   ; String                           ;
-; duty_cycle17                         ; 50                     ; Signed Integer                   ;
-; clock_name_0                         ;                        ; String                           ;
-; clock_name_1                         ;                        ; String                           ;
-; clock_name_2                         ;                        ; String                           ;
-; clock_name_3                         ;                        ; String                           ;
-; clock_name_4                         ;                        ; String                           ;
-; clock_name_5                         ;                        ; String                           ;
-; clock_name_6                         ;                        ; String                           ;
-; clock_name_7                         ;                        ; String                           ;
-; clock_name_8                         ;                        ; String                           ;
-; clock_name_global_0                  ; false                  ; String                           ;
-; clock_name_global_1                  ; false                  ; String                           ;
-; clock_name_global_2                  ; false                  ; String                           ;
-; clock_name_global_3                  ; false                  ; String                           ;
-; clock_name_global_4                  ; false                  ; String                           ;
-; clock_name_global_5                  ; false                  ; String                           ;
-; clock_name_global_6                  ; false                  ; String                           ;
-; clock_name_global_7                  ; false                  ; String                           ;
-; clock_name_global_8                  ; false                  ; String                           ;
-; m_cnt_hi_div                         ; 1                      ; Signed Integer                   ;
-; m_cnt_lo_div                         ; 1                      ; Signed Integer                   ;
-; m_cnt_bypass_en                      ; false                  ; String                           ;
-; m_cnt_odd_div_duty_en                ; false                  ; String                           ;
-; n_cnt_hi_div                         ; 1                      ; Signed Integer                   ;
-; n_cnt_lo_div                         ; 1                      ; Signed Integer                   ;
-; n_cnt_bypass_en                      ; false                  ; String                           ;
-; n_cnt_odd_div_duty_en                ; false                  ; String                           ;
-; c_cnt_hi_div0                        ; 1                      ; Signed Integer                   ;
-; c_cnt_lo_div0                        ; 1                      ; Signed Integer                   ;
-; c_cnt_bypass_en0                     ; false                  ; String                           ;
-; c_cnt_in_src0                        ; ph_mux_clk             ; String                           ;
-; c_cnt_odd_div_duty_en0               ; false                  ; String                           ;
-; c_cnt_prst0                          ; 1                      ; Signed Integer                   ;
-; c_cnt_ph_mux_prst0                   ; 0                      ; Signed Integer                   ;
-; c_cnt_hi_div1                        ; 1                      ; Signed Integer                   ;
-; c_cnt_lo_div1                        ; 1                      ; Signed Integer                   ;
-; c_cnt_bypass_en1                     ; false                  ; String                           ;
-; c_cnt_in_src1                        ; ph_mux_clk             ; String                           ;
-; c_cnt_odd_div_duty_en1               ; false                  ; String                           ;
-; c_cnt_prst1                          ; 1                      ; Signed Integer                   ;
-; c_cnt_ph_mux_prst1                   ; 0                      ; Signed Integer                   ;
-; c_cnt_hi_div2                        ; 1                      ; Signed Integer                   ;
-; c_cnt_lo_div2                        ; 1                      ; Signed Integer                   ;
-; c_cnt_bypass_en2                     ; false                  ; String                           ;
-; c_cnt_in_src2                        ; ph_mux_clk             ; String                           ;
-; c_cnt_odd_div_duty_en2               ; false                  ; String                           ;
-; c_cnt_prst2                          ; 1                      ; Signed Integer                   ;
-; c_cnt_ph_mux_prst2                   ; 0                      ; Signed Integer                   ;
-; c_cnt_hi_div3                        ; 1                      ; Signed Integer                   ;
-; c_cnt_lo_div3                        ; 1                      ; Signed Integer                   ;
-; c_cnt_bypass_en3                     ; false                  ; String                           ;
-; c_cnt_in_src3                        ; ph_mux_clk             ; String                           ;
-; c_cnt_odd_div_duty_en3               ; false                  ; String                           ;
-; c_cnt_prst3                          ; 1                      ; Signed Integer                   ;
-; c_cnt_ph_mux_prst3                   ; 0                      ; Signed Integer                   ;
-; c_cnt_hi_div4                        ; 1                      ; Signed Integer                   ;
-; c_cnt_lo_div4                        ; 1                      ; Signed Integer                   ;
-; c_cnt_bypass_en4                     ; false                  ; String                           ;
-; c_cnt_in_src4                        ; ph_mux_clk             ; String                           ;
-; c_cnt_odd_div_duty_en4               ; false                  ; String                           ;
-; c_cnt_prst4                          ; 1                      ; Signed Integer                   ;
-; c_cnt_ph_mux_prst4                   ; 0                      ; Signed Integer                   ;
-; c_cnt_hi_div5                        ; 1                      ; Signed Integer                   ;
-; c_cnt_lo_div5                        ; 1                      ; Signed Integer                   ;
-; c_cnt_bypass_en5                     ; false                  ; String                           ;
-; c_cnt_in_src5                        ; ph_mux_clk             ; String                           ;
-; c_cnt_odd_div_duty_en5               ; false                  ; String                           ;
-; c_cnt_prst5                          ; 1                      ; Signed Integer                   ;
-; c_cnt_ph_mux_prst5                   ; 0                      ; Signed Integer                   ;
-; c_cnt_hi_div6                        ; 1                      ; Signed Integer                   ;
-; c_cnt_lo_div6                        ; 1                      ; Signed Integer                   ;
-; c_cnt_bypass_en6                     ; false                  ; String                           ;
-; c_cnt_in_src6                        ; ph_mux_clk             ; String                           ;
-; c_cnt_odd_div_duty_en6               ; false                  ; String                           ;
-; c_cnt_prst6                          ; 1                      ; Signed Integer                   ;
-; c_cnt_ph_mux_prst6                   ; 0                      ; Signed Integer                   ;
-; c_cnt_hi_div7                        ; 1                      ; Signed Integer                   ;
-; c_cnt_lo_div7                        ; 1                      ; Signed Integer                   ;
-; c_cnt_bypass_en7                     ; false                  ; String                           ;
-; c_cnt_in_src7                        ; ph_mux_clk             ; String                           ;
-; c_cnt_odd_div_duty_en7               ; false                  ; String                           ;
-; c_cnt_prst7                          ; 1                      ; Signed Integer                   ;
-; c_cnt_ph_mux_prst7                   ; 0                      ; Signed Integer                   ;
-; c_cnt_hi_div8                        ; 1                      ; Signed Integer                   ;
-; c_cnt_lo_div8                        ; 1                      ; Signed Integer                   ;
-; c_cnt_bypass_en8                     ; false                  ; String                           ;
-; c_cnt_in_src8                        ; ph_mux_clk             ; String                           ;
-; c_cnt_odd_div_duty_en8               ; false                  ; String                           ;
-; c_cnt_prst8                          ; 1                      ; Signed Integer                   ;
-; c_cnt_ph_mux_prst8                   ; 0                      ; Signed Integer                   ;
-; c_cnt_hi_div9                        ; 1                      ; Signed Integer                   ;
-; c_cnt_lo_div9                        ; 1                      ; Signed Integer                   ;
-; c_cnt_bypass_en9                     ; false                  ; String                           ;
-; c_cnt_in_src9                        ; ph_mux_clk             ; String                           ;
-; c_cnt_odd_div_duty_en9               ; false                  ; String                           ;
-; c_cnt_prst9                          ; 1                      ; Signed Integer                   ;
-; c_cnt_ph_mux_prst9                   ; 0                      ; Signed Integer                   ;
-; c_cnt_hi_div10                       ; 1                      ; Signed Integer                   ;
-; c_cnt_lo_div10                       ; 1                      ; Signed Integer                   ;
-; c_cnt_bypass_en10                    ; false                  ; String                           ;
-; c_cnt_in_src10                       ; ph_mux_clk             ; String                           ;
-; c_cnt_odd_div_duty_en10              ; false                  ; String                           ;
-; c_cnt_prst10                         ; 1                      ; Signed Integer                   ;
-; c_cnt_ph_mux_prst10                  ; 0                      ; Signed Integer                   ;
-; c_cnt_hi_div11                       ; 1                      ; Signed Integer                   ;
-; c_cnt_lo_div11                       ; 1                      ; Signed Integer                   ;
-; c_cnt_bypass_en11                    ; false                  ; String                           ;
-; c_cnt_in_src11                       ; ph_mux_clk             ; String                           ;
-; c_cnt_odd_div_duty_en11              ; false                  ; String                           ;
-; c_cnt_prst11                         ; 1                      ; Signed Integer                   ;
-; c_cnt_ph_mux_prst11                  ; 0                      ; Signed Integer                   ;
-; c_cnt_hi_div12                       ; 1                      ; Signed Integer                   ;
-; c_cnt_lo_div12                       ; 1                      ; Signed Integer                   ;
-; c_cnt_bypass_en12                    ; false                  ; String                           ;
-; c_cnt_in_src12                       ; ph_mux_clk             ; String                           ;
-; c_cnt_odd_div_duty_en12              ; false                  ; String                           ;
-; c_cnt_prst12                         ; 1                      ; Signed Integer                   ;
-; c_cnt_ph_mux_prst12                  ; 0                      ; Signed Integer                   ;
-; c_cnt_hi_div13                       ; 1                      ; Signed Integer                   ;
-; c_cnt_lo_div13                       ; 1                      ; Signed Integer                   ;
-; c_cnt_bypass_en13                    ; false                  ; String                           ;
-; c_cnt_in_src13                       ; ph_mux_clk             ; String                           ;
-; c_cnt_odd_div_duty_en13              ; false                  ; String                           ;
-; c_cnt_prst13                         ; 1                      ; Signed Integer                   ;
-; c_cnt_ph_mux_prst13                  ; 0                      ; Signed Integer                   ;
-; c_cnt_hi_div14                       ; 1                      ; Signed Integer                   ;
-; c_cnt_lo_div14                       ; 1                      ; Signed Integer                   ;
-; c_cnt_bypass_en14                    ; false                  ; String                           ;
-; c_cnt_in_src14                       ; ph_mux_clk             ; String                           ;
-; c_cnt_odd_div_duty_en14              ; false                  ; String                           ;
-; c_cnt_prst14                         ; 1                      ; Signed Integer                   ;
-; c_cnt_ph_mux_prst14                  ; 0                      ; Signed Integer                   ;
-; c_cnt_hi_div15                       ; 1                      ; Signed Integer                   ;
-; c_cnt_lo_div15                       ; 1                      ; Signed Integer                   ;
-; c_cnt_bypass_en15                    ; false                  ; String                           ;
-; c_cnt_in_src15                       ; ph_mux_clk             ; String                           ;
-; c_cnt_odd_div_duty_en15              ; false                  ; String                           ;
-; c_cnt_prst15                         ; 1                      ; Signed Integer                   ;
-; c_cnt_ph_mux_prst15                  ; 0                      ; Signed Integer                   ;
-; c_cnt_hi_div16                       ; 1                      ; Signed Integer                   ;
-; c_cnt_lo_div16                       ; 1                      ; Signed Integer                   ;
-; c_cnt_bypass_en16                    ; false                  ; String                           ;
-; c_cnt_in_src16                       ; ph_mux_clk             ; String                           ;
-; c_cnt_odd_div_duty_en16              ; false                  ; String                           ;
-; c_cnt_prst16                         ; 1                      ; Signed Integer                   ;
-; c_cnt_ph_mux_prst16                  ; 0                      ; Signed Integer                   ;
-; c_cnt_hi_div17                       ; 1                      ; Signed Integer                   ;
-; c_cnt_lo_div17                       ; 1                      ; Signed Integer                   ;
-; c_cnt_bypass_en17                    ; false                  ; String                           ;
-; c_cnt_in_src17                       ; ph_mux_clk             ; String                           ;
-; c_cnt_odd_div_duty_en17              ; false                  ; String                           ;
-; c_cnt_prst17                         ; 1                      ; Signed Integer                   ;
-; c_cnt_ph_mux_prst17                  ; 0                      ; Signed Integer                   ;
-; pll_vco_div                          ; 1                      ; Signed Integer                   ;
-; pll_slf_rst                          ; false                  ; String                           ;
-; pll_bw_sel                           ; low                    ; String                           ;
-; pll_output_clk_frequency             ; 0 MHz                  ; String                           ;
-; pll_cp_current                       ; 0                      ; Signed Integer                   ;
-; pll_bwctrl                           ; 0                      ; Signed Integer                   ;
-; pll_fractional_division              ; 1                      ; Signed Integer                   ;
-; pll_fractional_cout                  ; 24                     ; Signed Integer                   ;
-; pll_dsm_out_sel                      ; 1st_order              ; String                           ;
-; mimic_fbclk_type                     ; gclk                   ; String                           ;
-; pll_fbclk_mux_1                      ; glb                    ; String                           ;
-; pll_fbclk_mux_2                      ; fb_1                   ; String                           ;
-; pll_m_cnt_in_src                     ; ph_mux_clk             ; String                           ;
-; pll_vcoph_div                        ; 1                      ; Signed Integer                   ;
-; refclk1_frequency                    ; 0 MHz                  ; String                           ;
-; pll_clkin_0_src                      ; clk_0                  ; String                           ;
-; pll_clkin_1_src                      ; clk_0                  ; String                           ;
-; pll_clk_loss_sw_en                   ; false                  ; String                           ;
-; pll_auto_clk_sw_en                   ; false                  ; String                           ;
-; pll_manu_clk_sw_en                   ; false                  ; String                           ;
-; pll_clk_sw_dly                       ; 0                      ; Signed Integer                   ;
-; pll_extclk_0_cnt_src                 ; pll_extclk_cnt_src_vss ; String                           ;
-; pll_extclk_1_cnt_src                 ; pll_extclk_cnt_src_vss ; String                           ;
-+--------------------------------------+------------------------+----------------------------------+
++--------------------------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: cpu_pll:inst1|cpu_pll_0002:cpu_pll_inst|altera_pll:altera_pll_i ;
++--------------------------------------+------------------------+----------------------------------------------+
+; Parameter Name                       ; Value                  ; Type                                         ;
++--------------------------------------+------------------------+----------------------------------------------+
+; reference_clock_frequency            ; 50.0 MHz               ; String                                       ;
+; fractional_vco_multiplier            ; false                  ; String                                       ;
+; pll_type                             ; General                ; String                                       ;
+; pll_subtype                          ; General                ; String                                       ;
+; number_of_clocks                     ; 3                      ; Signed Integer                               ;
+; operation_mode                       ; direct                 ; String                                       ;
+; deserialization_factor               ; 4                      ; Signed Integer                               ;
+; data_rate                            ; 0                      ; Signed Integer                               ;
+; sim_additional_refclk_cycles_to_lock ; 0                      ; Signed Integer                               ;
+; output_clock_frequency0              ; 35.000000 MHz          ; String                                       ;
+; phase_shift0                         ; 0 ps                   ; String                                       ;
+; duty_cycle0                          ; 50                     ; Signed Integer                               ;
+; output_clock_frequency1              ; 35.000000 MHz          ; String                                       ;
+; phase_shift1                         ; 9524 ps                ; String                                       ;
+; duty_cycle1                          ; 50                     ; Signed Integer                               ;
+; output_clock_frequency2              ; 35.000000 MHz          ; String                                       ;
+; phase_shift2                         ; 19048 ps               ; String                                       ;
+; duty_cycle2                          ; 50                     ; Signed Integer                               ;
+; output_clock_frequency3              ; 0 MHz                  ; String                                       ;
+; phase_shift3                         ; 0 ps                   ; String                                       ;
+; duty_cycle3                          ; 50                     ; Signed Integer                               ;
+; output_clock_frequency4              ; 0 MHz                  ; String                                       ;
+; phase_shift4                         ; 0 ps                   ; String                                       ;
+; duty_cycle4                          ; 50                     ; Signed Integer                               ;
+; output_clock_frequency5              ; 0 MHz                  ; String                                       ;
+; phase_shift5                         ; 0 ps                   ; String                                       ;
+; duty_cycle5                          ; 50                     ; Signed Integer                               ;
+; output_clock_frequency6              ; 0 MHz                  ; String                                       ;
+; phase_shift6                         ; 0 ps                   ; String                                       ;
+; duty_cycle6                          ; 50                     ; Signed Integer                               ;
+; output_clock_frequency7              ; 0 MHz                  ; String                                       ;
+; phase_shift7                         ; 0 ps                   ; String                                       ;
+; duty_cycle7                          ; 50                     ; Signed Integer                               ;
+; output_clock_frequency8              ; 0 MHz                  ; String                                       ;
+; phase_shift8                         ; 0 ps                   ; String                                       ;
+; duty_cycle8                          ; 50                     ; Signed Integer                               ;
+; output_clock_frequency9              ; 0 MHz                  ; String                                       ;
+; phase_shift9                         ; 0 ps                   ; String                                       ;
+; duty_cycle9                          ; 50                     ; Signed Integer                               ;
+; output_clock_frequency10             ; 0 MHz                  ; String                                       ;
+; phase_shift10                        ; 0 ps                   ; String                                       ;
+; duty_cycle10                         ; 50                     ; Signed Integer                               ;
+; output_clock_frequency11             ; 0 MHz                  ; String                                       ;
+; phase_shift11                        ; 0 ps                   ; String                                       ;
+; duty_cycle11                         ; 50                     ; Signed Integer                               ;
+; output_clock_frequency12             ; 0 MHz                  ; String                                       ;
+; phase_shift12                        ; 0 ps                   ; String                                       ;
+; duty_cycle12                         ; 50                     ; Signed Integer                               ;
+; output_clock_frequency13             ; 0 MHz                  ; String                                       ;
+; phase_shift13                        ; 0 ps                   ; String                                       ;
+; duty_cycle13                         ; 50                     ; Signed Integer                               ;
+; output_clock_frequency14             ; 0 MHz                  ; String                                       ;
+; phase_shift14                        ; 0 ps                   ; String                                       ;
+; duty_cycle14                         ; 50                     ; Signed Integer                               ;
+; output_clock_frequency15             ; 0 MHz                  ; String                                       ;
+; phase_shift15                        ; 0 ps                   ; String                                       ;
+; duty_cycle15                         ; 50                     ; Signed Integer                               ;
+; output_clock_frequency16             ; 0 MHz                  ; String                                       ;
+; phase_shift16                        ; 0 ps                   ; String                                       ;
+; duty_cycle16                         ; 50                     ; Signed Integer                               ;
+; output_clock_frequency17             ; 0 MHz                  ; String                                       ;
+; phase_shift17                        ; 0 ps                   ; String                                       ;
+; duty_cycle17                         ; 50                     ; Signed Integer                               ;
+; clock_name_0                         ;                        ; String                                       ;
+; clock_name_1                         ;                        ; String                                       ;
+; clock_name_2                         ;                        ; String                                       ;
+; clock_name_3                         ;                        ; String                                       ;
+; clock_name_4                         ;                        ; String                                       ;
+; clock_name_5                         ;                        ; String                                       ;
+; clock_name_6                         ;                        ; String                                       ;
+; clock_name_7                         ;                        ; String                                       ;
+; clock_name_8                         ;                        ; String                                       ;
+; clock_name_global_0                  ; false                  ; String                                       ;
+; clock_name_global_1                  ; false                  ; String                                       ;
+; clock_name_global_2                  ; false                  ; String                                       ;
+; clock_name_global_3                  ; false                  ; String                                       ;
+; clock_name_global_4                  ; false                  ; String                                       ;
+; clock_name_global_5                  ; false                  ; String                                       ;
+; clock_name_global_6                  ; false                  ; String                                       ;
+; clock_name_global_7                  ; false                  ; String                                       ;
+; clock_name_global_8                  ; false                  ; String                                       ;
+; m_cnt_hi_div                         ; 1                      ; Signed Integer                               ;
+; m_cnt_lo_div                         ; 1                      ; Signed Integer                               ;
+; m_cnt_bypass_en                      ; false                  ; String                                       ;
+; m_cnt_odd_div_duty_en                ; false                  ; String                                       ;
+; n_cnt_hi_div                         ; 1                      ; Signed Integer                               ;
+; n_cnt_lo_div                         ; 1                      ; Signed Integer                               ;
+; n_cnt_bypass_en                      ; false                  ; String                                       ;
+; n_cnt_odd_div_duty_en                ; false                  ; String                                       ;
+; c_cnt_hi_div0                        ; 1                      ; Signed Integer                               ;
+; c_cnt_lo_div0                        ; 1                      ; Signed Integer                               ;
+; c_cnt_bypass_en0                     ; false                  ; String                                       ;
+; c_cnt_in_src0                        ; ph_mux_clk             ; String                                       ;
+; c_cnt_odd_div_duty_en0               ; false                  ; String                                       ;
+; c_cnt_prst0                          ; 1                      ; Signed Integer                               ;
+; c_cnt_ph_mux_prst0                   ; 0                      ; Signed Integer                               ;
+; c_cnt_hi_div1                        ; 1                      ; Signed Integer                               ;
+; c_cnt_lo_div1                        ; 1                      ; Signed Integer                               ;
+; c_cnt_bypass_en1                     ; false                  ; String                                       ;
+; c_cnt_in_src1                        ; ph_mux_clk             ; String                                       ;
+; c_cnt_odd_div_duty_en1               ; false                  ; String                                       ;
+; c_cnt_prst1                          ; 1                      ; Signed Integer                               ;
+; c_cnt_ph_mux_prst1                   ; 0                      ; Signed Integer                               ;
+; c_cnt_hi_div2                        ; 1                      ; Signed Integer                               ;
+; c_cnt_lo_div2                        ; 1                      ; Signed Integer                               ;
+; c_cnt_bypass_en2                     ; false                  ; String                                       ;
+; c_cnt_in_src2                        ; ph_mux_clk             ; String                                       ;
+; c_cnt_odd_div_duty_en2               ; false                  ; String                                       ;
+; c_cnt_prst2                          ; 1                      ; Signed Integer                               ;
+; c_cnt_ph_mux_prst2                   ; 0                      ; Signed Integer                               ;
+; c_cnt_hi_div3                        ; 1                      ; Signed Integer                               ;
+; c_cnt_lo_div3                        ; 1                      ; Signed Integer                               ;
+; c_cnt_bypass_en3                     ; false                  ; String                                       ;
+; c_cnt_in_src3                        ; ph_mux_clk             ; String                                       ;
+; c_cnt_odd_div_duty_en3               ; false                  ; String                                       ;
+; c_cnt_prst3                          ; 1                      ; Signed Integer                               ;
+; c_cnt_ph_mux_prst3                   ; 0                      ; Signed Integer                               ;
+; c_cnt_hi_div4                        ; 1                      ; Signed Integer                               ;
+; c_cnt_lo_div4                        ; 1                      ; Signed Integer                               ;
+; c_cnt_bypass_en4                     ; false                  ; String                                       ;
+; c_cnt_in_src4                        ; ph_mux_clk             ; String                                       ;
+; c_cnt_odd_div_duty_en4               ; false                  ; String                                       ;
+; c_cnt_prst4                          ; 1                      ; Signed Integer                               ;
+; c_cnt_ph_mux_prst4                   ; 0                      ; Signed Integer                               ;
+; c_cnt_hi_div5                        ; 1                      ; Signed Integer                               ;
+; c_cnt_lo_div5                        ; 1                      ; Signed Integer                               ;
+; c_cnt_bypass_en5                     ; false                  ; String                                       ;
+; c_cnt_in_src5                        ; ph_mux_clk             ; String                                       ;
+; c_cnt_odd_div_duty_en5               ; false                  ; String                                       ;
+; c_cnt_prst5                          ; 1                      ; Signed Integer                               ;
+; c_cnt_ph_mux_prst5                   ; 0                      ; Signed Integer                               ;
+; c_cnt_hi_div6                        ; 1                      ; Signed Integer                               ;
+; c_cnt_lo_div6                        ; 1                      ; Signed Integer                               ;
+; c_cnt_bypass_en6                     ; false                  ; String                                       ;
+; c_cnt_in_src6                        ; ph_mux_clk             ; String                                       ;
+; c_cnt_odd_div_duty_en6               ; false                  ; String                                       ;
+; c_cnt_prst6                          ; 1                      ; Signed Integer                               ;
+; c_cnt_ph_mux_prst6                   ; 0                      ; Signed Integer                               ;
+; c_cnt_hi_div7                        ; 1                      ; Signed Integer                               ;
+; c_cnt_lo_div7                        ; 1                      ; Signed Integer                               ;
+; c_cnt_bypass_en7                     ; false                  ; String                                       ;
+; c_cnt_in_src7                        ; ph_mux_clk             ; String                                       ;
+; c_cnt_odd_div_duty_en7               ; false                  ; String                                       ;
+; c_cnt_prst7                          ; 1                      ; Signed Integer                               ;
+; c_cnt_ph_mux_prst7                   ; 0                      ; Signed Integer                               ;
+; c_cnt_hi_div8                        ; 1                      ; Signed Integer                               ;
+; c_cnt_lo_div8                        ; 1                      ; Signed Integer                               ;
+; c_cnt_bypass_en8                     ; false                  ; String                                       ;
+; c_cnt_in_src8                        ; ph_mux_clk             ; String                                       ;
+; c_cnt_odd_div_duty_en8               ; false                  ; String                                       ;
+; c_cnt_prst8                          ; 1                      ; Signed Integer                               ;
+; c_cnt_ph_mux_prst8                   ; 0                      ; Signed Integer                               ;
+; c_cnt_hi_div9                        ; 1                      ; Signed Integer                               ;
+; c_cnt_lo_div9                        ; 1                      ; Signed Integer                               ;
+; c_cnt_bypass_en9                     ; false                  ; String                                       ;
+; c_cnt_in_src9                        ; ph_mux_clk             ; String                                       ;
+; c_cnt_odd_div_duty_en9               ; false                  ; String                                       ;
+; c_cnt_prst9                          ; 1                      ; Signed Integer                               ;
+; c_cnt_ph_mux_prst9                   ; 0                      ; Signed Integer                               ;
+; c_cnt_hi_div10                       ; 1                      ; Signed Integer                               ;
+; c_cnt_lo_div10                       ; 1                      ; Signed Integer                               ;
+; c_cnt_bypass_en10                    ; false                  ; String                                       ;
+; c_cnt_in_src10                       ; ph_mux_clk             ; String                                       ;
+; c_cnt_odd_div_duty_en10              ; false                  ; String                                       ;
+; c_cnt_prst10                         ; 1                      ; Signed Integer                               ;
+; c_cnt_ph_mux_prst10                  ; 0                      ; Signed Integer                               ;
+; c_cnt_hi_div11                       ; 1                      ; Signed Integer                               ;
+; c_cnt_lo_div11                       ; 1                      ; Signed Integer                               ;
+; c_cnt_bypass_en11                    ; false                  ; String                                       ;
+; c_cnt_in_src11                       ; ph_mux_clk             ; String                                       ;
+; c_cnt_odd_div_duty_en11              ; false                  ; String                                       ;
+; c_cnt_prst11                         ; 1                      ; Signed Integer                               ;
+; c_cnt_ph_mux_prst11                  ; 0                      ; Signed Integer                               ;
+; c_cnt_hi_div12                       ; 1                      ; Signed Integer                               ;
+; c_cnt_lo_div12                       ; 1                      ; Signed Integer                               ;
+; c_cnt_bypass_en12                    ; false                  ; String                                       ;
+; c_cnt_in_src12                       ; ph_mux_clk             ; String                                       ;
+; c_cnt_odd_div_duty_en12              ; false                  ; String                                       ;
+; c_cnt_prst12                         ; 1                      ; Signed Integer                               ;
+; c_cnt_ph_mux_prst12                  ; 0                      ; Signed Integer                               ;
+; c_cnt_hi_div13                       ; 1                      ; Signed Integer                               ;
+; c_cnt_lo_div13                       ; 1                      ; Signed Integer                               ;
+; c_cnt_bypass_en13                    ; false                  ; String                                       ;
+; c_cnt_in_src13                       ; ph_mux_clk             ; String                                       ;
+; c_cnt_odd_div_duty_en13              ; false                  ; String                                       ;
+; c_cnt_prst13                         ; 1                      ; Signed Integer                               ;
+; c_cnt_ph_mux_prst13                  ; 0                      ; Signed Integer                               ;
+; c_cnt_hi_div14                       ; 1                      ; Signed Integer                               ;
+; c_cnt_lo_div14                       ; 1                      ; Signed Integer                               ;
+; c_cnt_bypass_en14                    ; false                  ; String                                       ;
+; c_cnt_in_src14                       ; ph_mux_clk             ; String                                       ;
+; c_cnt_odd_div_duty_en14              ; false                  ; String                                       ;
+; c_cnt_prst14                         ; 1                      ; Signed Integer                               ;
+; c_cnt_ph_mux_prst14                  ; 0                      ; Signed Integer                               ;
+; c_cnt_hi_div15                       ; 1                      ; Signed Integer                               ;
+; c_cnt_lo_div15                       ; 1                      ; Signed Integer                               ;
+; c_cnt_bypass_en15                    ; false                  ; String                                       ;
+; c_cnt_in_src15                       ; ph_mux_clk             ; String                                       ;
+; c_cnt_odd_div_duty_en15              ; false                  ; String                                       ;
+; c_cnt_prst15                         ; 1                      ; Signed Integer                               ;
+; c_cnt_ph_mux_prst15                  ; 0                      ; Signed Integer                               ;
+; c_cnt_hi_div16                       ; 1                      ; Signed Integer                               ;
+; c_cnt_lo_div16                       ; 1                      ; Signed Integer                               ;
+; c_cnt_bypass_en16                    ; false                  ; String                                       ;
+; c_cnt_in_src16                       ; ph_mux_clk             ; String                                       ;
+; c_cnt_odd_div_duty_en16              ; false                  ; String                                       ;
+; c_cnt_prst16                         ; 1                      ; Signed Integer                               ;
+; c_cnt_ph_mux_prst16                  ; 0                      ; Signed Integer                               ;
+; c_cnt_hi_div17                       ; 1                      ; Signed Integer                               ;
+; c_cnt_lo_div17                       ; 1                      ; Signed Integer                               ;
+; c_cnt_bypass_en17                    ; false                  ; String                                       ;
+; c_cnt_in_src17                       ; ph_mux_clk             ; String                                       ;
+; c_cnt_odd_div_duty_en17              ; false                  ; String                                       ;
+; c_cnt_prst17                         ; 1                      ; Signed Integer                               ;
+; c_cnt_ph_mux_prst17                  ; 0                      ; Signed Integer                               ;
+; pll_vco_div                          ; 1                      ; Signed Integer                               ;
+; pll_slf_rst                          ; false                  ; String                                       ;
+; pll_bw_sel                           ; low                    ; String                                       ;
+; pll_output_clk_frequency             ; 0 MHz                  ; String                                       ;
+; pll_cp_current                       ; 0                      ; Signed Integer                               ;
+; pll_bwctrl                           ; 0                      ; Signed Integer                               ;
+; pll_fractional_division              ; 1                      ; Signed Integer                               ;
+; pll_fractional_cout                  ; 24                     ; Signed Integer                               ;
+; pll_dsm_out_sel                      ; 1st_order              ; String                                       ;
+; mimic_fbclk_type                     ; gclk                   ; String                                       ;
+; pll_fbclk_mux_1                      ; glb                    ; String                                       ;
+; pll_fbclk_mux_2                      ; fb_1                   ; String                                       ;
+; pll_m_cnt_in_src                     ; ph_mux_clk             ; String                                       ;
+; pll_vcoph_div                        ; 1                      ; Signed Integer                               ;
+; refclk1_frequency                    ; 0 MHz                  ; String                                       ;
+; pll_clkin_0_src                      ; clk_0                  ; String                                       ;
+; pll_clkin_1_src                      ; clk_0                  ; String                                       ;
+; pll_clk_loss_sw_en                   ; false                  ; String                                       ;
+; pll_auto_clk_sw_en                   ; false                  ; String                                       ;
+; pll_manu_clk_sw_en                   ; false                  ; String                                       ;
+; pll_clk_sw_dly                       ; 0                      ; Signed Integer                               ;
+; pll_extclk_0_cnt_src                 ; pll_extclk_cnt_src_vss ; String                                       ;
+; pll_extclk_1_cnt_src                 ; pll_extclk_cnt_src_vss ; String                                       ;
++--------------------------------------+------------------------+----------------------------------------------+
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
@@ -1882,9 +1880,9 @@ Note: In order to hide this table in the UI and the text report file, please set
 +-----------------+-------------+---------------------------------------------+
 ; Parameter Name  ; Value       ; Type                                        ;
 +-----------------+-------------+---------------------------------------------+
-; freq_g          ; 35.0        ; Signed Float                                ;
+; freq_g          ; 35          ; Signed Float                                ;
 ; init_spi_freq_g ; 0.4         ; Signed Float                                ;
-; spi_freq_g      ; 25.0        ; Signed Float                                ;
+; spi_freq_g      ; 25          ; Signed Float                                ;
 ; block_size_g    ; 512         ; Signed Integer                              ;
 ; card_type_g     ; SDHC_CARD_E ; Enumerated                                  ;
 +-----------------+-------------+---------------------------------------------+
@@ -2513,45 +2511,6 @@ Note: In order to hide this table in the UI and the text report file, please set
 +-------------------------------------------+------------------------------------------------------------------+
 
 
-+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Port Connectivity Checks: "pll:inst4|pll_0002:pll_inst|altera_pll:altera_pll_i"                                                                                                      ;
-+-------------------+--------+----------+----------------------------------------------------------------------------------------------------------------------------------------------+
-; Port              ; Type   ; Severity ; Details                                                                                                                                      ;
-+-------------------+--------+----------+----------------------------------------------------------------------------------------------------------------------------------------------+
-; fboutclk          ; Output ; Info     ; Explicitly unconnected                                                                                                                       ;
-; fbclk             ; Input  ; Info     ; Stuck at GND                                                                                                                                 ;
-; refclk1           ; Input  ; Warning  ; Declared by entity but not connected by instance. If a default value exists, it will be used.  Otherwise, the port will be connected to GND. ;
-; phase_en          ; Input  ; Warning  ; Declared by entity but not connected by instance. If a default value exists, it will be used.  Otherwise, the port will be connected to GND. ;
-; updn              ; Input  ; Warning  ; Declared by entity but not connected by instance. If a default value exists, it will be used.  Otherwise, the port will be connected to GND. ;
-; num_phase_shifts  ; Input  ; Warning  ; Declared by entity but not connected by instance. If a default value exists, it will be used.  Otherwise, the port will be connected to GND. ;
-; scanclk           ; Input  ; Warning  ; Declared by entity but not connected by instance. If a default value exists, it will be used.  Otherwise, the port will be connected to GND. ;
-; cntsel            ; Input  ; Warning  ; Declared by entity but not connected by instance. If a default value exists, it will be used.  Otherwise, the port will be connected to GND. ;
-; reconfig_to_pll   ; Input  ; Warning  ; Declared by entity but not connected by instance. If a default value exists, it will be used.  Otherwise, the port will be connected to GND. ;
-; extswitch         ; Input  ; Warning  ; Declared by entity but not connected by instance. If a default value exists, it will be used.  Otherwise, the port will be connected to GND. ;
-; adjpllin          ; Input  ; Warning  ; Declared by entity but not connected by instance. If a default value exists, it will be used.  Otherwise, the port will be connected to GND. ;
-; cclk              ; Input  ; Warning  ; Declared by entity but not connected by instance. If a default value exists, it will be used.  Otherwise, the port will be connected to GND. ;
-; phase_done        ; Output ; Warning  ; Declared by entity but not connected by instance. Logic that only feeds a dangling port will be removed.                                     ;
-; reconfig_from_pll ; Output ; Warning  ; Declared by entity but not connected by instance. Logic that only feeds a dangling port will be removed.                                     ;
-; activeclk         ; Output ; Warning  ; Declared by entity but not connected by instance. Logic that only feeds a dangling port will be removed.                                     ;
-; clkbad            ; Output ; Warning  ; Declared by entity but not connected by instance. Logic that only feeds a dangling port will be removed.                                     ;
-; phout             ; Output ; Warning  ; Declared by entity but not connected by instance. Logic that only feeds a dangling port will be removed.                                     ;
-; lvds_clk          ; Output ; Warning  ; Declared by entity but not connected by instance. Logic that only feeds a dangling port will be removed.                                     ;
-; loaden            ; Output ; Warning  ; Declared by entity but not connected by instance. Logic that only feeds a dangling port will be removed.                                     ;
-; extclk_out        ; Output ; Warning  ; Declared by entity but not connected by instance. Logic that only feeds a dangling port will be removed.                                     ;
-; cascade_out       ; Output ; Warning  ; Declared by entity but not connected by instance. Logic that only feeds a dangling port will be removed.                                     ;
-; zdbfbclk          ; Bidir  ; Warning  ; Declared by entity but not connected by instance. Logic that only feeds a dangling port will be removed.                                     ;
-+-------------------+--------+----------+----------------------------------------------------------------------------------------------------------------------------------------------+
-
-
-+---------------------------------------------------------+
-; Port Connectivity Checks: "pll:inst4|pll_0002:pll_inst" ;
-+--------+--------+----------+----------------------------+
-; Port   ; Type   ; Severity ; Details                    ;
-+--------+--------+----------+----------------------------+
-; locked ; Output ; Info     ; Explicitly unconnected     ;
-+--------+--------+----------+----------------------------+
-
-
 +-----------------------------------------------------+
 ; Post-Synthesis Netlist Statistics for Top Partition ;
 +-----------------------+-----------------------------+
@@ -2565,22 +2524,22 @@ Note: In order to hide this table in the UI and the text report file, please set
 ;     SCLR              ; 74                          ;
 ;     SLD               ; 21                          ;
 ;     plain             ; 256                         ;
-; arriav_lcell_comb     ; 1377                        ;
+; arriav_lcell_comb     ; 1386                        ;
 ;     arith             ; 292                         ;
 ;         1 data inputs ; 233                         ;
 ;         2 data inputs ; 9                           ;
 ;         3 data inputs ; 18                          ;
 ;         5 data inputs ; 32                          ;
-;     extend            ; 40                          ;
-;         7 data inputs ; 40                          ;
-;     normal            ; 1019                        ;
+;     extend            ; 34                          ;
+;         7 data inputs ; 34                          ;
+;     normal            ; 1034                        ;
 ;         0 data inputs ; 1                           ;
 ;         1 data inputs ; 13                          ;
-;         2 data inputs ; 70                          ;
-;         3 data inputs ; 107                         ;
+;         2 data inputs ; 73                          ;
+;         3 data inputs ; 105                         ;
 ;         4 data inputs ; 165                         ;
-;         5 data inputs ; 207                         ;
-;         6 data inputs ; 456                         ;
+;         5 data inputs ; 242                         ;
+;         6 data inputs ; 435                         ;
 ;     shared            ; 26                          ;
 ;         2 data inputs ; 18                          ;
 ;         3 data inputs ; 8                           ;
@@ -2589,8 +2548,8 @@ Note: In order to hide this table in the UI and the text report file, please set
 ; generic_pll           ; 6                           ;
 ; stratixv_ram_block    ; 264                         ;
 ;                       ;                             ;
-; Max LUT depth         ; 8.00                        ;
-; Average LUT depth     ; 3.12                        ;
+; Max LUT depth         ; 7.00                        ;
+; Average LUT depth     ; 2.99                        ;
 +-----------------------+-----------------------------+
 
 
@@ -2609,7 +2568,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 19.1.0 Build 670 09/22/2019 SJ Lite Edition
-    Info: Processing started: Sun Nov 24 21:08:43 2019
+    Info: Processing started: Mon Nov 25 20:45:20 2019
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off scp -c scp
 Warning (125092): Tcl Script File ram/ram_mega.qip not found
     Info (125063): set_global_assignment -name QIP_FILE ram/ram_mega.qip
@@ -2775,6 +2734,12 @@ Info (12021): Found 1 design units, including 1 entities, in source file memory/
     Info (12023): Found entity 1: ram_mmu File: /home/edward/Documents/scp/quartus/memory/ram_mmu.v Line: 3
 Info (12021): Found 1 design units, including 1 entities, in source file cpu/alu_unit.v
     Info (12023): Found entity 1: alu_unit File: /home/edward/Documents/scp/quartus/cpu/alu_unit.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file IO/uart/vga_screen_en_reg.v
+    Info (12023): Found entity 1: vga_screen_en_reg File: /home/edward/Documents/scp/quartus/IO/uart/vga_screen_en_reg.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file cpu_pll.v
+    Info (12023): Found entity 1: cpu_pll File: /home/edward/Documents/scp/quartus/cpu_pll.v Line: 8
+Info (12021): Found 1 design units, including 1 entities, in source file cpu_pll/cpu_pll_0002.v
+    Info (12023): Found entity 1: cpu_pll_0002 File: /home/edward/Documents/scp/quartus/cpu_pll/cpu_pll_0002.v Line: 2
 Info (12127): Elaborating entity "scp" for the top level hierarchy
 Info (12128): Elaborating entity "vga_io" for hierarchy "vga_io:inst23"
 Info (12128): Elaborating entity "VGA_controller" for hierarchy "vga_io:inst23|VGA_controller:instv6"
@@ -2949,24 +2914,24 @@ Info (12133): Instantiated megafunction "vga_pll:inst_io0|vga_pll_0002:vga_pll_i
     Info (12134): Parameter "duty_cycle17" = "50"
     Info (12134): Parameter "pll_type" = "General"
     Info (12134): Parameter "pll_subtype" = "General"
-Info (12128): Elaborating entity "pll" for hierarchy "pll:inst4"
-Info (12128): Elaborating entity "pll_0002" for hierarchy "pll:inst4|pll_0002:pll_inst" File: /home/edward/Documents/scp/quartus/pll.v Line: 21
-Info (12128): Elaborating entity "altera_pll" for hierarchy "pll:inst4|pll_0002:pll_inst|altera_pll:altera_pll_i" File: /home/edward/Documents/scp/quartus/pll/pll_0002.v Line: 91
+Info (12128): Elaborating entity "cpu_pll" for hierarchy "cpu_pll:inst1"
+Info (12128): Elaborating entity "cpu_pll_0002" for hierarchy "cpu_pll:inst1|cpu_pll_0002:cpu_pll_inst" File: /home/edward/Documents/scp/quartus/cpu_pll.v Line: 23
+Info (12128): Elaborating entity "altera_pll" for hierarchy "cpu_pll:inst1|cpu_pll_0002:cpu_pll_inst|altera_pll:altera_pll_i" File: /home/edward/Documents/scp/quartus/cpu_pll/cpu_pll_0002.v Line: 91
 Info (10008): Verilog HDL or VHDL information: EDA Netlist Writer cannot regroup multidimensional array "wire_to_nowhere_64" into its bus
-Info (12130): Elaborated megafunction instantiation "pll:inst4|pll_0002:pll_inst|altera_pll:altera_pll_i" File: /home/edward/Documents/scp/quartus/pll/pll_0002.v Line: 91
-Info (12133): Instantiated megafunction "pll:inst4|pll_0002:pll_inst|altera_pll:altera_pll_i" with the following parameter: File: /home/edward/Documents/scp/quartus/pll/pll_0002.v Line: 91
+Info (12130): Elaborated megafunction instantiation "cpu_pll:inst1|cpu_pll_0002:cpu_pll_inst|altera_pll:altera_pll_i" File: /home/edward/Documents/scp/quartus/cpu_pll/cpu_pll_0002.v Line: 91
+Info (12133): Instantiated megafunction "cpu_pll:inst1|cpu_pll_0002:cpu_pll_inst|altera_pll:altera_pll_i" with the following parameter: File: /home/edward/Documents/scp/quartus/cpu_pll/cpu_pll_0002.v Line: 91
     Info (12134): Parameter "fractional_vco_multiplier" = "false"
     Info (12134): Parameter "reference_clock_frequency" = "50.0 MHz"
     Info (12134): Parameter "operation_mode" = "direct"
     Info (12134): Parameter "number_of_clocks" = "3"
-    Info (12134): Parameter "output_clock_frequency0" = "10.000000 MHz"
+    Info (12134): Parameter "output_clock_frequency0" = "35.000000 MHz"
     Info (12134): Parameter "phase_shift0" = "0 ps"
     Info (12134): Parameter "duty_cycle0" = "50"
-    Info (12134): Parameter "output_clock_frequency1" = "10.000000 MHz"
-    Info (12134): Parameter "phase_shift1" = "51389 ps"
+    Info (12134): Parameter "output_clock_frequency1" = "35.000000 MHz"
+    Info (12134): Parameter "phase_shift1" = "9524 ps"
     Info (12134): Parameter "duty_cycle1" = "50"
-    Info (12134): Parameter "output_clock_frequency2" = "10.000000 MHz"
-    Info (12134): Parameter "phase_shift2" = "72222 ps"
+    Info (12134): Parameter "output_clock_frequency2" = "35.000000 MHz"
+    Info (12134): Parameter "phase_shift2" = "19048 ps"
     Info (12134): Parameter "duty_cycle2" = "50"
     Info (12134): Parameter "output_clock_frequency3" = "0 MHz"
     Info (12134): Parameter "phase_shift3" = "0 ps"
@@ -3416,24 +3381,28 @@ Info (12133): Instantiated megafunction "execution_unit:inst3|altsyncram:regfile
     Info (12134): Parameter "WRCONTROL_ACLR_A" = "NONE"
 Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_j2k1.tdf
     Info (12023): Found entity 1: altsyncram_j2k1 File: /home/edward/Documents/scp/quartus/db/altsyncram_j2k1.tdf Line: 28
-Warning (12241): 1 hierarchies have connectivity warnings - see the Connectivity Checks report folder
 Info (286030): Timing-Driven Synthesis is running
 Info (17049): 53 registers lost all their fanouts during netlist optimizations.
+Warning (20013): Ignored 16 assignments for entity "pll" -- entity does not exist in design
+    Warning (20014): Assignment for entity set_global_assignment -name IP_TOOL_NAME altera_pll -entity pll -sip pll.sip -library lib_pll was ignored
+    Warning (20014): Assignment for entity set_global_assignment -name IP_TOOL_VERSION 19.1 -entity pll -sip pll.sip -library lib_pll was ignored
+    Warning (20014): Assignment for entity set_global_assignment -name IP_TOOL_ENV mwpim -entity pll -sip pll.sip -library lib_pll was ignored
+Warning (20013): Ignored 317 assignments for entity "pll_0002" -- entity does not exist in design
 Info (144001): Generated suppressed messages file /home/edward/Documents/scp/quartus/output_files/scp.map.smsg
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 12 node(s), including 0 DDIO, 6 PLL, 0 transceiver and 0 LCELL
-Info (21057): Implemented 2250 device resources after synthesis - the final resource count might be different
+Info (21057): Implemented 2259 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 7 input pins
     Info (21059): Implemented 23 output pins
-    Info (21061): Implemented 1949 logic cells
+    Info (21061): Implemented 1958 logic cells
     Info (21064): Implemented 264 RAM segments
     Info (21065): Implemented 6 PLLs
     Info (21062): Implemented 1 DSP elements
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 189 warnings
-    Info: Peak virtual memory: 1082 megabytes
-    Info: Processing ended: Sun Nov 24 21:09:07 2019
-    Info: Elapsed time: 00:00:24
-    Info: Total CPU time (on all processors): 00:00:41
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 193 warnings
+    Info: Peak virtual memory: 1085 megabytes
+    Info: Processing ended: Mon Nov 25 20:45:47 2019
+    Info: Elapsed time: 00:00:27
+    Info: Total CPU time (on all processors): 00:00:43
 
 
 +------------------------------------------+
