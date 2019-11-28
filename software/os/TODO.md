@@ -24,7 +24,7 @@
     - [x] fork
     - [x] execv (will be execve)
         - [x] argv passing
-        - [ ] #! script handling
+        - [x] #! script handling
         - [x] binary header handling - proper paging
             - [x] Text segment write protection
             - [ ] Text segment sharing of processes of same exec file
@@ -55,7 +55,7 @@
         - [x] malloc
         - [ ] bsearch, qsort, div, ldiv, etc
         - [ ] int to string, string to int, etc
-    - [ ] setjmp
+    - [x] setjmp
     - [x] proper stdarg
     - [x] getopt
 
@@ -63,7 +63,7 @@
     - [x] ls
     - [x] mkdir
     - [x] rm
-        - [ ] rmdir and rm -r
+        - [x] rmdir and rm -r
     - [x] cat
     - [ ] ln
     - [ ] cp

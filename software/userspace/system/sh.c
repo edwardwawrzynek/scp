@@ -31,12 +31,16 @@ int interactive_flag = 0;
 
 /* read a line into the buffer */
 void readline() {
-    fgets(line, MAXCMDSIZE, file_in);
+    if(fgets(line, MAXCMDSIZE, file_in) == NULL) {
+        fprintf(stderr, "sh: reached eof on input\n");
+        exit(1);
+    }
     line_pos = line;
 }
 
 /* return a pointer to the next symbol (chars seperated by whitespace in the buffer) */
 char * get_next_sym() {
+
     /* skip whitespace */
     if(*line_pos == '\n') {
         *(line_pos -1) = ';';
@@ -48,7 +52,9 @@ char * get_next_sym() {
         line_pos++;
     }
     /* we previously marked end */
-    if(*line_pos == '\0') return '\0';
+    if(*line_pos == '\0') {/*  */
+        return '\0';
+    }
     char * initial = line_pos;
     /* initial now points to start of string */
     /* move line_pos past end of current string, set null */
@@ -247,6 +253,7 @@ int mainloop() {
     cmds_index = 0;
     if(interactive_flag) printf("$ ");
     if(feof(file_in)) return 1;
+    if(line_pos == NULL) readline();
     if(*line_pos == '\0') readline();
     /* step in parsing */
     enum parsing_mode mode = CMD;

@@ -23,7 +23,7 @@
 #endif
 
 /* buffer default size */
-#define BUFSIZE 64
+#define BUFSIZE 512
 
 #ifndef NULL
 #define NULL 0
@@ -42,11 +42,12 @@
 struct _file_buf {
     /* buffer itself */
     uint8_t buf[BUFSIZE];
-    /* position in buffer, or position of eof if read buffer */
-    /* if output buffer, this is the position of next char to be written */
-    /* if input buffer, this is the position of the eof char, or -1 if eof not present*/
-    /* if input buffer and pos is 0, we haven't read any data */
+    /* read/write position in buffer */
     uint16_t pos;
+
+    /* if input buffer, position of eof in buffer (-1 if no eof in buffer)
+    if buffer hasn't been read in yet, eof_pos is -2 */
+    uint16_t eof_pos;
 };
 
 enum _file_buf_mode {
@@ -55,12 +56,25 @@ enum _file_buf_mode {
     FULLBUF /* full buffering */
 };
 
-#define _FILE_DEFAULT_BUF_MODE NOBUF
+#define _FILE_DEFAULT_BUF_MODE FULLBUF
 
+/* setvbuf args */
+#define _IOFBF 1 /* full buffer */
+#define _IOLBF 2 /* line buffered */
+#define _IONBF 3 /* no buffered */
+
+/* file reading + writing mode */
 enum _file_rw_mode {
     READONLY,
     WRITEONLY,
     READWRITE,
+};
+
+/* current reading + writing mode */
+enum _file_cur_rw_mode {
+    NONE,
+    READING,
+    WRITING
 };
 
 typedef struct _file {
@@ -79,6 +93,9 @@ typedef struct _file {
     /* read write mode */
     enum _file_rw_mode rw_mode;
 
+    /* current read write mode */
+    enum _file_cur_rw_mode cur_mode;
+
     /* eof flag */
     uint8_t eof_flag;
 } FILE;
@@ -92,6 +109,8 @@ int16_t putchar(int16_t c);
 
 
 int16_t _fmode_to_flags(uint8_t *mode);
+void _free_file_buf(struct _file * file);
+void _file_read_buf_in(struct _file * file);
 
 struct _file * fopen(uint8_t * path, uint8_t *mode);
 struct _file * fdopen(uint16_t fd, uint8_t *mode);

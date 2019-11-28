@@ -11,16 +11,25 @@
 int fseek(struct _file * file, uint16_t location, uint16_t whence){
     _file_assert_magic(file);
 
+    /* flush contents */
+    if(file->cur_mode == WRITING && file->out_buf != NULL) {
+        /* fflush updates position fully */
+        fflush(file);
+    }
+    if(file->cur_mode == READING && file->in_buf != NULL) {
+        /* seek in file to where we actually are */
+        if(file->in_buf->eof_pos != -2) {
+            lseek(file->fd, file->in_buf->pos - (file->in_buf->eof_pos == -1 ? BUFSIZE: file->in_buf->eof_pos), SEEK_CUR);
+        }
+        /* invalidate input buffer */
+        file->in_buf->eof_pos = -2;
+        file->in_buf->pos = 0;
+    }
+
     /* clear eof */
     file->eof_flag = 0;
 
-    if(file->buf_mode == NOBUF) {
-        uint16_t res = lseek(file->fd, location, whence);
-        assert(res != -1);
-        return res;
-    } else {
-        /* TODO */
-    }
+    return lseek(file->fd, location, whence);
 }
 
 void rewind(struct _file * file){
@@ -43,4 +52,13 @@ void clearerr(struct _file *file){
 uint16_t feof(struct _file *file){
     _file_assert_magic(file);
     return file->eof_flag;
+}
+
+/* return current pos in file */
+
+uint16_t ftell(struct _file * file){
+    /* get pos we have read to, and adjust for data in buffer */
+    _file_assert_magic(file);
+
+    return fseek(file, 0, SEEK_CUR);
 }

@@ -49,16 +49,16 @@ int main(int argc, char** argv){
   L = t>L ? t : L;
   /* Output format is lines  words chars */
   if(!any_flag) {
-    printf("%d %d %d\n",l,w,b);
+    printf("%u %u %u\n",l,w,b);
   }
   if(lflg)
-    printf("%d ", l);
+    printf("%u ", l);
   if(Lflg)
-    printf("(%d) ", L);
+    printf("(%u) ", L);
   if(wflg)
-    printf("%d ", w);
+    printf("%u ", w);
   if(cflg)
-    printf("%d ", b);
+    printf("%u ", b);
   
   printf("\n");
 }
