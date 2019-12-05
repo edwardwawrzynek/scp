@@ -66,8 +66,20 @@ int print_file(char *file){
     if(s_flag){
         printf("%u Kb\t", (sentry.st_size/1024) + 1);
     }
+    if(F_flag) {
+        if(S_ISDEV(sentry.st_mode)){
+            printf("%c[93m", 0x1b);
+        } else if(S_ISFIFO(sentry.st_mode)){
+            printf("%c[91m", 0x1b);
+        } else if(S_ISDIR(sentry.st_mode)){
+            printf("%c[94m", 0x1b);
+        } else if(S_ISEXEC(sentry.st_mode)){
+            printf("%c[92m", 0x1b);
+        }
+    }
     printf("%s", file);
     if(F_flag){
+        printf("%c[39;49m", 0x1b);
         if(S_ISDEV(sentry.st_mode)){
             printf("#");
         } else if(S_ISFIFO(sentry.st_mode)){

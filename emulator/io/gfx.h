@@ -14,7 +14,11 @@ class GfxIO {
 
   /* text memory */
   uint16_t txt_mem_addr;
-  uint8_t txt_mem[2048];
+  uint16_t txt_mem[2048];
+
+  /* colored txt memory */
+  uint8_t txt_fg_mem[16];
+  uint8_t txt_bg_mem[16];
 
   /* gfx memory */
   uint16_t gfx_mem_addr;
@@ -36,7 +40,7 @@ class GfxIO {
   void set_pixel(uint16_t addr, uint8_t val);
 
   /* set a txt char on screen, or, if it is null, write data from gfx_mem to screen */
-  void set_txt(uint16_t addr, uint8_t val);
+  void set_txt(uint16_t addr, uint16_t val);
 
   /* convert an sdl keypress to scp keycode */
   uint16_t get_keycode(SDL_Keycode key, uint8_t release);

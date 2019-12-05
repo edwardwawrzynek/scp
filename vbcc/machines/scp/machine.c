@@ -1183,15 +1183,22 @@ void gen_code(FILE *f,struct IC *p,struct Var *v,zmax offset)
 
         /* TODO: do assigns with structs and arrays using memcpy */
         if((q1typ(p)&NQ) > POINTER){
-          printf("Memcpy assign not implemented\n");
-          ierror(0);
+          emit(f, "\t.extern ___crtmemcpy\n");
+          /* do the assignment by calling __crtmemcpy */
+          load_address(f, &(p->q1), q1typ(p), tmp1);
+          
+          load_address(f, &(p->z), ztyp(p), tmp1_h);
+          emit(f, "\tld.r.i %s %lu\n", regnames[tmp2], opsize(p));
+          emit(f, "\tcall.j.sp sp ___crtmemcpy\n");
+          //ierror(0);
+        } else {
+          /* get reg to load into */
+          reg1 = find_reg_to_load(f, &(p->q1), &(p->z), ztyp(p), tmp1);
+          /* load */
+          load_into_reg(f, &(p->q1), q1typ(p), reg1);
+          /* store */
+          store_from_reg(f, &(p->z), q1typ(p), reg1, tmp2);
         }
-        /* get reg to load into */
-        reg1 = find_reg_to_load(f, &(p->q1), &(p->z), ztyp(p), tmp1);
-        /* load */
-        load_into_reg(f, &(p->q1), q1typ(p), reg1);
-        /* store */
-        store_from_reg(f, &(p->z), q1typ(p), reg1, tmp2);
         break;
       /* alu ops */
       case OR:

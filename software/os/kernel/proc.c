@@ -135,7 +135,7 @@ void proc_init_kernel_entry(){
     if(seg0_offset != 0 || seg1_offset != seg0_size || (((uint16_t)(&_BRK_END)-1)>>MMU_PAGE_SIZE_SHIFT)+1 != seg1_offset + seg1_size){
         panic(PANIC_KERNEL_HEADER_FORMAT_ERROR);
     }
-    for(page = 0; page < seg1_offset + seg1_size; ++page){
+    for(page = 0; page < seg1_offset + seg1_size; page++){
         entry->mem_map[page] = palloc_new();
     }
     entry->mem_struct.instr_pages = seg0_size;
@@ -162,7 +162,9 @@ void proc_kernel_expand_brk(uint8_t *brk){
         }
     }
     proc_write_mem_map(&proc_table[0]);*/
-    proc_set_brk(&proc_table[0], brk);
+    if(proc_set_brk(&proc_table[0], brk)) {
+        panic(0);
+    }
 }
 
 /* init's the mem_map for a process from the the proc's proc_mem struct

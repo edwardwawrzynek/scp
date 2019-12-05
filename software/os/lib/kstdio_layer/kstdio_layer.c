@@ -13,13 +13,20 @@
 
 /* the current output device */
 static uint8_t cur_out_dev = DEV_NUM_TTY;
+static uint8_t kstdio_up_f = 0;
 
 /* Init kstdio layer */
 void kstdio_layer_init(int dev_index){
     cur_out_dev = dev_index;
+    kstdio_up_f = 1;
     if(devices[dev_index]._open(0, NULL)){
         panic(PANIC_KSTDIO_LAYER_INIT_FAILED);
     }
+}
+
+/* return true if kstdio layer is up */
+int kstdio_up() {
+    return kstdio_up_f;
 }
 
 /* set the output device */

@@ -153,9 +153,11 @@ void in_objs_clear_do_lnk(){
 }
 
 /* recursivley add object dependencies (mark do_lnk as true) for a symbol */
-void add_symbol_deps(char * symbol){
+void add_symbol_deps(char * symbol, int do_debug){
     /* find symbol */
     int file_index = find_defined_symbol_file(symbol);
+    if(do_debug)
+        printf(BIN_NAME ": dependency added on symbol: %s\n", symbol);
     if(file_index == -1){
         /* no symbol found - error */
         printf(BIN_NAME ": error:\nundefined reference to '%s'\n", symbol);
@@ -169,7 +171,9 @@ void add_symbol_deps(char * symbol){
     in_objs_do_lnk[file_index] = 1;
     for(int n = 0; n < extern_size[file_index]; n++){
         if(extern_tables[file_index][n].seg == 0xff){
-            add_symbol_deps(extern_tables[file_index][n].name);
+            if(do_debug)
+                printf(BIN_NAME ": symbol %s adds dependency for %s\n", symbol, extern_tables[file_index][n].name);
+            add_symbol_deps(extern_tables[file_index][n].name, do_debug);
         }
     }
 

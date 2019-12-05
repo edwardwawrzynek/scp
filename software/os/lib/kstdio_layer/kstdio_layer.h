@@ -10,4 +10,5 @@ int getchar(void);
 int putchar(int c);
 void kstdio_set_output_dev(int dev_index);
 void kstdio_layer_init(int dev_index);
+int kstdio_up();
 void kstdio_ioctl(int req_code, uint16_t arg);

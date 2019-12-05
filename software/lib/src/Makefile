@@ -1,15 +1,27 @@
-# C Runtime
-CRT_BIN = ../bin/crt0.a
+include gmsl
 
-CRT_HEADERS =
+# TARGET specifies that type of libraries to produce
+# ARCHIVE - archive libraries
+# OBJECT - object libraries
+# NDEBUG - archives with NDEBUG defined
+
+ifndef TARGET
+	TARGET=ARCHIVE
+endif
+
+# Target bin folders
+ARCHIVE_DIR = ../bin/
+OBJECT_DIR = ../bin/obj_bin/
+NDEBUG_DIR = ../bin/ndebug/
+
+# C Runtime
+CRT_NAME = crt0
 
 CRT_OBJS =\
 crt/crt0.o	crt/div.o
 
 # C Library
-LIBC_BIN = ../bin/libc.a
-
-LIBC_HEADERS =
+LIBC_NAME = libc
 
 LIBC_OBJS = \
 stdio/_file_open.o	stdio/_file_buf.o	stdio/fseek.o		\
@@ -39,18 +51,13 @@ syscall/syscall_asm.o	syscall/syscall_lib.o	syscall/getopt.o			\
 setjmp/setjmp.o\
 
 #inp and outp (seperate from libc)
-INOUTP_BIN = ../bin/libinout.a
-
-INOUTP_HEADERS = \
-inout/inout.h
+INOUTP_NAME = libinout
 
 INOUTP_OBJS = \
 inout/inoutp.o
 
 #gfx library
-GFX_BIN = ../bin/libgfx.a
-
-GFX_HEADERS =
+GFX_NAME = libgfx
 
 GFX_OBJS = \
 gfx/gfx.o gfx/gfx_asm.o
@@ -62,11 +69,13 @@ CFLAGS = -c99
 
 CFLAGS += -O1 -size
 
+ifeq ($(TARGET),NDEBUG)
+	CFLAGS += -DNDEBUG
+endif
+
 LDFLAGS =
 
 LD = scplnk
-
-all: $(LIBC_BIN) $(CRT_BIN) $(INOUTP_BIN) $(GFX_BIN)
 
 %.o: %.c $(LIBC_HEADERS) $(CRT_HEADERS) $(INOUTP_HEADERS)
 	$(CC) -c -o $@ $< $(CFLAGS)
@@ -74,17 +83,41 @@ all: $(LIBC_BIN) $(CRT_BIN) $(INOUTP_BIN) $(GFX_BIN)
 %.o: %.asm
 	$(CC) -c -o $@ $< $(CFLAGS)
 
-$(LIBC_BIN): $(LIBC_OBJS)
-	$(LD) -o $(LIBC_BIN) $(LIBC_OBJS) $(LDFLAGS)
+define make-target
+	$(1) = $(2)/$(3)
+endef
 
-$(CRT_BIN): $(CRT_OBJS)
-	$(LD) -o $(CRT_BIN) $(CRT_OBJS) $(LDFLAGS)
+define make-lib-link
+$(1): $(2)
+	$(LD) -o $(1) $(2) $(LDFLAGS)
+endef
 
-$(INOUTP_BIN): $(INOUTP_OBJS)
-	$(LD) -o $(INOUTP_BIN) $(INOUTP_OBJS) $(LDFLAGS)
+ifeq ($(TARGET),ARCHIVE)
+	BIN_DIR = $(ARCHIVE_DIR)
+	BIN_END=a
+endif
 
-$(GFX_BIN): $(GFX_OBJS)
-	$(LD) -o $(GFX_BIN) $(GFX_OBJS) $(LDFLAGS)
+ifeq ($(TARGET),OBJECT)
+	BIN_DIR = $(OBJECT_DIR)
+	BIN_END=o
+endif
+
+ifeq ($(TARGET),NDEBUG)
+	BIN_DIR = $(NDEBUG_DIR)
+	BIN_END=a
+endif
+
+
+define make-lib-from-name
+	$(eval $(call make-lib-link,$(BIN_DIR)$1.$(BIN_END),$2))
+endef
+
+all: $(BIN_DIR)$(CRT_NAME).$(BIN_END) $(BIN_DIR)$(LIBC_NAME).$(BIN_END) $(BIN_DIR)$(INOUTP_NAME).$(BIN_END) $(BIN_DIR)$(GFX_NAME).$(BIN_END)
+
+$(call make-lib-from-name,$(CRT_NAME),$(CRT_OBJS))
+$(call make-lib-from-name,$(LIBC_NAME),$(LIBC_OBJS))
+$(call make-lib-from-name,$(INOUTP_NAME),$(INOUTP_OBJS))
+$(call make-lib-from-name,$(GFX_NAME),$(GFX_OBJS))
 
 clean:
 	rm -f $(LIBC_OBJS) $(CRT_OBJS) $(INOUTP_OBJS) $(GFX_OBJS)

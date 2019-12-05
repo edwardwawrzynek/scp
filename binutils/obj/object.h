@@ -105,6 +105,9 @@ struct obj_file {
   uint8_t cur_seg;
   /* current position (in byte offset) in each segment */
   uint32_t segs_pos[4];
+
+  /* last literal position in file that was fseek'd or incremented with getc/putc */
+  uint32_t last_pos;
 };
 
 /**

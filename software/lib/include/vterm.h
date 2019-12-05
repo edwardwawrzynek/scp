@@ -47,6 +47,8 @@ typedef uint8_t vterm_charset_t;
 #define vterm_charset_0 0
 #define vterm_charset_1 1
 
+#define vterm_getc_blocking 256
+
 /* virtual terminal object */
 struct vterm {
   /* terminal size */
@@ -61,8 +63,12 @@ struct vterm {
   void (*putc)(char c, uint16_t x, uint16_t y, vterm_atr_t atr, vterm_clr_t fg_color, vterm_clr_t bg_color, vterm_charset_t charset);
   /* enable handling of vterm_key_* codes in getc */
   uint8_t flag_handle_getc_codes;
+  /* vterm_key_* handling values */
+  uint8_t _shifted;
   /* get a character from input (it can contain escape sequences, which will be passed through, or will handle vterm_key_* codes) */
-  uint8_t (*getc)();
+  /* getc should return vterm_getc_blocking if no key is available 
+   * if a key was released, getc should return it with 0x100 added to it */
+  uint16_t (*getc)();
   /* call scroll when scrolling has to happen instead of doing scrolling with repeated calls to putc
   if this is 0, a buffer will be maintained */
   uint8_t flag_call_scroll;
@@ -81,11 +87,11 @@ struct vterm {
   uint8_t _getc_buf[16];
   uint8_t _getc_buf_pos;
 
-  /* buffer of escape codes being written out that aren't done yet */
+  /* buffer of escape codes being written out that aren't done yet. fifo buffer */
   uint8_t _putc_buf[16];
   uint8_t _putc_buf_pos;
 
-  /* screen buffer (malloc'd if flag_call_scroll == 0) */
+  /* screen buffer (malloc'd if flag_call_scroll == 0). fifo buffer */
   uint8_t * _buf;
   /* screen attribute + color buffer + charset (encoded into one word each) */
   uint16_t * _buf_atr;
@@ -111,9 +117,47 @@ struct vterm {
 typedef struct vterm vterm_t;
 
 /* create a new virtual terminal */
-vterm_t * vterm_new(uint16_t width, uint16_t height, void (*putc)(char c, uint16_t x, uint16_t y, vterm_atr_t atr, vterm_clr_t fg_color, vterm_clr_t bg_color, vterm_charset_t charset), uint8_t (*getc)(), uint8_t handle_sgr_bold, uint16_t handle_getc_codes, uint8_t has_scroll_func, void (*scroll)(), void (*bell)());
+vterm_t * vterm_new(uint16_t width, uint16_t height, void (*putc)(char c, uint16_t x, uint16_t y, vterm_atr_t atr, vterm_clr_t fg_color, vterm_clr_t bg_color, vterm_charset_t charset), uint16_t (*getc)(), uint8_t handle_sgr_bold, uint16_t handle_getc_codes, uint8_t has_scroll_func, void (*scroll)(), void (*bell)());
 
 /* print a character to the virtual terminal */
-void vterm_putc(vterm_t * term, char c);
+void vterm_putc(vterm_t * term, uint8_t c);
+
+/* get a character from a virtual terminal 
+ * returns vterm_getc_blocking if no key is available */
+uint16_t vterm_getc(vterm_t * term);
+
+/* special key definitions */
+#define vterm_key_up 29
+#define vterm_key_left 28
+#define vterm_key_right 30
+#define vterm_key_down 31
+
+#define vterm_key_shift 16
+#define vterm_key_ctrl 17
+#define vterm_key_alt 18
+#define vterm_key_tab 9
+#define vterm_key_backspace 8
+#define vterm_key_esc 27
+#define vterm_key_caps_lock 20
+#define vterm_key_del 46
+#define vterm_key_page_up 33
+#define vterm_key_page_down 34
+#define vterm_key_insert 45
+#define vterm_key_home 36
+#define vterm_key_end 35
+#define vterm_key_enter 13
+
+#define vterm_key_f1 11
+#define vterm_key_f2 12
+#define vterm_key_f3 13
+#define vterm_key_f4 14
+#define vterm_key_f5 15
+#define vterm_key_f6 19
+#define vterm_key_f7 20
+#define vterm_key_f8 21
+#define vterm_key_f9 22
+#define vterm_key_f10 23
+#define vterm_key_f11 24
+#define vterm_key_f12 25
 
 #endif

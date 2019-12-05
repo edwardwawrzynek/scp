@@ -39,7 +39,11 @@ lib/string/strcspn.o	lib/string/strlen.o	lib/string/strncat.o	lib/string/strnchr
 lib/string/strncmp.o	lib/string/strncpy.o	lib/string/strnlen.o					\
 lib/string/strpbrk.o	lib/string/strrchr.o	lib/string/strspn.o	lib/string/strstr.o		\
 lib/string/strcmp.o									\
-lib/vterm/vterm.o								\
+lib/vterm/vterm.o		lib/string/strtol.o					\
+lib/ctype/isalnum.o  lib/ctype/isdigit.o  lib/ctype/ispunc.o    lib/ctype/tolower.o \
+lib/ctype/isalpha.o  lib/ctype/isgraph.o  lib/ctype/isspace.o   lib/ctype/toupper.o \
+lib/ctype/isblank.o  lib/ctype/islower.o  lib/ctype/isupper.o \
+lib/ctype/iscntrl.o  lib/ctype/isprint.o  lib/ctype/isxdigit.o \
 \
 lib/inout/inoutp.o										\
 lib/kmalloc/kmalloc.o									\

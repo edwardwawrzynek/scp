@@ -87,7 +87,7 @@ uint32_t CPU::hard_addr(uint16_t addr, uint8_t is_write) {
         fprintf(stderr, "priv_lv: %u\n", priv_lv);
         fprintf(stderr, "pc at fault: 0x%x\n", pc);
         std::cerr << "current sp page (in proc): " << (uint16_t)(regs[15] >> 11) << "\n";
-	    nop_debug(16);
+	    nop_debug(1023);
         std::cerr << "Unassigned MMU Page Attempted Access\n";
 	    //exit(1);
         while(1);
@@ -103,7 +103,7 @@ uint32_t CPU::hard_addr(uint16_t addr, uint8_t is_write) {
         fprintf(stderr, "priv_lv: %u\n", priv_lv);
         fprintf(stderr, "pc at fault: 0x%x\n", pc);
         std::cerr << "current sp page (in proc): " << (uint16_t)(regs[15] >> 11) << "\n";
-	    nop_debug(16);
+	    nop_debug(1023);
         std::cerr << "Text Segment MMU Restriction Violation\n";
 	    //exit(1);
         while(1);
@@ -168,6 +168,7 @@ uint16_t CPU::alu(uint8_t opcode, uint16_t a, uint16_t b) {
         case 8: return a * b;
         case 9: return ~a;
         case 10: return -a;
+        case 11: return !a;
         default: return a;
     }
 }
@@ -253,7 +254,7 @@ void CPU::execute(uint16_t instr, uint16_t imd) {
         case NOP_N_N: /* nop.n.n - no operation*/
 
             /* if specific value are encoded in the nop, run debug outputs */
-            //nop_debug(imd);
+            nop_debug(instr & 0x03ff);
             //don't do this - causing issues with file headers triggering it
             break;
 
@@ -588,7 +589,7 @@ void CPU::check_ints(){
 /* do a nop debug */
 void CPU::nop_debug(uint16_t instr){
     switch(instr){
-        case 16:
+        case 1023:
             for(int i = 0; i < 2048; i++){
                 if(i % 32 == 0){
                     printf("\nProc %02x|", i / 32);

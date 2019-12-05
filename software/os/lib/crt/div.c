@@ -3,6 +3,11 @@
  * Uses a binary long division algorithm. Very inefficient, but should work.
  * Edward Wawrzynek */
 
+/* memcpy */
+void __crtmemcpy(__reg("rb") char * dest, __reg("ra") char * src, __reg("rc") unsigned int count) {
+	while (count--)
+		*dest++ = *src++;
+}
 
 /* unsigned divide */
 unsigned int __crtudiv(unsigned int num, unsigned int den){

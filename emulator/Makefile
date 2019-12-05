@@ -8,7 +8,7 @@ DEPS = cpu.h debug.h opcodes.h io/gfx.h io/io.h io/ports.h io/serial.h io/disk.h
 	g++ -std=c++11 -O3 -Wall -c -o $@ $<
 
 scpemu: $(OBJS)
-	g++ -O3 -std=c++11 -o scpemu -Wall $(OBJS) -lserialport -lSDL2
+	g++ -O3 -std=c++11 -g -o scpemu -Wall $(OBJS) -lserialport -lSDL2
 
 .PHONY: install uninstall
 

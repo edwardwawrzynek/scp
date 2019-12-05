@@ -61,6 +61,7 @@ uint16_t IO::io_read(uint8_t port){
     return io_disk.io_read(port);
   }
 
+  printf("Attempted read on port %i\n", port);
   std::cout << "Undefined port access, or subsystem not enabled\n";
   return 0;
 }
@@ -79,6 +80,7 @@ void IO::io_write(uint8_t port, uint16_t val){
     return;
   }
 
+  printf("Attempted write on port %i\n", port);
   std::cout << "Undefined port access, or subsystem not enabled\n";
 }
 

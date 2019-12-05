@@ -26,7 +26,8 @@ void usage(){
         \n-D\tsym_db\t:output symbol debugging info in sym_db\
         \n-S\t\t:don't do static dependency optimization\
         \n-Q\t\t:don't detect duplicate symbols\
-        \n-h\t\t:print usage\n");
+        \n-h\t\t:print usage\
+        \n-T\t\t:print dependency tree info\n");
 }
 
 void run_lnk(void);
@@ -61,6 +62,9 @@ int do_out_ar = 0;
 
 int in_objs_index = 0;
 
+/* print dependency tree */
+int do_dependency_tree = 0;
+
 /* add a obj to in_objs from arg */
 uint8_t add_obj(char * name){
   FILE * file = fopen(name, "r");
@@ -82,7 +86,7 @@ int main(int argc, char *argv[]){
   char * outfile = "out.bin";
   int opt;
   /* read options */
-  while((opt = getopt(argc, argv, "o:rpl:L:OASD:hQ")) != -1) {
+  while((opt = getopt(argc, argv, "o:rpl:L:OASD:hQT")) != -1) {
     switch(opt){
       case 'o':
         outfile = optarg;
@@ -121,6 +125,9 @@ int main(int argc, char *argv[]){
       case 'Q':
 	      do_duplicate_detect = 0;
 	      break;
+      case 'T':
+        do_dependency_tree = 1;
+        break;
       case 'h':
       case '?':
         usage();
@@ -150,7 +157,7 @@ int main(int argc, char *argv[]){
   /* open all libraries specified with -l */
   for(int l = 0; l < lib_path_index; l++){
     /* go through each -L path */
-    for(int d=0; d < lib_search_dirs_index; d++){
+    for(int d=lib_search_dirs_index-1; d >= 0; d--){
       /* try lib_.o variant */
       if(
         sprintf(lib_buf, "%slib%s.o", lib_search_dirs[d], lib_path[l]),
@@ -161,16 +168,19 @@ int main(int argc, char *argv[]){
         FILE * f = fopen(lib_buf, "r");
         if(f != NULL) {
           printf(BIN_NAME ": error: both lib%s.o and lib%s.a exist\n", lib_path[l], lib_path[l]);
+          exit(1);
         }
-        exit(1);
+        break;
       } else if (
         sprintf(lib_buf, "%slib%s.a", lib_search_dirs[d], lib_path[l]),
         !add_obj(lib_buf)
       ){
-
+        break;
       } else {
-        printf(BIN_NAME ": error: no such library found: %s\n", lib_path[l]);
-        exit(1);
+        if(d == 0) {
+          printf(BIN_NAME ": error: no such library found: lib%s\n", lib_path[l]);
+          exit(1);
+        }
       }
     }
   }
@@ -200,7 +210,7 @@ void run_lnk_bin(){
 
   if(do_dep_opt){
     in_objs_clear_do_lnk();
-    add_symbol_deps("_START");
+    add_symbol_deps("_START", do_dependency_tree);
   }
 
   bin_create_segs(do_head, do_pages);

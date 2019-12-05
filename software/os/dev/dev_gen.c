@@ -61,7 +61,7 @@ int _tty_getc(tty_dev_t * tty_dev, int (*getc)()) {
  * also handle echoing */
 uint8_t _dev_tty_write_into_buf(uint8_t *buf, uint8_t c, uint8_t* ind, uint8_t echo, int (*putc)(char), uint8_t last_write_end, tty_dev_t * tty_dev){
     /* handle backspace */
-    if(c == 0x8){
+    if(c == 0x7f){
         buf[*ind] = '\0';
         if(*ind > last_write_end){
             (*ind)--;

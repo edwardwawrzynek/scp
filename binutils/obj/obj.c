@@ -1,6 +1,16 @@
 #include "object.h"
 
 /**
+ * obj_file fseek
+ */
+static void _obj_fseek(struct obj_file * obj, size_t location, uint8_t do_opt) {
+  if(location != obj->last_pos || !do_opt) {
+    fseek(obj->file, location, SEEK_SET);
+  }
+  obj->last_pos = location;
+}
+
+/**
  * error */
 static void _obj_error(char *msg){
   printf("scp obj: error:\n%s\n", msg);
@@ -37,7 +47,7 @@ static uint32_t _obj_read_val(FILE *f, uint8_t bytes){
  * asumes segs and file is init in obj_file */
 void obj_write_header(struct obj_file *obj){
   /* seek to header start */
-  fseek(obj->file, 0 + obj->offset, SEEK_SET);
+  _obj_fseek(obj, 0 + obj->offset, 0);
   /* write out magic number */
   _obj_write_val(obj->file, _OBJ_MAGIC_NUMBER, 4);
   /* write out blank */
@@ -64,11 +74,12 @@ void obj_write_header(struct obj_file *obj){
 int obj_test_header(struct obj_file *obj){
   int res = 0;
   /* seek to header start */
-  fseek(obj->file, 0 + obj->offset, SEEK_SET);
+  _obj_fseek(obj, 0 + obj->offset, 0);
+  
   /* read magic number, and make sure it is right */
   if(_obj_read_val(obj->file, 4) != _OBJ_MAGIC_NUMBER) res = 0;
   else res = 1;
-  fseek(obj->file, 0, SEEK_SET);
+  _obj_fseek(obj, 0, 0);
   return res;
 }
 
@@ -78,11 +89,11 @@ int obj_test_header(struct obj_file *obj){
 int ar_test_header(struct obj_file *obj) {
   int res = 0;
   /* seek to header start */
-  fseek(obj->file, 0 + obj->offset, SEEK_SET);
+  _obj_fseek(obj, 0 + obj->offset, 0);
   /* read magic number, and make sure it is right */
   if(_obj_read_val(obj->file, 4) != _AR_MAGIC_NUMBER) res = 0;
   else res = 1;
-  fseek(obj->file, 0, SEEK_SET);
+  _obj_fseek(obj, 0, 0);
   return res;
 }
 
@@ -90,7 +101,7 @@ int ar_test_header(struct obj_file *obj) {
  * init an obj_segs object by reading in the header of the obj_file */
 void obj_read_header(struct obj_file *obj){
   /* seek to header start */
-  fseek(obj->file, 0 + obj->offset, SEEK_SET);
+  _obj_fseek(obj, 0 + obj->offset, 0);
   /* read magic number, and make sure it is right */
   if(_obj_read_val(obj->file, 4) != _OBJ_MAGIC_NUMBER){
     _obj_error("Expected Magic Number to start file");
@@ -152,6 +163,8 @@ void obj_init(struct obj_file *obj){
   obj->segs_pos[2] = 0;
   obj->segs_pos[3] = 0;
 
+  obj->last_pos = -1;
+
 }
 
 /**
@@ -185,13 +198,14 @@ void obj_create_header(struct obj_file *obj, uint32_t seg0, uint32_t seg1, uint3
 void obj_expand_extern(struct obj_file *obj, uint32_t extern_symbols){
   obj->segs.extern_table.size = extern_symbols * _OBJ_SYMBOL_ENTRY_SIZE;
   /* seek to the right spot in header */
-  fseek(obj->file, 13*4 + obj->offset, SEEK_SET);
+  _obj_fseek(obj, 13*4 + obj->offset, 0);
+  
   _obj_write_val(obj->file, obj->segs.extern_table.size, 4);
 }
 
 /* write a symbol entry object to addr in obj's file */
 static void _obj_write_symbol(struct obj_file *obj, struct obj_symbol_entry *sym, uint32_t addr){
-  fseek(obj->file, addr + obj->offset, SEEK_SET);
+  _obj_fseek(obj, addr + obj->offset, 0);
   /* write name */
   uint8_t hit_null = 0;
   for(uint8_t i = 0; i < _OBJ_SYMBOL_SIZE; i++){
@@ -216,7 +230,7 @@ static void _obj_write_symbol(struct obj_file *obj, struct obj_symbol_entry *sym
 
 /* read in a symbol entry from an addr in an obj's file */
 static void _obj_read_symbol(struct obj_file *obj, struct obj_symbol_entry *sym, uint32_t addr){
-  fseek(obj->file, addr + obj->offset, SEEK_SET);
+  _obj_fseek(obj, addr + obj->offset, 0);
   /* read in name */
   for(uint8_t i = 0; i < _OBJ_SYMBOL_SIZE; i++){
     sym->name[i] = _obj_read_val(obj->file, 1);
@@ -306,9 +320,10 @@ static void _obj_write(struct obj_file *obj, uint8_t val){
   if(obj->segs_pos[obj->cur_seg] >= obj->segs.segs[obj->cur_seg].size){
     _obj_error("seg size overrun");
   }
-  fseek(obj->file, obj->segs.segs[obj->cur_seg].offset + obj->segs_pos[obj->cur_seg] + obj->offset, SEEK_SET);
+  _obj_fseek(obj, obj->segs.segs[obj->cur_seg].offset + obj->segs_pos[obj->cur_seg] + obj->offset, 1);
   obj->segs_pos[obj->cur_seg]++;
   fputc(val, obj->file);
+  obj->last_pos++;
 }
 
 /* write a constant byte (+meta byte) to the current segment */
@@ -361,8 +376,10 @@ static int _obj_read_byte(struct obj_file *obj){
   if(obj->segs_pos[obj->cur_seg] >= obj->segs.segs[obj->cur_seg].size){
     return -1;
   }
-  fseek(obj->file, obj->segs.segs[obj->cur_seg].offset + obj->segs_pos[obj->cur_seg] + obj->offset, SEEK_SET);
+  _obj_fseek(obj, obj->segs.segs[obj->cur_seg].offset + obj->segs_pos[obj->cur_seg] + obj->offset, 1);
   obj->segs_pos[obj->cur_seg]++;
+
+  obj->last_pos++;
   return fgetc(obj->file);
 }
 

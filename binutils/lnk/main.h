@@ -4,6 +4,7 @@ void run_lnk_obj();
 void run_lnk_bin();
 int main(int argc,char *argv[]);
 uint8_t add_obj(char *name);
+extern int do_dependency_tree;
 extern int in_objs_index;
 extern int do_out_ar;
 extern int do_duplicate_detect;

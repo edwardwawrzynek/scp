@@ -23,7 +23,7 @@
 #endif
 
 /* buffer default size */
-#define BUFSIZE 512
+#define BUFSIZE 64
 
 #ifndef NULL
 #define NULL 0

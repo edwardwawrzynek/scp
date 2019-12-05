@@ -112,10 +112,27 @@ static int tty_getc(){
     }
 }
 
+uint8_t color_i = 0;
 /* vterm putc */
-void _tty_vterm_putc(char c, uint16_t x, uint16_t y, vterm_atr_t atr, vterm_clr_t fg, vterm_clr_t bg, vterm_charset_t charset) {
+void _tty_vterm_putc(uint8_t c, uint16_t x, uint16_t y, vterm_atr_t atr, vterm_clr_t fg, vterm_clr_t bg, vterm_charset_t charset) {
+    /* generate colors */
+    uint8_t fg_color;
+    uint8_t bg_color;
+    if(fg == vterm_clr_default) fg_color = 0; /* bright white default fg */
+    else if(fg == vterm_clr_black) fg_color = 15;
+    else if(fg == vterm_clr_bold(vterm_clr_white)) fg_color = 0;
+    else fg_color = fg;
+    if(bg == vterm_clr_default) bg_color = 0; /* black default bg */
+    else bg_color = bg;
     outp(_text_addr_port, x + y * 80);
-    outp(_text_data_port, c);
+    outp(_text_data_port, c + (fg_color << 8) + (bg_color << 12));
+}
+
+/* vterm getc */
+uint16_t _tty_vterm_getc(){
+    uint16_t c = tty_getc_plain();
+    if(c == DEV_BLOCKING || c == DEV_EOF) return vterm_getc_blocking;
+    return c;
 }
 
 int _tty_real_putc(char c) {
@@ -123,10 +140,14 @@ int _tty_real_putc(char c) {
     return 0;
 }
 
+int _tty_real_getc() {
+    return vterm_getc(tty_vterm);
+}
+
 /* open a tty - only allow opening a single tty */
 int _tty_open(int minor, struct inode *f){
     if(tty_vterm == NULL) {
-        tty_vterm = vterm_new(80, 25, &_tty_vterm_putc, NULL, 1, 1, 1, &tty_scroll, NULL);
+        tty_vterm = vterm_new(80, 25, &_tty_vterm_putc, &_tty_vterm_getc, 1, 1, 1, &tty_scroll, NULL);
     }
     if(minor)
         return -1;
@@ -147,6 +168,6 @@ int _tty_close(int minor, struct inode *f){
 gen_tty_write_from_putc(_tty_write, _tty_real_putc, tty.tty_dev)
 
 //gen_read_from_getc(_tty_read, tty_getc)
-gen_tty_read_from_getc(_tty_read, tty_getc, _tty_real_putc, tty.tty_dev)
+gen_tty_read_from_getc(_tty_read, _tty_real_getc, _tty_real_putc, tty.tty_dev)
 
 gen_tty_ioctl_from_tty_dev(_tty_ioctl, tty.tty_dev)

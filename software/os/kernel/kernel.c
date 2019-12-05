@@ -17,20 +17,16 @@
 //perform a broad initilization of the kernel
 void kernel_init(){
   //set all mmu entries but proc 0 (kernel) to be unassigned
-  printf("Init MMU System\t\t\t");
   mmu_init_clear_table();
   //bring up filesystem
-  printf("[ OK ]\nStart Filesystem\t\t");
   fs_init();
-  printf("[ OK ]\nStart Proccess System\t\t");
   //init proc table
   proc_init_table();
   //init kernel entry
   proc_init_kernel_entry();
-  printf("[ OK ]\nStart IO System\t\t\t");
   //start kstdio layer
   kstdio_layer_init(DEV_NUM_TTY);
-  printf("[ OK ]\n");
+  printf("Booting Kernel\nInit MMU System\t\t\t[ %c[92mOK%c[39m ]\nStart Filesystem\t\t[ %c[92mOK%c[39m ]\nStart Proccess System\t\t[ %c[92mOK%c[39m ]\nStart IO System\t\t\t[ %c[92mOK%c[39m ]\n", 0x1b, 0x1b, 0x1b, 0x1b, 0x1b, 0x1b, 0x1b, 0x1b);
 }
 
 /* create the init process from the /init binary, and run it
@@ -48,7 +44,7 @@ void kernel_start_init(char * initpath, uint8_t print_ok){
 
   if(proc == NULL) return;
 
-  if(print_ok) printf("[ OK ]\n");
+  if(print_ok) printf("[ %c[92mOK%c[39m ]\n", 0x1b, 0x1b);
 
   /* return from kernel */
   shed_shedule();
@@ -137,7 +133,7 @@ uint8_t * kernel_map_in_mem2(uint8_t * pointer, struct proc * proc){
 void kernel_exit() {
   printf("Flush Filesystem to disk\t");
   fs_close();
-  printf("[ OK ]\nShutdown\t\t\t[ OK ]\n");
+  printf("[ %c[92mOK%c[39m ]\nShutdown\t\t\t[ %c[92mOK%c[39m ]\n");
 }
 
 void kernel_shutdown() {
@@ -160,7 +156,7 @@ void kernel_reboot() {
   uint16_t bytes = file_read(bios, buf, 512);
   if(bytes == 0) panic(PANIC_NO_BIOS_FILE);
 
-  printf("[ OK ]\n");
+  printf("[ %c[92mOK%c[39m ]\n");
   kernel_exit();
 
   /* clear text protection on kernel pages */

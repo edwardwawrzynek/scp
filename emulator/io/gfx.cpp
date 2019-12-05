@@ -14,9 +14,67 @@ void GfxIO::reset(){
   key_read_addr = 0;
   key_write_addr = 0;
 
-  memset(txt_mem, 0, 2048*sizeof(uint8_t));
+  memset(txt_mem, 0, 2048*sizeof(uint16_t));
   memset(gfx_mem, 0, 65536*sizeof(uint8_t));
   memset(key_mem, 0, 256*sizeof(uint16_t));
+
+  /* foreground has white as color 0 and black as 15, background has white as 15 and black as 0, same otherwise */
+  /* this makes it so that text with 0 high byte is displayed white on black */
+  /* color order: 
+    0 - black/bright white
+    1 - red
+    2 - green
+    3 - yellow
+    4 - blue
+    5 - magenta
+    6 - cyan
+    7 - white (grey)
+    8 - bright black
+    9 - bright red
+    10 - bright green
+    11 - bright yellow
+    12 - bright blue
+    13 - bright magenta
+    14 - bright cyan
+    15 - bright white */
+  uint8_t fg[] = {
+    255, 
+    160,
+    20,
+    180,
+    2,
+    162,
+    22,
+    182,
+    73,
+    233,
+    93,
+    253,
+    75,
+    235,
+    95,
+    0
+  };
+  memcpy(txt_fg_mem, fg, sizeof(uint8_t) * 16);
+  uint8_t bg[] = {
+    0, 
+    160,
+    20,
+    180,
+    2,
+    162,
+    22,
+    182,
+    73,
+    233,
+    93,
+    253,
+    75,
+    235,
+    95,
+    255
+  };
+  memcpy(txt_bg_mem, bg, sizeof(uint8_t) * 16);
 }
 
 /**
@@ -84,7 +142,7 @@ void GfxIO::set_pixel(uint16_t addr, uint8_t val){
 /**
  * set a char on the screen, or, if it is null, set its space to the gfx contents in its spot */
 //write a char to the window
-void GfxIO::set_txt(uint16_t addr, uint8_t val){
+void GfxIO::set_txt(uint16_t addr, uint16_t val){
   uint16_t x;
   uint16_t y;
 
@@ -94,7 +152,16 @@ void GfxIO::set_txt(uint16_t addr, uint8_t val){
   uint8_t color;
 
   //write to memory
+  if(addr > 2000) {
+    return;
+  }
   txt_mem[addr] = val;
+
+  //get color selectors
+  uint8_t fg_index = (val>>8)&0xf;
+  uint8_t bg_index = (val>>12)&0xf;
+  uint8_t fg_color = txt_fg_mem[fg_index];
+  uint8_t bg_color = txt_bg_mem[bg_index];
 
   //x and y in terms of text location
   x = addr%80;
@@ -104,9 +171,9 @@ void GfxIO::set_txt(uint16_t addr, uint8_t val){
   pos = x*8 + (y*16*640);
   //write text data if the char isn't zero
   if(val){
-    charset = gfx_charset[val];
+    charset = gfx_charset[val&0xff];
     for(i = 0; i < 64; ++i){
-      color = charset&0x8000000000000000 ? 0xff : 0;
+      color = charset&0x8000000000000000 ? fg_color: bg_color;
       sdl_set_pixel(pos, color);
       sdl_set_pixel(pos+640, color);
       charset = charset << 1;

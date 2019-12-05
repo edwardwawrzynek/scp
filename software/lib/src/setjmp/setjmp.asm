@@ -5,6 +5,8 @@
 ; Save all current registers (except re), and save return address
 ; Pointer to buffer is in ra (function argument)
 
+  .module SETJMP
+
   .text
   .align
 _setjmp:
