@@ -68,18 +68,18 @@ int print_file(char *file){
     }
     if(F_flag) {
         if(S_ISDEV(sentry.st_mode)){
-            printf("%c[93m", 0x1b);
+            printf("\x1b[93m");
         } else if(S_ISFIFO(sentry.st_mode)){
-            printf("%c[91m", 0x1b);
+            printf("\x1b[91m");
         } else if(S_ISDIR(sentry.st_mode)){
-            printf("%c[94m", 0x1b);
+            printf("\x1b[94m");
         } else if(S_ISEXEC(sentry.st_mode)){
-            printf("%c[92m", 0x1b);
+            printf("\x1b[92m");
         }
     }
     printf("%s", file);
     if(F_flag){
-        printf("%c[39;49m", 0x1b);
+        printf("\x1b[39;49m");
         if(S_ISDEV(sentry.st_mode)){
             printf("#");
         } else if(S_ISFIFO(sentry.st_mode)){

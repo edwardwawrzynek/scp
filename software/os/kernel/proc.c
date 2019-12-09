@@ -496,16 +496,16 @@ void proc_fork_resources(struct proc * parent, struct proc * child){
 
     /* copy over pages */
     for(uint16_t i = 0; i < child->mem_struct.instr_pages + child->mem_struct.data_pages; i++){
-        uint8_t * parent_page = kernel_map_in_mem((uint8_t *)(i<<MMU_PAGE_SIZE_SHIFT), parent);
-        uint8_t * child_page = kernel_map_in_mem2((uint8_t *)(i<<MMU_PAGE_SIZE_SHIFT), child);
+        uint8_t * parent_page = kernel_map_in_mem_aligned_0(i, parent);
+        uint8_t * child_page = kernel_map_in_mem_aligned_1(i, child);
         /* copy */
         memcpy(child_page, parent_page, MMU_PAGE_SIZE);
     }
     /* copy stack */
     uint16_t page = 31;
     for(uint16_t i = 0; i < (child->mem_struct.stack_pages); ++i){
-        uint8_t * parent_page = kernel_map_in_mem((uint8_t *)(page<<MMU_PAGE_SIZE_SHIFT), parent);
-        uint8_t * child_page = kernel_map_in_mem2((uint8_t *)(page<<MMU_PAGE_SIZE_SHIFT), child);
+        uint8_t * parent_page = kernel_map_in_mem_aligned_0(page, parent);
+        uint8_t * child_page = kernel_map_in_mem_aligned_1(page, child);
         /* copy */
         memcpy(child_page, parent_page, MMU_PAGE_SIZE);
         page--;

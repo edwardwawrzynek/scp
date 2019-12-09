@@ -21,6 +21,8 @@ struct termios {
 /* c_oflag values */
  // map nl to cr + nl on output
 #define ONLCR  1
+// enable / disable all output handling
+#define OPOST 2
 
 /* c_lflag values */
 // handle signal control codes
@@ -32,5 +34,5 @@ struct termios {
 
 // default tty values
 #define _TERMIOS_CIFLAG_DEFAULT 1
-#define _TERMIOS_COFLAG_DEFAULT 1
+#define _TERMIOS_COFLAG_DEFAULT 3
 #define _TERMIOS_CLFLAG_DEFAULT 7

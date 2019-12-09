@@ -49,6 +49,9 @@ typedef uint8_t vterm_charset_t;
 
 #define vterm_getc_blocking 256
 
+#define vterm_mod_shift 1
+#define vterm_mod_ctrl 4
+
 /* virtual terminal object */
 struct vterm {
   /* terminal size */
@@ -64,7 +67,7 @@ struct vterm {
   /* enable handling of vterm_key_* codes in getc */
   uint8_t flag_handle_getc_codes;
   /* vterm_key_* handling values */
-  uint8_t _shifted;
+  uint8_t _modifier_keys;
   /* get a character from input (it can contain escape sequences, which will be passed through, or will handle vterm_key_* codes) */
   /* getc should return vterm_getc_blocking if no key is available 
    * if a key was released, getc should return it with 0x100 added to it */
@@ -81,8 +84,8 @@ struct vterm {
   /* internal values */
 
   /* position */
-  uint16_t _x;
-  uint16_t _y;
+  int16_t _x;
+  int16_t _y;
   /* buffer of chars that need to be returned from getc (special key escape codes, size report, etc) */
   uint8_t _getc_buf[16];
   uint8_t _getc_buf_pos;

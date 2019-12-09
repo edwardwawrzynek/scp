@@ -52,7 +52,7 @@ vterm_t * vterm_new(uint16_t width, uint16_t height, void (*putc)(char c, uint16
   res->_x = 0;
   res->_y = 0;
 
-  res->_shifted = 0;
+  res->_modifier_keys = 0;
 
   memset(&(res->_getc_buf), 0, 16);
   res->_getc_buf_pos = 0;
@@ -95,13 +95,14 @@ static void vterm_scroll(vterm_t * term) {
 
 /* set a character in a terminal (and set buf if needed) */
 static void vterm_set_char(vterm_t * term, char c, uint16_t x, uint16_t y) {
-  vterm_clr_t fg, bg;
+  vterm_clr_t fg = term->_fg_clr, bg = term->_bg_clr;
+  if(term->flag_handle_sgr_bold_clr && term->_cur_atr & vterm_atr_bold) fg = vterm_clr_bold(fg);
+  if(fg == vterm_clr_default) fg = vterm_clr_bold(vterm_clr_white);
+  if(bg == vterm_clr_default) bg = vterm_clr_black;
   if(term->_inverted) {
-    fg = term->_bg_clr;
-    bg = term->_fg_clr;
-  } else {
-    fg = term->_fg_clr;
-    bg = term->_bg_clr;
+    vterm_clr_t tmp = fg;
+    fg = bg;
+    bg = tmp;
   }
 
   if(term->_buf != NULL) {
@@ -113,26 +114,94 @@ static void vterm_set_char(vterm_t * term, char c, uint16_t x, uint16_t y) {
 }
 
 static void vterm_handle_sgr_param(vterm_t * term, uint16_t code) {
-  /* light colors */
-  if(code >= 30 && code <= 37) {
-    term->_fg_clr = code - 30;
-  }
-  if(code >= 40 && code <= 47) {
-    term->_bg_clr = code - 40;
-  }
-  /* bright colors */
-  if(code >= 90 && code <= 97) {
-    term->_fg_clr = vterm_clr_bold(code - 90);
-  }
-  if(code >= 100 && code <= 107) {
-    term->_bg_clr = vterm_clr_bold(code - 100);
-  }
-  /* color restart */
-  if(code == 39) {
-    term->_fg_clr = vterm_clr_default;
-  }
-  if(code == 49) {
-    term->_bg_clr = vterm_clr_default;
+  switch(code) {
+    case 0:
+      term->_fg_clr = vterm_clr_default;
+      term->_bg_clr = vterm_clr_default;
+      term->_inverted = 0;
+      term->_cur_atr = 0;
+      break;
+    case 1:
+      term->_cur_atr |= vterm_atr_bold;
+      break;
+    case 2:
+      term->_cur_atr |= vterm_atr_faint;
+      break;
+    case 3:
+      term->_cur_atr |= vterm_atr_italic;
+      break;
+    case 4:
+      term->_cur_atr |= vterm_atr_underline;
+      break;
+    case 5:
+    case 6:
+      term->_cur_atr |= vterm_atr_blink;
+      break;
+    case 22:
+      term->_cur_atr &= ~(vterm_atr_bold | vterm_atr_faint);
+      break;
+    case 23:
+      term->_cur_atr &= ~vterm_atr_italic;
+      break;
+    case 24:
+      term->_cur_atr &= ~vterm_atr_underline;
+      break;
+    case 25:
+      term->_cur_atr &= ~vterm_atr_blink;
+      break;
+    case 30:
+    case 31:
+    case 32:
+    case 33:
+    case 34:
+    case 35:
+    case 36:
+    case 37:
+      term->_fg_clr = code - 30;
+      break;
+    case 40:
+    case 41:
+    case 42:
+    case 43:
+    case 44:
+    case 45:
+    case 46:
+    case 47:
+      term->_bg_clr = code - 40;
+      break;
+    case 90:
+    case 91:
+    case 92:
+    case 93:
+    case 94:
+    case 95:
+    case 96:
+    case 97:
+      term->_fg_clr = vterm_clr_bold(code - 90);
+      break;
+    case 100:
+    case 101:
+    case 102:
+    case 103:
+    case 104:
+    case 105:
+    case 106:
+    case 107:
+      term->_bg_clr = vterm_clr_bold(code - 100);
+      break;
+    case 39:
+      term->_fg_clr = vterm_clr_default;
+      break;
+    case 49:
+      term->_bg_clr = vterm_clr_default;
+      break;
+    /* reverse video */
+    case 7:
+      term->_inverted = 1;
+      break;
+    case 27:
+      term->_inverted = 0;
+      break;
   }
 }
 
@@ -149,13 +218,106 @@ static void vterm_handle_sgr_seq(vterm_t * term, char * esc) {
   }
 }
 
+/* parse args for fixed arg csi sequences */
+static void vterm_parse_csi_params(char * esc, uint16_t * args, size_t num_args) {
+  char * code = esc + 2;
+  while(*code != '\0' && num_args > 0) {
+    *(args++) = atoi(code);
+    num_args--;
+    while(*code >= '0' && *code <= '9') code++;
+    if(*code == '\0') break;
+    code++;
+  }
+  while(num_args > 0) {
+    *(args++) = 0;
+    num_args--;
+  }
+}
+
 static void vterm_handle_esc_seq(vterm_t * term, char * esc) {
+  uint16_t args[16];
   /* csi sequences */
   if(strlen(esc) <= 1) return;
   if(esc[1] == '[') {
     char last_char = esc[strlen(esc) - 1];
     /* sgi parameters */
     switch(last_char) {
+      case 'A':
+      case 'B':
+      case 'C':
+      case 'D':
+        vterm_parse_csi_params(esc, args, 1);
+        if(args[0] == 0) args[0] = 1;
+        if(last_char == 'A') term->_y -= args[0];
+        if(last_char == 'B') term->_y += args[0];
+        if(last_char == 'C') term->_x += args[0];
+        if(last_char == 'D') term->_x -= args[0];
+
+        if(term->_x < 0) term->_x = 0;
+        if(term->_x >= term->width) term->_x = term->width-1;
+        if(term->_y < 0) term->_y = 0;
+        if(term->_y >= term->height) term->_y = term->height-1;
+        break;
+      case 'f':
+      case 'H':
+        vterm_parse_csi_params(esc, args, 2);
+        if(args[0] == 0) args[0] = 1;
+        if(args[1] == 0) args[1] = 1;
+        term->_y = args[0]-1;
+        term->_x = args[1]-1;
+        if(term->_x >= term->width) term->_x = term->width-1;
+        if(term->_y >= term->height) term->_y = term->height-1;
+        break;
+      case 'K':
+        vterm_parse_csi_params(esc, args, 1);
+        if(args[0] == 0) {
+          int16_t pos = term->_x;
+          while(pos < term->width) {
+            vterm_set_char(term, ' ', pos++, term->_y);
+          } 
+        } else if (args[0] == 1) {
+          int16_t pos = term->_x;
+          while(pos >= 0) {
+            vterm_set_char(term, ' ', pos--, term->_y);
+          } 
+        } else if (args[0] == 2) {
+          int16_t pos = 0;
+          while(pos < term->width) {
+            vterm_set_char(term, ' ', pos++, term->_y);
+          }
+        }
+        break;
+      case 'J':
+        vterm_parse_csi_params(esc, args, 1);
+        if(args[0] == 0) {
+          int16_t posx = term->_x;
+          int16_t posy = term->_y;
+
+          while(posy < term->height) {
+            while(posx < term->width) {
+              vterm_set_char(term, ' ', posx++, posy);
+            } 
+            posx = 0;
+            posy++;
+          }
+        } else if (args[0] == 1) {
+          int16_t posx = term->_x;
+          int16_t posy = term->_y;
+          while(posy >= 0) {
+            while(posx >= 0) {
+              vterm_set_char(term, ' ', posx--, posy);
+            }
+            posx = term->width-1;
+            posy--;
+          } 
+        } else if (args[0] == 2 || args[0] == 3) {
+          for(int16_t posy = 0; posy < term->height; posy++) {
+            for(int16_t posx = 0; posx < term->width; posx++) {
+              vterm_set_char(term, ' ', posx, posy);
+            }
+          }
+        }
+        break;
       case 'm':
         vterm_handle_sgr_seq(term, esc);
       default:
@@ -264,14 +426,22 @@ uint16_t vterm_getc(vterm_t * term) {
     case vterm_key_left:
       return vterm_add_getc_seq(term, (uint8_t []){0x1b, '[', 'D'}, 3);
     case vterm_key_shift:
-      term->_shifted = 1;
+      term->_modifier_keys |= vterm_mod_shift;
       return vterm_getc_blocking;
     case 0x100 + vterm_key_shift:
-      term->_shifted = 0;
+      term->_modifier_keys &= ~vterm_mod_shift;
+      return vterm_getc_blocking;
+    case vterm_key_ctrl:
+      term->_modifier_keys |= vterm_mod_ctrl;
+      return vterm_getc_blocking;
+    case 0x100 + vterm_key_ctrl:
+      term->_modifier_keys &= ~vterm_mod_ctrl;
       return vterm_getc_blocking;
     default:
       if(!(char_in & 0x100)) {
-        if(char_in >= 32 && char_in <= 128 && term->_shifted) {
+        if(char_in >= 97 && char_in <= 122 && term->_modifier_keys & vterm_mod_ctrl)
+          return char_in - 96;
+        if(char_in >= 32 && char_in <= 128 && term->_modifier_keys & vterm_mod_shift) {
           return shifted_charset[char_in - 32];
         }
         return char_in;

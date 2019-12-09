@@ -25,6 +25,13 @@ _START:
   ld.r.i rd 0
   ld.r.i re 0
   ld.r.i rf 0
+; ---- clear memory ----
+  ld.r.i r1 65024
+lmemclear:
+  st.r.p.b rf r0
+  alu.r.i add r0 1
+  cmp.r.f r0 r1
+  jmp.c.j l lmemclear
 ; ---- clear screen ----
 lbootclearscrn:
   out.r.p r0 5
@@ -46,13 +53,6 @@ lbootmsgprint:
   alu.r.i add r3 1
   jmp.c.j LGlge lbootmsgprint
 lbootmsgprint_end:
-; ----- wait a bit (video hardware init) ----
-  ld.r.i r0 0
-  ld.r.i r1 0
-lwait:
-  alu.r.i add r0 1
-  cmp.r.f ro r1
-  jmp.c.j GLgl lwait
 ; ----- init disk hardware -----
   ld.r.i r0 0
   out.r.p r0 13

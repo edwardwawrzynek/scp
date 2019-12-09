@@ -3,6 +3,7 @@
 #include "dev.h"
 #include "syscall/exec.h"
 #include "errno.h"
+#include <lib/ctype.h>
 
 
 /* Generic Reading and Writing Routines From getc and putc - wrappers in dev.h */
@@ -33,6 +34,7 @@ int _dev_gen_read(int minor, uint8_t *buf, size_t bytes, uint8_t *eof, int (*get
 
 /* getc and putc wrappers */
 int _tty_putc(tty_dev_t * tty_dev, int (*putc)(char),  char c) {
+    if(!(tty_dev->termios.c_oflag & OPOST)) return putc(c);
     if(tty_dev->termios.c_oflag & ONLCR && c == '\n') {
         int res = putc(13);
         if(res >= DEV_BLOCKING) return res;
@@ -74,8 +76,11 @@ uint8_t _dev_tty_write_into_buf(uint8_t *buf, uint8_t c, uint8_t* ind, uint8_t e
     }
     else {
         buf[(*ind)++] = c;
-        if(echo)
+        if(echo && (isprint(c) || isspace(c)))
             _tty_putc(tty_dev, putc, c);
+        else {
+            _tty_putc(tty_dev, putc, '?');
+        }
     }
 
     /* we want newlines in returned output */

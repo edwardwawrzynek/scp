@@ -114,33 +114,7 @@ int16_t closedir(uint16_t fd);
 
 int16_t lseek(__reg("ra") uint16_t fd, __reg("rb") uint16_t pos, __reg("rc") uint16_t whence);
 
-#ifndef __TERMIOS_STRUCT
-#define __TERMIOS_STRUCT 1
-/* Termios struct */
-struct termios {
-    /* flags */
-    uint16_t flags;
-};
-#endif
-
-/* ioctl tty requests */
-#define TCGETA 0
-#define TCSETA 1
-
-/* termios flags */
-/* echo input */
-#define TERMIOS_ECHO    0b00000001
-/* canonical / raw mode */
-#define TERMIOS_CANON   0b00000010
-/* handle key codes such as ctrl+c, ctrl+d, etc - only handled in CANON mode */
-#define TERMIOS_CTRL    0b00000100
-/* pass key release code to device */
-#define TERMIOS_RELEASE 0b00001000
-
-/* complete raw mode (release has to be specified) */
-#define TERMIOS_RAW     0
-
- int16_t ioctl(__reg("ra") uint16_t fd, __reg("rb") uint16_t cmd, __reg("rc") void * arg);
+int16_t ioctl(__reg("ra") uint16_t fd, __reg("rb") uint16_t cmd, __reg("rc") void * arg);
 
 /* stat structure */
 struct stat {

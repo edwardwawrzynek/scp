@@ -259,14 +259,23 @@ uint16_t _read_nb(uint16_t fd, uint16_t buf, uint16_t bytes, uint16_t eof){
         return -1;
     }
     uint8_t *kbuf = kernel_map_in_mem((uint8_t *)buf, proc_current_proc);
-    uint8_t * keof = kernel_map_in_mem2((uint8_t *)eof, proc_current_proc);
-    if((!kbuf) || (!keof)){
+
+    uint8_t tmp_eof = 0;
+    if((!kbuf)){
         /* can't set eof */
         set_errno(EUMEM);
         return -1;
     }
 
-    uint16_t read = file_read_nonblocking(proc_current_proc->files[fd], kbuf, bytes, keof);
+    uint16_t read = file_read_nonblocking(proc_current_proc->files[fd], kbuf, bytes, &tmp_eof);
+    /* copy over eof */
+    uint8_t * keof = kernel_map_in_mem((uint8_t *)eof, proc_current_proc);
+    if(!keof) {
+        set_errno(EUMEM);
+        return -1;
+    }
+    *keof = tmp_eof;
+
     return read;
 }
 
@@ -281,28 +290,39 @@ uint16_t _write_nb(uint16_t fd, uint16_t buf, uint16_t bytes, uint16_t eof){
         return -1;
     }
     uint8_t *kbuf = kernel_map_in_mem((uint8_t *)buf, proc_current_proc);
-    uint8_t * keof = kernel_map_in_mem2((uint8_t *)eof, proc_current_proc);
-    if((!kbuf) || (!keof)){
+    uint8_t tmp_eof = 0;
+    if(!kbuf){
         /* can't set eof */
         set_errno(EUMEM);
         return -1;
     }
 
-    return file_write_nonblocking(proc_current_proc->files[fd], kbuf, bytes, keof);
+    uint16_t res = file_write_nonblocking(proc_current_proc->files[fd], kbuf, bytes, &tmp_eof);
+    uint8_t * keof = kernel_map_in_mem((uint8_t *)eof, proc_current_proc);
+    if(!keof) {
+        set_errno(EUMEM);
+        return -1;
+    }
+    *keof = tmp_eof;
+    return res;
 }
 
 /* Link a previously existed file to a new location */
 uint16_t _link(uint16_t old, uint16_t new, uint16_t a2, uint16_t a3){
     /* map in mem */
     uint8_t * old_path = kernel_map_in_mem((uint8_t *)old, proc_current_proc);
-    uint8_t * new_path = kernel_map_in_mem2((uint8_t *)new, proc_current_proc);
 
-    if((!old_path) || (!new_path)){
+    if(!old_path){
         set_errno(EUMEM);
         return -1;
     }
     /* get inums */
     uint16_t old_inum = fs_path_to_inum(old_path, proc_current_proc->cwd, proc_current_proc->croot);
+    uint8_t * new_path = kernel_map_in_mem((uint8_t *)new, proc_current_proc);
+    if(!new_path) {
+        set_errno(EUMEM);
+        return -1;
+    }
     /* make sure file doesn't exist already */
     uint16_t new_inum = fs_path_to_inum(new_path, proc_current_proc->cwd, proc_current_proc->croot);
     if(new_inum){
@@ -406,12 +426,6 @@ uint16_t _stat(uint16_t name, uint16_t stat_struct, uint16_t a2, uint16_t a3){
         set_errno(EUMEM);
         return -1;
     }
-    /* map in struct */
-    struct stat * stat = (struct stat *)kernel_map_in_mem2((uint8_t *)stat_struct, proc_current_proc);
-    if(!stat){
-        set_errno(EUMEM);
-        return -1;
-    }
     uint16_t inum = fs_path_to_inum(path, proc_current_proc->cwd, proc_current_proc->croot);
     if(!inum){
         set_errno(ENOENT);
@@ -422,7 +436,12 @@ uint16_t _stat(uint16_t name, uint16_t stat_struct, uint16_t a2, uint16_t a3){
         set_errno(ENOENT);
         return -1;
     }
-
+    /* map in struct */
+    struct stat * stat = (struct stat *)kernel_map_in_mem((uint8_t *)stat_struct, proc_current_proc);
+    if(!stat){
+        set_errno(EUMEM);
+        return -1;
+    }
     internal_stat(in, stat);
 
     inode_put(in);
@@ -440,12 +459,6 @@ uint16_t _fstat(uint16_t fd, uint16_t stat_struct, uint16_t a2, uint16_t a3){
         set_errno(EBADF);
         return -1;
     }
-    /* map in struct */
-    struct stat * stat = (struct stat *)kernel_map_in_mem2((uint8_t *)stat_struct, proc_current_proc);
-    if(!stat){
-        set_errno(EUMEM);
-        return -1;
-    }
 
     uint16_t inum = proc_current_proc->files[fd]->ind->inum;
     if(!inum){
@@ -455,6 +468,13 @@ uint16_t _fstat(uint16_t fd, uint16_t stat_struct, uint16_t a2, uint16_t a3){
     struct inode *in = inode_get(inum);
     if(!in){
         set_errno(ENOENT);
+        return -1;
+    }
+
+    /* map in struct */
+    struct stat * stat = (struct stat *)kernel_map_in_mem((uint8_t *)stat_struct, proc_current_proc);
+    if(!stat){
+        set_errno(EUMEM);
         return -1;
     }
 
