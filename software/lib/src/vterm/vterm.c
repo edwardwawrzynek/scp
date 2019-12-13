@@ -11,6 +11,8 @@
 #define calloc kcalloc
 #endif
 
+static uint16_t vterm_add_getc_seq(vterm_t * term, uint8_t * seq, size_t length);
+
 /* encode fg color, bg color, atr, charset into a word */
 static uint16_t vterm_encode_atr(vterm_clr_t fg, vterm_clr_t bg, vterm_atr_t atr, vterm_charset_t charset) {
   uint16_t res = 0;
@@ -320,6 +322,39 @@ static void vterm_handle_esc_seq(vterm_t * term, char * esc) {
         break;
       case 'm':
         vterm_handle_sgr_seq(term, esc);
+        break;
+      case 'E':
+        vterm_parse_csi_params(esc, args, 1);
+        if(args[0] == 0) args[0] = 1;
+        term->_y += args[0];
+        if(term->_y >= term->height) term->_y = term->height -1;
+      case 'F':
+        vterm_parse_csi_params(esc, args, 1);
+        if(args[0] == 0) args[0] = 1;
+        term->_y -= args[0];
+        if(term->_y < 0) term->_y = 0;
+        break;
+      case 'G':
+        vterm_parse_csi_params(esc, args, 1);
+        term->_x = args[0] -1;
+        if(term->_x < 0) term->_x = 0;
+        if(term->_x >= term->width) term->_x = term->width - 1;
+        break;
+      case 'n':
+        vterm_parse_csi_params(esc, args, 1);
+        if(args[0] == 6) {
+          uint8_t pos = 0;
+          uint8_t seg[10];
+          seg[pos++] = '\x1b';
+          seg[pos++] = '[';
+          itoa(term->_y+1, seg+pos, 10);
+          while(seg[pos] != '\0') pos++;
+          itoa(term->_x+1, seg+pos, 10);
+          while(seg[pos] != '\0') pos++;
+          seg[pos++] = 'R';
+          vterm_add_getc_seq(term, seg, pos);
+        }
+        break;
       default:
         return;
     }

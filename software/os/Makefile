@@ -47,7 +47,7 @@ lib/ctype/iscntrl.o  lib/ctype/isprint.o  lib/ctype/isxdigit.o \
 \
 lib/inout/inoutp.o										\
 lib/kmalloc/kmalloc.o									\
-lib/util/util.o											\
+lib/util/util.o	    lib/util/itoa.o									\
 fs/disk.o	fs/superblock.o	fs/buffer.o	fs/balloc.o		\
 fs/inode.o	fs/file.o	fs/dir.o	fs/fs.o				\
 kernel/panic.o	kernel/palloc.o	kernel/mmu.o			\

@@ -134,9 +134,12 @@ void GfxIO::set_pixel(uint16_t addr, uint8_t val){
   uint16_t txt_x = (addr % 320) / 4;
   uint16_t txt_y = (addr / (320*8));
 
-  if(!txt_mem[txt_x+(txt_y*80)]){
-    gfx_set_pixel(addr, val);
-  }
+  /* if text is null character, or its background is 0 and the current pixel is a background pixel, draw on top of it. Otherwise, don't show it */
+  uint16_t c = txt_mem[txt_x+(txt_y*80)];
+  
+  gfx_set_pixel(addr, val);
+  
+  set_txt(txt_x+(txt_y*80), c);
 }
 
 /**
@@ -169,18 +172,27 @@ void GfxIO::set_txt(uint16_t addr, uint16_t val){
 
   //find pos on screen
   pos = x*8 + (y*16*640);
+  uint16_t pixel_pos = x*4 + (y*320*8);
   //write text data if the char isn't zero
   if(val){
     charset = gfx_charset[val&0xff];
     for(i = 0; i < 64; ++i){
       color = charset&0x8000000000000000 ? fg_color: bg_color;
-      sdl_set_pixel(pos, color);
-      sdl_set_pixel(pos+640, color);
+      if(!(charset&0x8000000000000000) && bg_index == 0) {
+        sdl_set_pixel(pos, gfx_mem[pixel_pos]);
+        sdl_set_pixel(pos+640, gfx_mem[pixel_pos]);
+      } else {
+        sdl_set_pixel(pos, color);
+        sdl_set_pixel(pos+640, color);
+      }
       charset = charset << 1;
       pos++;
+      if(pos %2 == 0) pixel_pos++;
       if(pos % 8 == 0){
         pos -= 8;
         pos += 1280;
+        pixel_pos -= 4;
+        pixel_pos += 320;
       }
     }
   } else {

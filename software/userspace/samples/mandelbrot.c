@@ -2,6 +2,20 @@
 #include <stdint.h>
 #include <gfx.h>
 
+/* convert index in range (0-255) to a color in the rainbow spectrum */
+uint8_t rainbow(uint8_t pos) {
+  pos = 255 - pos;
+  if(pos < 85) {
+    return gfx_rgb_to_color(255 - pos * 3, 0, pos * 3);
+  }
+  if(pos < 170) {
+    pos -= 85;
+    return gfx_rgb_to_color(0, pos * 3, 255 - pos * 3);
+  }
+  pos -= 170;
+  return gfx_rgb_to_color(pos * 3, 255 - pos * 3, 0);
+}
+
 int fractal(int16_t x, int16_t y){
 	unsigned int i;
 	int16_t tempX;
@@ -14,7 +28,7 @@ int fractal(int16_t x, int16_t y){
     x = (((x>>4)*(x>>4)))-(((y>>4)*(y>>4))) + cx;
     y = (((((32*(tempX>>4)))>>4)*(y>>4))) + cy;
     if(((((x>>4)*(x>>4))) + (((y>>4)*(y>>4)))) > 1024){
-      return i*i;
+      return rainbow(i*10 > 255 ? 255: i*10);
     }
 	}
 	return 0;
