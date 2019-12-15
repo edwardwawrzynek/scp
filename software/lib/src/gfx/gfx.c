@@ -3,99 +3,94 @@
 #include <gfx.h>
 #include <unistd.h>
 #include <string.h>
+#include <termios.h>
+#include <stdlib.h>
+#include <termios.h>
+#include <gfx.h>
 
-/* TODO: update to new terminal system */
+/* pixels per x char */
+#define _GFX_CHAR_WIDTH 4
+#define _GFX_CHAR_HEIGHT 8
 
-/* start gfx mode */
-void gfx_init(uint16_t do_clear) {
-  if(do_clear) {
-    gfx_clear_text();
-    gfx_background(0);
+/* internal drawing functions */
+void _gfx_rect(__reg("ra") int16_t x, __reg("rb") int16_t y, __reg("rc") int16_t width, __reg("rd") int16_t height, __reg("re") uint8_t color);
+void _gfx_put_char(__reg("ra") int16_t x, __reg("rb") int16_t y, __reg("rc") char c);
+uint16_t _gfx_read_char(__reg("ra") int16_t x, __reg("rb") int16_t y);
+void _gfx_pixel(__reg("ra") uint16_t x, __reg("rb") uint16_t y, __reg("rc") uint8_t color);
+
+/* create a gfx inst object */
+struct gfx_inst * gfx_inst_new(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint8_t do_save_cont) {
+  /* make sure section is aligned to text */
+  if(width % _GFX_CHAR_WIDTH != 0 || height % _GFX_CHAR_HEIGHT != 0) return NULL;
+
+  struct gfx_inst * res = malloc(sizeof(struct gfx_inst));
+  res->x = x;
+  res->y = y;
+  res->width = width;
+  res->height = height;
+  if(do_save_cont) {
+    res->prev_cont_buf = malloc((width/_GFX_CHAR_WIDTH)*(height/_GFX_CHAR_HEIGHT)*sizeof(uint16_t));
+  } else {
+    res->prev_cont_buf = NULL;
   }
-  /* setup input to raw mode */
-  gfx_set_input_mode(STANDARD);
+  return res;
 }
 
-/* exit gfx mode */
-void gfx_exit(uint16_t do_clear) {
-  if(do_clear) {
-    gfx_background(0);
-    gfx_clear_text();
-  }
-  /* setup input to canomode */
-  struct termios in_termios = {.flags = TERMIOS_CANON | TERMIOS_CTRL | TERMIOS_ECHO};
-  ioctl(STDIN_FILENO, TCSETA, &in_termios);
+/* free gfx inst object */
+void gfx_inst_free(struct gfx_inst * gfx) {
+  if(gfx->prev_cont_buf != NULL) free(gfx->prev_cont_buf);
+  free(gfx);
 }
 
-/* 0 if not pressed, 1 if pressed */
-static uint8_t pressed_keys[128];
+/* save current screen text content to buffer */
+void gfx_save_txt_cont(struct gfx_inst * gfx) {
+  if(gfx->prev_cont_buf == NULL) return;
 
-static char flush_buf[50];
-/**
- * flush all waiting input */
-void gfx_flush_input() {
-  uint8_t is_eof;
-  while(read_nb(STDIN_FILENO, flush_buf, 50, &is_eof) == 50);
-  memset(pressed_keys, 0, 128);
-}
-
-/**
- * clear text on screen */
-void gfx_clear_text() {
-  for(int x = 0; x < 80; x++) {
-    for(int y = 0; y < 25; y++) {
-      gfx_put_char(x, y, '\0');
+  uint16_t addr = 0;
+  for(int16_t y = 0; y < gfx->height; y+= _GFX_CHAR_HEIGHT) {
+    for(int16_t x = 0; x < gfx->width; x+= _GFX_CHAR_WIDTH ) {
+      gfx->prev_cont_buf[addr++] = _gfx_read_char((x + gfx->x)/_GFX_CHAR_WIDTH, (y + gfx->y)/_GFX_CHAR_HEIGHT);
     }
   }
 }
 
-static enum gfx_in_mode gfx_mode;
+/* restore screen contents from buffer */
+void gfx_restore_txt_cont(struct gfx_inst * gfx) {
+  if(gfx->prev_cont_buf == NULL) return;
 
-/**
- * set the mode for gfx input
- * this flushes all current input in buffer */
-void gfx_set_input_mode(enum gfx_in_mode mode) {
-  gfx_mode = mode;
-  struct termios in_termios;
-  if(mode == TRACK_PRESS) {
-    in_termios.flags = TERMIOS_RAW | TERMIOS_RELEASE;
-    ioctl(STDIN_FILENO, TCSETA, &in_termios);
-  } else if(mode == STANDARD) {
-    in_termios.flags = TERMIOS_RAW;
-    ioctl(STDIN_FILENO, TCSETA, &in_termios);
+  uint16_t addr = 0;
+  for(int16_t y = 0; y < gfx->height; y+= _GFX_CHAR_HEIGHT) {
+    for(int16_t x = 0; x < gfx->width; x+= _GFX_CHAR_WIDTH ) {
+      _gfx_put_char((x + gfx->x)/_GFX_CHAR_WIDTH, (y + gfx->y)/_GFX_CHAR_HEIGHT, gfx->prev_cont_buf[addr++]);
+    }
   }
+}
 
-  gfx_flush_input();
+/* clear content occupied by gfx_inst */
+void gfx_clear_txt_cont(struct gfx_inst * gfx) {
+  for(int16_t y = 0; y < gfx->height; y+= _GFX_CHAR_HEIGHT) {
+    for(int16_t x = 0; x < gfx->width; x+= _GFX_CHAR_WIDTH ) {
+      _gfx_put_char((x + gfx->x)/_GFX_CHAR_WIDTH, (y + gfx->y)/_GFX_CHAR_HEIGHT, ' ');
+    }
+  }
 }
 
 /**
- * return a keypress, or -1 if none available
- * use with mode STANDARD */
-int gfx_get_keypress() {
-  if(gfx_mode != STANDARD) return -1;
-
-  uint8_t c;
-  uint8_t is_eof;
-  if(read_nb(STDIN_FILENO, &c, 1, &is_eof) != 1) return -1;
-  return c;
+ * Default method of obtaining and exiting a gfx_inst object
+ * This should be used instead of gfx_inst_new, as this will be modified to work with window managers etc in the future */
+struct gfx_inst * gfx_get_default_inst() {
+  /* TODO: detect window manager, etc */
+  struct gfx_inst * res = gfx_inst_new(8, 8, 304, 184, 1);
+  gfx_save_txt_cont(res);
+  gfx_clear_txt_cont(res);
+  gfx_rect(res, 0, 0, res->width, res->height, 0);
+  return res;
 }
 
-/**
- * check if a key is currently pressed
- * use with mode TRACK_PRESS
- */
-int gfx_is_key_pressed(uint8_t key) {
-  if(gfx_mode != TRACK_PRESS) return 0;
-
-  /* update pressed_keys */
-  uint8_t c;
-  uint8_t is_eof;
-  while(read_nb(STDIN_FILENO, &c, 1, &is_eof) == 1) {
-    if(c & 0x80) pressed_keys[c & 0x7f] = 0;
-    else          pressed_keys[c & 0x7f] = 1;
-  }
-
-  return pressed_keys[key & 0x7f];
+void gfx_exit(struct gfx_inst * gfx) {
+  gfx_background(gfx, gfx_black);
+  gfx_restore_txt_cont(gfx);
+  gfx_inst_free(gfx);
 }
 
 /**
@@ -112,9 +107,18 @@ void gfx_throttle(uint16_t framerate) {
 }
 
 /**
+ * draw a pixel */
+void gfx_pixel(struct gfx_inst * gfx, int16_t x, int16_t y, uint8_t color) {
+  /* check bounds */
+  if(x <0 || x >= gfx->width || y < 0 || y >= gfx->height) return;
+
+  _gfx_pixel(x+gfx->x, y+gfx->y, color);
+}
+
+/**
  * draw a rectangle, and cut it if it would go offscreen
- * slower than gfx_rect */
-void gfx_rect_safe(int16_t x, int16_t y, int16_t width, int16_t height, uint8_t color) {
+ * slower than asm routine, but safe */
+void gfx_rect(struct gfx_inst * gfx, int16_t x, int16_t y, int16_t width, int16_t height, uint8_t color) {
   if(x < 0) {
     if((-x) >= width) return;
     width += x;
@@ -126,16 +130,23 @@ void gfx_rect_safe(int16_t x, int16_t y, int16_t width, int16_t height, uint8_t 
     y = 0;
   }
 
-  if(x+width > 320) {
-    if(x >= 320) return;
-    width -= (x+width-320);
+  if(x+width > gfx->width) {
+    if(x >= gfx->width) return;
+    width -= (x+width-gfx->width);
   }
-  if(y+height > 200) {
-    if(y >= 200) return;
-    height -= (y+height-200);
+  if(y+height > gfx->height) {
+    if(y >= gfx->height) return;
+    height -= (y+height-gfx->height);
   }
 
-  gfx_rect(x, y, width, height, color);
+  _gfx_rect(x + gfx->x, y + gfx->y, width, height, color);
+}
+
+/**
+ * set background
+ * just calls rect */
+void gfx_background(struct gfx_inst * gfx, uint8_t color) {
+  _gfx_rect(gfx->x, gfx->y, gfx->width, gfx->height, color);
 }
 
 /**
@@ -153,7 +164,7 @@ void gfx_put_string(int16_t x, int16_t y, char * msg) {
       cur_x = x;
       cur_y++;
     } else {
-      gfx_put_char(cur_x++, cur_y, *msg);
+      _gfx_put_char(cur_x++, cur_y, *msg);
     }
 
     msg++;

@@ -1,5 +1,5 @@
 BIN = \
-init start_user	test1	ls	mkdir	cat	clear sh wc	hd	chmod	imgview echo segfault	rm \
+init start_user	test1	ls	mkdir	cat	clear sh wc	hd	chmod	imgview echo segfault	rm top \
 
 all: $(BIN)
 

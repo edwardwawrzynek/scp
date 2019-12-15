@@ -131,7 +131,10 @@ uint16_t _execv(uint16_t name, uint16_t argv_p, uint16_t a2, uint16_t a4){
         }
         argv_i += interp_args_to_add;
 
+        memset(proc_current_proc->invoke_cmd, 0, PROC_INVOKE_CMD_LEN);
+
         /* copy strings pointed to by argv into kernel memory */
+        uint16_t cmd_invoke_pos = 0;
         for(uint16_t n=0;n<argv_i;n++){
             uint8_t * sargv_i;
             if(n < interp_args_to_add) {
@@ -143,6 +146,13 @@ uint16_t _execv(uint16_t name, uint16_t argv_p, uint16_t a2, uint16_t a4){
             memcpy(kargv_i, sargv_i, strlen(sargv_i)+1);
 
             kargv[n] = kargv_i;
+
+            /* copy command to proc table */
+            strncpy(proc_current_proc->invoke_cmd + cmd_invoke_pos, kargv[n], PROC_INVOKE_CMD_LEN - cmd_invoke_pos -1);
+            while(proc_current_proc->invoke_cmd[cmd_invoke_pos] != '\0') cmd_invoke_pos++;
+            if(cmd_invoke_pos < PROC_INVOKE_CMD_LEN -1)
+            proc_current_proc->invoke_cmd[cmd_invoke_pos++] = ' ';
+
         }
 
     }
@@ -151,8 +161,6 @@ uint16_t _execv(uint16_t name, uint16_t argv_p, uint16_t a2, uint16_t a4){
     proc_put_memory(proc_current_proc);
     /* reset cpu state */
     proc_reset_cpu(proc_current_proc);
-
-    /* TODO: handle executables beginning with #! */
 
     /* load memory */
     uint16_t code = proc_load_mem(proc_current_proc, file);

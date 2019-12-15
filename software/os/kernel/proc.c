@@ -351,6 +351,7 @@ uint16_t proc_set_brk(struct proc *proc, uint8_t *brk){
             if(IS_MMU_ASSIGNED(proc->mem_map[page])){
                 palloc_free(proc->mem_map[page]);
                 proc->mem_map[page] = MMU_UNUSED;
+                proc->mem_struct.data_pages--;
             }
         }
     }
@@ -385,9 +386,12 @@ struct proc * proc_create_new(uint16_t inum, pid_t parent, uint16_t cwd, uint16_
         return NULL;
     };
     proc_reset_cpu(res);
-    /* add errno (not argc and argv, as init doesn't expect these) */
+    /* add errno (argc and argv are null) */
     uint16_t errno_default = 0;
     proc_add_to_stack(res, (uint8_t *)(&errno_default), 2);
+    uint16_t data = 0;
+    proc_add_to_stack(res, (uint8_t *)(&data), 2);
+    proc_add_to_stack(res, (uint8_t *)(&data), 2);
     //set in runnable state
     res->state = PROC_STATE_RUNNABLE;
     return res;
@@ -581,7 +585,7 @@ void proc_put_memory(struct proc * proc){
  * used for passing argv, etc
  * shouldn't be used once a proc is running, as it cause issues
  * returns (uint8_t *) - the location of the memory on the stack*/
-uint8_t * proc_add_to_stack(struct proc *proc, uint8_t * memory, uint16_t bytes){
+void * proc_add_to_stack(struct proc *proc, uint8_t * memory, uint16_t bytes){
     /* align */
     if(bytes&1){
         bytes++;

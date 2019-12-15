@@ -35,6 +35,7 @@ int fractal(int16_t x, int16_t y){
 }
 
 int main(){
+	struct gfx_inst * window = gfx_get_default_inst();
 	unsigned int x;
 	unsigned int y;
 	int16_t zx;
@@ -47,11 +48,13 @@ int main(){
 	for(y = 0; y < 200; ++y){
 		zx = -600;
 		for(x = 0; x < 320; ++x){
-			gfx_pixel(x, y, fractal(zx, zy));
+			gfx_pixel(window, x, y, fractal(zx, zy));
 			zx += 3;
 		}
 		zy += 3;
 	}
+	getchar();
+	gfx_exit(window);
 
 	return 0;
 

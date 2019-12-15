@@ -138,8 +138,11 @@ uint16_t exec_cmd(struct initrc_cmd * cmd){
     if(close(devfd) == -1)
         return 4;
 
-    /* TODO: seperate command on spaces and pass as argv */
-    execv(cmd->cmd, NULL);
+    /* TODO: separate command on spaces and pass as argv */
+    char *argv[2];
+    argv[0] = cmd->cmd;
+    argv[1] = NULL;
+    execv(cmd->cmd, argv);
 
     return 5;
 }

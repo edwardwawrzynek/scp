@@ -54,7 +54,8 @@ void kernel_start_init(char * initpath, uint8_t print_ok){
  * can map up to 2048 bytes (TODO: make this a variable size limit)
  * maps the pointer to the last 2 pages before the stack page in the kernel addr space
  * returns (uint8_t *) - NULL on failure, or a pointer in the kernel addr space, valid until the next call to kernel_map_in_mem */
-uint8_t * kernel_map_in_mem(uint8_t * pointer, struct proc * proc){
+void * kernel_map_in_mem(void * pointer_u, struct proc * proc){
+  uint8_t * pointer = pointer_u;
   //the indes of the page in the proc's addr space
   uint16_t page_in_proc;
   //real pages that the pointer resides in

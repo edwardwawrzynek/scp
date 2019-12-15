@@ -1,4 +1,5 @@
 #include "syscall.h"
+#include <termios.h>
 #include <stdint.h>
 
 /* System Call Wrappers

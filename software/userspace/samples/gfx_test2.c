@@ -1,33 +1,27 @@
 #include <inout.h>
 #include <gfx.h>
 
-int color = 0;
+struct gfx_inst * window;
 
-void rect(int px, int py, int w, int h, int c){
-    for(int x = px; x < px+w; x++){
-        for(int y = py; y < py+h; y++){
-            gfx_pixel(x,y,c);
-        }
-    }
-}
+int16_t x = 0, y = 0, dx = 2, dy = 1;
 
-int pos_x = 0;
-
-int speed = 1;
+uint16_t width = 10, height = 10;
 
 void run(){
-    rect(pos_x-1,100,12,10, 0);
-    pos_x+=speed;
-    rect(pos_x,100,10,10, color);
-    if(pos_x < 0 || pos_x >= 310){
-        speed = -speed;
-    }
-    color++;
-    for(int i = 40000; i; i++){
-    }
+    gfx_rect(window, x, y, width, height, gfx_orange);
+    x += dx;
+    y += dy;
+    if(x < 0 || x + width >= gfx_width(window)) dx = -dx;
+
+    if(y < 0 || y + height >= gfx_height(window)) dy = -dy;
+    gfx_rect(window, x, y, width, height, gfx_blue);
+
+    gfx_throttle(1);
 }
 
 int main(){
+    window = gfx_get_default_inst();
+    gfx_background(window, gfx_orange);
     while(1)
         run();
 }

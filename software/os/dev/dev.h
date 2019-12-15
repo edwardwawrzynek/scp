@@ -150,3 +150,5 @@ typedef struct {
 #define DEV_NUM_TTY 3
 
 #define DEV_NUM_SERIAL 4
+
+#define DEV_NUM_PS 5

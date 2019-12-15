@@ -4,6 +4,10 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#ifndef PIDT_DEF
+#define PIDT_DEF 1
+typedef int16_t pid_t;
+#endif
 
 typedef uint16_t blkcnt_t;
 typedef uint16_t blksize_t;

@@ -8,28 +8,21 @@
  * displays raw images, set background colors, etc */
 
 void usage(){
-  gfx_exit(0);
   fprintf(stderr, "usage: imgview [options] [files]\noptions:\n-b\t\t:set background (return right away)\n-c color\t:set background to solid color\n-h\t\t:display help\n");
   exit(1);
 }
  
 uint8_t do_wait = 1;
 
-void wait_key() {
-  if(do_wait) {
-    while(gfx_get_keypress() == -1);
-  }
-}
-
 char buf[320];
 
-void do_img(int16_t fd) {
+void do_img(int16_t fd, struct gfx_inst * window) {
   uint16_t y = 0;
   uint16_t num_read;
   do {
     num_read = read(fd, buf, 320);
     for(uint16_t x = 0; x < num_read; x++) {
-      gfx_pixel(x, y, buf[x]);
+      gfx_pixel(window, x, y, buf[x]);
     }
     y++;
     if(y >= 200) break;
@@ -59,26 +52,28 @@ int main(int argc, char ** argv) {
     usage();
   }
 
-  gfx_init(do_wait);
+  struct gfx_inst * window = gfx_get_default_inst();
 
   if(do_color) {
-    gfx_background(color);
-    wait_key();
+    gfx_background(window, color);
+    if(do_wait)
+      getchar();
   } else {
     for(;optind<argc;optind++){
       int fd = open(argv[optind], O_RDONLY);
       if(fd == -1) {
-        gfx_exit(0);
+        gfx_exit(window);
         fprintf(stderr, "imgview: can't open file %s: ", argv[optind]);
         perror(NULL);
         exit(1);
       }
-      do_img(fd);
+      do_img(fd, window);
       close(fd);
-      wait_key();
+      if(do_wait)
+        getchar();
     }
   }
 
-  gfx_exit(0);
+  gfx_exit(window);
   return 0;
 }

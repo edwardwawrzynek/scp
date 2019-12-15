@@ -60,14 +60,17 @@ int _special_read(int minor, uint8_t *buf, size_t bytes, uint8_t *eof, struct in
     }
 }
 
-int _special_open(int minor, struct inode *file){
+int _no_open(int minor, struct inode *file){
     return 0;
 }
-int _special_close(int minor, struct inode*file){
+int _no_close(int minor, struct inode*file){
     
     return 0;
 }
-int _special_ioctl(int minor, int req_code, uint8_t * arg, struct inode *file){
+int _no_ioctl(int minor, int req_code, uint8_t * arg, struct inode *file){
     set_errno(ENOTTY);
     return -1;
+}
+int _no_write(int minor, uint8_t * buf, size_t bytes, uint8_t *eof, struct inode *file) {
+    return bytes;
 }

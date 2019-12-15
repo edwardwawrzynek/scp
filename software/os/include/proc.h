@@ -64,6 +64,8 @@ typedef int16_t pid_t;
 //valid state to set condition register to at start of program (unconditional jumps before cmp.r.f have to succced)
 #define COND_REG_INIT 1
 
+#define PROC_INVOKE_CMD_LEN 32
+
 /* Process Table entries */
 
 /* process memory object struct
@@ -133,5 +135,8 @@ struct proc {
 
     //this proc's mmu number (also its index in the proc_table) - THIS SHOULD NOT BE WRITTEN after proc_init_table
     uint8_t mmu_index;
+
+    // command used to invoke the program (truncated)
+    char invoke_cmd[PROC_INVOKE_CMD_LEN];
 };
 #endif

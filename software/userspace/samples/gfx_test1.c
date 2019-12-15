@@ -1,21 +1,31 @@
 #include <inout.h>
 #include <gfx.h>
 
-int color = 0;
-
-void run(){
-    for(int x = 0; x < 320; x++){
-        for(int y = 0; y < 12; y++){
-            gfx_pixel(x,y,color);
-        }
-    }
-    for(int i = 1; i; i++){
-        for(int g=0; g < 2; g++);
-    }
-    color++;
+/* convert index in range (0-255) to a color in the rainbow spectrum */
+uint8_t rainbow(uint8_t pos) {
+  pos = 255 - pos;
+  if(pos < 85) {
+    return gfx_rgb_to_color(255 - pos * 3, 0, pos * 3);
+  }
+  if(pos < 170) {
+    pos -= 85;
+    return gfx_rgb_to_color(0, pos * 3, 255 - pos * 3);
+  }
+  pos -= 170;
+  return gfx_rgb_to_color(pos * 3, 255 - pos * 3, 0);
 }
 
 int main(){
-    while(1)
-        run();
+    struct gfx_inst * test = gfx_get_default_inst();
+    uint8_t color = 0;
+    uint8_t offset = 0;
+    gfx_background(test, gfx_white);
+    for(int16_t y = 0; y < gfx_height(test); y++) {
+        for(int16_t x = 0; x < gfx_width(test); x++) {
+            gfx_pixel(test, x, y, rainbow(color++));
+        }
+        color = offset++;
+    }
+    getchar();
+    gfx_exit(test);
 }

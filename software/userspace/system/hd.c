@@ -36,6 +36,7 @@ void print_file(FILE *f) {
 }
 
 int main(int argc, char **argv) {
+  printf("command: %s %s\n", argv[0], argv[1]);
   int i;
   while((i = getopt(argc, argv, "h")) != -1){
       switch(i){

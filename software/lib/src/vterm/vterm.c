@@ -101,11 +101,12 @@ static void vterm_set_char(vterm_t * term, char c, uint16_t x, uint16_t y) {
   if(term->flag_handle_sgr_bold_clr && term->_cur_atr & vterm_atr_bold) fg = vterm_clr_bold(fg);
   if(fg == vterm_clr_default) fg = vterm_clr_bold(vterm_clr_white);
   if(bg == vterm_clr_default) bg = vterm_clr_black;
-  if(term->_inverted) {
+  if(term->_inverted && c != '\0') {
     vterm_clr_t tmp = fg;
     fg = bg;
     bg = tmp;
   }
+  if(c == '\0') c = ' ';
 
   if(term->_buf != NULL) {
     term->_buf[x + y * (term->width)] = c;
@@ -275,17 +276,17 @@ static void vterm_handle_esc_seq(vterm_t * term, char * esc) {
         if(args[0] == 0) {
           int16_t pos = term->_x;
           while(pos < term->width) {
-            vterm_set_char(term, ' ', pos++, term->_y);
+            vterm_set_char(term, '\0', pos++, term->_y);
           } 
         } else if (args[0] == 1) {
           int16_t pos = term->_x;
           while(pos >= 0) {
-            vterm_set_char(term, ' ', pos--, term->_y);
+            vterm_set_char(term, '\0', pos--, term->_y);
           } 
         } else if (args[0] == 2) {
           int16_t pos = 0;
           while(pos < term->width) {
-            vterm_set_char(term, ' ', pos++, term->_y);
+            vterm_set_char(term, '\0', pos++, term->_y);
           }
         }
         break;
@@ -297,7 +298,7 @@ static void vterm_handle_esc_seq(vterm_t * term, char * esc) {
 
           while(posy < term->height) {
             while(posx < term->width) {
-              vterm_set_char(term, ' ', posx++, posy);
+              vterm_set_char(term, '\0', posx++, posy);
             } 
             posx = 0;
             posy++;
@@ -307,7 +308,7 @@ static void vterm_handle_esc_seq(vterm_t * term, char * esc) {
           int16_t posy = term->_y;
           while(posy >= 0) {
             while(posx >= 0) {
-              vterm_set_char(term, ' ', posx--, posy);
+              vterm_set_char(term, '\0', posx--, posy);
             }
             posx = term->width-1;
             posy--;
@@ -315,7 +316,7 @@ static void vterm_handle_esc_seq(vterm_t * term, char * esc) {
         } else if (args[0] == 2 || args[0] == 3) {
           for(int16_t posy = 0; posy < term->height; posy++) {
             for(int16_t posx = 0; posx < term->width; posx++) {
-              vterm_set_char(term, ' ', posx, posy);
+              vterm_set_char(term, '\0', posx, posy);
             }
           }
         }
@@ -349,6 +350,7 @@ static void vterm_handle_esc_seq(vterm_t * term, char * esc) {
           seg[pos++] = '[';
           itoa(term->_y+1, seg+pos, 10);
           while(seg[pos] != '\0') pos++;
+          seg[pos++] = ';';
           itoa(term->_x+1, seg+pos, 10);
           while(seg[pos] != '\0') pos++;
           seg[pos++] = 'R';

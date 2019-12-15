@@ -30,7 +30,7 @@ syscall/brk.handler										\
 OBJS = \
 lib/crt/crt0.o	lib/crt/div.o							\
 dev/devices.o	dev/serial.o	dev/tty.o				\
-dev/dev_gen.o	dev/pipe.o		dev/special.o			\
+dev/dev_gen.o	dev/pipe.o		dev/special.o	dev/ps.o			\
 lib/kstdio_layer/kstdio_layer.o							\
 \
 lib/string/memchr.o	lib/string/memcmp.o	lib/string/memcpy.o	lib/string/memmove.o			\

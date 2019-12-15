@@ -4,72 +4,31 @@
 #include <stdint.h>
 
 /**
- * start gfx mode */
-void gfx_init(uint16_t do_clear);
-
-/**
- * exit gfx mode */
-void gfx_exit(uint16_t do_clear);
-
-/**
- * clear text on screen */
-void gfx_clear_text();
-
-/**
- * put a char on screen at the specifed location
- * uses hardware text support (x is in [0,80) range and y [0,25)) */
-void gfx_put_char(__reg("ra") int16_t x, __reg("rb") int16_t y, __reg("rc") char c);
-
-/**
- * put a string onto the screen, starting at pos x,y
- */
-void gfx_put_string(int16_t x, int16_t y, char * msg);
-
-/**
- * throttle framerate to the specified value,
- * or default if 0 is passed
- * 
- * the frame rate may be below the specified value if the processor is doing a lot */
-void gfx_throttle(uint16_t framerate);
-
-/**
- * draw a pixel on the screen at x, y in color color
- */
-void gfx_pixel(__reg("ra") uint16_t x, __reg("rb") uint16_t y, __reg("rc") uint8_t color);
-
-/**
- * draw a rectangle
- * if the rectangle extends off the screen, don't draw it
- * see gfx_rect_safe for a slower version that can draw partially off screen rects
- */
-void gfx_rect(__reg("ra") int16_t x, __reg("rb") int16_t y, __reg("rc") int16_t width, __reg("rd") int16_t height, __reg("re") uint8_t color);
-
-/**
- * draw a rectangle, and cut it if it would go offscreen
- * slower than gfx_rect */
-void gfx_rect_safe(int16_t x, int16_t y, int16_t width, int16_t height, uint8_t color);
-
-/**
- * clear the screen with color */
-void gfx_background(__reg("ra") uint8_t color);
-
-/**
- * gfx key reading has two modes:
- * TRACK_PRESS - keep track of what keys are pressed and what aren't (good for games)
- * STANDARD - just return raw key down, ignore keyups, etc (still raw keys)
- */
-enum gfx_in_mode {
-  TRACK_PRESS,
-  STANDARD
+ * an area of the screen being managed by gfx
+ * must be aligned on 8 x 8 pixels */
+struct gfx_inst {
+  /* location in pixels */
+  uint16_t x, y, width, height;
+  /* buffer containing previously present text - saved and restored on exit */
+  uint16_t * prev_cont_buf;
 };
-/**
- * flush all waiting input */
-void gfx_flush_input();
-/**
- * set the mode for gfx input */
-void gfx_set_input_mode(enum gfx_in_mode mode);
-int gfx_get_keypress();
-int gfx_is_key_pressed(uint8_t key);
+void gfx_put_string(int16_t x,int16_t y,char *msg);
+void gfx_pixel(struct gfx_inst *gfx,int16_t x,int16_t y,uint8_t color);
+void gfx_throttle(uint16_t framerate);
+void gfx_exit(struct gfx_inst *gfx);
+void gfx_rect(struct gfx_inst *gfx,int16_t x,int16_t y,int16_t width,int16_t height,uint8_t color);
+struct gfx_inst *gfx_get_default_inst();
+void gfx_clear_txt_cont(struct gfx_inst *gfx);
+void gfx_restore_txt_cont(struct gfx_inst *gfx);
+void gfx_save_txt_cont(struct gfx_inst *gfx);
+void gfx_inst_free(struct gfx_inst *gfx);
+struct gfx_inst *gfx_inst_new(uint16_t x,uint16_t y,uint16_t width,uint16_t height,uint8_t do_save_cont);
+void gfx_background(struct gfx_inst * gfx, uint8_t color);
+
+/** macros **/
+#define gfx_width(gfx) (gfx->width)
+#define gfx_height(gfx) (gfx->height)
+
 
 /* special key definitons */
 #define gfx_key_up 29
@@ -105,6 +64,7 @@ int gfx_is_key_pressed(uint8_t key);
 #define gfx_key_f11 24
 #define gfx_key_f12 25
 
+/* gfx_colors */
 
 #define gfx_rgb_to_color(r, g, b) ((b>>6) + ((g>>5)<<2) + ((r>>5)<<5))
 
