@@ -14,16 +14,16 @@
 
 /* internal drawing functions */
 void _gfx_rect(__reg("ra") int16_t x, __reg("rb") int16_t y, __reg("rc") int16_t width, __reg("rd") int16_t height, __reg("re") uint8_t color);
-void _gfx_put_char(__reg("ra") int16_t x, __reg("rb") int16_t y, __reg("rc") char c);
+void _gfx_put_char(__reg("ra") int16_t x, __reg("rb") int16_t y, __reg("rc") uint16_t c);
 uint16_t _gfx_read_char(__reg("ra") int16_t x, __reg("rb") int16_t y);
 void _gfx_pixel(__reg("ra") uint16_t x, __reg("rb") uint16_t y, __reg("rc") uint8_t color);
 
 /* create a gfx inst object */
-struct gfx_inst * gfx_inst_new(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint8_t do_save_cont) {
+gfx_t * gfx_inst_new(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint8_t do_save_cont) {
   /* make sure section is aligned to text */
   if(width % _GFX_CHAR_WIDTH != 0 || height % _GFX_CHAR_HEIGHT != 0) return NULL;
 
-  struct gfx_inst * res = malloc(sizeof(struct gfx_inst));
+  gfx_t * res = malloc(sizeof(gfx_t));
   res->x = x;
   res->y = y;
   res->width = width;
@@ -37,13 +37,13 @@ struct gfx_inst * gfx_inst_new(uint16_t x, uint16_t y, uint16_t width, uint16_t 
 }
 
 /* free gfx inst object */
-void gfx_inst_free(struct gfx_inst * gfx) {
+void gfx_inst_free(gfx_t * gfx) {
   if(gfx->prev_cont_buf != NULL) free(gfx->prev_cont_buf);
   free(gfx);
 }
 
 /* save current screen text content to buffer */
-void gfx_save_txt_cont(struct gfx_inst * gfx) {
+void gfx_save_txt_cont(gfx_t * gfx) {
   if(gfx->prev_cont_buf == NULL) return;
 
   uint16_t addr = 0;
@@ -55,7 +55,7 @@ void gfx_save_txt_cont(struct gfx_inst * gfx) {
 }
 
 /* restore screen contents from buffer */
-void gfx_restore_txt_cont(struct gfx_inst * gfx) {
+void gfx_restore_txt_cont(gfx_t * gfx) {
   if(gfx->prev_cont_buf == NULL) return;
 
   uint16_t addr = 0;
@@ -67,7 +67,7 @@ void gfx_restore_txt_cont(struct gfx_inst * gfx) {
 }
 
 /* clear content occupied by gfx_inst */
-void gfx_clear_txt_cont(struct gfx_inst * gfx) {
+void gfx_clear_txt_cont(gfx_t * gfx) {
   for(int16_t y = 0; y < gfx->height; y+= _GFX_CHAR_HEIGHT) {
     for(int16_t x = 0; x < gfx->width; x+= _GFX_CHAR_WIDTH ) {
       _gfx_put_char((x + gfx->x)/_GFX_CHAR_WIDTH, (y + gfx->y)/_GFX_CHAR_HEIGHT, ' ');
@@ -78,16 +78,16 @@ void gfx_clear_txt_cont(struct gfx_inst * gfx) {
 /**
  * Default method of obtaining and exiting a gfx_inst object
  * This should be used instead of gfx_inst_new, as this will be modified to work with window managers etc in the future */
-struct gfx_inst * gfx_get_default_inst() {
+gfx_t * gfx_new_window() {
   /* TODO: detect window manager, etc */
-  struct gfx_inst * res = gfx_inst_new(8, 8, 304, 184, 1);
+  gfx_t * res = gfx_inst_new(8, 8, 304, 184, 1);
   gfx_save_txt_cont(res);
   gfx_clear_txt_cont(res);
   gfx_rect(res, 0, 0, res->width, res->height, 0);
   return res;
 }
 
-void gfx_exit(struct gfx_inst * gfx) {
+void gfx_exit(gfx_t * gfx) {
   gfx_background(gfx, gfx_black);
   gfx_restore_txt_cont(gfx);
   gfx_inst_free(gfx);
@@ -108,7 +108,7 @@ void gfx_throttle(uint16_t framerate) {
 
 /**
  * draw a pixel */
-void gfx_pixel(struct gfx_inst * gfx, int16_t x, int16_t y, uint8_t color) {
+void gfx_pixel(gfx_t * gfx, int16_t x, int16_t y, uint8_t color) {
   /* check bounds */
   if(x <0 || x >= gfx->width || y < 0 || y >= gfx->height) return;
 
@@ -118,7 +118,7 @@ void gfx_pixel(struct gfx_inst * gfx, int16_t x, int16_t y, uint8_t color) {
 /**
  * draw a rectangle, and cut it if it would go offscreen
  * slower than asm routine, but safe */
-void gfx_rect(struct gfx_inst * gfx, int16_t x, int16_t y, int16_t width, int16_t height, uint8_t color) {
+void gfx_rect(gfx_t * gfx, int16_t x, int16_t y, int16_t width, int16_t height, uint8_t color) {
   if(x < 0) {
     if((-x) >= width) return;
     width += x;
@@ -145,14 +145,35 @@ void gfx_rect(struct gfx_inst * gfx, int16_t x, int16_t y, int16_t width, int16_
 /**
  * set background
  * just calls rect */
-void gfx_background(struct gfx_inst * gfx, uint8_t color) {
+void gfx_background(gfx_t * gfx, uint8_t color) {
   _gfx_rect(gfx->x, gfx->y, gfx->width, gfx->height, color);
+}
+
+/**
+ * set a character */
+void gfx_put_char(gfx_t *gfx, uint16_t x, uint16_t y, uint16_t c) {
+  uint16_t pos_x = x * _GFX_CHAR_WIDTH + gfx->x;
+  uint16_t pos_y = y * _GFX_CHAR_HEIGHT + gfx->y;
+  if(!(pos_x < gfx->x || pos_x + _GFX_CHAR_WIDTH > gfx->x + gfx->width || pos_y < gfx->y || pos_y + _GFX_CHAR_HEIGHT > gfx->y + gfx->height)) {
+    _gfx_put_char(pos_x / _GFX_CHAR_WIDTH, pos_y / _GFX_CHAR_HEIGHT, c);
+  }
+}
+
+/**
+ * get a character from the screen
+ */
+uint16_t gfx_get_char(gfx_t * gfx, uint16_t x, uint16_t y) {
+  uint16_t pos_x = x * _GFX_CHAR_WIDTH + gfx->x;
+  uint16_t pos_y = y * _GFX_CHAR_HEIGHT + gfx->y;
+  if(!(pos_x < gfx->x || pos_x + _GFX_CHAR_WIDTH > gfx->x + gfx->width || pos_y < gfx->y || pos_y + _GFX_CHAR_HEIGHT > gfx->y + gfx->height)) {
+    return _gfx_read_char(pos_x / _GFX_CHAR_WIDTH, pos_y / _GFX_CHAR_HEIGHT);
+  }
 }
 
 /**
  * put a string onto the screen, starting at pos x,y
  */
-void gfx_put_string(int16_t x, int16_t y, char * msg) {
+void gfx_put_string(gfx_t * gfx, int16_t x, int16_t y, char * msg) {
   int16_t cur_x = x;
   int16_t cur_y = y;
   while(*msg) {

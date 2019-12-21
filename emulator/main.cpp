@@ -3,6 +3,7 @@
 #include <ctime>
 #include <ratio>
 #include <chrono>
+#include <thread>
 
 #include <unistd.h>
 
@@ -85,7 +86,7 @@ int main(int argc, char ** argv){
 
     cpu.reset();
     cpu.read_file(argv[optind]);
-    cpu.init_io(serial_en, gfx_en, disk_en, serial_file, disk_file);
+    cpu.init_io(serial_en, gfx_en, disk_en, serial_file, disk_file, do_throttle ? (uint16_t)throttle_freq : 65535);
     long long count = 0;
     std::chrono::high_resolution_clock::time_point start_time = std::chrono::high_resolution_clock::now();
     while(true){
@@ -100,18 +101,17 @@ int main(int argc, char ** argv){
                    this is 3*SCREEN_UPDATE_FREQ clock ticks (3 clocks per instr) */
                 double target_millis = ((double)(3*SCREEN_UPDATE_FREQ))/(throttle_freq * 1000.0);
 
-                uint8_t done_cycle = 0;
-                while(1){
-                    std::chrono::high_resolution_clock::time_point now = std::chrono::high_resolution_clock::now();
 
-                    std::chrono::duration<double, std::milli> time_span = now - start_time;
-                    if(time_span.count() >= target_millis) {
-                        if(!done_cycle) {
-                            fprintf(stderr, "scpemu: didn't meet throttle frequency of %lf mhz\n", throttle_freq);
-                        }
-                        break;
-                    }
-                    done_cycle = 1;
+                std::chrono::high_resolution_clock::time_point now = std::chrono::high_resolution_clock::now();
+
+                std::chrono::duration<double, std::milli> time_span = now - start_time;
+                if(time_span.count() >= target_millis) {
+                    fprintf(stderr, "scpemu: didn't meet throttle frequency of %lf mhz\n", throttle_freq);
+                } else {
+                    /* sleep */
+                    std::chrono::duration<double, std::milli> target_time = std::chrono::milliseconds((long)target_millis);
+
+                    std::this_thread::sleep_for(target_time - time_span);
                 }
 
                 /* reset clock */

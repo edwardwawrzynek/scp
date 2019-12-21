@@ -2101,42 +2101,62 @@ __outp_249:
 	.global __outp_249
 	out.r.p ra 249
 	ret.n.sp sp
+__inp__sys_info_emulated:
+	.global __inp__sys_info_emulated
 __inp_250:
 	.global __inp_250
 	in.r.p re 250
 	ret.n.sp sp
+__outp__sys_info_emulated:
+	.global __outp__sys_info_emulated
 __outp_250:
 	.global __outp_250
 	out.r.p ra 250
 	ret.n.sp sp
+__inp__sys_info_cpu_speed:
+	.global __inp__sys_info_cpu_speed
 __inp_251:
 	.global __inp_251
 	in.r.p re 251
 	ret.n.sp sp
+__outp__sys_info_cpu_speed:
+	.global __outp__sys_info_cpu_speed
 __outp_251:
 	.global __outp_251
 	out.r.p ra 251
 	ret.n.sp sp
+__inp__sys_info_pages_mem:
+	.global __inp__sys_info_pages_mem
 __inp_252:
 	.global __inp_252
 	in.r.p re 252
 	ret.n.sp sp
+__outp__sys_info_pages_mem:
+	.global __outp__sys_info_pages_mem
 __outp_252:
 	.global __outp_252
 	out.r.p ra 252
 	ret.n.sp sp
+__inp__sys_clock_in_port_low:
+	.global __inp__sys_clock_in_port_low
 __inp_253:
 	.global __inp_253
 	in.r.p re 253
 	ret.n.sp sp
+__outp__sys_clock_in_port_low:
+	.global __outp__sys_clock_in_port_low
 __outp_253:
 	.global __outp_253
 	out.r.p ra 253
 	ret.n.sp sp
+__inp__sys_clock_in_port_high:
+	.global __inp__sys_clock_in_port_high
 __inp_254:
 	.global __inp_254
 	in.r.p re 254
 	ret.n.sp sp
+__outp__sys_clock_in_port_high:
+	.global __outp__sys_clock_in_port_high
 __outp_254:
 	.global __outp_254
 	out.r.p ra 254

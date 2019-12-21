@@ -1,5 +1,5 @@
 Analysis & Synthesis report for scp
-Mon Nov 25 20:45:47 2019
+Fri Dec 20 16:47:28 2019
 Quartus Prime Version 19.1.0 Build 670 09/22/2019 SJ Lite Edition
 
 
@@ -110,13 +110,13 @@ https://fpgasoftware.intel.com/eula.
 +-------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                  ;
 +---------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status     ; Successful - Mon Nov 25 20:45:47 2019       ;
+; Analysis & Synthesis Status     ; Successful - Fri Dec 20 16:47:28 2019       ;
 ; Quartus Prime Version           ; 19.1.0 Build 670 09/22/2019 SJ Lite Edition ;
 ; Revision Name                   ; scp                                         ;
 ; Top-level Entity Name           ; scp                                         ;
 ; Family                          ; Cyclone V                                   ;
 ; Logic utilization (in ALMs)     ; N/A                                         ;
-; Total registers                 ; 971                                         ;
+; Total registers                 ; 973                                         ;
 ; Total pins                      ; 30                                          ;
 ; Total virtual pins              ; 0                                           ;
 ; Total block memory bits         ; 1,094,144                                   ;
@@ -276,6 +276,7 @@ https://fpgasoftware.intel.com/eula.
 ; IO/uart/vga_screen_en_reg.v      ; yes             ; User Verilog HDL File                  ; /home/edward/Documents/scp/quartus/IO/uart/vga_screen_en_reg.v         ;         ;
 ; cpu_pll.v                        ; yes             ; User Wizard-Generated File             ; /home/edward/Documents/scp/quartus/cpu_pll.v                           ; cpu_pll ;
 ; cpu_pll/cpu_pll_0002.v           ; yes             ; User Verilog HDL File                  ; /home/edward/Documents/scp/quartus/cpu_pll/cpu_pll_0002.v              ; cpu_pll ;
+; IO/vga/vga_sync_clock.v          ; yes             ; User Verilog HDL File                  ; /home/edward/Documents/scp/quartus/IO/vga/vga_sync_clock.v             ;         ;
 ; altsyncram.tdf                   ; yes             ; Megafunction                           ; /opt/altera/19.1/quartus/libraries/megafunctions/altsyncram.tdf        ;         ;
 ; stratix_ram_block.inc            ; yes             ; Megafunction                           ; /opt/altera/19.1/quartus/libraries/megafunctions/stratix_ram_block.inc ;         ;
 ; lpm_mux.inc                      ; yes             ; Megafunction                           ; /opt/altera/19.1/quartus/libraries/megafunctions/lpm_mux.inc           ;         ;
@@ -309,16 +310,16 @@ https://fpgasoftware.intel.com/eula.
 +---------------------------------------------+--------------------------------------------------------------------------------+
 ; Resource                                    ; Usage                                                                          ;
 +---------------------------------------------+--------------------------------------------------------------------------------+
-; Estimate of Logic utilization (ALMs needed) ; 976                                                                            ;
+; Estimate of Logic utilization (ALMs needed) ; 1081                                                                           ;
 ;                                             ;                                                                                ;
-; Combinational ALUT usage for logic          ; 1382                                                                           ;
-;     -- 7 input functions                    ; 34                                                                             ;
-;     -- 6 input functions                    ; 435                                                                            ;
-;     -- 5 input functions                    ; 274                                                                            ;
-;     -- 4 input functions                    ; 165                                                                            ;
-;     -- <=3 input functions                  ; 474                                                                            ;
+; Combinational ALUT usage for logic          ; 1555                                                                           ;
+;     -- 7 input functions                    ; 50                                                                             ;
+;     -- 6 input functions                    ; 458                                                                            ;
+;     -- 5 input functions                    ; 247                                                                            ;
+;     -- 4 input functions                    ; 245                                                                            ;
+;     -- <=3 input functions                  ; 555                                                                            ;
 ;                                             ;                                                                                ;
-; Dedicated logic registers                   ; 971                                                                            ;
+; Dedicated logic registers                   ; 973                                                                            ;
 ;                                             ;                                                                                ;
 ; I/O pins                                    ; 30                                                                             ;
 ; Total MLAB memory bits                      ; 0                                                                              ;
@@ -331,8 +332,8 @@ https://fpgasoftware.intel.com/eula.
 ;                                             ;                                                                                ;
 ; Maximum fan-out node                        ; cpu_pll:inst1|cpu_pll_0002:cpu_pll_inst|altera_pll:altera_pll_i|outclk_wire[1] ;
 ; Maximum fan-out                             ; 511                                                                            ;
-; Total fan-out                               ; 14246                                                                          ;
-; Average fan-out                             ; 5.31                                                                           ;
+; Total fan-out                               ; 14883                                                                          ;
+; Average fan-out                             ; 5.21                                                                           ;
 +---------------------------------------------+--------------------------------------------------------------------------------+
 
 
@@ -341,21 +342,21 @@ https://fpgasoftware.intel.com/eula.
 +----------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+-------------------------------------------------------------------------------------------------------------------------+------------------+--------------+
 ; Compilation Hierarchy Node                   ; Combinational ALUTs ; Dedicated Logic Registers ; Block Memory Bits ; DSP Blocks ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                                     ; Entity Name      ; Library Name ;
 +----------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+-------------------------------------------------------------------------------------------------------------------------+------------------+--------------+
-; |scp                                         ; 1382 (7)            ; 971 (0)                   ; 1094144           ; 1          ; 30   ; 0            ; |scp                                                                                                                    ; scp              ; work         ;
-;    |alu_unit:inst7|                          ; 157 (157)           ; 21 (21)                   ; 0                 ; 1          ; 0    ; 0            ; |scp|alu_unit:inst7                                                                                                     ; alu_unit         ; work         ;
+; |scp                                         ; 1555 (30)           ; 973 (0)                   ; 1094144           ; 1          ; 30   ; 0            ; |scp                                                                                                                    ; scp              ; work         ;
+;    |alu_unit:inst7|                          ; 168 (168)           ; 21 (21)                   ; 0                 ; 1          ; 0    ; 0            ; |scp|alu_unit:inst7                                                                                                     ; alu_unit         ; work         ;
 ;    |cpu_pll:inst1|                           ; 0 (0)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|cpu_pll:inst1                                                                                                      ; cpu_pll          ; cpu_pll      ;
 ;       |cpu_pll_0002:cpu_pll_inst|            ; 0 (0)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|cpu_pll:inst1|cpu_pll_0002:cpu_pll_inst                                                                            ; cpu_pll_0002     ; cpu_pll      ;
 ;          |altera_pll:altera_pll_i|           ; 0 (0)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|cpu_pll:inst1|cpu_pll_0002:cpu_pll_inst|altera_pll:altera_pll_i                                                    ; altera_pll       ; work         ;
-;    |execution_unit:inst3|                    ; 346 (346)           ; 206 (206)                 ; 512               ; 0          ; 0    ; 0            ; |scp|execution_unit:inst3                                                                                               ; execution_unit   ; work         ;
+;    |execution_unit:inst3|                    ; 465 (465)           ; 206 (206)                 ; 512               ; 0          ; 0    ; 0            ; |scp|execution_unit:inst3                                                                                               ; execution_unit   ; work         ;
 ;       |altsyncram:regfile_rtl_0|             ; 0 (0)               ; 0 (0)                     ; 256               ; 0          ; 0    ; 0            ; |scp|execution_unit:inst3|altsyncram:regfile_rtl_0                                                                      ; altsyncram       ; work         ;
 ;          |altsyncram_j2k1:auto_generated|    ; 0 (0)               ; 0 (0)                     ; 256               ; 0          ; 0    ; 0            ; |scp|execution_unit:inst3|altsyncram:regfile_rtl_0|altsyncram_j2k1:auto_generated                                       ; altsyncram_j2k1  ; work         ;
 ;       |altsyncram:regfile_rtl_1|             ; 0 (0)               ; 0 (0)                     ; 256               ; 0          ; 0    ; 0            ; |scp|execution_unit:inst3|altsyncram:regfile_rtl_1                                                                      ; altsyncram       ; work         ;
 ;          |altsyncram_j2k1:auto_generated|    ; 0 (0)               ; 0 (0)                     ; 256               ; 0          ; 0    ; 0            ; |scp|execution_unit:inst3|altsyncram:regfile_rtl_1|altsyncram_j2k1:auto_generated                                       ; altsyncram_j2k1  ; work         ;
-;    |io_port:inst22|                          ; 1 (1)               ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|io_port:inst22                                                                                                     ; io_port          ; work         ;
-;    |ps2_io:inst11|                           ; 112 (0)             ; 110 (0)                   ; 2048              ; 0          ; 0    ; 0            ; |scp|ps2_io:inst11                                                                                                      ; ps2_io           ; work         ;
+;    |io_port:inst22|                          ; 2 (2)               ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|io_port:inst22                                                                                                     ; io_port          ; work         ;
+;    |ps2_io:inst11|                           ; 113 (0)             ; 110 (0)                   ; 2048              ; 0          ; 0    ; 0            ; |scp|ps2_io:inst11                                                                                                      ; ps2_io           ; work         ;
 ;       |io_port:instp1|                       ; 3 (3)               ; 1 (1)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ps2_io:inst11|io_port:instp1                                                                                       ; io_port          ; work         ;
-;       |io_port:instp2|                       ; 2 (2)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ps2_io:inst11|io_port:instp2                                                                                       ; io_port          ; work         ;
-;       |ps2_fifo:instp3|                      ; 27 (27)             ; 41 (41)                   ; 2048              ; 0          ; 0    ; 0            ; |scp|ps2_io:inst11|ps2_fifo:instp3                                                                                      ; ps2_fifo         ; work         ;
+;       |io_port:instp2|                       ; 1 (1)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ps2_io:inst11|io_port:instp2                                                                                       ; io_port          ; work         ;
+;       |ps2_fifo:instp3|                      ; 29 (29)             ; 41 (41)                   ; 2048              ; 0          ; 0    ; 0            ; |scp|ps2_io:inst11|ps2_fifo:instp3                                                                                      ; ps2_fifo         ; work         ;
 ;          |altsyncram:mem_rtl_0|              ; 0 (0)               ; 0 (0)                     ; 2048              ; 0          ; 0    ; 0            ; |scp|ps2_io:inst11|ps2_fifo:instp3|altsyncram:mem_rtl_0                                                                 ; altsyncram       ; work         ;
 ;             |altsyncram_93k1:auto_generated| ; 0 (0)               ; 0 (0)                     ; 2048              ; 0          ; 0    ; 0            ; |scp|ps2_io:inst11|ps2_fifo:instp3|altsyncram:mem_rtl_0|altsyncram_93k1:auto_generated                                  ; altsyncram_93k1  ; work         ;
 ;       |ps2_keyboard:instp|                   ; 43 (17)             ; 57 (33)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|ps2_io:inst11|ps2_keyboard:instp                                                                                   ; ps2_keyboard     ; work         ;
@@ -368,14 +369,14 @@ https://fpgasoftware.intel.com/eula.
 ;             |decode_i2a:rden_decode|         ; 4 (4)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ram:inst|altsyncram:altsyncram_component|altsyncram_9tp1:auto_generated|decode_i2a:rden_decode                     ; decode_i2a       ; work         ;
 ;             |decode_pma:decode3|             ; 4 (4)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ram:inst|altsyncram:altsyncram_component|altsyncram_9tp1:auto_generated|decode_pma:decode3                         ; decode_pma       ; work         ;
 ;             |mux_oib:mux2|                   ; 8 (8)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ram:inst|altsyncram:altsyncram_component|altsyncram_9tp1:auto_generated|mux_oib:mux2                               ; mux_oib          ; work         ;
-;    |ram_addr_manager:inst2|                  ; 42 (42)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ram_addr_manager:inst2                                                                                             ; ram_addr_manager ; work         ;
+;    |ram_addr_manager:inst2|                  ; 43 (43)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|ram_addr_manager:inst2                                                                                             ; ram_addr_manager ; work         ;
 ;    |ram_mmu:inst5|                           ; 0 (0)               ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|ram_mmu:inst5                                                                                                      ; ram_mmu          ; work         ;
-;    |sd_io:inst27|                            ; 337 (0)             ; 279 (0)                   ; 8192              ; 0          ; 0    ; 0            ; |scp|sd_io:inst27                                                                                                       ; sd_io            ; work         ;
+;    |sd_io:inst27|                            ; 343 (0)             ; 279 (0)                   ; 8192              ; 0          ; 0    ; 0            ; |scp|sd_io:inst27                                                                                                       ; sd_io            ; work         ;
 ;       |SdCardCtrl:sdinst|                    ; 241 (241)           ; 142 (142)                 ; 0                 ; 0          ; 0    ; 0            ; |scp|sd_io:inst27|SdCardCtrl:sdinst                                                                                     ; SdCardCtrl       ; work         ;
-;       |io_port:sdinst1|                      ; 2 (2)               ; 1 (1)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|sd_io:inst27|io_port:sdinst1                                                                                       ; io_port          ; work         ;
-;       |io_port:sdinst2|                      ; 2 (2)               ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|sd_io:inst27|io_port:sdinst2                                                                                       ; io_port          ; work         ;
-;       |io_port:sdinst3|                      ; 2 (2)               ; 1 (1)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|sd_io:inst27|io_port:sdinst3                                                                                       ; io_port          ; work         ;
-;       |io_port:sdinst4|                      ; 1 (1)               ; 1 (1)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|sd_io:inst27|io_port:sdinst4                                                                                       ; io_port          ; work         ;
+;       |io_port:sdinst1|                      ; 1 (1)               ; 1 (1)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|sd_io:inst27|io_port:sdinst1                                                                                       ; io_port          ; work         ;
+;       |io_port:sdinst2|                      ; 5 (5)               ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|sd_io:inst27|io_port:sdinst2                                                                                       ; io_port          ; work         ;
+;       |io_port:sdinst3|                      ; 4 (4)               ; 1 (1)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|sd_io:inst27|io_port:sdinst3                                                                                       ; io_port          ; work         ;
+;       |io_port:sdinst4|                      ; 3 (3)               ; 1 (1)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|sd_io:inst27|io_port:sdinst4                                                                                       ; io_port          ; work         ;
 ;       |io_port:sdinst5|                      ; 1 (1)               ; 9 (9)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|sd_io:inst27|io_port:sdinst5                                                                                       ; io_port          ; work         ;
 ;       |io_port:sdinst8|                      ; 3 (3)               ; 1 (1)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|sd_io:inst27|io_port:sdinst8                                                                                       ; io_port          ; work         ;
 ;       |sdCtrlInt:sdinst7|                    ; 85 (85)             ; 108 (108)                 ; 8192              ; 0          ; 0    ; 0            ; |scp|sd_io:inst27|sdCtrlInt:sdinst7                                                                                     ; sdCtrlInt        ; work         ;
@@ -383,21 +384,21 @@ https://fpgasoftware.intel.com/eula.
 ;             |altsyncram_qji1:auto_generated| ; 0 (0)               ; 0 (0)                     ; 4096              ; 0          ; 0    ; 0            ; |scp|sd_io:inst27|sdCtrlInt:sdinst7|altsyncram:data_rd_mem_rtl_0|altsyncram_qji1:auto_generated                         ; altsyncram_qji1  ; work         ;
 ;          |altsyncram:data_wr_mem_rtl_0|      ; 0 (0)               ; 0 (0)                     ; 4096              ; 0          ; 0    ; 0            ; |scp|sd_io:inst27|sdCtrlInt:sdinst7|altsyncram:data_wr_mem_rtl_0                                                        ; altsyncram       ; work         ;
 ;             |altsyncram_i3n1:auto_generated| ; 0 (0)               ; 0 (0)                     ; 4096              ; 0          ; 0    ; 0            ; |scp|sd_io:inst27|sdCtrlInt:sdinst7|altsyncram:data_wr_mem_rtl_0|altsyncram_i3n1:auto_generated                         ; altsyncram_i3n1  ; work         ;
-;    |sound_io:inst12|                         ; 48 (0)              ; 36 (0)                    ; 0                 ; 0          ; 0    ; 0            ; |scp|sound_io:inst12                                                                                                    ; sound_io         ; work         ;
+;    |sound_io:inst12|                         ; 52 (0)              ; 36 (0)                    ; 0                 ; 0          ; 0    ; 0            ; |scp|sound_io:inst12                                                                                                    ; sound_io         ; work         ;
 ;       |io_port:inst|                         ; 2 (2)               ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|sound_io:inst12|io_port:inst                                                                                       ; io_port          ; work         ;
-;       |sound_gen:inst1|                      ; 46 (46)             ; 20 (20)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|sound_io:inst12|sound_gen:inst1                                                                                    ; sound_gen        ; work         ;
-;    |uart_io:inst10|                          ; 106 (0)             ; 118 (0)                   ; 2048              ; 0          ; 0    ; 0            ; |scp|uart_io:inst10                                                                                                     ; uart_io          ; work         ;
-;       |io_port:inst03|                       ; 3 (3)               ; 1 (1)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|uart_io:inst10|io_port:inst03                                                                                      ; io_port          ; work         ;
-;       |io_port:inst04|                       ; 1 (1)               ; 17 (17)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|uart_io:inst10|io_port:inst04                                                                                      ; io_port          ; work         ;
-;       |io_port:inst05|                       ; 1 (1)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|uart_io:inst10|io_port:inst05                                                                                      ; io_port          ; work         ;
+;       |sound_gen:inst1|                      ; 50 (50)             ; 20 (20)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|sound_io:inst12|sound_gen:inst1                                                                                    ; sound_gen        ; work         ;
+;    |uart_io:inst10|                          ; 109 (0)             ; 118 (0)                   ; 2048              ; 0          ; 0    ; 0            ; |scp|uart_io:inst10                                                                                                     ; uart_io          ; work         ;
+;       |io_port:inst03|                       ; 2 (2)               ; 1 (1)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|uart_io:inst10|io_port:inst03                                                                                      ; io_port          ; work         ;
+;       |io_port:inst04|                       ; 2 (2)               ; 17 (17)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|uart_io:inst10|io_port:inst04                                                                                      ; io_port          ; work         ;
+;       |io_port:inst05|                       ; 3 (3)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|uart_io:inst10|io_port:inst05                                                                                      ; io_port          ; work         ;
 ;       |uart:inst01|                          ; 72 (0)              ; 58 (0)                    ; 0                 ; 0          ; 0    ; 0            ; |scp|uart_io:inst10|uart:inst01                                                                                         ; uart             ; work         ;
 ;          |baud_rate_gen:uart_baud|           ; 20 (20)             ; 14 (14)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|uart_io:inst10|uart:inst01|baud_rate_gen:uart_baud                                                                 ; baud_rate_gen    ; work         ;
 ;          |receiver:uart_rx|                  ; 38 (38)             ; 28 (28)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|uart_io:inst10|uart:inst01|receiver:uart_rx                                                                        ; receiver         ; work         ;
 ;          |transmitter:uart_tx|               ; 14 (14)             ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|uart_io:inst10|uart:inst01|transmitter:uart_tx                                                                     ; transmitter      ; work         ;
-;       |uartRecFIFO:inst02|                   ; 29 (29)             ; 42 (42)                   ; 2048              ; 0          ; 0    ; 0            ; |scp|uart_io:inst10|uartRecFIFO:inst02                                                                                  ; uartRecFIFO      ; work         ;
+;       |uartRecFIFO:inst02|                   ; 30 (30)             ; 42 (42)                   ; 2048              ; 0          ; 0    ; 0            ; |scp|uart_io:inst10|uartRecFIFO:inst02                                                                                  ; uartRecFIFO      ; work         ;
 ;          |altsyncram:mem_rtl_0|              ; 0 (0)               ; 0 (0)                     ; 2048              ; 0          ; 0    ; 0            ; |scp|uart_io:inst10|uartRecFIFO:inst02|altsyncram:mem_rtl_0                                                             ; altsyncram       ; work         ;
 ;             |altsyncram_93k1:auto_generated| ; 0 (0)               ; 0 (0)                     ; 2048              ; 0          ; 0    ; 0            ; |scp|uart_io:inst10|uartRecFIFO:inst02|altsyncram:mem_rtl_0|altsyncram_93k1:auto_generated                              ; altsyncram_93k1  ; work         ;
-;    |vga_io:inst23|                           ; 210 (0)             ; 167 (0)                   ; 557056            ; 0          ; 0    ; 0            ; |scp|vga_io:inst23                                                                                                      ; vga_io           ; work         ;
+;    |vga_io:inst23|                           ; 214 (0)             ; 169 (0)                   ; 557056            ; 0          ; 0    ; 0            ; |scp|vga_io:inst23                                                                                                      ; vga_io           ; work         ;
 ;       |VGA_controller:instv6|                ; 90 (90)             ; 111 (111)                 ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|VGA_controller:instv6                                                                                ; VGA_controller   ; work         ;
 ;       |char_mem:instv2|                      ; 0 (0)               ; 0 (0)                     ; 16384             ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|char_mem:instv2                                                                                      ; char_mem         ; work         ;
 ;          |altsyncram:altsyncram_component|   ; 0 (0)               ; 0 (0)                     ; 16384             ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|char_mem:instv2|altsyncram:altsyncram_component                                                      ; altsyncram       ; work         ;
@@ -412,11 +413,12 @@ https://fpgasoftware.intel.com/eula.
 ;                |decode_61a:rden_decode_b|    ; 8 (8)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|gfx_mem:inst|altsyncram:altsyncram_component|altsyncram_trj2:auto_generated|decode_61a:rden_decode_b ; decode_61a       ; work         ;
 ;                |decode_dla:decode3|          ; 8 (8)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|gfx_mem:inst|altsyncram:altsyncram_component|altsyncram_trj2:auto_generated|decode_dla:decode3       ; decode_dla       ; work         ;
 ;                |mux_tfb:mux5|                ; 4 (4)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|gfx_mem:inst|altsyncram:altsyncram_component|altsyncram_trj2:auto_generated|mux_tfb:mux5             ; mux_tfb          ; work         ;
-;       |io_port:inst1|                        ; 1 (1)               ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|io_port:inst1                                                                                        ; io_port          ; work         ;
-;       |io_port:inst2|                        ; 1 (1)               ; 9 (9)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|io_port:inst2                                                                                        ; io_port          ; work         ;
-;       |io_port:instv3|                       ; 1 (1)               ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|io_port:instv3                                                                                       ; io_port          ; work         ;
-;       |io_port:instv4|                       ; 1 (1)               ; 9 (9)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|io_port:instv4                                                                                       ; io_port          ; work         ;
+;       |io_port:inst1|                        ; 2 (2)               ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|io_port:inst1                                                                                        ; io_port          ; work         ;
+;       |io_port:inst2|                        ; 2 (2)               ; 9 (9)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|io_port:inst2                                                                                        ; io_port          ; work         ;
+;       |io_port:instv3|                       ; 2 (2)               ; 16 (16)                   ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|io_port:instv3                                                                                       ; io_port          ; work         ;
+;       |io_port:instv4|                       ; 2 (2)               ; 9 (9)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|io_port:instv4                                                                                       ; io_port          ; work         ;
 ;       |text_gen:instv1|                      ; 88 (88)             ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|text_gen:instv1                                                                                      ; text_gen         ; work         ;
+;       |vga_sync_clock:inst7|                 ; 0 (0)               ; 2 (2)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_io:inst23|vga_sync_clock:inst7                                                                                 ; vga_sync_clock   ; work         ;
 ;    |vga_pll:inst_io0|                        ; 0 (0)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_pll:inst_io0                                                                                                   ; vga_pll          ; vga_pll      ;
 ;       |vga_pll_0002:vga_pll_inst|            ; 0 (0)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_pll:inst_io0|vga_pll_0002:vga_pll_inst                                                                         ; vga_pll_0002     ; vga_pll      ;
 ;          |altera_pll:altera_pll_i|           ; 0 (0)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |scp|vga_pll:inst_io0|vga_pll_0002:vga_pll_inst|altera_pll:altera_pll_i                                                 ; altera_pll       ; work         ;
@@ -635,12 +637,12 @@ Encoding Type:  One-Hot
 +----------------------------------------------+-------+
 ; Statistic                                    ; Value ;
 +----------------------------------------------+-------+
-; Total registers                              ; 971   ;
-; Number of registers using Synchronous Clear  ; 168   ;
-; Number of registers using Synchronous Load   ; 127   ;
+; Total registers                              ; 973   ;
+; Number of registers using Synchronous Clear  ; 167   ;
+; Number of registers using Synchronous Load   ; 99    ;
 ; Number of registers using Asynchronous Clear ; 0     ;
 ; Number of registers using Asynchronous Load  ; 0     ;
-; Number of registers using Clock Enable       ; 620   ;
+; Number of registers using Clock Enable       ; 617   ;
 ; Number of registers using Preset             ; 0     ;
 +----------------------------------------------+-------+
 
@@ -825,53 +827,54 @@ Encoding Type:  One-Hot
 +--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------------------------------------------------------------------------------------------+
 ; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                                                                                     ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------------------------------------------------------------------------------------------+
-; 3:1                ; 11 bits   ; 22 LEs        ; 0 LEs                ; 22 LEs                 ; Yes        ; |scp|ps2_io:inst11|ps2_keyboard:instp|count_idle[1]                                                            ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |scp|ps2_io:inst11|ps2_keyboard:instp|debounce:debounce_ps2_clk|counter_out[7]                                 ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |scp|ps2_io:inst11|ps2_keyboard:instp|debounce:debounce_ps2_data|counter_out[4]                                ;
+; 3:1                ; 11 bits   ; 22 LEs        ; 0 LEs                ; 22 LEs                 ; Yes        ; |scp|ps2_io:inst11|ps2_keyboard:instp|count_idle[10]                                                           ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |scp|ps2_io:inst11|ps2_keyboard:instp|debounce:debounce_ps2_clk|counter_out[6]                                 ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |scp|ps2_io:inst11|ps2_keyboard:instp|debounce:debounce_ps2_data|counter_out[7]                                ;
 ; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|sclkPhaseTimer_v[2]                                                        ;
-; 6:1                ; 8 bits    ; 32 LEs        ; 0 LEs                ; 32 LEs                 ; Yes        ; |scp|execution_unit:inst3|io_addr[4]                                                                           ;
-; 6:1                ; 16 bits   ; 64 LEs        ; 0 LEs                ; 64 LEs                 ; Yes        ; |scp|execution_unit:inst3|alu_reg0[1]                                                                          ;
-; 5:1                ; 8 bits    ; 24 LEs        ; 0 LEs                ; 24 LEs                 ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|rx_v[4]                                                                    ;
-; 5:1                ; 4 bits    ; 12 LEs        ; 4 LEs                ; 8 LEs                  ; Yes        ; |scp|uart_io:inst10|uart:inst01|receiver:uart_rx|bitpos[0]                                                     ;
-; 5:1                ; 3 bits    ; 9 LEs         ; 3 LEs                ; 6 LEs                  ; Yes        ; |scp|uart_io:inst10|uart:inst01|transmitter:uart_tx|bitpos[1]                                                  ;
+; 6:1                ; 16 bits   ; 64 LEs        ; 0 LEs                ; 64 LEs                 ; Yes        ; |scp|execution_unit:inst3|alu_reg0[9]                                                                          ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 0 LEs                ; 32 LEs                 ; Yes        ; |scp|execution_unit:inst3|io_addr[5]                                                                           ;
+; 5:1                ; 8 bits    ; 24 LEs        ; 0 LEs                ; 24 LEs                 ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|rx_v[6]                                                                    ;
+; 5:1                ; 4 bits    ; 12 LEs        ; 4 LEs                ; 8 LEs                  ; Yes        ; |scp|uart_io:inst10|uart:inst01|receiver:uart_rx|bitpos[3]                                                     ;
+; 5:1                ; 3 bits    ; 9 LEs         ; 3 LEs                ; 6 LEs                  ; Yes        ; |scp|uart_io:inst10|uart:inst01|transmitter:uart_tx|bitpos[2]                                                  ;
 ; 6:1                ; 4 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |scp|uart_io:inst10|uart:inst01|receiver:uart_rx|sample[3]                                                     ;
-; 7:1                ; 4 bits    ; 16 LEs        ; 12 LEs               ; 4 LEs                  ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|sclkPhaseTimer_v[1]                                                        ;
-; 7:1                ; 11 bits   ; 44 LEs        ; 0 LEs                ; 44 LEs                 ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|tx_v[8]                                                                    ;
-; 27:1               ; 16 bits   ; 288 LEs       ; 0 LEs                ; 288 LEs                ; Yes        ; |scp|execution_unit:inst3|alu_reg1[9]                                                                          ;
-; 8:1                ; 17 bits   ; 85 LEs        ; 34 LEs               ; 51 LEs                 ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|tx_v[7]                                                                    ;
-; 8:1                ; 5 bits    ; 25 LEs        ; 10 LEs               ; 15 LEs                 ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|tx_v[9]                                                                    ;
-; 8:1                ; 10 bits   ; 50 LEs        ; 20 LEs               ; 30 LEs                 ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|byteCnt_v[6]                                                               ;
-; 9:1                ; 3 bits    ; 18 LEs        ; 9 LEs                ; 9 LEs                  ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|tx_v[6]                                                                    ;
-; 35:1               ; 16 bits   ; 368 LEs       ; 32 LEs               ; 336 LEs                ; Yes        ; |scp|execution_unit:inst3|mem_addr[8]                                                                          ;
+; 7:1                ; 4 bits    ; 16 LEs        ; 12 LEs               ; 4 LEs                  ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|sclkPhaseTimer_v[3]                                                        ;
+; 7:1                ; 11 bits   ; 44 LEs        ; 0 LEs                ; 44 LEs                 ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|tx_v[14]                                                                   ;
+; 27:1               ; 16 bits   ; 288 LEs       ; 0 LEs                ; 288 LEs                ; Yes        ; |scp|execution_unit:inst3|alu_reg1[5]                                                                          ;
+; 8:1                ; 17 bits   ; 85 LEs        ; 34 LEs               ; 51 LEs                 ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|tx_v[2]                                                                    ;
+; 8:1                ; 5 bits    ; 25 LEs        ; 10 LEs               ; 15 LEs                 ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|tx_v[11]                                                                   ;
+; 8:1                ; 10 bits   ; 50 LEs        ; 20 LEs               ; 30 LEs                 ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|byteCnt_v[0]                                                               ;
+; 32:1               ; 15 bits   ; 315 LEs       ; 30 LEs               ; 285 LEs                ; Yes        ; |scp|execution_unit:inst3|mem_write_data[3]                                                                    ;
+; 9:1                ; 3 bits    ; 18 LEs        ; 9 LEs                ; 9 LEs                  ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|tx_v[3]                                                                    ;
 ; 23:1               ; 4 bits    ; 60 LEs        ; 40 LEs               ; 20 LEs                 ; Yes        ; |scp|alu_unit:inst7|out[6]                                                                                     ;
-; 23:1               ; 4 bits    ; 60 LEs        ; 40 LEs               ; 20 LEs                 ; Yes        ; |scp|alu_unit:inst7|out[11]                                                                                    ;
-; 7:1                ; 15 bits   ; 60 LEs        ; 30 LEs               ; 30 LEs                 ; Yes        ; |scp|execution_unit:inst3|pc_reg[15]                                                                           ;
-; 24:1               ; 4 bits    ; 64 LEs        ; 44 LEs               ; 20 LEs                 ; Yes        ; |scp|alu_unit:inst7|out[12]                                                                                    ;
-; 24:1               ; 4 bits    ; 64 LEs        ; 44 LEs               ; 20 LEs                 ; Yes        ; |scp|alu_unit:inst7|out[0]                                                                                     ;
-; 14:1               ; 2 bits    ; 18 LEs        ; 10 LEs               ; 8 LEs                  ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|tx_v[46]                                                                   ;
-; 15:1               ; 3 bits    ; 30 LEs        ; 18 LEs               ; 12 LEs                 ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|tx_v[44]                                                                   ;
-; 15:1               ; 2 bits    ; 20 LEs        ; 12 LEs               ; 8 LEs                  ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|tx_v[45]                                                                   ;
+; 23:1               ; 4 bits    ; 60 LEs        ; 40 LEs               ; 20 LEs                 ; Yes        ; |scp|alu_unit:inst7|out[10]                                                                                    ;
+; 24:1               ; 4 bits    ; 64 LEs        ; 44 LEs               ; 20 LEs                 ; Yes        ; |scp|alu_unit:inst7|out[15]                                                                                    ;
+; 24:1               ; 4 bits    ; 64 LEs        ; 44 LEs               ; 20 LEs                 ; Yes        ; |scp|alu_unit:inst7|out[3]                                                                                     ;
+; 33:1               ; 15 bits   ; 330 LEs       ; 60 LEs               ; 270 LEs                ; Yes        ; |scp|execution_unit:inst3|mem_addr[14]                                                                         ;
+; 14:1               ; 2 bits    ; 18 LEs        ; 10 LEs               ; 8 LEs                  ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|tx_v[47]                                                                   ;
+; 15:1               ; 3 bits    ; 30 LEs        ; 18 LEs               ; 12 LEs                 ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|tx_v[41]                                                                   ;
+; 15:1               ; 2 bits    ; 20 LEs        ; 12 LEs               ; 8 LEs                  ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|tx_v[40]                                                                   ;
+; 10:1               ; 15 bits   ; 90 LEs        ; 30 LEs               ; 60 LEs                 ; Yes        ; |scp|execution_unit:inst3|pc_reg[7]                                                                            ;
 ; 23:1               ; 2 bits    ; 30 LEs        ; 12 LEs               ; 18 LEs                 ; Yes        ; |scp|sd_io:inst27|SdCardCtrl:sdinst|bitCnt_v[2]                                                                ;
-; 50:1               ; 7 bits    ; 231 LEs       ; 112 LEs              ; 119 LEs                ; Yes        ; |scp|execution_unit:inst3|reg_writeback_val[9]                                                                 ;
-; 60:1               ; 6 bits    ; 240 LEs       ; 132 LEs              ; 108 LEs                ; Yes        ; |scp|execution_unit:inst3|reg_writeback_val[6]                                                                 ;
+; 53:1               ; 7 bits    ; 245 LEs       ; 119 LEs              ; 126 LEs                ; Yes        ; |scp|execution_unit:inst3|reg_writeback_val[13]                                                                ;
+; 63:1               ; 6 bits    ; 252 LEs       ; 144 LEs              ; 108 LEs                ; Yes        ; |scp|execution_unit:inst3|reg_writeback_val[4]                                                                 ;
 ; 3:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |scp|uart_io:inst10|uartRecFIFO:inst02|state                                                                   ;
-; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; No         ; |scp|ram:inst|altsyncram:altsyncram_component|altsyncram_9tp1:auto_generated|mux_oib:mux2|l2_w8_n0_mux_dataout ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; No         ; |scp|ram:inst|altsyncram:altsyncram_component|altsyncram_9tp1:auto_generated|mux_oib:mux2|l2_w9_n0_mux_dataout ;
 ; 3:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; No         ; |scp|ram_addr_manager:inst2|out_data[9]                                                                        ;
 ; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |scp|alu_unit:inst7|ShiftRight0                                                                                ;
-; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |scp|alu_unit:inst7|ShiftRight0                                                                                ;
+; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |scp|alu_unit:inst7|ShiftLeft0                                                                                 ;
 ; 4:1                ; 18 bits   ; 36 LEs        ; 36 LEs               ; 0 LEs                  ; No         ; |scp|alu_unit:inst7|ShiftRight0                                                                                ;
-; 5:1                ; 8 bits    ; 24 LEs        ; 24 LEs               ; 0 LEs                  ; No         ; |scp|ram_addr_manager:inst2|out_data[3]                                                                        ;
+; 5:1                ; 8 bits    ; 24 LEs        ; 24 LEs               ; 0 LEs                  ; No         ; |scp|ram_addr_manager:inst2|out_data[1]                                                                        ;
 ; 5:1                ; 2 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |scp|sd_io:inst27|SdCardCtrl:sdinst|rtnState_v                                                                 ;
 ; 7:1                ; 3 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; No         ; |scp|uart_io:inst10|uart:inst01|receiver:uart_rx|state                                                         ;
-; 6:1                ; 2 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; No         ; |scp|uart_io:inst10|uart:inst01|transmitter:uart_tx|Selector3                                                  ;
-; 11:1               ; 8 bits    ; 56 LEs        ; 56 LEs               ; 0 LEs                  ; No         ; |scp|vga_io:inst23|text_gen:instv1|col[5]                                                                      ;
+; 6:1                ; 2 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; No         ; |scp|uart_io:inst10|uart:inst01|transmitter:uart_tx|Selector1                                                  ;
+; 11:1               ; 8 bits    ; 56 LEs        ; 56 LEs               ; 0 LEs                  ; No         ; |scp|vga_io:inst23|text_gen:instv1|col[4]                                                                      ;
 ; 8:1                ; 9 bits    ; 45 LEs        ; 18 LEs               ; 27 LEs                 ; No         ; |scp|sd_io:inst27|SdCardCtrl:sdinst|rtnState_v                                                                 ;
 ; 8:1                ; 2 bits    ; 10 LEs        ; 4 LEs                ; 6 LEs                  ; No         ; |scp|uart_io:inst10|uart:inst01|transmitter:uart_tx|Selector2                                                  ;
 ; 9:1                ; 2 bits    ; 12 LEs        ; 8 LEs                ; 4 LEs                  ; No         ; |scp|sd_io:inst27|SdCardCtrl:sdinst|rtnState_v                                                                 ;
 ; 9:1                ; 2 bits    ; 12 LEs        ; 8 LEs                ; 4 LEs                  ; No         ; |scp|sd_io:inst27|SdCardCtrl:sdinst|rtnState_v                                                                 ;
 ; 9:1                ; 3 bits    ; 18 LEs        ; 12 LEs               ; 6 LEs                  ; No         ; |scp|sd_io:inst27|sdCtrlInt:sdinst7|Selector2                                                                  ;
 ; 12:1               ; 2 bits    ; 16 LEs        ; 10 LEs               ; 6 LEs                  ; No         ; |scp|sd_io:inst27|sdCtrlInt:sdinst7|Selector5                                                                  ;
-; 12:1               ; 2 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; No         ; |scp|sd_io:inst27|sdCtrlInt:sdinst7|Selector7                                                                  ;
+; 12:1               ; 2 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; No         ; |scp|sd_io:inst27|sdCtrlInt:sdinst7|Selector4                                                                  ;
 ; 16:1               ; 8 bits    ; 80 LEs        ; 32 LEs               ; 48 LEs                 ; No         ; |scp|sd_io:inst27|SdCardCtrl:sdinst|state_v                                                                    ;
 ; 17:1               ; 2 bits    ; 22 LEs        ; 8 LEs                ; 14 LEs                 ; No         ; |scp|sd_io:inst27|SdCardCtrl:sdinst|state_v                                                                    ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------------------------------------------------------------------------------------------+
@@ -2516,30 +2519,31 @@ Note: In order to hide this table in the UI and the text report file, please set
 +-----------------------+-----------------------------+
 ; Type                  ; Count                       ;
 +-----------------------+-----------------------------+
-; arriav_ff             ; 971                         ;
-;     ENA               ; 431                         ;
-;     ENA SCLR          ; 83                          ;
+; arriav_ff             ; 973                         ;
+;     ENA               ; 455                         ;
+;     ENA SCLR          ; 84                          ;
 ;     ENA SCLR SLD      ; 11                          ;
-;     ENA SLD           ; 95                          ;
-;     SCLR              ; 74                          ;
+;     ENA SLD           ; 67                          ;
+;     SCLR              ; 72                          ;
 ;     SLD               ; 21                          ;
-;     plain             ; 256                         ;
-; arriav_lcell_comb     ; 1386                        ;
-;     arith             ; 292                         ;
-;         1 data inputs ; 233                         ;
+;     plain             ; 263                         ;
+; arriav_lcell_comb     ; 1559                        ;
+;     arith             ; 337                         ;
+;         1 data inputs ; 234                         ;
 ;         2 data inputs ; 9                           ;
-;         3 data inputs ; 18                          ;
+;         3 data inputs ; 48                          ;
+;         4 data inputs ; 14                          ;
 ;         5 data inputs ; 32                          ;
-;     extend            ; 34                          ;
-;         7 data inputs ; 34                          ;
-;     normal            ; 1034                        ;
+;     extend            ; 50                          ;
+;         7 data inputs ; 50                          ;
+;     normal            ; 1146                        ;
 ;         0 data inputs ; 1                           ;
-;         1 data inputs ; 13                          ;
-;         2 data inputs ; 73                          ;
-;         3 data inputs ; 105                         ;
-;         4 data inputs ; 165                         ;
-;         5 data inputs ; 242                         ;
-;         6 data inputs ; 435                         ;
+;         1 data inputs ; 14                          ;
+;         2 data inputs ; 96                          ;
+;         3 data inputs ; 131                         ;
+;         4 data inputs ; 231                         ;
+;         5 data inputs ; 215                         ;
+;         6 data inputs ; 458                         ;
 ;     shared            ; 26                          ;
 ;         2 data inputs ; 18                          ;
 ;         3 data inputs ; 8                           ;
@@ -2548,8 +2552,8 @@ Note: In order to hide this table in the UI and the text report file, please set
 ; generic_pll           ; 6                           ;
 ; stratixv_ram_block    ; 264                         ;
 ;                       ;                             ;
-; Max LUT depth         ; 7.00                        ;
-; Average LUT depth     ; 2.99                        ;
+; Max LUT depth         ; 8.00                        ;
+; Average LUT depth     ; 3.52                        ;
 +-----------------------+-----------------------------+
 
 
@@ -2558,7 +2562,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------+--------------+
 ; Partition Name ; Elapsed Time ;
 +----------------+--------------+
-; Top            ; 00:00:07     ;
+; Top            ; 00:00:11     ;
 +----------------+--------------+
 
 
@@ -2568,7 +2572,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 19.1.0 Build 670 09/22/2019 SJ Lite Edition
-    Info: Processing started: Mon Nov 25 20:45:20 2019
+    Info: Processing started: Fri Dec 20 16:46:56 2019
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off scp -c scp
 Warning (125092): Tcl Script File ram/ram_mega.qip not found
     Info (125063): set_global_assignment -name QIP_FILE ram/ram_mega.qip
@@ -2740,8 +2744,11 @@ Info (12021): Found 1 design units, including 1 entities, in source file cpu_pll
     Info (12023): Found entity 1: cpu_pll File: /home/edward/Documents/scp/quartus/cpu_pll.v Line: 8
 Info (12021): Found 1 design units, including 1 entities, in source file cpu_pll/cpu_pll_0002.v
     Info (12023): Found entity 1: cpu_pll_0002 File: /home/edward/Documents/scp/quartus/cpu_pll/cpu_pll_0002.v Line: 2
+Info (12021): Found 1 design units, including 1 entities, in source file IO/vga/vga_sync_clock.v
+    Info (12023): Found entity 1: vga_sync_clock File: /home/edward/Documents/scp/quartus/IO/vga/vga_sync_clock.v Line: 3
 Info (12127): Elaborating entity "scp" for the top level hierarchy
 Info (12128): Elaborating entity "vga_io" for hierarchy "vga_io:inst23"
+Info (12128): Elaborating entity "vga_sync_clock" for hierarchy "vga_io:inst23|vga_sync_clock:inst7"
 Info (12128): Elaborating entity "VGA_controller" for hierarchy "vga_io:inst23|VGA_controller:instv6"
 Info (12128): Elaborating entity "io_port" for hierarchy "vga_io:inst23|io_port:instv3"
 Info (12128): Elaborating entity "io_port" for hierarchy "vga_io:inst23|io_port:instv4"
@@ -2981,11 +2988,21 @@ Info (12133): Instantiated megafunction "cpu_pll:inst1|cpu_pll_0002:cpu_pll_inst
     Info (12134): Parameter "pll_type" = "General"
     Info (12134): Parameter "pll_subtype" = "General"
 Info (12128): Elaborating entity "execution_unit" for hierarchy "execution_unit:inst3"
-Warning (10036): Verilog HDL or VHDL warning at execution_unit.v(38): object "instr" assigned a value but never read File: /home/edward/Documents/scp/quartus/cpu/execution_unit.v Line: 38
-Warning (10230): Verilog HDL assignment warning at execution_unit.v(173): truncated value with size 32 to match size of target (16) File: /home/edward/Documents/scp/quartus/cpu/execution_unit.v Line: 173
-Warning (10230): Verilog HDL assignment warning at execution_unit.v(234): truncated value with size 16 to match size of target (8) File: /home/edward/Documents/scp/quartus/cpu/execution_unit.v Line: 234
-Warning (10230): Verilog HDL assignment warning at execution_unit.v(247): truncated value with size 32 to match size of target (16) File: /home/edward/Documents/scp/quartus/cpu/execution_unit.v Line: 247
-Warning (10230): Verilog HDL assignment warning at execution_unit.v(271): truncated value with size 16 to match size of target (8) File: /home/edward/Documents/scp/quartus/cpu/execution_unit.v Line: 271
+Warning (10036): Verilog HDL or VHDL warning at execution_unit.v(37): object "instr" assigned a value but never read File: /home/edward/Documents/scp/quartus/cpu/execution_unit.v Line: 37
+Warning (10230): Verilog HDL assignment warning at execution_unit.v(178): truncated value with size 32 to match size of target (16) File: /home/edward/Documents/scp/quartus/cpu/execution_unit.v Line: 178
+Warning (10230): Verilog HDL assignment warning at execution_unit.v(239): truncated value with size 16 to match size of target (8) File: /home/edward/Documents/scp/quartus/cpu/execution_unit.v Line: 239
+Warning (10230): Verilog HDL assignment warning at execution_unit.v(243): truncated value with size 32 to match size of target (16) File: /home/edward/Documents/scp/quartus/cpu/execution_unit.v Line: 243
+Warning (10230): Verilog HDL assignment warning at execution_unit.v(244): truncated value with size 32 to match size of target (16) File: /home/edward/Documents/scp/quartus/cpu/execution_unit.v Line: 244
+Warning (10230): Verilog HDL assignment warning at execution_unit.v(251): truncated value with size 32 to match size of target (16) File: /home/edward/Documents/scp/quartus/cpu/execution_unit.v Line: 251
+Warning (10230): Verilog HDL assignment warning at execution_unit.v(257): truncated value with size 32 to match size of target (16) File: /home/edward/Documents/scp/quartus/cpu/execution_unit.v Line: 257
+Warning (10230): Verilog HDL assignment warning at execution_unit.v(258): truncated value with size 32 to match size of target (16) File: /home/edward/Documents/scp/quartus/cpu/execution_unit.v Line: 258
+Warning (10230): Verilog HDL assignment warning at execution_unit.v(261): truncated value with size 32 to match size of target (16) File: /home/edward/Documents/scp/quartus/cpu/execution_unit.v Line: 261
+Warning (10230): Verilog HDL assignment warning at execution_unit.v(266): truncated value with size 32 to match size of target (16) File: /home/edward/Documents/scp/quartus/cpu/execution_unit.v Line: 266
+Warning (10230): Verilog HDL assignment warning at execution_unit.v(267): truncated value with size 32 to match size of target (16) File: /home/edward/Documents/scp/quartus/cpu/execution_unit.v Line: 267
+Warning (10230): Verilog HDL assignment warning at execution_unit.v(275): truncated value with size 32 to match size of target (16) File: /home/edward/Documents/scp/quartus/cpu/execution_unit.v Line: 275
+Warning (10230): Verilog HDL assignment warning at execution_unit.v(289): truncated value with size 32 to match size of target (16) File: /home/edward/Documents/scp/quartus/cpu/execution_unit.v Line: 289
+Warning (10230): Verilog HDL assignment warning at execution_unit.v(313): truncated value with size 16 to match size of target (8) File: /home/edward/Documents/scp/quartus/cpu/execution_unit.v Line: 313
+Warning (10230): Verilog HDL assignment warning at execution_unit.v(351): truncated value with size 32 to match size of target (16) File: /home/edward/Documents/scp/quartus/cpu/execution_unit.v Line: 351
 Info (12128): Elaborating entity "alu_unit" for hierarchy "alu_unit:inst7"
 Info (12128): Elaborating entity "io_port" for hierarchy "io_port:inst22"
 Info (12128): Elaborating entity "uart_io" for hierarchy "uart_io:inst10"
@@ -3200,22 +3217,22 @@ Warning (276020): Inferred RAM node "uart_io:inst10|uartRecFIFO:inst02|mem_rtl_0
 Warning (276020): Inferred RAM node "execution_unit:inst3|regfile_rtl_0" from synchronous design logic.  Pass-through logic has been added to match the read-during-write behavior of the original design.
 Warning (276020): Inferred RAM node "execution_unit:inst3|regfile_rtl_1" from synchronous design logic.  Pass-through logic has been added to match the read-during-write behavior of the original design.
 Warning (13046): Tri-state node(s) do not directly drive top-level pin(s)
-    Warning (13048): Converted tri-state node feeding "execution_unit:inst3|Selector48" into a selector File: /home/edward/Documents/scp/quartus/cpu/execution_unit.v Line: 259
-    Warning (13048): Converted tri-state node feeding "execution_unit:inst3|Selector49" into a selector File: /home/edward/Documents/scp/quartus/cpu/execution_unit.v Line: 259
-    Warning (13048): Converted tri-state node feeding "execution_unit:inst3|Selector50" into a selector File: /home/edward/Documents/scp/quartus/cpu/execution_unit.v Line: 259
-    Warning (13048): Converted tri-state node feeding "execution_unit:inst3|Selector51" into a selector File: /home/edward/Documents/scp/quartus/cpu/execution_unit.v Line: 259
-    Warning (13048): Converted tri-state node feeding "execution_unit:inst3|Selector52" into a selector File: /home/edward/Documents/scp/quartus/cpu/execution_unit.v Line: 259
-    Warning (13048): Converted tri-state node feeding "execution_unit:inst3|Selector53" into a selector File: /home/edward/Documents/scp/quartus/cpu/execution_unit.v Line: 259
-    Warning (13048): Converted tri-state node feeding "execution_unit:inst3|Selector54" into a selector File: /home/edward/Documents/scp/quartus/cpu/execution_unit.v Line: 259
-    Warning (13048): Converted tri-state node feeding "execution_unit:inst3|Selector55" into a selector File: /home/edward/Documents/scp/quartus/cpu/execution_unit.v Line: 259
-    Warning (13048): Converted tri-state node feeding "execution_unit:inst3|Selector56" into a selector File: /home/edward/Documents/scp/quartus/cpu/execution_unit.v Line: 259
-    Warning (13048): Converted tri-state node feeding "execution_unit:inst3|Selector57" into a selector File: /home/edward/Documents/scp/quartus/cpu/execution_unit.v Line: 259
-    Warning (13048): Converted tri-state node feeding "execution_unit:inst3|Selector58" into a selector File: /home/edward/Documents/scp/quartus/cpu/execution_unit.v Line: 259
-    Warning (13048): Converted tri-state node feeding "execution_unit:inst3|Selector59" into a selector File: /home/edward/Documents/scp/quartus/cpu/execution_unit.v Line: 259
-    Warning (13048): Converted tri-state node feeding "execution_unit:inst3|Selector60" into a selector File: /home/edward/Documents/scp/quartus/cpu/execution_unit.v Line: 259
-    Warning (13048): Converted tri-state node feeding "execution_unit:inst3|Selector61" into a selector File: /home/edward/Documents/scp/quartus/cpu/execution_unit.v Line: 259
-    Warning (13048): Converted tri-state node feeding "execution_unit:inst3|Selector62" into a selector File: /home/edward/Documents/scp/quartus/cpu/execution_unit.v Line: 259
-    Warning (13048): Converted tri-state node feeding "execution_unit:inst3|Selector63" into a selector File: /home/edward/Documents/scp/quartus/cpu/execution_unit.v Line: 259
+    Warning (13048): Converted tri-state node feeding "execution_unit:inst3|Selector82" into a selector File: /home/edward/Documents/scp/quartus/cpu/execution_unit.v Line: 301
+    Warning (13048): Converted tri-state node feeding "execution_unit:inst3|Selector83" into a selector File: /home/edward/Documents/scp/quartus/cpu/execution_unit.v Line: 301
+    Warning (13048): Converted tri-state node feeding "execution_unit:inst3|Selector84" into a selector File: /home/edward/Documents/scp/quartus/cpu/execution_unit.v Line: 301
+    Warning (13048): Converted tri-state node feeding "execution_unit:inst3|Selector85" into a selector File: /home/edward/Documents/scp/quartus/cpu/execution_unit.v Line: 301
+    Warning (13048): Converted tri-state node feeding "execution_unit:inst3|Selector86" into a selector File: /home/edward/Documents/scp/quartus/cpu/execution_unit.v Line: 301
+    Warning (13048): Converted tri-state node feeding "execution_unit:inst3|Selector87" into a selector File: /home/edward/Documents/scp/quartus/cpu/execution_unit.v Line: 301
+    Warning (13048): Converted tri-state node feeding "execution_unit:inst3|Selector88" into a selector File: /home/edward/Documents/scp/quartus/cpu/execution_unit.v Line: 301
+    Warning (13048): Converted tri-state node feeding "execution_unit:inst3|Selector89" into a selector File: /home/edward/Documents/scp/quartus/cpu/execution_unit.v Line: 301
+    Warning (13048): Converted tri-state node feeding "execution_unit:inst3|Selector90" into a selector File: /home/edward/Documents/scp/quartus/cpu/execution_unit.v Line: 301
+    Warning (13048): Converted tri-state node feeding "execution_unit:inst3|Selector91" into a selector File: /home/edward/Documents/scp/quartus/cpu/execution_unit.v Line: 301
+    Warning (13048): Converted tri-state node feeding "execution_unit:inst3|Selector92" into a selector File: /home/edward/Documents/scp/quartus/cpu/execution_unit.v Line: 301
+    Warning (13048): Converted tri-state node feeding "execution_unit:inst3|Selector93" into a selector File: /home/edward/Documents/scp/quartus/cpu/execution_unit.v Line: 301
+    Warning (13048): Converted tri-state node feeding "execution_unit:inst3|Selector94" into a selector File: /home/edward/Documents/scp/quartus/cpu/execution_unit.v Line: 301
+    Warning (13048): Converted tri-state node feeding "execution_unit:inst3|Selector95" into a selector File: /home/edward/Documents/scp/quartus/cpu/execution_unit.v Line: 301
+    Warning (13048): Converted tri-state node feeding "execution_unit:inst3|Selector96" into a selector File: /home/edward/Documents/scp/quartus/cpu/execution_unit.v Line: 301
+    Warning (13048): Converted tri-state node feeding "execution_unit:inst3|Selector97" into a selector File: /home/edward/Documents/scp/quartus/cpu/execution_unit.v Line: 301
 Info (19000): Inferred 6 megafunctions from design logic
     Info (276029): Inferred altsyncram megafunction from the following design logic: "sd_io:inst27|sdCtrlInt:sdinst7|data_rd_mem_rtl_0" 
         Info (286033): Parameter OPERATION_MODE set to DUAL_PORT
@@ -3391,18 +3408,18 @@ Warning (20013): Ignored 317 assignments for entity "pll_0002" -- entity does no
 Info (144001): Generated suppressed messages file /home/edward/Documents/scp/quartus/output_files/scp.map.smsg
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 12 node(s), including 0 DDIO, 6 PLL, 0 transceiver and 0 LCELL
-Info (21057): Implemented 2259 device resources after synthesis - the final resource count might be different
+Info (21057): Implemented 2418 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 7 input pins
     Info (21059): Implemented 23 output pins
-    Info (21061): Implemented 1958 logic cells
+    Info (21061): Implemented 2117 logic cells
     Info (21064): Implemented 264 RAM segments
     Info (21065): Implemented 6 PLLs
     Info (21062): Implemented 1 DSP elements
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 193 warnings
-    Info: Peak virtual memory: 1085 megabytes
-    Info: Processing ended: Mon Nov 25 20:45:47 2019
-    Info: Elapsed time: 00:00:27
-    Info: Total CPU time (on all processors): 00:00:43
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 203 warnings
+    Info: Peak virtual memory: 1095 megabytes
+    Info: Processing ended: Fri Dec 20 16:47:28 2019
+    Info: Elapsed time: 00:00:32
+    Info: Total CPU time (on all processors): 00:00:50
 
 
 +------------------------------------------+

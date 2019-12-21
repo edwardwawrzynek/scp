@@ -1,6 +1,6 @@
 all: scpemu
 
-OBJS = cpu.o main.o debug.o io/io.o io/serial.o io/gfx.o io/gfx_charset.o io/disk.o
+OBJS = cpu.o main.o debug.o io/io.o io/serial.o io/gfx.o io/gfx_charset.o io/disk.o io/sysinfo.o
 
 DEPS = cpu.h debug.h opcodes.h io/gfx.h io/io.h io/ports.h io/serial.h io/disk.h
 

@@ -1,5 +1,5 @@
 Assembler report for scp
-Mon Nov 25 22:43:27 2019
+Fri Dec 20 17:11:44 2019
 Quartus Prime Version 19.1.0 Build 670 09/22/2019 SJ Lite Edition
 
 
@@ -38,7 +38,7 @@ https://fpgasoftware.intel.com/eula.
 +---------------------------------------------------------------+
 ; Assembler Summary                                             ;
 +-----------------------+---------------------------------------+
-; Assembler Status      ; Successful - Mon Nov 25 22:43:27 2019 ;
+; Assembler Status      ; Successful - Fri Dec 20 17:11:44 2019 ;
 ; Revision Name         ; scp                                   ;
 ; Top-level Entity Name ; scp                                   ;
 ; Family                ; Cyclone V                             ;
@@ -95,8 +95,8 @@ https://fpgasoftware.intel.com/eula.
 +----------------+------------------+
 ; Option         ; Setting          ;
 +----------------+------------------+
-; JTAG usercode  ; 0x02C2BC01       ;
-; Checksum       ; 0x02C2BC01       ;
+; JTAG usercode  ; 0x02EF4CE1       ;
+; Checksum       ; 0x02EF4CE1       ;
 +----------------+------------------+
 
 
@@ -106,7 +106,7 @@ https://fpgasoftware.intel.com/eula.
 Info: *******************************************************************
 Info: Running Quartus Prime Assembler
     Info: Version 19.1.0 Build 670 09/22/2019 SJ Lite Edition
-    Info: Processing started: Mon Nov 25 22:43:18 2019
+    Info: Processing started: Fri Dec 20 17:11:35 2019
 Info: Command: quartus_asm --read_settings_files=on --write_settings_files=off scp -c scp
 Warning (125092): Tcl Script File ram/ram_mega.qip not found
     Info (125063): set_global_assignment -name QIP_FILE ram/ram_mega.qip
@@ -117,9 +117,9 @@ Warning (20013): Ignored 16 assignments for entity "pll" -- entity does not exis
 Warning (20013): Ignored 317 assignments for entity "pll_0002" -- entity does not exist in design
 Info (115030): Assembler is generating device programming files
 Info: Quartus Prime Assembler was successful. 0 errors, 6 warnings
-    Info: Peak virtual memory: 1002 megabytes
-    Info: Processing ended: Mon Nov 25 22:43:27 2019
+    Info: Peak virtual memory: 1004 megabytes
+    Info: Processing ended: Fri Dec 20 17:11:44 2019
     Info: Elapsed time: 00:00:09
-    Info: Total CPU time (on all processors): 00:00:08
+    Info: Total CPU time (on all processors): 00:00:09
 
 

@@ -10,6 +10,9 @@ uint8_t gfx_ports[] = {_key_in_waiting_port, _key_data_in_port, _key_next_port, 
 /* disk subsystem ports */
 uint8_t disk_ports[] = {_disk_busy_port, _disk_reset_port, _disk_error_port, _disk_block_addr_port, _disk_data_in_port, _disk_data_in_next_port, _disk_data_in_next_port, _disk_data_in_rd_en_port, _disk_data_in_addr_port, _disk_data_out_port, _disk_data_out_wr_en_port, _disk_data_out_addr_port, 0};
 
+/* sysinfo ports */
+uint8_t sysinfo_ports[] = {_sys_info_cpu_speed, _sys_info_emulated, _sys_info_pages_mem, 0};
+
 /* check if a number occurs in a serial array */
 uint8_t is_subsys(uint8_t port, uint8_t * subsys){
   while(*subsys){
@@ -23,7 +26,7 @@ uint8_t is_subsys(uint8_t port, uint8_t * subsys){
 
 /**
  * start the io subsystems */
-void IO::init(bool serial_en, bool gfx_en, bool disk_en, char * serial_port, char * disk_file){
+void IO::init(bool serial_en, bool gfx_en, bool disk_en, char * serial_port, char * disk_file, uint16_t clock_speed, uint16_t pages_mem){
   do_serial = serial_en;
   do_gfx = gfx_en;
   do_disk = disk_en;
@@ -35,6 +38,8 @@ void IO::init(bool serial_en, bool gfx_en, bool disk_en, char * serial_port, cha
     io_gfx.reset();
   if(do_disk)
     io_disk.reset();
+  
+  io_sysinfo.reset();
 
   /* init */
   if(do_serial)
@@ -43,11 +48,15 @@ void IO::init(bool serial_en, bool gfx_en, bool disk_en, char * serial_port, cha
     io_gfx.init();
   if(do_disk)
     io_disk.open(disk_file);
+  
+  io_sysinfo.init(pages_mem, clock_speed, 1);
 }
 
 void IO::update(){
   if(do_gfx)
     io_gfx.update();
+  
+  io_sysinfo.update();
 }
 
 uint16_t IO::io_read(uint8_t port){
@@ -59,6 +68,9 @@ uint16_t IO::io_read(uint8_t port){
   }
   if(is_subsys(port, disk_ports) && do_disk){
     return io_disk.io_read(port);
+  }
+  if(is_subsys(port, sysinfo_ports)) {
+    return io_sysinfo.io_read(port);
   }
 
   printf("Attempted read on port %i\n", port);
@@ -79,6 +91,10 @@ void IO::io_write(uint8_t port, uint16_t val){
     io_disk.io_write(port, val);
     return;
   }
+  if(is_subsys(port, sysinfo_ports)) {
+    io_sysinfo.io_write(port, val);
+    return;
+  }
 
   printf("Attempted write on port %i\n", port);
   std::cout << "Undefined port access, or subsystem not enabled\n";
@@ -92,4 +108,6 @@ void IO::close(){
     io_gfx.close();
   if(do_disk)
     io_disk.close();
+
+  io_sysinfo.close();
 }

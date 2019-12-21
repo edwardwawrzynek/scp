@@ -10,7 +10,7 @@ void __crtmemcpy(__reg("rb") char * dest, __reg("ra") char * src, __reg("rc") un
 }
 
 /* unsigned divide */
-unsigned int __crtudiv(unsigned int num, unsigned int den){
+unsigned int __crtudiv(__reg("ra") unsigned int num, __reg("rc") unsigned int den){
     /* quotient and remainder */
     int q = 0, r = 0;
 
@@ -27,7 +27,7 @@ unsigned int __crtudiv(unsigned int num, unsigned int den){
 }
 
 /* unsigned mod */
-unsigned int __crtumod(unsigned int num, unsigned int den){
+unsigned int __crtumod(__reg("ra") unsigned int num, __reg("rc") unsigned int den){
     /* quotient and remainder */
     int q = 0, r = 0;
 
@@ -44,7 +44,7 @@ unsigned int __crtumod(unsigned int num, unsigned int den){
 }
 
 /* signed divide - calls __crtudiv */
-signed int __crtsdiv(int num, int den){
+signed int __crtsdiv(__reg("ra") unsigned int num, __reg("rc") unsigned int den){
     char sign = 1;
 
     if(num < 0){
@@ -60,7 +60,7 @@ signed int __crtsdiv(int num, int den){
 }
 
 /* signed mod - calls __crtumod */
-signed int __crtsmod(int num, int den){
+signed int __crtsmod(__reg("ra") unsigned int num, __reg("rc") unsigned int den){
     char sign = 1;
 
     if(num < 0){

@@ -1,7 +1,7 @@
 #include <inout.h>
 #include <gfx.h>
 
-struct gfx_inst * window;
+gfx_t * window;
 
 int16_t x = 0, y = 0, dx = 2, dy = 1;
 
@@ -20,7 +20,7 @@ void run(){
 }
 
 int main(){
-    window = gfx_get_default_inst();
+    window = gfx_new_window();
     gfx_background(window, gfx_orange);
     while(1)
         run();

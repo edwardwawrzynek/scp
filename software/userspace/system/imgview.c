@@ -16,7 +16,7 @@ uint8_t do_wait = 1;
 
 char buf[320];
 
-void do_img(int16_t fd, struct gfx_inst * window) {
+void do_img(int16_t fd, gfx_t * window) {
   uint16_t y = 0;
   uint16_t num_read;
   do {
@@ -52,7 +52,7 @@ int main(int argc, char ** argv) {
     usage();
   }
 
-  struct gfx_inst * window = gfx_get_default_inst();
+  gfx_t * window = gfx_new_window();
 
   if(do_color) {
     gfx_background(window, color);

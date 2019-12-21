@@ -563,6 +563,20 @@ static void do_arithmetic(FILE *f, struct obj * q1, struct obj * q2, struct obj 
   if((q2->flags & KONST) == KONST){
     q2_konst = 1;
   }
+
+  /* div and mod are libcalls */
+  if(op == DIV || op == MOD) {
+    /* TODO: shift right on unsigned divide by powers of two */
+    load_into_reg(f, q1, q1type, tmp1);
+    load_into_reg(f, q2, q2type, tmp2);
+    char * call = op == DIV ? (q1type & UNSIGNED ? "___crtudiv" : "___crtsdiv") : (q1type & UNSIGNED ? "___crtumod" : "___crtsmod");
+    emit(f, "\t.extern %s\n", call);
+    emit(f, "\tcall.j.sp sp %s\n", call);
+    store_from_reg(f, z, ztype, ret_reg, tmp2);
+    return;
+  }
+
+
   /* get reg1 and reg2, loading them into tmp1 and tmp2 if needed
     try to load reg1 into z reg if we can*/
   reg1 = source_reg(f, z, ztype, tmp1);
@@ -1119,6 +1133,7 @@ void gen_dc(FILE *f,int t,struct const_list *p)
 /* decide if we need to use a libcall for the IC */
 char * use_libcall(int code, int t1, int t2){
   /* int divide */
+  return 0;
   if(code == DIV){
     return t1 & UNSIGNED ? libcall_udiv : libcall_sdiv;
   }

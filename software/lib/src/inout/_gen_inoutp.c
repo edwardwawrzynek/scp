@@ -46,6 +46,13 @@ struct port_name port_names[] = {
 {"_disk_data_out_wr_en_port", 18},
 {"_disk_data_out_addr_port", 18},
 
+{"_sys_clock_in_port_low", 253},
+{"_sys_clock_in_port_high", 254},
+
+{"_sys_info_pages_mem", 252},
+{"_sys_info_cpu_speed", 251},
+{"_sys_info_emulated", 250},
+
 {"_int_timer_port", 255},
 
 };

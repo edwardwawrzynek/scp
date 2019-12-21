@@ -35,7 +35,7 @@ int fractal(int16_t x, int16_t y){
 }
 
 int main(){
-	struct gfx_inst * window = gfx_get_default_inst();
+	gfx_t * window = gfx_new_window();
 	unsigned int x;
 	unsigned int y;
 	int16_t zx;

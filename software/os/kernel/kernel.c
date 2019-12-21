@@ -10,23 +10,30 @@
 #include "dev/dev.h"
 #include "lib/kmalloc.h"
 #include "kernel/kernel_asm.h"
+#include "lib/inout.h"
 
 
 //main functions for the kernel
 
 //perform a broad initilization of the kernel
 void kernel_init(){
+  outp(0, 1);
   //set all mmu entries but proc 0 (kernel) to be unassigned
   mmu_init_clear_table();
+  outp(0, 2);
   //bring up filesystem
   fs_init();
+  outp(0, 3);
   //init proc table
   proc_init_table();
+  outp(0, 4);
   //init kernel entry
   proc_init_kernel_entry();
+  outp(0, 5);
   //start kstdio layer
   kstdio_layer_init(DEV_NUM_TTY);
   printf("Booting Kernel\nInit MMU System\t\t\t[ \x1b[92mOK\x1b[39m ]\nStart Filesystem\t\t[ \x1b[92mOK\x1b[39m ]\nStart Proccess System\t\t[ \x1b[92mOK\x1b[39m ]\nStart IO System\t\t\t[ \x1b[92mOK\x1b[39m ]\n");
+  outp(0, 1)6
 }
 
 /* create the init process from the /init binary, and run it

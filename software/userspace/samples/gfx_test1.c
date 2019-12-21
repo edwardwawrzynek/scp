@@ -15,8 +15,8 @@ uint8_t rainbow(uint8_t pos) {
   return gfx_rgb_to_color(pos * 3, 255 - pos * 3, 0);
 }
 
-int main(){
-    struct gfx_inst * test = gfx_get_default_inst();
+/*int main(){
+    gfx_t * test = gfx_new_window();
     uint8_t color = 0;
     uint8_t offset = 0;
     gfx_background(test, gfx_white);
@@ -26,6 +26,17 @@ int main(){
         }
         color = offset++;
     }
+    for(uint16_t i = 0; i < 65535; i++) {
+      for(int16_t x = 0; x < 80; x++) {
+        for(int16_t y = 0; y < 24; y++) {
+          gfx_put_char(test, x, y, gfx_get_char(test, x, y) + 1);
+        }
+      }
+    }
     getchar();
     gfx_exit(test);
+}*/
+
+int main() {
+  printf("%i\n", getchar()/2);
 }

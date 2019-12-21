@@ -6,24 +6,26 @@
 /**
  * an area of the screen being managed by gfx
  * must be aligned on 8 x 8 pixels */
-struct gfx_inst {
+typedef struct {
   /* location in pixels */
   uint16_t x, y, width, height;
   /* buffer containing previously present text - saved and restored on exit */
   uint16_t * prev_cont_buf;
-};
-void gfx_put_string(int16_t x,int16_t y,char *msg);
-void gfx_pixel(struct gfx_inst *gfx,int16_t x,int16_t y,uint8_t color);
+} gfx_t;
+void gfx_put_string(gfx_t * gfx, int16_t x, int16_t y, char * msg);
+void gfx_put_char(gfx_t *gfx, uint16_t x, uint16_t y, uint16_t c);
+uint16_t gfx_get_char(gfx_t * gfx, uint16_t x, uint16_t y);
+void gfx_pixel(gfx_t *gfx,int16_t x,int16_t y,uint8_t color);
 void gfx_throttle(uint16_t framerate);
-void gfx_exit(struct gfx_inst *gfx);
-void gfx_rect(struct gfx_inst *gfx,int16_t x,int16_t y,int16_t width,int16_t height,uint8_t color);
-struct gfx_inst *gfx_get_default_inst();
-void gfx_clear_txt_cont(struct gfx_inst *gfx);
-void gfx_restore_txt_cont(struct gfx_inst *gfx);
-void gfx_save_txt_cont(struct gfx_inst *gfx);
-void gfx_inst_free(struct gfx_inst *gfx);
-struct gfx_inst *gfx_inst_new(uint16_t x,uint16_t y,uint16_t width,uint16_t height,uint8_t do_save_cont);
-void gfx_background(struct gfx_inst * gfx, uint8_t color);
+void gfx_exit(gfx_t *gfx);
+void gfx_rect(gfx_t *gfx,int16_t x,int16_t y,int16_t width,int16_t height,uint8_t color);
+gfx_t *gfx_new_window();
+void gfx_clear_txt_cont(gfx_t *gfx);
+void gfx_restore_txt_cont(gfx_t *gfx);
+void gfx_save_txt_cont(gfx_t *gfx);
+void gfx_inst_free(gfx_t *gfx);
+gfx_t *gfx_inst_new(uint16_t x,uint16_t y,uint16_t width,uint16_t height,uint8_t do_save_cont);
+void gfx_background(gfx_t * gfx, uint8_t color);
 
 /** macros **/
 #define gfx_width(gfx) (gfx->width)

@@ -294,7 +294,7 @@ https://fpgasoftware.intel.com/eula.
 )
 (pin
 	(output)
-	(rect 1048 -80 1224 -64)
+	(rect 944 -96 1120 -80)
 	(text "OUTPUT" (rect 1 0 41 10)(font "Arial" (font_size 6)))
 	(text "VGA_SYNC_H" (rect 90 0 159 13)(font "Intel Clear" ))
 	(pt 0 8)
@@ -310,7 +310,7 @@ https://fpgasoftware.intel.com/eula.
 )
 (pin
 	(output)
-	(rect 1048 -56 1224 -40)
+	(rect 944 -80 1120 -64)
 	(text "OUTPUT" (rect 1 0 41 10)(font "Arial" (font_size 6)))
 	(text "VGA_SYNC_V" (rect 90 0 166 11)(font "Arial" ))
 	(pt 0 8)
@@ -1201,6 +1201,49 @@ https://fpgasoftware.intel.com/eula.
 		(line (pt 0 0)(pt 0 0))
 	)
 )
+(symbol
+	(rect 752 -120 936 -8)
+	(text "vga_sync_clock" (rect 5 0 84 11)(font "Arial" ))
+	(text "inst7" (rect 8 96 32 109)(font "Intel Clear" ))
+	(port
+		(pt 0 32)
+		(input)
+		(text "clk" (rect 0 0 15 11)(font "Arial" ))
+		(text "clk" (rect 21 27 36 38)(font "Arial" ))
+		(line (pt 0 32)(pt 16 32))
+	)
+	(port
+		(pt 0 48)
+		(input)
+		(text "h_sync" (rect 0 0 36 11)(font "Arial" ))
+		(text "h_sync" (rect 21 43 57 54)(font "Arial" ))
+		(line (pt 0 48)(pt 16 48))
+	)
+	(port
+		(pt 0 64)
+		(input)
+		(text "v_sync" (rect 0 0 35 11)(font "Arial" ))
+		(text "v_sync" (rect 21 59 56 70)(font "Arial" ))
+		(line (pt 0 64)(pt 16 64))
+	)
+	(port
+		(pt 184 32)
+		(output)
+		(text "h_sync_out" (rect 0 0 57 11)(font "Arial" ))
+		(text "h_sync_out" (rect 115 27 172 38)(font "Arial" ))
+		(line (pt 184 32)(pt 168 32))
+	)
+	(port
+		(pt 184 48)
+		(output)
+		(text "v_sync_out" (rect 0 0 57 11)(font "Arial" ))
+		(text "v_sync_out" (rect 115 43 172 54)(font "Arial" ))
+		(line (pt 184 48)(pt 168 48))
+	)
+	(drawing
+		(rectangle (rect 16 16 168 96))
+	)
+)
 (connector
 	(pt 384 136)
 	(pt 392 136)
@@ -1229,14 +1272,6 @@ https://fpgasoftware.intel.com/eula.
 	(pt 168 224)
 	(pt 360 224)
 	(bus)
-)
-(connector
-	(pt 1048 -72)
-	(pt 680 -72)
-)
-(connector
-	(pt 688 -48)
-	(pt 1048 -48)
 )
 (connector
 	(pt 376 160)
@@ -1604,10 +1639,6 @@ https://fpgasoftware.intel.com/eula.
 (connector
 	(pt 688 8)
 	(pt 664 8)
-)
-(connector
-	(pt 688 -48)
-	(pt 688 8)
 )
 (connector
 	(pt 392 40)
@@ -2040,6 +2071,31 @@ https://fpgasoftware.intel.com/eula.
 	(pt 712 584)
 	(pt 672 584)
 	(bus)
+)
+(connector
+	(pt 680 -72)
+	(pt 752 -72)
+)
+(connector
+	(pt 688 -56)
+	(pt 688 8)
+)
+(connector
+	(pt 688 -56)
+	(pt 752 -56)
+)
+(connector
+	(pt 936 -72)
+	(pt 944 -72)
+)
+(connector
+	(pt 936 -88)
+	(pt 944 -88)
+)
+(connector
+	(text "PCLK0" (rect 680 -104 714 -91)(font "Intel Clear" ))
+	(pt 752 -88)
+	(pt 672 -88)
 )
 (junction (pt 392 584))
 (junction (pt 384 592))

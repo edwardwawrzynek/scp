@@ -8,6 +8,7 @@
 #include "fs/file.h"
 #include "fs/dir.h"
 #include <lib/kstdio_layer.h>
+#include "lib/inout.h"
 
 //Just defines fs_global_buf
 uint8_t fs_global_buf[DISK_BLK_SIZE];

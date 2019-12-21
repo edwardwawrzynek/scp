@@ -6,6 +6,7 @@
 
 #include "cpu.h"
 #include "opcodes.h"
+#include "io/ports.h"
 
 void clean_exit(void);
 
@@ -45,13 +46,14 @@ void CPU::reset() {
     }
 
     time_till_clock_int = -1;
+    clock_ticks = 0;
 }
 
 /**
  * start the machine's io subsytem
  * just calls io.init */
-void CPU::init_io(bool serial_en, bool gfx_en, bool disk_en, char * serial_port, char * disk_file){
-    io.init(serial_en, gfx_en, disk_en, serial_port, disk_file);
+void CPU::init_io(bool serial_en, bool gfx_en, bool disk_en, char * serial_port, char * disk_file, uint16_t clock_speed){
+    io.init(serial_en, gfx_en, disk_en, serial_port, disk_file, clock_speed, pages_installed);
 }
 
 /**
@@ -475,17 +477,30 @@ void CPU::execute(uint16_t instr, uint16_t imd) {
 
         case OUT_R_P: /* out.r.p - write to an io port */
             /* check for clock int pulse time set */
-            if(imd == 0xff){
-                time_till_clock_int = regs[reg_prim] << 12;
-            } else {
-                /* port number is in immediate */
-                io.io_write(imd, regs[reg_prim]);
+            switch(imd) {
+                case _int_timer_port:
+                    time_till_clock_int = regs[reg_prim] << 12;
+                    break;
+                default:
+                    /* port number is in immediate */
+                    io.io_write(imd, regs[reg_prim]);
+                    break;
             }
             break;
 
         case IN_R_P: /* in.r.p - read from an io port */
-            /* port number is in immediate */
-            regs[reg_prim] = io.io_read(imd);
+            switch(imd) {
+                case _sys_clock_in_port_low:
+                    regs[reg_prim] = clock_ticks >> 12;
+                    break;
+                case _sys_clock_in_port_high:
+                    regs[reg_prim] = clock_ticks >> (12+16);
+                    break;
+                default:
+                    /* port number is in immediate */
+                    regs[reg_prim] = io.io_read(imd);
+                    break;
+            }
             break;
 
         case INT_I_N: /* int.i.n - do a software int on the given vector */
@@ -532,6 +547,7 @@ void CPU::execute(uint16_t instr, uint16_t imd) {
 /**
  * run the next cpu instruction */
 void CPU::run_instr() {
+    clock_ticks++;
         /* run clock int pulse */
     if(time_till_clock_int > 0){
         time_till_clock_int--;

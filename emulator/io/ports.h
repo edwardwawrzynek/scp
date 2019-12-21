@@ -27,3 +27,14 @@
 #define _disk_data_out_port 17
 #define _disk_data_out_wr_en_port 18
 #define _disk_data_out_addr_port 18
+
+/* time till next interupt (in 2^12 clock ticks) */
+#define _int_timer_port 255
+/* time since system started (in 2^12 clock ticks) */
+#define _sys_clock_in_port_low 253
+#define _sys_clock_in_port_high 254
+
+/* sys info ports */
+#define _sys_info_pages_mem 252
+#define _sys_info_cpu_speed 251
+#define _sys_info_emulated 250

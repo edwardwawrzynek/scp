@@ -8,6 +8,8 @@
 
 #define MMU_PTB_MASK    0xffff
 
+#define pages_installed 256
+
 class CPU {
     public:
     /* regfile */
@@ -28,13 +30,15 @@ class CPU {
     uint16_t int_vectors[8];
     /* countdown (in number of instructions executed) till next clock pulse int */
     int32_t time_till_clock_int;
+    /* clock ticks (total) */
+    uint64_t clock_ticks;
     /* the memory managment unit page table
         64 procs max * 32 pages (64k) per process */
     uint16_t page_table[2048];
     /* the machine's memory - some will be device mapped memory
         2048 pages x 2048 bytes per page
     */
-    uint8_t mem[4194304];
+    uint8_t mem[pages_installed * 2048];
 
     /* the instruction register - the last loaded instruction */
     uint16_t instr_reg;
@@ -80,7 +84,7 @@ class CPU {
     /* init the machine to startup state (not counting memory), or io */
     void reset();
     /* start up the machine's io */
-    void init_io(bool serial_en, bool gfx_en, bool disk_en, char * serial_port, char * disk_file);
+    void init_io(bool serial_en, bool gfx_en, bool disk_en, char * serial_port, char * disk_file, uint16_t clock_speed);
     /* update the machine's io */
     void update_io();
     /* read a binary file into memory */

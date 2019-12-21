@@ -12,6 +12,7 @@ struct port_name {
 
 
 struct port_name port_names[] = {
+{"_led_port", 0},
 {"_serial_data_in_port", 1},
 {"_serial_next_port", 1},
 {"_serial_in_waiting_port", 2},
@@ -46,6 +47,13 @@ struct port_name port_names[] = {
 {"_disk_data_out_wr_en_port", 18},
 {"_disk_data_out_addr_port", 18},
 
+{"_sys_clock_in_port_low", 253},
+{"_sys_clock_in_port_high", 254},
+
+{"_sys_info_pages_mem", 252},
+{"_sys_info_cpu_speed", 251},
+{"_sys_info_emulated", 250},
+
 {"_int_timer_port", 255},
 
 };
@@ -71,18 +79,15 @@ int main(int argc, char ** argv){
     fprintf(out, ";\tAuto-generated inp and outp definitions for scp\n\t.text\n\t.align\n");
 
     for(int i = 0; i <= max_port; i++){
-        int has_name = 0;
         for(int p = 0; p < (sizeof(port_names)/sizeof(struct port_name)); p++){
             if(i == port_names[p].port){
                 fprintf(out, "__inp_%s:\n\t.global __inp_%s\n", port_names[p].name, port_names[p].name);
                 fprintf(outh, "unsigned int _inp_%s(void);\n", port_names[p].name);
-                has_name = 1;
             }
         }
-        if(has_name) {
-            fprintf(out, "__inp_%u:\n\t.global __inp_%u\n\tin.r.p re %u\n\tret.n.sp sp\n", i, i, i);
-            fprintf(outh, "unsigned int _inp_%u(void);\n", i);
-        }
+
+        fprintf(out, "__inp_%u:\n\t.global __inp_%u\n\tin.r.p re %u\n\tret.n.sp sp\n", i, i, i);
+        fprintf(outh, "unsigned int _inp_%u(void);\n", i);
 
         for(int p = 0; p < (sizeof(port_names)/sizeof(struct port_name)); p++){
             if(i == port_names[p].port){
@@ -90,10 +95,10 @@ int main(int argc, char ** argv){
                 fprintf(outh, "void _outp_%s(__reg(\"ra\") unsigned int val);\n", port_names[p].name);
             }
         }
-        if(has_name) {
-            fprintf(out, "__outp_%u:\n\t.global __outp_%u\n\tout.r.p ra %u\n\tret.n.sp sp\n", i, i, i);
-            fprintf(outh, "void _outp_%u(__reg(\"ra\") unsigned int val);\n", i);
-        }
+
+        fprintf(out, "__outp_%u:\n\t.global __outp_%u\n\tout.r.p ra %u\n\tret.n.sp sp\n", i, i, i);
+        fprintf(outh, "void _outp_%u(__reg(\"ra\") unsigned int val);\n", i);
+
 
     }
 }
