@@ -14,6 +14,9 @@ module text_gen(
 	input [7:0] gfx_in,
 	//char being drawn
 	input [7:0] char,
+	input [7:0] fg_color,
+	input [7:0] bg_color,
+	input [3:0] bg_index,
 	//if the screen is being drawn
 	output screen_en
 );
@@ -50,7 +53,7 @@ assign pixel = charset[63 - charset_addr];
 
 //Real pixel that combines gfx and text
 wire [7:0] real_pixel;
-assign real_pixel = char ? {pixel, pixel, pixel, pixel, pixel, pixel, pixel, pixel}: gfx_in;
+assign real_pixel = pixel ? fg_color: (bg_index == 0 ? gfx_in : bg_color);
 
 //assign col = col_en ? {real_pixel, real_pixel, real_pixel, real_pixel, real_pixel, real_pixel, real_pixel, real_pixel} : 0;
 assign col = col_en ? ((y >= 200) ? 0: real_pixel) : 0;

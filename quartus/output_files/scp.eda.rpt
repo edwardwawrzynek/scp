@@ -1,5 +1,5 @@
 EDA Netlist Writer report for scp
-Fri Dec 20 17:11:48 2019
+Mon Dec 23 14:35:42 2019
 Quartus Prime Version 19.1.0 Build 670 09/22/2019 SJ Lite Edition
 
 
@@ -37,7 +37,7 @@ https://fpgasoftware.intel.com/eula.
 +-------------------------------------------------------------------+
 ; EDA Netlist Writer Summary                                        ;
 +---------------------------+---------------------------------------+
-; EDA Netlist Writer Status ; Successful - Fri Dec 20 17:11:48 2019 ;
+; EDA Netlist Writer Status ; Successful - Mon Dec 23 14:35:42 2019 ;
 ; Revision Name             ; scp                                   ;
 ; Top-level Entity Name     ; scp                                   ;
 ; Family                    ; Cyclone V                             ;
@@ -81,14 +81,16 @@ https://fpgasoftware.intel.com/eula.
 Info: *******************************************************************
 Info: Running Quartus Prime EDA Netlist Writer
     Info: Version 19.1.0 Build 670 09/22/2019 SJ Lite Edition
-    Info: Processing started: Fri Dec 20 17:11:46 2019
+    Info: Processing started: Mon Dec 23 14:35:40 2019
 Info: Command: quartus_eda --read_settings_files=off --write_settings_files=off scp -c scp
 Warning (125092): Tcl Script File ram/ram_mega.qip not found
     Info (125063): set_global_assignment -name QIP_FILE ram/ram_mega.qip
+Warning (125092): Tcl Script File memory/page_table.qip not found
+    Info (125063): set_global_assignment -name QIP_FILE memory/page_table.qip
 Info (204019): Generated file scp.vo in folder "/home/edward/Documents/scp/quartus/simulation/modelsim/" for EDA simulation tool
-Info: Quartus Prime EDA Netlist Writer was successful. 0 errors, 1 warning
-    Info: Peak virtual memory: 1212 megabytes
-    Info: Processing ended: Fri Dec 20 17:11:48 2019
+Info: Quartus Prime EDA Netlist Writer was successful. 0 errors, 2 warnings
+    Info: Peak virtual memory: 1204 megabytes
+    Info: Processing ended: Mon Dec 23 14:35:42 2019
     Info: Elapsed time: 00:00:02
     Info: Total CPU time (on all processors): 00:00:03
 

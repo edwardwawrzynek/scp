@@ -23,18 +23,33 @@ module execution_unit(
   input [15:0] alu_res,
   input [4:0] cond_res,
   output reg sign_extend,
-  
-  output reg [15:0] pc_reg,
-  output reg [1:0] microstep,
 
-  input [15:0] io_in
+  input [15:0] io_in,
+
+  output [11:0] ptb,
+  output reg mmu_we,
+  /* system privalege level */
+  output reg priv_lv
 );
+
+/* program counter */
+reg [15:0] pc_reg;
+/* current microstep */
+reg [1:0] microstep;
 
 /* machine registers */
 reg [15:0] regfile [15:0];
 
 /* Current instruction being executed */
 reg [15:0] instr;
+
+/* page table base register */
+reg [11:0] ptb_reg;
+
+assign ptb = priv_lv ? ptb_reg: 0;
+
+/* interupt program counter */
+reg [15:0] ipc_reg;
 
 /* Instruction conventions
 
@@ -136,6 +151,12 @@ reg [15:0] imd_reg;
 
 `define CALL_R_SP     6'b010101
 `define RET_N_SP      6'b010110
+
+`define PTB_R_N       6'b110000
+`define MMU_R_R       6'b110001
+
+`define MOV_R_IPC     6'b100001
+`define MOV_IPC_R     6'b100010
 
 always @ (posedge clk)
 begin
@@ -276,6 +297,12 @@ begin
           mem_addr <= reg1;
           mem_byte_enable <= 0;
         end
+        `PTB_R_N: begin
+          ptb_reg <= reg0;
+        end
+        `MOV_R_IPC: begin
+          ipc_reg <= reg0;
+        end
         default: begin
           /* do nothing */
         end
@@ -351,6 +378,10 @@ begin
           pc_reg <= mem_in_data + 2;
           mem_addr <= mem_in_data;
           reg_write <= 0;
+        end
+        `MOV_IPC_R: begin
+          reg_write <= 1;
+          reg_writeback_val <= ipc_reg;
         end
 
         `NOP_N_N: begin /* do nothing */

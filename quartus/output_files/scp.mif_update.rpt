@@ -1,5 +1,5 @@
 MIF/HEX Update report for scp
-Fri Dec 20 17:11:34 2019
+Mon Dec 23 13:45:09 2019
 Quartus Prime Version 19.1.0 Build 670 09/22/2019 SJ Lite Edition
 
 
@@ -36,7 +36,7 @@ https://fpgasoftware.intel.com/eula.
 +---------------------------------------------------------------+
 ; MIF/HEX Update Summary                                        ;
 +-----------------------+---------------------------------------+
-; MIF/HEX Update Status ; Successful - Fri Dec 20 17:11:34 2019 ;
+; MIF/HEX Update Status ; Successful - Mon Dec 23 13:45:09 2019 ;
 ; Revision Name         ; scp                                   ;
 ; Top-level Entity Name ; scp                                   ;
 ; Family                ; Cyclone V                             ;
@@ -44,13 +44,15 @@ https://fpgasoftware.intel.com/eula.
 +-----------------------+---------------------------------------+
 
 
-+-------------------------------------------------+
-; MIF/HEX Update Processed Files                  ;
-+-------------------------------------------------+
-; File Name                                       ;
-+-------------------------------------------------+
-; /home/edward/Documents/scp/quartus/init_mem.mif ;
-+-------------------------------------------------+
++---------------------------------------------------------------+
+; MIF/HEX Update Processed Files                                ;
++---------------------------------------------------------------+
+; File Name                                                     ;
++---------------------------------------------------------------+
+; /home/edward/Documents/scp/quartus/IO/vga/vga_fg.mif          ;
+; /home/edward/Documents/scp/quartus/init_mem.mif               ;
+; /home/edward/Documents/scp/quartus/memory/page_table_init.mif ;
++---------------------------------------------------------------+
 
 
 +-------------------------+
@@ -61,17 +63,20 @@ Warning (125092): Tcl Script File ram/ram_mega.qip not found
 Info: *******************************************************************
 Info: Running Quartus Prime MIF/HEX Update
     Info: Version 19.1.0 Build 670 09/22/2019 SJ Lite Edition
-    Info: Processing started: Fri Dec 20 17:11:27 2019
+    Info: Processing started: Mon Dec 23 13:44:55 2019
 Info: Command: quartus_cdb scp -c scp --update_mif
 Warning (39023): Can't find Memory Initialization File ram/ram_mega_cnts.mif -- skipped updates for this file
 Warning (39023): Can't find Memory Initialization File IO/vga/gfx_init.mif -- skipped updates for this file
+Warning (39023): Can't find Memory Initialization File vga_bg.mif -- skipped updates for this file
 Warning (39023): Can't find Memory Initialization File charset.mif -- skipped updates for this file
 Info (39024): Processed the following Memory Initialization File(s)
+    Info (39025): Processed Memory Initialization File /home/edward/Documents/scp/quartus/IO/vga/vga_fg.mif File: /home/edward/Documents/scp/quartus/IO/vga/vga_fg.mif Line: 0
     Info (39025): Processed Memory Initialization File /home/edward/Documents/scp/quartus/init_mem.mif File: /home/edward/Documents/scp/quartus/init_mem.mif Line: 0
-Info: Quartus Prime MIF/HEX Update was successful. 0 errors, 4 warnings
+    Info (39025): Processed Memory Initialization File /home/edward/Documents/scp/quartus/memory/page_table_init.mif File: /home/edward/Documents/scp/quartus/memory/page_table_init.mif Line: 0
+Info: Quartus Prime MIF/HEX Update was successful. 0 errors, 5 warnings
     Info: Peak virtual memory: 1227 megabytes
-    Info: Processing ended: Fri Dec 20 17:11:34 2019
-    Info: Elapsed time: 00:00:07
-    Info: Total CPU time (on all processors): 00:00:08
+    Info: Processing ended: Mon Dec 23 13:45:09 2019
+    Info: Elapsed time: 00:00:14
+    Info: Total CPU time (on all processors): 00:00:12
 
 

@@ -132,16 +132,16 @@ https://fpgasoftware.intel.com/eula.
 	(port
 		(pt 272 192)
 		(output)
-		(text "pc_reg[15..0]" (rect 0 0 51 12)(font "Arial" ))
-		(text "pc_reg[15..0]" (rect 200 187 251 199)(font "Arial" ))
+		(text "ptb[11..0]" (rect 0 0 34 12)(font "Arial" ))
+		(text "ptb[11..0]" (rect 217 187 251 199)(font "Arial" ))
 		(line (pt 272 192)(pt 256 192)(line_width 3))
 	)
 	(port
 		(pt 272 208)
 		(output)
-		(text "microstep[1..0]" (rect 0 0 57 12)(font "Arial" ))
-		(text "microstep[1..0]" (rect 194 203 251 215)(font "Arial" ))
-		(line (pt 272 208)(pt 256 208)(line_width 3))
+		(text "priv_lv" (rect 0 0 28 12)(font "Arial" ))
+		(text "priv_lv" (rect 223 203 251 215)(font "Arial" ))
+		(line (pt 272 208)(pt 256 208)(line_width 1))
 	)
 	(drawing
 		(rectangle (rect 16 16 256 224)(line_width 1))

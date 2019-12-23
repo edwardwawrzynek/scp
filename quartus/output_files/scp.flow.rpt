@@ -1,5 +1,5 @@
 Flow report for scp
-Fri Dec 20 17:11:48 2019
+Mon Dec 23 14:35:42 2019
 Quartus Prime Version 19.1.0 Build 670 09/22/2019 SJ Lite Edition
 
 
@@ -41,18 +41,18 @@ https://fpgasoftware.intel.com/eula.
 +-------------------------------------------------------------------------------+
 ; Flow Summary                                                                  ;
 +---------------------------------+---------------------------------------------+
-; Flow Status                     ; Successful - Fri Dec 20 17:11:48 2019       ;
+; Flow Status                     ; Successful - Mon Dec 23 14:35:42 2019       ;
 ; Quartus Prime Version           ; 19.1.0 Build 670 09/22/2019 SJ Lite Edition ;
 ; Revision Name                   ; scp                                         ;
 ; Top-level Entity Name           ; scp                                         ;
 ; Family                          ; Cyclone V                                   ;
 ; Device                          ; 5CSEMA4U23C6                                ;
 ; Timing Models                   ; Final                                       ;
-; Logic utilization (in ALMs)     ; 1,046 / 15,880 ( 7 % )                      ;
-; Total registers                 ; 1044                                        ;
+; Logic utilization (in ALMs)     ; 1,128 / 15,880 ( 7 % )                      ;
+; Total registers                 ; 1059                                        ;
 ; Total pins                      ; 30 / 314 ( 10 % )                           ;
 ; Total virtual pins              ; 0                                           ;
-; Total block memory bits         ; 1,094,144 / 2,764,800 ( 40 % )              ;
+; Total block memory bits         ; 2,159,616 / 2,764,800 ( 78 % )              ;
 ; Total DSP Blocks                ; 1 / 84 ( 1 % )                              ;
 ; Total HSSI RX PCSs              ; 0                                           ;
 ; Total HSSI PMA RX Deserializers ; 0                                           ;
@@ -68,7 +68,7 @@ https://fpgasoftware.intel.com/eula.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 12/20/2019 16:46:57 ;
+; Start date & time ; 12/23/2019 14:33:09 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; scp                 ;
 +-------------------+---------------------+
@@ -79,7 +79,7 @@ https://fpgasoftware.intel.com/eula.
 +-------------------------------------+----------------------------------------+---------------+-------------+-----------------------------------+
 ; Assignment Name                     ; Value                                  ; Default Value ; Entity Name ; Section Id                        ;
 +-------------------------------------+----------------------------------------+---------------+-------------+-----------------------------------+
-; COMPILER_SIGNATURE_ID               ; 220083050252176.157688561756829        ; --            ; --          ; --                                ;
+; COMPILER_SIGNATURE_ID               ; 220083050252176.157713678817904        ; --            ; --          ; --                                ;
 ; EDA_GENERATE_FUNCTIONAL_NETLIST     ; Off                                    ; --            ; --          ; eda_board_design_timing           ;
 ; EDA_GENERATE_FUNCTIONAL_NETLIST     ; Off                                    ; --            ; --          ; eda_board_design_boundary_scan    ;
 ; EDA_GENERATE_FUNCTIONAL_NETLIST     ; Off                                    ; --            ; --          ; eda_board_design_signal_integrity ;
@@ -107,6 +107,12 @@ https://fpgasoftware.intel.com/eula.
 ; MISC_FILE                           ; memory/ram_bb.v                        ; --            ; --          ; --                                ;
 ; MISC_FILE                           ; cpu_pll.cmp                            ; --            ; --          ; --                                ;
 ; MISC_FILE                           ; cpu_pll_sim/cpu_pll.vo                 ; --            ; --          ; --                                ;
+; MISC_FILE                           ; IO/vga/txt_fg_mem.bsf                  ; --            ; --          ; --                                ;
+; MISC_FILE                           ; IO/vga/txt_fg_mem_bb.v                 ; --            ; --          ; --                                ;
+; MISC_FILE                           ; IO/vga/txt_bg_mem.bsf                  ; --            ; --          ; --                                ;
+; MISC_FILE                           ; IO/vga/txt_bg_mem_bb.v                 ; --            ; --          ; --                                ;
+; MISC_FILE                           ; memory/pt_mem.bsf                      ; --            ; --          ; --                                ;
+; MISC_FILE                           ; memory/pt_mem_bb.v                     ; --            ; --          ; --                                ;
 ; NUM_PARALLEL_PROCESSORS             ; 2                                      ; --            ; --          ; --                                ;
 ; PARTITION_COLOR                     ; -- (Not supported for targeted family) ; --            ; --          ; Top                               ;
 ; PARTITION_FITTER_PRESERVATION_LEVEL ; -- (Not supported for targeted family) ; --            ; --          ; Top                               ;
@@ -129,33 +135,12 @@ https://fpgasoftware.intel.com/eula.
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name          ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis ; 00:00:30     ; 1.0                     ; 1089 MB             ; 00:00:49                           ;
-; Fitter               ; 00:01:28     ; 1.1                     ; 2008 MB             ; 00:02:14                           ;
-; Assembler            ; 00:00:09     ; 1.0                     ; 1001 MB             ; 00:00:09                           ;
-; Timing Analyzer      ; 00:00:21     ; 1.5                     ; 1222 MB             ; 00:00:31                           ;
-; EDA Netlist Writer   ; 00:00:02     ; 1.0                     ; 1196 MB             ; 00:00:03                           ;
-; MIF/HEX Update       ; 00:00:07     ; 1.0                     ; 1215 MB             ; 00:00:08                           ;
-; Assembler            ; 00:00:10     ; 1.0                     ; 1002 MB             ; 00:00:10                           ;
-; EDA Netlist Writer   ; 00:00:03     ; 1.0                     ; 1199 MB             ; 00:00:03                           ;
-; MIF/HEX Update       ; 00:00:07     ; 1.0                     ; 1213 MB             ; 00:00:07                           ;
-; Assembler            ; 00:00:09     ; 1.0                     ; 1006 MB             ; 00:00:08                           ;
-; EDA Netlist Writer   ; 00:00:03     ; 1.0                     ; 1202 MB             ; 00:00:02                           ;
-; MIF/HEX Update       ; 00:00:07     ; 1.0                     ; 1212 MB             ; 00:00:07                           ;
-; Assembler            ; 00:00:08     ; 1.0                     ; 1003 MB             ; 00:00:08                           ;
-; EDA Netlist Writer   ; 00:00:02     ; 1.0                     ; 1202 MB             ; 00:00:03                           ;
-; MIF/HEX Update       ; 00:00:07     ; 1.0                     ; 1214 MB             ; 00:00:07                           ;
-; Assembler            ; 00:00:08     ; 1.0                     ; 996 MB              ; 00:00:08                           ;
-; EDA Netlist Writer   ; 00:00:03     ; 1.0                     ; 1201 MB             ; 00:00:03                           ;
-; MIF/HEX Update       ; 00:00:07     ; 1.0                     ; 1216 MB             ; 00:00:07                           ;
-; Assembler            ; 00:00:08     ; 1.0                     ; 1011 MB             ; 00:00:09                           ;
-; EDA Netlist Writer   ; 00:00:02     ; 1.0                     ; 1206 MB             ; 00:00:03                           ;
-; MIF/HEX Update       ; 00:00:08     ; 1.0                     ; 1227 MB             ; 00:00:07                           ;
-; Assembler            ; 00:00:08     ; 1.0                     ; 1015 MB             ; 00:00:08                           ;
-; EDA Netlist Writer   ; 00:00:02     ; 1.0                     ; 1208 MB             ; 00:00:03                           ;
-; MIF/HEX Update       ; 00:00:07     ; 1.0                     ; 1227 MB             ; 00:00:07                           ;
-; Assembler            ; 00:00:09     ; 1.0                     ; 1004 MB             ; 00:00:09                           ;
-; EDA Netlist Writer   ; 00:00:02     ; 1.0                     ; 1212 MB             ; 00:00:03                           ;
-; Total                ; 00:04:37     ; --                      ; --                  ; 00:05:56                           ;
+; Analysis & Synthesis ; 00:00:25     ; 1.0                     ; 1084 MB             ; 00:00:44                           ;
+; Fitter               ; 00:01:27     ; 1.2                     ; 2016 MB             ; 00:02:15                           ;
+; Assembler            ; 00:00:10     ; 1.0                     ; 1014 MB             ; 00:00:10                           ;
+; Timing Analyzer      ; 00:00:21     ; 1.5                     ; 1230 MB             ; 00:00:32                           ;
+; EDA Netlist Writer   ; 00:00:02     ; 1.0                     ; 1204 MB             ; 00:00:03                           ;
+; Total                ; 00:02:25     ; --                      ; --                  ; 00:03:44                           ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 
@@ -169,27 +154,6 @@ https://fpgasoftware.intel.com/eula.
 ; Assembler            ; edward-macbookpro ; Arch Linux ; Arch Linux ; x86_64         ;
 ; Timing Analyzer      ; edward-macbookpro ; Arch Linux ; Arch Linux ; x86_64         ;
 ; EDA Netlist Writer   ; edward-macbookpro ; Arch Linux ; Arch Linux ; x86_64         ;
-; MIF/HEX Update       ; edward-macbookpro ; Arch Linux ; Arch Linux ; x86_64         ;
-; Assembler            ; edward-macbookpro ; Arch Linux ; Arch Linux ; x86_64         ;
-; EDA Netlist Writer   ; edward-macbookpro ; Arch Linux ; Arch Linux ; x86_64         ;
-; MIF/HEX Update       ; edward-macbookpro ; Arch Linux ; Arch Linux ; x86_64         ;
-; Assembler            ; edward-macbookpro ; Arch Linux ; Arch Linux ; x86_64         ;
-; EDA Netlist Writer   ; edward-macbookpro ; Arch Linux ; Arch Linux ; x86_64         ;
-; MIF/HEX Update       ; edward-macbookpro ; Arch Linux ; Arch Linux ; x86_64         ;
-; Assembler            ; edward-macbookpro ; Arch Linux ; Arch Linux ; x86_64         ;
-; EDA Netlist Writer   ; edward-macbookpro ; Arch Linux ; Arch Linux ; x86_64         ;
-; MIF/HEX Update       ; edward-macbookpro ; Arch Linux ; Arch Linux ; x86_64         ;
-; Assembler            ; edward-macbookpro ; Arch Linux ; Arch Linux ; x86_64         ;
-; EDA Netlist Writer   ; edward-macbookpro ; Arch Linux ; Arch Linux ; x86_64         ;
-; MIF/HEX Update       ; edward-macbookpro ; Arch Linux ; Arch Linux ; x86_64         ;
-; Assembler            ; edward-macbookpro ; Arch Linux ; Arch Linux ; x86_64         ;
-; EDA Netlist Writer   ; edward-macbookpro ; Arch Linux ; Arch Linux ; x86_64         ;
-; MIF/HEX Update       ; edward-macbookpro ; Arch Linux ; Arch Linux ; x86_64         ;
-; Assembler            ; edward-macbookpro ; Arch Linux ; Arch Linux ; x86_64         ;
-; EDA Netlist Writer   ; edward-macbookpro ; Arch Linux ; Arch Linux ; x86_64         ;
-; MIF/HEX Update       ; edward-macbookpro ; Arch Linux ; Arch Linux ; x86_64         ;
-; Assembler            ; edward-macbookpro ; Arch Linux ; Arch Linux ; x86_64         ;
-; EDA Netlist Writer   ; edward-macbookpro ; Arch Linux ; Arch Linux ; x86_64         ;
 +----------------------+-------------------+------------+------------+----------------+
 
 
@@ -200,27 +164,6 @@ quartus_map --read_settings_files=on --write_settings_files=off scp -c scp
 quartus_fit --read_settings_files=off --write_settings_files=off scp -c scp
 quartus_asm --read_settings_files=off --write_settings_files=off scp -c scp
 quartus_sta scp -c scp
-quartus_eda --read_settings_files=off --write_settings_files=off scp -c scp
-quartus_cdb scp -c scp --update_mif
-quartus_asm --read_settings_files=on --write_settings_files=off scp -c scp
-quartus_eda --read_settings_files=off --write_settings_files=off scp -c scp
-quartus_cdb scp -c scp --update_mif
-quartus_asm --read_settings_files=on --write_settings_files=off scp -c scp
-quartus_eda --read_settings_files=off --write_settings_files=off scp -c scp
-quartus_cdb scp -c scp --update_mif
-quartus_asm --read_settings_files=on --write_settings_files=off scp -c scp
-quartus_eda --read_settings_files=off --write_settings_files=off scp -c scp
-quartus_cdb scp -c scp --update_mif
-quartus_asm --read_settings_files=on --write_settings_files=off scp -c scp
-quartus_eda --read_settings_files=off --write_settings_files=off scp -c scp
-quartus_cdb scp -c scp --update_mif
-quartus_asm --read_settings_files=on --write_settings_files=off scp -c scp
-quartus_eda --read_settings_files=off --write_settings_files=off scp -c scp
-quartus_cdb scp -c scp --update_mif
-quartus_asm --read_settings_files=on --write_settings_files=off scp -c scp
-quartus_eda --read_settings_files=off --write_settings_files=off scp -c scp
-quartus_cdb scp -c scp --update_mif
-quartus_asm --read_settings_files=on --write_settings_files=off scp -c scp
 quartus_eda --read_settings_files=off --write_settings_files=off scp -c scp
 
 

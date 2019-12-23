@@ -21,9 +21,9 @@ https://fpgasoftware.intel.com/eula.
 */
 (header "symbol" (version "1.1"))
 (symbol
-	(rect 16 16 288 256)
+	(rect 16 16 288 288)
 	(text "execution_unit" (rect 5 0 60 12)(font "Arial" ))
-	(text "inst" (rect 8 224 20 236)(font "Arial" ))
+	(text "inst" (rect 8 256 20 268)(font "Arial" ))
 	(port
 		(pt 0 32)
 		(input)
@@ -132,18 +132,25 @@ https://fpgasoftware.intel.com/eula.
 	(port
 		(pt 272 192)
 		(output)
-		(text "pc_reg[15..0]" (rect 0 0 51 12)(font "Arial" ))
-		(text "pc_reg[15..0]" (rect 200 187 251 199)(font "Arial" ))
+		(text "ptb[11..0]" (rect 0 0 34 12)(font "Arial" ))
+		(text "ptb[11..0]" (rect 217 187 251 199)(font "Arial" ))
 		(line (pt 272 192)(pt 256 192)(line_width 3))
 	)
 	(port
 		(pt 272 208)
 		(output)
-		(text "microstep[1..0]" (rect 0 0 57 12)(font "Arial" ))
-		(text "microstep[1..0]" (rect 194 203 251 215)(font "Arial" ))
-		(line (pt 272 208)(pt 256 208)(line_width 3))
+		(text "mmu_we" (rect 0 0 37 12)(font "Arial" ))
+		(text "mmu_we" (rect 214 203 251 215)(font "Arial" ))
+		(line (pt 272 208)(pt 256 208)(line_width 1))
+	)
+	(port
+		(pt 272 224)
+		(output)
+		(text "priv_lv" (rect 0 0 28 12)(font "Arial" ))
+		(text "priv_lv" (rect 223 219 251 231)(font "Arial" ))
+		(line (pt 272 224)(pt 256 224)(line_width 1))
 	)
 	(drawing
-		(rectangle (rect 16 16 256 224)(line_width 1))
+		(rectangle (rect 16 16 256 256)(line_width 1))
 	)
 )

@@ -19,7 +19,8 @@ always @ (posedge clk) begin
 		4'h7: out <= reg0 - reg1;
 		4'h8: out <= reg0 * reg1;
 		4'h9: out <= ~reg0;
-		4'ha: out <= ~reg0;
+		4'ha: out <= -reg0;
+		4'hb: out <= !reg0;
 	endcase
 	cond_out <= {
 		$signed(reg0) > $signed(reg1),
